@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:tamizshahr/features/waste_feature/collect_detail_screen.dart';
 
-import '../provider/Products.dart';
+import '../features/store_feature/presentation/providers/Products.dart';
 import '../core/theme/app_theme.dart';
 import '../core/logic/en_to_ar_number_convertor.dart';
 

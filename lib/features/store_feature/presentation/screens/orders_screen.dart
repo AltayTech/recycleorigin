@@ -6,7 +6,7 @@ import 'package:tamizshahr/models/customer.dart';
 import 'package:tamizshahr/models/order.dart';
 import 'package:tamizshahr/features/customer_feature/presentation/providers/auth.dart';
 import 'package:tamizshahr/features/customer_feature/presentation/providers/customer_info.dart';
-import 'package:tamizshahr/provider/orders.dart';
+import 'package:tamizshahr/features/store_feature/presentation/providers/orders.dart';
 import 'package:tamizshahr/widgets/order_item-orders_screen.dart';
 
 import '../../../../models/search_detail.dart';

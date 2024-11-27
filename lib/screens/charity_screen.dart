@@ -6,7 +6,7 @@ import 'package:tamizshahr/provider/charities.dart';
 import 'package:tamizshahr/widgets/charity_item_Charities_screen.dart';
 
 import '../models/search_detail.dart';
-import '../provider/Products.dart';
+import '../features/store_feature/presentation/providers/Products.dart';
 import '../core/theme/app_theme.dart';
 import '../core/logic/en_to_ar_number_convertor.dart';
 import '../core/widgets/main_drawer.dart';

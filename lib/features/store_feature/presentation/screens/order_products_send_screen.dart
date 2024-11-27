@@ -9,7 +9,7 @@ import '../../../../models/customer.dart';
 import '../../../../models/order_send_details.dart';
 import '../../../../models/product_cart.dart';
 import '../../../../models/product_order_send.dart';
-import '../../../../provider/Products.dart';
+import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../customer_feature/presentation/providers/customer_info.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';

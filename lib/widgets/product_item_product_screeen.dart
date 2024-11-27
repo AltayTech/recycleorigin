@@ -3,7 +3,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
 import '../models/product.dart';
-import '../provider/Products.dart';
+import '../features/store_feature/presentation/providers/Products.dart';
 import '../core/theme/app_theme.dart';
 import '../features/store_feature/presentation/screens/product_detail_screen.dart';
 import '../core/logic/en_to_ar_number_convertor.dart';

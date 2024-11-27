@@ -4,7 +4,7 @@ import 'package:tamizshahr/screens/wallet_screen.dart';
 import 'package:tamizshahr/core/widgets/buton_bottom.dart';
 import 'package:tamizshahr/widgets/main_item_button.dart';
 
-import '../../../provider/Products.dart';
+import '../../store_feature/presentation/providers/Products.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../customer_feature/presentation/providers/auth.dart';
 import '../../../screens/article_screen.dart';

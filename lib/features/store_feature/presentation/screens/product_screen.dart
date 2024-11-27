@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../../models/category.dart';
 import '../../../../models/product.dart';
 import '../../../../models/search_detail.dart';
-import '../../../../provider/Products.dart';
+import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/widgets/main_drawer.dart';
