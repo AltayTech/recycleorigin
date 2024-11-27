@@ -4,14 +4,14 @@ import 'package:provider/provider.dart';
 import 'package:tamizshahr/screens/collect_list_screen.dart';
 import 'package:tamizshahr/screens/orders_screen.dart';
 
-import '../core/widgets/top_bar.dart';
-import '../core/theme/app_theme.dart';
-import '../features/customer_feature/presentation/providers/auth.dart';
-import '../features/customer_feature/presentation/providers/customer_info.dart';
-import '../features/customer_feature/presentation/screens/customer_user_info_screen.dart';
-import '../features/customer_feature/presentation/screens/login_screen.dart';
-import '../screens/messages_screen.dart';
-import 'main_item_button.dart';
+import '../../../../core/widgets/top_bar.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../providers/auth.dart';
+import '../providers/customer_info.dart';
+import '../screens/customer_user_info_screen.dart';
+import '../screens/login_screen.dart';
+import '../../../../screens/messages_screen.dart';
+import '../../../../widgets/main_item_button.dart';
 
 class ProfileView extends StatefulWidget {
   @override
