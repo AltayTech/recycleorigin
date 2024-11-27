@@ -10,7 +10,7 @@ import '../../customer_feature/presentation/providers/auth.dart';
 import '../../../screens/article_screen.dart';
 import '../../../screens/collect_list_screen.dart';
 import '../../../screens/waste_cart_screen.dart';
-import '../../../widgets/custom_dialog.dart';
+import '../../../core/widgets/custom_dialog.dart';
 import '../../../screens/product_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
