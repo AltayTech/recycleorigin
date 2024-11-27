@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/customer.dart';
 import '../../../../provider/app_theme.dart';
-import '../../../../widgets/main_drawer.dart';
+import '../../../../core/widgets/main_drawer.dart';
 import '../../../../widgets/profile_view.dart';
 
 class ProfileScreen extends StatefulWidget {

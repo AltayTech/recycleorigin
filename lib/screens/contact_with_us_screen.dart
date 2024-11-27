@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/shop.dart';
 import '../provider/app_theme.dart';
 import '../provider/customer_info.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 
 class ContactWithUs extends StatefulWidget {
   static const routeName = '/ContactWithUs';

@@ -11,7 +11,7 @@ import '../screens/map_screen.dart';
 import '../screens/waste_request_date_screen.dart';
 import '../widgets/address_item.dart';
 import '../widgets/custom_dialog_enter.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 
 class AddressScreen extends StatefulWidget {
   static const routeName = '/address_screen';

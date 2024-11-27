@@ -17,7 +17,7 @@ import '../provider/wastes.dart';
 import '../screens/waste_request_send_screen.dart';
 import '../widgets/custom_dialog_enter.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 
 class WasteRequestDateScreen extends StatefulWidget {
   static const routeName = '/waste_request_date_screen';

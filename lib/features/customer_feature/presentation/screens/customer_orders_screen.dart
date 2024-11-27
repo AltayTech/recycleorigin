@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../models/customer.dart';
 import '../../../../provider/app_theme.dart';
 import 'customer_detail_order_screen.dart';
-import '../../../../widgets/main_drawer.dart';
+import '../../../../core/widgets/main_drawer.dart';
 
 class CustomerOrdersScreen extends StatefulWidget {
   static const routeName = '/customer_order_screen';

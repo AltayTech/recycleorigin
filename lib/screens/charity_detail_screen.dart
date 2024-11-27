@@ -14,7 +14,7 @@ import 'package:tamizshahr/widgets/custom_dialog_pay_charity.dart';
 import 'package:tamizshahr/widgets/en_to_ar_number_convertor.dart';
 
 import '../provider/app_theme.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 
 class CharityDetailScreen extends StatefulWidget {
   static const routeName = '/charityDetailScreen';

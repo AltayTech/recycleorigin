@@ -9,7 +9,7 @@ import '../provider/app_theme.dart';
 import '../provider/articles.dart';
 import '../widgets/article_item_article_screen.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 
 class ArticlesScreen extends StatefulWidget {
   static const routeName = '/articlesScreen';

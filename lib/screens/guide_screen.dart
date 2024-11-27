@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../models/shop.dart';
 import '../provider/app_theme.dart';
 import '../provider/customer_info.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 
 class GuideScreen extends StatefulWidget {
   static const routeName = '/guideScreen';

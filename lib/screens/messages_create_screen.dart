@@ -6,7 +6,7 @@ import '../models/message.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/messages.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 
 class MessageCreateScreen extends StatefulWidget {
   static const routeName = '/messageCreateScreen';

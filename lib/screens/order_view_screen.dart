@@ -10,7 +10,7 @@ import '../models/gallery.dart';
 import '../models/order_details.dart';
 import '../provider/customer_info.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 import 'product_detail_screen.dart';
 
 class OrderViewScreen extends StatefulWidget {

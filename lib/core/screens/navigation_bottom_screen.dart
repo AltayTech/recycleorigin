@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../constants/strings.dart';
 import '../../provider/app_theme.dart';
-import '../../widgets/main_drawer.dart';
+import '../widgets/main_drawer.dart';
 import '../../widgets/profile_view.dart';
 import '../../features/home_feature/presentation/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -10,7 +10,7 @@ import '../provider/app_theme.dart';
 import '../provider/wastes.dart';
 import '../widgets/collect_item_collect_screen.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 import '../features/customer_feature/presentation/screens/login_screen.dart';
 
 class CollectListScreen extends StatefulWidget {

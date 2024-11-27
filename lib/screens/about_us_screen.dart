@@ -5,7 +5,7 @@ import '../provider/customer_info.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/app_theme.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 
 class AboutUsScreen extends StatefulWidget {
   static const routeName = '/AboutUsScreen';

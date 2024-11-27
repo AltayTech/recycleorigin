@@ -10,7 +10,7 @@ import '../models/search_detail.dart';
 import '../provider/Products.dart';
 import '../provider/app_theme.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 import '../widgets/product_item_product_screeen.dart';
 import 'cart_screen.dart';
 

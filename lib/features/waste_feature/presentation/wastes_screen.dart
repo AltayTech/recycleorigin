@@ -7,7 +7,7 @@ import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.da
 
 import '../../../provider/app_theme.dart';
 import '../../../provider/wastes.dart';
-import '../../../widgets/main_drawer.dart';
+import '../../../core/widgets/main_drawer.dart';
 import '../../../widgets/waste_item_wastes_screen.dart';
 
 class WastesScreen extends StatefulWidget {

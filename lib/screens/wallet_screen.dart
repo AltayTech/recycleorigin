@@ -13,7 +13,7 @@ import 'package:tamizshahr/widgets/transaction_item_transactions_screen.dart';
 import '../models/search_detail.dart';
 import '../provider/app_theme.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 import '../features/customer_feature/presentation/screens/login_screen.dart';
 
 class WalletScreen extends StatefulWidget {

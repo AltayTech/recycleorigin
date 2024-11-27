@@ -10,7 +10,7 @@ import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/customer_info.dart';
 import '../provider/messages.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 import '../widgets/message_reply_item.dart';
 import 'messages_create_reply_screen.dart';
 

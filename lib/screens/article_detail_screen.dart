@@ -8,7 +8,7 @@ import 'package:tamizshahr/widgets/en_to_ar_number_convertor.dart';
 import '../models/article/article.dart';
 import '../provider/app_theme.dart';
 import '../provider/articles.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 
 class ArticleDetailScreen extends StatefulWidget {
   static const routeName = '/articleDetailScreen';
