@@ -6,7 +6,7 @@ import '../models/product.dart';
 import '../provider/Products.dart';
 import '../core/theme/app_theme.dart';
 import '../screens/product_detail_screen.dart';
-import 'en_to_ar_number_convertor.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 
 class ProductItemProductScreen extends StatelessWidget {
   @override

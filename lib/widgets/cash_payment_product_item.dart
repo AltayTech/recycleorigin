@@ -3,7 +3,7 @@ import 'package:intl/intl.dart' as intl;
 
 import '../core/theme/app_theme.dart';
 import '../models/color_code.dart';
-import 'en_to_ar_number_convertor.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 
 class CashPaymentProductItem extends StatelessWidget {
   final int id;

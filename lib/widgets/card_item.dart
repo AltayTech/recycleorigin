@@ -8,7 +8,7 @@ import '../provider/Products.dart';
 import '../core/theme/app_theme.dart';
 import '../features/customer_feature/presentation/providers/auth.dart';
 import '../screens/product_detail_screen.dart';
-import 'en_to_ar_number_convertor.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 
 class CardItem extends StatefulWidget {
   final ProductCart shoppItem;

@@ -8,7 +8,7 @@ import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.da
 
 import '../core/theme/app_theme.dart';
 import '../provider/wastes.dart';
-import 'en_to_ar_number_convertor.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 
 class WasteCartItem extends StatefulWidget {
   final WasteCart wasteItem;

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tamizshahr/models/clearing.dart';
 
 import '../core/theme/app_theme.dart';
-import 'en_to_ar_number_convertor.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 
 class ClearingItemClearScreen extends StatelessWidget {
   String removeSemicolon(String rawString) {

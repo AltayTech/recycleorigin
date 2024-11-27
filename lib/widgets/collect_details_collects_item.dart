@@ -5,7 +5,7 @@ import 'package:tamizshahr/features/waste_feature/business/entities/collect.dart
 import 'package:tamizshahr/features/waste_feature/business/entities/price_weight.dart';
 
 import '../core/theme/app_theme.dart';
-import 'en_to_ar_number_convertor.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 
 class CollectDetailsCollectItem extends StatefulWidget {
   final Collect collectItem;

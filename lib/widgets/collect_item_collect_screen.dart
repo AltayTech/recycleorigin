@@ -6,7 +6,7 @@ import 'package:tamizshahr/screens/collect_detail_screen.dart';
 
 import '../provider/Products.dart';
 import '../core/theme/app_theme.dart';
-import 'en_to_ar_number_convertor.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 
 class CollectItemCollectsScreen extends StatelessWidget {
   Widget getStatusIcon(String statusSlug) {

@@ -11,7 +11,7 @@ import 'package:tamizshahr/features/customer_feature/presentation/providers/cust
 import 'package:tamizshahr/screens/donation_screen.dart';
 import 'package:tamizshahr/widgets/custom_dialog_enter.dart';
 import 'package:tamizshahr/widgets/custom_dialog_pay_charity.dart';
-import 'package:tamizshahr/widgets/en_to_ar_number_convertor.dart';
+import 'package:tamizshahr/core/logic/en_to_ar_number_convertor.dart';
 
 import '../core/theme/app_theme.dart';
 import '../core/widgets/main_drawer.dart';

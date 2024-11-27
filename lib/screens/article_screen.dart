@@ -8,7 +8,7 @@ import '../models/search_detail.dart';
 import '../core/theme/app_theme.dart';
 import '../provider/articles.dart';
 import '../widgets/article_item_article_screen.dart';
-import '../widgets/en_to_ar_number_convertor.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 import '../core/widgets/main_drawer.dart';
 
 class ArticlesScreen extends StatefulWidget {

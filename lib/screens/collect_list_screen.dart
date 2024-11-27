@@ -9,7 +9,7 @@ import '../models/search_detail.dart';
 import '../core/theme/app_theme.dart';
 import '../provider/wastes.dart';
 import '../widgets/collect_item_collect_screen.dart';
-import '../widgets/en_to_ar_number_convertor.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 import '../core/widgets/main_drawer.dart';
 import '../features/customer_feature/presentation/screens/login_screen.dart';
 
