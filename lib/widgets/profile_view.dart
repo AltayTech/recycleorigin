@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tamizshahr/screens/collect_list_screen.dart';
 import 'package:tamizshahr/screens/orders_screen.dart';
 
-import '../classes/top_bar.dart';
+import '../core/widgets/top_bar.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/customer_info.dart';

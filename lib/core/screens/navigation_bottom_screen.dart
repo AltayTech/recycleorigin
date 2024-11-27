@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../classes/strings.dart';
+import '../constants/strings.dart';
 import '../../provider/app_theme.dart';
 import '../../widgets/main_drawer.dart';
 import '../../widgets/profile_view.dart';

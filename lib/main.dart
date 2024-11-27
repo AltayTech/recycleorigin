@@ -35,7 +35,7 @@ import './screens/waste_cart_screen.dart';
 import './screens/waste_request_date_screen.dart';
 import './screens/waste_request_send_screen.dart';
 import 'features/waste_feature/presentation/wastes_screen.dart';
-import 'classes/strings.dart';
+import 'core/constants/strings.dart';
 import 'provider/Products.dart';
 import 'provider/customer_info.dart';
 import 'screens/collect_list_screen.dart';
