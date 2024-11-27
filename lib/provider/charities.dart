@@ -7,7 +7,7 @@ import 'package:tamizshahr/models/charity.dart';
 import 'package:tamizshahr/provider/charity_main.dart';
 
 import '../models/search_detail.dart';
-import 'urls.dart';
+import '../core/constants/urls.dart';
 
 class Charities with ChangeNotifier {
   List<Charity> _charitiesItems = [];

@@ -16,7 +16,7 @@ import '../../../../models/order.dart';
 import '../../../../models/order_details.dart';
 import '../../../../models/personal_data.dart';
 import '../../../../models/shop.dart';
-import '../../../../provider/urls.dart';
+import '../../../../core/constants/urls.dart';
 
 class CustomerInfo with ChangeNotifier {
   String _payUrl = '';

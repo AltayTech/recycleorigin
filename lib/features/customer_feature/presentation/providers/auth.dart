@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../models/region.dart';
 import '../../../waste_feature/business/entities/address.dart';
 import '../../../waste_feature/business/entities/address_main.dart';
-import '../../../../provider/urls.dart';
+import '../../../../core/constants/urls.dart';
 
 class Auth with ChangeNotifier {
   String _token = '';

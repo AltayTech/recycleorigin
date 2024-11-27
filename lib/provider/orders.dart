@@ -7,7 +7,7 @@ import 'package:tamizshahr/models/order.dart';
 import 'package:tamizshahr/models/order_main.dart';
 import 'package:tamizshahr/models/search_detail.dart';
 
-import 'urls.dart';
+import '../core/constants/urls.dart';
 
 class Orders with ChangeNotifier {
   late String _token;
