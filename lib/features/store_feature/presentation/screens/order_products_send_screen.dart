@@ -7,8 +7,8 @@ import 'package:tamizshahr/widgets/custom_dialog_send_request.dart';
 
 import '../../../../models/customer.dart';
 import '../../../../models/order_send_details.dart';
-import '../../../../models/product_cart.dart';
-import '../../../../models/product_order_send.dart';
+import '../../business/entities/product_cart.dart';
+import '../../business/entities/product_order_send.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../customer_feature/presentation/providers/customer_info.dart';

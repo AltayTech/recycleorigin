@@ -8,9 +8,9 @@ import '../../../../models/category.dart';
 import '../../../../models/color_code_card.dart';
 import '../../../../models/color_code_product_detail.dart';
 import '../../../../models/order_send_details.dart';
-import '../../../../models/product.dart';
-import '../../../../models/product_cart.dart';
-import '../../../../models/product_main.dart';
+import '../../business/entities/product.dart';
+import '../../business/entities/product_cart.dart';
+import '../../business/entities/product_main.dart';
 import '../../../../models/search_detail.dart';
 import '../../../../core/constants/urls.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:tamizshahr/models/sizes.dart';
 
-import '../models/social_media.dart';
-import 'feature.dart';
-import 'featured_image.dart';
+import '../../../../models/social_media.dart';
+import '../../../../models/feature.dart';
+import '../../../../models/featured_image.dart';
 
 class Shop with ChangeNotifier {
   final String support_phone;

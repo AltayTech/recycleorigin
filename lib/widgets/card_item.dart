@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
-import '../models/product_cart.dart';
+import '../features/store_feature/business/entities/product_cart.dart';
 import '../features/store_feature/presentation/providers/Products.dart';
 import '../core/theme/app_theme.dart';
 import '../features/customer_feature/presentation/providers/auth.dart';

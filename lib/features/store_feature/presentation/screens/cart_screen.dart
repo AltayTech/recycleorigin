@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tamizshahr/core/widgets/buton_bottom.dart';
 
 import '../../../../models/customer.dart';
-import '../../../../models/product_cart.dart';
+import '../../business/entities/product_cart.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../customer_feature/presentation/providers/auth.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tamizshahr/models/sizes.dart';
 
-import 'category.dart';
-import 'featured_image.dart';
-import 'status.dart';
+import '../../../../models/category.dart';
+import '../../../../models/featured_image.dart';
+import '../../../../models/status.dart';
 
 class Product with ChangeNotifier {
   final int id;

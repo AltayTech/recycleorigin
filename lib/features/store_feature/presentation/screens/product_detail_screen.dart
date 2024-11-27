@@ -7,7 +7,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tamizshahr/core/widgets/buton_bottom.dart';
 
-import '../../../../models/product.dart';
+import '../../business/entities/product.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';

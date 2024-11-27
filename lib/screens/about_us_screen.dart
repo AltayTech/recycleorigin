@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../models/shop.dart';
+import '../features/store_feature/business/entities/shop.dart';
 import '../features/customer_feature/presentation/providers/customer_info.dart';
 import 'package:provider/provider.dart';
 

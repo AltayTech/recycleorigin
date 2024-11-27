@@ -13,9 +13,9 @@ import 'package:tamizshahr/models/transaction_main.dart';
 
 import '../../../../models/customer.dart';
 import '../../../../models/order.dart';
-import '../../../../models/order_details.dart';
+import '../../../store_feature/business/entities/order_details.dart';
 import '../../../../models/personal_data.dart';
-import '../../../../models/shop.dart';
+import '../../../store_feature/business/entities/shop.dart';
 import '../../../../core/constants/urls.dart';
 
 class CustomerInfo with ChangeNotifier {

@@ -5,7 +5,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
 import '../../../../models/category.dart';
-import '../../../../models/product.dart';
+import '../../business/entities/product.dart';
 import '../../../../models/search_detail.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';

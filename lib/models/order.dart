@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tamizshahr/models/product_order_receive.dart';
+import 'package:tamizshahr/features/store_feature/business/entities/product_order_receive.dart';
 import 'package:tamizshahr/models/status.dart';
 
 class Order with ChangeNotifier {
