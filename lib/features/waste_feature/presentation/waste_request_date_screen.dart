@@ -13,7 +13,7 @@ import '../business/entities/address.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../customer_feature/presentation/providers/auth.dart';
-import '../../../provider/wastes.dart';
+import 'providers/wastes.dart';
 import 'waste_request_send_screen.dart';
 import '../../../widgets/custom_dialog_enter.dart';
 import '../../../core/logic/en_to_ar_number_convertor.dart';

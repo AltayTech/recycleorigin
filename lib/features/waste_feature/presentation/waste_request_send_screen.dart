@@ -18,7 +18,7 @@ import '../business/entities/address.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../customer_feature/presentation/providers/auth.dart';
-import '../../../provider/wastes.dart';
+import 'providers/wastes.dart';
 import '../../../widgets/custom_dialog_enter.dart';
 import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../widgets/custom_dialog_send_request.dart';

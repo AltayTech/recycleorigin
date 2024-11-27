@@ -7,7 +7,7 @@ import 'package:tamizshahr/features/customer_feature/presentation/providers/auth
 
 import '../models/search_detail.dart';
 import '../core/theme/app_theme.dart';
-import '../provider/wastes.dart';
+import '../features/waste_feature/presentation/providers/wastes.dart';
 import '../widgets/collect_item_collect_screen.dart';
 import '../core/logic/en_to_ar_number_convertor.dart';
 import '../core/widgets/main_drawer.dart';

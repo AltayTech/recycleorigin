@@ -10,7 +10,7 @@ import 'package:tamizshahr/features/waste_feature/presentation/widgets/waste_car
 
 import '../../../core/theme/app_theme.dart';
 import '../../customer_feature/presentation/providers/auth.dart';
-import '../../../provider/wastes.dart';
+import 'providers/wastes.dart';
 import 'wastes_screen.dart';
 import '../../../widgets/custom_dialog_enter.dart';
 import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';

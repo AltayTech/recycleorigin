@@ -11,8 +11,8 @@ import 'package:tamizshahr/features/waste_feature/business/entities/waste.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.dart';
 
 
-import '../models/search_detail.dart';
-import 'urls.dart';
+import '../../../../models/search_detail.dart';
+import '../../../../provider/urls.dart';
 
 class Wastes with ChangeNotifier {
   List<Waste> _wasteItems = [];
