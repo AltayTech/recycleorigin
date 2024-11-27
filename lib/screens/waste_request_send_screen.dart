@@ -10,7 +10,7 @@ import 'package:tamizshahr/features/waste_feature/business/entities/price_weight
 import 'package:tamizshahr/features/waste_feature/business/entities/request_address.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/request_waste.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.dart';
-import 'package:tamizshahr/widgets/buton_bottom.dart';
+import 'package:tamizshahr/core/widgets/buton_bottom.dart';
 
 import '../models/customer.dart';
 import '../models/region.dart';

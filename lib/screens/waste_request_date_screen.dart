@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/price_weight.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.dart';
-import 'package:tamizshahr/widgets/buton_bottom.dart';
+import 'package:tamizshahr/core/widgets/buton_bottom.dart';
 
 import '../models/customer.dart';
 import '../models/region.dart';

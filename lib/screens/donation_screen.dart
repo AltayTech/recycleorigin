@@ -8,7 +8,7 @@ import 'package:tamizshahr/models/customer.dart';
 import 'package:tamizshahr/features/customer_feature/presentation/providers/auth.dart';
 import 'package:tamizshahr/provider/charities.dart';
 import 'package:tamizshahr/features/customer_feature/presentation/providers/customer_info.dart';
-import 'package:tamizshahr/widgets/buton_bottom.dart';
+import 'package:tamizshahr/core/widgets/buton_bottom.dart';
 import 'package:tamizshahr/widgets/currency_input_formatter.dart';
 import 'package:tamizshahr/widgets/custom_dialog_send_request.dart';
 

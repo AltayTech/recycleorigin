@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/widgets/buton_bottom.dart';
+import 'package:tamizshahr/core/widgets/buton_bottom.dart';
 import 'package:tamizshahr/widgets/custom_dialog_send_request.dart';
 
 import '../models/customer.dart';
