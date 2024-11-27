@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '../models/charity.dart';
-import '../models/search_detail.dart';
+import '../../business/entities/charity.dart';
+import '../../../../models/search_detail.dart';
 
 class CharityMain with ChangeNotifier {
   final SearchDetail charitiesDetail;

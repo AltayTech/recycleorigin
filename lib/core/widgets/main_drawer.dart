@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tamizshahr/core/theme/app_theme.dart';
 import 'package:tamizshahr/features/customer_feature/presentation/providers/customer_info.dart';
-import 'package:tamizshahr/screens/charity_screen.dart';
+import 'package:tamizshahr/features/Charities/presentation/pages/charity_screen.dart';
 import 'package:tamizshahr/screens/messages_screen.dart';
 
 import '../../features/customer_feature/presentation/providers/auth.dart';

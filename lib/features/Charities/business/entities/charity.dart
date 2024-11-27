@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/models/charity_data.dart';
+import 'package:tamizshahr/features/Charities/business/entities/charity_data.dart';
 import 'package:tamizshahr/models/featured_image.dart';
 import 'package:tamizshahr/models/status.dart';
 

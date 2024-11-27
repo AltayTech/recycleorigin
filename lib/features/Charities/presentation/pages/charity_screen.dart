@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/models/charity.dart';
-import 'package:tamizshahr/provider/charities.dart';
-import 'package:tamizshahr/widgets/charity_item_Charities_screen.dart';
+import 'package:tamizshahr/features/Charities/business/entities/charity.dart';
+import 'package:tamizshahr/features/Charities/presentation/providers/charities.dart';
+import 'package:tamizshahr/features/Charities/presentation/widgets/charity_item_Charities_screen.dart';
 
-import '../models/search_detail.dart';
-import '../features/store_feature/presentation/providers/Products.dart';
-import '../core/theme/app_theme.dart';
-import '../core/logic/en_to_ar_number_convertor.dart';
-import '../core/widgets/main_drawer.dart';
+import '../../../../models/search_detail.dart';
+import '../../../store_feature/presentation/providers/Products.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/widgets/main_drawer.dart';
 
 class CharityScreen extends StatefulWidget {
   static const routeName = '/charitiesScreen';

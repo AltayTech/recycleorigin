@@ -6,7 +6,7 @@ import 'package:tamizshahr/models/customer.dart';
 import 'package:tamizshahr/models/transaction.dart';
 import 'package:tamizshahr/features/customer_feature/presentation/providers/auth.dart';
 import 'package:tamizshahr/features/customer_feature/presentation/providers/customer_info.dart';
-import 'package:tamizshahr/screens/charity_screen.dart';
+import 'package:tamizshahr/features/Charities/presentation/pages/charity_screen.dart';
 import 'package:tamizshahr/screens/clear_screen.dart';
 import 'package:tamizshahr/widgets/transaction_item_transactions_screen.dart';
 

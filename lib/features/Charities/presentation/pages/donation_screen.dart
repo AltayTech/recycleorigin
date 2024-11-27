@@ -3,20 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/models/charity.dart';
+import 'package:tamizshahr/features/Charities/business/entities/charity.dart';
 import 'package:tamizshahr/models/customer.dart';
 import 'package:tamizshahr/features/customer_feature/presentation/providers/auth.dart';
-import 'package:tamizshahr/provider/charities.dart';
+import 'package:tamizshahr/features/Charities/presentation/providers/charities.dart';
 import 'package:tamizshahr/features/customer_feature/presentation/providers/customer_info.dart';
 import 'package:tamizshahr/core/widgets/buton_bottom.dart';
 import 'package:tamizshahr/widgets/currency_input_formatter.dart';
 import 'package:tamizshahr/widgets/custom_dialog_send_request.dart';
 
-import '../core/theme/app_theme.dart';
-import '../core/logic/en_to_ar_number_convertor.dart';
-import '../core/widgets/main_drawer.dart';
-import '../features/customer_feature/presentation/screens/login_screen.dart';
-import '../core/screens/navigation_bottom_screen.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/widgets/main_drawer.dart';
+import '../../../customer_feature/presentation/screens/login_screen.dart';
+import '../../../../core/screens/navigation_bottom_screen.dart';
 
 class DonationScreen extends StatefulWidget {
   static const routeName = '/DonationScreen';

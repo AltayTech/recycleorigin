@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/models/charity.dart';
-import 'package:tamizshahr/screens/charity_detail_screen.dart';
+import 'package:tamizshahr/features/Charities/business/entities/charity.dart';
+import 'package:tamizshahr/features/Charities/presentation/pages/charity_detail_screen.dart';
 
-import '../core/theme/app_theme.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class CharityItemCharitiesScreen extends StatelessWidget {
   @override
