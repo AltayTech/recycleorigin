@@ -9,11 +9,11 @@ import 'package:tamizshahr/features/customer_feature/presentation/providers/cust
 import 'package:tamizshahr/provider/orders.dart';
 import 'package:tamizshahr/widgets/order_item-orders_screen.dart';
 
-import '../models/search_detail.dart';
-import '../core/theme/app_theme.dart';
-import '../core/logic/en_to_ar_number_convertor.dart';
-import '../core/widgets/main_drawer.dart';
-import '../features/customer_feature/presentation/screens/login_screen.dart';
+import '../../../../models/search_detail.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/widgets/main_drawer.dart';
+import '../../../customer_feature/presentation/screens/login_screen.dart';
 
 class OrdersScreen extends StatefulWidget {
   static const routeName = '/ordersScreen';

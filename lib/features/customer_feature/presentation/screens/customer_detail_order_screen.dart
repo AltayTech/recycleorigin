@@ -7,7 +7,7 @@ import '../../../../models/order.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../providers/customer_info.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../../screens/order_view_screen.dart';
+import '../../../store_feature/presentation/screens/order_view_screen.dart';
 
 class CustomerDetailOrderScreen extends StatefulWidget {
   final Customer customer;

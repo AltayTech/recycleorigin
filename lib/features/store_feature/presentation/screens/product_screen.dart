@@ -4,14 +4,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
-import '../models/category.dart';
-import '../models/product.dart';
-import '../models/search_detail.dart';
-import '../provider/Products.dart';
-import '../core/theme/app_theme.dart';
-import '../core/logic/en_to_ar_number_convertor.dart';
-import '../core/widgets/main_drawer.dart';
-import '../widgets/product_item_product_screeen.dart';
+import '../../../../models/category.dart';
+import '../../../../models/product.dart';
+import '../../../../models/search_detail.dart';
+import '../../../../provider/Products.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/widgets/main_drawer.dart';
+import '../../../../widgets/product_item_product_screeen.dart';
 import 'cart_screen.dart';
 
 class ProductsScreen extends StatefulWidget {

@@ -4,13 +4,13 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../core/theme/app_theme.dart';
-import '../models/color_code.dart';
-import '../models/gallery.dart';
-import '../models/order_details.dart';
-import '../features/customer_feature/presentation/providers/customer_info.dart';
-import '../core/logic/en_to_ar_number_convertor.dart';
-import '../core/widgets/main_drawer.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../models/color_code.dart';
+import '../../../../models/gallery.dart';
+import '../../../../models/order_details.dart';
+import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/widgets/main_drawer.dart';
 import 'product_detail_screen.dart';
 
 class OrderViewScreen extends StatefulWidget {
