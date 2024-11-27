@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../core/theme/app_theme.dart';
+import '../../../../core/theme/app_theme.dart';
 
-import '../features/customer_feature/presentation/screens/profile_screen.dart';
+import '../screens/profile_screen.dart';
 
 class CustomDialogProfile extends StatelessWidget {
   final String title, description, buttonText;

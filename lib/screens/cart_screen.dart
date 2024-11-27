@@ -13,7 +13,7 @@ import '../features/customer_feature/presentation/providers/customer_info.dart';
 import '../screens/order_products_send_screen.dart';
 import '../widgets/card_item.dart';
 import '../widgets/custom_dialog_enter.dart';
-import '../widgets/custom_dialog_profile.dart';
+import '../features/customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../core/logic/en_to_ar_number_convertor.dart';
 import '../core/widgets/main_drawer.dart';
 
