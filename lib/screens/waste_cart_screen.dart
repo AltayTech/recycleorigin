@@ -14,7 +14,7 @@ import '../widgets/custom_dialog_enter.dart';
 import '../widgets/custom_dialog_profile.dart';
 import '../core/logic/en_to_ar_number_convertor.dart';
 import '../core/widgets/main_drawer.dart';
-import '../widgets/waste_cart_item.dart';
+import '../features/waste_feature/presentation/widgets/waste_cart_item.dart';
 import 'address_screen.dart';
 
 class WasteCartScreen extends StatefulWidget {

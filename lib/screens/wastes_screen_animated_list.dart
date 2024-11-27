@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/price_weight.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.dart';
 import 'package:tamizshahr/core/widgets/buton_bottom.dart';
-import 'package:tamizshahr/widgets/waste_cart_item_animated_list.dart';
+import 'package:tamizshahr/features/waste_feature/presentation/widgets/waste_cart_item_animated_list.dart';
 
 
 import '../core/theme/app_theme.dart';
