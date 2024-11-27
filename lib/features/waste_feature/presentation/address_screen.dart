@@ -4,14 +4,14 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tamizshahr/core/widgets/buton_bottom.dart';
 
-import '../features/waste_feature/business/entities/address.dart';
-import '../core/theme/app_theme.dart';
-import '../features/customer_feature/presentation/providers/auth.dart';
-import '../screens/map_screen.dart';
-import '../screens/waste_request_date_screen.dart';
-import '../widgets/address_item.dart';
-import '../widgets/custom_dialog_enter.dart';
-import '../core/widgets/main_drawer.dart';
+import '../business/entities/address.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../customer_feature/presentation/providers/auth.dart';
+import '../../../screens/map_screen.dart';
+import 'waste_request_date_screen.dart';
+import '../../../widgets/address_item.dart';
+import '../../../widgets/custom_dialog_enter.dart';
+import '../../../core/widgets/main_drawer.dart';
 
 class AddressScreen extends StatefulWidget {
   static const routeName = '/address_screen';

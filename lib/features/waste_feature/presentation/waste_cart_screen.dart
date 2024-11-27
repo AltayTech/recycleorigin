@@ -6,15 +6,15 @@ import 'package:tamizshahr/features/waste_feature/business/entities/price_weight
 import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.dart';
 import 'package:tamizshahr/core/widgets/buton_bottom.dart';
 
-import '../core/theme/app_theme.dart';
-import '../features/customer_feature/presentation/providers/auth.dart';
-import '../provider/wastes.dart';
-import '../features/waste_feature/presentation/wastes_screen.dart';
-import '../widgets/custom_dialog_enter.dart';
-import '../features/customer_feature/presentation/widgets/custom_dialog_profile.dart';
-import '../core/logic/en_to_ar_number_convertor.dart';
-import '../core/widgets/main_drawer.dart';
-import '../features/waste_feature/presentation/widgets/waste_cart_item.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../customer_feature/presentation/providers/auth.dart';
+import '../../../provider/wastes.dart';
+import 'wastes_screen.dart';
+import '../../../widgets/custom_dialog_enter.dart';
+import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
+import '../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../core/widgets/main_drawer.dart';
+import 'widgets/waste_cart_item.dart';
 import 'address_screen.dart';
 
 class WasteCartScreen extends StatefulWidget {
