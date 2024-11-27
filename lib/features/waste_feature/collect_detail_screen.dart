@@ -7,8 +7,8 @@ import 'package:tamizshahr/features/waste_feature/presentation/providers/wastes.
 import 'package:tamizshahr/widgets/collect_details_collects_item.dart';
 import 'package:tamizshahr/core/logic/en_to_ar_number_convertor.dart';
 
-import '../core/theme/app_theme.dart';
-import '../core/widgets/main_drawer.dart';
+import '../../core/theme/app_theme.dart';
+import '../../core/widgets/main_drawer.dart';
 
 class CollectDetailScreen extends StatefulWidget {
   static const routeName = '/collectDetailScreen';
