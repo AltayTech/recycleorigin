@@ -3,8 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../models/message.dart';
-import '../provider/app_theme.dart';
-import '../provider/auth.dart';
+import '../core/theme/app_theme.dart';
+import '../features/customer_feature/presentation/providers/auth.dart';
 import '../provider/messages.dart';
 import '../core/widgets/main_drawer.dart';
 

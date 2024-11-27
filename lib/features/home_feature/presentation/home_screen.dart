@@ -5,8 +5,8 @@ import 'package:tamizshahr/widgets/buton_bottom.dart';
 import 'package:tamizshahr/widgets/main_item_button.dart';
 
 import '../../../provider/Products.dart';
-import '../../../provider/app_theme.dart';
-import '../../../provider/auth.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../customer_feature/presentation/providers/auth.dart';
 import '../../../screens/article_screen.dart';
 import '../../../screens/collect_list_screen.dart';
 import '../../../screens/waste_cart_screen.dart';

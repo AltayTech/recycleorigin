@@ -6,8 +6,8 @@ import 'package:tamizshahr/features/waste_feature/business/entities/price_weight
 import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.dart';
 import 'package:tamizshahr/widgets/buton_bottom.dart';
 
-import '../provider/app_theme.dart';
-import '../provider/auth.dart';
+import '../core/theme/app_theme.dart';
+import '../features/customer_feature/presentation/providers/auth.dart';
 import '../provider/wastes.dart';
 import '../features/waste_feature/presentation/wastes_screen.dart';
 import '../widgets/custom_dialog_enter.dart';

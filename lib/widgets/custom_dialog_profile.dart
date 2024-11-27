@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 
 import '../features/customer_feature/presentation/screens/profile_screen.dart';
 

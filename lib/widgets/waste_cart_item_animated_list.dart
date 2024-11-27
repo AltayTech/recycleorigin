@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/price_weight.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.dart';
 
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 import '../provider/wastes.dart';
 import 'en_to_ar_number_convertor.dart';
 

@@ -11,12 +11,12 @@ import 'package:tamizshahr/models/status.dart';
 import 'package:tamizshahr/models/transaction.dart';
 import 'package:tamizshahr/models/transaction_main.dart';
 
-import '../models/customer.dart';
-import '../models/order.dart';
-import '../models/order_details.dart';
-import '../models/personal_data.dart';
-import '../models/shop.dart';
-import 'urls.dart';
+import '../../../../models/customer.dart';
+import '../../../../models/order.dart';
+import '../../../../models/order_details.dart';
+import '../../../../models/personal_data.dart';
+import '../../../../models/shop.dart';
+import '../../../../provider/urls.dart';
 
 class CustomerInfo with ChangeNotifier {
   String _payUrl = '';

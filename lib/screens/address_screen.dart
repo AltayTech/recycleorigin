@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:tamizshahr/widgets/buton_bottom.dart';
 
 import '../features/waste_feature/business/entities/address.dart';
-import '../provider/app_theme.dart';
-import '../provider/auth.dart';
+import '../core/theme/app_theme.dart';
+import '../features/customer_feature/presentation/providers/auth.dart';
 import '../screens/map_screen.dart';
 import '../screens/waste_request_date_screen.dart';
 import '../widgets/address_item.dart';

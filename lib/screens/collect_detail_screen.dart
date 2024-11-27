@@ -7,7 +7,7 @@ import 'package:tamizshahr/provider/wastes.dart';
 import 'package:tamizshahr/widgets/collect_details_collects_item.dart';
 import 'package:tamizshahr/widgets/en_to_ar_number_convertor.dart';
 
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 import '../core/widgets/main_drawer.dart';
 
 class CollectDetailScreen extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tamizshahr/models/charity.dart';
 import 'package:tamizshahr/screens/charity_detail_screen.dart';
 
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 
 class CharityItemCharitiesScreen extends StatelessWidget {
   @override

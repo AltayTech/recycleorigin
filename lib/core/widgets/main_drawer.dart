@@ -2,12 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/provider/app_theme.dart';
-import 'package:tamizshahr/provider/customer_info.dart';
+import 'package:tamizshahr/core/theme/app_theme.dart';
+import 'package:tamizshahr/features/customer_feature/presentation/providers/customer_info.dart';
 import 'package:tamizshahr/screens/charity_screen.dart';
 import 'package:tamizshahr/screens/messages_screen.dart';
 
-import '../../provider/auth.dart';
+import '../../features/customer_feature/presentation/providers/auth.dart';
 import '../../screens/about_us_screen.dart';
 import '../../screens/cart_screen.dart';
 import '../../screens/contact_with_us_screen.dart';

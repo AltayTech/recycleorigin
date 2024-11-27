@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/provider/app_theme.dart';
+import 'package:tamizshahr/core/theme/app_theme.dart';
 
 class ButtonBottom extends StatelessWidget {
   const ButtonBottom({

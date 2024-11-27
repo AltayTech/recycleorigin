@@ -14,7 +14,7 @@ import 'package:tamizshahr/screens/wallet_screen.dart';
 import 'package:tamizshahr/screens/wastes_screen_animated_list.dart';
 
 import './provider/articles.dart';
-import './provider/auth.dart';
+import 'features/customer_feature/presentation/providers/auth.dart';
 import './provider/messages.dart';
 import './provider/wastes.dart';
 import './screens/about_us_screen.dart';
@@ -37,7 +37,7 @@ import './screens/waste_request_send_screen.dart';
 import 'features/waste_feature/presentation/wastes_screen.dart';
 import 'core/constants/strings.dart';
 import 'provider/Products.dart';
-import 'provider/customer_info.dart';
+import 'features/customer_feature/presentation/providers/customer_info.dart';
 import 'screens/collect_list_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_detail_info_edit_screen.dart';
 import 'features/customer_feature/presentation/screens/login_screen.dart';

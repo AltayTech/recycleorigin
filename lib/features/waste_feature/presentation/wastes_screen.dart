@@ -5,7 +5,7 @@ import 'package:tamizshahr/features/waste_feature/business/entities/waste.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.dart';
 
 
-import '../../../provider/app_theme.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../provider/wastes.dart';
 import '../../../core/widgets/main_drawer.dart';
 import '../../../widgets/waste_item_wastes_screen.dart';

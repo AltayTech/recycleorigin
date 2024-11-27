@@ -9,7 +9,7 @@ import 'package:tamizshahr/widgets/buton_bottom.dart';
 
 import '../models/product.dart';
 import '../provider/Products.dart';
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 import '../widgets/en_to_ar_number_convertor.dart';
 import '../core/widgets/main_drawer.dart';
 import 'cart_screen.dart';

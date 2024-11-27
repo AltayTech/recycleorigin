@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 
 import '../models/region.dart';
 import '../features/waste_feature/business/entities/address.dart';
-import '../provider/app_theme.dart';
-import '../provider/auth.dart';
+import '../core/theme/app_theme.dart';
+import '../features/customer_feature/presentation/providers/auth.dart';
 import '../widgets/info_edit_item.dart';
 
 class MapScreen extends StatefulWidget {

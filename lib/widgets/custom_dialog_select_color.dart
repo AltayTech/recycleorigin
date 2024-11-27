@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
 import '../models/product.dart';
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 
 class CustomDialogSelectColor extends StatefulWidget {
   final Product product;

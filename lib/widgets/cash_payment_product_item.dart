@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 import '../models/color_code.dart';
 import 'en_to_ar_number_convertor.dart';
 

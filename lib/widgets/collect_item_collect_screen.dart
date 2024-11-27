@@ -5,7 +5,7 @@ import 'package:tamizshahr/features/waste_feature/business/entities/request_wast
 import 'package:tamizshahr/screens/collect_detail_screen.dart';
 
 import '../provider/Products.dart';
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 import 'en_to_ar_number_convertor.dart';
 
 class CollectItemCollectsScreen extends StatelessWidget {

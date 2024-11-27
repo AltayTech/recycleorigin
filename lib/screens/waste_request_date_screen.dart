@@ -11,8 +11,8 @@ import '../models/customer.dart';
 import '../models/region.dart';
 import '../features/waste_feature/business/entities/address.dart';
 
-import '../provider/app_theme.dart';
-import '../provider/auth.dart';
+import '../core/theme/app_theme.dart';
+import '../features/customer_feature/presentation/providers/auth.dart';
 import '../provider/wastes.dart';
 import '../screens/waste_request_send_screen.dart';
 import '../widgets/custom_dialog_enter.dart';

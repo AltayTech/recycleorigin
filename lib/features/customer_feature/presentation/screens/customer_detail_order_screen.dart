@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../models/customer.dart';
 import '../../../../models/order.dart';
-import '../../../../provider/app_theme.dart';
-import '../../../../provider/customer_info.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../providers/customer_info.dart';
 import '../../../../widgets/en_to_ar_number_convertor.dart';
 import '../../../../screens/order_view_screen.dart';
 

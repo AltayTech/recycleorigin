@@ -4,8 +4,8 @@ import 'package:tamizshahr/models/status.dart';
 
 import '../../../../models/customer.dart';
 import '../../../../models/personal_data.dart';
-import '../../../../provider/app_theme.dart';
-import '../../../../provider/customer_info.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../providers/customer_info.dart';
 import '../../../../widgets/info_edit_item.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'customer_user_info_screen.dart';

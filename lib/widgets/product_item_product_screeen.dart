@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../models/product.dart';
 import '../provider/Products.dart';
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 import '../screens/product_detail_screen.dart';
 import 'en_to_ar_number_convertor.dart';
 

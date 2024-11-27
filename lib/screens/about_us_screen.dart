@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../models/shop.dart';
-import '../provider/customer_info.dart';
+import '../features/customer_feature/presentation/providers/customer_info.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 import '../core/widgets/main_drawer.dart';
 
 class AboutUsScreen extends StatefulWidget {

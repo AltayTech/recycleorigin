@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/connection/http_exception.dart';
 import '../../../../provider/Products.dart';
-import '../../../../provider/app_theme.dart';
-import '../../../../provider/auth.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../providers/auth.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../../core/screens/navigation_bottom_screen.dart';
 

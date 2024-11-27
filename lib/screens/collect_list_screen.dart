@@ -3,10 +3,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tamizshahr/features/waste_feature/business/entities/request_waste_item.dart';
-import 'package:tamizshahr/provider/auth.dart';
+import 'package:tamizshahr/features/customer_feature/presentation/providers/auth.dart';
 
 import '../models/search_detail.dart';
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 import '../provider/wastes.dart';
 import '../widgets/collect_item_collect_screen.dart';
 import '../widgets/en_to_ar_number_convertor.dart';

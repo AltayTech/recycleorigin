@@ -5,9 +5,9 @@ import 'package:tamizshahr/screens/collect_list_screen.dart';
 import 'package:tamizshahr/screens/orders_screen.dart';
 
 import '../core/widgets/top_bar.dart';
-import '../provider/app_theme.dart';
-import '../provider/auth.dart';
-import '../provider/customer_info.dart';
+import '../core/theme/app_theme.dart';
+import '../features/customer_feature/presentation/providers/auth.dart';
+import '../features/customer_feature/presentation/providers/customer_info.dart';
 import '../features/customer_feature/presentation/screens/customer_user_info_screen.dart';
 import '../features/customer_feature/presentation/screens/login_screen.dart';
 import '../screens/messages_screen.dart';
