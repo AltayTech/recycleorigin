@@ -16,7 +16,7 @@ import 'features/articles_feature/presentation/providers/articles.dart';
 import 'features/customer_feature/presentation/providers/auth.dart';
 import 'features/meassage_feature/presentation/providers/messages.dart';
 import 'features/waste_feature/presentation/providers/wastes.dart';
-import './screens/about_us_screen.dart';
+import 'features/about_feature/presentation/pages/about_us_screen.dart';
 import 'features/waste_feature/presentation/address_screen.dart';
 import 'features/articles_feature/presentation/pages/article_detail_screen.dart';
 import 'features/articles_feature/presentation/pages/article_screen.dart';
