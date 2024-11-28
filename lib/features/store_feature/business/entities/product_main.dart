@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'product.dart';
-import '../../../../models/search_detail.dart';
+import '../../../../core/models/search_detail.dart';
 
 class ProductMain with ChangeNotifier {
   final SearchDetail productsDetail;

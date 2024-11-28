@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
 import 'package:recycleorigin/features/Charities/presentation/providers/charity_main.dart';
 
-import '../../../../models/search_detail.dart';
+import '../../../../core/models/search_detail.dart';
 import '../../../../core/constants/urls.dart';
 
 class Charities with ChangeNotifier {

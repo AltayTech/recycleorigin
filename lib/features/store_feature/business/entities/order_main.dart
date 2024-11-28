@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:recycleorigin/models/order.dart';
-import 'package:recycleorigin/models/search_detail.dart';
+import 'package:recycleorigin/core/models/order.dart';
+import 'package:recycleorigin/core/models/search_detail.dart';
 
 class OrdersMain with ChangeNotifier {
   final SearchDetail searchDetail;

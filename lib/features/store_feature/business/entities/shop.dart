@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:recycleorigin/models/sizes.dart';
+import 'package:recycleorigin/core/models/sizes.dart';
 
-import '../../../../models/social_media.dart';
-import '../../../../models/feature.dart';
-import '../../../../models/featured_image.dart';
+import 'social_media.dart';
+import '../../../../core/models/feature.dart';
+import '../../../../core/models/featured_image.dart';
 
 class Shop with ChangeNotifier {
   final String support_phone;

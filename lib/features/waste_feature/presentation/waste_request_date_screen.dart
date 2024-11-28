@@ -7,15 +7,15 @@ import 'package:recycleorigin/features/waste_feature/business/entities/price_wei
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
-import '../../../models/customer.dart';
-import '../../../models/region.dart';
+import '../../../core/models/customer.dart';
+import '../../../core/models/region.dart';
 import '../business/entities/address.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../customer_feature/presentation/providers/auth.dart';
 import 'providers/wastes.dart';
 import 'waste_request_send_screen.dart';
-import '../../../widgets/custom_dialog_enter.dart';
+import 'widgets/custom_dialog_enter.dart';
 import '../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../core/widgets/main_drawer.dart';
 
@@ -748,10 +748,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                             },
                           ),
                         );
-                        if (_selectedDay == null) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(addToCartSnackBar);
-                        } else if (!isLogin) {
+                        if (!isLogin) {
                           _showLogindialog();
                         } else {
                           sendDate();

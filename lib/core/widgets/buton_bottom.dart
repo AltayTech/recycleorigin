@@ -7,7 +7,7 @@ class ButtonBottom extends StatelessWidget {
     required this.height,
     required this.text,
     this.isActive = false,
-  }) ;
+  });
 
   final double width;
   final double height;
@@ -46,7 +46,6 @@ class ButtonBottom extends StatelessWidget {
             fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
             fontWeight: FontWeight.w600,
-
           ),
           textAlign: TextAlign.center,
         ),

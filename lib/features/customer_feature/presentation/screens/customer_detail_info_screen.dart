@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../models/customer.dart';
+import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../providers/customer_info.dart';
 import 'customer_detail_info_edit_screen.dart';

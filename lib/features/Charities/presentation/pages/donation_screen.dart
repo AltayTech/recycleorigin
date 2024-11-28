@@ -4,13 +4,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
-import 'package:recycleorigin/models/customer.dart';
+import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
 import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
-import 'package:recycleorigin/widgets/currency_input_formatter.dart';
-import 'package:recycleorigin/widgets/custom_dialog_send_request.dart';
+import 'package:recycleorigin/core/widgets/currency_input_formatter.dart';
+import 'package:recycleorigin/core/widgets/custom_dialog_send_request.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';

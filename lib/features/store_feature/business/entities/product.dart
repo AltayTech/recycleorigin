@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigin/models/sizes.dart';
+import 'package:recycleorigin/core/models/sizes.dart';
 
-import '../../../../models/category.dart';
-import '../../../../models/featured_image.dart';
-import '../../../../models/status.dart';
+import '../../../../core/models/category.dart';
+import '../../../../core/models/featured_image.dart';
+import '../../../../core/models/status.dart';
 
 class Product with ChangeNotifier {
   final int id;

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 
-import '../../../../models/search_detail.dart';
+import '../../../../core/models/search_detail.dart';
 
 class CollectMain with ChangeNotifier {
   final SearchDetail searchDetail;

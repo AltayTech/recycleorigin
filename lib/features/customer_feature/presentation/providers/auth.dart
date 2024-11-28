@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../models/region.dart';
+import '../../../../core/models/region.dart';
 import '../../../waste_feature/business/entities/address.dart';
 import '../../../waste_feature/business/entities/address_main.dart';
 import '../../../../core/constants/urls.dart';

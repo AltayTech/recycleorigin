@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:recycleorigin/models/order.dart';
+import 'package:recycleorigin/core/models/order.dart';
 import 'package:recycleorigin/features/store_feature/business/entities/order_main.dart';
-import 'package:recycleorigin/models/search_detail.dart';
+import 'package:recycleorigin/core/models/search_detail.dart';
 
 import '../../../../core/constants/urls.dart';
 

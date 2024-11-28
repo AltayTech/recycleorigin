@@ -4,14 +4,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
-import '../../../../models/category.dart';
+import '../../../../core/models/category.dart';
 import '../../business/entities/product.dart';
-import '../../../../models/search_detail.dart';
+import '../../../../core/models/search_detail.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../../widgets/product_item_product_screeen.dart';
+import '../widgets/product_item_product_screeen.dart';
 import 'cart_screen.dart';
 
 class ProductsScreen extends StatefulWidget {
@@ -32,7 +32,7 @@ class _ProductsScreenState extends State<ProductsScreen>
   var scaffoldKey;
   int page = 1;
 
-   SearchDetail productsDetail=SearchDetail();
+  SearchDetail productsDetail = SearchDetail();
 
   var sortValue = 'جدیدترین';
   List<String> sortValueList = ['جدیدترین', 'گرانترین', 'ارزانترین'];

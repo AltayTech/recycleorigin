@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/address.dart';
-import 'package:recycleorigin/models/driver.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/driver.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_status.dart';
-import 'package:recycleorigin/models/status.dart';
-
+import 'package:recycleorigin/core/models/status.dart';
 
 import 'collect.dart';
 import 'collect_time.dart';

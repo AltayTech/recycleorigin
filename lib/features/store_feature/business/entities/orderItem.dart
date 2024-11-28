@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../../models/color_code.dart';
+import 'color_code.dart';
 
 class OrderItem with ChangeNotifier {
   final int id;
