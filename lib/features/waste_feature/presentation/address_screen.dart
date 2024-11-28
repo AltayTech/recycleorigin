@@ -7,7 +7,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import '../business/entities/address.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../customer_feature/presentation/providers/auth.dart';
-import '../../../screens/map_screen.dart';
+import 'pages/map_screen.dart';
 import 'waste_request_date_screen.dart';
 import 'widgets/address_item.dart';
 import 'widgets/custom_dialog_enter.dart';

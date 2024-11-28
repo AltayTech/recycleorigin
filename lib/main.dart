@@ -26,7 +26,7 @@ import 'features/customer_feature/presentation/screens/customer_notification_scr
 import 'features/customer_feature/presentation/screens/customer_orders_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_user_info_screen.dart';
 import 'features/home_feature/presentation/home_screen.dart';
-import './screens/map_screen.dart';
+import 'features/waste_feature/presentation/pages/map_screen.dart';
 import 'features/meassage_feature/presentation/pages/messages_create_screen.dart';
 import 'core/screens/navigation_bottom_screen.dart';
 import 'features/store_feature/presentation/screens/order_products_send_screen.dart';

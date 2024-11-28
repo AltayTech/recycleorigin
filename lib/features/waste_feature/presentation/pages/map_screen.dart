@@ -8,11 +8,11 @@ import 'package:provider/provider.dart';
 
 // import 'package:geolocator/geolocator.dart';
 
-import '../core/models/region.dart';
-import '../features/waste_feature/business/entities/address.dart';
-import '../core/theme/app_theme.dart';
-import '../features/customer_feature/presentation/providers/auth.dart';
-import '../widgets/info_edit_item.dart';
+import '../../../../core/models/region.dart';
+import '../../business/entities/address.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../../widgets/info_edit_item.dart';
 
 class MapScreen extends StatefulWidget {
   static const routeName = '/mapScreen';
