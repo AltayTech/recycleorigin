@@ -3,10 +3,10 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
-import '../features/articles_feature/business/entities/article.dart';
-import '../core/theme/app_theme.dart';
-import '../features/articles_feature/presentation/pages/article_detail_screen.dart';
-import '../core/logic/en_to_ar_number_convertor.dart';
+import '../../business/entities/article.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../pages/article_detail_screen.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
 class ArticleItemArticlesScreen extends StatelessWidget {
   @override

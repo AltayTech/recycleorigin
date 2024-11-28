@@ -3,9 +3,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
-import '../features/waste_feature/business/entities/address.dart';
-import '../core/theme/app_theme.dart';
-import '../features/customer_feature/presentation/providers/auth.dart';
+import '../../business/entities/address.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../customer_feature/presentation/providers/auth.dart';
 
 class AddressItem extends StatefulWidget {
   final Address addressItem;
