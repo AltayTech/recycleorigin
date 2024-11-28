@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/models/status.dart';
+import 'package:recycleorigin/models/status.dart';
 
 import '../../models/customer.dart';
 import '../../models/personal_data.dart';

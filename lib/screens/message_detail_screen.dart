@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:tamizshahr/widgets/en_to_ar_number_convertor.dart';
+import 'package:recycleorigin/widgets/en_to_ar_number_convertor.dart';
 
 import '../models/customer.dart';
 import '../models/message.dart';

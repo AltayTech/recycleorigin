@@ -4,12 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tamizshahr/models/city.dart';
-import 'package:tamizshahr/models/province.dart';
-import 'package:tamizshahr/models/search_detail.dart';
-import 'package:tamizshahr/models/status.dart';
-import 'package:tamizshahr/models/transaction.dart';
-import 'package:tamizshahr/models/transaction_main.dart';
+import 'package:recycleorigin/models/city.dart';
+import 'package:recycleorigin/models/province.dart';
+import 'package:recycleorigin/models/search_detail.dart';
+import 'package:recycleorigin/models/status.dart';
+import 'package:recycleorigin/models/transaction.dart';
+import 'package:recycleorigin/models/transaction_main.dart';
 
 import '../models/customer.dart';
 import '../models/order.dart';

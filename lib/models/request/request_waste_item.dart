@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/models/driver.dart';
-import 'package:tamizshahr/models/request/collect_status.dart';
+import 'package:recycleorigin/models/driver.dart';
+import 'package:recycleorigin/models/request/collect_status.dart';
 
 import '../status.dart';
 import 'address.dart';

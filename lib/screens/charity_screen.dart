@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/models/charity.dart';
-import 'package:tamizshahr/provider/charities.dart';
-import 'package:tamizshahr/widgets/charity_item_Charities_screen.dart';
+import 'package:recycleorigin/models/charity.dart';
+import 'package:recycleorigin/provider/charities.dart';
+import 'package:recycleorigin/widgets/charity_item_Charities_screen.dart';
 
 import '../models/search_detail.dart';
 import '../provider/Products.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/models/driver_data.dart';
-import 'package:tamizshahr/models/status.dart';
+import 'package:recycleorigin/models/driver_data.dart';
+import 'package:recycleorigin/models/status.dart';
 
 class Driver with ChangeNotifier {
   final Status status;

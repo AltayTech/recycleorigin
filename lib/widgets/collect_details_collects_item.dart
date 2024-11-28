@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:tamizshahr/models/request/collect.dart';
+import 'package:recycleorigin/models/request/collect.dart';
 
 import '../models/request/price_weight.dart';
 import '../provider/app_theme.dart';

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/models/customer.dart';
-import 'package:tamizshahr/models/order.dart';
-import 'package:tamizshahr/provider/auth.dart';
-import 'package:tamizshahr/provider/customer_info.dart';
-import 'package:tamizshahr/provider/orders.dart';
-import 'package:tamizshahr/widgets/order_item-orders_screen.dart';
+import 'package:recycleorigin/models/customer.dart';
+import 'package:recycleorigin/models/order.dart';
+import 'package:recycleorigin/provider/auth.dart';
+import 'package:recycleorigin/provider/customer_info.dart';
+import 'package:recycleorigin/provider/orders.dart';
+import 'package:recycleorigin/widgets/order_item-orders_screen.dart';
 
 import '../models/search_detail.dart';
 import '../provider/app_theme.dart';

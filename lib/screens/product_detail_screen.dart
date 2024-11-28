@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/widgets/buton_bottom.dart';
+import 'package:recycleorigin/widgets/buton_bottom.dart';
 
 import '../models/product.dart';
 import '../provider/Products.dart';

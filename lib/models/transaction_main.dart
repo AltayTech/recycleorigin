@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:tamizshahr/models/search_detail.dart';
-import 'package:tamizshahr/models/transaction.dart';
+import 'package:recycleorigin/models/search_detail.dart';
+import 'package:recycleorigin/models/transaction.dart';
 
 class TransactionMain with ChangeNotifier {
   final SearchDetail searchDetail;

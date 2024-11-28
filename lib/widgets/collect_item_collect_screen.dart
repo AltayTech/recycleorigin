@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/screens/collect_detail_screen.dart';
+import 'package:recycleorigin/screens/collect_detail_screen.dart';
 
 import '../models/request/request_waste_item.dart';
 import '../provider/Products.dart';

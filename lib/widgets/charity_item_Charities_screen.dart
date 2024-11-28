@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/models/charity.dart';
-import 'package:tamizshahr/screens/charity_detail_screen.dart';
+import 'package:recycleorigin/models/charity.dart';
+import 'package:recycleorigin/screens/charity_detail_screen.dart';
 
 import '../provider/app_theme.dart';
 

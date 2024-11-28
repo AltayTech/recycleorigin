@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/provider/auth.dart';
+import 'package:recycleorigin/provider/auth.dart';
 
 import '../models/request/request_waste_item.dart';
 import '../models/search_detail.dart';

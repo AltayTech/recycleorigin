@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/models/charity_data.dart';
-import 'package:tamizshahr/models/featured_image.dart';
-import 'package:tamizshahr/models/status.dart';
+import 'package:recycleorigin/models/charity_data.dart';
+import 'package:recycleorigin/models/featured_image.dart';
+import 'package:recycleorigin/models/status.dart';
 
 class Charity with ChangeNotifier {
   final int id;

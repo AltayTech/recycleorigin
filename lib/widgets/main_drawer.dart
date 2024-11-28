@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/provider/app_theme.dart';
-import 'package:tamizshahr/provider/customer_info.dart';
-import 'package:tamizshahr/screens/charity_screen.dart';
-import 'package:tamizshahr/screens/messages_screen.dart';
+import 'package:recycleorigin/provider/app_theme.dart';
+import 'package:recycleorigin/provider/customer_info.dart';
+import 'package:recycleorigin/screens/charity_screen.dart';
+import 'package:recycleorigin/screens/messages_screen.dart';
 
 import '../provider/auth.dart';
 import '../screens/about_us_screen.dart';

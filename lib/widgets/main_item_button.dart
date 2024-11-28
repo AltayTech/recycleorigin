@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/provider/app_theme.dart';
+import 'package:recycleorigin/provider/app_theme.dart';
 
 class MainItemButton extends StatelessWidget {
   const MainItemButton({
