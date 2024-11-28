@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:tamizshahr/core/logic/en_to_ar_number_convertor.dart';
+import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 
 import '../models/article/article.dart';
 import '../core/theme/app_theme.dart';

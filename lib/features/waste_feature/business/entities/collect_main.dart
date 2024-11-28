@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/request_waste_item.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 
 import '../../../../models/search_detail.dart';
 

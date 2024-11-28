@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/core/widgets/buton_bottom.dart';
+import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
 import '../../../../models/customer.dart';
 import '../../business/entities/product_cart.dart';

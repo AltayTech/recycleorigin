@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/core/logic/en_to_ar_number_convertor.dart';
+import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../features/store_feature/business/entities/shop.dart';
