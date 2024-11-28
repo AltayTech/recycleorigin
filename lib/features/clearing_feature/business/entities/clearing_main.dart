@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../core/models/search_detail.dart';
+import '../../../../core/models/search_detail.dart';
 import 'clearing.dart';
 
 class ClearingMain with ChangeNotifier {

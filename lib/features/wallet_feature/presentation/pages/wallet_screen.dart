@@ -7,7 +7,7 @@ import 'package:recycleorigin/models/transaction.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';
-import 'package:recycleorigin/screens/clear_screen.dart';
+import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/transaction_item_transactions_screen.dart';
 
 import '../../../../core/models/search_detail.dart';

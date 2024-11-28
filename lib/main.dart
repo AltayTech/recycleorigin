@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
-import 'package:recycleorigin/provider/clearings.dart';
+import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_detail_screen.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';
-import 'package:recycleorigin/screens/clear_screen.dart';
+import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/donation_screen.dart';
 import 'package:recycleorigin/features/store_feature/presentation/screens/orders_screen.dart';

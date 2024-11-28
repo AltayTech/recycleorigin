@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:recycleorigin/models/clearing.dart';
-import 'package:recycleorigin/models/clearing_main.dart';
+import 'package:recycleorigin/features/clearing_feature/business/entities/clearing.dart';
+import 'package:recycleorigin/features/clearing_feature/business/entities/clearing_main.dart';
 
-import '../core/models/search_detail.dart';
-import '../core/constants/urls.dart';
+import '../../../../core/models/search_detail.dart';
+import '../../../../core/constants/urls.dart';
 
 class Clearings with ChangeNotifier {
   late String _token;
