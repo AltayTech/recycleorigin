@@ -8,7 +8,7 @@ import 'package:recycleorigin/features/customer_feature/presentation/providers/a
 import '../../core/models/search_detail.dart';
 import '../../core/theme/app_theme.dart';
 import 'presentation/providers/wastes.dart';
-import '../../widgets/collect_item_collect_screen.dart';
+import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 import '../../core/logic/en_to_ar_number_convertor.dart';
 import '../../core/widgets/main_drawer.dart';
 import '../customer_feature/presentation/screens/login_screen.dart';
