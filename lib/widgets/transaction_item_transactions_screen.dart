@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tamizshahr/models/transaction.dart';
-import 'package:tamizshahr/provider/app_theme.dart';
+import 'package:tamizshahr/core/theme/app_theme.dart';
 
-import 'en_to_ar_number_convertor.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 
 class TransactionItemTransactionsScreen extends StatelessWidget {
   @override
