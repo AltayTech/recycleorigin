@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../models/product_order_send.dart';
+import '../features/store_feature/business/entities/product_order_send.dart';
 
 class OrderSendDetails with ChangeNotifier {
   final String total_price;

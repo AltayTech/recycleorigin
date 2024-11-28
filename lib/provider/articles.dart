@@ -7,7 +7,7 @@ import 'package:recycleorigin/models/article/article_main.dart';
 import '../models/article/article.dart';
 import '../models/category.dart';
 import '../models/search_detail.dart';
-import 'urls.dart';
+import '../core/constants/urls.dart';
 
 class Articles with ChangeNotifier {
   List<Article> _articleItems = [];

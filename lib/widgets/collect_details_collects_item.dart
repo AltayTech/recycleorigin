@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:recycleorigin/models/request/collect.dart';
+import 'package:tamizshahr/features/waste_feature/business/entities/collect.dart';
+import 'package:tamizshahr/features/waste_feature/business/entities/price_weight.dart';
 
-import '../models/request/price_weight.dart';
-import '../provider/app_theme.dart';
-import 'en_to_ar_number_convertor.dart';
+import '../core/theme/app_theme.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 
 class CollectDetailsCollectItem extends StatefulWidget {
   final Collect collectItem;

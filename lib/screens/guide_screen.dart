@@ -3,10 +3,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 
-import '../models/shop.dart';
-import '../provider/app_theme.dart';
-import '../provider/customer_info.dart';
-import '../widgets/main_drawer.dart';
+import '../features/store_feature/business/entities/shop.dart';
+import '../core/theme/app_theme.dart';
+import '../features/customer_feature/presentation/providers/customer_info.dart';
+import '../core/widgets/main_drawer.dart';
 
 class GuideScreen extends StatefulWidget {
   static const routeName = '/guideScreen';

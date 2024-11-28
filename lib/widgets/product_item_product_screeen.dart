@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
-import '../models/product.dart';
-import '../provider/Products.dart';
-import '../provider/app_theme.dart';
-import '../screens/product_detail_screen.dart';
-import 'en_to_ar_number_convertor.dart';
+import '../features/store_feature/business/entities/product.dart';
+import '../features/store_feature/presentation/providers/Products.dart';
+import '../core/theme/app_theme.dart';
+import '../features/store_feature/presentation/screens/product_detail_screen.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
 
 class ProductItemProductScreen extends StatelessWidget {
   @override

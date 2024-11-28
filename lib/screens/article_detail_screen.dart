@@ -3,12 +3,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:recycleorigin/widgets/en_to_ar_number_convertor.dart';
+import 'package:tamizshahr/core/logic/en_to_ar_number_convertor.dart';
 
 import '../models/article/article.dart';
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 import '../provider/articles.dart';
-import '../widgets/main_drawer.dart';
+import '../core/widgets/main_drawer.dart';
 
 class ArticleDetailScreen extends StatefulWidget {
   static const routeName = '/articleDetailScreen';
