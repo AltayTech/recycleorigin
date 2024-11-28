@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import '../models/message.dart';
+import '../../business/entities/message.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/constants/urls.dart';
+import '../../../../core/constants/urls.dart';
 
 class Messages with ChangeNotifier {
   List<Message> _allMessages = [];

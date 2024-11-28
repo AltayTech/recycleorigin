@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
-import '../models/message.dart';
-import '../core/theme/app_theme.dart';
-import '../core/logic/en_to_ar_number_convertor.dart';
+import '../../business/entities/message.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
 class MessageReplyItem extends StatelessWidget {
   const MessageReplyItem({

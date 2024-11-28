@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../core/models/customer.dart';
-import '../models/message.dart';
-import '../core/theme/app_theme.dart';
-import '../features/customer_feature/presentation/providers/auth.dart';
-import '../features/customer_feature/presentation/providers/customer_info.dart';
-import '../provider/messages.dart';
-import '../core/widgets/main_drawer.dart';
+import '../../../../core/models/customer.dart';
+import '../../business/entities/message.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../providers/messages.dart';
+import '../../../../core/widgets/main_drawer.dart';
 
 class MessageCreateReplyScreen extends StatefulWidget {
   static const routeName = '/messageCreateReplyScreen';

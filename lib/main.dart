@@ -14,7 +14,7 @@ import 'package:recycleorigin/features/waste_feature/presentation/wastes_screen_
 
 import 'features/articles_feature/presentation/providers/articles.dart';
 import 'features/customer_feature/presentation/providers/auth.dart';
-import './provider/messages.dart';
+import 'features/meassage_feature/presentation/providers/messages.dart';
 import 'features/waste_feature/presentation/providers/wastes.dart';
 import './screens/about_us_screen.dart';
 import 'features/waste_feature/presentation/address_screen.dart';
@@ -27,7 +27,7 @@ import 'features/customer_feature/presentation/screens/customer_orders_screen.da
 import 'features/customer_feature/presentation/screens/customer_user_info_screen.dart';
 import 'features/home_feature/presentation/home_screen.dart';
 import './screens/map_screen.dart';
-import './screens/messages_create_screen.dart';
+import 'features/meassage_feature/presentation/pages/messages_create_screen.dart';
 import 'core/screens/navigation_bottom_screen.dart';
 import 'features/store_feature/presentation/screens/order_products_send_screen.dart';
 import 'features/waste_feature/presentation/waste_cart_screen.dart';
@@ -42,9 +42,9 @@ import 'features/customer_feature/presentation/screens/customer_detail_info_edit
 import 'features/customer_feature/presentation/screens/login_screen.dart';
 import 'features/customer_feature/presentation/screens/profile_screen.dart';
 import 'screens/guide_screen.dart';
-import 'screens/message_detail_screen.dart';
-import 'screens/messages_create_reply_screen.dart';
-import 'screens/messages_screen.dart';
+import 'features/meassage_feature/presentation/pages/message_detail_screen.dart';
+import 'features/meassage_feature/presentation/pages/messages_create_reply_screen.dart';
+import 'features/meassage_feature/presentation/pages/messages_screen.dart';
 import 'features/store_feature/presentation/screens/order_view_screen.dart';
 import 'features/store_feature/presentation/screens/product_detail_screen.dart';
 import 'features/store_feature/presentation/screens/product_screen.dart';

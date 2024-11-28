@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../models/message.dart';
-import '../core/theme/app_theme.dart';
-import '../features/customer_feature/presentation/providers/auth.dart';
-import '../provider/messages.dart';
-import '../screens/message_detail_screen.dart';
-import '../screens/messages_create_screen.dart';
-import '../core/widgets/main_drawer.dart';
+import '../../business/entities/message.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../customer_feature/presentation/providers/auth.dart';
+import '../providers/messages.dart';
+import 'message_detail_screen.dart';
+import 'messages_create_screen.dart';
+import '../../../../core/widgets/main_drawer.dart';
 import '../widgets/message_item.dart';
 
 class MessageScreen extends StatefulWidget {

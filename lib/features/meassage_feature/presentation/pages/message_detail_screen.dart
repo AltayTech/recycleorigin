@@ -4,13 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 
-import '../core/models/customer.dart';
-import '../models/message.dart';
-import '../core/theme/app_theme.dart';
-import '../features/customer_feature/presentation/providers/auth.dart';
-import '../features/customer_feature/presentation/providers/customer_info.dart';
-import '../provider/messages.dart';
-import '../core/widgets/main_drawer.dart';
+import '../../../../core/models/customer.dart';
+import '../../business/entities/message.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../providers/messages.dart';
+import '../../../../core/widgets/main_drawer.dart';
 import '../widgets/message_reply_item.dart';
 import 'messages_create_reply_screen.dart';
 
