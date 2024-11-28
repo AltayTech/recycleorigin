@@ -13,7 +13,7 @@ import '../../features/store_feature/presentation/screens/cart_screen.dart';
 import '../../features/contac_us_feature/presentation/pages/contact_with_us_screen.dart';
 import '../../features/customer_feature/presentation/screens/login_screen.dart';
 import '../../features/customer_feature/presentation/screens/profile_screen.dart';
-import '../../screens/guide_screen.dart';
+import '../../features/guid_feature/presentation/pages/guide_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
 import '../../features/store_feature/presentation/screens/product_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

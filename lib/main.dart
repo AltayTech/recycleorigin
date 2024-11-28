@@ -41,7 +41,7 @@ import 'features/waste_feature/collect_list_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_detail_info_edit_screen.dart';
 import 'features/customer_feature/presentation/screens/login_screen.dart';
 import 'features/customer_feature/presentation/screens/profile_screen.dart';
-import 'screens/guide_screen.dart';
+import 'features/guid_feature/presentation/pages/guide_screen.dart';
 import 'features/meassage_feature/presentation/pages/message_detail_screen.dart';
 import 'features/meassage_feature/presentation/pages/messages_create_reply_screen.dart';
 import 'features/meassage_feature/presentation/pages/messages_screen.dart';
