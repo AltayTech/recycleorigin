@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/models/belongs.dart';
-import 'package:tamizshahr/models/status.dart';
+import 'package:recycleorigin/models/belongs.dart';
+import 'package:recycleorigin/models/status.dart';
 
 class Transaction with ChangeNotifier {
   final int id;

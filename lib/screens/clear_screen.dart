@@ -4,22 +4,22 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/models/clearing.dart';
-import 'package:tamizshahr/models/customer.dart';
-import 'package:tamizshahr/provider/auth.dart';
-import 'package:tamizshahr/provider/clearings.dart';
-import 'package:tamizshahr/provider/customer_info.dart';
-import 'package:tamizshahr/widgets/buton_bottom.dart';
-import 'package:tamizshahr/widgets/clearing_item_clear_screen.dart';
-import 'package:tamizshahr/widgets/currency_input_formatter.dart';
-import 'package:tamizshahr/widgets/custom_dialog_send_request.dart';
+import 'package:recycleorigin/models/clearing.dart';
+import 'package:recycleorigin/models/customer.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
+import 'package:recycleorigin/provider/clearings.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
+import 'package:recycleorigin/core/widgets/buton_bottom.dart';
+import 'package:recycleorigin/widgets/clearing_item_clear_screen.dart';
+import 'package:recycleorigin/widgets/currency_input_formatter.dart';
+import 'package:recycleorigin/widgets/custom_dialog_send_request.dart';
 
 import '../models/search_detail.dart';
-import '../provider/app_theme.dart';
-import '../widgets/en_to_ar_number_convertor.dart';
-import '../widgets/main_drawer.dart';
-import 'customer_info/login_screen.dart';
-import 'navigation_bottom_screen.dart';
+import '../core/theme/app_theme.dart';
+import '../core/logic/en_to_ar_number_convertor.dart';
+import '../core/widgets/main_drawer.dart';
+import '../features/customer_feature/presentation/screens/login_screen.dart';
+import '../core/screens/navigation_bottom_screen.dart';
 
 class ClearScreen extends StatefulWidget {
   static const routeName = '/ClearScreen';

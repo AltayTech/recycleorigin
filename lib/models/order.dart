@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:tamizshahr/models/product_order_receive.dart';
-import 'package:tamizshahr/models/status.dart';
+import 'package:recycleorigin/features/store_feature/business/entities/product_order_receive.dart';
+import 'package:recycleorigin/models/status.dart';
 
 class Order with ChangeNotifier {
   final int id;

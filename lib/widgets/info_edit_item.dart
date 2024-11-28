@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../provider/app_theme.dart';
+import '../core/theme/app_theme.dart';
 
 class InfoEditItem extends StatelessWidget {
   const InfoEditItem(
