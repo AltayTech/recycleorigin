@@ -9,7 +9,7 @@ import 'package:recycleorigin/screens/clear_screen.dart';
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/donation_screen.dart';
 import 'package:recycleorigin/features/store_feature/presentation/screens/orders_screen.dart';
-import 'package:recycleorigin/screens/wallet_screen.dart';
+import 'package:recycleorigin/features/wallet_feature/presentation/pages/wallet_screen.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/wastes_screen_animated_list.dart';
 
 import 'features/articles_feature/presentation/providers/articles.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/screens/wallet_screen.dart';
+import 'package:recycleorigin/features/wallet_feature/presentation/pages/wallet_screen.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/widgets/main_item_button.dart';
 
