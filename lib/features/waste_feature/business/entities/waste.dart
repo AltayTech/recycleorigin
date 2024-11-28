@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:tamizshahr/models/featured_image.dart';
-import 'package:tamizshahr/models/status.dart';
+import 'package:recycleorigin/models/featured_image.dart';
+import 'package:recycleorigin/models/status.dart';
 
 import 'price_weight.dart';
 

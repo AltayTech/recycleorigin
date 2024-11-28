@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/request_waste_item.dart';
-import 'package:tamizshahr/features/customer_feature/presentation/providers/auth.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
 
 import '../../models/search_detail.dart';
 import '../../core/theme/app_theme.dart';

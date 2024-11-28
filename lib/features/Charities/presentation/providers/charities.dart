@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tamizshahr/features/Charities/business/entities/charity.dart';
-import 'package:tamizshahr/features/Charities/presentation/providers/charity_main.dart';
+import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
+import 'package:recycleorigin/features/Charities/presentation/providers/charity_main.dart';
 
 import '../../../../models/search_detail.dart';
 import '../../../../core/constants/urls.dart';

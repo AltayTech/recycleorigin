@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:tamizshahr/models/article/article_main.dart';
+import 'package:recycleorigin/models/article/article_main.dart';
 
 import '../models/article/article.dart';
 import '../models/category.dart';

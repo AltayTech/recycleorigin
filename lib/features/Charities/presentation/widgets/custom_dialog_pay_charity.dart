@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:tamizshahr/features/Charities/business/entities/charity.dart';
+import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';

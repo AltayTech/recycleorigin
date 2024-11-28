@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/collect.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/request_address.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/request_address.dart';
 
 
 class OrderProducts with ChangeNotifier {

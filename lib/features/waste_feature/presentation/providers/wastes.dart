@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/collect_main.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/request_waste.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/request_waste_item.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/waste.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/collect_main.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/request_waste.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/waste.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
 
 import '../../../../models/search_detail.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tamizshahr/models/sizes.dart';
+import 'package:recycleorigin/models/sizes.dart';
 
 import '../../../../models/social_media.dart';
 import '../../../../models/feature.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/screens/wallet_screen.dart';
-import 'package:tamizshahr/core/widgets/buton_bottom.dart';
-import 'package:tamizshahr/widgets/main_item_button.dart';
+import 'package:recycleorigin/screens/wallet_screen.dart';
+import 'package:recycleorigin/core/widgets/buton_bottom.dart';
+import 'package:recycleorigin/widgets/main_item_button.dart';
 
 import '../../store_feature/presentation/providers/Products.dart';
 import '../../../core/theme/app_theme.dart';

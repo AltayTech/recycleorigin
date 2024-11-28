@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/collect.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/collect_status.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/pasmand.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/collect_status.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/pasmand.dart';
 
 import '../../../../models/status.dart';
 

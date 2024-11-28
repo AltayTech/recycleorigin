@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/price_weight.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/wasteCart.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../providers/wastes.dart';

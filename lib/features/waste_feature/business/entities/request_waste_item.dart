@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/address.dart';
-import 'package:tamizshahr/models/driver.dart';
-import 'package:tamizshahr/features/waste_feature/business/entities/collect_status.dart';
-import 'package:tamizshahr/models/status.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/address.dart';
+import 'package:recycleorigin/models/driver.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/collect_status.dart';
+import 'package:recycleorigin/models/status.dart';
 
 
 import 'collect.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tamizshahr/models/sizes.dart';
+import 'package:recycleorigin/models/sizes.dart';
 
 import '../../../../models/category.dart';
 import '../../../../models/featured_image.dart';
