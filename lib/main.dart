@@ -21,7 +21,7 @@ import 'features/waste_feature/presentation/address_screen.dart';
 import 'features/articles_feature/presentation/pages/article_detail_screen.dart';
 import 'features/articles_feature/presentation/pages/article_screen.dart';
 import 'features/store_feature/presentation/screens/cart_screen.dart';
-import './screens/contact_with_us_screen.dart';
+import 'features/contac_us_feature/presentation/pages/contact_with_us_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_notification_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_orders_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_user_info_screen.dart';
