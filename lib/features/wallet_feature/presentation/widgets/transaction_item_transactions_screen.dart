@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/models/transaction.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 
-import '../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
 class TransactionItemTransactionsScreen extends StatelessWidget {
   @override

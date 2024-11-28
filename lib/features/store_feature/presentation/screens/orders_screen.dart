@@ -7,7 +7,7 @@ import 'package:recycleorigin/core/models/order.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
-import 'package:recycleorigin/widgets/order_item-orders_screen.dart';
+import 'package:recycleorigin/features/store_feature/presentation/widgets/order_item-orders_screen.dart';
 
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';

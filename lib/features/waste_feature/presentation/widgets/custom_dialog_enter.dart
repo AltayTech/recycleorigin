@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../core/theme/app_theme.dart';
-import '../features/customer_feature/presentation/screens/login_screen.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../customer_feature/presentation/screens/login_screen.dart';
 
 class CustomDialogEnter extends StatelessWidget {
   final String title, description, buttonText;

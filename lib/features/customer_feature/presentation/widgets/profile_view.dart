@@ -11,7 +11,7 @@ import '../providers/customer_info.dart';
 import '../screens/customer_user_info_screen.dart';
 import '../screens/login_screen.dart';
 import '../../../../screens/messages_screen.dart';
-import '../../../../widgets/main_item_button.dart';
+import '../../../../core/widgets/main_item_button.dart';
 
 class ProfileView extends StatefulWidget {
   @override

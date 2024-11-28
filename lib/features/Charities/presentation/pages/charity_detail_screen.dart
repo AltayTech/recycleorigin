@@ -9,7 +9,7 @@ import 'package:recycleorigin/features/customer_feature/presentation/providers/a
 import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/donation_screen.dart';
-import 'package:recycleorigin/widgets/custom_dialog_enter.dart';
+import 'package:recycleorigin/features/waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import 'package:recycleorigin/features/Charities/presentation/widgets/custom_dialog_pay_charity.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 

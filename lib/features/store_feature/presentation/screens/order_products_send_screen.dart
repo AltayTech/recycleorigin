@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
-import 'package:recycleorigin/widgets/custom_dialog_send_request.dart';
+import 'package:recycleorigin/core/widgets/custom_dialog_send_request.dart';
 
 import '../../../../core/models/customer.dart';
 import '../../business/entities/order_send_details.dart';

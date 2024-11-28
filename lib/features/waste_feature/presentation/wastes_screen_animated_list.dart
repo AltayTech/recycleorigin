@@ -12,7 +12,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../customer_feature/presentation/providers/auth.dart';
 import 'providers/wastes.dart';
 import 'wastes_screen.dart';
-import '../../../widgets/custom_dialog_enter.dart';
+import 'widgets/custom_dialog_enter.dart';
 import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../core/widgets/main_drawer.dart';
