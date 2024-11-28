@@ -3,9 +3,9 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
-import '../models/article/article.dart';
+import '../features/articles_feature/business/entities/article.dart';
 import '../core/theme/app_theme.dart';
-import '../screens/article_detail_screen.dart';
+import '../features/articles_feature/presentation/pages/article_detail_screen.dart';
 import '../core/logic/en_to_ar_number_convertor.dart';
 
 class ArticleItemArticlesScreen extends StatelessWidget {

@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:recycleorigin/models/article/article_main.dart';
+import 'package:recycleorigin/features/articles_feature/business/entities/article_main.dart';
 
-import '../models/article/article.dart';
-import '../models/category.dart';
-import '../models/search_detail.dart';
-import '../core/constants/urls.dart';
+import '../../business/entities/article.dart';
+import '../../../../models/category.dart';
+import '../../../../models/search_detail.dart';
+import '../../../../core/constants/urls.dart';
 
 class Articles with ChangeNotifier {
   List<Article> _articleItems = [];

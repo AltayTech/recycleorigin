@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigin/models/article/article_cat.dart';
+import 'package:recycleorigin/features/articles_feature/business/entities/article_cat.dart';
 
 
 class Article with ChangeNotifier {

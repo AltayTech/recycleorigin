@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../models/article/article.dart';
-import '../models/category.dart';
-import '../models/search_detail.dart';
-import '../core/theme/app_theme.dart';
-import '../provider/articles.dart';
-import '../widgets/article_item_article_screen.dart';
-import '../core/logic/en_to_ar_number_convertor.dart';
-import '../core/widgets/main_drawer.dart';
+import '../../business/entities/article.dart';
+import '../../../../models/category.dart';
+import '../../../../models/search_detail.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../providers/articles.dart';
+import '../../../../widgets/article_item_article_screen.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/widgets/main_drawer.dart';
 
 class ArticlesScreen extends StatefulWidget {
   static const routeName = '/articlesScreen';

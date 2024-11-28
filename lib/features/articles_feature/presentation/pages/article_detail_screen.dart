@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 
-import '../models/article/article.dart';
-import '../core/theme/app_theme.dart';
-import '../provider/articles.dart';
-import '../core/widgets/main_drawer.dart';
+import '../../business/entities/article.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../providers/articles.dart';
+import '../../../../core/widgets/main_drawer.dart';
 
 class ArticleDetailScreen extends StatefulWidget {
   static const routeName = '/articleDetailScreen';

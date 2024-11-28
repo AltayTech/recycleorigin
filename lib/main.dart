@@ -12,14 +12,14 @@ import 'package:recycleorigin/features/store_feature/presentation/screens/orders
 import 'package:recycleorigin/screens/wallet_screen.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/wastes_screen_animated_list.dart';
 
-import './provider/articles.dart';
+import 'features/articles_feature/presentation/providers/articles.dart';
 import 'features/customer_feature/presentation/providers/auth.dart';
 import './provider/messages.dart';
 import 'features/waste_feature/presentation/providers/wastes.dart';
 import './screens/about_us_screen.dart';
 import 'features/waste_feature/presentation/address_screen.dart';
-import './screens/article_detail_screen.dart';
-import './screens/article_screen.dart';
+import 'features/articles_feature/presentation/pages/article_detail_screen.dart';
+import 'features/articles_feature/presentation/pages/article_screen.dart';
 import 'features/store_feature/presentation/screens/cart_screen.dart';
 import './screens/contact_with_us_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_notification_screen.dart';

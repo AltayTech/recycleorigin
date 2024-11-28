@@ -7,7 +7,7 @@ import 'package:recycleorigin/widgets/main_item_button.dart';
 import '../../store_feature/presentation/providers/Products.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../customer_feature/presentation/providers/auth.dart';
-import '../../../screens/article_screen.dart';
+import '../../articles_feature/presentation/pages/article_screen.dart';
 import '../../waste_feature/collect_list_screen.dart';
 import '../../waste_feature/presentation/waste_cart_screen.dart';
 import '../../../core/widgets/custom_dialog.dart';
