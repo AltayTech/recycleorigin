@@ -748,16 +748,13 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                             },
                           ),
                         );
-                        if (_selectedDay == null) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(addToCartSnackBar);
-                        } else if (!isLogin) {
-                          _showLogindialog();
-                        } else {
-                          sendDate();
-                          Navigator.of(context)
-                              .pushNamed(WasteRequestSendScreen.routeName);
-                        }
+                        if (!isLogin) {
+                        _showLogindialog();
+                      } else {
+                        sendDate();
+                        Navigator.of(context)
+                            .pushNamed(WasteRequestSendScreen.routeName);
+                      }
                       },
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,
