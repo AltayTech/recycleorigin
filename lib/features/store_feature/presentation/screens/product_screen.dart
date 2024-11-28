@@ -32,7 +32,7 @@ class _ProductsScreenState extends State<ProductsScreen>
   var scaffoldKey;
   int page = 1;
 
-   SearchDetail productsDetail=SearchDetail();
+  SearchDetail productsDetail = SearchDetail();
 
   var sortValue = 'جدیدترین';
   List<String> sortValueList = ['جدیدترین', 'گرانترین', 'ارزانترین'];

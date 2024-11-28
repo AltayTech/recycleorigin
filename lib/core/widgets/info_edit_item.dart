@@ -4,8 +4,7 @@ import '../theme/app_theme.dart';
 
 class InfoEditItem extends StatelessWidget {
   const InfoEditItem(
-      {
-      required this.title,
+      {required this.title,
       required this.controller,
       required this.keybordType,
       required this.bgColor,
@@ -13,8 +12,7 @@ class InfoEditItem extends StatelessWidget {
       required this.thisFocusNode,
       required this.newFocusNode,
       this.maxLine = 1,
-      required this.fieldHeight})
-       ;
+      required this.fieldHeight});
 
   final String title;
   final TextEditingController controller;
@@ -46,7 +44,7 @@ class InfoEditItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(bottom:8.0),
+                padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
                   '$title : ',
                   style: TextStyle(
@@ -75,8 +73,6 @@ class InfoEditItem extends StatelessWidget {
                       fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 14.0,
                     ),
-
-
                     onFieldSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(newFocusNode),
                     focusNode: thisFocusNode,

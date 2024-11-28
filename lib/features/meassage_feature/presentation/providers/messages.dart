@@ -62,9 +62,7 @@ class Messages with ChangeNotifier {
 
         final url = commentPostId == '0'
             ? Urls.rootUrl + Urls.messageEndPoint
-            : Urls.rootUrl +
-                Urls.messageEndPoint +
-                '/$commentPostId';
+            : Urls.rootUrl + Urls.messageEndPoint + '/$commentPostId';
         debugPrint(url);
 
         final response = await get(Uri.parse(url), headers: {

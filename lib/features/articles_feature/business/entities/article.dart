@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/features/articles_feature/business/entities/article_cat.dart';
 
-
 class Article with ChangeNotifier {
   final int id;
   final String title;

@@ -26,7 +26,6 @@ class _GuideScreenState extends State<GuideScreen> {
 
   bool _isLoading = false;
 
-
   @override
   void didChangeDependencies() async {
     if (_isInit) {
@@ -154,7 +153,6 @@ class _GuideScreenState extends State<GuideScreen> {
                                 padding: const EdgeInsets.all(1.0),
                                 child: Card(
                                   child: ExpansionTile(
-
                                     title: Text(
                                       aboutInfotitle[index],
                                       style: TextStyle(

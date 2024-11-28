@@ -749,12 +749,12 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                           ),
                         );
                         if (!isLogin) {
-                        _showLogindialog();
-                      } else {
-                        sendDate();
-                        Navigator.of(context)
-                            .pushNamed(WasteRequestSendScreen.routeName);
-                      }
+                          _showLogindialog();
+                        } else {
+                          sendDate();
+                          Navigator.of(context)
+                              .pushNamed(WasteRequestSendScreen.routeName);
+                        }
                       },
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,

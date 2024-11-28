@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/waste.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
-
 import '../../../core/theme/app_theme.dart';
 import 'providers/wastes.dart';
 import '../../../core/widgets/main_drawer.dart';

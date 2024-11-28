@@ -188,9 +188,9 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                     Expanded(
                                       flex: 8,
                                       child: Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(shopData.support_phone,),
-
+                                        EnArConvertor().replaceArNumber(
+                                          shopData.support_phone,
+                                        ),
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontFamily: 'Iransans',

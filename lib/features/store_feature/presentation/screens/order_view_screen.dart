@@ -99,7 +99,6 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
         _payIsActive = false;
       }
       if (oDt.order_status_slug == 'cheque_ok') {
-
       } else {
         _uploadIsOk = false;
       }
@@ -422,7 +421,6 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                   )
                                 : Container(),
                           ),
-
                           InkWell(
                             onTap: () {
                               if (_payIsActive) {
@@ -528,7 +526,7 @@ class OrderProductItem extends StatelessWidget {
     required this.price,
     required this.color,
     required this.title,
-  }) ;
+  });
 
   final int id;
   final String number;

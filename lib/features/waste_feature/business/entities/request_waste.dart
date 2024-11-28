@@ -3,7 +3,6 @@ import 'package:recycleorigin/features/waste_feature/business/entities/collect.d
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_time.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_address.dart';
 
-
 class RequestWaste with ChangeNotifier {
   final CollectTime collect_date;
   final RequestAddress address_data;

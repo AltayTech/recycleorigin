@@ -142,8 +142,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Text(
             loadedProduct.price_without_discount.isNotEmpty
                 ? EnArConvertor().replaceArNumber(currencyFormat
-                    .format(
-                        double.parse(loadedProduct.price_without_discount))
+                    .format(double.parse(loadedProduct.price_without_discount))
                     .toString())
                 : EnArConvertor().replaceArNumber('0'),
             style: TextStyle(
@@ -170,7 +169,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ],
       );
     }
-      return null;
+    return null;
   }
 
   @override

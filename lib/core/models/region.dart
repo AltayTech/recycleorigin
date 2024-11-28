@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_hour.dart';
 
-
 class Region with ChangeNotifier {
   final int term_id;
   final String name;

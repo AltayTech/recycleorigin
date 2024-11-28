@@ -4,11 +4,11 @@ import 'package:recycleorigin/core/theme/app_theme.dart';
 class MainItemButton extends StatelessWidget {
   const MainItemButton({
     required this.title,
-     this.itemPaddingF=10,
+    this.itemPaddingF = 10,
     this.imageSizeFactor = 0.35,
-     this.imageUrl='',
+    this.imageUrl = '',
     this.isMonoColor = true,
-  }) ;
+  });
 
   final String title;
   final String imageUrl;

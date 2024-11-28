@@ -19,7 +19,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
   var _isLoading = false;
   var _isInit = true;
 
-  List<Message> messages=[];
+  List<Message> messages = [];
 
   List<String> aboutInfotitle = [];
 
@@ -56,12 +56,10 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
       _isLoading = true;
     });
 
-    debugPrint( 'subjectTextController.text');
-    debugPrint( subjectTextController.text);
+    debugPrint('subjectTextController.text');
+    debugPrint(subjectTextController.text);
     debugPrint(' contentTextController.text');
-    debugPrint( contentTextController.text);
-
-
+    debugPrint(contentTextController.text);
 
     await Provider.of<Messages>(context, listen: false)
         .createMessage(
@@ -181,7 +179,6 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                   fontSize: textScaleFactor * 15.0,
                                 ),
                                 textAlign: TextAlign.start,
-
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,

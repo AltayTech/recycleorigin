@@ -93,7 +93,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -140,7 +140,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
                         width: deviceWidth,
                         child: Text(

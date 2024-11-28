@@ -3,7 +3,6 @@ import 'package:recycleorigin/features/waste_feature/business/entities/price_wei
 import 'package:recycleorigin/core/models/featured_image.dart';
 import 'package:recycleorigin/core/models/status.dart';
 
-
 class WasteCart with ChangeNotifier {
   final int id;
   final String name;

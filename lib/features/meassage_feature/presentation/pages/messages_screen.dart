@@ -85,7 +85,7 @@ class _MessageScreenState extends State<MessageScreen> {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Container(
-            height: deviceHeight*0.9,
+            height: deviceHeight * 0.9,
             child: Stack(
               children: <Widget>[
                 SingleChildScrollView(
@@ -136,8 +136,8 @@ class _MessageScreenState extends State<MessageScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10.0, right: 10),
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10),
                                 child: Container(
                                     width: deviceWidth * 0.1,
                                     child: Image.asset(
@@ -194,7 +194,6 @@ class _MessageScreenState extends State<MessageScreen> {
                   bottom: 0,
                   left: 0,
                   right: 0,
-
                   child: Align(
                     alignment: Alignment.center,
                     child: _isLoading
@@ -203,18 +202,18 @@ class _MessageScreenState extends State<MessageScreen> {
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: index.isEven ? Colors.grey : Colors.grey,
+                                  color:
+                                      index.isEven ? Colors.grey : Colors.grey,
                                 ),
                               );
                             },
                           )
                         : Container(
-                      height: deviceHeight*0.7,
+                            height: deviceHeight * 0.7,
                             child: messages.isEmpty
                                 ? Center(
                                     child: Text(
                                     'سوالی وجود ندارد',
-
                                     style: TextStyle(
                                       fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 15.0,
