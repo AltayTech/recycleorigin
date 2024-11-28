@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
 
-import '../../models/search_detail.dart';
+import '../../core/models/search_detail.dart';
 import '../../core/theme/app_theme.dart';
 import 'presentation/providers/wastes.dart';
 import '../../widgets/collect_item_collect_screen.dart';

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/models/customer.dart';
-import 'package:recycleorigin/models/order.dart';
+import 'package:recycleorigin/core/models/customer.dart';
+import 'package:recycleorigin/core/models/order.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
 import 'package:recycleorigin/widgets/order_item-orders_screen.dart';
 
-import '../../../../models/search_detail.dart';
+import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/widgets/main_drawer.dart';

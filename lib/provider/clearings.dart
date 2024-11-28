@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:recycleorigin/models/clearing.dart';
 import 'package:recycleorigin/models/clearing_main.dart';
 
-import '../models/search_detail.dart';
+import '../core/models/search_detail.dart';
 import '../core/constants/urls.dart';
 
 class Clearings with ChangeNotifier {

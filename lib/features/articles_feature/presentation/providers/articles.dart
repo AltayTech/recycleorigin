@@ -5,8 +5,8 @@ import 'package:http/http.dart';
 import 'package:recycleorigin/features/articles_feature/business/entities/article_main.dart';
 
 import '../../business/entities/article.dart';
-import '../../../../models/category.dart';
-import '../../../../models/search_detail.dart';
+import '../../../../core/models/category.dart';
+import '../../../../core/models/search_detail.dart';
 import '../../../../core/constants/urls.dart';
 
 class Articles with ChangeNotifier {

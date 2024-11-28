@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 // import 'package:geolocator/geolocator.dart';
 
-import '../models/region.dart';
+import '../core/models/region.dart';
 import '../features/waste_feature/business/entities/address.dart';
 import '../core/theme/app_theme.dart';
 import '../features/customer_feature/presentation/providers/auth.dart';

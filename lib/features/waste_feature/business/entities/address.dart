@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/region.dart';
+import '../../../../core/models/region.dart';
 
 class Address with ChangeNotifier {
   final String name;

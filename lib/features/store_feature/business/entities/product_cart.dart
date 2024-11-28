@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../../models/color_code_card.dart';
-import '../../../../models/brandc.dart';
+import 'color_code_card.dart';
+import 'brandc.dart';
 
 class ProductCart with ChangeNotifier {
   final int id;

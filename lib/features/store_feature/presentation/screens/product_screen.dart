@@ -4,9 +4,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
-import '../../../../models/category.dart';
+import '../../../../core/models/category.dart';
 import '../../business/entities/product.dart';
-import '../../../../models/search_detail.dart';
+import '../../../../core/models/search_detail.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';

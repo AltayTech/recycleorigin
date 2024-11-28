@@ -11,7 +11,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/waste.dar
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
 
-import '../../../../models/search_detail.dart';
+import '../../../../core/models/search_detail.dart';
 import '../../../../core/constants/urls.dart';
 
 class Wastes with ChangeNotifier {

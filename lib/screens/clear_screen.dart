@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/models/clearing.dart';
-import 'package:recycleorigin/models/customer.dart';
+import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
 import 'package:recycleorigin/provider/clearings.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
@@ -13,7 +13,7 @@ import 'package:recycleorigin/widgets/clearing_item_clear_screen.dart';
 import 'package:recycleorigin/widgets/currency_input_formatter.dart';
 import 'package:recycleorigin/widgets/custom_dialog_send_request.dart';
 
-import '../models/search_detail.dart';
+import '../core/models/search_detail.dart';
 import '../core/theme/app_theme.dart';
 import '../core/logic/en_to_ar_number_convertor.dart';
 import '../core/widgets/main_drawer.dart';

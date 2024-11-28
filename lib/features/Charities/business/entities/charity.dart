@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/features/Charities/business/entities/charity_data.dart';
-import 'package:recycleorigin/models/featured_image.dart';
-import 'package:recycleorigin/models/status.dart';
+import 'package:recycleorigin/core/models/featured_image.dart';
+import 'package:recycleorigin/core/models/status.dart';
 
 class Charity with ChangeNotifier {
   final int id;

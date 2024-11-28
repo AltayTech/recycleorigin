@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:recycleorigin/models/sizes.dart';
+import 'package:recycleorigin/core/models/sizes.dart';
 
-import '../models/featured_image.dart';
+import '../../../../core/models/featured_image.dart';
 
 class DriverData with ChangeNotifier {
   final FeaturedImage driver_image;

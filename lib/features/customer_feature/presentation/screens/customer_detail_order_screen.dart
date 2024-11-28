@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
-import '../../../../models/customer.dart';
-import '../../../../models/order.dart';
+import '../../../../core/models/customer.dart';
+import '../../../../core/models/order.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../providers/customer_info.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';

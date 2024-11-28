@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/status.dart';
+import '../core/models/status.dart';
 
 class Clearing with ChangeNotifier {
   final int id;

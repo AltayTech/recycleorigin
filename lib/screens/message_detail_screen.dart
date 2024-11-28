@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 
-import '../models/customer.dart';
+import '../core/models/customer.dart';
 import '../models/message.dart';
 import '../core/theme/app_theme.dart';
 import '../features/customer_feature/presentation/providers/auth.dart';

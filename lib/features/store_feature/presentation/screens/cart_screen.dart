@@ -4,7 +4,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
-import '../../../../models/customer.dart';
+import '../../../../core/models/customer.dart';
 import '../../business/entities/product_cart.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';

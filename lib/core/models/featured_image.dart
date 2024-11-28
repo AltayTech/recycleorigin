@@ -1,4 +1,4 @@
-import '../models/sizes.dart';
+import 'sizes.dart';
 
 class FeaturedImage {
   final int id;

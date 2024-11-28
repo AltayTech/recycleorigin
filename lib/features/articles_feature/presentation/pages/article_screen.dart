@@ -3,8 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../business/entities/article.dart';
-import '../../../../models/category.dart';
-import '../../../../models/search_detail.dart';
+import '../../../../core/models/category.dart';
+import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../providers/articles.dart';
 import '../../../../widgets/article_item_article_screen.dart';

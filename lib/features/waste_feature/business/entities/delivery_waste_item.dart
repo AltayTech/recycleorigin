@@ -3,7 +3,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/collect.d
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_status.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/pasmand.dart';
 
-import '../../../../models/status.dart';
+import '../../../../core/models/status.dart';
 
 class DeliveryWasteItem with ChangeNotifier {
   final int id;

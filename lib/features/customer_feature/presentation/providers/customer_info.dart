@@ -4,17 +4,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:recycleorigin/models/city.dart';
-import 'package:recycleorigin/models/province.dart';
-import 'package:recycleorigin/models/search_detail.dart';
-import 'package:recycleorigin/models/status.dart';
+import 'package:recycleorigin/features/customer_feature/business/entities/city.dart';
+import 'package:recycleorigin/features/customer_feature/business/entities/province.dart';
+import 'package:recycleorigin/core/models/search_detail.dart';
+import 'package:recycleorigin/core/models/status.dart';
 import 'package:recycleorigin/models/transaction.dart';
-import 'package:recycleorigin/models/transaction_main.dart';
+import 'package:recycleorigin/features/customer_feature/business/entities/transaction_main.dart';
 
-import '../../../../models/customer.dart';
-import '../../../../models/order.dart';
+import '../../../../core/models/customer.dart';
+import '../../../../core/models/order.dart';
 import '../../../store_feature/business/entities/order_details.dart';
-import '../../../../models/personal_data.dart';
+import '../../business/entities/personal_data.dart';
 import '../../../store_feature/business/entities/shop.dart';
 import '../../../../core/constants/urls.dart';
 

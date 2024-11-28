@@ -12,8 +12,8 @@ import 'package:recycleorigin/features/waste_feature/business/entities/request_w
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
-import '../../../models/customer.dart';
-import '../../../models/region.dart';
+import '../../../core/models/customer.dart';
+import '../../../core/models/region.dart';
 import '../business/entities/address.dart';
 
 import '../../../core/theme/app_theme.dart';

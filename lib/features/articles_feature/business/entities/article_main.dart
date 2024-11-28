@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'article.dart';
-import '../../../../models/search_detail.dart';
+import '../../../../core/models/search_detail.dart';
 
 class ArticleMain with ChangeNotifier {
   final SearchDetail articlesDetail;

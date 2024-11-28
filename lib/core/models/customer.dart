@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../models/personal_data.dart';
+import '../../features/customer_feature/business/entities/personal_data.dart';
 import 'status.dart';
 
 class Customer with ChangeNotifier {

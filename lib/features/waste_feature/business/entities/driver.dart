@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigin/models/driver_data.dart';
-import 'package:recycleorigin/models/status.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/driver_data.dart';
+import 'package:recycleorigin/core/models/status.dart';
 
 class Driver with ChangeNotifier {
   final Status status;

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
-import 'package:recycleorigin/models/featured_image.dart';
-import 'package:recycleorigin/models/status.dart';
+import 'package:recycleorigin/core/models/featured_image.dart';
+import 'package:recycleorigin/core/models/status.dart';
 
 
 class WasteCart with ChangeNotifier {

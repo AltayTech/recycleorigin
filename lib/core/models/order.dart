@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:recycleorigin/features/store_feature/business/entities/product_order_receive.dart';
-import 'package:recycleorigin/models/status.dart';
+import 'package:recycleorigin/core/models/status.dart';
 
 class Order with ChangeNotifier {
   final int id;

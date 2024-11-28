@@ -4,7 +4,7 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
-import 'package:recycleorigin/models/customer.dart';
+import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
 import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';

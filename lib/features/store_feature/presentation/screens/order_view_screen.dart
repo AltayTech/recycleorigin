@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/theme/app_theme.dart';
-import '../../../../models/color_code.dart';
-import '../../../../models/gallery.dart';
+import '../../business/entities/color_code.dart';
+import '../../business/entities/gallery.dart';
 import '../../business/entities/order_details.dart';
 import '../../../customer_feature/presentation/providers/customer_info.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
