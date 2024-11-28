@@ -91,86 +91,83 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
-    if (loadedProduct != null) {
-      if (loadedProduct.price_without_discount == loadedProduct.price) {
-        return Text(
-          loadedProduct.price_without_discount.isNotEmpty
-              ? EnArConvertor().replaceArNumber(currencyFormat
-                  .format(double.parse(loadedProduct.price_without_discount))
-                  .toString())
-              : EnArConvertor().replaceArNumber('0'),
-          style: TextStyle(
-            color: AppTheme.black,
-            fontFamily: 'Iransans',
-            fontWeight: FontWeight.bold,
-            fontSize: textScaleFactor * 20,
-          ),
-          textAlign: TextAlign.center,
-        );
-      } else if (loadedProduct.price_without_discount == '0' ||
-          loadedProduct.price_without_discount.isEmpty) {
-        return Text(
-          loadedProduct.price.isNotEmpty
-              ? EnArConvertor().replaceArNumber(currencyFormat
-                  .format(double.parse(loadedProduct.price))
-                  .toString())
-              : EnArConvertor().replaceArNumber('0'),
-          style: TextStyle(
-            color: AppTheme.black,
-            fontFamily: 'Iransans',
-            fontWeight: FontWeight.bold,
-            fontSize: textScaleFactor * 20,
-          ),
-        );
-      } else if (loadedProduct.price == '0' || loadedProduct.price.isEmpty) {
-        return Text(
-          loadedProduct.price_without_discount.isNotEmpty
-              ? EnArConvertor().replaceArNumber(currencyFormat
-                  .format(double.parse(loadedProduct.price_without_discount))
-                  .toString())
-              : EnArConvertor().replaceArNumber('0'),
-          style: TextStyle(
-            color: AppTheme.black,
-            fontFamily: 'Iransans',
-            fontWeight: FontWeight.bold,
-            fontSize: textScaleFactor * 20,
-          ),
-        );
-      } else {
-        return Wrap(
-          direction: Axis.vertical,
-          children: <Widget>[
-            Text(
-              loadedProduct.price_without_discount.isNotEmpty
-                  ? EnArConvertor().replaceArNumber(currencyFormat
-                      .format(
-                          double.parse(loadedProduct.price_without_discount))
-                      .toString())
-                  : EnArConvertor().replaceArNumber('0'),
-              style: TextStyle(
-                decoration: TextDecoration.lineThrough,
-                decorationThickness: 2,
-                color: AppTheme.grey,
-                fontFamily: 'Iransans',
-                fontSize: textScaleFactor * 16,
-              ),
+    if (loadedProduct.price_without_discount == loadedProduct.price) {
+      return Text(
+        loadedProduct.price_without_discount.isNotEmpty
+            ? EnArConvertor().replaceArNumber(currencyFormat
+                .format(double.parse(loadedProduct.price_without_discount))
+                .toString())
+            : EnArConvertor().replaceArNumber('0'),
+        style: TextStyle(
+          color: AppTheme.black,
+          fontFamily: 'Iransans',
+          fontWeight: FontWeight.bold,
+          fontSize: textScaleFactor * 20,
+        ),
+        textAlign: TextAlign.center,
+      );
+    } else if (loadedProduct.price_without_discount == '0' ||
+        loadedProduct.price_without_discount.isEmpty) {
+      return Text(
+        loadedProduct.price.isNotEmpty
+            ? EnArConvertor().replaceArNumber(currencyFormat
+                .format(double.parse(loadedProduct.price))
+                .toString())
+            : EnArConvertor().replaceArNumber('0'),
+        style: TextStyle(
+          color: AppTheme.black,
+          fontFamily: 'Iransans',
+          fontWeight: FontWeight.bold,
+          fontSize: textScaleFactor * 20,
+        ),
+      );
+    } else if (loadedProduct.price == '0' || loadedProduct.price.isEmpty) {
+      return Text(
+        loadedProduct.price_without_discount.isNotEmpty
+            ? EnArConvertor().replaceArNumber(currencyFormat
+                .format(double.parse(loadedProduct.price_without_discount))
+                .toString())
+            : EnArConvertor().replaceArNumber('0'),
+        style: TextStyle(
+          color: AppTheme.black,
+          fontFamily: 'Iransans',
+          fontWeight: FontWeight.bold,
+          fontSize: textScaleFactor * 20,
+        ),
+      );
+    } else {
+      return Wrap(
+        direction: Axis.vertical,
+        children: <Widget>[
+          Text(
+            loadedProduct.price_without_discount.isNotEmpty
+                ? EnArConvertor().replaceArNumber(currencyFormat
+                    .format(double.parse(loadedProduct.price_without_discount))
+                    .toString())
+                : EnArConvertor().replaceArNumber('0'),
+            style: TextStyle(
+              decoration: TextDecoration.lineThrough,
+              decorationThickness: 2,
+              color: AppTheme.grey,
+              fontFamily: 'Iransans',
+              fontSize: textScaleFactor * 16,
             ),
-            Text(
-              loadedProduct.price.isNotEmpty
-                  ? EnArConvertor().replaceArNumber(currencyFormat
-                      .format(double.parse(loadedProduct.price))
-                      .toString())
-                  : EnArConvertor().replaceArNumber('0'),
-              style: TextStyle(
-                color: AppTheme.black,
-                fontFamily: 'Iransans',
-                fontWeight: FontWeight.bold,
-                fontSize: textScaleFactor * 20,
-              ),
+          ),
+          Text(
+            loadedProduct.price.isNotEmpty
+                ? EnArConvertor().replaceArNumber(currencyFormat
+                    .format(double.parse(loadedProduct.price))
+                    .toString())
+                : EnArConvertor().replaceArNumber('0'),
+            style: TextStyle(
+              color: AppTheme.black,
+              fontFamily: 'Iransans',
+              fontWeight: FontWeight.bold,
+              fontSize: textScaleFactor * 20,
             ),
-          ],
-        );
-      }
+          ),
+        ],
+      );
     }
     return null;
   }

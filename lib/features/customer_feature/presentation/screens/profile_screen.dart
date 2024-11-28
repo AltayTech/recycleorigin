@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/customer.dart';
+import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../widgets/profile_view.dart';

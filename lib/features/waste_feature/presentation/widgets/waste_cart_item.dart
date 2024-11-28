@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
-
 import '../../../../core/theme/app_theme.dart';
 import '../providers/wastes.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';

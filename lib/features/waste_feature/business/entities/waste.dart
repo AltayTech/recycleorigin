@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:recycleorigin/models/featured_image.dart';
-import 'package:recycleorigin/models/status.dart';
+import 'package:recycleorigin/core/models/featured_image.dart';
+import 'package:recycleorigin/core/models/status.dart';
 
 import 'price_weight.dart';
 

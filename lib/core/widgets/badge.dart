@@ -4,9 +4,9 @@ class Badge extends StatelessWidget {
   const Badge({
     required this.child,
     required this.value,
-    this.color=Colors.black12,
-    this.textColor=Colors.black54,
-  }) ;
+    this.color = Colors.black12,
+    this.textColor = Colors.black54,
+  });
 
   final Widget child;
   final String value;

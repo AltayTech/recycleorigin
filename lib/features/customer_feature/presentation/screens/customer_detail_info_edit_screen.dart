@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/models/status.dart';
+import 'package:recycleorigin/core/models/status.dart';
 
-import '../../../../models/customer.dart';
-import '../../../../models/personal_data.dart';
+import '../../../../core/models/customer.dart';
+import '../../business/entities/personal_data.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../providers/customer_info.dart';
-import '../../../../widgets/info_edit_item.dart';
+import '../../../../core/widgets/info_edit_item.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'customer_user_info_screen.dart';
 

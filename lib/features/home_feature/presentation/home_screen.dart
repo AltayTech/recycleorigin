@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/screens/wallet_screen.dart';
+import 'package:recycleorigin/features/wallet_feature/presentation/pages/wallet_screen.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
-import 'package:recycleorigin/widgets/main_item_button.dart';
+import 'package:recycleorigin/core/widgets/main_item_button.dart';
 
 import '../../store_feature/presentation/providers/Products.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../customer_feature/presentation/providers/auth.dart';
-import '../../../screens/article_screen.dart';
+import '../../articles_feature/presentation/pages/article_screen.dart';
 import '../../waste_feature/collect_list_screen.dart';
 import '../../waste_feature/presentation/waste_cart_screen.dart';
 import '../../../core/widgets/custom_dialog.dart';

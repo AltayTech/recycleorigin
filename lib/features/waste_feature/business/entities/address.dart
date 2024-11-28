@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/region.dart';
+import '../../../../core/models/region.dart';
 
 class Address with ChangeNotifier {
   final String name;
@@ -10,11 +10,11 @@ class Address with ChangeNotifier {
   final String longitude;
 
   Address({
-     this.name='',
-     this.address='',
+    this.name = '',
+    this.address = '',
     required this.region,
-     this.latitude='0.0',
-     this.longitude='0.0',
+    this.latitude = '0.0',
+    this.longitude = '0.0',
   });
 
   factory Address.fromJson(Map<String, dynamic> parsedJson) {
@@ -31,7 +31,8 @@ class Address with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic>? region = this.region != null ? this.region.toJson() : null;
+    Map<String, dynamic>? region =
+        this.region != null ? this.region.toJson() : null;
 
     return {
       'name': name,

@@ -1,11 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/connection/http_exception.dart';
-import '../../../store_feature/presentation/providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../providers/auth.dart';
 import '../../../../core/widgets/main_drawer.dart';

@@ -76,13 +76,14 @@ class CustomDialogProfile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   child: InkWell(
                     onTap: () {
-                       Navigator.of(context).popAndPushNamed(ProfileScreen.routeName);
+                      Navigator.of(context)
+                          .popAndPushNamed(ProfileScreen.routeName);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.06,
                       width: MediaQuery.of(context).size.width * 0.4,
                       decoration: BoxDecoration(
-                        color:AppTheme.primary,
+                        color: AppTheme.primary,
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Center(
