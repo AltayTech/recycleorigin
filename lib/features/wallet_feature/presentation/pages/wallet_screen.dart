@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/customer.dart';
-import 'package:recycleorigin/models/transaction.dart';
+import 'package:recycleorigin/core/models/transaction.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';

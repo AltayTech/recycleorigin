@@ -8,7 +8,7 @@ import 'package:recycleorigin/features/customer_feature/business/entities/city.d
 import 'package:recycleorigin/features/customer_feature/business/entities/province.dart';
 import 'package:recycleorigin/core/models/search_detail.dart';
 import 'package:recycleorigin/core/models/status.dart';
-import 'package:recycleorigin/models/transaction.dart';
+import 'package:recycleorigin/core/models/transaction.dart';
 import 'package:recycleorigin/features/customer_feature/business/entities/transaction_main.dart';
 
 import '../../../../core/models/customer.dart';

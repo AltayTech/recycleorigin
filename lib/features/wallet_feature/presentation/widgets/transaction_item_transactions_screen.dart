@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/models/transaction.dart';
+import 'package:recycleorigin/core/models/transaction.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
