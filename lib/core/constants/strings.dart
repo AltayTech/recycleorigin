@@ -1,15 +1,12 @@
 class Strings {
-  static const appTitle = 'Tapsalon';
+  static const appTitle = 'Recycle Origin';
 
   // NavigationBotton title
-  static const navHome = 'خانه';
-  static const navShop = 'فروشگاه';
-  static const navRequest = 'درخواست ها';
-  static const navProfile = 'پروفایل';
-  static const navReservse = 'رزروها';
+  static const navHome = 'Home';
+  static const navShop = 'Store';
+  static const navRequest = 'My Request ';
+  static const navProfile = 'Profile';
+  static const navReservse = 'Reservation';
 
-  // mainTopic title
-  static const titlClubs = 'باشگاه ها';
-  static const titleSalons = 'سالن های ورزشی';
-  static const titleEntertainment = 'مجموعه های تفریحی';
+
 }

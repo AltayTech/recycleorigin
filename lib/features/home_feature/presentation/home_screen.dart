@@ -114,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
+
                 Navigator.of(context).pushNamed(
                   WasteCartScreen.routeName,
                 );
