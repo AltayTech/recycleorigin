@@ -53,7 +53,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
       backgroundColor: AppTheme.white,
       appBar: AppBar(
         title: Text(
-          'درباره ما',
+          'About us',
           style: TextStyle(
             color: AppTheme.bg,
             fontFamily: 'Iransans',
