@@ -127,7 +127,7 @@ class CashPaymentProductItem extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Text(
-                      'تعداد: ' + EnArConvertor().replaceArNumber('1'),
+                      'Number: ' + EnArConvertor().replaceArNumber('1'),
                       style: TextStyle(
                         color: Colors.grey,
                         fontFamily: 'Iransans',
@@ -176,7 +176,7 @@ class CashPaymentProductItem extends StatelessWidget {
                   Spacer(),
                   priceWidget(),
                   Text(
-                    ' تومان ',
+                    ' \$ ',
                     style: TextStyle(
                       color: Colors.redAccent,
                       fontFamily: 'Iransans',

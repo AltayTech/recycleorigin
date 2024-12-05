@@ -124,7 +124,7 @@ class _CardItemState extends State<CardItem> {
                                     child: Text(
                                       widget.shoppItem.title != null
                                           ? widget.shoppItem.title
-                                          : 'ندارد',
+                                          : 'Not',
                                       style: TextStyle(
                                         color: AppTheme.black,
                                         fontWeight: FontWeight.w600,
@@ -269,7 +269,7 @@ class _CardItemState extends State<CardItem> {
                                               ),
                                             ),
                                             Text(
-                                              '  تومان ',
+                                              '  \$ ',
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 fontFamily: 'Iransans',
