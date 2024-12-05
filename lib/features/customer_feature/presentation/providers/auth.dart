@@ -48,6 +48,10 @@ class Auth with ChangeNotifier {
   String get token => _token;
   Map<String, String> headers = {};
 
+
+
+  /// ////////////////////////////////////////////////////////////////////////////
+  /// login or sign up with phone number
   Future<bool> _authenticate(String urlSegment) async {
     debugPrint('_authenticate');
 
@@ -131,6 +135,67 @@ class Auth with ChangeNotifier {
     );
 
     notifyListeners();
+  }
+
+  // //////////////////////////////////////////////////////////////////////////
+
+  /// //////////////////////////////////////////////////////////////////////////
+  ///  sing up or login with email and password
+  Future<bool> emailAuth(String email,String password) async {
+    debugPrint('_authenticate');
+
+    final url = Urls.rootUrl + Urls.loginEndPoint + email;
+    debugPrint(url);
+
+    try {
+      final response = await http.post(Uri.parse(url), headers: headers);
+      updateCookie(response);
+
+      final responseData = json.decode(response.body);
+      debugPrint(responseData);
+
+      if (responseData != 'false') {
+        try {
+          _token = responseData['token'];
+          _isFirstLogin = true;
+
+          final prefs = await SharedPreferences.getInstance();
+          final userData = json.encode(
+            {
+              'token': _token,
+            },
+          );
+          prefs.setString('userData', userData);
+          prefs.setString('token', _token);
+          debugPrint(_token);
+          prefs.setString('isLogin', 'true');
+          _isLoggedin = true;
+        } catch (error) {
+          _isLoggedin = false;
+          final prefs = await SharedPreferences.getInstance();
+          final userData = json.encode(
+            {
+              'token': '',
+            },
+          );
+          _token = '';
+        }
+      } else {
+        final prefs = await SharedPreferences.getInstance();
+        _isLoggedin = false;
+
+        _token = '';
+        prefs.setString('token', _token);
+        debugPrint(_token);
+        debugPrint('noooo token');
+        prefs.setString('isLogin', 'true');
+      }
+      notifyListeners();
+    } catch (error) {
+      debugPrint(error.toString());
+      throw error;
+    }
+    return _isLoggedin;
   }
 
   Future<void> checkCompleted() async {

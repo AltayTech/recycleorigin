@@ -27,7 +27,9 @@
   "guids":"Guids",
   "contactus":"Contact Us",
   "aboutus":"About Us",
-  "logout":"Logout"
+  "logout":"Logout",
+  "kilogram": "Kilogram",
+  "price_unit": "$"
 
 
 
