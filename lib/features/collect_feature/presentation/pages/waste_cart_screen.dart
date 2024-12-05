@@ -6,16 +6,16 @@ import 'package:recycleorigin/features/waste_feature/business/entities/price_wei
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
-import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/auth.dart';
-import 'providers/wastes.dart';
-import 'wastes_screen.dart';
-import 'widgets/custom_dialog_enter.dart';
-import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
-import '../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../core/widgets/main_drawer.dart';
-import 'widgets/waste_cart_item.dart';
-import 'address_screen.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../waste_feature/presentation/providers/wastes.dart';
+import '../../../waste_feature/presentation/wastes_screen.dart';
+import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
+import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/widgets/main_drawer.dart';
+import '../../../waste_feature/presentation/widgets/waste_cart_item.dart';
+import '../../../waste_feature/presentation/address_screen.dart';
 
 class WasteCartScreen extends StatefulWidget {
   static const routeName = '/waste_cart_screen';

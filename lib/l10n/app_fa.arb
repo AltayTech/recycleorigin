@@ -28,12 +28,8 @@
   "guids":"راهنما",
   "contactus":" تماس با ما",
   "aboutus":"  درباره ما",
-  "logout":"خروج"
-
-
-  
-  
-  
-
+  "logout":"خروج",
+  "kilogram": "کیلوگرم",
+  "price_unit": "تومان"
 
 }
