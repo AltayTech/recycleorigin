@@ -113,7 +113,7 @@ class _OrdersScreenState extends State<OrdersScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'سفارش ها',
+          'Orders',
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -139,7 +139,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('شما وارد نشده اید'),
+                            child: Text('You Are Not Login'),
                           ),
                           InkWell(
                             onTap: () {
@@ -150,7 +150,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: Text(
-                                  'ورود به اکانت کاربری',
+                                  'Enter to Profile',
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -183,7 +183,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      'سفارش ها',
+                                      'Orders',
                                       style: TextStyle(
                                         color: Colors.blueGrey,
                                         fontFamily: 'Iransans',
@@ -205,7 +205,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 3, vertical: 5),
                                             child: Text(
-                                              'تعداد:',
+                                              'Number:',
                                               style: TextStyle(
                                                 fontFamily: 'Iransans',
                                                 fontSize:
@@ -279,7 +279,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         child: loadedProductstolist.isEmpty
                                             ? Center(
                                                 child: Text(
-                                                'سفارشی وجود ندارد',
+                                                'Not Order',
                                                 style: TextStyle(
                                                   fontFamily: 'Iransans',
                                                   fontSize:
