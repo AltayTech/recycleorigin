@@ -357,7 +357,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           padding: EdgeInsets.only(
                                               bottom: textScaleFactor * 15.0),
                                           child: Text(
-                                            'تومان',
+                                            '\$',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Colors.grey,
@@ -408,7 +408,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         bool isExist = await isExistInCart(loadedProduct);
                         setState(() {});
                         if (loadedProduct.price.isEmpty) {
-                          _snackBarMessage = 'قیمت محصول صفر میباشد';
+                          _snackBarMessage = 'The Price is 0';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
                               _snackBarMessage,
@@ -419,7 +419,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             action: SnackBarAction(
-                              label: 'متوجه شدم',
+                              label: 'Ok',
                               onPressed: () {
                                 // Some code to undo the change.
                               },
@@ -428,7 +428,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(addToCartSnackBar);
                         } else if (isExist) {
-                          _snackBarMessage = 'محصول در سبد خرید موجود میباشد';
+                          _snackBarMessage = 'This product exist in the Shopping Card';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
                               _snackBarMessage,
@@ -439,7 +439,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             action: SnackBarAction(
-                              label: 'متوجه شدم',
+                              label: 'OK',
                               onPressed: () {
                                 // Some code to undo the change.
                               },
@@ -451,7 +451,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           await addToShoppingCart(loadedProduct, null);
 
                           _snackBarMessage =
-                              'محصول با موفقیت به سبد اضافه گردید!';
+                              'Added to Shopping Card';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
                               _snackBarMessage,
@@ -462,7 +462,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             action: SnackBarAction(
-                              label: 'متوجه شدم',
+                              label: 'OK',
                               onPressed: () {
                                 // Some code to undo the change.
                               },
@@ -475,7 +475,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,
                         height: deviceWidth * 0.14,
-                        text: 'اضافه به سبد خرید',
+                        text: 'Add to Shopping Card',
                         isActive: true,
                       ),
                     );
