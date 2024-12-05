@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
 
-import '../../../store_feature/presentation/providers/Products.dart';
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../store_feature/presentation/providers/Products.dart';
 
 class CollectItemCollectsScreen extends StatelessWidget {
   Widget getStatusIcon(String statusSlug) {
@@ -164,7 +165,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    'کیلوگرم',
+                                    AppLocalizations.of(context)!.kilogram,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -196,7 +197,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    ' تومان',
+                                    AppLocalizations.of(context)!.price_unit,
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
