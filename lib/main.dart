@@ -46,7 +46,7 @@ import 'features/waste_feature/collect_list_screen.dart';
 import 'features/waste_feature/presentation/address_screen.dart';
 import 'features/waste_feature/presentation/pages/map_screen.dart';
 import 'features/waste_feature/presentation/providers/wastes.dart';
-import 'features/waste_feature/presentation/waste_cart_screen.dart';
+import 'features/collect_feature/presentation/pages/waste_cart_screen.dart';
 import 'features/waste_feature/presentation/waste_request_date_screen.dart';
 import 'features/waste_feature/presentation/waste_request_send_screen.dart';
 import 'features/waste_feature/presentation/wastes_screen.dart';
