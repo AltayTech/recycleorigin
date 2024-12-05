@@ -79,7 +79,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                           Text(
                             widget.collectItem.pasmand.post_title != null
                                 ? widget.collectItem.pasmand.post_title
-                                : 'ندارد',
+                                : 'Not',
                             style: TextStyle(
                               color: AppTheme.black,
                               fontWeight: FontWeight.w700,
@@ -97,7 +97,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Text(
-                            'وزن کل (کیلوگرم): ',
+                            'Total weight(Kg): ',
                             style: TextStyle(
                               color: AppTheme.black.withOpacity(0.7),
                               fontWeight: FontWeight.w500,
@@ -118,7 +118,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'درخواست: ',
+                                  'Request: ',
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iransans',
@@ -145,7 +145,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'تحویل: ',
+                                  'Delivered: ',
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iransans',
@@ -176,7 +176,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'قیمت کل (تومان): ',
+                            'Total Price(\$): ',
                             style: TextStyle(
                               color: AppTheme.black.withOpacity(0.7),
                               fontWeight: FontWeight.w500,
@@ -197,7 +197,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'درخواست: ',
+                                  'Request: ',
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iransans',
@@ -225,7 +225,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'تحویل: ',
+                                  'Delivered: ',
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iransans',
