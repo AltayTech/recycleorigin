@@ -156,7 +156,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'مقالات',
+          'Articles',
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -191,7 +191,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
 
                                 _selectedCategoryIndexes.add(-1);
                                 _selectedCategoryId = 0;
-                                _selectedCategoryTitle.add('همه');
+                                _selectedCategoryTitle.add('All');
 
                                 changeCat(context);
                               },
@@ -214,7 +214,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 10),
                                     child: Text(
-                                      'همه',
+                                      'All',
                                       style: TextStyle(
                                         color: _selectedCategoryId == 0
                                             ? AppTheme.primary
@@ -317,7 +317,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 3, vertical: 5),
                                       child: Text(
-                                        'تعداد:',
+                                        'Number:',
                                         style: TextStyle(
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12.0,
@@ -343,7 +343,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 3, vertical: 5),
                                       child: Text(
-                                        'از',
+                                        'From',
                                         style: TextStyle(
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12.0,
@@ -410,7 +410,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                 child: loadedProductstolist.isEmpty
                                     ? Center(
                                         child: Text(
-                                        'محصولی وجود ندارد',
+                                        'No Product',
                                         style: TextStyle(
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 15.0,

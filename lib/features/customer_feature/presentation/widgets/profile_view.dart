@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/features/waste_feature/collect_list_screen.dart';
 import 'package:recycleorigin/features/store_feature/presentation/screens/orders_screen.dart';
+import 'package:recycleorigin/features/waste_feature/collect_list_screen.dart';
 
-import '../../../../core/widgets/top_bar.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/main_item_button.dart';
+import '../../../../core/widgets/top_bar.dart';
+import '../../../meassage_feature/presentation/pages/messages_screen.dart';
 import '../providers/auth.dart';
 import '../providers/customer_info.dart';
 import '../screens/customer_user_info_screen.dart';
 import '../screens/login_screen.dart';
-import '../../../meassage_feature/presentation/pages/messages_screen.dart';
-import '../../../../core/widgets/main_item_button.dart';
 
 class ProfileView extends StatefulWidget {
   @override
@@ -59,7 +60,7 @@ class _ProfileViewState extends State<ProfileView> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('شما وارد نشده اید'),
+                    child: Text(AppLocalizations.of(context)!.youarenotlogin),
                   ),
                   InkWell(
                     onTap: () {
@@ -69,7 +70,7 @@ class _ProfileViewState extends State<ProfileView> {
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Text(
-                          'ورود به اکانت کاربری',
+                          'Login',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -107,7 +108,6 @@ class _ProfileViewState extends State<ProfileView> {
                               top: deviceSizeHeight * 0,
                               width: deviceSizeWidth,
                               child: TopBar()),
-
                           Positioned(
                             top: deviceSizeHeight * 0.070,
                             right: 20,
@@ -115,51 +115,9 @@ class _ProfileViewState extends State<ProfileView> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-//                                InkWell(
-//                                  onTap: () async {
-//                                    Provider.of<CustomerInfo>(context,
-//                                            listen: false)
-//                                        .customer = Provider.of<CustomerInfo>(
-//                                            context,
-//                                            listen: false)
-//                                        .customer_zero;
-//                                    await Provider.of<Auth>(context,
-//                                            listen: false)
-//                                        .removeToken();
-//                                    Provider.of<Auth>(context, listen: false)
-//                                        .isFirstLogout = true;
-//                                    Navigator.of(context).pop();
-//                                    Navigator.of(context)
-//                                        .pushNamedAndRemoveUntil(
-//                                            NavigationBottomScreen.routeName,
-//                                            (Route<dynamic> route) => false);
-//                                  },
-//                                  child: Row(
-//                                    crossAxisAlignment:
-//                                        CrossAxisAlignment.center,
-//                                    children: <Widget>[
-////                                Padding(
-////                                  padding: const EdgeInsets.all(8),
-////                                  child: Icon(FontAwesomeIcons.signOutAlt,color: AppTheme.white,),
-////                                ),
-//                                      Padding(
-//                                        padding: const EdgeInsets.only(top: 4),
-//                                        child: Text(
-//                                          'خروج از حساب کاربری',
-//                                          textAlign: TextAlign.left,
-//                                          style: TextStyle(
-//                                              color: AppTheme.bg,
-//                                              fontFamily: 'Iransans',
-//                                              fontSize: textScaleFactor * 14,
-//                                              fontWeight: FontWeight.w600),
-//                                        ),
-//                                      ),
-//                                    ],
-//                                  ),
-//                                ),
                                 Spacer(),
                                 Text(
-                                  'پروفایل کاربری',
+                                  'Profile',
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                       color: AppTheme.bg,
@@ -170,7 +128,6 @@ class _ProfileViewState extends State<ProfileView> {
                               ],
                             ),
                           ),
-
                           Positioned(
                               top: deviceSizeHeight * 0.250,
                               right: 0,
@@ -188,7 +145,7 @@ class _ProfileViewState extends State<ProfileView> {
                                               OrdersScreen.routeName);
                                         },
                                         child: MainItemButton(
-                                          title: 'سفارش',
+                                          title: 'Order',
                                           itemPaddingF: itemPaddingF,
                                           imageUrl:
                                               'assets/images/orders_list.png',
@@ -202,7 +159,7 @@ class _ProfileViewState extends State<ProfileView> {
                                               CustomerUserInfoScreen.routeName);
                                         },
                                         child: MainItemButton(
-                                          title: 'اطلاعات شخصی',
+                                          title: 'Personal Info',
                                           itemPaddingF: itemPaddingF,
                                           imageUrl:
                                               'assets/images/user_Icon.png',
@@ -218,7 +175,7 @@ class _ProfileViewState extends State<ProfileView> {
                                               MessageScreen.routeName);
                                         },
                                         child: MainItemButton(
-                                          title: 'پیام ها',
+                                          title: 'Messages',
                                           itemPaddingF: itemPaddingF,
                                           imageUrl:
                                               'assets/images/message_icon.png',
@@ -232,7 +189,7 @@ class _ProfileViewState extends State<ProfileView> {
                                               CollectListScreen.routeName);
                                         },
                                         child: MainItemButton(
-                                          title: 'درخواست ها',
+                                          title: 'Requests',
                                           itemPaddingF: itemPaddingF,
                                           imageUrl:
                                               'assets/images/main_page_request_ic.png',
@@ -250,10 +207,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     ),
                                   ),
                                 ),
-                              )
-//
-                              ),
-//
+                              )),
                         ],
                       ),
                     ),

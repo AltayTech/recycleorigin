@@ -33,8 +33,8 @@ class _CollectListScreenState extends State<CollectListScreen>
 
   SearchDetail productsDetail = SearchDetail();
 
-  var sortValue = 'جدیدترین';
-  List<String> sortValueList = ['جدیدترین', 'گرانترین', 'ارزانترین'];
+  var sortValue = 'Newest';
+  List<String> sortValueList = ['Newest', 'Highest Price', 'Lowest Price'];
 
   @override
   void initState() {
@@ -141,7 +141,7 @@ class _CollectListScreenState extends State<CollectListScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'لیست درخواست ها',
+          'Request List',
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -164,7 +164,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text('شما وارد نشده اید'),
+                          child: Text('You are not Login'),
                         ),
                         InkWell(
                           onTap: () {
@@ -175,7 +175,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Text(
-                                'ورود به حساب کاربری',
+                                'Login',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
@@ -246,7 +246,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                       horizontal: 3,
                                                       vertical: 5),
                                                   child: Text(
-                                                    'تعداد:',
+                                                    'Number:',
                                                     style: TextStyle(
                                                       fontFamily: 'Iransans',
                                                       fontSize:
@@ -283,7 +283,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                       horizontal: 3,
                                                       vertical: 5),
                                                   child: Text(
-                                                    'از',
+                                                    'From',
                                                     style: TextStyle(
                                                       fontFamily: 'Iransans',
                                                       fontSize:
@@ -365,7 +365,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                   child: loadedProductstolist.isEmpty
                                       ? Center(
                                           child: Text(
-                                            'درخواستی ثبت نشده است',
+                                            'No Request',
                                             style: TextStyle(
                                               fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,

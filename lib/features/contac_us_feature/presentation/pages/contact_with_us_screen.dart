@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../store_feature/business/entities/shop.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/customer_info.dart';
 import '../../../../core/widgets/main_drawer.dart';
+import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../../../store_feature/business/entities/shop.dart';
 
 class ContactWithUs extends StatefulWidget {
   static const routeName = '/ContactWithUs';
@@ -49,12 +49,12 @@ class _ContactWithUsState extends State<ContactWithUs> {
         shopData.pay_methods_desc
       ];
       aboutInfotitle = [
-        'درباره فروشگاه',
-        'قوانین بازگردانی',
-        'حریم خصوصی',
-        'نحوه سفارش',
-        'سوالات متداول',
-        'شیوه پرداخت',
+        'About Store',
+        'Return policy',
+        'Privacy',
+        'How to Order',
+        'FQ',
+        'How to do payment',
       ];
     }
     _isInit = false;
@@ -85,7 +85,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
       backgroundColor: AppTheme.white,
       appBar: AppBar(
         title: Text(
-          'تماس با ما',
+          'Connect us',
           style: TextStyle(
             color: AppTheme.bg,
             fontFamily: 'Iransans',

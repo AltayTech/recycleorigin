@@ -30,6 +30,7 @@
   "aboutus":"  درباره ما",
   "logout":"خروج",
   "kilogram": "کیلوگرم",
-  "price_unit": "تومان"
+  "price_unit": "تومان",
+  "youarenotlogin": "شما وارد نشده اید"
 
 }
