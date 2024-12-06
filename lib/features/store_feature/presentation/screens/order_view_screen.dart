@@ -163,7 +163,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                        'وضعیت سفارش: ',
+                                        'Order Status: ',
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontFamily: 'Iransans',
@@ -198,7 +198,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'شماره سفارش: ',
+                                            'Order Number: ',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontFamily: 'Iransans',
@@ -222,7 +222,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'تاریخ ایجاد سفارش: ',
+                                            'Order Date: ',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontFamily: 'Iransans',
@@ -247,7 +247,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'قیمت کل: ',
+                                            'Total Price: ',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontFamily: 'Iransans',
@@ -264,7 +264,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                                                 orderDetails
                                                                     .total_cost)))
                                                     .toString() +
-                                                ' تومان',
+                                                ' \$',
                                             style: TextStyle(
                                               color: AppTheme.black,
                                               fontFamily: 'Iransans',
@@ -278,7 +278,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'نوع پرداخت: ',
+                                            'Payment Type: ',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontFamily: 'Iransans',
@@ -302,7 +302,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'وضعیت پرداخت: ',
+                                            'Payment Status: ',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontFamily: 'Iransans',
@@ -326,7 +326,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'پیش پرداخت: ',
+                                            'Prepay: ',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontFamily: 'Iransans',
@@ -344,7 +344,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                                                     orderDetails
                                                                         .pish)))
                                                         .toString() +
-                                                    ' تومان'
+                                                    ' \$'
                                                 : '-',
                                             style: TextStyle(
                                               color: AppTheme.black,
@@ -363,7 +363,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'لیست محصولات',
+                              'Product List',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'Iransans',
@@ -428,7 +428,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                               } else {
                                 SnackBar addToCartSnackBar = SnackBar(
                                   content: Text(
-                                    'این مرحله برای شما فعال نگردیده است!',
+                                    'This is not active for you!',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Iransans',
@@ -436,7 +436,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                     ),
                                   ),
                                   action: SnackBarAction(
-                                    label: 'متوجه شدم',
+                                    label: 'OK',
                                     onPressed: () {
                                       // Some code to undo the change.
                                     },
@@ -485,7 +485,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                         padding: const EdgeInsets.only(
                                             top: 5.0, left: 10),
                                         child: Text(
-                                          'پرداخت',
+                                          'Payment',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'Iransans',
@@ -577,7 +577,7 @@ class OrderProductItem extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: Text(
-                          'تعداد: ' +
+                          'Number: ' +
                               EnArConvertor()
                                   .replaceArNumber(number)
                                   .toString(),
@@ -631,7 +631,7 @@ class OrderProductItem extends StatelessWidget {
                         flex: 4,
                         child: Text(
                           '${price.toString().isNotEmpty ? EnArConvertor().replaceArNumber(currencyFormat.format(double.parse(price))).toString() : '0'}' +
-                              ' تومان',
+                              ' \$',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: 'Iransans',
@@ -673,13 +673,13 @@ class PopupImagePicker extends StatelessWidget {
               InkWell(
                 onTap: () {},
                 child: Wrap(
-                  children: <Widget>[Icon(Icons.camera), Text('دوربین')],
+                  children: <Widget>[Icon(Icons.camera), Text('Camera')],
                 ),
               ),
               InkWell(
                 onTap: () {},
                 child: Wrap(
-                  children: <Widget>[Icon(Icons.image), Text('گالری')],
+                  children: <Widget>[Icon(Icons.image), Text('Gallary')],
                 ),
               )
             ],
