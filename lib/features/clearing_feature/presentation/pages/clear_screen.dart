@@ -94,8 +94,8 @@ class _ClearScreenState extends State<ClearScreen>
       context: context,
       builder: (ctx) => CustomDialogSendRequest(
         title: '',
-        buttonText: 'خب',
-        description: 'درخواست شما با موفقیت ثبت شد',
+        buttonText: 'Ok',
+        description: 'Your Request registered Successfully',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -160,7 +160,7 @@ class _ClearScreenState extends State<ClearScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'درخواست تسویه',
+          'Pay',
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -190,7 +190,7 @@ class _ClearScreenState extends State<ClearScreen>
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('شما وارد نشده اید'),
+                                child: Text('You are not logged in'),
                               ),
                               InkWell(
                                 onTap: () {
@@ -201,7 +201,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: Text(
-                                      'ورود به حساب کاربری',
+                                      'Login',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
@@ -344,7 +344,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                 MainAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
-                                                'امتیاز(تومان)',
+                                                'Credit(\$)',
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
                                                   fontFamily: 'Iransans',
@@ -396,7 +396,7 @@ class _ClearScreenState extends State<ClearScreen>
                                       padding: const EdgeInsets.only(
                                           top: 16, bottom: 8),
                                       child: Text(
-                                        'شماره شبا',
+                                        'Account Number',
                                         style: TextStyle(
                                           color: AppTheme.h1,
                                           fontFamily: 'Iransans',
@@ -444,7 +444,7 @@ class _ClearScreenState extends State<ClearScreen>
                                       padding: const EdgeInsets.only(
                                           top: 16, bottom: 8),
                                       child: Text(
-                                        'مقدار درخواستی(تومان)',
+                                        'Request amount(\$)',
                                         style: TextStyle(
                                           color: AppTheme.h1,
                                           fontFamily: 'Iransans',
@@ -502,7 +502,7 @@ class _ClearScreenState extends State<ClearScreen>
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Text(
-                                            'لیست درخواست های تسویه',
+                                            'Payment List',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.black
@@ -533,7 +533,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                           horizontal: 3,
                                                           vertical: 5),
                                                       child: Text(
-                                                        'تعداد:',
+                                                        'Number:',
                                                         style: TextStyle(
                                                           fontFamily:
                                                               'Iransans',
@@ -574,7 +574,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                           horizontal: 3,
                                                           vertical: 5),
                                                       child: Text(
-                                                        'از',
+                                                        'From',
                                                         style: TextStyle(
                                                           fontFamily:
                                                               'Iransans',
@@ -628,7 +628,7 @@ class _ClearScreenState extends State<ClearScreen>
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                'وضعیت',
+                                                'Status',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
@@ -644,7 +644,7 @@ class _ClearScreenState extends State<ClearScreen>
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                'تاریخ',
+                                                'Date',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
@@ -660,7 +660,7 @@ class _ClearScreenState extends State<ClearScreen>
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                'مبلغ(تومان)',
+                                                'Price (\$)',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
@@ -699,7 +699,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   onTap: () async {
                                     SnackBar addToCartSnackBar = SnackBar(
                                       content: Text(
-                                        'شماره شبا را وارد نمایید',
+                                        'Enter Credit number',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'Iransans',
@@ -707,7 +707,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         ),
                                       ),
                                       action: SnackBarAction(
-                                        label: 'متوجه شدم',
+                                        label: 'Understand',
                                         onPressed: () {
                                           // Some code to undo the change.
                                         },
@@ -721,7 +721,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         double.parse(customer.money)) {
                                       SnackBar addToCartSnackBar = SnackBar(
                                         content: Text(
-                                          'مقدار درخواستی از امتیاز شما بیشتر است',
+                                          'Your Request amount is exceed',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'Iransans',
@@ -729,7 +729,7 @@ class _ClearScreenState extends State<ClearScreen>
                                           ),
                                         ),
                                         action: SnackBarAction(
-                                          label: 'متوجه شدم',
+                                          label: 'Ok',
                                           onPressed: () {
                                             // Some code to undo the change.
                                           },
@@ -753,7 +753,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: ButtonBottom(
                                     width: deviceWidth * 0.9,
                                     height: deviceWidth * 0.14,
-                                    text: 'تسویه',
+                                    text: 'Pay',
                                     isActive: true,
                                   ),
                                 ),
