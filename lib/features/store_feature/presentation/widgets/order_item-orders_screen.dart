@@ -139,7 +139,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  'تعداد:',
+                                  'Number:',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.right,
@@ -181,7 +181,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  ' تومان',
+                                  ' \$',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.right,

@@ -168,7 +168,7 @@ class ProductItemProductScreen extends StatelessWidget {
                                   children: <Widget>[
                                     FittedBox(child: priceWidget()),
                                     Text(
-                                      'تومان',
+                                      '\$',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: AppTheme.grey,

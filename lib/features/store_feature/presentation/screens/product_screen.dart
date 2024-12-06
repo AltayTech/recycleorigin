@@ -34,8 +34,8 @@ class _ProductsScreenState extends State<ProductsScreen>
 
   SearchDetail productsDetail = SearchDetail();
 
-  var sortValue = 'جدیدترین';
-  List<String> sortValueList = ['جدیدترین', 'گرانترین', 'ارزانترین'];
+  var sortValue = 'Newest';
+  List<String> sortValueList = ['Newest', 'High Price', 'Low Price'];
 
   List<int> _selectedCategoryIndexs = [];
   int _selectedCategoryId = 0;
@@ -171,7 +171,7 @@ class _ProductsScreenState extends State<ProductsScreen>
         backgroundColor: Color(0xffF9F9F9),
         appBar: AppBar(
           title: Text(
-            'محصولات',
+            'Products',
             style: TextStyle(
               fontFamily: 'Iransans',
             ),
@@ -228,7 +228,7 @@ class _ProductsScreenState extends State<ProductsScreen>
 
                                 _selectedCategoryIndexs.add(-1);
                                 _selectedCategoryId = 0;
-                                _selectedCategoryTitle.add('همه');
+                                _selectedCategoryTitle.add('All');
 
                                 changeCat(context);
 
@@ -254,7 +254,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 10),
                                     child: Text(
-                                      'همه',
+                                      'All',
                                       style: TextStyle(
                                         color: _selectedCategoryId == 0
                                             ? AppTheme.primary
@@ -378,7 +378,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                         setState(() {
                                           sortValue = newValue!;
 
-                                          if (sortValue == 'گرانترین') {
+                                          if (sortValue == 'High Price') {
                                             Provider.of<Products>(context,
                                                     listen: false)
                                                 .sOrder = 'desc';
@@ -392,7 +392,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                             loadedProductstolist.clear();
 
                                             searchItems();
-                                          } else if (sortValue == 'ارزانترین') {
+                                          } else if (sortValue == 'Low Price') {
                                             Provider.of<Products>(context,
                                                     listen: false)
                                                 .sOrder = 'asc';
@@ -467,7 +467,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 3, vertical: 5),
                                         child: Text(
-                                          'تعداد:',
+                                          'Number:',
                                           style: TextStyle(
                                             fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 12.0,
@@ -494,7 +494,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 3, vertical: 5),
                                         child: Text(
-                                          'از',
+                                          'From',
                                           style: TextStyle(
                                             fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 12.0,
@@ -567,7 +567,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                               child: loadedProductstolist.isEmpty
                                   ? Center(
                                       child: Text(
-                                      'محصولی وجود ندارد',
+                                      'No Product',
                                       style: TextStyle(
                                         fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
