@@ -58,7 +58,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                           ),
                         ),
                         Text(
-                          'تعداد ',
+                          'Number ',
                           style: TextStyle(
                             color: Colors.grey,
                             fontFamily: 'Iransans',
@@ -72,7 +72,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'سفارش ها',
+                      'Orders',
                       style: TextStyle(
                         color: Colors.blueGrey,
                         fontFamily: 'Iransans',
@@ -163,7 +163,7 @@ class OrderItem extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Text(
-                    'شماره سفارش: ' + number,
+                    'Order No.: ' + number,
                     style: TextStyle(
                       color: AppTheme.h1,
                       fontFamily: 'Iransans',
@@ -216,7 +216,7 @@ class OrderItem extends StatelessWidget {
                                   .replaceArNumber(currencyFormat
                                       .format(double.parse(totalPrice)))
                                   .toString() +
-                              ' تومان',
+                              ' \$',
                           style: TextStyle(
                             color: AppTheme.primary,
                             fontFamily: 'Iransans',
@@ -236,7 +236,7 @@ class OrderItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'تعداد: ',
+                          'Number: ',
                           style: TextStyle(
                             color: Colors.grey,
                             fontFamily: 'Iransans',
@@ -255,7 +255,7 @@ class OrderItem extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          'مشاهده جزئیات',
+                          'Details',
                           style: TextStyle(
                             color: AppTheme.secondary,
                             fontFamily: 'Iransans',

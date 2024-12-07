@@ -126,7 +126,7 @@ class _CustomerDetailInfoEditScreenState
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'اطلاعات شخص',
+                            'Personal Info',
                             style: TextStyle(
                               color: AppTheme.black,
                               fontFamily: 'Iransans',
@@ -140,7 +140,7 @@ class _CustomerDetailInfoEditScreenState
                               shrinkWrap: true,
                               children: <Widget>[
                                 InfoEditItem(
-                                  title: 'نام',
+                                  title: 'Name',
                                   controller: nameController,
                                   bgColor: AppTheme.bg,
                                   iconColor: Color(0xffA67FEC),
@@ -150,7 +150,7 @@ class _CustomerDetailInfoEditScreenState
                                   newFocusNode: FocusNode(),
                                 ),
                                 InfoEditItem(
-                                  title: 'نام خانوادگی',
+                                  title: 'Last Name',
                                   controller: familyController,
                                   bgColor: AppTheme.bg,
                                   iconColor: Color(0xffA67FEC),
@@ -162,7 +162,7 @@ class _CustomerDetailInfoEditScreenState
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: Text(
-                                    'نوع کاربر:',
+                                    'User type:',
                                     style: TextStyle(
                                       color: AppTheme.black,
                                       fontFamily: 'Iransans',
@@ -189,7 +189,7 @@ class _CustomerDetailInfoEditScreenState
                                             right: 8.0, left: 8, top: 6),
                                         child: DropdownButton<String>(
                                           hint: Text(
-                                            'نوع کاربر',
+                                            'User Type',
                                             style: TextStyle(
                                               color: AppTheme.grey,
                                               fontFamily: 'Iransans',
@@ -259,7 +259,7 @@ class _CustomerDetailInfoEditScreenState
                               shrinkWrap: true,
                               children: <Widget>[
                                 InfoEditItem(
-                                  title: 'استان',
+                                  title: 'Province',
                                   controller: ostanController,
                                   bgColor: AppTheme.bg,
                                   iconColor: Color(0xff4392F1),
@@ -269,7 +269,7 @@ class _CustomerDetailInfoEditScreenState
                                   newFocusNode: FocusNode(),
                                 ),
                                 InfoEditItem(
-                                  title: 'شهر',
+                                  title: 'City',
                                   controller: cityController,
                                   bgColor: AppTheme.bg,
                                   iconColor: Color(0xff4392F1),
@@ -279,7 +279,7 @@ class _CustomerDetailInfoEditScreenState
                                   newFocusNode: FocusNode(),
                                 ),
                                 InfoEditItem(
-                                  title: 'کدپستی',
+                                  title: 'Zipcode',
                                   controller: postCodeController,
                                   bgColor: AppTheme.bg,
                                   iconColor: Color(0xff4392F1),
@@ -310,7 +310,7 @@ class _CustomerDetailInfoEditScreenState
           builder: (context) => FloatingActionButton(
             onPressed: () {
               setState(() {});
-              var _snackBarMessage = 'اطلاعات ویرایش شد.';
+              var _snackBarMessage = 'Information Changed';
               final addToCartSnackBar = SnackBar(
                 content: Text(
                   _snackBarMessage,
