@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 18.0, vertical: 30),
                         child: Text(
-                          'سامانه مدیریت پسماند',
+                          'Recycle Origin',
                           style: TextStyle(
                             fontFamily: 'BFarnaz',
                             fontWeight: FontWeight.w900,
@@ -156,11 +156,11 @@ class _AuthCardState extends State<AuthCard>
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('مشکل در ورود'),
+        title: Text('Problem in Authentication'),
         content: Text(message),
         actions: <Widget>[
           TextButton(
-            child: Text('تایید'),
+            child: Text('Accept'),
             onPressed: () {
               Navigator.of(ctx).pop();
             },
@@ -209,11 +209,11 @@ class _AuthCardState extends State<AuthCard>
           Navigator.of(context)
               .pushReplacementNamed(NavigationBottomScreen.routeName);
         } else {
-          _showErrorDialog('کد وارد شده صحیح نمیباشد');
+          _showErrorDialog('Code is not correct');
         }
       }
     } on HttpException catch (error) {
-      var errorMessage = 'ارتباط برقرار نشد.';
+      var errorMessage = 'Authentication failed';
       if (error.toString().contains('EMAIL_EXISTS')) {
         errorMessage = 'This email address is already in use.';
       } else if (error.toString().contains('INVALID_EMAIL')) {
@@ -227,7 +227,7 @@ class _AuthCardState extends State<AuthCard>
       }
       _showErrorDialog(errorMessage);
     } catch (error) {
-      const errorMessage = 'ارتباط برقرار نشد، لطفا دوباره تلاش کنید.';
+      const errorMessage = 'Could not authenticate you. Please try again later';
       _showErrorDialog(errorMessage);
     }
 
@@ -292,7 +292,7 @@ class _AuthCardState extends State<AuthCard>
                           padding: const EdgeInsets.only(bottom: 15.0),
                           child: Center(
                             child: Text(
-                              'کد دریافتی را وارد نمایید',
+                              'Enter the verification code sent to your phone',
                               style: TextStyle(
                                 color: AppTheme.h1,
                                 fontFamily: 'Iransans',
@@ -316,7 +316,7 @@ class _AuthCardState extends State<AuthCard>
                             padding: const EdgeInsets.only(bottom: 15.0),
                             child: Center(
                               child: Text(
-                                'برای ورود شماره تلفن همراه را وارد نمایید',
+                                'Enter your phone number to get the verification code',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.black54,
