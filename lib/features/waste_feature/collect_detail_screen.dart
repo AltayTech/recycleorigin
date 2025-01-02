@@ -109,7 +109,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                           Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Text(
-                              'مشخصات راننده',
+                              'Driver Info',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -211,7 +211,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                         Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            'پلاک',
+                                            'plate Number',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -253,7 +253,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                         Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
-                                            'رنگ',
+                                            'Color',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -306,7 +306,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        'وضعیت',
+                                        'Status',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -345,7 +345,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        'تاریخ درخواست',
+                                        'Request Date',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -386,7 +386,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        'ساعت درخواست',
+                                        'Request Time',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -427,7 +427,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        'منطقه درخواست',
+                                        'Region Request',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -469,7 +469,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        'تاریخ جمع آوری',
+                                        'Collect Date',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -492,7 +492,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             ? EnArConvertor().replaceArNumber(
                                                 loadedCollect.collect_date
                                                     .collect_done_time)
-                                            : 'جمع آوری نشده است',
+                                            : 'Not Collected',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -529,7 +529,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                     top: 10,
                                   ),
                                   child: Text(
-                                    'مبلغ کل (تومان):',
+                                    'Total(\$)',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -550,7 +550,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            'درخواست:',
+                                            'Request:',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -594,7 +594,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            'تحویل:',
+                                            'Deliver:',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -640,7 +640,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: Text(
-                                    'وزن کل (کیلوگرم):',
+                                    'Total Weight(Kg):',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -661,7 +661,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            'درخواست:',
+                                            'Request:',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -705,7 +705,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            'تحویل:',
+                                            'Deliver:',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -753,7 +753,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                     top: 10,
                                   ),
                                   child: Text(
-                                    'تعداد کل:',
+                                    'Total Number:',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -774,7 +774,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            'درخواست:',
+                                            'Request:',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -820,7 +820,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                           Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: Text(
-                                              'تحویل:',
+                                              'Deliver:',
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -870,7 +870,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 15.0),
                         child: Text(
-                          'لیست پسماندها:',
+                          'Wastes List:',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -903,7 +903,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       ),
                                     )
                                   : Center(
-                                      child: Text('پسماندی اضافه نشده است'),
+                                      child: Text('No Waste'),
                                     ),
                         ),
                       ),

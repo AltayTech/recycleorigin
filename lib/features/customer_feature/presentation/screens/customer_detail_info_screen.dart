@@ -92,7 +92,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                             ),
                           ),
                           Text(
-                            'اطلاعات شخصی',
+                            'Personal Info',
                             style: TextStyle(
                               color: AppTheme.h1,
                               fontFamily: 'Iransans',
@@ -109,7 +109,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              'مشخصات',
+                              'Info',
                               style: TextStyle(
                                 color: AppTheme.black,
                                 fontFamily: 'Iransans',
@@ -132,7 +132,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                                       size: 16,
                                     ),
                                     Text(
-                                      ' ویرایش',
+                                      ' Edit',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Iransans',
@@ -151,19 +151,19 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                             shrinkWrap: true,
                             children: <Widget>[
                               InfoItem(
-                                title: 'نام',
+                                title: 'Name',
                                 text: customer.personalData.first_name,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xffA67FEC),
                               ),
                               InfoItem(
-                                title: 'نام خانوادگی',
+                                title: 'Last Name',
                                 text: customer.personalData.last_name,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xffA67FEC),
                               ),
                               InfoItem(
-                                title: 'نوع کاربر',
+                                title: 'User Type',
                                 text: customer.customer_type.name,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xffA67FEC),
@@ -180,13 +180,13 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                             shrinkWrap: true,
                             children: <Widget>[
                               InfoItem(
-                                title: 'ایمیل',
+                                title: 'Email',
                                 text: customer.personalData.email,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xffA67FEC),
                               ),
                               InfoItem(
-                                title: 'استان',
+                                title: 'Province',
                                 text: customer.personalData.ostan != null
                                     ? customer.personalData.ostan
                                     : '',
@@ -194,7 +194,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                                 iconColor: Color(0xff4392F1),
                               ),
                               InfoItem(
-                                title: 'شهر',
+                                title: 'City',
                                 text: customer.personalData.city != null
                                     ? customer.personalData.city
                                     : '',
@@ -202,7 +202,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                                 iconColor: Color(0xff4392F1),
                               ),
                               InfoItem(
-                                title: 'کدپستی',
+                                title: 'Zip Code',
                                 text: customer.personalData.postcode != null
                                     ? customer.personalData.postcode
                                     : '',

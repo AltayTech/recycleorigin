@@ -6,16 +6,16 @@ import 'package:recycleorigin/features/waste_feature/business/entities/price_wei
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
-import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/auth.dart';
-import 'providers/wastes.dart';
-import 'wastes_screen.dart';
-import 'widgets/custom_dialog_enter.dart';
-import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
-import '../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../core/widgets/main_drawer.dart';
-import 'widgets/waste_cart_item.dart';
-import 'address_screen.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../waste_feature/presentation/providers/wastes.dart';
+import '../../../waste_feature/presentation/wastes_screen.dart';
+import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
+import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/widgets/main_drawer.dart';
+import '../../../waste_feature/presentation/widgets/waste_cart_item.dart';
+import '../../../waste_feature/presentation/address_screen.dart';
 
 class WasteCartScreen extends StatefulWidget {
   static const routeName = '/waste_cart_screen';
@@ -38,9 +38,9 @@ class _WasteCartScreenState extends State<WasteCartScreen>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه لطفا وارد شوید',
+        title: 'Login',
+        buttonText: 'Login page ',
+        description: 'Please Login for continue',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -50,9 +50,9 @@ class _WasteCartScreenState extends State<WasteCartScreen>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'اطلاعات کاربری',
-        buttonText: 'صفحه پروفایل ',
-        description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        title: 'User Information',
+        buttonText: 'Profile ',
+        description: 'Please complete the information for continue',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -161,7 +161,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
         title: Text(
-          'انتخاب پسماند ',
+          'Waste selection ',
           style: TextStyle(
             color: AppTheme.white,
             fontFamily: 'Iransans',
@@ -223,7 +223,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                         ),
                                       ),
                                       Text(
-                                        'تعداد',
+                                        'Number',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -276,7 +276,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                         },
                                       ),
                                       Text(
-                                        'تومان ',
+                                        '\$ ',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -320,7 +320,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                       ),
                                       FittedBox(
                                         child: Text(
-                                          'کیلوگرم ',
+                                          'Kilogram',
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
@@ -364,7 +364,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                 : Container(
                                     height: deviceHeight * 0.6,
                                     child: Center(
-                                      child: Text('لطفا پسماندی اضافه کنید'),
+                                      child: Text('Please add waste'),
                                     ),
                                   ),
                           ),
@@ -383,7 +383,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                       onTap: () {
                         SnackBar addToCartSnackBar = SnackBar(
                           content: Text(
-                            'لطفا پسماندی اضافه کنید',
+                            'Please add waste',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Iransans',
@@ -391,7 +391,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                             ),
                           ),
                           action: SnackBarAction(
-                            label: 'متوجه شدم',
+                            label: 'Ok',
                             onPressed: () {
                               // Some code to undo the change.
                             },
@@ -414,7 +414,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                       child: ButtonBottom(
                         width: deviceWidth * 0.75,
                         height: deviceWidth * 0.14,
-                        text: 'ادامه',
+                        text: 'Continue',
                         isActive: wasteCartItems.isNotEmpty,
                       ),
                     ),

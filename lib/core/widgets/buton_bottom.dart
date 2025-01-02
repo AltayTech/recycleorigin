@@ -39,15 +39,18 @@ class ButtonBottom extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Iransans',
-            fontSize: textScaleFactor * 18.0,
-            fontWeight: FontWeight.w600,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Iransans',
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
       ),
     );
