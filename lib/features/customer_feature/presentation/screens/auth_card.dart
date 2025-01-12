@@ -216,7 +216,7 @@ class _AuthCardState extends State<AuthCard>
                           padding: const EdgeInsets.only(bottom: 15.0),
                           child: Center(
                             child: Text(
-                              'Enter the verification code sent to your phone',
+                              'Enter your password',
                               style: TextStyle(
                                 color: AppTheme.h1,
                                 fontFamily: 'Iransans',
@@ -235,21 +235,22 @@ class _AuthCardState extends State<AuthCard>
                     child: FadeTransition(
                       opacity: _opacityAnimation1,
                       child: SlideTransition(
-                          position: _slideAnimation1,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 15.0),
-                            child: Center(
-                              child: Text(
-                                'Enter your phone number to get the verification code',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 11.0,
-                                ),
+                        position: _slideAnimation1,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 15.0),
+                          child: Center(
+                            child: Text(
+                              'Enter your Email',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontFamily: 'Iransans',
+                                fontSize: textScaleFactor * 11.0,
                               ),
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -409,8 +410,8 @@ class _AuthCardState extends State<AuthCard>
                       child: ElevatedButton(
                         child: Text(
                           _authMode == AuthMode.Login
-                              ? 'ورود'
-                              : 'دریافت کد تایید',
+                              ? 'Login'
+                              : 'Confirmation Code',
                           style: TextStyle(
                             color: AppTheme.bg,
                             fontFamily: 'Iransans',
@@ -441,7 +442,7 @@ class _AuthCardState extends State<AuthCard>
                     position: _slideAnimation,
                     child: TextButton(
                       child: Text(
-                        'اصلاح شماره تلفن',
+                        'Change the Email',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Iransans',

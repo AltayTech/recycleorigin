@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/screens/auth_card.dart';
 
-import '../../../../core/connection/http_exception.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../providers/auth.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../../core/screens/navigation_bottom_screen.dart';
 
 enum AuthMode { VerificationCode, Login }
 
