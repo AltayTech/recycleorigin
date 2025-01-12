@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../store_feature/business/entities/shop.dart';
-import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_theme.dart';
@@ -35,8 +35,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false).fetchShopData();
-    shopData = Provider.of<CustomerInfo>(context, listen: false).shop;
+    await Provider.of<CustomerInfoProvider>(context, listen: false)
+        .fetchShopData();
+    shopData = Provider.of<CustomerInfoProvider>(context, listen: false).shop;
 
     setState(() {
       _isLoading = false;

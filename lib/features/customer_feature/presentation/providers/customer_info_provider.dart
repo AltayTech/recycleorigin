@@ -18,7 +18,7 @@ import '../../business/entities/personal_data.dart';
 import '../../../store_feature/business/entities/shop.dart';
 import '../../../../core/constants/urls.dart';
 
-class CustomerInfo with ChangeNotifier {
+class CustomerInfoProvider with ChangeNotifier {
   String _payUrl = '';
 
   late int _currentOrderId;

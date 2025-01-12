@@ -4,8 +4,8 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/models/order.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
 import 'package:recycleorigin/features/store_feature/presentation/widgets/order_item-orders_screen.dart';
 
@@ -68,9 +68,11 @@ class _OrdersScreenState extends State<OrdersScreen>
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+      await Provider.of<CustomerInfoProvider>(context, listen: false)
+          .getCustomer();
     }
   }
 
@@ -101,7 +103,7 @@ class _OrdersScreenState extends State<OrdersScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<Auth>(context).isAuth;
+    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -193,7 +195,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                     ),
                                   ),
                                   Spacer(),
-                                  Consumer<CustomerInfo>(
+                                  Consumer<CustomerInfoProvider>(
                                       builder: (_, Wastes, ch) {
                                     return Wrap(
                                         alignment: WrapAlignment.start,

@@ -8,7 +8,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../business/entities/color_code.dart';
 import '../../business/entities/gallery.dart';
 import '../../business/entities/order_details.dart';
-import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'product_detail_screen.dart';
@@ -49,11 +49,12 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false)
+    await Provider.of<CustomerInfoProvider>(context, listen: false)
         .payCashOrder(orderId);
 
     print(_isLoading.toString());
-    var payUrl = await Provider.of<CustomerInfo>(context, listen: false).payUrl;
+    var payUrl =
+        await Provider.of<CustomerInfoProvider>(context, listen: false).payUrl;
     _launchURL(payUrl);
     setState(() {
       _isLoading = false;
@@ -75,7 +76,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false)
+    await Provider.of<CustomerInfoProvider>(context, listen: false)
         .getOrderDetails(orderId);
 
     setState(() {
@@ -123,7 +124,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
-    orderDetails = Provider.of<CustomerInfo>(context, listen: false).getOrder();
+    orderDetails =
+        Provider.of<CustomerInfoProvider>(context, listen: false).getOrder();
     checkStatus(orderDetails);
 
     return Scaffold(
@@ -388,7 +390,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                   );
                                 }),
                           ),
-                          Consumer<CustomerInfo>(
+                          Consumer<CustomerInfoProvider>(
                             builder: (_, products, ch) => _imageList.isNotEmpty
                                 ? Container(
                                     child: ListView.builder(

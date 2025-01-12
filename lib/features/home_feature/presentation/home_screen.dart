@@ -6,7 +6,7 @@ import 'package:recycleorigin/core/widgets/main_item_button.dart';
 
 import '../../store_feature/presentation/providers/Products.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/auth.dart';
+import '../../customer_feature/presentation/providers/authentication_provider.dart';
 import '../../articles_feature/presentation/pages/article_screen.dart';
 import '../../waste_feature/collect_list_screen.dart';
 import '../../collect_feature/presentation/pages/waste_cart_screen.dart';
@@ -30,21 +30,25 @@ class _HomeScreenState extends State<HomeScreen> {
       _isInit = false;
       Provider.of<Products>(context, listen: false).retrieveCategory();
 
-      Provider.of<Auth>(context, listen: false).getToken();
+      Provider.of<AuthenticationProvider>(context, listen: false).getToken();
 
       bool _isFirstLogin =
-          Provider.of<Auth>(context, listen: false).isFirstLogin;
+          Provider.of<AuthenticationProvider>(context, listen: false)
+              .isFirstLogin;
       if (_isFirstLogin) {
         _showLoginDialog(context);
       }
       bool _isFirstLogout =
-          Provider.of<Auth>(context, listen: false).isFirstLogout;
+          Provider.of<AuthenticationProvider>(context, listen: false)
+              .isFirstLogout;
       if (_isFirstLogout) {
         _showLoginDialogExit(context);
-        Provider.of<Auth>(context, listen: false).isFirstLogout = false;
+        Provider.of<AuthenticationProvider>(context, listen: false)
+            .isFirstLogout = false;
       }
 
-      Provider.of<Auth>(context, listen: false).isFirstLogin = false;
+      Provider.of<AuthenticationProvider>(context, listen: false).isFirstLogin =
+          false;
     }
     _isInit = false;
 
@@ -114,7 +118,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-
                 Navigator.of(context).pushNamed(
                   WasteCartScreen.routeName,
                 );

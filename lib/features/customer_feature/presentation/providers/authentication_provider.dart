@@ -11,7 +11,7 @@ import '../../../waste_feature/business/entities/address.dart';
 import '../../../waste_feature/business/entities/address_main.dart';
 import '../../../../core/constants/urls.dart';
 
-class Auth with ChangeNotifier {
+class AuthenticationProvider with ChangeNotifier {
   String _token = '';
   late bool _isLoggedin;
 
@@ -47,8 +47,6 @@ class Auth with ChangeNotifier {
 
   String get token => _token;
   Map<String, String> headers = {};
-
-
 
   /// ////////////////////////////////////////////////////////////////////////////
   /// login or sign up with phone number
@@ -141,7 +139,7 @@ class Auth with ChangeNotifier {
 
   /// //////////////////////////////////////////////////////////////////////////
   ///  sing up or login with email and password
-  Future<bool> emailAuth(String email,String password) async {
+  Future<bool> emailAuth(String email, String password) async {
     debugPrint('_authenticate');
 
     final url = Urls.rootUrl + Urls.loginEndPoint + email;

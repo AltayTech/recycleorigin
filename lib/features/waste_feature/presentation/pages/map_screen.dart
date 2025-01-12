@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/models/region.dart';
 import '../../business/entities/address.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 import '../../../../core/widgets/info_edit_item.dart';
 
 class MapScreen extends StatefulWidget {
@@ -156,9 +156,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).getAddresses();
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .getAddresses();
 
-    addressList = Provider.of<Auth>(context, listen: false).addressItems;
+    addressList = Provider.of<AuthenticationProvider>(context, listen: false)
+        .addressItems;
 
     addressList.add(Address(
       name: nameController.text,
@@ -169,7 +171,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     ));
     print('addressList    ${addressList.length}');
 
-    await Provider.of<Auth>(context, listen: false).updateAddress(addressList);
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .updateAddress(addressList);
 
     setState(() {
       _isLoading = false;
@@ -180,9 +183,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).retrieveRegionList();
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .retrieveRegionList();
 
-    regionList = Provider.of<Auth>(context, listen: false).regionItems;
+    regionList =
+        Provider.of<AuthenticationProvider>(context, listen: false).regionItems;
     for (int i = 0; i < regionList.length; i++) {
       regionValueList.add(regionList[i].name);
     }

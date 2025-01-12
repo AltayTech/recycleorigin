@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/auth.dart';
-import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../providers/messages.dart';
 import '../../../../core/widgets/main_drawer.dart';
 
@@ -40,9 +40,11 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
     if (_isInit) {
       contentTextController.text = '';
       message = ModalRoute.of(context)?.settings.arguments as Message;
-      customer = Provider.of<CustomerInfo>(context, listen: false).customer;
+      customer =
+          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
 
-      isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+      isLogin =
+          Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
     }
     _isInit = false;
 

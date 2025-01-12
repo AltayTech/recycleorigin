@@ -9,8 +9,8 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_item_button.dart';
 import '../../../../core/widgets/top_bar.dart';
 import '../../../meassage_feature/presentation/pages/messages_screen.dart';
-import '../providers/auth.dart';
-import '../providers/customer_info.dart';
+import '../providers/authentication_provider.dart';
+import '../providers/customer_info_provider.dart';
 import '../screens/customer_user_info_screen.dart';
 import '../screens/login_screen.dart';
 
@@ -27,7 +27,8 @@ class _ProfileViewState extends State<ProfileView> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+    await Provider.of<CustomerInfoProvider>(context, listen: false)
+        .getCustomer();
 
     setState(() {
       _isLoading = false;
@@ -45,7 +46,8 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
 
     double deviceSizeWidth = MediaQuery.of(context).size.width;
     double deviceSizeHeight = MediaQuery.of(context).size.height;

@@ -4,8 +4,8 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/models/transaction.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/transaction_item_transactions_screen.dart';
@@ -35,15 +35,16 @@ class _WalletScreenState extends State<WalletScreen>
 
   @override
   void initState() {
-    Provider.of<CustomerInfo>(context, listen: false).sPage = 1;
+    Provider.of<CustomerInfoProvider>(context, listen: false).sPage = 1;
 
-    Provider.of<CustomerInfo>(context, listen: false).searchBuilder();
+    Provider.of<CustomerInfoProvider>(context, listen: false).searchBuilder();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (page < productsDetail.max_page) {
           page = page + 1;
-          Provider.of<CustomerInfo>(context, listen: false).sPage = page;
+          Provider.of<CustomerInfoProvider>(context, listen: false).sPage =
+              page;
 
           searchItems();
         }
@@ -70,9 +71,11 @@ class _WalletScreenState extends State<WalletScreen>
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+      await Provider.of<CustomerInfoProvider>(context, listen: false)
+          .getCustomer();
     }
   }
 
@@ -84,15 +87,16 @@ class _WalletScreenState extends State<WalletScreen>
       _isLoading = true;
     });
 
-    Provider.of<CustomerInfo>(context, listen: false).searchBuilder();
-    await Provider.of<CustomerInfo>(context, listen: false)
+    Provider.of<CustomerInfoProvider>(context, listen: false).searchBuilder();
+    await Provider.of<CustomerInfoProvider>(context, listen: false)
         .searchTransactionItems();
     productsDetail =
-        Provider.of<CustomerInfo>(context, listen: false).searchDetails;
+        Provider.of<CustomerInfoProvider>(context, listen: false).searchDetails;
 
     loadedProducts.clear();
-    loadedProducts = await Provider.of<CustomerInfo>(context, listen: false)
-        .transactionItems;
+    loadedProducts =
+        await Provider.of<CustomerInfoProvider>(context, listen: false)
+            .transactionItems;
     loadedProductstolist.addAll(loadedProducts);
 
     setState(() {
@@ -105,7 +109,7 @@ class _WalletScreenState extends State<WalletScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<Auth>(context).isAuth;
+    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -207,7 +211,7 @@ class _WalletScreenState extends State<WalletScreen>
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
-                                        Consumer<CustomerInfo>(
+                                        Consumer<CustomerInfoProvider>(
                                           builder: (_, data, ch) => Text(
                                             data.customer != null
                                                 ? EnArConvertor()
@@ -405,7 +409,7 @@ class _WalletScreenState extends State<WalletScreen>
                                             ),
                                           ),
                                           Spacer(),
-                                          Consumer<CustomerInfo>(
+                                          Consumer<CustomerInfoProvider>(
                                               builder: (_, Wastes, ch) {
                                             return Container(
                                               child: Padding(

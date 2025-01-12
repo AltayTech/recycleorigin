@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/connection/http_exception.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/screens/login_screen.dart';
 
 class AuthCard extends StatefulWidget {
@@ -106,7 +106,9 @@ class _AuthCardState extends State<AuthCard>
     try {
       if (_authMode == AuthMode.VerificationCode) {
         // Log user in
-        var response = await Provider.of<Auth>(context, listen: false).login(
+        var response =
+            await Provider.of<AuthenticationProvider>(context, listen: false)
+                .login(
           _authData['phoneNumber']!,
         );
 
@@ -118,7 +120,8 @@ class _AuthCardState extends State<AuthCard>
         // Sign user up
 
         var response =
-            await Provider.of<Auth>(context, listen: false).getVerCode(
+            await Provider.of<AuthenticationProvider>(context, listen: false)
+                .getVerCode(
           _authData['verificationCode']!,
           _authData['phoneNumber']!,
         );

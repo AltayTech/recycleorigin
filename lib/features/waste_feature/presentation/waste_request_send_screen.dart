@@ -17,7 +17,7 @@ import '../../../core/models/region.dart';
 import '../business/entities/address.dart';
 
 import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/auth.dart';
+import '../../customer_feature/presentation/providers/authentication_provider.dart';
 import 'providers/wastes.dart';
 import 'widgets/custom_dialog_enter.dart';
 import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
@@ -124,15 +124,19 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
     getDate(3);
     getMonthAndWeek();
-    selectedRegion = Provider.of<Auth>(context, listen: false).regionData;
+    selectedRegion =
+        Provider.of<AuthenticationProvider>(context, listen: false).regionData;
     selectedHours = Provider.of<Wastes>(context, listen: false).selectedHours;
     selectedDay = Provider.of<Wastes>(context, listen: false).selectedDay;
 
-    selectedAddress = Provider.of<Auth>(context, listen: false).selectedAddress;
+    selectedAddress =
+        Provider.of<AuthenticationProvider>(context, listen: false)
+            .selectedAddress;
 
-    await Provider.of<Auth>(context, listen: false)
+    await Provider.of<AuthenticationProvider>(context, listen: false)
         .retrieveRegion(selectedAddress.region.term_id);
-    await Provider.of<Auth>(context, listen: false).checkCompleted();
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .checkCompleted();
 
     wasteCartItems = Provider.of<Wastes>(context, listen: false).wasteCartItems;
     totalPrice = 0;
@@ -285,8 +289,10 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
-    bool isCompleted = Provider.of<Auth>(context, listen: false).isCompleted;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isCompleted =
+        Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
 
     return Scaffold(
       appBar: AppBar(

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../providers/customer_info.dart';
+import '../providers/customer_info_provider.dart';
 import 'customer_detail_info_edit_screen.dart';
 
 class CustomerDetailInfoScreen extends StatefulWidget {
@@ -35,8 +35,10 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
-    customer = Provider.of<CustomerInfo>(context, listen: false).customer;
+    await Provider.of<CustomerInfoProvider>(context, listen: false)
+        .getCustomer();
+    customer =
+        Provider.of<CustomerInfoProvider>(context, listen: false).customer;
 
     setState(() {
       _isLoading = false;

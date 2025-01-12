@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../business/entities/product_cart.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
@@ -65,7 +65,7 @@ class _CardItemState extends State<CardItem> {
     var deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    isLogin = Provider.of<Auth>(context).isAuth;
+    isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
 
     return Padding(
       padding: const EdgeInsets.only(top: 10),

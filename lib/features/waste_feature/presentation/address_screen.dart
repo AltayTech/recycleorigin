@@ -6,7 +6,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
 import '../business/entities/address.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/auth.dart';
+import '../../customer_feature/presentation/providers/authentication_provider.dart';
 import 'pages/map_screen.dart';
 import 'waste_request_date_screen.dart';
 import 'widgets/address_item.dart';
@@ -51,8 +51,10 @@ class _AddressScreenState extends State<AddressScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).getAddresses();
-    addressList = Provider.of<Auth>(context, listen: false).addressItems;
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .getAddresses();
+    addressList = Provider.of<AuthenticationProvider>(context, listen: false)
+        .addressItems;
     setState(() {
       _isLoading = false;
     });
@@ -64,7 +66,8 @@ class _AddressScreenState extends State<AddressScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
 
     return Scaffold(
       appBar: AppBar(
@@ -111,7 +114,7 @@ class _AddressScreenState extends State<AddressScreen> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(15.0),
-                                child: Consumer<Auth>(
+                                child: Consumer<AuthenticationProvider>(
                                   builder: (_, products, ch) =>
                                       ListView.builder(
                                     shrinkWrap: true,
@@ -120,7 +123,9 @@ class _AddressScreenState extends State<AddressScreen> {
                                     itemCount: products.addressItems.length,
                                     itemBuilder: (ctx, i) => InkWell(
                                       onTap: () async {
-                                        await Provider.of<Auth>(context,
+                                        await Provider.of<
+                                                    AuthenticationProvider>(
+                                                context,
                                                 listen: false)
                                             .selectAddress(
                                                 products.addressItems[i]);
@@ -128,16 +133,20 @@ class _AddressScreenState extends State<AddressScreen> {
                                       },
                                       child: AddressItem(
                                         addressItem: products.addressItems[i],
-                                        isSelected: Provider.of<Auth>(context,
-                                                        listen: false)
-                                                    .selectedAddress !=
-                                                null
-                                            ? products.addressItems[i].name ==
-                                                Provider.of<Auth>(context,
-                                                        listen: false)
-                                                    .selectedAddress
-                                                    .name
-                                            : false,
+                                        isSelected:
+                                            Provider.of<AuthenticationProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .selectedAddress !=
+                                                    null
+                                                ? products
+                                                        .addressItems[i].name ==
+                                                    Provider.of<AuthenticationProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .selectedAddress
+                                                        .name
+                                                : false,
                                       ),
                                     ),
                                   ),
@@ -190,7 +199,8 @@ class _AddressScreenState extends State<AddressScreen> {
                         width: deviceWidth * 0.75,
                         height: deviceWidth * 0.14,
                         text: 'ادامه',
-                        isActive: Provider.of<Auth>(context, listen: false)
+                        isActive: Provider.of<AuthenticationProvider>(context,
+                                    listen: false)
                                 .selectedAddress !=
                             null,
                       ),

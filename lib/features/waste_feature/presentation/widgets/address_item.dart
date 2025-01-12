@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../business/entities/address.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 
 class AddressItem extends StatefulWidget {
   final Address addressItem;
@@ -42,12 +42,15 @@ class _AddressItemState extends State<AddressItem> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).getAddresses();
-    addressList = Provider.of<Auth>(context, listen: false).addressItems;
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .getAddresses();
+    addressList = Provider.of<AuthenticationProvider>(context, listen: false)
+        .addressItems;
 
     addressList.remove(
         addressList.firstWhere((prod) => prod.name == widget.addressItem.name));
-    await Provider.of<Auth>(context, listen: false).updateAddress(addressList);
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .updateAddress(addressList);
 
     setState(() {
       _isLoading = false;

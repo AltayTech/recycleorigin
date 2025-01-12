@@ -12,7 +12,7 @@ import '../../../core/models/region.dart';
 import '../business/entities/address.dart';
 
 import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/auth.dart';
+import '../../customer_feature/presentation/providers/authentication_provider.dart';
 import 'providers/wastes.dart';
 import 'waste_request_send_screen.dart';
 import 'widgets/custom_dialog_enter.dart';
@@ -84,12 +84,15 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     setState(() {
       _isLoading = true;
     });
-    selectedAddress = Provider.of<Auth>(context, listen: false).selectedAddress;
+    selectedAddress =
+        Provider.of<AuthenticationProvider>(context, listen: false)
+            .selectedAddress;
 
-    await Provider.of<Auth>(context, listen: false)
+    await Provider.of<AuthenticationProvider>(context, listen: false)
         .retrieveRegion(selectedAddress.region.term_id);
 
-    selectedRegion = Provider.of<Auth>(context, listen: false).regionData;
+    selectedRegion =
+        Provider.of<AuthenticationProvider>(context, listen: false).regionData;
 
     getDate(3);
     getMonthAndWeek();
@@ -197,7 +200,8 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
 
     return Scaffold(
       appBar: AppBar(
@@ -589,7 +593,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         width: constraint.maxWidth,
                                         child: _isLoading
                                             ? Container()
-                                            : Consumer<Auth>(
+                                            : Consumer<AuthenticationProvider>(
                                                 builder: (_, data, ch) =>
                                                     ListView.builder(
                                                   scrollDirection:

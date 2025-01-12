@@ -7,7 +7,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 import '../../../waste_feature/presentation/providers/wastes.dart';
 import '../../../waste_feature/presentation/wastes_screen.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
@@ -61,7 +61,8 @@ class _WasteCartScreenState extends State<WasteCartScreen>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      await Provider.of<Auth>(context, listen: false).checkCompleted();
+      await Provider.of<AuthenticationProvider>(context, listen: false)
+          .checkCompleted();
 
       await getWasteItems();
 
@@ -155,8 +156,10 @@ class _WasteCartScreenState extends State<WasteCartScreen>
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
-    bool isCompleted = Provider.of<Auth>(context, listen: false).isCompleted;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isCompleted =
+        Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(

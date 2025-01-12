@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
 
 import '../../core/models/search_detail.dart';
 import '../../core/theme/app_theme.dart';
@@ -128,7 +128,7 @@ class _CollectListScreenState extends State<CollectListScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<Auth>(context).isAuth;
+    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 

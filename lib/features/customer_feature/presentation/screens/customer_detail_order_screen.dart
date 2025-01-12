@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/models/order.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../providers/customer_info.dart';
+import '../providers/customer_info_provider.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../store_feature/presentation/screens/order_view_screen.dart';
 
@@ -32,7 +32,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     List<Order> orderList =
-        Provider.of<CustomerInfo>(context, listen: false).orders;
+        Provider.of<CustomerInfoProvider>(context, listen: false).orders;
 
     return Container(
       child: Padding(

@@ -21,8 +21,8 @@ import 'features/articles_feature/presentation/pages/article_detail_screen.dart'
 import 'features/articles_feature/presentation/pages/article_screen.dart';
 import 'features/articles_feature/presentation/providers/articles.dart';
 import 'features/contac_us_feature/presentation/pages/contact_with_us_screen.dart';
-import 'features/customer_feature/presentation/providers/auth.dart';
-import 'features/customer_feature/presentation/providers/customer_info.dart';
+import 'features/customer_feature/presentation/providers/authentication_provider.dart';
+import 'features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'features/customer_feature/presentation/screens/customer_detail_info_edit_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_notification_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_orders_screen.dart';
@@ -64,10 +64,10 @@ class MyApp extends StatelessWidget {
           lazy: false,
         ),
         ChangeNotifierProvider(
-          create: (context) => Auth(),
+          create: (context) => AuthenticationProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => CustomerInfo(),
+          create: (context) => CustomerInfoProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => Messages(),

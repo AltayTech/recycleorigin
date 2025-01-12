@@ -5,9 +5,9 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
 import 'package:recycleorigin/core/models/customer.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/donation_screen.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import 'package:recycleorigin/features/Charities/presentation/widgets/custom_dialog_pay_charity.dart';
@@ -130,9 +130,11 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+      await Provider.of<CustomerInfoProvider>(context, listen: false)
+          .getCustomer();
     }
   }
 
@@ -143,9 +145,10 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
     if (isLogin) {
-      customer = Provider.of<CustomerInfo>(context).customer;
+      customer = Provider.of<CustomerInfoProvider>(context).customer;
     }
     return Scaffold(
       appBar: AppBar(

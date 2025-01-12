@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 import '../providers/messages.dart';
 import 'message_detail_screen.dart';
 import 'messages_create_screen.dart';
@@ -45,7 +45,8 @@ class _MessageScreenState extends State<MessageScreen> {
       _isLoading = true;
     });
 
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
 
     await Provider.of<Messages>(context, listen: false)
         .getMessages('0', isLogin);

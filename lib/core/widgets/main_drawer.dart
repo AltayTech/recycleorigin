@@ -3,11 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/pages/messages_screen.dart';
 
-import '../../features/customer_feature/presentation/providers/auth.dart';
+import '../../features/customer_feature/presentation/providers/authentication_provider.dart';
 import '../../features/about_feature/presentation/pages/about_us_screen.dart';
 import '../../features/store_feature/presentation/screens/cart_screen.dart';
 import '../../features/contac_us_feature/presentation/pages/contact_with_us_screen.dart';
@@ -76,7 +76,7 @@ class MainDrawer extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Consumer<Auth>(
+                  Consumer<AuthenticationProvider>(
                     builder: (_, auth, ch) => ListTile(
                       title: Text(
                         auth.isAuth
@@ -330,13 +330,17 @@ class MainDrawer extends StatelessWidget {
                               color: iconColor,
                             ),
                             onTap: () async {
-                              Provider.of<CustomerInfo>(context, listen: false)
-                                  .customer = Provider.of<CustomerInfo>(context,
+                              Provider.of<CustomerInfoProvider>(context,
+                                      listen: false)
+                                  .customer = Provider.of<CustomerInfoProvider>(
+                                      context,
                                       listen: false)
                                   .customer_zero;
-                              await Provider.of<Auth>(context, listen: false)
+                              await Provider.of<AuthenticationProvider>(context,
+                                      listen: false)
                                   .removeToken();
-                              Provider.of<Auth>(context, listen: false)
+                              Provider.of<AuthenticationProvider>(context,
+                                      listen: false)
                                   .isFirstLogout = true;
                               Navigator.of(context).pop();
                               Navigator.of(context).pushNamedAndRemoveUntil(
