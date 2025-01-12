@@ -293,7 +293,7 @@ class _AuthCardState extends State<AuthCard>
                                               fontSize: textScaleFactor * 15.0,
                                             ),
                                           ),
-                                          keyboardType: TextInputType.number,
+                                          keyboardType: TextInputType.text,
                                           validator: _authMode == AuthMode.Login
                                               ? (value) {
                                                   _authData[
@@ -359,10 +359,11 @@ class _AuthCardState extends State<AuthCard>
                                             fontSize: textScaleFactor * 18.0,
                                           ),
                                         ),
-                                        keyboardType: TextInputType.phone,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
                                         validator: (value) {
                                           if (value!.isEmpty) {
-                                            return 'لطفا شماره تلفن را وارد نمایید';
+                                            return 'Please enter your email';
                                           }
                                           return null;
                                         },
