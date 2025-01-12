@@ -34,7 +34,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   font_awesome_flutter: any
-  dio: any
+  dio: ^5.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

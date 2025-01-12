@@ -30,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
       _isInit = false;
       Provider.of<Products>(context, listen: false).retrieveCategory();
 
-      Provider.of<AuthenticationProvider>(context, listen: false).getToken();
+      Provider.of<AuthenticationProvider>(context, listen: false)
+          .getTokenFromDB();
 
       bool _isFirstLogin =
           Provider.of<AuthenticationProvider>(context, listen: false)

@@ -15,10 +15,12 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  AuthMode _authMode = AuthMode.VerificationCode;
+  AuthMode _authMode = AuthMode.Registration;
   Map<String, String> _authData = {
-    'phoneNumber': '',
-    'verificationCode': '',
+    'email': '',
+    'password': '',
+    'first_name': '',
+    'last_name': '',
   };
 
   var _isLoading = false;
@@ -104,13 +106,11 @@ class _AuthCardState extends State<AuthCard>
       _isLoading = true;
     });
     try {
-      if (_authMode == AuthMode.VerificationCode) {
+      if (_authMode == AuthMode.Login) {
         // Log user in
         var response =
             await Provider.of<AuthenticationProvider>(context, listen: false)
-                .login(
-          _authData['phoneNumber']!,
-        );
+                .login(_authData!);
 
         print('veriiiii');
 
@@ -121,10 +121,7 @@ class _AuthCardState extends State<AuthCard>
 
         var response =
             await Provider.of<AuthenticationProvider>(context, listen: false)
-                .getVerCode(
-          _authData['verificationCode']!,
-          _authData['phoneNumber']!,
-        );
+                .register(_authData);
         if (response) {
 //          try {
 //            Provider.of<Products>(context, listen: false)
@@ -167,7 +164,7 @@ class _AuthCardState extends State<AuthCard>
     print('swotchMode');
     if (_authMode == AuthMode.Login) {
       setState(() {
-        _authMode = AuthMode.VerificationCode;
+        _authMode = AuthMode.Registration;
 //        _controller.reverse();
       });
     } else {
@@ -182,7 +179,7 @@ class _AuthCardState extends State<AuthCard>
     print('swotchMode');
     if (_authMode == AuthMode.Login) {
       setState(() {
-        _authMode = AuthMode.VerificationCode;
+        _authMode = AuthMode.Registration;
         _controller.reverse();
       });
     } else {

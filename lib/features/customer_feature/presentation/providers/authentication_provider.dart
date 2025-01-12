@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/models/region.dart';
@@ -12,6 +12,8 @@ import '../../../waste_feature/business/entities/address_main.dart';
 import '../../../../core/constants/urls.dart';
 
 class AuthenticationProvider with ChangeNotifier {
+  final Dio _dio = Dio();
+
   String _token = '';
   late bool _isLoggedin;
 
@@ -41,7 +43,7 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   bool get isAuth {
-    getToken();
+    getTokenFromDB();
     return _token != '';
   }
 
@@ -50,17 +52,113 @@ class AuthenticationProvider with ChangeNotifier {
 
   /// ////////////////////////////////////////////////////////////////////////////
   /// login or sign up with phone number
-  Future<bool> _authenticate(String urlSegment) async {
-    debugPrint('_authenticate');
+  Future<bool> _login(String email, String password) async {
+    debugPrint('_login');
+    final url = Urls.baseUrl + Urls.loginEndPoint;
+    _dio.options = BaseOptions(
+      baseUrl: url,
+      connectTimeout: Duration(seconds: 5),
+      receiveTimeout: Duration(seconds: 5),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
 
-    final url = Urls.rootUrl + Urls.loginEndPoint + urlSegment;
+    final data = {
+      'email': email,
+      'password': password,
+    };
     debugPrint(url);
 
     try {
-      final response = await http.post(Uri.parse(url), headers: headers);
-      updateCookie(response);
+      Response response = await _dio.post(
+        '/login', // Replace with your login endpoint
+        data: data,
+      );
 
-      final responseData = json.decode(response.body);
+      // final response = await http.post(Uri.parse(url), headers: headers);
+      // updateCookie(response);
+
+      final responseData = json.decode(response.data);
+      debugPrint(responseData);
+
+      if (responseData != 'false') {
+        try {
+          _token = responseData['token'];
+          _isFirstLogin = true;
+
+          final prefs = await SharedPreferences.getInstance();
+          final userData = json.encode(
+            {
+              'token': _token,
+            },
+          );
+          prefs.setString('userData', userData);
+          prefs.setString('token', _token);
+          debugPrint(_token);
+          prefs.setString('isLogin', 'true');
+          _isLoggedin = true;
+        } catch (error) {
+          _isLoggedin = false;
+          final prefs = await SharedPreferences.getInstance();
+          final userData = json.encode(
+            {
+              'token': '',
+            },
+          );
+          _token = '';
+        }
+      } else {
+        final prefs = await SharedPreferences.getInstance();
+        _isLoggedin = false;
+
+        _token = '';
+        prefs.setString('token', _token);
+        debugPrint(_token);
+        debugPrint('noooo token');
+        prefs.setString('isLogin', 'true');
+      }
+      notifyListeners();
+    } catch (error) {
+      debugPrint(error.toString());
+      throw error;
+    }
+    return _isLoggedin;
+  }
+
+  /// ////////////////////////////////////////////////////////////////////////////
+  ///  sign up with email and password
+  Future<bool> _register(
+      String email, String password, String firstName, String lastName) async {
+    debugPrint('_register');
+    final url = Urls.baseUrl + Urls.loginEndPoint;
+    _dio.options = BaseOptions(
+      baseUrl: url,
+      connectTimeout: Duration(seconds: 5),
+      receiveTimeout: Duration(seconds: 5),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+
+    final data = {
+      'email': email,
+      'password': password,
+    };
+    debugPrint(url);
+
+    try {
+      Response response = await _dio.post(
+        '/login', // Replace with your login endpoint
+        data: data,
+      );
+
+      // final response = await http.post(Uri.parse(url), headers: headers);
+      // updateCookie(response);
+
+      final responseData = json.decode(response.data);
       debugPrint(responseData);
 
       if (responseData != 'false') {
@@ -116,16 +214,16 @@ class AuthenticationProvider with ChangeNotifier {
     }
   }
 
-  Future<Future<bool>> login(String phoneNumber) async {
-    return _authenticate('/send_sms?mobile=$phoneNumber');
+  Future<Future<bool>> login(Map<String, String> authData) async {
+    return _login(authData['email']!, authData['password']!);
   }
 
-  Future<bool> getVerCode(String verificationCode, String phoneNumber) async {
-    return _authenticate(
-        '/verify?type=customer&mobile=$phoneNumber&sms=$verificationCode');
+  Future<bool> register(Map<String, String> authData) async {
+    return _register(authData['email']!, authData['password']!,
+        authData['first_name']!, authData['last_name']!);
   }
 
-  Future<void> getToken() async {
+  Future<void> getTokenFromDB() async {
     final prefs = await SharedPreferences.getInstance().then(
       (value) {
         _token = value.getString("token") ?? "";
@@ -204,7 +302,7 @@ class AuthenticationProvider with ChangeNotifier {
 
         final url = Urls.rootUrl + Urls.checkCompletedEndPoint;
 
-        final response = await get(
+        final response = await http.get(
           Uri.parse(url),
           headers: {
             'Authorization': 'Bearer $_token',
@@ -257,7 +355,7 @@ class AuthenticationProvider with ChangeNotifier {
 
         final url = Urls.rootUrl + Urls.addressEndPoint;
 
-        final response = await get(
+        final response = await http.get(
           Uri.parse(url),
           headers: {
             'Authorization': 'Bearer $_token',
@@ -300,7 +398,7 @@ class AuthenticationProvider with ChangeNotifier {
           addressData: addressList,
         )));
 
-        final response = await post(Uri.parse(url),
+        final response = await http.post(Uri.parse(url),
             headers: {
               'Authorization': 'Bearer $_token',
               'Content-Type': 'application/json',
@@ -341,7 +439,7 @@ class AuthenticationProvider with ChangeNotifier {
         _token = prefs.getString('token')!;
 
         final url = Urls.rootUrl + Urls.addressEndPoint;
-        final response = await post(Uri.parse(url),
+        final response = await http.post(Uri.parse(url),
             headers: {
               'Authorization': 'Bearer $_token',
               'Content-Type': 'application/json',
@@ -386,7 +484,7 @@ class AuthenticationProvider with ChangeNotifier {
     final url = Urls.rootUrl + Urls.regionEndPoint;
 
     try {
-      final response = await get(Uri.parse(url), headers: {
+      final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
@@ -417,7 +515,7 @@ class AuthenticationProvider with ChangeNotifier {
     debugPrint(url);
 
     try {
-      final response = await get(Uri.parse(url), headers: {
+      final response = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
