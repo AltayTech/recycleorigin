@@ -1,5 +1,6 @@
 class Urls {
-  static const rootUrl = 'https://recycleorigin.com//rest/pasmands/v1';
+  static const baseUrl = 'https://recycleorigin.com/rest/';
+  static const rootUrl = baseUrl + 'pasmands/v1';
   static const pasmandsEndPoint = '/pasmands';
   static const productsEndPoint = '/products';
   static const categoriesEndPoint = '/products/category';
