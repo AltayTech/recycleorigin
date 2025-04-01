@@ -4,17 +4,19 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:recycleorigin/features/customer_feature/data/models/TokenResponseModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/constants/urls.dart';
 import '../../../../core/models/region.dart';
 import '../../../waste_feature/business/entities/address.dart';
 import '../../../waste_feature/business/entities/address_main.dart';
-import '../../../../core/constants/urls.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final Dio _dio = Dio();
 
   String _token = '';
+  TokenResponseModel tokenResponseModel = TokenResponseModel();
   late bool _isLoggedin;
 
   bool _isFirstLogin = false;
@@ -55,45 +57,53 @@ class AuthenticationProvider with ChangeNotifier {
   Future<bool> _login(String email, String password) async {
     debugPrint('_login');
     final url = Urls.baseUrl + Urls.loginEndPoint;
-    _dio.options = BaseOptions(
-      baseUrl: url,
-      connectTimeout: Duration(seconds: 5),
-      receiveTimeout: Duration(seconds: 5),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    );
+    // +'?username=$email&password=$password';
+    // _dio.options = BaseOptions(
+    //   connectTimeout: Duration(seconds: 50),
+    //   receiveTimeout: Duration(seconds: 50),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Accept': 'application/json',
+    //   },
+    // );
 
     final data = {
-      'email': email,
+      'username': email,
       'password': password,
     };
-    debugPrint(url);
+    debugPrint("login email: ${email}");
+    debugPrint('login password: ${password}');
+    debugPrint('login ' + url);
 
     try {
       Response response = await _dio.post(
-        '/login', // Replace with your login endpoint
-        data: data,
+        url,
+        queryParameters: data,
+
+        // data: data,
       );
+      debugPrint('login response: ${response.toString()}');
 
       // final response = await http.post(Uri.parse(url), headers: headers);
       // updateCookie(response);
+      if (response.statusCode == 200) {
+        debugPrint("response.statusCode ${response.statusCode}");
+        final responseData = jsonDecode(response.toString());
+        debugPrint(responseData.toString());
 
-      final responseData = json.decode(response.data);
-      debugPrint(responseData);
-
-      if (responseData != 'false') {
         try {
           _token = responseData['token'];
+          debugPrint("_token: $_token");
           _isFirstLogin = true;
 
           final prefs = await SharedPreferences.getInstance();
-          final userData = json.encode(
+          final userData = jsonEncode(
             {
               'token': _token,
             },
           );
+          tokenResponseModel = TokenResponseModel.fromJson(responseData);
+
           prefs.setString('userData', userData);
           prefs.setString('token', _token);
           debugPrint(_token);
@@ -108,6 +118,10 @@ class AuthenticationProvider with ChangeNotifier {
             },
           );
           _token = '';
+          tokenResponseModel = TokenResponseModel(token: "",
+            userDisplayName: '',
+            userEmail: '',
+            userNicename: '',);
         }
       } else {
         final prefs = await SharedPreferences.getInstance();
@@ -118,6 +132,10 @@ class AuthenticationProvider with ChangeNotifier {
         debugPrint(_token);
         debugPrint('noooo token');
         prefs.setString('isLogin', 'true');
+        tokenResponseModel = TokenResponseModel(token: "",
+          userDisplayName: '',
+          userEmail: '',
+          userNicename: '',);
       }
       notifyListeners();
     } catch (error) {
@@ -129,8 +147,8 @@ class AuthenticationProvider with ChangeNotifier {
 
   /// ////////////////////////////////////////////////////////////////////////////
   ///  sign up with email and password
-  Future<bool> _register(
-      String email, String password, String firstName, String lastName) async {
+  Future<bool> _register(String email, String password, String firstName,
+      String lastName) async {
     debugPrint('_register');
     final url = Urls.baseUrl + Urls.loginEndPoint;
     _dio.options = BaseOptions(
@@ -146,6 +164,8 @@ class AuthenticationProvider with ChangeNotifier {
     final data = {
       'email': email,
       'password': password,
+      'first_name': firstName,
+      'last_name': lastName,
     };
     debugPrint(url);
 
@@ -210,7 +230,7 @@ class AuthenticationProvider with ChangeNotifier {
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');
       headers['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
+      (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
   }
 
@@ -225,7 +245,7 @@ class AuthenticationProvider with ChangeNotifier {
 
   Future<void> getTokenFromDB() async {
     final prefs = await SharedPreferences.getInstance().then(
-      (value) {
+          (value) {
         _token = value.getString("token") ?? "";
       },
     );

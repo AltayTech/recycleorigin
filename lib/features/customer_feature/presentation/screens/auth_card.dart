@@ -15,7 +15,7 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  AuthMode _authMode = AuthMode.Registration;
+  AuthMode _authMode = AuthMode.Login;
   Map<String, String> _authData = {
     'email': '',
     'password': '',
@@ -114,7 +114,7 @@ class _AuthCardState extends State<AuthCard>
 
         print('veriiiii');
 
-        _switchAuthMode();
+        // _switchAuthMode();
       } else {
         print('loginmode');
         // Sign user up
@@ -175,7 +175,7 @@ class _AuthCardState extends State<AuthCard>
     }
   }
 
-  void _switchPhoneCorrectMode() {
+  void _switchInputAuthMode() {
     print('swotchMode');
     if (_authMode == AuthMode.Login) {
       setState(() {
@@ -205,30 +205,30 @@ class _AuthCardState extends State<AuthCard>
             children: <Widget>[
               Stack(
                 children: <Widget>[
-                  AnimatedContainer(
-                    duration: _controller.duration!,
-                    curve: Curves.easeIn,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
-                          child: Center(
-                            child: Text(
-                              'Enter your password',
-                              style: TextStyle(
-                                color: AppTheme.h1,
-                                fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 11.0,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // AnimatedContainer(
+                  //   duration: _controller.duration!,
+                  //   curve: Curves.easeIn,
+                  //   child: FadeTransition(
+                  //     opacity: _opacityAnimation,
+                  //     child: SlideTransition(
+                  //       position: _slideAnimation,
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.only(bottom: 15.0),
+                  //         child: Center(
+                  //           child: Text(
+                  //             'Enter your email and password',
+                  //             style: TextStyle(
+                  //               color: AppTheme.h1,
+                  //               fontFamily: 'Iransans',
+                  //               fontSize: textScaleFactor * 11.0,
+                  //             ),
+                  //             textAlign: TextAlign.center,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   AnimatedContainer(
                     duration: _controller.duration!,
                     curve: Curves.easeIn,
@@ -240,7 +240,7 @@ class _AuthCardState extends State<AuthCard>
                           padding: const EdgeInsets.only(bottom: 15.0),
                           child: Center(
                             child: Text(
-                              'Enter your Email',
+                              'Enter your Email and password',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.black54,
@@ -257,71 +257,71 @@ class _AuthCardState extends State<AuthCard>
               ),
               Stack(
                 children: <Widget>[
-                  AnimatedContainer(
-                    duration: _controller.duration!,
-                    curve: Curves.easeIn,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: Center(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: deviceSize.height * 0.055,
-                                width: deviceSize.width * 0.6,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      color: Colors.blue, width: 1.5),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Center(
-                                        child: TextFormField(
-                                          textAlign: TextAlign.center,
-                                          enabled: true,
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            suffix: Text(''),
-                                            labelStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 15.0,
-                                            ),
-                                          ),
-                                          keyboardType: TextInputType.text,
-                                          validator: _authMode == AuthMode.Login
-                                              ? (value) {
-                                                  _authData[
-                                                          'verificationCode'] =
-                                                      value!;
-                                                  return null;
-                                                }
-                                              : null,
-                                        ),
-                                      ),
-                                      Positioned(
-                                          right: 3,
-                                          top: 5,
-                                          bottom: 12,
-                                          child: Icon(
-                                            Icons.mobile_screen_share,
-                                            color: Colors.blue,
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // AnimatedContainer(
+                  //   duration: _controller.duration!,
+                  //   curve: Curves.easeIn,
+                  //   child: FadeTransition(
+                  //     opacity: _opacityAnimation,
+                  //     child: SlideTransition(
+                  //       position: _slideAnimation,
+                  //       child: Center(
+                  //         child: Stack(
+                  //           children: <Widget>[
+                  //             Container(
+                  //               height: deviceSize.height * 0.055,
+                  //               width: deviceSize.width * 0.6,
+                  //               decoration: BoxDecoration(
+                  //                 borderRadius: BorderRadius.circular(5),
+                  //                 border: Border.all(
+                  //                     color: Colors.blue, width: 1.5),
+                  //               ),
+                  //               child: Padding(
+                  //                 padding: const EdgeInsets.symmetric(
+                  //                     horizontal: 15),
+                  //                 child: Stack(
+                  //                   children: <Widget>[
+                  //                     Center(
+                  //                       child: TextFormField(
+                  //                         textAlign: TextAlign.center,
+                  //                         enabled: true,
+                  //                         decoration: InputDecoration(
+                  //                           border: InputBorder.none,
+                  //                           suffix: Text(''),
+                  //                           labelStyle: TextStyle(
+                  //                             color: Colors.grey,
+                  //                             fontFamily: 'Iransans',
+                  //                             fontSize: textScaleFactor * 15.0,
+                  //                           ),
+                  //                         ),
+                  //                         keyboardType: TextInputType.text,
+                  //                         validator: _authMode == AuthMode.Login
+                  //                             ? (value) {
+                  //                           _authData[
+                  //                           'email'] =
+                  //                           value!;
+                  //                           return null;
+                  //                         }
+                  //                             : null,
+                  //                       ),
+                  //                     ),
+                  //                     Positioned(
+                  //                         right: 3,
+                  //                         top: 5,
+                  //                         bottom: 12,
+                  //                         child: Icon(
+                  //                           Icons.mobile_screen_share,
+                  //                           color: Colors.blue,
+                  //                         )),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   AnimatedContainer(
                     duration: _controller.duration!,
                     curve: Curves.easeIn,
@@ -342,7 +342,7 @@ class _AuthCardState extends State<AuthCard>
                                 ),
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  const EdgeInsets.symmetric(horizontal: 8),
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: <Widget>[
@@ -353,14 +353,14 @@ class _AuthCardState extends State<AuthCard>
                                           suffix: Text(''),
                                           counterStyle: TextStyle(
                                             decorationStyle:
-                                                TextDecorationStyle.dashed,
+                                            TextDecorationStyle.dashed,
                                             color: Colors.grey,
                                             fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 18.0,
                                           ),
                                         ),
                                         keyboardType:
-                                            TextInputType.emailAddress,
+                                        TextInputType.emailAddress,
                                         validator: (value) {
                                           if (value!.isEmpty) {
                                             return 'Please enter your email';
@@ -368,7 +368,143 @@ class _AuthCardState extends State<AuthCard>
                                           return null;
                                         },
                                         onSaved: (value) {
-                                          _authData['phoneNumber'] = value!;
+                                          _authData['email'] = value!;
+                                        },
+                                      ),
+                                      Positioned(
+                                          right: 3,
+                                          top: 5,
+                                          bottom: 12,
+                                          child: Icon(
+                                            Icons.mobile_screen_share,
+                                            color: AppTheme.secondary,
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Stack(
+                children: <Widget>[
+                  // AnimatedContainer(
+                  //   duration: _controller.duration!,
+                  //   curve: Curves.easeIn,
+                  //   child: FadeTransition(
+                  //     opacity: _opacityAnimation,
+                  //     child: SlideTransition(
+                  //       position: _slideAnimation,
+                  //       child: Center(
+                  //         child: Stack(
+                  //           children: <Widget>[
+                  //             Container(
+                  //               height: deviceSize.height * 0.055,
+                  //               width: deviceSize.width * 0.6,
+                  //               decoration: BoxDecoration(
+                  //                 borderRadius: BorderRadius.circular(5),
+                  //                 border: Border.all(
+                  //                     color: Colors.blue, width: 1.5),
+                  //               ),
+                  //               child: Padding(
+                  //                 padding: const EdgeInsets.symmetric(
+                  //                     horizontal: 15),
+                  //                 child: Stack(
+                  //                   children: <Widget>[
+                  //                     Center(
+                  //                       child: TextFormField(
+                  //                         textAlign: TextAlign.center,
+                  //                         enabled: true,
+                  //                         decoration: InputDecoration(
+                  //                           border: InputBorder.none,
+                  //                           suffix: Text(''),
+                  //                           labelStyle: TextStyle(
+                  //                             color: Colors.grey,
+                  //                             fontFamily: 'Iransans',
+                  //                             fontSize: textScaleFactor * 15.0,
+                  //                           ),
+                  //                         ),
+                  //                         keyboardType: TextInputType.text,
+                  //                         validator: _authMode == AuthMode.Login
+                  //                             ? (value) {
+                  //                           _authData[
+                  //                           'verificationCode'] =
+                  //                           value!;
+                  //                           return null;
+                  //                         }
+                  //                             : null,
+                  //                       ),
+                  //                     ),
+                  //                     Positioned(
+                  //                         right: 3,
+                  //                         top: 5,
+                  //                         bottom: 12,
+                  //                         child: Icon(
+                  //                           Icons.mobile_screen_share,
+                  //                           color: Colors.blue,
+                  //                         )),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  AnimatedContainer(
+                    duration: _controller.duration!,
+                    curve: Curves.easeIn,
+                    child: FadeTransition(
+                      opacity: _opacityAnimation1,
+                      child: SlideTransition(
+                        position: _slideAnimation1,
+                        child: Center(
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                height: deviceSize.height * 0.055,
+                                width: deviceSize.width * 0.6,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                      color: AppTheme.h1, width: 0.5),
+                                ),
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      TextFormField(
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          suffix: Text(''),
+                                          counterStyle: TextStyle(
+                                            decorationStyle:
+                                            TextDecorationStyle.dashed,
+                                            color: Colors.grey,
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 18.0,
+                                          ),
+                                        ),
+                                        keyboardType:
+                                        TextInputType.emailAddress,
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter your password';
+                                          }
+                                          return null;
+                                        },
+                                        onSaved: (value) {
+                                          _authData['password'] = value!;
                                         },
                                       ),
                                       Positioned(
@@ -414,7 +550,6 @@ class _AuthCardState extends State<AuthCard>
                               ? 'Login'
                               : 'Confirmation Code',
                           style: TextStyle(
-                            color: AppTheme.bg,
                             fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 13.0,
                           ),
@@ -422,6 +557,7 @@ class _AuthCardState extends State<AuthCard>
                         onPressed: () {
                           FocusScope.of(context).requestFocus(FocusNode());
                           _submit();
+                          Navigator.of(context).pop();
                         },
 
                         // shape: RoundedRectangleBorder(
@@ -450,10 +586,8 @@ class _AuthCardState extends State<AuthCard>
                           fontSize: textScaleFactor * 9.0,
                         ),
                       ),
-                      onPressed: _switchPhoneCorrectMode,
+                      onPressed: _switchInputAuthMode,
 
-                      // padding: EdgeInsets.only(right: 30.0, left: 30.0, top: 4),
-                      // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       // textColor: Theme.of(context).primaryColor,
                     ),
                   ),

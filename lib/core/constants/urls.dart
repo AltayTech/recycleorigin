@@ -21,7 +21,7 @@ class Urls {
   static const shopEndPoint = '/info';
   static const messageEndPoint = '/messages';
 
-  static const loginEndPoint = '/login';
+  static const loginEndPoint = 'jwt-auth/v1/token';
   static const sendMessageEndPoint = '/customer/send_message';
   static const orderInfoEndPoint = '/order';
   static const payEndPoint = '/pay';
