@@ -110,11 +110,24 @@ class _AuthCardState extends State<AuthCard>
         debugPrint('login mode');
         // Log user in
         var response =
-            await Provider.of<AuthenticationProvider>(context, listen: false)
-                .login(_authData!);
+            await Provider.of<AuthenticationProvider>(context,listen: false)
+                .login(_authData).then((value) async{
+                  if(await value) {
+                    Navigator.of(context)
+                        .pushReplacementNamed(NavigationBottomScreen.routeName);
+                  } else {
+                    _showErrorDialog('Code is not correct');
+                  }
+                },);
         debugPrint(response.toString());
 
         print('veriiiii');
+
+
+        _isLoading=false;
+
+
+
 
         // _switchAuthMode();
       } else {
@@ -131,9 +144,18 @@ class _AuthCardState extends State<AuthCard>
 //          } catch (error) {
 //            print(error.toString());
 //          }
+          var loginResponse =
+          await Provider.of<AuthenticationProvider>(context, listen: false)
+              .login(_authData!).then((value) async{
+            if(await value) {
+              Navigator.of(context)
+                  .pushReplacementNamed(NavigationBottomScreen.routeName);
+            } else {
+              _showErrorDialog('Code is not correct');
+            }
+          },);
 
-          Navigator.of(context)
-              .pushReplacementNamed(NavigationBottomScreen.routeName);
+
         } else {
           _showErrorDialog('Code is not correct');
         }
@@ -630,10 +652,10 @@ class _AuthCardState extends State<AuthCard>
                             fontSize: textScaleFactor * 13.0,
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async{
                           debugPrint("login clicked");
                           FocusScope.of(context).requestFocus(FocusNode());
-                          _submit();
+                          await _submit();
                           // Navigator.of(context).pop();
                         },
 
