@@ -107,10 +107,12 @@ class _AuthCardState extends State<AuthCard>
     });
     try {
       if (_authMode == AuthMode.Login) {
+        debugPrint('login mode');
         // Log user in
         var response =
             await Provider.of<AuthenticationProvider>(context, listen: false)
                 .login(_authData!);
+        debugPrint(response.toString());
 
         print('veriiiii');
 
@@ -160,32 +162,19 @@ class _AuthCardState extends State<AuthCard>
     });
   }
 
-  void _switchAuthMode() {
-    print('swotchMode');
-    if (_authMode == AuthMode.Login) {
-      setState(() {
-        _authMode = AuthMode.Registration;
-//        _controller.reverse();
-      });
-    } else {
-      setState(() {
-        _authMode = AuthMode.Login;
-        _controller.forward();
-      });
-    }
-  }
-
   void _switchInputAuthMode() {
     print('swotchMode');
     if (_authMode == AuthMode.Login) {
+      _authMode = AuthMode.Registration;
+      _controller.reverse();
       setState(() {
-        _authMode = AuthMode.Registration;
-        _controller.reverse();
+
       });
     } else {
+      _authMode = AuthMode.Login;
+      _controller.forward();
       setState(() {
-        _authMode = AuthMode.Login;
-        _controller.forward();
+
       });
     }
   }
@@ -205,49 +194,72 @@ class _AuthCardState extends State<AuthCard>
             children: <Widget>[
               Stack(
                 children: <Widget>[
-                  // AnimatedContainer(
-                  //   duration: _controller.duration!,
-                  //   curve: Curves.easeIn,
-                  //   child: FadeTransition(
-                  //     opacity: _opacityAnimation,
-                  //     child: SlideTransition(
-                  //       position: _slideAnimation,
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.only(bottom: 15.0),
-                  //         child: Center(
-                  //           child: Text(
-                  //             'Enter your email and password',
-                  //             style: TextStyle(
-                  //               color: AppTheme.h1,
-                  //               fontFamily: 'Iransans',
-                  //               fontSize: textScaleFactor * 11.0,
-                  //             ),
-                  //             textAlign: TextAlign.center,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   AnimatedContainer(
                     duration: _controller.duration!,
                     curve: Curves.easeIn,
                     child: FadeTransition(
-                      opacity: _opacityAnimation1,
+                      opacity: _opacityAnimation,
                       child: SlideTransition(
-                        position: _slideAnimation1,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
-                          child: Center(
-                            child: Text(
-                              'Enter your Email and password',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 11.0,
+                        position: _slideAnimation,
+                        child: Center(
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                height: deviceSize.height * 0.055,
+                                width: deviceSize.width * 0.6,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                      color: AppTheme.h1, width: 0.5),
+                                ),
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      TextFormField(
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          suffix: Text(''),
+                                          counterStyle: TextStyle(
+                                            decorationStyle:
+                                            TextDecorationStyle.dashed,
+                                            color: Colors.grey,
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 18.0,
+                                          ),
+                                          hintText: 'Please enter your first name'
+                                        ),
+                                        keyboardType:
+                                        TextInputType.name,
+
+                                        validator:
+                                        _authMode == AuthMode.Registration
+                                            ? (value) {
+
+                                          return 'Please enter your first name';
+                                        }
+                                            : null,
+
+                                        onSaved: (value) {
+                                          _authData['first_name'] = value!;
+                                        },
+                                      ),
+                                      Positioned(
+                                          right: 3,
+                                          top: 5,
+                                          bottom: 12,
+                                          child: Icon(
+                                            Icons.mobile_screen_share,
+                                            color: AppTheme.secondary,
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ),
@@ -257,71 +269,81 @@ class _AuthCardState extends State<AuthCard>
               ),
               Stack(
                 children: <Widget>[
-                  // AnimatedContainer(
-                  //   duration: _controller.duration!,
-                  //   curve: Curves.easeIn,
-                  //   child: FadeTransition(
-                  //     opacity: _opacityAnimation,
-                  //     child: SlideTransition(
-                  //       position: _slideAnimation,
-                  //       child: Center(
-                  //         child: Stack(
-                  //           children: <Widget>[
-                  //             Container(
-                  //               height: deviceSize.height * 0.055,
-                  //               width: deviceSize.width * 0.6,
-                  //               decoration: BoxDecoration(
-                  //                 borderRadius: BorderRadius.circular(5),
-                  //                 border: Border.all(
-                  //                     color: Colors.blue, width: 1.5),
-                  //               ),
-                  //               child: Padding(
-                  //                 padding: const EdgeInsets.symmetric(
-                  //                     horizontal: 15),
-                  //                 child: Stack(
-                  //                   children: <Widget>[
-                  //                     Center(
-                  //                       child: TextFormField(
-                  //                         textAlign: TextAlign.center,
-                  //                         enabled: true,
-                  //                         decoration: InputDecoration(
-                  //                           border: InputBorder.none,
-                  //                           suffix: Text(''),
-                  //                           labelStyle: TextStyle(
-                  //                             color: Colors.grey,
-                  //                             fontFamily: 'Iransans',
-                  //                             fontSize: textScaleFactor * 15.0,
-                  //                           ),
-                  //                         ),
-                  //                         keyboardType: TextInputType.text,
-                  //                         validator: _authMode == AuthMode.Login
-                  //                             ? (value) {
-                  //                           _authData[
-                  //                           'email'] =
-                  //                           value!;
-                  //                           return null;
-                  //                         }
-                  //                             : null,
-                  //                       ),
-                  //                     ),
-                  //                     Positioned(
-                  //                         right: 3,
-                  //                         top: 5,
-                  //                         bottom: 12,
-                  //                         child: Icon(
-                  //                           Icons.mobile_screen_share,
-                  //                           color: Colors.blue,
-                  //                         )),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  AnimatedContainer(
+                    duration: _controller.duration!,
+                    curve: Curves.easeIn,
+                    child: FadeTransition(
+                      opacity: _opacityAnimation,
+                      child: SlideTransition(
+                        position: _slideAnimation,
+                        child: Center(
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                height: deviceSize.height * 0.055,
+                                width: deviceSize.width * 0.6,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                      color: AppTheme.h1, width: 0.5),
+                                ),
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      TextFormField(
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          suffix: Text(''),
+                                          hintText: 'Please enter your last name',
+                                          counterStyle: TextStyle(
+                                            decorationStyle:
+                                            TextDecorationStyle.dashed,
+                                            color: Colors.grey,
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 18.0,
+                                          ),
+                                        ),
+                                        keyboardType:
+                                        TextInputType.name,
+                                        validator:
+
+                                        _authMode == AuthMode.Registration
+                                            ? (value) {
+
+                                            return 'Please enter your last name';
+                                        }
+                                            : null,
+                                        onSaved: (value) {
+                                          _authData['last_name'] = value!;
+                                        },
+                                      ),
+                                      Positioned(
+                                          right: 3,
+                                          top: 5,
+                                          bottom: 12,
+                                          child: Icon(
+                                            Icons.mobile_screen_share,
+                                            color: AppTheme.secondary,
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              Stack(
+                children: <Widget>[
                   AnimatedContainer(
                     duration: _controller.duration!,
                     curve: Curves.easeIn,
@@ -351,6 +373,7 @@ class _AuthCardState extends State<AuthCard>
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           suffix: Text(''),
+                                          hintText: 'Please enter your email',
                                           counterStyle: TextStyle(
                                             decorationStyle:
                                             TextDecorationStyle.dashed,
@@ -393,71 +416,7 @@ class _AuthCardState extends State<AuthCard>
               ),
               Stack(
                 children: <Widget>[
-                  // AnimatedContainer(
-                  //   duration: _controller.duration!,
-                  //   curve: Curves.easeIn,
-                  //   child: FadeTransition(
-                  //     opacity: _opacityAnimation,
-                  //     child: SlideTransition(
-                  //       position: _slideAnimation,
-                  //       child: Center(
-                  //         child: Stack(
-                  //           children: <Widget>[
-                  //             Container(
-                  //               height: deviceSize.height * 0.055,
-                  //               width: deviceSize.width * 0.6,
-                  //               decoration: BoxDecoration(
-                  //                 borderRadius: BorderRadius.circular(5),
-                  //                 border: Border.all(
-                  //                     color: Colors.blue, width: 1.5),
-                  //               ),
-                  //               child: Padding(
-                  //                 padding: const EdgeInsets.symmetric(
-                  //                     horizontal: 15),
-                  //                 child: Stack(
-                  //                   children: <Widget>[
-                  //                     Center(
-                  //                       child: TextFormField(
-                  //                         textAlign: TextAlign.center,
-                  //                         enabled: true,
-                  //                         decoration: InputDecoration(
-                  //                           border: InputBorder.none,
-                  //                           suffix: Text(''),
-                  //                           labelStyle: TextStyle(
-                  //                             color: Colors.grey,
-                  //                             fontFamily: 'Iransans',
-                  //                             fontSize: textScaleFactor * 15.0,
-                  //                           ),
-                  //                         ),
-                  //                         keyboardType: TextInputType.text,
-                  //                         validator: _authMode == AuthMode.Login
-                  //                             ? (value) {
-                  //                           _authData[
-                  //                           'verificationCode'] =
-                  //                           value!;
-                  //                           return null;
-                  //                         }
-                  //                             : null,
-                  //                       ),
-                  //                     ),
-                  //                     Positioned(
-                  //                         right: 3,
-                  //                         top: 5,
-                  //                         bottom: 12,
-                  //                         child: Icon(
-                  //                           Icons.mobile_screen_share,
-                  //                           color: Colors.blue,
-                  //                         )),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+
                   AnimatedContainer(
                     duration: _controller.duration!,
                     curve: Curves.easeIn,
@@ -487,6 +446,7 @@ class _AuthCardState extends State<AuthCard>
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           suffix: Text(''),
+                                          hintText: 'Please enter your password',
                                           counterStyle: TextStyle(
                                             decorationStyle:
                                             TextDecorationStyle.dashed,
@@ -555,9 +515,10 @@ class _AuthCardState extends State<AuthCard>
                           ),
                         ),
                         onPressed: () {
+                          debugPrint("login clicked");
                           FocusScope.of(context).requestFocus(FocusNode());
                           _submit();
-                          Navigator.of(context).pop();
+                          // Navigator.of(context).pop();
                         },
 
                         // shape: RoundedRectangleBorder(
@@ -570,28 +531,19 @@ class _AuthCardState extends State<AuthCard>
                         // textColor: AppTheme.bg,
                       ),
                     ),
-              AnimatedContainer(
-                duration: _controller.duration!,
-                curve: Curves.easeIn,
-                child: FadeTransition(
-                  opacity: _opacityAnimation,
-                  child: SlideTransition(
-                    position: _slideAnimation,
-                    child: TextButton(
-                      child: Text(
-                        'Change the Email',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Iransans',
-                          fontSize: textScaleFactor * 9.0,
-                        ),
-                      ),
-                      onPressed: _switchInputAuthMode,
-
-                      // textColor: Theme.of(context).primaryColor,
-                    ),
+              TextButton(
+                child: Text(
+                  _authMode==AuthMode.Login?
+                  'Change the Register':'Change the login',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Iransans',
+                    fontSize: textScaleFactor * 9.0,
                   ),
                 ),
+                onPressed: _switchInputAuthMode,
+
+                // textColor: Theme.of(context).primaryColor,
               ),
             ],
           ),
