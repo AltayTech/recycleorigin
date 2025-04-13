@@ -166,13 +166,14 @@ class _AuthCardState extends State<AuthCard>
     print('swotchMode');
     if (_authMode == AuthMode.Login) {
       _authMode = AuthMode.Registration;
-      _controller.reverse();
+      _controller.forward();
+
       setState(() {
 
       });
     } else {
       _authMode = AuthMode.Login;
-      _controller.forward();
+      _controller.reverse();
       setState(() {
 
       });
@@ -344,147 +345,262 @@ class _AuthCardState extends State<AuthCard>
 
               Stack(
                 children: <Widget>[
-                  AnimatedContainer(
-                    duration: _controller.duration!,
-                    curve: Curves.easeIn,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation1,
-                      child: SlideTransition(
-                        position: _slideAnimation1,
-                        child: Center(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: deviceSize.height * 0.055,
-                                width: deviceSize.width * 0.6,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      color: AppTheme.h1, width: 0.5),
-                                ),
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      TextFormField(
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          suffix: Text(''),
-                                          hintText: 'Please enter your email',
-                                          counterStyle: TextStyle(
-                                            decorationStyle:
-                                            TextDecorationStyle.dashed,
-                                            color: Colors.grey,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
-                                          ),
-                                        ),
-                                        keyboardType:
-                                        TextInputType.emailAddress,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Please enter your email';
-                                          }
-                                          return null;
-                                        },
-                                        onSaved: (value) {
-                                          _authData['email'] = value!;
-                                        },
-                                      ),
-                                      Positioned(
-                                          right: 3,
-                                          top: 5,
-                                          bottom: 12,
-                                          child: Icon(
-                                            Icons.mobile_screen_share,
-                                            color: AppTheme.secondary,
-                                          )),
-                                    ],
+                  Center(
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          height: deviceSize.height * 0.055,
+                          width: deviceSize.width * 0.6,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                                color: AppTheme.h1, width: 0.5),
+                          ),
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 8),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: <Widget>[
+                                TextFormField(
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    suffix: Text(''),
+                                    hintText: 'Please enter your email',
+                                    counterStyle: TextStyle(
+                                      decorationStyle:
+                                      TextDecorationStyle.dashed,
+                                      color: Colors.grey,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 18.0,
+                                    ),
                                   ),
+                                  keyboardType:
+                                  TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your email';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _authData['email'] = value!;
+                                  },
                                 ),
-                              ),
-                            ],
+                                Positioned(
+                                    right: 3,
+                                    top: 5,
+                                    bottom: 12,
+                                    child: Icon(
+                                      Icons.mobile_screen_share,
+                                      color: AppTheme.secondary,
+                                    )),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
+                  // AnimatedContainer(
+                  //   duration: _controller.duration!,
+                  //   curve: Curves.easeIn,
+                  //   child: FadeTransition(
+                  //     opacity: _opacityAnimation1,
+                  //     child: SlideTransition(
+                  //       position: _slideAnimation1,
+                  //       child: Center(
+                  //         child: Stack(
+                  //           children: <Widget>[
+                  //             Container(
+                  //               height: deviceSize.height * 0.055,
+                  //               width: deviceSize.width * 0.6,
+                  //               decoration: BoxDecoration(
+                  //                 borderRadius: BorderRadius.circular(5),
+                  //                 border: Border.all(
+                  //                     color: AppTheme.h1, width: 0.5),
+                  //               ),
+                  //               child: Padding(
+                  //                 padding:
+                  //                 const EdgeInsets.symmetric(horizontal: 8),
+                  //                 child: Stack(
+                  //                   alignment: Alignment.center,
+                  //                   children: <Widget>[
+                  //                     TextFormField(
+                  //                       textAlign: TextAlign.center,
+                  //                       decoration: InputDecoration(
+                  //                         border: InputBorder.none,
+                  //                         suffix: Text(''),
+                  //                         hintText: 'Please enter your email',
+                  //                         counterStyle: TextStyle(
+                  //                           decorationStyle:
+                  //                           TextDecorationStyle.dashed,
+                  //                           color: Colors.grey,
+                  //                           fontFamily: 'Iransans',
+                  //                           fontSize: textScaleFactor * 18.0,
+                  //                         ),
+                  //                       ),
+                  //                       keyboardType:
+                  //                       TextInputType.emailAddress,
+                  //                       validator: (value) {
+                  //                         if (value!.isEmpty) {
+                  //                           return 'Please enter your email';
+                  //                         }
+                  //                         return null;
+                  //                       },
+                  //                       onSaved: (value) {
+                  //                         _authData['email'] = value!;
+                  //                       },
+                  //                     ),
+                  //                     Positioned(
+                  //                         right: 3,
+                  //                         top: 5,
+                  //                         bottom: 12,
+                  //                         child: Icon(
+                  //                           Icons.mobile_screen_share,
+                  //                           color: AppTheme.secondary,
+                  //                         )),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               Stack(
                 children: <Widget>[
-
-                  AnimatedContainer(
-                    duration: _controller.duration!,
-                    curve: Curves.easeIn,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation1,
-                      child: SlideTransition(
-                        position: _slideAnimation1,
-                        child: Center(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: deviceSize.height * 0.055,
-                                width: deviceSize.width * 0.6,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      color: AppTheme.h1, width: 0.5),
-                                ),
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      TextFormField(
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          suffix: Text(''),
-                                          hintText: 'Please enter your password',
-                                          counterStyle: TextStyle(
-                                            decorationStyle:
-                                            TextDecorationStyle.dashed,
-                                            color: Colors.grey,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
-                                          ),
-                                        ),
-                                        keyboardType:
-                                        TextInputType.emailAddress,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Please enter your password';
-                                          }
-                                          return null;
-                                        },
-                                        onSaved: (value) {
-                                          _authData['password'] = value!;
-                                        },
-                                      ),
-                                      Positioned(
-                                          right: 3,
-                                          top: 5,
-                                          bottom: 12,
-                                          child: Icon(
-                                            Icons.mobile_screen_share,
-                                            color: AppTheme.secondary,
-                                          )),
-                                    ],
+                  Center(
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          height: deviceSize.height * 0.055,
+                          width: deviceSize.width * 0.6,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                                color: AppTheme.h1, width: 0.5),
+                          ),
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 8),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: <Widget>[
+                                TextFormField(
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    suffix: Text(''),
+                                    hintText: 'Please enter your password',
+                                    counterStyle: TextStyle(
+                                      decorationStyle:
+                                      TextDecorationStyle.dashed,
+                                      color: Colors.grey,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 18.0,
+                                    ),
                                   ),
+                                  keyboardType:
+                                  TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your password';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _authData['password'] = value!;
+                                  },
                                 ),
-                              ),
-                            ],
+                                Positioned(
+                                    right: 3,
+                                    top: 5,
+                                    bottom: 12,
+                                    child: Icon(
+                                      Icons.mobile_screen_share,
+                                      color: AppTheme.secondary,
+                                    )),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
+                  // AnimatedContainer(
+                  //   duration: _controller.duration!,
+                  //   curve: Curves.easeIn,
+                  //   child: FadeTransition(
+                  //     opacity: _opacityAnimation1,
+                  //     child: SlideTransition(
+                  //       position: _slideAnimation1,
+                  //       child: Center(
+                  //         child: Stack(
+                  //           children: <Widget>[
+                  //             Container(
+                  //               height: deviceSize.height * 0.055,
+                  //               width: deviceSize.width * 0.6,
+                  //               decoration: BoxDecoration(
+                  //                 borderRadius: BorderRadius.circular(5),
+                  //                 border: Border.all(
+                  //                     color: AppTheme.h1, width: 0.5),
+                  //               ),
+                  //               child: Padding(
+                  //                 padding:
+                  //                 const EdgeInsets.symmetric(horizontal: 8),
+                  //                 child: Stack(
+                  //                   alignment: Alignment.center,
+                  //                   children: <Widget>[
+                  //                     TextFormField(
+                  //                       textAlign: TextAlign.center,
+                  //                       decoration: InputDecoration(
+                  //                         border: InputBorder.none,
+                  //                         suffix: Text(''),
+                  //                         hintText: 'Please enter your password',
+                  //                         counterStyle: TextStyle(
+                  //                           decorationStyle:
+                  //                           TextDecorationStyle.dashed,
+                  //                           color: Colors.grey,
+                  //                           fontFamily: 'Iransans',
+                  //                           fontSize: textScaleFactor * 18.0,
+                  //                         ),
+                  //                       ),
+                  //                       keyboardType:
+                  //                       TextInputType.emailAddress,
+                  //                       validator: (value) {
+                  //                         if (value!.isEmpty) {
+                  //                           return 'Please enter your password';
+                  //                         }
+                  //                         return null;
+                  //                       },
+                  //                       onSaved: (value) {
+                  //                         _authData['password'] = value!;
+                  //                       },
+                  //                     ),
+                  //                     Positioned(
+                  //                         right: 3,
+                  //                         top: 5,
+                  //                         bottom: 12,
+                  //                         child: Icon(
+                  //                           Icons.mobile_screen_share,
+                  //                           color: AppTheme.secondary,
+                  //                         )),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               SizedBox(
