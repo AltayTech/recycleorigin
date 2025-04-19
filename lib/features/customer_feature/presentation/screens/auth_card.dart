@@ -296,12 +296,10 @@ class _AuthCardState extends State<AuthCard>
                           width: deviceSize.width * 0.6,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: AppTheme.h1, width: 0.5),
+                            border: Border.all(color: AppTheme.h1, width: 0.5),
                           ),
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Stack(
                               alignment: Alignment.center,
                               children: <Widget>[
@@ -315,8 +313,7 @@ class _AuthCardState extends State<AuthCard>
                                       fontFamily: 'Iransans',
                                       fontSize: 11,
                                     ),
-                                    hintText:
-                                        'Last name',
+                                    hintText: 'Last name',
                                     counterStyle: TextStyle(
                                       decorationStyle:
                                           TextDecorationStyle.dashed,
@@ -326,14 +323,13 @@ class _AuthCardState extends State<AuthCard>
                                     ),
                                   ),
                                   keyboardType: TextInputType.name,
-                                  validator:
-                                      _authMode == AuthMode.Registration
-                                          ? (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Please enter your last name';
-                                              }
-                                            }
-                                          : null,
+                                  validator: _authMode == AuthMode.Registration
+                                      ? (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter your last name';
+                                          }
+                                        }
+                                      : null,
                                   onSaved: (value) {
                                     _authData['last_name'] = value!;
                                   },
@@ -382,8 +378,7 @@ class _AuthCardState extends State<AuthCard>
                               ),
                               hintText: 'Email',
                               counterStyle: TextStyle(
-                                decorationStyle:
-                                    TextDecorationStyle.dashed,
+                                decorationStyle: TextDecorationStyle.dashed,
                                 color: Colors.grey,
                                 fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 18.0,
@@ -441,8 +436,7 @@ class _AuthCardState extends State<AuthCard>
                               ),
                               hintText: 'Password',
                               counterStyle: TextStyle(
-                                decorationStyle:
-                                    TextDecorationStyle.dashed,
+                                decorationStyle: TextDecorationStyle.dashed,
                                 color: Colors.grey,
                                 fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 18.0,
