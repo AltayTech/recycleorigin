@@ -22,6 +22,7 @@ class Urls {
   static const messageEndPoint = '/messages';
 
   static const loginEndPoint = 'jwt-auth/v1/token';
+  static const registerEndPoint = 'pasmands/v1/auth/register';
   static const sendMessageEndPoint = '/customer/send_message';
   static const orderInfoEndPoint = '/order';
   static const payEndPoint = '/pay';

@@ -150,16 +150,16 @@ class AuthenticationProvider with ChangeNotifier {
   Future<bool> _register(String email, String password, String firstName,
       String lastName) async {
     debugPrint('_register');
-    final url = Urls.baseUrl + Urls.loginEndPoint;
-    _dio.options = BaseOptions(
-      baseUrl: url,
-      connectTimeout: Duration(seconds: 5),
-      receiveTimeout: Duration(seconds: 5),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    );
+    final url = Urls.baseUrl + Urls.registerEndPoint;
+    // _dio.options = BaseOptions(
+    //   baseUrl: url,
+    //   connectTimeout: Duration(seconds: 5),
+    //   receiveTimeout: Duration(seconds: 5),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Accept': 'application/json',
+    //   },
+    // );
 
     final data = {
       'email': email,
@@ -171,52 +171,62 @@ class AuthenticationProvider with ChangeNotifier {
 
     try {
       Response response = await _dio.post(
-        '/login', // Replace with your login endpoint
+        url, // Replace with your login endpoint
         data: data,
       );
+      debugPrint('register response: ${response.toString()}');
+      debugPrint('register response: ${response.statusCode}');
 
       // final response = await http.post(Uri.parse(url), headers: headers);
       // updateCookie(response);
+      if(response.statusCode==200){
+        _isLoggedin = true;
+        // _login(email=email, password=password);
 
-      final responseData = json.decode(response.data);
-      debugPrint(responseData);
-
-      if (responseData != 'false') {
-        try {
-          _token = responseData['token'];
-          _isFirstLogin = true;
-
-          final prefs = await SharedPreferences.getInstance();
-          final userData = json.encode(
-            {
-              'token': _token,
-            },
-          );
-          prefs.setString('userData', userData);
-          prefs.setString('token', _token);
-          debugPrint(_token);
-          prefs.setString('isLogin', 'true');
-          _isLoggedin = true;
-        } catch (error) {
-          _isLoggedin = false;
-          final prefs = await SharedPreferences.getInstance();
-          final userData = json.encode(
-            {
-              'token': '',
-            },
-          );
-          _token = '';
-        }
-      } else {
-        final prefs = await SharedPreferences.getInstance();
-        _isLoggedin = false;
-
-        _token = '';
-        prefs.setString('token', _token);
-        debugPrint(_token);
-        debugPrint('noooo token');
-        prefs.setString('isLogin', 'true');
+      }else{
+        // _showErrorDialog('Code is not correct');
+        debugPrint('Code is not correct');
       }
+
+      // final responseData = json.decode(response.data);
+      // debugPrint("responseData $responseData");
+
+      // if (responseData != 'false') {
+      //   try {
+      //     _token = responseData['token'];
+      //     _isFirstLogin = true;
+      //
+      //     final prefs = await SharedPreferences.getInstance();
+      //     final userData = json.encode(
+      //       {
+      //         'token': _token,
+      //       },
+      //     );
+      //     prefs.setString('userData', userData);
+      //     prefs.setString('token', _token);
+      //     debugPrint(_token);
+      //     prefs.setString('isLogin', 'true');
+      //     _isLoggedin = true;
+      //   } catch (error) {
+      //     _isLoggedin = false;
+      //     final prefs = await SharedPreferences.getInstance();
+      //     final userData = json.encode(
+      //       {
+      //         'token': '',
+      //       },
+      //     );
+      //     _token = '';
+      //   }
+      // } else {
+      //   final prefs = await SharedPreferences.getInstance();
+      //   _isLoggedin = false;
+      //
+      //   _token = '';
+      //   prefs.setString('token', _token);
+      //   debugPrint(_token);
+      //   debugPrint('noooo token');
+      //   prefs.setString('isLogin', 'true');
+      // }
       notifyListeners();
     } catch (error) {
       debugPrint(error.toString());

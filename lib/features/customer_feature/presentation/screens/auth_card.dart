@@ -147,6 +147,7 @@ class _AuthCardState extends State<AuthCard>
           var loginResponse =
           await Provider.of<AuthenticationProvider>(context, listen: false)
               .login(_authData!).then((value) async{
+                debugPrint('login response $value');
             if(await value) {
               Navigator.of(context)
                   .pushReplacementNamed(NavigationBottomScreen.routeName);
@@ -157,7 +158,7 @@ class _AuthCardState extends State<AuthCard>
 
 
         } else {
-          _showErrorDialog('Code is not correct');
+          _showErrorDialog('User already');
         }
       }
     } on HttpException catch (error) {
@@ -261,8 +262,10 @@ class _AuthCardState extends State<AuthCard>
                                         validator:
                                         _authMode == AuthMode.Registration
                                             ? (value) {
+                                          if(value!.isEmpty) {
+                                            return 'Please enter your first name';
+                                          }
 
-                                          return 'Please enter your first name';
                                         }
                                             : null,
 
@@ -336,8 +339,10 @@ class _AuthCardState extends State<AuthCard>
 
                                         _authMode == AuthMode.Registration
                                             ? (value) {
+                                            if(value!.isEmpty) {
+                                              return 'Please enter your last name';
+                                            }
 
-                                            return 'Please enter your last name';
                                         }
                                             : null,
                                         onSaved: (value) {
