@@ -406,12 +406,12 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                         } else if (!isLogin) {
                           _showLogindialog();
                         } else {
-                          if (isCompleted) {
+                          // if (isCompleted) {
                             Navigator.of(context)
                                 .pushNamed(AddressScreen.routeName);
-                          } else {
-                            _showCompletedialog();
-                          }
+                          // } else {
+                          //   _showCompletedialog();
+                          // }
                         }
                       },
                       child: ButtonBottom(
