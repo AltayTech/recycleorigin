@@ -79,7 +79,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           markerId: MarkerId(_lastMapPosition.toString()),
           position: latLng,
           infoWindow: InfoWindow(
-            title: 'مکان منتخب',
+            title: 'Selected Region',
             snippet: '',
           ),
           icon: BitmapDescriptor.defaultMarker,
@@ -221,7 +221,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 //          preferredSize: Size.fromHeight(15),
 //        ),
         title: Text(
-          'آدرس جدید',
+          'New Address',
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -305,9 +305,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                     await osm.showSimplePickerLocation(
                                   context: context,
                                   isDismissible: true,
-                                  title: "لطفا موقعیت مورد نظر  رو انتخاب کنید",
-                                  textConfirmPicker: "تایید",
-                                  textCancelPicker: "لغو",
+                                  title: "Please select your location",
+                                  textConfirmPicker: "Ok",
+                                  textCancelPicker: "Cancel",
                                   zoomOption: osm.ZoomOption(
                                     initZoom: 12,
                                     minZoomLevel: 3,
@@ -324,7 +324,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                 debugPrint(p.latitude.toString());
                                 debugPrint(p.longitude.toString());
                               },
-                              child: Text('انتخاب')),
+                              child: Text('Select')),
                         ),
                       ],
                     ),
@@ -393,7 +393,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                             const EdgeInsets.only(right: 8.0, left: 8, top: 6),
                         child: DropdownButton<String>(
                           hint: Text(
-                            'منطقه مورد نظر را آنتخاب کنید.',
+                            'Select Region',
                             style: TextStyle(
                               color: AppTheme.grey,
                               fontFamily: 'Iransans',
@@ -458,7 +458,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 InfoEditItem(
-                  title: 'آدرس',
+                  title: 'Address',
                   controller: addressController,
                   bgColor: AppTheme.bg,
                   iconColor: Color(0xffA67FEC),
@@ -479,7 +479,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           onPressed: () async {
             SnackBar addToCartSnackBar = SnackBar(
               content: Text(
-                'منطقه انتخاب نشده است!',
+                'Region does not added to your address list',
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Iransans',
@@ -487,7 +487,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 ),
               ),
               action: SnackBarAction(
-                label: 'متوجه شدم',
+                label: 'Ok',
                 onPressed: () {
                   // Some code to undo the change.
                 },
