@@ -18,7 +18,7 @@ class _SplashScreensState extends State<SplashScreens> {
       seconds: 3,
       navigateAfterSeconds: new NavigationBottomScreen(),
       title: new Text(
-        AppLocalizations.of(context)!.recycleorigin,
+        "Recycle Origin",
         textAlign: TextAlign.center,
         style: new TextStyle(
           fontFamily: 'BFarnaz',
@@ -35,7 +35,7 @@ class _SplashScreensState extends State<SplashScreens> {
       ),
       loadingText: Text(
         EnArConvertor()
-            .replaceArNumber('${AppLocalizations.of(context)!.version} 1.0'),
+            .replaceArNumber('Version 1.0'),
         style: new TextStyle(
           fontFamily: 'Iransans',
           fontWeight: FontWeight.w400,

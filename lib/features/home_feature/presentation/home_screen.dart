@@ -61,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
       await showDialog<String>(
         context: context,
         builder: (ctx) => CustomDialog(
-          title: AppLocalizations.of(context)!.welcome,
-          buttonText: AppLocalizations.of(context)!.accept,
+          title: "Welcome",
+          buttonText: "accept",
           description: AppLocalizations.of(context)!.forarticles,
           image: Image.asset('assets/images/main_page_request_ic.png'),
         ),
@@ -75,8 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
       await showDialog<String>(
         context: context,
         builder: (ctx) => CustomDialog(
-          title: AppLocalizations.of(context)!.dearuser,
-          buttonText: AppLocalizations.of(context)!.accept,
+          title: "Dear User",
+          buttonText: "accept",
           description: AppLocalizations.of(context)!.logoutsuccess,
           image: Image.asset('assets/images/main_page_request_ic.png'),
         ),
@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .pushNamed(ProductsScreen.routeName);
                       },
                       child: MainItemButton(
-                          title: AppLocalizations.of(context)!.store,
+                          title: "Store",
                           itemPaddingF: itemPaddingF,
                           imageUrl: 'assets/images/main_page_shop_ic.png'),
                     ),
