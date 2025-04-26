@@ -353,7 +353,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 InfoEditItem(
-                  title: 'نام آدرس',
+                  title: 'Address name:',
                   controller: nameController,
                   bgColor: AppTheme.bg,
                   iconColor: Color(0xffA67FEC),
@@ -367,7 +367,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   child: Container(
                     width: deviceWidth * 0.78,
                     child: Text(
-                      'منطقه : ',
+                      'Region : ',
                       style: TextStyle(
                         color: AppTheme.h1,
                         fontFamily: 'Iransans',
