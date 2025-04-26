@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (ctx) => CustomDialog(
           title: "Welcome",
           buttonText: "accept",
-          description: AppLocalizations.of(context)!.forarticles,
+          description: "In order to get profile information go to profile section",
           image: Image.asset('assets/images/main_page_request_ic.png'),
         ),
       );
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (ctx) => CustomDialog(
           title: "Dear User",
           buttonText: "accept",
-          description: AppLocalizations.of(context)!.logoutsuccess,
+          description: "You Logout successfully",
           image: Image.asset('assets/images/main_page_request_ic.png'),
         ),
       );
@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ButtonBottom(
                   width: deviceWidth * 0.9,
                   height: deviceWidth * 0.14,
-                  text: AppLocalizations.of(context)!.collectrequest,
+                  text: "Request collect",
                   isActive: true,
                 ),
               ),
@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .pushNamed(CollectListScreen.routeName);
                       },
                       child: MainItemButton(
-                        title: AppLocalizations.of(context)!.request,
+                        title: "Request",
                         itemPaddingF: itemPaddingF,
                         imageUrl: 'assets/images/main_page_request_ic.png',
                         isMonoColor: false,
@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.of(context).pushNamed(WalletScreen.routeName);
                       },
                       child: MainItemButton(
-                          title: AppLocalizations.of(context)!.wallet,
+                          title: "Wallet",
                           itemPaddingF: itemPaddingF,
                           imageUrl: 'assets/images/main_page_wallet_ic.png'),
                     ),
@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               .pushNamed(ArticlesScreen.routeName);
                         },
                         child: MainItemButton(
-                            title: AppLocalizations.of(context)!.articles,
+                            title: "Articles",
                             itemPaddingF: itemPaddingF,
                             imageSizeFactor: 0.33,
                             isMonoColor: true,

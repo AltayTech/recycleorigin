@@ -136,7 +136,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.store,
+                              "Store",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
