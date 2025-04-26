@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../features/customer_feature/presentation/widgets/profile_view.dart';
+import '../../features/home_feature/presentation/home_screen.dart';
 import '../constants/strings.dart';
 import '../theme/app_theme.dart';
 import '../widgets/main_drawer.dart';
-import '../../features/customer_feature/presentation/widgets/profile_view.dart';
-import '../../features/home_feature/presentation/home_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationBottomScreen extends StatefulWidget {
   static const routeName = '/NBS';
@@ -76,7 +75,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
               fontFamily: 'Iransans',
               fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
           title: Text(
-            AppLocalizations.of(context)!.appexit,
+            "Exit from app",
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: AppTheme.black,
@@ -84,7 +83,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
                 fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
           ),
           content: Text(
-            AppLocalizations.of(context)!.doyouwanttoexit,
+            "Do you want to exit from the app?",
             style: TextStyle(
                 color: AppTheme.grey,
                 fontFamily: 'Iransans',
@@ -95,7 +94,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
             GestureDetector(
               onTap: () => Navigator.of(context).pop(false),
               child: Text(
-                AppLocalizations.of(context)!.no,
+                "No",
                 style: TextStyle(
                     color: AppTheme.black,
                     fontFamily: 'Iransans',
@@ -110,7 +109,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
               onTap: () {
                 Navigator.of(context).pop(true);
               },
-              child: Text(AppLocalizations.of(context)!.yes),
+              child: Text("Yes"),
             ),
           ],
         ),
@@ -135,7 +134,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                AppLocalizations.of(context)!.forexit,
+                "Inorder to exit press exit again",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: AppTheme.black,
@@ -165,7 +164,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
 //              preferredSize: Size.fromHeight(15),
 //            ),
             title: Text(
-              AppLocalizations.of(context)!.cleancity,
+              "Clean City",
               style: TextStyle(
                 fontFamily: 'Iransans',
               ),

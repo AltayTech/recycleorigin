@@ -11,7 +11,7 @@ import '../../business/entities/product_cart.dart';
 import '../../business/entities/product_order_send.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../../core/screens/navigation_bottom_screen.dart';
@@ -130,7 +130,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     Customer customer =
-        Provider.of<CustomerInfo>(context, listen: false).customer;
+        Provider.of<CustomerInfoProvider>(context, listen: false).customer;
 
     return Scaffold(
       appBar: AppBar(

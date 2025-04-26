@@ -147,7 +147,7 @@ class _WastesScreenState extends State<WastesScreen>
                               child: loadedWastes.isEmpty
                                   ? Center(
                                       child: Text(
-                                      'پسماندی در دسترس نیست',
+                                      'No items found',
                                       style: TextStyle(
                                         fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,

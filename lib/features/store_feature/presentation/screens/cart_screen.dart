@@ -8,8 +8,8 @@ import '../../../../core/models/customer.dart';
 import '../../business/entities/product_cart.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/auth.dart';
-import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import 'order_products_send_screen.dart';
 import '../widgets/card_item.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
@@ -62,23 +62,27 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      await Provider.of<Auth>(context, listen: false).checkCompleted();
+      await Provider.of<AuthenticationProvider>(context, listen: false)
+          .checkCompleted();
 
       await getShopItems();
-      customer = Provider.of<CustomerInfo>(context, listen: false).customer;
+      customer =
+          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
       _isLoading = true;
 
 //      await getShopItems();
-      bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+      bool isLogin =
+          Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
 
       if (isLogin) {
         try {
-          await Provider.of<CustomerInfo>(context, listen: false)
+          await Provider.of<CustomerInfoProvider>(context, listen: false)
               .getCustomer()
               .then(
             (_) {
               customer =
-                  Provider.of<CustomerInfo>(context, listen: false).customer;
+                  Provider.of<CustomerInfoProvider>(context, listen: false)
+                      .customer;
             },
           );
         } catch (error) {
@@ -132,8 +136,10 @@ class _CartScreenState extends State<CartScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
-    bool isCompleted = Provider.of<Auth>(context, listen: false).isCompleted;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isCompleted =
+        Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
 
     getShopItems();
 

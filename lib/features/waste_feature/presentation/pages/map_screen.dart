@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/models/region.dart';
 import '../../business/entities/address.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/auth.dart';
+import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 import '../../../../core/widgets/info_edit_item.dart';
 
 class MapScreen extends StatefulWidget {
@@ -79,7 +79,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           markerId: MarkerId(_lastMapPosition.toString()),
           position: latLng,
           infoWindow: InfoWindow(
-            title: 'مکان منتخب',
+            title: 'Selected Region',
             snippet: '',
           ),
           icon: BitmapDescriptor.defaultMarker,
@@ -156,9 +156,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).getAddresses();
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .getAddresses();
 
-    addressList = Provider.of<Auth>(context, listen: false).addressItems;
+    addressList = Provider.of<AuthenticationProvider>(context, listen: false)
+        .addressItems;
 
     addressList.add(Address(
       name: nameController.text,
@@ -169,7 +171,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     ));
     print('addressList    ${addressList.length}');
 
-    await Provider.of<Auth>(context, listen: false).updateAddress(addressList);
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .updateAddress(addressList);
 
     setState(() {
       _isLoading = false;
@@ -180,9 +183,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).retrieveRegionList();
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .retrieveRegionList();
 
-    regionList = Provider.of<Auth>(context, listen: false).regionItems;
+    regionList =
+        Provider.of<AuthenticationProvider>(context, listen: false).regionItems;
     for (int i = 0; i < regionList.length; i++) {
       regionValueList.add(regionList[i].name);
     }
@@ -216,7 +221,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 //          preferredSize: Size.fromHeight(15),
 //        ),
         title: Text(
-          'آدرس جدید',
+          'New Address',
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -300,9 +305,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                     await osm.showSimplePickerLocation(
                                   context: context,
                                   isDismissible: true,
-                                  title: "لطفا موقعیت مورد نظر  رو انتخاب کنید",
-                                  textConfirmPicker: "تایید",
-                                  textCancelPicker: "لغو",
+                                  title: "Please select your location",
+                                  textConfirmPicker: "Ok",
+                                  textCancelPicker: "Cancel",
                                   zoomOption: osm.ZoomOption(
                                     initZoom: 12,
                                     minZoomLevel: 3,
@@ -319,7 +324,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                 debugPrint(p.latitude.toString());
                                 debugPrint(p.longitude.toString());
                               },
-                              child: Text('انتخاب')),
+                              child: Text('Select')),
                         ),
                       ],
                     ),
@@ -348,7 +353,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 InfoEditItem(
-                  title: 'نام آدرس',
+                  title: 'Address name:',
                   controller: nameController,
                   bgColor: AppTheme.bg,
                   iconColor: Color(0xffA67FEC),
@@ -362,7 +367,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   child: Container(
                     width: deviceWidth * 0.78,
                     child: Text(
-                      'منطقه : ',
+                      'Region : ',
                       style: TextStyle(
                         color: AppTheme.h1,
                         fontFamily: 'Iransans',
@@ -388,7 +393,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                             const EdgeInsets.only(right: 8.0, left: 8, top: 6),
                         child: DropdownButton<String>(
                           hint: Text(
-                            'منطقه مورد نظر را آنتخاب کنید.',
+                            'Select Region',
                             style: TextStyle(
                               color: AppTheme.grey,
                               fontFamily: 'Iransans',
@@ -453,7 +458,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 InfoEditItem(
-                  title: 'آدرس',
+                  title: 'Address',
                   controller: addressController,
                   bgColor: AppTheme.bg,
                   iconColor: Color(0xffA67FEC),
@@ -474,7 +479,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           onPressed: () async {
             SnackBar addToCartSnackBar = SnackBar(
               content: Text(
-                'منطقه انتخاب نشده است!',
+                'Region does not added to your address list',
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Iransans',
@@ -482,7 +487,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 ),
               ),
               action: SnackBarAction(
-                label: 'متوجه شدم',
+                label: 'Ok',
                 onPressed: () {
                   // Some code to undo the change.
                 },

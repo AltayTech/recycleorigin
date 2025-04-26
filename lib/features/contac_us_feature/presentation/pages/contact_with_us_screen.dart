@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../../../store_feature/business/entities/shop.dart';
 
 class ContactWithUs extends StatefulWidget {
@@ -66,8 +66,9 @@ class _ContactWithUsState extends State<ContactWithUs> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false).fetchShopData();
-    shopData = Provider.of<CustomerInfo>(context, listen: false).shop;
+    await Provider.of<CustomerInfoProvider>(context, listen: false)
+        .fetchShopData();
+    shopData = Provider.of<CustomerInfoProvider>(context, listen: false).shop;
 
     setState(() {
       _isLoading = false;
@@ -79,7 +80,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    shopData = Provider.of<CustomerInfo>(context).shop;
+    shopData = Provider.of<CustomerInfoProvider>(context).shop;
 
     return Scaffold(
       backgroundColor: AppTheme.white,

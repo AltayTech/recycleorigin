@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 
 import '../../business/entities/article.dart';
@@ -115,7 +114,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                                   padding: const EdgeInsets.all(4.0),
                                   child: Text(
                                     EnArConvertor().replaceArNumber(
-                                        '${Jalali.fromDateTime(DateTime.parse(loadedArticle.post_date_gmt)).year}/${Jalali.fromDateTime(DateTime.parse(loadedArticle.post_date_gmt)).month}/${Jalali.fromDateTime(DateTime.parse(loadedArticle.post_date_gmt)).day}'),
+                                        '${(DateTime.parse(loadedArticle.post_date_gmt)).year}/${(DateTime.parse(loadedArticle.post_date_gmt)).month}/${(DateTime.parse(loadedArticle.post_date_gmt)).day}'),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(

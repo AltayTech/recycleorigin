@@ -5,9 +5,9 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing.dart';
 import 'package:recycleorigin/core/models/customer.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/widgets/clearing_item_clear_screen.dart';
 import 'package:recycleorigin/core/widgets/currency_input_formatter.dart';
@@ -42,7 +42,7 @@ class _ClearScreenState extends State<ClearScreen>
 
   @override
   void initState() {
-    Provider.of<CustomerInfo>(context, listen: false).sPage = 1;
+    Provider.of<CustomerInfoProvider>(context, listen: false).sPage = 1;
 
     Provider.of<Clearings>(context, listen: false).searchBuilder();
     _scrollController.addListener(() {
@@ -75,7 +75,8 @@ class _ClearScreenState extends State<ClearScreen>
   void didChangeDependencies() async {
     if (_isInit) {
       getCustomerInfo();
-      customer = Provider.of<CustomerInfo>(context, listen: false).customer;
+      customer =
+          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
       searchItems();
     }
     _isInit = false;
@@ -83,9 +84,11 @@ class _ClearScreenState extends State<ClearScreen>
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+      await Provider.of<CustomerInfoProvider>(context, listen: false)
+          .getCustomer();
     }
   }
 
@@ -106,7 +109,7 @@ class _ClearScreenState extends State<ClearScreen>
       _isLoading = true;
     });
 
-    await Provider.of<CustomerInfo>(context, listen: false)
+    await Provider.of<CustomerInfoProvider>(context, listen: false)
         .sendClearingRequest(money.toString(), shaba);
     setState(() {
       _isLoading = false;
@@ -149,7 +152,7 @@ class _ClearScreenState extends State<ClearScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<Auth>(context).isAuth;
+    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -357,7 +360,8 @@ class _ClearScreenState extends State<ClearScreen>
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child: Consumer<CustomerInfo>(
+                                                child: Consumer<
+                                                    CustomerInfoProvider>(
                                                   builder: (_, data, ch) =>
                                                       Text(
                                                     data.customer != null
@@ -512,7 +516,7 @@ class _ClearScreenState extends State<ClearScreen>
                                             ),
                                           ),
                                           Spacer(),
-                                          Consumer<CustomerInfo>(
+                                          Consumer<CustomerInfoProvider>(
                                               builder: (_, Wastes, ch) {
                                             return Container(
                                               child: Padding(

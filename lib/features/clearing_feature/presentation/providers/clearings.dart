@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:shamsi_date/shamsi_date.dart';
+// import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing_main.dart';
@@ -18,7 +18,7 @@ class Clearings with ChangeNotifier {
   late SearchDetail _searchDetails;
 
   late String _selectedHours;
-  late Jalali _selectedDay;
+  late DateTime _selectedDay;
 
   String get selectedHours => _selectedHours;
 
@@ -26,9 +26,9 @@ class Clearings with ChangeNotifier {
     _selectedHours = value;
   }
 
-  Jalali get selectedDay => _selectedDay;
+  DateTime get selectedDay => _selectedDay;
 
-  set selectedDay(Jalali value) {
+  set selectedDay(DateTime value) {
     _selectedDay = value;
   }
 

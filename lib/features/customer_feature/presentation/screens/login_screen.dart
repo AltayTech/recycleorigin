@@ -3,7 +3,7 @@ import 'package:recycleorigin/features/customer_feature/presentation/screens/aut
 
 import '../../../../core/widgets/main_drawer.dart';
 
-enum AuthMode { VerificationCode, Login }
+enum AuthMode { Registration, Login }
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';

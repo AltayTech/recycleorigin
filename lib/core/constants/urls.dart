@@ -1,5 +1,6 @@
 class Urls {
-  static const rootUrl = 'https://recycleorigin.com//rest/pasmands/v1';
+  static const baseUrl = 'https://recycleorigin.com/rest/';
+  static const rootUrl = baseUrl + 'pasmands/v1';
   static const pasmandsEndPoint = '/pasmands';
   static const productsEndPoint = '/products';
   static const categoriesEndPoint = '/products/category';
@@ -20,7 +21,8 @@ class Urls {
   static const shopEndPoint = '/info';
   static const messageEndPoint = '/messages';
 
-  static const loginEndPoint = '/login';
+  static const loginEndPoint = 'jwt-auth/v1/token';
+  static const registerEndPoint = 'pasmands/v1/auth/register';
   static const sendMessageEndPoint = '/customer/send_message';
   static const orderInfoEndPoint = '/order';
   static const payEndPoint = '/pay';

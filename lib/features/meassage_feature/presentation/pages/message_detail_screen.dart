@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/auth.dart';
-import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../providers/messages.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../widgets/message_reply_item.dart';
@@ -37,7 +36,8 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
     if (_isInit) {
       message = ModalRoute.of(context)?.settings.arguments as Message;
-      customer = Provider.of<CustomerInfo>(context, listen: false).customer;
+      customer =
+          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
 
       loadMessages();
     }
@@ -51,7 +51,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
       _isLoading = true;
     });
 
-    bool isLogin = Provider.of<Auth>(context).isAuth;
+    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
     await Provider.of<Messages>(context, listen: false)
         .getMessages(message.comment_post_ID, isLogin);
     messages = Provider.of<Messages>(context, listen: false).allMessagesDetail;
@@ -121,12 +121,12 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Text(
                               EnArConvertor()
-                                  .replaceArNumber('${Jalali.fromDateTime(
-                                DateTime.parse(message.comment_date),
-                              ).year}/${Jalali.fromDateTime(
-                                DateTime.parse(message.comment_date),
-                              ).month}/${Jalali.fromDateTime(
-                                DateTime.parse(message.comment_date),
+                                  .replaceArNumber('${(
+                                DateTime.parse(message.comment_date)
+                              ).year}/${(
+                                DateTime.parse(message.comment_date)
+                              ).month}/${(
+                                DateTime.parse(message.comment_date)
                               ).day}'),
                               style: TextStyle(
                                 color: Colors.black54,

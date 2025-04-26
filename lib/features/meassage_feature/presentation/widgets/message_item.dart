@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -40,12 +39,12 @@ class MessageItem extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           EnArConvertor()
-                              .replaceArNumber('${Jalali.fromDateTime(
-                            DateTime.parse(message.comment_date),
-                          ).year}/${Jalali.fromDateTime(
-                            DateTime.parse(message.comment_date),
-                          ).month}/${Jalali.fromDateTime(
-                            DateTime.parse(message.comment_date),
+                              .replaceArNumber('${(
+                            DateTime.parse(message.comment_date)
+                          ).year}/${(
+                            DateTime.parse(message.comment_date)
+                          ).month}/${(
+                            DateTime.parse(message.comment_date)
                           ).day}'),
                           style: TextStyle(
                             color: Colors.white,

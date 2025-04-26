@@ -3,11 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/pages/messages_screen.dart';
 
-import '../../features/customer_feature/presentation/providers/auth.dart';
+import '../../features/customer_feature/presentation/providers/authentication_provider.dart';
 import '../../features/about_feature/presentation/pages/about_us_screen.dart';
 import '../../features/store_feature/presentation/screens/cart_screen.dart';
 import '../../features/contac_us_feature/presentation/pages/contact_with_us_screen.dart';
@@ -17,7 +17,6 @@ import '../../features/guid_feature/presentation/pages/guide_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
 import '../../features/store_feature/presentation/screens/product_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function()? tapHandler) {
@@ -76,12 +75,12 @@ class MainDrawer extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Consumer<Auth>(
+                  Consumer<AuthenticationProvider>(
                     builder: (_, auth, ch) => ListTile(
                       title: Text(
                         auth.isAuth
-                            ? AppLocalizations.of(context)!.profile
-                            : AppLocalizations.of(context)!.login,
+                            ? "Profile"
+                            : "Login",
                         style: TextStyle(
                           fontFamily: "Iransans",
                           fontWeight: FontWeight.w600,
@@ -114,7 +113,7 @@ class MainDrawer extends StatelessWidget {
                         children: <Widget>[
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.home,
+                              "Home",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -136,7 +135,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.store,
+                              "Store",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -159,7 +158,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.cards,
+                              "Cards",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -181,7 +180,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.charities,
+                              "Charities",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -206,7 +205,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.cources,
+                              "Cources",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -228,7 +227,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.supports,
+                              "Supports",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -250,7 +249,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.guids,
+                              "Guids",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -272,7 +271,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.contactus,
+                              "Contact Us",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -294,7 +293,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.aboutus,
+                              "About Us",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -316,7 +315,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.logout,
+                              "Logout",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -330,13 +329,17 @@ class MainDrawer extends StatelessWidget {
                               color: iconColor,
                             ),
                             onTap: () async {
-                              Provider.of<CustomerInfo>(context, listen: false)
-                                  .customer = Provider.of<CustomerInfo>(context,
+                              Provider.of<CustomerInfoProvider>(context,
+                                      listen: false)
+                                  .customer = Provider.of<CustomerInfoProvider>(
+                                      context,
                                       listen: false)
                                   .customer_zero;
-                              await Provider.of<Auth>(context, listen: false)
+                              await Provider.of<AuthenticationProvider>(context,
+                                      listen: false)
                                   .removeToken();
-                              Provider.of<Auth>(context, listen: false)
+                              Provider.of<AuthenticationProvider>(context,
+                                      listen: false)
                                   .isFirstLogout = true;
                               Navigator.of(context).pop();
                               Navigator.of(context).pushNamedAndRemoveUntil(

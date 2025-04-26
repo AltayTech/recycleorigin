@@ -5,9 +5,9 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
 import 'package:recycleorigin/core/models/customer.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/auth.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/core/widgets/currency_input_formatter.dart';
 import 'package:recycleorigin/core/widgets/custom_dialog_send_request.dart';
@@ -54,7 +54,8 @@ class _DonationScreenState extends State<DonationScreen>
   void didChangeDependencies() async {
     if (_isInit) {
       getCustomerInfo();
-      customer = Provider.of<CustomerInfo>(context, listen: false).customer;
+      customer =
+          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
 
       loadedCharity = ModalRoute.of(context)?.settings.arguments as Charity;
     }
@@ -63,9 +64,11 @@ class _DonationScreenState extends State<DonationScreen>
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfo>(context, listen: false).getCustomer();
+      await Provider.of<CustomerInfoProvider>(context, listen: false)
+          .getCustomer();
     }
   }
 
@@ -143,7 +146,7 @@ class _DonationScreenState extends State<DonationScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<Auth>(context).isAuth;
+    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -262,7 +265,8 @@ class _DonationScreenState extends State<DonationScreen>
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),
-                                                  Consumer<CustomerInfo>(
+                                                  Consumer<
+                                                      CustomerInfoProvider>(
                                                     builder: (_, data, ch) =>
                                                         Text(
                                                       data.customer != null

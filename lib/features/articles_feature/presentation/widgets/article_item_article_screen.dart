@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 import '../../business/entities/article.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -74,7 +73,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
                                   padding: const EdgeInsets.only(left: 4),
                                   child: Text(
                                     EnArConvertor().replaceArNumber(
-                                      '${Jalali.fromDateTime(DateTime.parse(article.post_date_gmt)).year}/${Jalali.fromDateTime(DateTime.parse(article.post_date_gmt)).month}/${Jalali.fromDateTime(DateTime.parse(article.post_date_gmt)).day}',
+                                      '${(DateTime.parse(article.post_date_gmt)).year}/${(DateTime.parse(article.post_date_gmt)).month}/${(DateTime.parse(article.post_date_gmt)).day}',
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,

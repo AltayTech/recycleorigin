@@ -6,7 +6,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
 import '../business/entities/address.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/auth.dart';
+import '../../customer_feature/presentation/providers/authentication_provider.dart';
 import 'pages/map_screen.dart';
 import 'waste_request_date_screen.dart';
 import 'widgets/address_item.dart';
@@ -30,9 +30,9 @@ class _AddressScreenState extends State<AddressScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه لطفا وارد شوید',
+        title: 'Enter',
+        buttonText: 'Login Page ',
+        description: 'Please login to continue',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -51,8 +51,10 @@ class _AddressScreenState extends State<AddressScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Auth>(context, listen: false).getAddresses();
-    addressList = Provider.of<Auth>(context, listen: false).addressItems;
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .getAddresses();
+    addressList = Provider.of<AuthenticationProvider>(context, listen: false)
+        .addressItems;
     setState(() {
       _isLoading = false;
     });
@@ -64,7 +66,8 @@ class _AddressScreenState extends State<AddressScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
 
     return Scaffold(
       appBar: AppBar(
@@ -111,7 +114,7 @@ class _AddressScreenState extends State<AddressScreen> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(15.0),
-                                child: Consumer<Auth>(
+                                child: Consumer<AuthenticationProvider>(
                                   builder: (_, products, ch) =>
                                       ListView.builder(
                                     shrinkWrap: true,
@@ -120,7 +123,9 @@ class _AddressScreenState extends State<AddressScreen> {
                                     itemCount: products.addressItems.length,
                                     itemBuilder: (ctx, i) => InkWell(
                                       onTap: () async {
-                                        await Provider.of<Auth>(context,
+                                        await Provider.of<
+                                                    AuthenticationProvider>(
+                                                context,
                                                 listen: false)
                                             .selectAddress(
                                                 products.addressItems[i]);
@@ -128,16 +133,20 @@ class _AddressScreenState extends State<AddressScreen> {
                                       },
                                       child: AddressItem(
                                         addressItem: products.addressItems[i],
-                                        isSelected: Provider.of<Auth>(context,
-                                                        listen: false)
-                                                    .selectedAddress !=
-                                                null
-                                            ? products.addressItems[i].name ==
-                                                Provider.of<Auth>(context,
-                                                        listen: false)
-                                                    .selectedAddress
-                                                    .name
-                                            : false,
+                                        isSelected:
+                                            Provider.of<AuthenticationProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .selectedAddress !=
+                                                    null
+                                                ? products
+                                                        .addressItems[i].name ==
+                                                    Provider.of<AuthenticationProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .selectedAddress
+                                                        .name
+                                                : false,
                                       ),
                                     ),
                                   ),
@@ -147,7 +156,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           : Container(
                               height: deviceHeight * 0.45,
                               child: Center(
-                                child: Text('آدرسی اضافه نشده است'),
+                                child: Text('Addresses not found'),
                               ),
                             ),
                       SizedBox(
@@ -163,7 +172,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     onTap: () {
                       SnackBar addToCartSnackBar = SnackBar(
                         content: Text(
-                          'آدرسی انتخاب نشده است!',
+                          'Address does not selected',
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Iransans',
@@ -171,7 +180,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           ),
                         ),
                         action: SnackBarAction(
-                          label: 'متوجه شدم',
+                          label: 'OK',
                           onPressed: () {
                             // Some code to undo the change.
                           },
@@ -189,8 +198,9 @@ class _AddressScreenState extends State<AddressScreen> {
                       child: ButtonBottom(
                         width: deviceWidth * 0.75,
                         height: deviceWidth * 0.14,
-                        text: 'ادامه',
-                        isActive: Provider.of<Auth>(context, listen: false)
+                        text: 'Continue',
+                        isActive: Provider.of<AuthenticationProvider>(context,
+                                    listen: false)
                                 .selectedAddress !=
                             null,
                       ),

@@ -8,7 +8,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../business/entities/color_code.dart';
 import '../../business/entities/gallery.dart';
 import '../../business/entities/order_details.dart';
-import '../../../customer_feature/presentation/providers/customer_info.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'product_detail_screen.dart';
@@ -21,27 +21,26 @@ class OrderViewScreen extends StatefulWidget {
 }
 
 class _OrderViewScreenState extends State<OrderViewScreen> {
-  var _isSelecGallary = false;
-  var _isLoading;
-
-  late bool _payIsActive;
-
-  late bool _uploadIsOk;
+  bool _isSelectGallery = false;
+  bool _isLoading = false;
+  bool _payIsActive = false;
+  bool _uploadIsOk = false;
   bool _isInit = true;
 
   late int orderId;
   List<Gallery> _imageList = [];
-
   late OrderDetails orderDetails;
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      print(('adasd' + url));
-
-      await launch(url);
-    } else {
-      print(('adasd2' + url));
-      throw 'Could not launch $url';
+  Future<void> _launchURL(String urlString) async {
+    final Uri url = Uri.parse(urlString);
+    try {
+      if (!await launchUrl(url)) {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not open URL: $urlString')),
+      );
     }
   }
 
@@ -49,25 +48,28 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false)
-        .payCashOrder(orderId);
 
-    print(_isLoading.toString());
-    var payUrl = await Provider.of<CustomerInfo>(context, listen: false).payUrl;
-    _launchURL(payUrl);
-    setState(() {
-      _isLoading = false;
-      print(_isLoading.toString());
-    });
-    print(_isLoading.toString());
+    try {
+      await Provider.of<CustomerInfoProvider>(context, listen: false)
+          .payCashOrder(orderId);
+
+      final payUrl =
+          await Provider.of<CustomerInfoProvider>(context, listen: false)
+              .payUrl;
+      await _launchURL(payUrl);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Payment failed: ${e.toString()}')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   void initState() {
-    _isLoading = false;
-    _payIsActive = false;
-    _uploadIsOk = false;
-
     super.initState();
   }
 
@@ -75,62 +77,170 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false)
-        .getOrderDetails(orderId);
 
-    setState(() {
-      _isLoading = false;
-      print(_isLoading.toString());
-    });
-    print(_isLoading.toString());
+    try {
+      await Provider.of<CustomerInfoProvider>(context, listen: false)
+          .getOrderDetails(orderId);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('Failed to load order details: ${e.toString()}')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void checkStatus(OrderDetails oDt) {
     if (oDt.pay_type_slug == 'naghd') {
-      if (oDt.pay_status_slug == 'not_pay') {
-        _payIsActive = true;
-      } else {
-        _payIsActive = false;
-      }
+      _payIsActive = oDt.pay_status_slug == 'not_pay';
     } else {
-      if (oDt.pay_status_slug == 'not_pay') {
-        _payIsActive = true;
-      } else {
-        _payIsActive = false;
-      }
-      if (oDt.order_status_slug == 'cheque_ok') {
-      } else {
-        _uploadIsOk = false;
-      }
+      _payIsActive = oDt.pay_status_slug == 'not_pay';
+      _uploadIsOk = oDt.order_status_slug == 'cheque_ok';
     }
   }
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      orderId = ModalRoute.of(context)?.settings.arguments as int;
-
-      cashOrder();
+      final arguments = ModalRoute.of(context)?.settings.arguments;
+      if (arguments is int) {
+        orderId = arguments;
+        cashOrder();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Invalid order ID')),
+        );
+        Navigator.of(context).pop();
+      }
     }
     _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  Widget _buildLoadingIndicator() {
+    return SpinKitFadingCircle(
+      itemBuilder: (BuildContext context, int index) {
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: index.isEven ? Colors.grey : Colors.grey,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildPaymentButton(double deviceHeight) {
+    return InkWell(
+      onTap: () {
+        if (_payIsActive) {
+          pay(orderId);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'This payment option is not available',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Iransans',
+                ),
+              ),
+              action: SnackBarAction(
+                label: 'OK',
+                onPressed: () {},
+              ),
+            ),
+          );
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: deviceHeight * 0.08,
+          decoration: BoxDecoration(
+            color: _payIsActive ? AppTheme.primary : Colors.grey,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 2.0,
+                spreadRadius: 1.50,
+                offset: Offset(1.0, 1.0),
+              )
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Icon(
+                  Icons.monetization_on,
+                  color: Colors.white,
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5.0, left: 10),
+                  child: Text(
+                    'Payment',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Iransans',
+                      fontSize: MediaQuery.of(context).textScaleFactor * 16.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _formatPrice(String? price) {
+    if (price == null || price.isEmpty) {
+      return '0 \$';
+    }
+
+    try {
+      final currencyFormat = intl.NumberFormat.decimalPattern();
+      final formattedPrice = EnArConvertor()
+          .replaceArNumber(currencyFormat.format(double.parse(price)));
+      return '$formattedPrice \$';
+    } catch (e) {
+      return '0 \$';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
-    orderDetails = Provider.of<CustomerInfo>(context, listen: false).getOrder();
+    orderDetails =
+        Provider.of<CustomerInfoProvider>(context, listen: false).getOrder();
     checkStatus(orderDetails);
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
+        title: Text(
+          'Order Details',
+          style: TextStyle(
+            color: AppTheme.appBarIconColor,
+            fontFamily: 'Iransans',
+          ),
+        ),
       ),
       body: Builder(
         builder: (context) => Container(
@@ -139,16 +249,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
           child: Align(
             alignment: Alignment.topCenter,
             child: _isLoading
-                ? SpinKitFadingCircle(
-                    itemBuilder: (BuildContext context, int index) {
-                      return DecoratedBox(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: index.isEven ? Colors.grey : Colors.grey,
-                        ),
-                      );
-                    },
-                  )
+                ? _buildLoadingIndicator()
                 : Directionality(
                     textDirection: TextDirection.rtl,
                     child: SingleChildScrollView(
@@ -336,15 +437,10 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            orderDetails.pish == null
-                                                ? EnArConvertor()
-                                                        .replaceArNumber(
-                                                            currencyFormat.format(
-                                                                double.parse(
-                                                                    orderDetails
-                                                                        .pish)))
-                                                        .toString() +
-                                                    ' \$'
+                                            orderDetails.pish != null &&
+                                                    orderDetails.pish.isNotEmpty
+                                                ? _formatPrice(
+                                                    orderDetails.pish)
                                                 : '-',
                                             style: TextStyle(
                                               color: AppTheme.black,
@@ -388,118 +484,42 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                   );
                                 }),
                           ),
-                          Consumer<CustomerInfo>(
-                            builder: (_, products, ch) => _imageList.isNotEmpty
-                                ? Container(
-                                    child: ListView.builder(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: _imageList.length,
-                                        itemBuilder: (ctx, i) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(2.0),
-                                            child: Card(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  height: deviceHeight * 0.3,
-                                                  child: Wrap(
-                                                    children: <Widget>[
-                                                      Text((i + 1).toString()),
-                                                      Image.network(
-                                                        _imageList[i].url,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
+                          if (_imageList.isNotEmpty)
+                            ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: _imageList.length,
+                              itemBuilder: (ctx, i) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: deviceHeight * 0.3,
+                                        child: Wrap(
+                                          children: <Widget>[
+                                            Text((i + 1).toString()),
+                                            Image.network(
+                                              _imageList[i].url,
+                                              fit: BoxFit.cover,
+                                              errorBuilder:
+                                                  (context, error, stackTrace) {
+                                                return Center(
+                                                  child: Text(
+                                                      'Image not available'),
+                                                );
+                                              },
                                             ),
-                                          );
-                                        }),
-                                  )
-                                : Container(),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              if (_payIsActive) {
-                                pay(orderId);
-                              } else {
-                                SnackBar addToCartSnackBar = SnackBar(
-                                  content: Text(
-                                    'This is not active for you!',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 14.0,
-                                    ),
-                                  ),
-                                  action: SnackBarAction(
-                                    label: 'OK',
-                                    onPressed: () {
-                                      // Some code to undo the change.
-                                    },
-                                  ),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(addToCartSnackBar);
-                              }
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: deviceHeight * 0.08,
-                                decoration: BoxDecoration(
-                                  color: _payIsActive
-                                      ? AppTheme.primary
-                                      : Colors.grey,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 2.0,
-                                      // has the effect of softening the shadow
-                                      spreadRadius: 1.50,
-                                      // has the effect of extending the shadow
-                                      offset: Offset(
-                                        1.0, // horizontal, move right 10
-                                        1.0, // vertical, move down 10
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Icon(
-                                        Icons.monetization_on,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 5.0, left: 10),
-                                        child: Text(
-                                          'Payment',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 16.0,
-                                          ),
-                                          textAlign: TextAlign.center,
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
+                                  ),
+                                );
+                              },
                             ),
-                          ),
+                          _buildPaymentButton(deviceHeight),
                         ],
                       ),
                     ),
@@ -509,9 +529,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
       ),
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+          canvasColor: Colors.transparent,
         ),
         child: MainDrawer(),
       ),
@@ -630,8 +648,13 @@ class OrderProductItem extends StatelessWidget {
                       Expanded(
                         flex: 4,
                         child: Text(
-                          '${price.toString().isNotEmpty ? EnArConvertor().replaceArNumber(currencyFormat.format(double.parse(price))).toString() : '0'}' +
-                              ' \$',
+                          price.toString().isNotEmpty
+                              ? EnArConvertor()
+                                      .replaceArNumber(currencyFormat
+                                          .format(double.tryParse(price) ?? 0))
+                                      .toString() +
+                                  ' \$'
+                              : '0 \$',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: 'Iransans',
@@ -644,45 +667,6 @@ class OrderProductItem extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class PopupImagePicker extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    return Container(
-      height: deviceHeight * 0.5,
-      width: deviceWidth * 0.5,
-      color: Colors.white12,
-      child: Center(
-        child: Container(
-          width: deviceWidth * 0.5,
-          height: deviceHeight * 0.2,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Row(
-            children: <Widget>[
-              InkWell(
-                onTap: () {},
-                child: Wrap(
-                  children: <Widget>[Icon(Icons.camera), Text('Camera')],
-                ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: Wrap(
-                  children: <Widget>[Icon(Icons.image), Text('Gallary')],
-                ),
-              )
-            ],
           ),
         ),
       ),

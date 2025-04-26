@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:shamsi_date/shamsi_date.dart';
+import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_time.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/pasmand.dart';
@@ -10,21 +10,19 @@ import 'package:recycleorigin/features/waste_feature/business/entities/price_wei
 import 'package:recycleorigin/features/waste_feature/business/entities/request_address.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
-import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
+import '../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../core/models/customer.dart';
 import '../../../core/models/region.dart';
-import '../business/entities/address.dart';
-
+import '../../../core/screens/navigation_bottom_screen.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/auth.dart';
+import '../../../core/widgets/custom_dialog_send_request.dart';
+import '../../../core/widgets/main_drawer.dart';
+import '../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
+import '../business/entities/address.dart';
 import 'providers/wastes.dart';
 import 'widgets/custom_dialog_enter.dart';
-import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
-import '../../../core/widgets/custom_dialog_send_request.dart';
-import '../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../core/widgets/main_drawer.dart';
-import '../../../core/screens/navigation_bottom_screen.dart';
 
 class WasteRequestSendScreen extends StatefulWidget {
   static const routeName = '/waste_request_send_screen';
@@ -56,13 +54,13 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
   List<String> weekDays = [];
 
-  List<Jalali> dateList = [];
+  List<DateTime> dateList = [];
 
-  late Jalali _selectedDay;
+
 
   late String selectedHours;
 
-  late Jalali selectedDay;
+  late DateTime selectedDay;
 
   late RequestWaste requestWaste;
 
@@ -70,9 +68,9 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه لطفا وارد شوید',
+        title: 'Login',
+        buttonText: 'Login Screen ',
+        description: 'Login to continue',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -82,9 +80,9 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'اطلاعات کاربری',
-        buttonText: 'صفحه پروفایل ',
-        description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        title: 'Profile info',
+        buttonText: 'Profile Screen ',
+        description: 'Please complete your profile',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -95,8 +93,8 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
       context: context,
       builder: (ctx) => CustomDialogSendRequest(
         title: '',
-        buttonText: 'خب',
-        description: 'درخواست شما با موفقیت ثبت شد',
+        buttonText: 'OK',
+        description: 'Your request has been sent successfully',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -124,15 +122,19 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
     getDate(3);
     getMonthAndWeek();
-    selectedRegion = Provider.of<Auth>(context, listen: false).regionData;
+    selectedRegion =
+        Provider.of<AuthenticationProvider>(context, listen: false).regionData;
     selectedHours = Provider.of<Wastes>(context, listen: false).selectedHours;
     selectedDay = Provider.of<Wastes>(context, listen: false).selectedDay;
 
-    selectedAddress = Provider.of<Auth>(context, listen: false).selectedAddress;
+    selectedAddress =
+        Provider.of<AuthenticationProvider>(context, listen: false)
+            .selectedAddress;
 
-    await Provider.of<Auth>(context, listen: false)
+    await Provider.of<AuthenticationProvider>(context, listen: false)
         .retrieveRegion(selectedAddress.region.term_id);
-    await Provider.of<Auth>(context, listen: false).checkCompleted();
+    await Provider.of<AuthenticationProvider>(context, listen: false)
+        .checkCompleted();
 
     wasteCartItems = Provider.of<Wastes>(context, listen: false).wasteCartItems;
     totalPrice = 0;
@@ -184,36 +186,36 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
   void getMonthAndWeek() {
     months = [
-      'فروردین',
-      'اردیبهشت',
-      'خرداد',
-      'تیر',
-      'مرداد',
-      'شهریور',
-      'مهر',
-      'آبان',
-      'آذر',
-      'دی',
-      'بهمن',
-      'اسفند',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     weekDays = [
-      'شنبه',
-      'یکشنبه',
-      'دوشنبه',
-      'سه شنبه',
-      'چهارشنبه',
-      'پنج شنبه',
-      'جمعه',
+      'Saturday',
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
     ];
   }
 
   Future<void> getDate(int numberFutureDate) async {
-    Jalali dateTime = Jalali.now();
+    DateTime dateTime = DateTime.now();
     dateList.clear();
 
     for (int i = 0; i < numberFutureDate; i++) {
-      dateList.add(dateTime.addDays(i));
+      dateList.add(dateTime.add(Duration(days: i)));
     }
   }
 
@@ -251,7 +253,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
         collect_date: CollectTime(
             time: selectedHours,
             day:
-                '${weekDays[selectedDay.weekDay - 1]}  ${selectedDay.day} ${months[selectedDay.month]}'),
+                '${weekDays[selectedDay.weekday - 1]}  ${selectedDay.day} ${months[selectedDay.month]}'),
         address_data: RequestAddress(
           name: selectedAddress.name,
           address: selectedAddress.address,
@@ -285,13 +287,15 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
-    bool isCompleted = Provider.of<Auth>(context, listen: false).isCompleted;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isCompleted =
+        Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'ثبت نهایی درخواست',
+          'Register Request',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: AppTheme.white,
@@ -319,7 +323,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Text(
-                            'اطلاعات درخواست',
+                            'Request Details',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: AppTheme.h1,
@@ -354,7 +358,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         ),
                                       ),
                                       Text(
-                                        'تعداد ',
+                                        'Number',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -393,7 +397,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         ),
                                       ),
                                       Text(
-                                        'مبلغ کل',
+                                        'Total Price',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -401,7 +405,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '(تومان)',
+                                        '(\$)',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -442,7 +446,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         ),
                                       ),
                                       Text(
-                                        'وزن کل',
+                                        'Total Weight',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -450,7 +454,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '(کیلوگرم)',
+                                        '(\$)',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -505,7 +509,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          'تاریخ جمع آوری',
+                                          'Collect Date',
                                           textAlign: TextAlign.center,
                                           maxLines: 1,
                                           style: TextStyle(
@@ -519,7 +523,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 4),
                                         child: Text(
-                                          weekDays[selectedDay.weekDay - 1],
+                                          weekDays[selectedDay.weekday - 1],
                                           style: TextStyle(
                                             color: AppTheme.black,
                                             fontFamily: 'Iransans',
@@ -558,7 +562,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          'ساعت جمع آوری',
+                                          'Collect hour',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: AppTheme.grey,
@@ -597,7 +601,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          'منطقه:',
+                                          'Region:',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: AppTheme.grey,
@@ -639,7 +643,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                       onTap: () async {
                         SnackBar addToCartSnackBar = SnackBar(
                           content: Text(
-                            'سبد خرید خالی می باشد!',
+                            'Card is empty',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Iransans',
@@ -647,7 +651,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                             ),
                           ),
                           action: SnackBarAction(
-                            label: 'متوجه شدم',
+                            label: 'Ok',
                             onPressed: () {
                               // Some code to undo the change.
                             },
@@ -659,7 +663,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                         } else if (!isLogin) {
                           _showLogindialog();
                         } else {
-                          if (isCompleted) {
+                          // if (isCompleted) {
                             await createRequest(context);
 
                             await sendRequest(context, isLogin).then((value) {
@@ -668,15 +672,15 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                   (Route<dynamic> route) => false);
                               _showSenddialog();
                             });
-                          } else {
-                            _showCompletedialog();
-                          }
+                          // } else {
+                          //   _showCompletedialog();
+                          // }
                         }
                       },
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,
                         height: deviceWidth * 0.14,
-                        text: 'تایید نهایی',
+                        text: 'Confirm',
                         isActive: wasteCartItems.isNotEmpty,
                       ),
                     ),

@@ -179,7 +179,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                   child: Text(
                                     widget.wasteItem.name != null
                                         ? widget.wasteItem.name
-                                        : 'ندارد',
+                                        : 'Empty',
                                     style: TextStyle(
                                       color: AppTheme.grey,
                                       fontWeight: FontWeight.w600,
@@ -198,7 +198,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
                                     Text(
-                                      'هر کیلو: ',
+                                      'Per Kilo: ',
                                       style: TextStyle(
                                         color: Colors.grey,
                                         fontFamily: 'Iransans',
@@ -231,7 +231,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                       },
                                     ),
                                     Text(
-                                      '  تومان ',
+                                      '  \$ ',
                                       style: TextStyle(
                                         color: Colors.grey,
                                         fontFamily: 'Iransans',
@@ -405,7 +405,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 Text(
-                                  'کل: ',
+                                  'Total: ',
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iransans',
@@ -436,7 +436,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                   },
                                 ),
                                 Text(
-                                  '  تومان ',
+                                  '  \$ ',
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iransans',

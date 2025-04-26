@@ -8,7 +8,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/widgets/waste_cart_item_animated_list.dart';
 
 import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/auth.dart';
+import '../../customer_feature/presentation/providers/authentication_provider.dart';
 import 'providers/wastes.dart';
 import 'wastes_screen.dart';
 import 'widgets/custom_dialog_enter.dart';
@@ -43,9 +43,9 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه باید وارد شوید',
+        title: 'Login',
+        buttonText: 'Login Screen',
+        description: 'Please login to continue',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -55,9 +55,9 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'اطلاعات کاربری',
-        buttonText: 'صفحه پروفایل ',
-        description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        title: 'Profile Info',
+        buttonText: 'Profile Screen ',
+        description: 'Please complete your profile to continue',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -66,7 +66,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      await Provider.of<Auth>(context, listen: false).checkCompleted();
+      await Provider.of<AuthenticationProvider>(context, listen: false)
+          .checkCompleted();
 
       await getWasteItems();
 
@@ -208,12 +209,14 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
-    bool isCompleted = Provider.of<Auth>(context, listen: false).isCompleted;
+    bool isLogin =
+        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isCompleted =
+        Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'انتخاب پسماند ',
+          'Select Waste',
           style: TextStyle(
             color: AppTheme.white,
             fontFamily: 'Iransans',
@@ -272,7 +275,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                         ),
                                       ),
                                       Text(
-                                        'تعداد ',
+                                        'Number',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -320,7 +323,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                         },
                                       ),
                                       Text(
-                                        'تومان ',
+                                         '\$',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -352,7 +355,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                         ),
                                       ),
                                       Text(
-                                        'کیلوگرم ',
+                                        'Kilogram ',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -393,7 +396,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                     : Container(
                                         height: deviceHeight * 0.6,
                                         child: Center(
-                                          child: Text('پسماندی اضافه نشده است'),
+                                          child: Text('No waste added yet'),
                                         ),
                                       ),
                           ),
@@ -412,7 +415,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                       onTap: () {
                         SnackBar addToCartSnackBar = SnackBar(
                           content: Text(
-                            'پسماندی اضافه نشده است!',
+                            'No waste added yet',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Iransans',
@@ -420,7 +423,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                             ),
                           ),
                           action: SnackBarAction(
-                            label: 'متوجه شدم',
+                            label: 'OK',
                             onPressed: () {
                               // Some code to undo the change.
                             },
@@ -443,7 +446,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,
                         height: deviceWidth * 0.14,
-                        text: 'ادامه',
+                        text: 'OK',
                         isActive: wasteCartItems.isNotEmpty,
                       ),
                     ),

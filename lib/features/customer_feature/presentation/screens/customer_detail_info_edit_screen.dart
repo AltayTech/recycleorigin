@@ -5,7 +5,7 @@ import 'package:recycleorigin/core/models/status.dart';
 import '../../../../core/models/customer.dart';
 import '../../business/entities/personal_data.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../providers/customer_info.dart';
+import '../providers/customer_info_provider.dart';
 import '../../../../core/widgets/info_edit_item.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'customer_user_info_screen.dart';
@@ -40,7 +40,7 @@ class _CustomerDetailInfoEditScreenState
   @override
   void initState() {
     Customer customer =
-        Provider.of<CustomerInfo>(context, listen: false).customer;
+        Provider.of<CustomerInfoProvider>(context, listen: false).customer;
     nameController.text = customer.personalData.first_name;
     familyController.text = customer.personalData.last_name;
 
@@ -70,10 +70,11 @@ class _CustomerDetailInfoEditScreenState
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfo>(context, listen: false).getTypes();
+    await Provider.of<CustomerInfoProvider>(context, listen: false).getTypes();
     typesList.clear();
     typeValueList.clear();
-    typesList = Provider.of<CustomerInfo>(context, listen: false).typesItems;
+    typesList =
+        Provider.of<CustomerInfoProvider>(context, listen: false).typesItems;
     for (int i = 0; i < typesList.length; i++) {
       typeValueList.add(typesList[i].name);
     }
@@ -95,7 +96,7 @@ class _CustomerDetailInfoEditScreenState
     double deviceHeight = MediaQuery.of(context).size.height;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     Customer customerInfo =
-        Provider.of<CustomerInfo>(context, listen: false).customer;
+        Provider.of<CustomerInfoProvider>(context, listen: false).customer;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -333,7 +334,7 @@ class _CustomerDetailInfoEditScreenState
                 ),
               );
 
-              Provider.of<CustomerInfo>(context, listen: false)
+              Provider.of<CustomerInfoProvider>(context, listen: false)
                   .sendCustomer(customerSend)
                   .then((v) {
                 ScaffoldMessenger.of(context).showSnackBar(addToCartSnackBar);

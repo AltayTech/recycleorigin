@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_main.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste.dart';
@@ -135,7 +134,7 @@ class Wastes with ChangeNotifier {
   }
 
   late String _selectedHours;
-  late Jalali _selectedDay;
+  late DateTime _selectedDay;
 
   String get selectedHours => _selectedHours;
 
@@ -143,9 +142,9 @@ class Wastes with ChangeNotifier {
     _selectedHours = value;
   }
 
-  Jalali get selectedDay => _selectedDay;
+  DateTime get selectedDay => _selectedDay;
 
-  set selectedDay(Jalali value) {
+  set selectedDay(DateTime value) {
     _selectedDay = value;
   }
 
