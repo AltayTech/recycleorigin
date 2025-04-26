@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
@@ -165,7 +164,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)!.kilogram,
+                                    "Kilogram",
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -197,7 +196,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)!.price_unit,
+                                    "\$",
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
