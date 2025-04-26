@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_detail_screen.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';
@@ -109,8 +108,6 @@ class MyApp extends StatelessWidget {
                 ),
               ),
         ),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
         home: Directionality(
           child: SplashScreens(),
           textDirection: TextDirection.rtl,
