@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 
 import '../../../../core/models/customer.dart';
@@ -122,12 +121,12 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Text(
                               EnArConvertor()
-                                  .replaceArNumber('${Jalali.fromDateTime(
-                                DateTime.parse(message.comment_date),
-                              ).year}/${Jalali.fromDateTime(
-                                DateTime.parse(message.comment_date),
-                              ).month}/${Jalali.fromDateTime(
-                                DateTime.parse(message.comment_date),
+                                  .replaceArNumber('${(
+                                DateTime.parse(message.comment_date)
+                              ).year}/${(
+                                DateTime.parse(message.comment_date)
+                              ).month}/${(
+                                DateTime.parse(message.comment_date)
                               ).day}'),
                               style: TextStyle(
                                 color: Colors.black54,

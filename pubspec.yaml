@@ -20,7 +20,7 @@ dependencies:
   url_launcher: ^6.3.1
   html: ^0.15.5
   flutter_spinkit: ^5.2.1
-  shamsi_date: ^1.0.4
+#  shamsi_date: ^1.0.4
   carousel_slider: ^5.0.0
   google_maps_flutter: ^2.10.0
   fluttertoast: ^8.2.8

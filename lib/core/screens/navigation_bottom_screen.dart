@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../features/customer_feature/presentation/widgets/profile_view.dart';
+import '../../features/home_feature/presentation/home_screen.dart';
 import '../constants/strings.dart';
 import '../theme/app_theme.dart';
 import '../widgets/main_drawer.dart';
-import '../../features/customer_feature/presentation/widgets/profile_view.dart';
-import '../../features/home_feature/presentation/home_screen.dart';
 
 class NavigationBottomScreen extends StatefulWidget {
   static const routeName = '/NBS';

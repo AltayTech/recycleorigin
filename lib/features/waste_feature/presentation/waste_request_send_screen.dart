@@ -10,7 +10,6 @@ import 'package:recycleorigin/features/waste_feature/business/entities/price_wei
 import 'package:recycleorigin/features/waste_feature/business/entities/request_address.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 import '../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../core/models/customer.dart';
@@ -55,13 +54,13 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
   List<String> weekDays = [];
 
-  List<Jalali> dateList = [];
+  List<DateTime> dateList = [];
 
-  late Jalali _selectedDay;
+
 
   late String selectedHours;
 
-  late Jalali selectedDay;
+  late DateTime selectedDay;
 
   late RequestWaste requestWaste;
 
@@ -187,36 +186,36 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
   void getMonthAndWeek() {
     months = [
-      'فروردین',
-      'اردیبهشت',
-      'خرداد',
-      'تیر',
-      'مرداد',
-      'شهریور',
-      'مهر',
-      'آبان',
-      'آذر',
-      'دی',
-      'بهمن',
-      'اسفند',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     weekDays = [
-      'شنبه',
-      'یکشنبه',
-      'دوشنبه',
-      'سه شنبه',
-      'چهارشنبه',
-      'پنج شنبه',
-      'جمعه',
+      'Saturday',
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
     ];
   }
 
   Future<void> getDate(int numberFutureDate) async {
-    Jalali dateTime = Jalali.now();
+    DateTime dateTime = DateTime.now();
     dateList.clear();
 
     for (int i = 0; i < numberFutureDate; i++) {
-      dateList.add(dateTime.addDays(i));
+      dateList.add(dateTime.add(Duration(days: i)));
     }
   }
 
@@ -254,7 +253,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
         collect_date: CollectTime(
             time: selectedHours,
             day:
-                '${weekDays[selectedDay.weekDay - 1]}  ${selectedDay.day} ${months[selectedDay.month]}'),
+                '${weekDays[selectedDay.weekday - 1]}  ${selectedDay.day} ${months[selectedDay.month]}'),
         address_data: RequestAddress(
           name: selectedAddress.name,
           address: selectedAddress.address,
@@ -524,7 +523,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 4),
                                         child: Text(
-                                          weekDays[selectedDay.weekDay - 1],
+                                          weekDays[selectedDay.weekday - 1],
                                           style: TextStyle(
                                             color: AppTheme.black,
                                             fontFamily: 'Iransans',

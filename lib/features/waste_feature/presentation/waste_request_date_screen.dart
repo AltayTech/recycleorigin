@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
@@ -49,9 +48,9 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
 
   List<String> weekDays = [];
 
-  List<Jalali> dateList = [];
+  List<DateTime> dateList = [];
 
-  Jalali _selectedDay = Jalali.now();
+  DateTime _selectedDay = DateTime.now();
 
   void _showLogindialog() {
     showDialog(
@@ -170,11 +169,11 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
   }
 
   Future<void> getDate(int numberFutureDate) async {
-    Jalali dateTime = Jalali.now();
+    DateTime dateTime = DateTime.now();
     dateList.clear();
 
     for (int i = 0; i < numberFutureDate; i++) {
-      dateList.add(dateTime.addDays(i + 1));
+      dateList.add(dateTime.add(Duration(days: i+1)));
     }
   }
 
@@ -500,7 +499,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                                           EnArConvertor().replaceArNumber(
                                                               weekDays[dateList[
                                                                           index]
-                                                                      .weekDay -
+                                                                      .weekday -
                                                                   1]),
                                                           style: TextStyle(
                                                             color: _selectedDay ==
