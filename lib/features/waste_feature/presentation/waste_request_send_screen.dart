@@ -664,7 +664,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                         } else if (!isLogin) {
                           _showLogindialog();
                         } else {
-                          if (isCompleted) {
+                          // if (isCompleted) {
                             await createRequest(context);
 
                             await sendRequest(context, isLogin).then((value) {
@@ -673,9 +673,9 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                   (Route<dynamic> route) => false);
                               _showSenddialog();
                             });
-                          } else {
-                            _showCompletedialog();
-                          }
+                          // } else {
+                          //   _showCompletedialog();
+                          // }
                         }
                       },
                       child: ButtonBottom(
