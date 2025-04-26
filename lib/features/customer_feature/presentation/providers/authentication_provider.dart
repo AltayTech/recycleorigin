@@ -551,7 +551,7 @@ class AuthenticationProvider with ChangeNotifier {
       });
 
       final extractedData = json.decode(response.body);
-      debugPrint(extractedData);
+      debugPrint("extractedData  $extractedData");
 
       _regionData = Region.fromJson(extractedData);
 

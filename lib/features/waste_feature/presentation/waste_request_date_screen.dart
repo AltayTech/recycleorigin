@@ -57,9 +57,9 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه لطفا وارد شوید',
+        title: 'Login',
+        buttonText: 'Login screen ',
+        description: 'Login to your account',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -206,7 +206,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'تعیین تاریخ جمع آوری',
+          'Collect Date',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: AppTheme.white,
@@ -234,7 +234,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Text(
-                            'اطلاعات درخواست',
+                            'Request Details ',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: AppTheme.h1,
@@ -272,7 +272,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         ),
                                       ),
                                       Text(
-                                        'تعداد ',
+                                        'number ',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -313,7 +313,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         ),
                                       ),
                                       Text(
-                                        'مبلغ کل',
+                                        'Total Price',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -321,7 +321,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '(تومان)',
+                                        '\$',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -364,7 +364,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         ),
                                       ),
                                       Text(
-                                        'وزن کل',
+                                        'Total Weight',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -372,7 +372,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '(کیلوگرم)',
+                                        '(Kilogram)',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
@@ -422,7 +422,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                               ),
                                             ),
                                             Text(
-                                              'تاریخ جمع آوری',
+                                              'Collect Date',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 color: AppTheme.grey,
@@ -576,7 +576,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                               ),
                                             ),
                                             Text(
-                                              'ساعت جمع آوری',
+                                              'Collect Hour',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 color: AppTheme.grey,
@@ -738,7 +738,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                       onTap: () {
                         SnackBar addToCartSnackBar = SnackBar(
                           content: Text(
-                            'تاریخ و ساعت جمع آوری انتخاب شود',
+                            'Please select a collect date',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Iransans',
@@ -746,7 +746,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                             ),
                           ),
                           action: SnackBarAction(
-                            label: 'متوجه شدم',
+                            label: 'OK',
                             onPressed: () {
                               // Some code to undo the change.
                             },
@@ -763,7 +763,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,
                         height: deviceWidth * 0.14,
-                        text: 'ادامه',
+                        text: 'Continue',
                         isActive: _selectedDay != null,
                       ),
                     ),
