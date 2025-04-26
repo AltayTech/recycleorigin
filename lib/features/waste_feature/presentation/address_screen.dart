@@ -30,9 +30,9 @@ class _AddressScreenState extends State<AddressScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه لطفا وارد شوید',
+        title: 'Enter',
+        buttonText: 'Login Page ',
+        description: 'Please login to continue',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -156,7 +156,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           : Container(
                               height: deviceHeight * 0.45,
                               child: Center(
-                                child: Text('آدرسی اضافه نشده است'),
+                                child: Text('Addresses not found'),
                               ),
                             ),
                       SizedBox(
@@ -172,7 +172,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     onTap: () {
                       SnackBar addToCartSnackBar = SnackBar(
                         content: Text(
-                          'آدرسی انتخاب نشده است!',
+                          'Address does not selected',
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Iransans',
@@ -180,7 +180,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           ),
                         ),
                         action: SnackBarAction(
-                          label: 'متوجه شدم',
+                          label: 'OK',
                           onPressed: () {
                             // Some code to undo the change.
                           },
@@ -198,7 +198,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       child: ButtonBottom(
                         width: deviceWidth * 0.75,
                         height: deviceWidth * 0.14,
-                        text: 'ادامه',
+                        text: 'Continue',
                         isActive: Provider.of<AuthenticationProvider>(context,
                                     listen: false)
                                 .selectedAddress !=
