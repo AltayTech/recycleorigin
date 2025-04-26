@@ -17,7 +17,6 @@ import '../../features/guid_feature/presentation/pages/guide_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
 import '../../features/store_feature/presentation/screens/product_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function()? tapHandler) {

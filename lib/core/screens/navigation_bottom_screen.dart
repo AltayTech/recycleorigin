@@ -6,7 +6,6 @@ import '../theme/app_theme.dart';
 import '../widgets/main_drawer.dart';
 import '../../features/customer_feature/presentation/widgets/profile_view.dart';
 import '../../features/home_feature/presentation/home_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationBottomScreen extends StatefulWidget {
   static const routeName = '/NBS';

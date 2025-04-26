@@ -27,8 +27,8 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   badges: ^3.1.2
-  geolocator: ^10.1.0
-  flutter_osm_plugin: ^0.70.4
+  geolocator: ^14.0.0
+  flutter_osm_plugin: ^1.3.7
   dartz: ^0.10.1
   loading_animation_widget: ^1.3.0
   flutter_localizations:

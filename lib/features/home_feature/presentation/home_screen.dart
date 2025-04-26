@@ -12,7 +12,6 @@ import '../../waste_feature/collect_list_screen.dart';
 import '../../collect_feature/presentation/pages/waste_cart_screen.dart';
 import '../../../core/widgets/custom_dialog.dart';
 import '../../store_feature/presentation/screens/product_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
