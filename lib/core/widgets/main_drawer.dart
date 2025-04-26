@@ -80,8 +80,8 @@ class MainDrawer extends StatelessWidget {
                     builder: (_, auth, ch) => ListTile(
                       title: Text(
                         auth.isAuth
-                            ? AppLocalizations.of(context)!.profile
-                            : AppLocalizations.of(context)!.login,
+                            ? "Profile"
+                            : "Login",
                         style: TextStyle(
                           fontFamily: "Iransans",
                           fontWeight: FontWeight.w600,
@@ -114,7 +114,7 @@ class MainDrawer extends StatelessWidget {
                         children: <Widget>[
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.home,
+                              "Home",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -159,7 +159,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.cards,
+                              "Cards",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -181,7 +181,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.charities,
+                              "Charities",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -206,7 +206,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.cources,
+                              "Cources",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -228,7 +228,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.supports,
+                              "Supports",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -250,7 +250,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.guids,
+                              "Guids",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -272,7 +272,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              AppLocalizations.of(context)!.contactus,
+                              "Contact Us",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
