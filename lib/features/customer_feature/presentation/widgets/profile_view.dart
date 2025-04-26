@@ -62,7 +62,7 @@ class _ProfileViewState extends State<ProfileView> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(AppLocalizations.of(context)!.youarenotlogin),
+                    child: Text( "You are not login!"),
                   ),
                   InkWell(
                     onTap: () {
