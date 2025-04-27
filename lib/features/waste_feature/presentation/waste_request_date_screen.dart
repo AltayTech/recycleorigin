@@ -144,28 +144,30 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
 
   void getMonthAndWeek() {
     months = [
-      'فروردین',
-      'اردیبهشت',
-      'خرداد',
-      'تیر',
-      'مرداد',
-      'شهریور',
-      'مهر',
-      'آبان',
-      'آذر',
-      'دی',
-      'بهمن',
-      'اسفند',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
+
     weekDays = [
-      'شنبه',
-      'یکشنبه',
-      'دوشنبه',
-      'سه شنبه',
-      'چهارشنبه',
-      'پنج شنبه',
-      'جمعه',
+      'Saturday',
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
     ];
+
   }
 
   Future<void> getDate(int numberFutureDate) async {
