@@ -11,7 +11,6 @@ import 'package:recycleorigin/features/store_feature/presentation/screens/orders
 import 'package:recycleorigin/features/wallet_feature/presentation/pages/wallet_screen.dart';
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/wastes_screen_animated_list.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'core/constants/strings.dart';
 import 'core/screens/navigation_bottom_screen.dart';
@@ -109,8 +108,8 @@ class MyApp extends StatelessWidget {
                 ),
               ),
         ),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
+        // localizationsDelegates: AppLocalizations.localizationsDelegates,
+        // supportedLocales: AppLocalizations.supportedLocales,
         home: Directionality(
           child: SplashScreens(),
           textDirection: TextDirection.rtl,

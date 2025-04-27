@@ -232,6 +232,7 @@ class Wastes with ChangeNotifier {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
+      debugPrint("response.statusCode.toString() ${response.statusCode.toString()}");
       final extractedData = json.decode(response.body) as dynamic;
       debugPrint(extractedData);
 
