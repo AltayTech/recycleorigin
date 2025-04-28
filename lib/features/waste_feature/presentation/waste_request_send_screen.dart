@@ -58,9 +58,9 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
 
 
-  late String selectedHours;
+  late String selectedHours='0';
 
-  late DateTime selectedDay;
+  late DateTime selectedDay=DateTime.now();
 
   late RequestWaste requestWaste;
 

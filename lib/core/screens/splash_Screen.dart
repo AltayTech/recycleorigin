@@ -58,6 +58,11 @@ class _SplashScreensState extends State<SplashScreens> {
           AppTheme.bg,
         ],
       ),
+      imageBackground: AssetImage(
+        'assets/images/login_bg.png',
+//        color: AppTheme.primary,
+
+      ),
       styleTextUnderTheLoader: new TextStyle(),
       photoSize: MediaQuery.of(context).size.width * 0.7,
       onClick: () => print("Flutter Egypt"),
