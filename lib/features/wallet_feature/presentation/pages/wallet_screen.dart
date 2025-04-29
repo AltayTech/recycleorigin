@@ -121,7 +121,7 @@ class _WalletScreenState extends State<WalletScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'کیف پول',
+          'Wallet',
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -148,7 +148,7 @@ class _WalletScreenState extends State<WalletScreen>
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('شما وارد نشده اید'),
+                            child: Text('You are not logged in'),
                           ),
                           InkWell(
                             onTap: () {
@@ -159,7 +159,7 @@ class _WalletScreenState extends State<WalletScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: Text(
-                                  'ورود به حساب کاربری',
+                                  'Login',
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -203,7 +203,7 @@ class _WalletScreenState extends State<WalletScreen>
                                           MainAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
-                                          'امتیاز',
+                                          'Credit',
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
@@ -237,7 +237,7 @@ class _WalletScreenState extends State<WalletScreen>
                                           ),
                                         ),
                                         Text(
-                                          'تومان',
+                                          '\$',
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
@@ -302,7 +302,7 @@ class _WalletScreenState extends State<WalletScreen>
                                               padding:
                                                   const EdgeInsets.all(2.0),
                                               child: Text(
-                                                'درخواست تسویه',
+                                                'Withdraw request',
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'Iransans',
@@ -362,7 +362,7 @@ class _WalletScreenState extends State<WalletScreen>
                                               padding:
                                                   const EdgeInsets.all(4.0),
                                               child: Text(
-                                                'کمک به خیریه',
+                                                'Donate to charity',
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'Iransans',
@@ -399,7 +399,7 @@ class _WalletScreenState extends State<WalletScreen>
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Text(
-                                            'لیست تراکنش ها',
+                                            'Transaction list',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.black
@@ -430,7 +430,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                           horizontal: 3,
                                                           vertical: 5),
                                                       child: Text(
-                                                        'تعداد:',
+                                                        'Number:',
                                                         style: TextStyle(
                                                           fontFamily:
                                                               'Iransans',
@@ -471,7 +471,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                           horizontal: 3,
                                                           vertical: 5),
                                                       child: Text(
-                                                        'از',
+                                                        'from',
                                                         style: TextStyle(
                                                           fontFamily:
                                                               'Iransans',
@@ -525,7 +525,7 @@ class _WalletScreenState extends State<WalletScreen>
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                'نوع',
+                                                'type',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
@@ -541,7 +541,7 @@ class _WalletScreenState extends State<WalletScreen>
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                'برای',
+                                                'for',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
@@ -557,7 +557,7 @@ class _WalletScreenState extends State<WalletScreen>
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                'مبلغ(تومان)',
+                                                'amount(\$)',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
@@ -618,7 +618,7 @@ class _WalletScreenState extends State<WalletScreen>
                                       child: loadedProductstolist.isEmpty
                                           ? Center(
                                               child: Text(
-                                              'تراکنشی وجود ندارد',
+                                              'there is no transaction',
                                               style: TextStyle(
                                                 fontFamily: 'Iransans',
                                                 fontSize:
