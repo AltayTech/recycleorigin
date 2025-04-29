@@ -152,7 +152,7 @@ class _CollectListScreenState extends State<CollectListScreen>
         centerTitle: true,
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: TextDirection.ltr,
         child: SingleChildScrollView(
           child: !isLogin
               ? Container(
