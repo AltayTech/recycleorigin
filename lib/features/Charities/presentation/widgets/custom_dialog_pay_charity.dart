@@ -94,7 +94,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                     ),
                     Spacer(),
                     Text(
-                      'امتیاز شما',
+                      'Your Credit',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppTheme.grey,
@@ -113,7 +113,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'میزان کمک شما',
+                        'Your donation',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.grey,
@@ -186,7 +186,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                         ],
                       ),
                       Text(
-                        'تومان',
+                        '\$',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.grey,
@@ -223,7 +223,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'تایید',
+                                'Confirm',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Iransans',

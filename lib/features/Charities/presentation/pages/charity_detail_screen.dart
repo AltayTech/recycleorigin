@@ -65,9 +65,9 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه لطفا وارد شوید',
+        title: 'Login',
+        buttonText: 'Login Screen',
+        description: 'Login to continue',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -91,7 +91,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
       _isLoading = true;
     });
 
-    _snackBarMessage = 'کمک شما با موفقیت اهدا شد';
+    _snackBarMessage = 'Your donation was successfully made';
 
     setState(() {
       _isLoading = true;
@@ -114,7 +114,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
         ),
       ),
       action: SnackBarAction(
-        label: 'متوجه شدم',
+        label: 'Ok',
         onPressed: () {
           // Some code to undo the change.
         },
@@ -230,7 +230,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                       padding: const EdgeInsets.only(left: 4.0),
                                       child: Text(
                                         EnArConvertor().replaceArNumber(
-                                            ' کمک در ${loadedCharity.sum_of_helps_months} ماه: '),
+                                            '  ${loadedCharity.sum_of_helps_months} '),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -296,7 +296,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            'کمک میکنم',
+                                            'Donate',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -323,7 +323,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                       Padding(
                                         padding: const EdgeInsets.all(4.0),
                                         child: Text(
-                                          'زمینه های فعالیت: ',
+                                          'Field: ',
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
@@ -391,7 +391,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        'شماره تلفن: ',
+                                        'Phone number: ',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -431,7 +431,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        'استان:',
+                                        'Province:',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -471,7 +471,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        'شهر:',
+                                        'City:',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -512,7 +512,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
-                                        'آدرس:',
+                                        'Address:',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
