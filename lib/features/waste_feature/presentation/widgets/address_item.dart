@@ -106,7 +106,7 @@ class _AddressItemState extends State<AddressItem> {
                                   child: Text(
                                     widget.addressItem.name != null
                                         ? widget.addressItem.name
-                                        : 'ندارد',
+                                        : 'Not',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
