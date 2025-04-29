@@ -81,7 +81,7 @@ class _DonationScreenState extends State<DonationScreen>
       _isLoading = true;
     });
 
-    _snackBarMessage = 'کمک شما با موفقیت اهدا شد';
+    _snackBarMessage = 'your donation has been successfully sent';
 
     setState(() {
       _isLoading = true;
@@ -105,7 +105,7 @@ class _DonationScreenState extends State<DonationScreen>
         ),
       ),
       action: SnackBarAction(
-        label: 'متوجه شدم',
+        label: 'OK',
         onPressed: () {
           // Some code to undo the change.
         },
@@ -134,8 +134,8 @@ class _DonationScreenState extends State<DonationScreen>
       context: context,
       builder: (ctx) => CustomDialogSendRequest(
         title: '',
-        buttonText: 'خب',
-        description: 'کمک شما با موفقیت ثبت شد',
+        buttonText: 'OK',
+        description: 'Your donation has been successfully registered',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -158,7 +158,7 @@ class _DonationScreenState extends State<DonationScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'کمک به خیریه',
+          'Donate to Charity',
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -190,7 +190,7 @@ class _DonationScreenState extends State<DonationScreen>
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('شما وارد نشده اید'),
+                                child: Text('You are not logged in'),
                               ),
                               InkWell(
                                 onTap: () {
@@ -201,7 +201,7 @@ class _DonationScreenState extends State<DonationScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: Text(
-                                      'ورود به حساب کاربری',
+                                      'Login',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
@@ -255,7 +255,7 @@ class _DonationScreenState extends State<DonationScreen>
                                                     MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text(
-                                                    'امتیاز',
+                                                    'Credit',
                                                     style: TextStyle(
                                                       color: AppTheme.grey,
                                                       fontFamily: 'Iransans',
@@ -297,7 +297,7 @@ class _DonationScreenState extends State<DonationScreen>
                                                     ),
                                                   ),
                                                   Text(
-                                                    'تومان',
+                                                    '\$',
                                                     style: TextStyle(
                                                       color: AppTheme.grey,
                                                       fontFamily: 'Iransans',
@@ -317,7 +317,7 @@ class _DonationScreenState extends State<DonationScreen>
                                     Row(
                                       children: <Widget>[
                                         Text(
-                                          'نام موسسه:',
+                                          'Charity name:',
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
@@ -345,7 +345,7 @@ class _DonationScreenState extends State<DonationScreen>
                                           padding: const EdgeInsets.only(
                                               top: 16.0, right: 16, bottom: 6),
                                           child: Text(
-                                            'مقدار اهدا (تومان)',
+                                            'Amount (\$)',
                                             style: TextStyle(
                                               color: AppTheme.h1,
                                               fontFamily: 'Iransans',
@@ -407,7 +407,7 @@ class _DonationScreenState extends State<DonationScreen>
                                   onTap: () async {
                                     SnackBar addToCartSnackBar = SnackBar(
                                       content: Text(
-                                        'شماره شبا را وارد نمایید',
+                                        'Enter a valid card number',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'Iransans',
@@ -415,7 +415,7 @@ class _DonationScreenState extends State<DonationScreen>
                                         ),
                                       ),
                                       action: SnackBarAction(
-                                        label: 'متوجه شدم',
+                                        label: 'OK',
                                         onPressed: () {
                                           // Some code to undo the change.
                                         },
@@ -427,7 +427,7 @@ class _DonationScreenState extends State<DonationScreen>
                                         double.parse(customer.money)) {
                                       SnackBar addToCartSnackBar = SnackBar(
                                         content: Text(
-                                          'مقدار درخواستی از امتیاز شما بیشتر است',
+                                          'The requested amount exceeds your credit',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'Iransans',
@@ -435,7 +435,7 @@ class _DonationScreenState extends State<DonationScreen>
                                           ),
                                         ),
                                         action: SnackBarAction(
-                                          label: 'متوجه شدم',
+                                          label: 'OK',
                                           onPressed: () {
                                             // Some code to undo the change.
                                           },
@@ -461,7 +461,7 @@ class _DonationScreenState extends State<DonationScreen>
                                   child: ButtonBottom(
                                     width: deviceWidth * 0.9,
                                     height: deviceWidth * 0.14,
-                                    text: 'اهدا',
+                                    text: 'Donate',
                                     isActive: true,
                                   ),
                                 ),

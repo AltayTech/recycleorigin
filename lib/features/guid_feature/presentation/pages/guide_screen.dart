@@ -75,7 +75,7 @@ class _GuideScreenState extends State<GuideScreen> {
       backgroundColor: AppTheme.white,
       appBar: AppBar(
         title: Text(
-          'راهنما',
+          'Guide',
           style: TextStyle(
             color: AppTheme.bg,
             fontFamily: 'Iransans',

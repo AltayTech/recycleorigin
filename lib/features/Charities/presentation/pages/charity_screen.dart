@@ -139,7 +139,7 @@ class _CharityScreenState extends State<CharityScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'لیست موسسات خیریه',
+          'Charities list:',
           style: TextStyle(
             fontFamily: 'Iransans',
           ),
@@ -162,7 +162,7 @@ class _CharityScreenState extends State<CharityScreen>
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: Text(
-                        'لطفا یکی از موسسات زیر را انتخاب کنید',
+                        'Please select the charity you want to donate to',
                         style: TextStyle(
                           fontFamily: 'Iransans',
                           color: AppTheme.grey,
@@ -190,7 +190,7 @@ class _CharityScreenState extends State<CharityScreen>
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 3, vertical: 5),
                                       child: Text(
-                                        'تعداد:',
+                                        'Number:',
                                         style: TextStyle(
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12.0,
@@ -217,7 +217,7 @@ class _CharityScreenState extends State<CharityScreen>
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 3, vertical: 5),
                                       child: Text(
-                                        'از',
+                                        'From',
                                         style: TextStyle(
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12.0,
@@ -285,7 +285,7 @@ class _CharityScreenState extends State<CharityScreen>
                             child: loadedProductstolist.isEmpty
                                 ? Center(
                                     child: Text(
-                                    'محصولی وجود ندارد',
+                                    'No items found',
                                     style: TextStyle(
                                       fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 15.0,

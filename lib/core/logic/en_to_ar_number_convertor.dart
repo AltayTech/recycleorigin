@@ -5,9 +5,10 @@ class EnArConvertor with ChangeNotifier {
   static const farsi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
 
   String replaceArNumber(String input) {
-    for (int i = 0; i < english.length; i++) {
-      input = input.replaceAll(english[i], farsi[i]);
-    }
+    // for (int i = 0; i < english.length; i++) {
+    //   input = input.replaceAll(english[i], farsi[i]);
+    //   input = input.replaceAll(english[i], farsi[i]);
+    // }
 
     return input;
   }

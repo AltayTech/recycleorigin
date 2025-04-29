@@ -75,7 +75,7 @@ class TransactionItemTransactionsScreen extends StatelessWidget {
                             .toString()),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: transaction.operation == 'برداشت'
+                          color: transaction.operation == 'Withdraw'
                               ? Colors.red
                               : AppTheme.primary,
                           fontFamily: 'Iransans',
