@@ -49,7 +49,24 @@ import 'features/collect_feature/presentation/pages/waste_cart_screen.dart';
 import 'features/waste_feature/presentation/waste_request_date_screen.dart';
 import 'features/waste_feature/presentation/waste_request_send_screen.dart';
 import 'features/waste_feature/presentation/wastes_screen.dart';
-
+/// The main application widget.
+///
+/// This widget is the root of the application. It uses the [MultiProvider]
+/// widget to provide the [Products], [AuthenticationProvider], [CustomerInfoProvider],
+/// [Messages], [Wastes], [Articles], [Charities], [Orders], and [Clearings]
+/// providers to the application.
+///
+/// The application's theme is defined in the [MaterialApp] widget. The
+/// theme is based on the [Colors.green] color and uses the [Iransans] font.
+///
+/// The application's routes are defined in the [MaterialApp] widget. The
+/// routes are used to navigate between the different screens of the application.
+///
+/// The application's home screen is [SplashScreens].
+///
+/// The application's localizations are defined in the [AppLocalizations]
+/// class. The localizations are used to translate the application's text
+/// into different languages.
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {

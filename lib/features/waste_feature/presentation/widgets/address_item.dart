@@ -7,14 +7,19 @@ import '../../business/entities/address.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 
+/// A widget that represents an individual address item.
+/// 
+/// Displays information about the address and provides functionality
+/// to remove the address.
 class AddressItem extends StatefulWidget {
   final Address addressItem;
   final bool isSelected;
 
-  AddressItem({
+  const AddressItem({
+    Key? key,
     required this.addressItem,
     this.isSelected = false,
-  });
+  }) : super(key: key);
 
   @override
   _AddressItemState createState() => _AddressItemState();
@@ -22,12 +27,9 @@ class AddressItem extends StatefulWidget {
 
 class _AddressItemState extends State<AddressItem> {
   bool _isInit = true;
-
-  var _isLoading = true;
-
-  late bool isLogin;
-
-  List<Address> addressList = [];
+  late bool _isLoading;
+  late bool _isLogin;
+  late List<Address> _addressList;
 
   @override
   void didChangeDependencies() {
@@ -38,19 +40,21 @@ class _AddressItemState extends State<AddressItem> {
     super.didChangeDependencies();
   }
 
-  Future<void> removeItem() async {
+  /// Removes the address item from the list.
+  Future<void> _removeItem() async {
     setState(() {
       _isLoading = true;
     });
+
     await Provider.of<AuthenticationProvider>(context, listen: false)
         .getAddresses();
-    addressList = Provider.of<AuthenticationProvider>(context, listen: false)
+    _addressList = Provider.of<AuthenticationProvider>(context, listen: false)
         .addressItems;
 
-    addressList.remove(
-        addressList.firstWhere((prod) => prod.name == widget.addressItem.name));
+    _addressList.remove(
+        _addressList.firstWhere((prod) => prod.name == widget.addressItem.name));
     await Provider.of<AuthenticationProvider>(context, listen: false)
-        .updateAddress(addressList);
+        .updateAddress(_addressList);
 
     setState(() {
       _isLoading = false;
@@ -59,10 +63,10 @@ class _AddressItemState extends State<AddressItem> {
 
   @override
   Widget build(BuildContext context) {
-    var deviceHeight = MediaQuery.of(context).size.height;
-    var deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Container(
       child: Padding(
@@ -86,12 +90,13 @@ class _AddressItemState extends State<AddressItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.place,
-                            color: AppTheme.primary,
-                            size: 30,
-                          )),
+                        flex: 1,
+                        child: Icon(
+                          Icons.place,
+                          color: AppTheme.primary,
+                          size: 30,
+                        ),
+                      ),
                       Expanded(
                         flex: 6,
                         child: Directionality(
@@ -104,9 +109,7 @@ class _AddressItemState extends State<AddressItem> {
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    widget.addressItem.name != null
-                                        ? widget.addressItem.name
-                                        : 'Not',
+                                    widget.addressItem.name ?? 'Not',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -159,9 +162,7 @@ class _AddressItemState extends State<AddressItem> {
                     height: deviceWidth * 0.10,
                     width: deviceWidth * 0.1,
                     child: InkWell(
-                      onTap: () {
-                        removeItem();
-                      },
+                      onTap: _removeItem,
                       child: Icon(
                         Icons.close,
                         size: 20,
@@ -171,26 +172,28 @@ class _AddressItemState extends State<AddressItem> {
                   ),
                 ),
                 Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? SpinKitFadingCircle(
-                                itemBuilder: (BuildContext context, int index) {
-                                  return DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? Colors.grey
-                                          : Colors.grey,
-                                    ),
-                                  );
-                                },
-                              )
-                            : Container()))
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: index.isEven
+                                      ? Colors.grey
+                                      : Colors.grey,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(),
+                  ),
+                ),
               ],
             ),
           ),
