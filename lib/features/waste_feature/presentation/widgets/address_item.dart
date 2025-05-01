@@ -7,6 +7,10 @@ import '../../business/entities/address.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 
+/// A widget that represents an individual address item.
+/// 
+/// Displays information about the address and provides functionality
+/// to remove the address.
 class AddressItem extends StatefulWidget {
   final Address addressItem;
   final bool isSelected;
@@ -36,10 +40,12 @@ class _AddressItemState extends State<AddressItem> {
     super.didChangeDependencies();
   }
 
+  /// Removes the address item from the list.
   Future<void> _removeItem() async {
     setState(() {
       _isLoading = true;
     });
+
     await Provider.of<AuthenticationProvider>(context, listen: false)
         .getAddresses();
     _addressList = Provider.of<AuthenticationProvider>(context, listen: false)
@@ -84,12 +90,13 @@ class _AddressItemState extends State<AddressItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.place,
-                            color: AppTheme.primary,
-                            size: 30,
-                          )),
+                        flex: 1,
+                        child: Icon(
+                          Icons.place,
+                          color: AppTheme.primary,
+                          size: 30,
+                        ),
+                      ),
                       Expanded(
                         flex: 6,
                         child: Directionality(
@@ -155,9 +162,7 @@ class _AddressItemState extends State<AddressItem> {
                     height: deviceWidth * 0.10,
                     width: deviceWidth * 0.1,
                     child: InkWell(
-                      onTap: () {
-                        _removeItem();
-                      },
+                      onTap: _removeItem,
                       child: Icon(
                         Icons.close,
                         size: 20,
@@ -167,26 +172,28 @@ class _AddressItemState extends State<AddressItem> {
                   ),
                 ),
                 Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? SpinKitFadingCircle(
-                                itemBuilder: (BuildContext context, int index) {
-                                  return DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? Colors.grey
-                                          : Colors.grey,
-                                    ),
-                                  );
-                                },
-                              )
-                            : Container()))
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: index.isEven
+                                      ? Colors.grey
+                                      : Colors.grey,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(),
+                  ),
+                ),
               ],
             ),
           ),
