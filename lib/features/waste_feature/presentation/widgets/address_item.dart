@@ -11,10 +11,11 @@ class AddressItem extends StatefulWidget {
   final Address addressItem;
   final bool isSelected;
 
-  AddressItem({
+  const AddressItem({
+    Key? key,
     required this.addressItem,
     this.isSelected = false,
-  });
+  }) : super(key: key);
 
   @override
   _AddressItemState createState() => _AddressItemState();
@@ -22,12 +23,9 @@ class AddressItem extends StatefulWidget {
 
 class _AddressItemState extends State<AddressItem> {
   bool _isInit = true;
-
-  var _isLoading = true;
-
-  late bool isLogin;
-
-  List<Address> addressList = [];
+  late bool _isLoading;
+  late bool _isLogin;
+  late List<Address> _addressList;
 
   @override
   void didChangeDependencies() {
@@ -38,19 +36,19 @@ class _AddressItemState extends State<AddressItem> {
     super.didChangeDependencies();
   }
 
-  Future<void> removeItem() async {
+  Future<void> _removeItem() async {
     setState(() {
       _isLoading = true;
     });
     await Provider.of<AuthenticationProvider>(context, listen: false)
         .getAddresses();
-    addressList = Provider.of<AuthenticationProvider>(context, listen: false)
+    _addressList = Provider.of<AuthenticationProvider>(context, listen: false)
         .addressItems;
 
-    addressList.remove(
-        addressList.firstWhere((prod) => prod.name == widget.addressItem.name));
+    _addressList.remove(
+        _addressList.firstWhere((prod) => prod.name == widget.addressItem.name));
     await Provider.of<AuthenticationProvider>(context, listen: false)
-        .updateAddress(addressList);
+        .updateAddress(_addressList);
 
     setState(() {
       _isLoading = false;
@@ -59,10 +57,10 @@ class _AddressItemState extends State<AddressItem> {
 
   @override
   Widget build(BuildContext context) {
-    var deviceHeight = MediaQuery.of(context).size.height;
-    var deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Container(
       child: Padding(
@@ -104,9 +102,7 @@ class _AddressItemState extends State<AddressItem> {
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    widget.addressItem.name != null
-                                        ? widget.addressItem.name
-                                        : 'Not',
+                                    widget.addressItem.name ?? 'Not',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -160,7 +156,7 @@ class _AddressItemState extends State<AddressItem> {
                     width: deviceWidth * 0.1,
                     child: InkWell(
                       onTap: () {
-                        removeItem();
+                        _removeItem();
                       },
                       child: Icon(
                         Icons.close,
