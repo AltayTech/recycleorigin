@@ -13,6 +13,19 @@ import '../../core/logic/en_to_ar_number_convertor.dart';
 import '../../core/widgets/main_drawer.dart';
 import '../customer_feature/presentation/screens/login_screen.dart';
 
+/// Collect List Screen
+///
+/// This screen is used to show the list of all waste collect requests.
+///
+/// It loads the list of requests from the server and shows them in a list view.
+/// The user can filter the requests by date and waste type.
+/// The user can also sort the requests by newest, highest price, lowest price.
+///
+/// The screen is divided into two parts. The first part shows the list of requests
+/// and the second part shows the details of the selected request.
+///
+/// The screen also has a drawer that contains the menu items to navigate to other
+/// screens.
 class CollectListScreen extends StatefulWidget {
   static const routeName = '/collectListScreen';
 
@@ -20,62 +33,39 @@ class CollectListScreen extends StatefulWidget {
   _CollectListScreenState createState() => _CollectListScreenState();
 }
 
+/// The state of the Collect List Screen
+///
+/// It contains the logic to load the list of requests, filter and sort them.
 class _CollectListScreenState extends State<CollectListScreen>
     with SingleTickerProviderStateMixin {
-  bool _isInit = true;
-
+  /// The scroll controller of the list view
   ScrollController _scrollController = new ScrollController();
 
+  /// The flag to indicate if the screen is loading
   var _isLoading;
 
+  /// The key of the scaffold
   var scaffoldKey;
+
+  /// The page number of the list
   int page = 1;
 
+  /// The search detail object
   SearchDetail productsDetail = SearchDetail();
 
+  /// The sort value
   var sortValue = 'Newest';
+
+  /// The list of sort values
   List<String> sortValueList = ['Newest', 'Highest Price', 'Lowest Price'];
 
-  @override
-  void initState() {
-    Provider.of<Wastes>(context, listen: false).sPage = 1;
-
-    Provider.of<Wastes>(context, listen: false).searchBuilder();
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (page < productsDetail.max_page) {
-          page = page + 1;
-          Provider.of<Wastes>(context, listen: false).sPage = page;
-
-          searchItems();
-        }
-      }
-    });
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() async {
-    if (_isInit) {
-      searchItems();
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
-
+  /// The list of loaded products
   List<RequestWasteItem> loadedProducts = [];
+
+  /// The list of loaded products to list
   List<RequestWasteItem> loadedProductstolist = [];
 
+  /// The function to submit the search
   Future<void> _submit() async {
     loadedProducts.clear();
     loadedProducts =
@@ -83,11 +73,13 @@ class _CollectListScreenState extends State<CollectListScreen>
     loadedProductstolist.addAll(loadedProducts);
   }
 
+  /// The function to filter the items
   Future<void> filterItems() async {
     loadedProductstolist.clear();
     await searchItems();
   }
 
+  /// The function to search the items
   Future<void> searchItems() async {
     setState(() {
       _isLoading = true;
@@ -103,6 +95,7 @@ class _CollectListScreenState extends State<CollectListScreen>
     });
   }
 
+  /// The function to change the category
   Future<void> changeCat(BuildContext context) async {
     setState(() {
       _isLoading = true;
@@ -123,6 +116,7 @@ class _CollectListScreenState extends State<CollectListScreen>
     });
   }
 
+  /// The build method of the screen
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
