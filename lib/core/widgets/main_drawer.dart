@@ -75,7 +75,7 @@ class MainDrawer extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     Color textColor = Colors.white;
-    Color iconColor = Colors.white38;
+    Color iconColor = Colors.white;
     return Drawer(
       child: Directionality(
         textDirection: TextDirection.ltr,
@@ -222,11 +222,12 @@ class MainDrawer extends StatelessWidget {
                               textAlign: TextAlign.right,
                             ),
                             trailing: Container(
-                                height: deviceHeight * 0.03,
-                                width: deviceHeight * 0.03,
+                                height: deviceHeight * 0.025,
+                                width: deviceHeight * 0.025,
                                 child: Image.asset(
                                   'assets/images/donation_ic.png',
-                                  color: AppTheme.grey,
+                                  color: iconColor,
+
                                 )),
                             onTap: () {
                               Navigator.of(context).pop();
