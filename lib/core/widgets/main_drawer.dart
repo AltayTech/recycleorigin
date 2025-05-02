@@ -1,22 +1,55 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/pages/messages_screen.dart';
 
-import '../../features/customer_feature/presentation/providers/authentication_provider.dart';
 import '../../features/about_feature/presentation/pages/about_us_screen.dart';
-import '../../features/store_feature/presentation/screens/cart_screen.dart';
 import '../../features/contac_us_feature/presentation/pages/contact_with_us_screen.dart';
+import '../../features/customer_feature/presentation/providers/authentication_provider.dart';
 import '../../features/customer_feature/presentation/screens/login_screen.dart';
 import '../../features/customer_feature/presentation/screens/profile_screen.dart';
 import '../../features/guid_feature/presentation/pages/guide_screen.dart';
-import '../screens/navigation_bottom_screen.dart';
+import '../../features/store_feature/presentation/screens/cart_screen.dart';
 import '../../features/store_feature/presentation/screens/product_screen.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../screens/navigation_bottom_screen.dart';
+
+/// This widget is a drawer that contains main menu options
+/// it is used in [NavigationBottomScreen] as a drawer
+/// it contains a list of [ListTile] which are built by [buildListTile]
+/// it also contains a [Divider] to separate the list from the logout button
+/// the logout button is used to log out the user
+/// it calls [AuthenticationProvider.logout] when clicked
+///
+/// It is used in [NavigationBottomScreen] as a drawer
+///
+/// The drawer contains the following items:
+/// - Home
+/// - Store
+/// - Cards
+/// - Charities
+/// - Cources
+/// - Supports
+/// - Guids
+/// - Contact Us
+/// - About Us
+/// - Logout
+///
+/// It also contains a [Image] at the top of the drawer which is the header image of the app
+///
+/// The [buildListTile] method is used to build each item in the list
+/// it takes a [String] title and an [IconData] icon as arguments
+/// it returns a [ListTile] with the given title and icon
+///
+/// The [Divider] is used to separate the list from the logout button
+///
+/// The logout button is a [ListTile] with a title of "Logout"
+/// it calls [AuthenticationProvider.logout] when clicked
+/// it also pops the drawer when clicked
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function()? tapHandler) {
@@ -55,7 +88,8 @@ class MainDrawer extends StatelessWidget {
                     sigmaX: 5,
                     sigmaY: 5,
                   ),
-                  child: Container(color: Colors.black.withOpacity(0.3)),
+                  child:
+                      Container(color: AppTheme.appBarColor.withOpacity(0.9)),
                 ),
               ),
               Wrap(
@@ -78,9 +112,7 @@ class MainDrawer extends StatelessWidget {
                   Consumer<AuthenticationProvider>(
                     builder: (_, auth, ch) => ListTile(
                       title: Text(
-                        auth.isAuth
-                            ? "Profile"
-                            : "Login",
+                        auth.isAuth ? "Profile" : "Login",
                         style: TextStyle(
                           fontFamily: "Iransans",
                           fontWeight: FontWeight.w600,
