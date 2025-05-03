@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_detail_screen.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';
@@ -67,7 +68,15 @@ import 'features/waste_feature/presentation/wastes_screen.dart';
 /// The application's localizations are defined in the [AppLocalizations]
 /// class. The localizations are used to translate the application's text
 /// into different languages.
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
