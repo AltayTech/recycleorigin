@@ -4,18 +4,18 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
-import '../../business/entities/product_cart.dart';
-import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/main_drawer.dart';
 import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
-import 'order_products_send_screen.dart';
-import '../widgets/card_item.dart';
-import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
-import '../../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
+import '../../business/entities/product_cart.dart';
+import '../providers/Products.dart';
+import '../widgets/card_item.dart';
+import 'order_products_send_screen.dart';
 
 class CartScreen extends StatefulWidget {
   static const routeName = '/cart_screen';
@@ -39,9 +39,9 @@ class _CartScreenState extends State<CartScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'ورود',
-        buttonText: 'صفحه ورود ',
-        description: 'برای ادامه لطفا وارد شوید',
+        title: 'Login',
+        buttonText: 'Login page ',
+        description: 'Login to continue',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -51,9 +51,9 @@ class _CartScreenState extends State<CartScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'اطلاعات کاربری',
-        buttonText: 'صفحه پروفایل ',
-        description: 'برای ادامه باید اطلاعات کاربری تکمیل کنید',
+        title: 'User Info',
+        buttonText: 'Profile page',
+        description: 'Complete your profile to continue',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -151,7 +151,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
       body: Builder(builder: (context) {
         return Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: TextDirection.ltr,
           child: Container(
             color: AppTheme.bg,
             height: double.infinity,
@@ -176,7 +176,7 @@ class _CartScreenState extends State<CartScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Text(
-                                  'تعداد: ' +
+                                  'Number: ' +
                                       EnArConvertor()
                                           .replaceArNumber(
                                               shoppItems.length.toString())
@@ -194,7 +194,7 @@ class _CartScreenState extends State<CartScreen> {
                                   endIndent: 4,
                                 ),
                                 Text(
-                                  'مبلغ قابل پرداخت (تومان)',
+                                  'Total: ',
                                   style: TextStyle(
                                     color: AppTheme.grey,
                                     fontFamily: 'Iransans',
@@ -237,7 +237,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                   ),
                                 )
-                              : Center(child: Text('محصولی اضافه نشده است')),
+                              : Center(child: Text('No Items')),
                         ),
                         SizedBox(
                           height: 50,
@@ -253,7 +253,7 @@ class _CartScreenState extends State<CartScreen> {
                       onTap: () {
                         SnackBar addToCartSnackBar = SnackBar(
                           content: Text(
-                            'سبد خرید خالی می باشد!',
+                            'Cart is empty',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Iransans',
@@ -261,7 +261,7 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                           ),
                           action: SnackBarAction(
-                            label: 'متوجه شدم',
+                            label: 'OK',
                             onPressed: () {
                               // Some code to undo the change.
                             },
@@ -284,7 +284,7 @@ class _CartScreenState extends State<CartScreen> {
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,
                         height: deviceWidth * 0.14,
-                        text: 'انجام خرید',
+                        text: 'Continue',
                         isActive: shoppItems.isNotEmpty,
                       ),
                     ),
