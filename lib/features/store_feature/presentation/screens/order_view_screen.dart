@@ -4,15 +4,47 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/main_drawer.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../../business/entities/color_code.dart';
 import '../../business/entities/gallery.dart';
 import '../../business/entities/order_details.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
-import '../../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../../core/widgets/main_drawer.dart';
 import 'product_detail_screen.dart';
 
+/// This file defines the `OrderViewScreen` widget, which displays detailed information about a specific order.
+///
+/// The screen includes the following key components:
+///
+/// - **AppBar**: Displays the title "Order Details" with a customizable theme.
+/// - **Order Details**: Shows information such as order status, order number, order date, total price, payment type, and payment status.
+/// - **Product List**: A list of products included in the order, with details like title, price, color, and quantity.
+/// - **Payment Button**: Allows the user to proceed with payment if the payment option is active.
+/// - **Loading Indicator**: Displays a spinner while data is being fetched or actions are being processed.
+/// - **Image List**: Displays a list of images associated with the order, if available.
+///
+/// Key Features:
+/// - Fetches order details and payment URLs using `CustomerInfoProvider`.
+/// - Handles payment actions and displays appropriate messages for success or failure.
+/// - Dynamically updates the UI based on the order's payment and upload status.
+/// - Supports navigation to the product detail screen for individual products.
+///
+/// Dependencies:
+/// - `AppTheme`: Provides theme colors and styles.
+/// - `EnArConvertor`: Converts numbers and text between English and Arabic.
+/// - `CustomerInfoProvider`: Supplies order details and handles payment actions.
+/// - `SpinKitFadingCircle`: A loading spinner widget.
+/// - `MainDrawer`: A custom navigation drawer widget.
+/// - `OrderProductItem`: A custom widget for displaying individual product details.
+///
+/// Navigation:
+/// - Navigates to `ProductDetailScreen` when a product is tapped.
+///
+/// Note:
+/// - Ensure that the `CustomerInfoProvider` is properly configured to fetch order details and payment URLs.
+/// - The `AppTheme` and `EnArConvertor` should be implemented to match the app's design and localization requirements.
+/// - Handle invalid or missing order IDs gracefully to avoid runtime errors.
 class OrderViewScreen extends StatefulWidget {
   static const routeName = '/order_view_screen';
 

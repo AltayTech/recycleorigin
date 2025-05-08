@@ -5,16 +5,16 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/core/widgets/custom_dialog_send_request.dart';
 
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
+import '../../../../core/screens/navigation_bottom_screen.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/main_drawer.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../../business/entities/order_send_details.dart';
 import '../../business/entities/product_cart.dart';
 import '../../business/entities/product_order_send.dart';
 import '../providers/Products.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
-import '../../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../../core/widgets/main_drawer.dart';
-import '../../../../core/screens/navigation_bottom_screen.dart';
 
 class OrderProductsSendScreen extends StatefulWidget {
   static const routeName = '/orderProductsSendScreen';
@@ -115,8 +115,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
       context: context,
       builder: (ctx) => CustomDialogSendRequest(
         title: '',
-        buttonText: 'خب',
-        description: 'سفارش شما با موفقیت ثبت شد',
+        buttonText: 'OK',
+        description: 'Your order has been sent successfully.',
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -156,7 +156,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                 top: deviceHeight * 0.1,
                 left: deviceWidth * 0.1,
                 child: Text(
-                  'پرداخت ',
+                  'Pay ',
                   style: TextStyle(
                       color: AppTheme.bg,
                       fontFamily: 'Iransans',
@@ -189,7 +189,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                 padding: const EdgeInsets.only(
                                     top: 15.0, bottom: 15.0),
                                 child: Text(
-                                  'اطلاعات ارسال محصول',
+                                  'Information',
                                   style: TextStyle(
                                     color: AppTheme.bg,
                                     fontFamily: 'Iransans',
@@ -215,7 +215,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                     child: Wrap(
                                       children: <Widget>[
                                         Text(
-                                          'نام و نام خانوادگی:    ',
+                                          'Name and Latname:    ',
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
@@ -240,7 +240,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                     child: Wrap(
                                       children: <Widget>[
                                         Text(
-                                          'استان:    ',
+                                          'Province:    ',
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
@@ -263,7 +263,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                     child: Wrap(
                                       children: <Widget>[
                                         Text(
-                                          'شهر:   ',
+                                          'City:   ',
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
@@ -286,7 +286,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                     child: Wrap(
                                       children: <Widget>[
                                         Text(
-                                          'کدپستی:    ',
+                                          'Zipcode:    ',
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
@@ -310,7 +310,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                     child: Wrap(
                                       children: <Widget>[
                                         Text(
-                                          'همراه:    ',
+                                          'Mobile:    ',
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
@@ -344,7 +344,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    'مبلغ قابل پرداخت (تومان): ',
+                                    'Total Price: ',
                                     style: TextStyle(
                                       color: AppTheme.grey,
                                       fontFamily: 'Iransans',
@@ -383,7 +383,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                 child: InkWell(
                   onTap: () async {
                     if (totalPrice == 0) {
-                      var _snackBarMessage = 'محصولی وجود ندارد!';
+                      var _snackBarMessage = 'No Item!';
                       final addToCartSnackBar = SnackBar(
                         content: Text(
                           _snackBarMessage,
@@ -394,7 +394,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           ),
                         ),
                         action: SnackBarAction(
-                          label: 'متوجه شدم',
+                          label: 'Ok',
                           onPressed: () {
                             // Some code to undo the change.
                           },
@@ -404,7 +404,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           .showSnackBar(addToCartSnackBar);
                     } else if (totalPrice > double.parse(customer.money)) {
                       var _snackBarMessage =
-                          'هزینه کل از میزان امتیاز کمتر میباشد';
+                          'The amount in your wallet is not enough.';
                       final addToCartSnackBar = SnackBar(
                         content: Text(
                           _snackBarMessage,
@@ -415,7 +415,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           ),
                         ),
                         action: SnackBarAction(
-                          label: 'متوجه شدم',
+                          label: 'OK',
                           onPressed: () {
                             // Some code to undo the change.
                           },
@@ -444,7 +444,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                     child: ButtonBottom(
                       width: deviceWidth * 0.9,
                       height: deviceWidth * 0.14,
-                      text: 'انجام خرید',
+                      text: 'Buy',
                       isActive: true,
                     ),
                   ),
