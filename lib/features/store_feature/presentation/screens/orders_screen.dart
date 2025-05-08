@@ -9,12 +9,44 @@ import 'package:recycleorigin/features/customer_feature/presentation/providers/c
 import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
 import 'package:recycleorigin/features/store_feature/presentation/widgets/order_item-orders_screen.dart';
 
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../customer_feature/presentation/screens/login_screen.dart';
 
+/// This file defines the `OrdersScreen` widget, which displays a list of orders for the logged-in user.
+///
+/// The screen includes the following key components:
+///
+/// - **AppBar**: Displays the title "Orders" with a back button for navigation.
+/// - **Order List**: A scrollable list of orders fetched from the server, displayed using the `OrderItemOrdersScreen` widget.
+/// - **Login Prompt**: If the user is not logged in, a message and a button to navigate to the login screen are shown.
+/// - **Loading Indicator**: Displays a spinner while data is being fetched or processed.
+/// - **Order Count**: Shows the total number of orders fetched.
+///
+/// Key Features:
+/// - Fetches customer information and order details using `AuthenticationProvider` and `Orders` providers.
+/// - Implements infinite scrolling to load more orders as the user scrolls down.
+/// - Dynamically updates the UI based on the user's login status and the availability of orders.
+/// - Displays a fallback message if no orders are found.
+///
+/// Dependencies:
+/// - `AppTheme`: Provides theme colors and styles.
+/// - `EnArConvertor`: Converts numbers and text between English and Arabic.
+/// - `AuthenticationProvider`: Manages user authentication state.
+/// - `CustomerInfoProvider`: Supplies customer information.
+/// - `Orders`: Handles fetching and managing order data.
+/// - `OrderItemOrdersScreen`: A custom widget for displaying individual order details.
+/// - `MainDrawer`: A custom navigation drawer widget.
+///
+/// Navigation:
+/// - Navigates to `LoginScreen` if the user is not logged in and taps the login button.
+///
+/// Note:
+/// - Ensure that the `Orders` provider is properly configured to fetch order data.
+/// - Handle cases where the user is not logged in or no orders are available gracefully.
+/// - The `AppTheme` and `EnArConvertor` should be implemented to match the app's design and localization requirements.
 class OrdersScreen extends StatefulWidget {
   static const routeName = '/ordersScreen';
 

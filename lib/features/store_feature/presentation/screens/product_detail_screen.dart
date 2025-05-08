@@ -7,13 +7,45 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/main_drawer.dart';
 import '../../business/entities/product.dart';
 import '../providers/Products.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../../core/widgets/main_drawer.dart';
 import 'cart_screen.dart';
 
+/// This file defines the `ProductDetailScreen` widget, which displays detailed information about a specific product.
+///
+/// The screen includes the following key components:
+///
+/// - **AppBar**: Displays a back button and a shopping cart icon with a badge showing the number of items in the cart.
+/// - **Product Gallery**: A carousel slider showcasing the product's images.
+/// - **Product Details**: Displays the product name, price (with or without discount), and description.
+/// - **Add to Cart Button**: Allows the user to add the product to the shopping cart, with validation for price and cart existence.
+/// - **Loading Indicator**: Displays a spinner while data is being fetched or actions are being processed.
+///
+/// Key Features:
+/// - Fetches product details using the `Products` provider.
+/// - Handles adding the product to the shopping cart with appropriate feedback messages.
+/// - Dynamically updates the UI based on the product's price and cart status.
+/// - Supports RTL layout for localization.
+///
+/// Dependencies:
+/// - `AppTheme`: Provides theme colors and styles.
+/// - `EnArConvertor`: Converts numbers and text between English and Arabic.
+/// - `Products`: Supplies product details and manages cart actions.
+/// - `SpinKitFadingCircle`: A loading spinner widget.
+/// - `ButtonBottom`: A custom button widget.
+/// - `MainDrawer`: A custom navigation drawer widget.
+/// - `CarouselSlider`: Displays the product's image gallery.
+///
+/// Navigation:
+/// - Navigates to `CartScreen` when the shopping cart icon is tapped.
+///
+/// Note:
+/// - Ensure that the `Products` provider is properly configured to fetch product details and manage cart actions.
+/// - The `AppTheme` and `EnArConvertor` should be implemented to match the app's design and localization requirements.
+/// - Handle cases where the product ID is invalid or missing gracefully to avoid runtime errors.
 class ProductDetailScreen extends StatefulWidget {
   static const routeName = '/productDetailScreen';
 
@@ -428,7 +460,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(addToCartSnackBar);
                         } else if (isExist) {
-                          _snackBarMessage = 'This product exist in the Shopping Card';
+                          _snackBarMessage =
+                              'This product exist in the Shopping Card';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
                               _snackBarMessage,
@@ -450,8 +483,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         } else {
                           await addToShoppingCart(loadedProduct, null);
 
-                          _snackBarMessage =
-                              'Added to Shopping Card';
+                          _snackBarMessage = 'Added to Shopping Card';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
                               _snackBarMessage,
