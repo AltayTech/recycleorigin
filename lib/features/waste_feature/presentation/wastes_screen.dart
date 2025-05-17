@@ -5,8 +5,8 @@ import 'package:recycleorigin/features/waste_feature/business/entities/waste.dar
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
 import '../../../core/theme/app_theme.dart';
-import 'providers/wastes.dart';
 import '../../../core/widgets/main_drawer.dart';
+import 'providers/wastes.dart';
 import 'widgets/waste_item_wastes_screen.dart';
 
 class WastesScreen extends StatefulWidget {
@@ -67,6 +67,14 @@ class _WastesScreenState extends State<WastesScreen>
         appBar: AppBar(
           backgroundColor: AppTheme.appBarColor,
           iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+          centerTitle: true,
+          title: Text(
+            "Waste List",
+            style: TextStyle(
+              fontFamily: 'Iransans',
+              color: AppTheme.white,
+            ),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(15.0),
