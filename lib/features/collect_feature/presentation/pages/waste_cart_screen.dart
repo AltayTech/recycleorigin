@@ -154,7 +154,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    // var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
     bool isLogin =
         Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
@@ -191,10 +191,13 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                         Container(
                           height: deviceWidth * 0.35,
                           decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border:
-                                  Border.all(color: Colors.grey, width: 0.2)),
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(5),
+                            // border: Border.all(
+                            //   color: Colors.grey,
+                            //   width: 0.2,
+                            // ),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -221,7 +224,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                           style: TextStyle(
                                             color: AppTheme.h1,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ),
@@ -230,7 +233,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
+                                          fontSize: 12,
                                         ),
                                       ),
                                       Spacer(),
@@ -272,7 +275,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                               style: TextStyle(
                                                 color: AppTheme.h1,
                                                 fontFamily: 'Iransans',
-                                                fontSize: textScaleFactor * 18,
+                                                fontSize: 18,
                                               ),
                                             ),
                                           );
@@ -283,7 +286,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
+                                          fontSize: 12,
                                         ),
                                       ),
                                       Spacer(),
@@ -316,7 +319,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                             style: TextStyle(
                                               color: AppTheme.h1,
                                               fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 18,
+                                              fontSize: 18,
                                             ),
                                           ),
                                         ),
@@ -327,7 +330,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 12,
+                                            fontSize: 12,
                                           ),
                                         ),
                                       ),
@@ -390,7 +393,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 14.0,
+                              fontSize: 14.0,
                             ),
                           ),
                           action: SnackBarAction(
