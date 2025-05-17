@@ -191,10 +191,13 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                         Container(
                           height: deviceWidth * 0.35,
                           decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border:
-                                  Border.all(color: Colors.grey, width: 0.2)),
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(5),
+                            // border: Border.all(
+                            //   color: Colors.grey,
+                            //   width: 0.2,
+                            // ),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
