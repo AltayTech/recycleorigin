@@ -17,6 +17,40 @@ import '../providers/Products.dart';
 import '../widgets/card_item.dart';
 import 'order_products_send_screen.dart';
 
+/// This file defines the `CartScreen` widget, which displays the shopping cart for the user.
+///
+/// The screen includes the following key components:
+///
+/// - **AppBar**: Displays the title "Shop Cart" with a back button for navigation.
+/// - **Cart Summary**: Shows the total number of items in the cart and their total price.
+/// - **Cart Items List**: Displays a scrollable list of items in the cart using the `CardItem` widget.
+/// - **Continue Button**: Allows the user to proceed to the next step, such as placing an order, with validation for login and profile completion.
+/// - **Loading Indicator**: Displays a spinner while data is being fetched or processed.
+/// - **Empty State**: Shows a message when the cart is empty.
+///
+/// Key Features:
+/// - Fetches cart items and calculates the total price dynamically.
+/// - Validates user login and profile completion before proceeding.
+/// - Updates the UI in real-time when cart items are modified.
+/// - Supports RTL layout for localization.
+///
+/// Dependencies:
+/// - `AppTheme`: Provides theme colors and styles.
+/// - `EnArConvertor`: Converts numbers and text between English and Arabic.
+/// - `Products`: Supplies cart data and manages cart actions.
+/// - `SpinKitFadingCircle`: A loading spinner widget.
+/// - `ButtonBottom`: A custom button widget.
+/// - `CardItem`: A custom widget for displaying individual cart item details.
+/// - `MainDrawer`: A custom navigation drawer widget.
+/// - `CustomDialogEnter` and `CustomDialogProfile`: Custom dialogs for login and profile completion prompts.
+///
+/// Navigation:
+/// - Navigates to `OrderProductsSendScreen` when the "Continue" button is tapped and all validations pass.
+///
+/// Note:
+/// - Ensure that the `Products` provider is properly configured to fetch cart data.
+/// - Handle cases where the cart is empty or the user is not logged in gracefully.
+/// - The `AppTheme` and `EnArConvertor` should be implemented to match the app's design and localization requirements.
 class CartScreen extends StatefulWidget {
   static const routeName = '/cart_screen';
 
@@ -146,6 +180,13 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        title: Text(
+          "Shop Cart",
+          style: TextStyle(
+            fontFamily: 'Iransans',
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
