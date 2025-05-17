@@ -7,6 +7,34 @@ import '../constants/strings.dart';
 import '../theme/app_theme.dart';
 import '../widgets/main_drawer.dart';
 
+/// This file defines the `NavigationBottomScreen` widget, which serves as the main navigation container for the app.
+///
+/// The widget includes the following key components:
+///
+/// - **AppBar**: Displays the app's title "Clean City" with a customizable theme.
+/// - **Drawer**: A side navigation menu implemented using the `MainDrawer` widget.
+/// - **Bottom Navigation**: Allows navigation between different sections of the app using a bottom navigation bar.
+/// - **PageView**: Dynamically displays pages based on the selected bottom navigation item.
+///
+/// Key Features:
+/// - Manages navigation between multiple pages using `_pages` list.
+/// - Handles back button presses with a custom `WillPopScope` implementation.
+/// - Displays a toast message when the back button is pressed twice within a short interval.
+/// - Supports RTL layout for localization.
+///
+/// Dependencies:
+/// - `AppTheme`: Provides theme colors and styles.
+/// - `MainDrawer`: A custom widget for the side navigation drawer.
+/// - `HomeScreen`: Displays the home page content.
+/// - `ProfileView`: Displays the user's profile page.
+/// - `Strings`: Supplies localized strings for navigation labels.
+///
+/// Navigation:
+/// - Navigates between `HomeScreen`, `ProfileView`, and other pages defined in the `_pages` list.
+///
+/// Note:
+/// - Ensure that the `AppTheme` and `Strings` are properly configured to match the app's design and localization requirements.
+/// - Handle cases where the user attempts to exit the app gracefully with a confirmation dialog.
 class NavigationBottomScreen extends StatefulWidget {
   static const routeName = '/NBS';
 
@@ -167,6 +195,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
               "Clean City",
               style: TextStyle(
                 fontFamily: 'Iransans',
+                color: Colors.white,
               ),
             ),
 //            shape: RoundedRectangleBorder(

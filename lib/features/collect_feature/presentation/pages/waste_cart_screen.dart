@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
-import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/main_drawer.dart';
 import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
+import '../../../waste_feature/presentation/address_screen.dart';
 import '../../../waste_feature/presentation/providers/wastes.dart';
 import '../../../waste_feature/presentation/wastes_screen.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
-import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
-import '../../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../../core/widgets/main_drawer.dart';
 import '../../../waste_feature/presentation/widgets/waste_cart_item.dart';
-import '../../../waste_feature/presentation/address_screen.dart';
 
 class WasteCartScreen extends StatefulWidget {
   static const routeName = '/waste_cart_screen';
@@ -407,8 +407,8 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                           _showLogindialog();
                         } else {
                           // if (isCompleted) {
-                            Navigator.of(context)
-                                .pushNamed(AddressScreen.routeName);
+                          Navigator.of(context)
+                              .pushNamed(AddressScreen.routeName);
                           // } else {
                           //   _showCompletedialog();
                           // }
