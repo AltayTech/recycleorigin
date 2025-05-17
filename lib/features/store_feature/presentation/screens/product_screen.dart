@@ -4,16 +4,47 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
-import '../../../../core/models/category.dart';
-import '../../business/entities/product.dart';
-import '../../../../core/models/search_detail.dart';
-import '../providers/Products.dart';
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/models/category.dart';
+import '../../../../core/models/search_detail.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
+import '../../business/entities/product.dart';
+import '../providers/Products.dart';
 import '../widgets/product_item_product_screeen.dart';
 import 'cart_screen.dart';
-
+/// This file defines the `ProductsScreen` widget, which displays a list of products with filtering and sorting options.
+///
+/// The screen includes the following key components:
+///
+/// - **AppBar**: Displays the title "Products" with a shopping cart icon showing the number of items in the cart.
+/// - **Category Filter**: Allows users to filter products by category using a horizontal scrollable list.
+/// - **Sort Dropdown**: Provides sorting options such as "Newest", "High Price", and "Low Price".
+/// - **Product List**: A scrollable list of products displayed using the `ProductItemProductScreen` widget.
+/// - **Loading Indicator**: Displays a spinner while data is being fetched or processed.
+/// - **Empty State**: Shows a message when no products are available.
+///
+/// Key Features:
+/// - Fetches product data and categories using the `Products` provider.
+/// - Implements infinite scrolling to load more products as the user scrolls down.
+/// - Dynamically updates the UI based on selected filters and sorting options.
+/// - Supports RTL layout for localization.
+///
+/// Dependencies:
+/// - `AppTheme`: Provides theme colors and styles.
+/// - `EnArConvertor`: Converts numbers and text between English and Arabic.
+/// - `Products`: Supplies product data and manages filtering and sorting.
+/// - `SpinKitFadingCircle`: A loading spinner widget.
+/// - `ProductItemProductScreen`: A custom widget for displaying individual product details.
+/// - `MainDrawer`: A custom navigation drawer widget.
+///
+/// Navigation:
+/// - Navigates to `CartScreen` when the shopping cart icon is tapped.
+///
+/// Note:
+/// - Ensure that the `Products` provider is properly configured to fetch product data and categories.
+/// - Handle cases where no products or categories are available gracefully.
+/// - The `AppTheme` and `EnArConvertor` should be implemented to match the app's design and localization requirements.
 class ProductsScreen extends StatefulWidget {
   static const routeName = '/productsScreen';
 
@@ -174,6 +205,7 @@ class _ProductsScreenState extends State<ProductsScreen>
             'Products',
             style: TextStyle(
               fontFamily: 'Iransans',
+              color: Colors.white,
             ),
           ),
           backgroundColor: AppTheme.appBarColor,
