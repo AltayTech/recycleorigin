@@ -17,6 +17,43 @@ import '../../../waste_feature/presentation/wastes_screen.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import '../../../waste_feature/presentation/widgets/waste_cart_item.dart';
 
+/// This file defines the `WasteCartScreen` widget, which displays the user's waste cart with details about the selected waste items.
+///
+/// The screen includes the following key components:
+///
+/// - **AppBar**: Displays the title "Waste selection" with a back button for navigation.
+/// - **Waste Summary**: Shows the total number of waste items, their total weight, and total price with animations.
+/// - **Waste Items List**: Displays a scrollable list of waste items using the `WasteCartItem` widget.
+/// - **Floating Action Button**: Allows the user to add more waste items by navigating to the `WastesScreen`.
+/// - **Continue Button**: Proceeds to the address selection screen if the cart is not empty and the user is logged in.
+/// - **Loading Indicator**: Displays a spinner while data is being fetched or processed.
+/// - **Empty State**: Shows a message when no waste items are in the cart.
+///
+/// Key Features:
+/// - Fetches waste cart items dynamically using the `Wastes` provider.
+/// - Calculates and animates the total price and weight of the waste items.
+/// - Validates user login and profile completion before proceeding to the next step.
+/// - Supports RTL layout for localization.
+///
+/// Dependencies:
+/// - `AppTheme`: Provides theme colors and styles.
+/// - `EnArConvertor`: Converts numbers between English and Arabic.
+/// - `Wastes`: Supplies waste cart data and manages waste-related actions.
+/// - `SpinKitFadingCircle`: A loading spinner widget.
+/// - `WasteCartItem`: A custom widget for displaying individual waste item details.
+/// - `ButtonBottom`: A custom button widget.
+/// - `CustomDialogEnter` and `CustomDialogProfile`: Custom dialogs for login and profile completion prompts.
+/// - `MainDrawer`: A custom navigation drawer widget.
+///
+/// Navigation:
+/// - Navigates to `WastesScreen` to add more waste items.
+/// - Navigates to `AddressScreen` when the "Continue" button is tapped and all validations pass.
+///
+/// Note:
+/// - Ensure that the `Wastes` provider is properly configured to fetch waste cart data.
+/// - Handle cases where the cart is empty or the user is not logged in gracefully.
+/// - The `AppTheme` and `EnArConvertor` should be implemented to match the app's design and localization requirements.
+/// - Properly dispose of animation controllers to avoid memory leaks.
 class WasteCartScreen extends StatefulWidget {
   static const routeName = '/waste_cart_screen';
 
