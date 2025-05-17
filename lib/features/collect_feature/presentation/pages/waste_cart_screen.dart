@@ -385,44 +385,103 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                     bottom: 0,
                     left: 0,
 //                    right: 0,
-                    child: InkWell(
-                      onTap: () {
-                        SnackBar addToCartSnackBar = SnackBar(
-                          content: Text(
-                            'Please add waste',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Iransans',
-                              fontSize: 14.0,
+                    child: Row(
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              SnackBar addToCartSnackBar = SnackBar(
+                                content: Text(
+                                  'Please add waste',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Iransans',
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                                action: SnackBarAction(
+                                  label: 'Ok',
+                                  onPressed: () {
+                                    // Some code to undo the change.
+                                  },
+                                ),
+                              );
+                              if (wasteCartItems.isEmpty) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(addToCartSnackBar);
+                              } else if (!isLogin) {
+                                _showLogindialog();
+                              } else {
+                                // if (isCompleted) {
+                                Navigator.of(context)
+                                    .pushNamed(AddressScreen.routeName);
+                                // } else {
+                                //   _showCompletedialog();
+                                // }
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: deviceWidth * 0.14,
+                                height: deviceWidth * 0.14,
+                                child: FloatingActionButton(
+                                  onPressed: () async {
+                                    await Navigator.of(context).pushNamed(
+                                      WastesScreen.routeName,
+                                    );
+                                    getWasteItems();
+                                    setState(() {});
+                                  },
+                                  backgroundColor: AppTheme.primary,
+                                  child: Icon(
+                                    Icons.add,
+                                    color: AppTheme.white,
+                                  ),
+                                ),
+                              ),
+                            )),
+                        InkWell(
+                          onTap: () {
+                            SnackBar addToCartSnackBar = SnackBar(
+                              content: Text(
+                                'Please add waste',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Iransans',
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                              action: SnackBarAction(
+                                label: 'Ok',
+                                onPressed: () {
+                                  // Some code to undo the change.
+                                },
+                              ),
+                            );
+                            if (wasteCartItems.isEmpty) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(addToCartSnackBar);
+                            } else if (!isLogin) {
+                              _showLogindialog();
+                            } else {
+                              // if (isCompleted) {
+                              Navigator.of(context)
+                                  .pushNamed(AddressScreen.routeName);
+                              // } else {
+                              //   _showCompletedialog();
+                              // }
+                            }
+                          },
+                          child: Expanded(
+                            child: ButtonBottom(
+                              width: deviceWidth * 0.75,
+                              height: deviceWidth * 0.14,
+                              text: 'Continue',
+                              isActive: wasteCartItems.isNotEmpty,
                             ),
                           ),
-                          action: SnackBarAction(
-                            label: 'Ok',
-                            onPressed: () {
-                              // Some code to undo the change.
-                            },
-                          ),
-                        );
-                        if (wasteCartItems.isEmpty) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(addToCartSnackBar);
-                        } else if (!isLogin) {
-                          _showLogindialog();
-                        } else {
-                          // if (isCompleted) {
-                          Navigator.of(context)
-                              .pushNamed(AddressScreen.routeName);
-                          // } else {
-                          //   _showCompletedialog();
-                          // }
-                        }
-                      },
-                      child: ButtonBottom(
-                        width: deviceWidth * 0.75,
-                        height: deviceWidth * 0.14,
-                        text: 'Continue',
-                        isActive: wasteCartItems.isNotEmpty,
-                      ),
+                        )
+                      ],
                     ),
                   ),
                   Positioned(
@@ -462,20 +521,20 @@ class _WasteCartScreenState extends State<WasteCartScreen>
         ),
         child: MainDrawer(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await Navigator.of(context).pushNamed(
-            WastesScreen.routeName,
-          );
-          getWasteItems();
-          setState(() {});
-        },
-        backgroundColor: AppTheme.primary,
-        child: Icon(
-          Icons.add,
-          color: AppTheme.white,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     await Navigator.of(context).pushNamed(
+      //       WastesScreen.routeName,
+      //     );
+      //     getWasteItems();
+      //     setState(() {});
+      //   },
+      //   backgroundColor: AppTheme.primary,
+      //   child: Icon(
+      //     Icons.add,
+      //     color: AppTheme.white,
+      //   ),
+      // ),
     );
   }
 }
