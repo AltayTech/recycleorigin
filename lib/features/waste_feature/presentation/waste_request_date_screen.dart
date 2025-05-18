@@ -409,7 +409,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         children: <Widget>[
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                right: 8.0),
+                                                right: 8.0, bottom: 8),
                                             child: Icon(
                                               Icons.date_range,
                                               color: AppTheme.grey,
@@ -558,12 +558,14 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                right: 8.0),
+                                                right: 8.0, bottom: 8),
                                             child: Icon(
                                               Icons.access_time,
                                               color: AppTheme.grey,
