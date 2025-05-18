@@ -482,8 +482,8 @@ class _WasteCartItemState extends State<WasteCartItem>
                     ),
                   ),
                   Positioned(
-                    top: 0,
-                    left: 0,
+                    top: 4,
+                    left: 4,
                     child: InkWell(
                       onTap: () async {
                         return removeItem();
