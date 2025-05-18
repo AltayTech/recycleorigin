@@ -243,9 +243,10 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                       Container(
                         height: deviceHeight * 0.25,
                         decoration: BoxDecoration(
-                            color: AppTheme.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.grey, width: 0.2)),
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.circular(5),
+                          // border: Border.all(color: Colors.grey, width: 0.2),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Column(
@@ -409,7 +410,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         children: <Widget>[
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                right: 8.0),
+                                                right: 8.0, bottom: 8),
                                             child: Icon(
                                               Icons.date_range,
                                               color: AppTheme.grey,
@@ -558,12 +559,14 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                right: 8.0),
+                                                right: 8.0, bottom: 8),
                                             child: Icon(
                                               Icons.access_time,
                                               color: AppTheme.grey,
