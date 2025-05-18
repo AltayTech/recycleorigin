@@ -4,14 +4,14 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
-import '../business/entities/address.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/main_drawer.dart';
 import '../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../business/entities/address.dart';
 import 'pages/map_screen.dart';
 import 'waste_request_date_screen.dart';
 import 'widgets/address_item.dart';
 import 'widgets/custom_dialog_enter.dart';
-import '../../../core/widgets/main_drawer.dart';
 
 class AddressScreen extends StatefulWidget {
   static const routeName = '/address_screen';
@@ -71,6 +71,14 @@ class _AddressScreenState extends State<AddressScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          'Address',
+          style: TextStyle(
+            color: AppTheme.white,
+            fontFamily: 'Iransans',
+//            fontSize: textScaleFactor * 14,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
