@@ -27,7 +27,7 @@ class WasteItemWastesScreen extends StatelessWidget {
             color: isSelected ? AppTheme.white : AppTheme.white,
             border: isSelected
                 ? Border.all(width: 3, color: AppTheme.primary)
-                : Border.all(width: 0.3, color: AppTheme.grey),
+                : Border.all(width: 0.3, color: AppTheme.white),
           ),
           height: constraints.maxHeight,
           child: Padding(
