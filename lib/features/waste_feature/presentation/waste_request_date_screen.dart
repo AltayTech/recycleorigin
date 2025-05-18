@@ -243,9 +243,10 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                       Container(
                         height: deviceHeight * 0.25,
                         decoration: BoxDecoration(
-                            color: AppTheme.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.grey, width: 0.2)),
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.circular(5),
+                          // border: Border.all(color: Colors.grey, width: 0.2),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Column(
