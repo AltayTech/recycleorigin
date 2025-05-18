@@ -306,6 +306,95 @@ class _WasteCartItemState extends State<WasteCartItem>
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Expanded(
+                                        child: InkWell(
+                                          onTap: () {
+                                            if (productWeight > 1) {
+                                              productWeight = productWeight - 1;
+                                              print('productCount' +
+                                                  productWeight.toString());
+
+                                              Provider.of<Wastes>(context,
+                                                  listen: false)
+                                                  .updateWasteCart(
+                                                widget.wasteItem,
+                                                productWeight,
+                                              );
+                                              changeNumberAnimation(
+                                                  double.parse(getPrice(
+                                                      widget
+                                                          .wasteItem.prices,
+                                                      widget.wasteItem
+                                                          .weight)) *
+                                                      widget.wasteItem.weight);
+                                              changeUnitPriceAnimation(
+                                                  double.parse(getPrice(
+                                                      widget.wasteItem.prices,
+                                                      widget
+                                                          .wasteItem.weight)));
+                                            }
+                                            widget.function();
+                                          },
+                                          onDoubleTap: () async {
+                                            if (productWeight > 10) {
+                                              productWeight =
+                                                  productWeight - 10;
+                                              print('productCount' +
+                                                  productWeight.toString());
+
+                                              Provider.of<Wastes>(context,
+                                                  listen: false)
+                                                  .updateWasteCart(
+                                                widget.wasteItem,
+                                                productWeight,
+                                              );
+                                              changeNumberAnimation(
+                                                  double.parse(getPrice(
+                                                      widget
+                                                          .wasteItem.prices,
+                                                      widget.wasteItem
+                                                          .weight)) *
+                                                      widget.wasteItem.weight);
+                                              changeUnitPriceAnimation(
+                                                  double.parse(getPrice(
+                                                      widget.wasteItem.prices,
+                                                      widget
+                                                          .wasteItem.weight)));
+                                            }
+                                            widget.function();
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppTheme.accent,
+                                            ),
+                                            child: Icon(
+                                              Icons.remove,
+                                              color: AppTheme.bg,
+                                              size: 25,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.only(top: 3.0),
+                                          child: Text(
+                                            EnArConvertor()
+                                                .replaceArNumber(widget
+                                                .wasteItem.weight
+                                                .toString())
+                                                .toString(),
+                                            style: TextStyle(
+                                              color: AppTheme.black,
+                                              fontFamily: 'Iransans',
+                                              fontSize: textScaleFactor * 15,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
                                           child: InkWell(
                                         onTap: () async {
                                           productWeight = productWeight + 1;
@@ -360,95 +449,8 @@ class _WasteCartItemState extends State<WasteCartItem>
                                               ),
                                             )),
                                       )),
-                                      Expanded(
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 3.0),
-                                          child: Text(
-                                            EnArConvertor()
-                                                .replaceArNumber(widget
-                                                    .wasteItem.weight
-                                                    .toString())
-                                                .toString(),
-                                            style: TextStyle(
-                                              color: AppTheme.black,
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 15,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: InkWell(
-                                          onTap: () {
-                                            if (productWeight > 1) {
-                                              productWeight = productWeight - 1;
-                                              print('productCount' +
-                                                  productWeight.toString());
 
-                                              Provider.of<Wastes>(context,
-                                                      listen: false)
-                                                  .updateWasteCart(
-                                                widget.wasteItem,
-                                                productWeight,
-                                              );
-                                              changeNumberAnimation(
-                                                  double.parse(getPrice(
-                                                          widget
-                                                              .wasteItem.prices,
-                                                          widget.wasteItem
-                                                              .weight)) *
-                                                      widget.wasteItem.weight);
-                                              changeUnitPriceAnimation(
-                                                  double.parse(getPrice(
-                                                      widget.wasteItem.prices,
-                                                      widget
-                                                          .wasteItem.weight)));
-                                            }
-                                            widget.function();
-                                          },
-                                          onDoubleTap: () async {
-                                            if (productWeight > 10) {
-                                              productWeight =
-                                                  productWeight - 10;
-                                              print('productCount' +
-                                                  productWeight.toString());
 
-                                              Provider.of<Wastes>(context,
-                                                      listen: false)
-                                                  .updateWasteCart(
-                                                widget.wasteItem,
-                                                productWeight,
-                                              );
-                                              changeNumberAnimation(
-                                                  double.parse(getPrice(
-                                                          widget
-                                                              .wasteItem.prices,
-                                                          widget.wasteItem
-                                                              .weight)) *
-                                                      widget.wasteItem.weight);
-                                              changeUnitPriceAnimation(
-                                                  double.parse(getPrice(
-                                                      widget.wasteItem.prices,
-                                                      widget
-                                                          .wasteItem.weight)));
-                                            }
-                                            widget.function();
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: AppTheme.accent,
-                                            ),
-                                            child: Icon(
-                                              Icons.remove,
-                                              color: AppTheme.bg,
-                                              size: 25,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 ),
