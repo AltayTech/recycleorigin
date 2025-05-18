@@ -367,10 +367,13 @@ class _WasteCartItemState extends State<WasteCartItem>
                                               shape: BoxShape.circle,
                                               color: AppTheme.accent,
                                             ),
-                                            child: Icon(
-                                              Icons.remove,
-                                              color: AppTheme.bg,
-                                              size: 25,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(2.0),
+                                              child: Icon(
+                                                Icons.remove,
+                                                color: AppTheme.bg,
+                                                size: 25,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -441,7 +444,8 @@ class _WasteCartItemState extends State<WasteCartItem>
                                               shape: BoxShape.circle,
                                               color: AppTheme.accent,
                                             ),
-                                            child: Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(2.0),
                                               child: Icon(
                                                 Icons.add,
                                                 color: AppTheme.bg,
