@@ -156,9 +156,13 @@ class _WasteCartItemState extends State<WasteCartItem>
                         flex: 2,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            Spacer(
+                              flex: 2,
+                            ),
                             Expanded(
+                              flex: 2,
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 8),
                                 child: Text(
@@ -175,57 +179,54 @@ class _WasteCartItemState extends State<WasteCartItem>
                               ),
                             ),
                             Expanded(
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'Per Kilo: ',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 12,
-                                      ),
+                              flex: 2,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    'Per Kilo: ',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 12,
                                     ),
-                                    AnimatedBuilder(
-                                      animation: _unitPriceAnimation,
-                                      builder: (BuildContext context,
-                                          Widget? child) {
-                                        return Text(
-                                          widget.wasteItem.prices.length != 0
-                                              ? EnArConvertor().replaceArNumber(
-                                                  currencyFormat.format(
-                                                    double.parse(
-                                                        _unitPriceAnimation
-                                                            .value
-                                                            .toStringAsFixed(
-                                                                0)),
-                                                  ),
-                                                )
-                                              : EnArConvertor()
-                                                  .replaceArNumber('0'),
-                                          style: TextStyle(
-                                            color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 16,
-                                          ),
-                                        );
-                                      },
+                                  ),
+                                  AnimatedBuilder(
+                                    animation: _unitPriceAnimation,
+                                    builder:
+                                        (BuildContext context, Widget? child) {
+                                      return Text(
+                                        widget.wasteItem.prices.length != 0
+                                            ? EnArConvertor().replaceArNumber(
+                                                currencyFormat.format(
+                                                  double.parse(
+                                                      _unitPriceAnimation.value
+                                                          .toStringAsFixed(0)),
+                                                ),
+                                              )
+                                            : EnArConvertor()
+                                                .replaceArNumber('0'),
+                                        style: TextStyle(
+                                          color: AppTheme.h1,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 16,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  Text(
+                                    '  \$ ',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 12,
                                     ),
-                                    Text(
-                                      '  \$ ',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                             Expanded(
+                              flex: 2,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
@@ -271,15 +272,12 @@ class _WasteCartItemState extends State<WasteCartItem>
                                 ],
                               ),
                             ),
-
-
                           ],
                         ),
                       ),
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                           children: [
                             Expanded(
                               child: Padding(
