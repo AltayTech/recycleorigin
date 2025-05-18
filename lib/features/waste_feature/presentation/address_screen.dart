@@ -176,43 +176,67 @@ class _AddressScreenState extends State<AddressScreen> {
                 Positioned(
                   bottom: 0,
                   left: 0,
-                  child: InkWell(
-                    onTap: () {
-                      SnackBar addToCartSnackBar = SnackBar(
-                        content: Text(
-                          'Address does not selected',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Iransans',
-                            fontSize: textScaleFactor * 14.0,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: deviceWidth * 0.14,
+                          height: deviceWidth * 0.14,
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(
+                                MapScreen.routeName,
+                              );
+                            },
+                            backgroundColor: AppTheme.primary,
+                            child: Icon(
+                              Icons.add,
+                              color: AppTheme.white,
+                            ),
                           ),
                         ),
-                        action: SnackBarAction(
-                          label: 'OK',
-                          onPressed: () {
-                            // Some code to undo the change.
-                          },
-                        ),
-                      );
-                      if (!isLogin) {
-                        _showLogindialog();
-                      } else {
-                        Navigator.of(context)
-                            .pushNamed(WasteRequestDateScreen.routeName);
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: ButtonBottom(
-                        width: deviceWidth * 0.75,
-                        height: deviceWidth * 0.14,
-                        text: 'Continue',
-                        isActive: Provider.of<AuthenticationProvider>(context,
-                                    listen: false)
-                                .selectedAddress !=
-                            null,
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          SnackBar addToCartSnackBar = SnackBar(
+                            content: Text(
+                              'Address does not selected',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Iransans',
+                                fontSize: textScaleFactor * 14.0,
+                              ),
+                            ),
+                            action: SnackBarAction(
+                              label: 'OK',
+                              onPressed: () {
+                                // Some code to undo the change.
+                              },
+                            ),
+                          );
+                          if (!isLogin) {
+                            _showLogindialog();
+                          } else {
+                            Navigator.of(context)
+                                .pushNamed(WasteRequestDateScreen.routeName);
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: ButtonBottom(
+                            width: deviceWidth * 0.75,
+                            height: deviceWidth * 0.14,
+                            text: 'Continue',
+                            isActive: Provider.of<AuthenticationProvider>(
+                                        context,
+                                        listen: false)
+                                    .selectedAddress !=
+                                null,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Positioned(
@@ -248,18 +272,6 @@ class _AddressScreenState extends State<AddressScreen> {
               .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
         ),
         child: MainDrawer(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(
-            MapScreen.routeName,
-          );
-        },
-        backgroundColor: AppTheme.primary,
-        child: Icon(
-          Icons.add,
-          color: AppTheme.white,
-        ),
       ),
     );
   }
