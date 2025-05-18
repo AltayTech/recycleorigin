@@ -241,236 +241,230 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
         child: SingleChildScrollView(
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  height: deviceHeight * 0.4,
-                  child: Card(
-                    child: Stack(
-                      children: [
-                        osm.OSMFlutter(
-                            controller: controller,
-                            onGeoPointClicked: (location) {
-                              debugPrint(location.toString());
-                              _onAddMarkerButtonPressed(LatLng(
-                                  location.latitude, location.longitude));
-                            },
-                            osmOption: osm.OSMOption(
-                              userTrackingOption: osm.UserTrackingOption(
-                                enableTracking: true,
-                                unFollowUser: false,
-                              ),
-                              zoomOption: osm.ZoomOption(
-                                initZoom: 11,
-                                minZoomLevel: 3,
-                                maxZoomLevel: 19,
-                                stepZoom: 1.0,
-                              ),
-                              showZoomController: true,
-                              userLocationMarker: osm.UserLocationMaker(
-                                personMarker: osm.MarkerIcon(
-                                  icon: Icon(
-                                    Icons.location_history,
-                                    color: Colors.red,
-                                    size: 48,
-                                  ),
-                                ),
-                                directionArrowMarker: osm.MarkerIcon(
-                                  icon: Icon(
-                                    Icons.location_history,
-                                    size: 48,
-                                  ),
-                                ),
-                              ),
-                              roadConfiguration: osm.RoadOption(
-                                roadColor: Colors.yellowAccent,
-                              ),
-                              // markerOption: osm.MarkerOption(
-                              //     defaultMarker: osm.MarkerIcon(
-                              //   icon: Icon(
-                              //     Icons.person_pin_circle,
-                              //     color: Colors.blue,
-                              //     size: 56,
-                              //   ),
-                              // ),
-                              // ),
-                            )),
-                        Positioned(
-                          right: 10,
-                          bottom: 10,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                osm.GeoPoint? p =
-                                    await osm.showSimplePickerLocation(
-                                  context: context,
-                                  isDismissible: true,
-                                  title: "Please select your location",
-                                  textConfirmPicker: "Ok",
-                                  textCancelPicker: "Cancel",
-                                  zoomOption: osm.ZoomOption(
-                                    initZoom: 12,
-                                    minZoomLevel: 3,
-                                    maxZoomLevel: 19,
-                                    stepZoom: 1.0,
-                                  ),
-                                  initCurrentUserPosition:
-                                      osm.UserTrackingOption(
-                                          enableTracking: true),
-                                );
-                                _onAddMarkerButtonPressed(
-                                    LatLng(p!.latitude, p.longitude));
-
-                                debugPrint(p.latitude.toString());
-                                debugPrint(p.longitude.toString());
-                              },
-                              child: Text('Select')),
-                        ),
-                      ],
-                    ),
-
-                    // GoogleMap(
-                    //   onMapCreated: _onMapCreated,
-                    //   initialCameraPosition: CameraPosition(
-                    //     target: _lastMapPosition,
-                    //     zoom: 12.0,
-                    //   ),
-                    //   mapType: _currentMapType,
-                    //   markers: _markers,
-                    //   onCameraMove: _onCameraMove,
-                    //   myLocationEnabled: true,
-                    //   compassEnabled: true,
-                    //   scrollGesturesEnabled: true,
-                    //   mapToolbarEnabled: true,
-                    //   myLocationButtonEnabled: true,
-                    //   onTap: (location) {
-                    //     _onAddMarkerButtonPressed(location);
-                    //   },
-                    //   zoomGesturesEnabled: true,
-                    //   onLongPress: (location) =>
-                    //       _onAddMarkerButtonPressed(location),
-                    // ),
-                  ),
-                ),
-                InfoEditItem(
-                  title: 'Address name:',
-                  controller: nameController,
-                  bgColor: AppTheme.bg,
-                  iconColor: Color(0xffA67FEC),
-                  keybordType: TextInputType.text,
-                  fieldHeight: deviceHeight * 0.06,
-                  thisFocusNode: nameNode,
-                  newFocusNode: regionNode,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Container(
-                    width: deviceWidth * 0.78,
-                    child: Text(
-                      'Region : ',
-                      style: TextStyle(
-                        color: AppTheme.h1,
-                        fontFamily: 'Iransans',
-                        fontSize: textScaleFactor * 14.0,
-                      ),
-                    ),
-                  ),
-                ),
-                Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      width: deviceWidth * 0.78,
-                      height: deviceHeight * 0.05,
-                      alignment: Alignment.centerRight,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: AppTheme.white,
-                          border: Border.all(color: AppTheme.h1, width: 0.6)),
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(right: 8.0, left: 8, top: 6),
-                        child: DropdownButton<String>(
-                          hint: Text(
-                            'Select Region',
-                            style: TextStyle(
-                              color: AppTheme.grey,
-                              fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 13.0,
-                            ),
-                          ),
-                          value: regionValue,
-                          focusNode: regionNode,
-                          icon: Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
-                            child: Icon(
-                              Icons.arrow_drop_down,
-                              color: AppTheme.black,
-                              size: 20,
-                            ),
-                          ),
-                          underline: Container(
-                            color: AppTheme.white,
-                          ),
-                          dropdownColor: AppTheme.white,
-                          style: TextStyle(
-                            color: AppTheme.black,
-                            fontFamily: 'Iransans',
-                            fontSize: textScaleFactor * 13.0,
-                          ),
-                          isDense: true,
-                          onChanged: (newValue) {
-                            setState(() {
-                              regionValue = newValue;
-                              selectedRegion = regionList[
-                                  regionValueList.lastIndexOf(newValue!)];
-                              FocusScope.of(context).requestFocus(addressNode);
-                            });
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: deviceHeight * 0.4,
+                child: Card(
+                  child: Stack(
+                    children: [
+                      osm.OSMFlutter(
+                          controller: controller,
+                          onGeoPointClicked: (location) {
+                            debugPrint(location.toString());
+                            _onAddMarkerButtonPressed(LatLng(
+                                location.latitude, location.longitude));
                           },
-                          items: regionValueList
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Container(
-                                width: deviceWidth * 0.6,
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 3.0),
-                                    child: Text(
-                                      value,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        color: AppTheme.black,
-                                        fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 13.0,
-                                      ),
-                                    ),
-                                  ),
+                          osmOption: osm.OSMOption(
+                            userTrackingOption: osm.UserTrackingOption(
+                              enableTracking: true,
+                              unFollowUser: false,
+                            ),
+                            zoomOption: osm.ZoomOption(
+                              initZoom: 11,
+                              minZoomLevel: 3,
+                              maxZoomLevel: 19,
+                              stepZoom: 1.0,
+                            ),
+                            showZoomController: true,
+                            userLocationMarker: osm.UserLocationMaker(
+                              personMarker: osm.MarkerIcon(
+                                icon: Icon(
+                                  Icons.location_history,
+                                  color: Colors.red,
+                                  size: 48,
                                 ),
                               ),
-                            );
-                          }).toList(),
-                        ),
+                              directionArrowMarker: osm.MarkerIcon(
+                                icon: Icon(
+                                  Icons.location_history,
+                                  size: 48,
+                                ),
+                              ),
+                            ),
+                            roadConfiguration: osm.RoadOption(
+                              roadColor: Colors.yellowAccent,
+                            ),
+                            // markerOption: osm.MarkerOption(
+                            //     defaultMarker: osm.MarkerIcon(
+                            //   icon: Icon(
+                            //     Icons.person_pin_circle,
+                            //     color: Colors.blue,
+                            //     size: 56,
+                            //   ),
+                            // ),
+                            // ),
+                          )),
+                      Positioned(
+                        right: 10,
+                        bottom: 10,
+                        child: ElevatedButton(
+                            onPressed: () async {
+                              osm.GeoPoint? p =
+                                  await osm.showSimplePickerLocation(
+                                context: context,
+                                isDismissible: true,
+                                title: "Please select your location",
+                                textConfirmPicker: "Ok",
+                                textCancelPicker: "Cancel",
+                                zoomOption: osm.ZoomOption(
+                                  initZoom: 12,
+                                  minZoomLevel: 3,
+                                  maxZoomLevel: 19,
+                                  stepZoom: 1.0,
+                                ),
+                                initCurrentUserPosition:
+                                    osm.UserTrackingOption(
+                                        enableTracking: true),
+                              );
+                              _onAddMarkerButtonPressed(
+                                  LatLng(p!.latitude, p.longitude));
+
+                              debugPrint(p.latitude.toString());
+                              debugPrint(p.longitude.toString());
+                            },
+                            child: Text('Select')),
                       ),
+                    ],
+                  ),
+
+                  // GoogleMap(
+                  //   onMapCreated: _onMapCreated,
+                  //   initialCameraPosition: CameraPosition(
+                  //     target: _lastMapPosition,
+                  //     zoom: 12.0,
+                  //   ),
+                  //   mapType: _currentMapType,
+                  //   markers: _markers,
+                  //   onCameraMove: _onCameraMove,
+                  //   myLocationEnabled: true,
+                  //   compassEnabled: true,
+                  //   scrollGesturesEnabled: true,
+                  //   mapToolbarEnabled: true,
+                  //   myLocationButtonEnabled: true,
+                  //   onTap: (location) {
+                  //     _onAddMarkerButtonPressed(location);
+                  //   },
+                  //   zoomGesturesEnabled: true,
+                  //   onLongPress: (location) =>
+                  //       _onAddMarkerButtonPressed(location),
+                  // ),
+                ),
+              ),
+              InfoEditItem(
+                title: 'Address name:',
+                controller: nameController,
+                bgColor: AppTheme.bg,
+                iconColor: Color(0xffA67FEC),
+                keybordType: TextInputType.text,
+                fieldHeight: deviceHeight * 0.06,
+                thisFocusNode: nameNode,
+                newFocusNode: regionNode,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Container(
+                  width: deviceWidth * 0.78,
+                  child: Text(
+                    'Region : ',
+                    style: TextStyle(
+                      color: AppTheme.h1,
+                      fontFamily: 'Iransans',
+                      fontSize: textScaleFactor * 14.0,
                     ),
                   ),
                 ),
-                InfoEditItem(
-                  title: 'Address',
-                  controller: addressController,
-                  bgColor: AppTheme.bg,
-                  iconColor: Color(0xffA67FEC),
-                  keybordType: TextInputType.text,
-                  fieldHeight: deviceHeight * 0.2,
-                  maxLine: 10,
-                  thisFocusNode: addressNode,
-                  newFocusNode: new FocusNode(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Container(
+                  width: deviceWidth * 0.78,
+                  height: deviceHeight * 0.05,
+                  alignment: Alignment.centerRight,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: AppTheme.white,
+                      border: Border.all(color: AppTheme.h1, width: 0.6)),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(right: 8.0, left: 8, top: 6),
+                    child: DropdownButton<String>(
+                      hint: Text(
+                        'Select Region',
+                        style: TextStyle(
+                          color: AppTheme.grey,
+                          fontFamily: 'Iransans',
+                          fontSize:  13.0,
+                        ),
+                      ),
+                      value: regionValue,
+                      focusNode: regionNode,
+                      icon: Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          color: AppTheme.black,
+                          size: 20,
+                        ),
+                      ),
+                      underline: Container(
+                        color: AppTheme.white,
+                      ),
+                      dropdownColor: AppTheme.white,
+                      style: TextStyle(
+                        color: AppTheme.black,
+                        fontFamily: 'Iransans',
+                        fontSize:  13.0,
+                      ),
+                      isDense: true,
+                      onChanged: (newValue) {
+                        setState(() {
+                          regionValue = newValue;
+                          selectedRegion = regionList[
+                              regionValueList.lastIndexOf(newValue!)];
+                          FocusScope.of(context).requestFocus(addressNode);
+                        });
+                      },
+                      items: regionValueList
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Container(
+                            width: deviceWidth * 0.6,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 3.0),
+                                child: Text(
+                                  value,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: AppTheme.black,
+                                    fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 13.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ),
-              ],
-            ),
+              ),
+              InfoEditItem(
+                title: 'Address',
+                controller: addressController,
+                bgColor: AppTheme.bg,
+                iconColor: Color(0xffA67FEC),
+                keybordType: TextInputType.text,
+                fieldHeight: deviceHeight * 0.2,
+                maxLine: 10,
+                thisFocusNode: addressNode,
+                newFocusNode: new FocusNode(),
+              ),
+            ],
           ),
         ),
       ),
