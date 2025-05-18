@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
-import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
+import '../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../core/models/customer.dart';
 import '../../../core/models/region.dart';
-import '../business/entities/address.dart';
-
 import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/main_drawer.dart';
 import '../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../business/entities/address.dart';
 import 'providers/wastes.dart';
 import 'waste_request_send_screen.dart';
 import 'widgets/custom_dialog_enter.dart';
-import '../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../core/widgets/main_drawer.dart';
 
 class WasteRequestDateScreen extends StatefulWidget {
   static const routeName = '/waste_request_date_screen';
@@ -167,7 +166,6 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
       'Thursday',
       'Friday',
     ];
-
   }
 
   Future<void> getDate(int numberFutureDate) async {
@@ -175,7 +173,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     dateList.clear();
 
     for (int i = 0; i < numberFutureDate; i++) {
-      dateList.add(dateTime.add(Duration(days: i+1)));
+      dateList.add(dateTime.add(Duration(days: i + 1)));
     }
   }
 
@@ -212,7 +210,6 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
           style: TextStyle(
             color: AppTheme.white,
             fontFamily: 'Iransans',
-            fontSize: textScaleFactor * 15.0,
           ),
         ),
         centerTitle: true,
@@ -269,7 +266,6 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                           'assets/images/main_page_request_ic.png',
                                           height: deviceWidth * 0.06,
                                           width: deviceWidth * 0.06,
-                                          color: Colors.grey,
                                         ),
                                       ),
                                       Text(
@@ -310,7 +306,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                           'assets/images/waste_cart_price_ic.png',
                                           height: deviceWidth * 0.06,
                                           width: deviceWidth * 0.06,
-                                          color: Colors.grey,
+                                          color: Colors.yellow,
                                         ),
                                       ),
                                       Text(
