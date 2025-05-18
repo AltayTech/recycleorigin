@@ -337,11 +337,11 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                       height: deviceWidth * 0.09,
                                       width: deviceWidth * 0.09,
                                     ),
-        //                                      Icon(
-        //                                        Icons.av_timer,
-        //                                        color: Colors.blue,
-        //                                        size: 40,
-        //                                      ),
+                                    //                                      Icon(
+                                    //                                        Icons.av_timer,
+                                    //                                        color: Colors.blue,
+                                    //                                        size: 40,
+                                    //                                      ),
                                     FittedBox(
                                       child: Padding(
                                         padding: const EdgeInsets.only(
@@ -419,9 +419,50 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                 Positioned(
                   bottom: 0,
                   left: 0,
-        //                    right: 0,
+                  //                    right: 0,
                   child: Row(
                     children: [
+                      InkWell(
+                        onTap: () {
+                          SnackBar addToCartSnackBar = SnackBar(
+                            content: Text(
+                              'Please add waste',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Iransans',
+                                fontSize: 14.0,
+                              ),
+                            ),
+                            action: SnackBarAction(
+                              label: 'Ok',
+                              onPressed: () {
+                                // Some code to undo the change.
+                              },
+                            ),
+                          );
+                          if (wasteCartItems.isEmpty) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(addToCartSnackBar);
+                          } else if (!isLogin) {
+                            _showLogindialog();
+                          } else {
+                            // if (isCompleted) {
+                            Navigator.of(context)
+                                .pushNamed(AddressScreen.routeName);
+                            // } else {
+                            //   _showCompletedialog();
+                            // }
+                          }
+                        },
+                        child: Expanded(
+                          child: ButtonBottom(
+                            width: deviceWidth * 0.75,
+                            height: deviceWidth * 0.14,
+                            text: 'Continue',
+                            isActive: wasteCartItems.isNotEmpty,
+                          ),
+                        ),
+                      ),
                       InkWell(
                           onTap: () {
                             SnackBar addToCartSnackBar = SnackBar(
@@ -475,47 +516,6 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                               ),
                             ),
                           )),
-                      InkWell(
-                        onTap: () {
-                          SnackBar addToCartSnackBar = SnackBar(
-                            content: Text(
-                              'Please add waste',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Iransans',
-                                fontSize: 14.0,
-                              ),
-                            ),
-                            action: SnackBarAction(
-                              label: 'Ok',
-                              onPressed: () {
-                                // Some code to undo the change.
-                              },
-                            ),
-                          );
-                          if (wasteCartItems.isEmpty) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(addToCartSnackBar);
-                          } else if (!isLogin) {
-                            _showLogindialog();
-                          } else {
-                            // if (isCompleted) {
-                            Navigator.of(context)
-                                .pushNamed(AddressScreen.routeName);
-                            // } else {
-                            //   _showCompletedialog();
-                            // }
-                          }
-                        },
-                        child: Expanded(
-                          child: ButtonBottom(
-                            width: deviceWidth * 0.75,
-                            height: deviceWidth * 0.14,
-                            text: 'Continue',
-                            isActive: wasteCartItems.isNotEmpty,
-                          ),
-                        ),
-                      )
                     ],
                   ),
                 ),
@@ -532,9 +532,8 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: index.isEven
-                                      ? Colors.grey
-                                      : Colors.grey,
+                                  color:
+                                      index.isEven ? Colors.grey : Colors.grey,
                                 ),
                               );
                             },

@@ -4,14 +4,14 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
-import '../business/entities/address.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/main_drawer.dart';
 import '../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../business/entities/address.dart';
 import 'pages/map_screen.dart';
 import 'waste_request_date_screen.dart';
 import 'widgets/address_item.dart';
 import 'widgets/custom_dialog_enter.dart';
-import '../../../core/widgets/main_drawer.dart';
 
 class AddressScreen extends StatefulWidget {
   static const routeName = '/address_screen';
@@ -71,6 +71,14 @@ class _AddressScreenState extends State<AddressScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          'Address',
+          style: TextStyle(
+            color: AppTheme.white,
+            fontFamily: 'Iransans',
+//            fontSize: textScaleFactor * 14,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
@@ -168,43 +176,67 @@ class _AddressScreenState extends State<AddressScreen> {
                 Positioned(
                   bottom: 0,
                   left: 0,
-                  child: InkWell(
-                    onTap: () {
-                      SnackBar addToCartSnackBar = SnackBar(
-                        content: Text(
-                          'Address does not selected',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Iransans',
-                            fontSize: textScaleFactor * 14.0,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: deviceWidth * 0.14,
+                          height: deviceWidth * 0.14,
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(
+                                MapScreen.routeName,
+                              );
+                            },
+                            backgroundColor: AppTheme.primary,
+                            child: Icon(
+                              Icons.add,
+                              color: AppTheme.white,
+                            ),
                           ),
                         ),
-                        action: SnackBarAction(
-                          label: 'OK',
-                          onPressed: () {
-                            // Some code to undo the change.
-                          },
-                        ),
-                      );
-                      if (!isLogin) {
-                        _showLogindialog();
-                      } else {
-                        Navigator.of(context)
-                            .pushNamed(WasteRequestDateScreen.routeName);
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: ButtonBottom(
-                        width: deviceWidth * 0.75,
-                        height: deviceWidth * 0.14,
-                        text: 'Continue',
-                        isActive: Provider.of<AuthenticationProvider>(context,
-                                    listen: false)
-                                .selectedAddress !=
-                            null,
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          SnackBar addToCartSnackBar = SnackBar(
+                            content: Text(
+                              'Address does not selected',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Iransans',
+                                fontSize: textScaleFactor * 14.0,
+                              ),
+                            ),
+                            action: SnackBarAction(
+                              label: 'OK',
+                              onPressed: () {
+                                // Some code to undo the change.
+                              },
+                            ),
+                          );
+                          if (!isLogin) {
+                            _showLogindialog();
+                          } else {
+                            Navigator.of(context)
+                                .pushNamed(WasteRequestDateScreen.routeName);
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: ButtonBottom(
+                            width: deviceWidth * 0.75,
+                            height: deviceWidth * 0.14,
+                            text: 'Continue',
+                            isActive: Provider.of<AuthenticationProvider>(
+                                        context,
+                                        listen: false)
+                                    .selectedAddress !=
+                                null,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Positioned(
@@ -240,18 +272,6 @@ class _AddressScreenState extends State<AddressScreen> {
               .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
         ),
         child: MainDrawer(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(
-            MapScreen.routeName,
-          );
-        },
-        backgroundColor: AppTheme.primary,
-        child: Icon(
-          Icons.add,
-          color: AppTheme.white,
-        ),
       ),
     );
   }
