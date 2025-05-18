@@ -217,579 +217,576 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Builder(builder: (context) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
+        return Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: Stack(
+              children: <Widget>[
+                SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(
+                          'Request Details ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppTheme.h1,
+                            fontFamily: 'Iransans',
+                            fontWeight: FontWeight.w500,
+                            fontSize: textScaleFactor * 16.0,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: deviceHeight * 0.25,
+                        decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border:
+                                Border.all(color: Colors.grey, width: 0.2)),
+                        child: Padding(
                           padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            'Request Details ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: AppTheme.h1,
-                              fontFamily: 'Iransans',
-                              fontWeight: FontWeight.w500,
-                              fontSize: textScaleFactor * 16.0,
-                            ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, bottom: 8.0),
+                                      child: Image.asset(
+                                        'assets/images/main_page_request_ic.png',
+                                        height: deviceWidth * 0.06,
+                                        width: deviceWidth * 0.06,
+                                      ),
+                                    ),
+                                    Text(
+                                      'number ',
+                                      style: TextStyle(
+                                        color: AppTheme.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        EnArConvertor()
+                                            .replaceArNumber(wasteCartItems
+                                                .length
+                                                .toString())
+                                            .toString(),
+                                        style: TextStyle(
+                                          color: AppTheme.h1,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, bottom: 2.0),
+                                      child: Image.asset(
+                                        'assets/images/waste_cart_price_ic.png',
+                                        height: deviceWidth * 0.06,
+                                        width: deviceWidth * 0.06,
+                                        color: Colors.yellow,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Total Price',
+                                      style: TextStyle(
+                                        color: AppTheme.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 14,
+                                      ),
+                                    ),
+                                    Text(
+                                      '\$',
+                                      style: TextStyle(
+                                        color: AppTheme.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        totalPrice.toString().isNotEmpty
+                                            ? EnArConvertor().replaceArNumber(
+                                                currencyFormat
+                                                    .format(totalPrice)
+                                                    .toString())
+                                            : EnArConvertor()
+                                                .replaceArNumber('0'),
+                                        style: TextStyle(
+                                          color: AppTheme.h1,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, bottom: 2.0),
+                                      child: Image.asset(
+                                        'assets/images/waste_cart_weight_ic.png',
+                                        height: deviceWidth * 0.06,
+                                        width: deviceWidth * 0.06,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Total Weight',
+                                      style: TextStyle(
+                                        color: AppTheme.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 14,
+                                      ),
+                                    ),
+                                    Text(
+                                      '(Kilogram)',
+                                      style: TextStyle(
+                                        color: AppTheme.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        EnArConvertor()
+                                            .replaceArNumber(
+                                                totalWeight.toString())
+                                            .toString(),
+                                        style: TextStyle(
+                                          color: AppTheme.h1,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Container(
-                          height: deviceHeight * 0.25,
-                          decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border:
-                                  Border.all(color: Colors.grey, width: 0.2)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8, bottom: 8.0),
-                                        child: Image.asset(
-                                          'assets/images/main_page_request_ic.png',
-                                          height: deviceWidth * 0.06,
-                                          width: deviceWidth * 0.06,
-                                        ),
-                                      ),
-                                      Text(
-                                        'number ',
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          EnArConvertor()
-                                              .replaceArNumber(wasteCartItems
-                                                  .length
-                                                  .toString())
-                                              .toString(),
-                                          style: TextStyle(
-                                            color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8, bottom: 2.0),
-                                        child: Image.asset(
-                                          'assets/images/waste_cart_price_ic.png',
-                                          height: deviceWidth * 0.06,
-                                          width: deviceWidth * 0.06,
-                                          color: Colors.yellow,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Total Price',
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 14,
-                                        ),
-                                      ),
-                                      Text(
-                                        '\$',
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          totalPrice.toString().isNotEmpty
-                                              ? EnArConvertor().replaceArNumber(
-                                                  currencyFormat
-                                                      .format(totalPrice)
-                                                      .toString())
-                                              : EnArConvertor()
-                                                  .replaceArNumber('0'),
-                                          style: TextStyle(
-                                            color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8, bottom: 2.0),
-                                        child: Image.asset(
-                                          'assets/images/waste_cart_weight_ic.png',
-                                          height: deviceWidth * 0.06,
-                                          width: deviceWidth * 0.06,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Total Weight',
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 14,
-                                        ),
-                                      ),
-                                      Text(
-                                        '(Kilogram)',
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          EnArConvertor()
-                                              .replaceArNumber(
-                                                  totalWeight.toString())
-                                              .toString(),
-                                          style: TextStyle(
-                                            color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Container(
-                                height: deviceHeight * 0.15,
-                                child: LayoutBuilder(
-                                  builder: (_, constraint) => Column(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0),
-                                              child: Icon(
-                                                Icons.date_range,
-                                                color: AppTheme.grey,
-                                              ),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Container(
+                              height: deviceHeight * 0.15,
+                              child: LayoutBuilder(
+                                builder: (_, constraint) => Column(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Icon(
+                                              Icons.date_range,
+                                              color: AppTheme.grey,
                                             ),
-                                            Text(
-                                              'Collect Date',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: AppTheme.grey,
-                                                fontFamily: 'Iransans',
-                                                fontSize:
-                                                    textScaleFactor * 15.0,
-                                              ),
+                                          ),
+                                          Text(
+                                            'Collect Date',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: AppTheme.grey,
+                                              fontFamily: 'Iransans',
+                                              fontSize:
+                                                  textScaleFactor * 15.0,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      Container(
-                                        height: constraint.maxHeight * 0.7,
-                                        width: constraint.maxWidth,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: dateList.length,
-                                          shrinkWrap: true,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return InkWell(
-                                              onTap: () {
-                                                _selectedDay = dateList[index];
+                                    ),
+                                    Container(
+                                      height: constraint.maxHeight * 0.7,
+                                      width: constraint.maxWidth,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: dateList.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (BuildContext context,
+                                            int index) {
+                                          return InkWell(
+                                            onTap: () {
+                                              _selectedDay = dateList[index];
 
-                                                changeCat(context);
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5.0),
-                                                child: Container(
-                                                  height: constraint.maxHeight *
-                                                      0.55,
-                                                  width: constraint.maxWidth *
-                                                      0.31,
-                                                  decoration: _selectedDay ==
-                                                          dateList[index]
-                                                      ? BoxDecoration(
-                                                          color:
-                                                              AppTheme.primary,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                                color:
-                                                                    AppTheme.bg,
-                                                                blurRadius: 4,
-                                                                spreadRadius: 4)
-                                                          ],
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                            15,
-                                                          ),
-                                                        )
-                                                      : BoxDecoration(
-                                                          color: AppTheme.white,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                                color:
-                                                                    AppTheme.bg,
-                                                                blurRadius: 4,
-                                                                spreadRadius: 4)
-                                                          ],
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                            15,
-                                                          ),
+                                              changeCat(context);
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Container(
+                                                height: constraint.maxHeight *
+                                                    0.55,
+                                                width: constraint.maxWidth *
+                                                    0.31,
+                                                decoration: _selectedDay ==
+                                                        dateList[index]
+                                                    ? BoxDecoration(
+                                                        color:
+                                                            AppTheme.primary,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color:
+                                                                  AppTheme.bg,
+                                                              blurRadius: 4,
+                                                              spreadRadius: 4)
+                                                        ],
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                          15,
                                                         ),
-                                                  child: Center(
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          EnArConvertor().replaceArNumber(
-                                                              weekDays[dateList[
-                                                                          index]
-                                                                      .weekday -
-                                                                  1]),
-                                                          style: TextStyle(
-                                                            color: _selectedDay ==
-                                                                    dateList[
+                                                      )
+                                                    : BoxDecoration(
+                                                        color: AppTheme.white,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color:
+                                                                  AppTheme.bg,
+                                                              blurRadius: 4,
+                                                              spreadRadius: 4)
+                                                        ],
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                          15,
+                                                        ),
+                                                      ),
+                                                child: Center(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        EnArConvertor().replaceArNumber(
+                                                            weekDays[dateList[
                                                                         index]
-                                                                ? AppTheme.white
-                                                                : AppTheme.h1,
-                                                            fontFamily:
-                                                                'Iransans',
-                                                            fontSize:
-                                                                textScaleFactor *
-                                                                    18.0,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                        Text(
-                                                          EnArConvertor().replaceArNumber(dateList[
+                                                                    .weekday -
+                                                                1]),
+                                                        style: TextStyle(
+                                                          color: _selectedDay ==
+                                                                  dateList[
                                                                       index]
-                                                                  .day
-                                                                  .toString() +
-                                                              ' ' +
-                                                              months[dateList[
-                                                                          index]
-                                                                      .month -
-                                                                  1]),
-                                                          style: TextStyle(
-                                                            color: _selectedDay ==
-                                                                    dateList[
-                                                                        index]
-                                                                ? AppTheme.white
-                                                                : AppTheme.h1,
-                                                            fontFamily:
-                                                                'Iransans',
-                                                            fontSize:
-                                                                textScaleFactor *
-                                                                    15.0,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.center,
+                                                              ? AppTheme.white
+                                                              : AppTheme.h1,
+                                                          fontFamily:
+                                                              'Iransans',
+                                                          fontSize:
+                                                              textScaleFactor *
+                                                                  18.0,
                                                         ),
-                                                      ],
-                                                    ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      Text(
+                                                        EnArConvertor().replaceArNumber(dateList[
+                                                                    index]
+                                                                .day
+                                                                .toString() +
+                                                            ' ' +
+                                                            months[dateList[
+                                                                        index]
+                                                                    .month -
+                                                                1]),
+                                                        style: TextStyle(
+                                                          color: _selectedDay ==
+                                                                  dateList[
+                                                                      index]
+                                                              ? AppTheme.white
+                                                              : AppTheme.h1,
+                                                          fontFamily:
+                                                              'Iransans',
+                                                          fontSize:
+                                                              textScaleFactor *
+                                                                  15.0,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ))),
-                        Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Container(
-                                height: deviceHeight * 0.15,
-                                width: deviceWidth,
-                                child: LayoutBuilder(
-                                  builder: (_, constraint) => Column(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0),
-                                              child: Icon(
-                                                Icons.access_time,
-                                                color: AppTheme.grey,
-                                              ),
                                             ),
-                                            Text(
-                                              'Collect Hour',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: AppTheme.grey,
-                                                fontFamily: 'Iransans',
-                                                fontSize:
-                                                    textScaleFactor * 15.0,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          );
+                                        },
                                       ),
-                                      Container(
-                                        height: constraint.maxHeight * 0.7,
-                                        width: constraint.maxWidth,
-                                        child: _isLoading
-                                            ? Container()
-                                            : Consumer<AuthenticationProvider>(
-                                                builder: (_, data, ch) =>
-                                                    ListView.builder(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  itemCount: data.regionData
-                                                      .collect_hour.length,
-                                                  shrinkWrap: true,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    return InkWell(
-                                                      onTap: () {
-                                                        _selectedHourStart =
-                                                            data
-                                                                .regionData
-                                                                .collect_hour[
-                                                                    index]
-                                                                .start;
-                                                        _selectedHourend = data
-                                                            .regionData
-                                                            .collect_hour[index]
-                                                            .end;
+                                    ),
+                                  ],
+                                ),
+                              ))),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Container(
+                              height: deviceHeight * 0.15,
+                              width: deviceWidth,
+                              child: LayoutBuilder(
+                                builder: (_, constraint) => Column(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Icon(
+                                              Icons.access_time,
+                                              color: AppTheme.grey,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Collect Hour',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: AppTheme.grey,
+                                              fontFamily: 'Iransans',
+                                              fontSize:
+                                                  textScaleFactor * 15.0,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      height: constraint.maxHeight * 0.7,
+                                      width: constraint.maxWidth,
+                                      child: _isLoading
+                                          ? Container()
+                                          : Consumer<AuthenticationProvider>(
+                                              builder: (_, data, ch) =>
+                                                  ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount: data.regionData
+                                                    .collect_hour.length,
+                                                shrinkWrap: true,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      _selectedHourStart =
+                                                          data
+                                                              .regionData
+                                                              .collect_hour[
+                                                                  index]
+                                                              .start;
+                                                      _selectedHourend = data
+                                                          .regionData
+                                                          .collect_hour[index]
+                                                          .end;
 
-                                                        changeCat(context);
-                                                      },
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(5.0),
-                                                        child: Container(
-                                                          height: constraint
-                                                                  .maxHeight *
-                                                              0.55,
-                                                          width: constraint
-                                                                  .maxWidth *
-                                                              0.31,
-                                                          decoration: _selectedHourStart ==
+                                                      changeCat(context);
+                                                    },
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets
+                                                              .all(5.0),
+                                                      child: Container(
+                                                        height: constraint
+                                                                .maxHeight *
+                                                            0.55,
+                                                        width: constraint
+                                                                .maxWidth *
+                                                            0.31,
+                                                        decoration: _selectedHourStart ==
+                                                                data
+                                                                    .regionData
+                                                                    .collect_hour[
+                                                                        index]
+                                                                    .start
+                                                            ? BoxDecoration(
+                                                                color: AppTheme
+                                                                    .primary,
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                      color: AppTheme
+                                                                          .bg,
+                                                                      blurRadius:
+                                                                          4,
+                                                                      spreadRadius:
+                                                                          4)
+                                                                ],
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                  15,
+                                                                ),
+                                                              )
+                                                            : BoxDecoration(
+                                                                color: AppTheme
+                                                                    .white,
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                      color: AppTheme
+                                                                          .bg,
+                                                                      blurRadius:
+                                                                          4,
+                                                                      spreadRadius:
+                                                                          4)
+                                                                ],
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                  15,
+                                                                ),
+                                                              ),
+                                                        child: Center(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    top: 8.0),
+                                                            child: Text(
+                                                              getHours(
                                                                   data
                                                                       .regionData
                                                                       .collect_hour[
                                                                           index]
-                                                                      .start
-                                                              ? BoxDecoration(
-                                                                  color: AppTheme
-                                                                      .primary,
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                        color: AppTheme
-                                                                            .bg,
-                                                                        blurRadius:
-                                                                            4,
-                                                                        spreadRadius:
-                                                                            4)
-                                                                  ],
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                    15,
-                                                                  ),
-                                                                )
-                                                              : BoxDecoration(
-                                                                  color: AppTheme
-                                                                      .white,
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                        color: AppTheme
-                                                                            .bg,
-                                                                        blurRadius:
-                                                                            4,
-                                                                        spreadRadius:
-                                                                            4)
-                                                                  ],
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                    15,
-                                                                  ),
-                                                                ),
-                                                          child: Center(
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 8.0),
-                                                              child: Text(
-                                                                getHours(
-                                                                    data
-                                                                        .regionData
-                                                                        .collect_hour[
-                                                                            index]
-                                                                        .start,
-                                                                    data
-                                                                        .regionData
-                                                                        .collect_hour[
-                                                                            index]
-                                                                        .end),
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: _selectedHourStart ==
-                                                                          data
-                                                                              .regionData
-                                                                              .collect_hour[
-                                                                                  index]
-                                                                              .start
-                                                                      ? AppTheme
-                                                                          .white
-                                                                      : AppTheme
-                                                                          .h1,
-                                                                  fontFamily:
-                                                                      'Iransans',
-                                                                  fontSize:
-                                                                      textScaleFactor *
-                                                                          22.0,
-                                                                ),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
+                                                                      .start,
+                                                                  data
+                                                                      .regionData
+                                                                      .collect_hour[
+                                                                          index]
+                                                                      .end),
+                                                              style:
+                                                                  TextStyle(
+                                                                color: _selectedHourStart ==
+                                                                        data
+                                                                            .regionData
+                                                                            .collect_hour[
+                                                                                index]
+                                                                            .start
+                                                                    ? AppTheme
+                                                                        .white
+                                                                    : AppTheme
+                                                                        .h1,
+                                                                fontFamily:
+                                                                    'Iransans',
+                                                                fontSize:
+                                                                    textScaleFactor *
+                                                                        22.0,
                                                               ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                    );
-                                                  },
-                                                ),
+                                                    ),
+                                                  );
+                                                },
                                               ),
-                                      ),
-                                    ],
-                                  ),
-                                ))),
-                        SizedBox(
-                          height: 50,
-                        )
-                      ],
+                                            ),
+                                    ),
+                                  ],
+                                ),
+                              ))),
+                      SizedBox(
+                        height: 50,
+                      )
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: InkWell(
+                    onTap: () {
+                      SnackBar addToCartSnackBar = SnackBar(
+                        content: Text(
+                          'Please select a collect date',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Iransans',
+                            fontSize: textScaleFactor * 14.0,
+                          ),
+                        ),
+                        action: SnackBarAction(
+                          label: 'OK',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      );
+                      if (!isLogin) {
+                        _showLogindialog();
+                      } else {
+                        sendDate();
+                        Navigator.of(context)
+                            .pushNamed(WasteRequestSendScreen.routeName);
+                      }
+                    },
+                    child: ButtonBottom(
+                      width: deviceWidth * 0.9,
+                      height: deviceWidth * 0.14,
+                      text: 'Continue',
+                      isActive: _selectedDay != null,
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () {
-                        SnackBar addToCartSnackBar = SnackBar(
-                          content: Text(
-                            'Please select a collect date',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 14.0,
-                            ),
-                          ),
-                          action: SnackBarAction(
-                            label: 'OK',
-                            onPressed: () {
-                              // Some code to undo the change.
+                ),
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: index.isEven
+                                      ? Colors.grey
+                                      : Colors.grey,
+                                ),
+                              );
                             },
-                          ),
-                        );
-                        if (!isLogin) {
-                          _showLogindialog();
-                        } else {
-                          sendDate();
-                          Navigator.of(context)
-                              .pushNamed(WasteRequestSendScreen.routeName);
-                        }
-                      },
-                      child: ButtonBottom(
-                        width: deviceWidth * 0.9,
-                        height: deviceWidth * 0.14,
-                        text: 'Continue',
-                        isActive: _selectedDay != null,
-                      ),
-                    ),
+                          )
+                        : Container(),
                   ),
-                  Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
-                                  ),
-                                );
-                              },
-                            )
-                          : Container(),
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
           ),
         );
