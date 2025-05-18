@@ -259,7 +259,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 8, bottom: 8.0),
+                                          right: 8, bottom: 8.0),
                                       child: Image.asset(
                                         'assets/images/main_page_request_ic.png',
                                         height: deviceWidth * 0.06,
@@ -267,7 +267,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                       ),
                                     ),
                                     Text(
-                                      'number ',
+                                      'Number ',
                                       style: TextStyle(
                                         color: AppTheme.grey,
                                         fontFamily: 'Iransans',
@@ -299,7 +299,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 8, bottom: 2.0),
+                                          right: 8, bottom: 2.0),
                                       child: Image.asset(
                                         'assets/images/waste_cart_price_ic.png',
                                         height: deviceWidth * 0.06,
@@ -316,7 +316,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '\$',
+                                      ' (\$)',
                                       style: TextStyle(
                                         color: AppTheme.grey,
                                         fontFamily: 'Iransans',
@@ -350,7 +350,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 8, bottom: 2.0),
+                                          right: 8, bottom: 2.0),
                                       child: Image.asset(
                                         'assets/images/waste_cart_weight_ic.png',
                                         height: deviceWidth * 0.06,
@@ -367,7 +367,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '(Kilogram)',
+                                      ' (Kilogram)',
                                       style: TextStyle(
                                         color: AppTheme.grey,
                                         fontFamily: 'Iransans',
