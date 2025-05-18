@@ -9,10 +9,10 @@ import 'package:provider/provider.dart';
 // import 'package:geolocator/geolocator.dart';
 
 import '../../../../core/models/region.dart';
-import '../../business/entities/address.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 import '../../../../core/widgets/info_edit_item.dart';
+import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../business/entities/address.dart';
 
 class MapScreen extends StatefulWidget {
   static const routeName = '/mapScreen';
@@ -224,6 +224,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           'New Address',
           style: TextStyle(
             fontFamily: 'Iransans',
+            color: AppTheme.white,
           ),
         ),
 //        shape: RoundedRectangleBorder(
