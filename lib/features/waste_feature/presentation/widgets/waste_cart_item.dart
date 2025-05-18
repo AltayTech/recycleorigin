@@ -159,29 +159,26 @@ class _WasteCartItemState extends State<WasteCartItem>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
-                              child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Text(
-                                    widget.wasteItem.name != null
-                                        ? widget.wasteItem.name
-                                        : 'Empty',
-                                    style: TextStyle(
-                                      color: AppTheme.grey,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 18,
-                                    ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Text(
+                                  widget.wasteItem.name != null
+                                      ? widget.wasteItem.name
+                                      : 'Empty',
+                                  style: TextStyle(
+                                    color: AppTheme.grey,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 18,
                                   ),
                                 ),
                               ),
                             ),
                             Expanded(
                               child: Align(
-                                alignment: Alignment.bottomRight,
+                                alignment: Alignment.centerLeft,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
                                       'Per Kilo: ',
@@ -230,7 +227,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                             ),
                             Expanded(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
                                     'Total: ',
