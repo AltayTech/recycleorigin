@@ -245,8 +245,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                         decoration: BoxDecoration(
                             color: AppTheme.white,
                             borderRadius: BorderRadius.circular(5),
-                            border:
-                                Border.all(color: Colors.grey, width: 0.2)),
+                            border: Border.all(color: Colors.grey, width: 0.2)),
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Column(
@@ -410,7 +409,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         children: <Widget>[
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 8.0),
+                                                right: 8.0),
                                             child: Icon(
                                               Icons.date_range,
                                               color: AppTheme.grey,
@@ -422,8 +421,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                             style: TextStyle(
                                               color: AppTheme.grey,
                                               fontFamily: 'Iransans',
-                                              fontSize:
-                                                  textScaleFactor * 15.0,
+                                              fontSize: textScaleFactor * 15.0,
                                             ),
                                           ),
                                         ],
@@ -436,8 +434,8 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         scrollDirection: Axis.horizontal,
                                         itemCount: dateList.length,
                                         shrinkWrap: true,
-                                        itemBuilder: (BuildContext context,
-                                            int index) {
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
                                           return InkWell(
                                             onTap: () {
                                               _selectedDay = dateList[index];
@@ -448,15 +446,14 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                               padding:
                                                   const EdgeInsets.all(5.0),
                                               child: Container(
-                                                height: constraint.maxHeight *
-                                                    0.55,
-                                                width: constraint.maxWidth *
-                                                    0.31,
+                                                height:
+                                                    constraint.maxHeight * 0.55,
+                                                width:
+                                                    constraint.maxWidth * 0.31,
                                                 decoration: _selectedDay ==
                                                         dateList[index]
                                                     ? BoxDecoration(
-                                                        color:
-                                                            AppTheme.primary,
+                                                        color: AppTheme.primary,
                                                         boxShadow: [
                                                           BoxShadow(
                                                               color:
@@ -492,11 +489,12 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                                             .center,
                                                     children: <Widget>[
                                                       Text(
-                                                        EnArConvertor().replaceArNumber(
-                                                            weekDays[dateList[
-                                                                        index]
-                                                                    .weekday -
-                                                                1]),
+                                                        EnArConvertor()
+                                                            .replaceArNumber(
+                                                                weekDays[dateList[
+                                                                            index]
+                                                                        .weekday -
+                                                                    1]),
                                                         style: TextStyle(
                                                           color: _selectedDay ==
                                                                   dateList[
@@ -513,15 +511,16 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                                             TextAlign.center,
                                                       ),
                                                       Text(
-                                                        EnArConvertor().replaceArNumber(dateList[
-                                                                    index]
-                                                                .day
-                                                                .toString() +
-                                                            ' ' +
-                                                            months[dateList[
+                                                        EnArConvertor()
+                                                            .replaceArNumber(dateList[
                                                                         index]
-                                                                    .month -
-                                                                1]),
+                                                                    .day
+                                                                    .toString() +
+                                                                ' ' +
+                                                                months[dateList[
+                                                                            index]
+                                                                        .month -
+                                                                    1]),
                                                         style: TextStyle(
                                                           color: _selectedDay ==
                                                                   dateList[
@@ -564,7 +563,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                         children: <Widget>[
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 8.0),
+                                                right: 8.0),
                                             child: Icon(
                                               Icons.access_time,
                                               color: AppTheme.grey,
@@ -576,8 +575,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                             style: TextStyle(
                                               color: AppTheme.grey,
                                               fontFamily: 'Iransans',
-                                              fontSize:
-                                                  textScaleFactor * 15.0,
+                                              fontSize: 15.0,
                                             ),
                                           ),
                                         ],
@@ -601,12 +599,10 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                                         int index) {
                                                   return InkWell(
                                                     onTap: () {
-                                                      _selectedHourStart =
-                                                          data
-                                                              .regionData
-                                                              .collect_hour[
-                                                                  index]
-                                                              .start;
+                                                      _selectedHourStart = data
+                                                          .regionData
+                                                          .collect_hour[index]
+                                                          .start;
                                                       _selectedHourend = data
                                                           .regionData
                                                           .collect_hour[index]
@@ -616,8 +612,8 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                                     },
                                                     child: Padding(
                                                       padding:
-                                                          const EdgeInsets
-                                                              .all(5.0),
+                                                          const EdgeInsets.all(
+                                                              5.0),
                                                       child: Container(
                                                         height: constraint
                                                                 .maxHeight *
@@ -636,8 +632,9 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                                                     .primary,
                                                                 boxShadow: [
                                                                   BoxShadow(
-                                                                      color: AppTheme
-                                                                          .bg,
+                                                                      color:
+                                                                          AppTheme
+                                                                              .bg,
                                                                       blurRadius:
                                                                           4,
                                                                       spreadRadius:
@@ -654,8 +651,9 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                                                     .white,
                                                                 boxShadow: [
                                                                   BoxShadow(
-                                                                      color: AppTheme
-                                                                          .bg,
+                                                                      color:
+                                                                          AppTheme
+                                                                              .bg,
                                                                       blurRadius:
                                                                           4,
                                                                       spreadRadius:
@@ -685,8 +683,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                                                       .collect_hour[
                                                                           index]
                                                                       .end),
-                                                              style:
-                                                                  TextStyle(
+                                                              style: TextStyle(
                                                                 color: _selectedHourStart ==
                                                                         data
                                                                             .regionData
@@ -776,9 +773,8 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: index.isEven
-                                      ? Colors.grey
-                                      : Colors.grey,
+                                  color:
+                                      index.isEven ? Colors.grey : Colors.grey,
                                 ),
                               );
                             },
