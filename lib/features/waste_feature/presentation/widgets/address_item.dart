@@ -69,7 +69,7 @@ class _AddressItemState extends State<AddressItem> {
     final currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Card(
-      color: Colors.white,
+      // color: Colors.white,
       child: Container(
         height: deviceWidth * 0.28,
         width: deviceWidth,
@@ -77,8 +77,8 @@ class _AddressItemState extends State<AddressItem> {
           color: widget.isSelected
               ? AppTheme.primary.withOpacity(0.1)
               : Colors.white,
-          border: Border.all(color: AppTheme.white, width: 0.3),
-          borderRadius: BorderRadius.circular(5),
+          // border: Border.all(color: AppTheme.white, width: 0.3),
+          // borderRadius: BorderRadius.circular(5),
         ),
         child: LayoutBuilder(
           builder: (_, constraints) => Stack(

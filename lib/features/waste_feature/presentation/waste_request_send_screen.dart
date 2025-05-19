@@ -56,11 +56,9 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
   List<DateTime> dateList = [];
 
+  late String selectedHours = '0';
 
-
-  late String selectedHours='0';
-
-  late DateTime selectedDay=DateTime.now();
+  late DateTime selectedDay = DateTime.now();
 
   late RequestWaste requestWaste;
 
@@ -285,7 +283,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    // var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
     bool isLogin =
         Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
@@ -300,7 +298,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
           style: TextStyle(
             color: AppTheme.white,
             fontFamily: 'Iransans',
-            fontSize: textScaleFactor * 15.0,
+            // fontSize: 15.0,
           ),
         ),
         centerTitle: true,
@@ -308,38 +306,41 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Builder(builder: (context) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            'Request Details',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: AppTheme.h1,
-                              fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 17.0,
-                            ),
+        return Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: Stack(
+              children: <Widget>[
+                SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(
+                          'Request Details',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppTheme.h1,
+                            fontFamily: 'Iransans',
+                            fontSize: 17.0,
                           ),
                         ),
-                        Container(
+                      ),
+                      Card(
+                        color: AppTheme.white,
+                        child: Container(
                           height: deviceHeight * 0.25,
                           width: deviceWidth * 0.9,
                           decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border:
-                                  Border.all(color: Colors.grey, width: 0.2)),
+                            color: Colors.transparent,
+                            // borderRadius: BorderRadius.circular(5),
+                            // border: Border.all(
+                            //   color: Colors.grey,
+                            //   width: 0.2,
+                            // ),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Column(
@@ -354,7 +355,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           'assets/images/main_page_request_ic.png',
                                           height: deviceWidth * 0.06,
                                           width: deviceWidth * 0.06,
-                                          color: Colors.grey,
                                         ),
                                       ),
                                       Text(
@@ -362,7 +362,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
+                                          fontSize: 12,
                                         ),
                                       ),
                                       Spacer(),
@@ -377,7 +377,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.h1,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ),
@@ -393,7 +393,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           'assets/images/waste_cart_price_ic.png',
                                           height: deviceWidth * 0.06,
                                           width: deviceWidth * 0.06,
-                                          color: Colors.grey,
+                                          color: Colors.yellow,
                                         ),
                                       ),
                                       Text(
@@ -401,7 +401,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 14,
+                                          fontSize: 14,
                                         ),
                                       ),
                                       Text(
@@ -409,7 +409,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
+                                          fontSize: 12,
                                         ),
                                       ),
                                       Spacer(),
@@ -426,7 +426,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.h1,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ),
@@ -442,7 +442,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           'assets/images/waste_cart_weight_ic.png',
                                           height: deviceWidth * 0.06,
                                           width: deviceWidth * 0.06,
-                                          color: Colors.grey,
                                         ),
                                       ),
                                       Text(
@@ -450,7 +449,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 14,
+                                          fontSize: 14,
                                         ),
                                       ),
                                       Text(
@@ -458,7 +457,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
+                                          fontSize: 12,
                                         ),
                                       ),
                                       Spacer(),
@@ -472,7 +471,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.h1,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ),
@@ -483,13 +482,19 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                             ),
                           ),
                         ),
-                        Container(
+                      ),
+                      Card(
+                        color: AppTheme.white,
+                        child: Container(
                           width: deviceWidth * 0.9,
                           decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border:
-                                  Border.all(color: Colors.grey, width: 0.2)),
+                            color: Colors.transparent,
+                            // borderRadius: BorderRadius.circular(5),
+                            // border: Border.all(
+                            //   color: Colors.grey,
+                            //   width: 0.2,
+                            // ),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Column(
@@ -502,7 +507,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Icon(
                                           Icons.date_range,
-                                          color: AppTheme.grey,
                                           size: 30,
                                         ),
                                       ),
@@ -515,7 +519,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 15.0,
+                                            fontSize: 15.0,
                                           ),
                                         ),
                                       ),
@@ -527,20 +531,20 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.black,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
+                                            fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
                                       Text(
-                                        EnArConvertor().replaceArNumber(
+                                        EnArConvertor().replaceArNumber(' ' +
                                             selectedDay.day.toString() +
-                                                ' ' +
-                                                months[selectedDay.month - 1]),
+                                            ' ' +
+                                            months[selectedDay.month - 1]),
                                         style: TextStyle(
                                           color: AppTheme.black,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 18.0,
+                                          fontSize: 18.0,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -555,7 +559,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Icon(
                                           Icons.access_time,
-                                          color: AppTheme.grey,
                                           size: 30,
                                         ),
                                       ),
@@ -567,7 +570,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 15.0,
+                                            fontSize: 15.0,
                                           ),
                                         ),
                                       ),
@@ -578,7 +581,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.black,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
+                                            fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
@@ -594,7 +597,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Icon(
                                           Icons.location_on,
-                                          color: AppTheme.grey,
                                           size: 30,
                                         ),
                                       ),
@@ -606,7 +608,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 15.0,
+                                            fontSize: 15.0,
                                           ),
                                         ),
                                       ),
@@ -617,7 +619,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.black,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
+                                            fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
@@ -629,87 +631,86 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 50,
-                        )
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () async {
-                        SnackBar addToCartSnackBar = SnackBar(
-                          content: Text(
-                            'Card is empty',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 14.0,
-                            ),
-                          ),
-                          action: SnackBarAction(
-                            label: 'Ok',
-                            onPressed: () {
-                              // Some code to undo the change.
-                            },
-                          ),
-                        );
-                        if (wasteCartItems.isEmpty) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(addToCartSnackBar);
-                        } else if (!isLogin) {
-                          _showLogindialog();
-                        } else {
-                          // if (isCompleted) {
-                            await createRequest(context);
-
-                            await sendRequest(context, isLogin).then((value) {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  NavigationBottomScreen.routeName,
-                                  (Route<dynamic> route) => false);
-                              _showSenddialog();
-                            });
-                          // } else {
-                          //   _showCompletedialog();
-                          // }
-                        }
-                      },
-                      child: ButtonBottom(
-                        width: deviceWidth * 0.9,
-                        height: deviceWidth * 0.14,
-                        text: 'Confirm',
-                        isActive: wasteCartItems.isNotEmpty,
                       ),
+                      SizedBox(
+                        height: 50,
+                      )
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: InkWell(
+                    onTap: () async {
+                      SnackBar addToCartSnackBar = SnackBar(
+                        content: Text(
+                          'Card is empty',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Iransans',
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        action: SnackBarAction(
+                          label: 'Ok',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      );
+                      if (wasteCartItems.isEmpty) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(addToCartSnackBar);
+                      } else if (!isLogin) {
+                        _showLogindialog();
+                      } else {
+                        // if (isCompleted) {
+                        await createRequest(context);
+
+                        await sendRequest(context, isLogin).then((value) {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              NavigationBottomScreen.routeName,
+                              (Route<dynamic> route) => false);
+                          _showSenddialog();
+                        });
+                        // } else {
+                        //   _showCompletedialog();
+                        // }
+                      }
+                    },
+                    child: ButtonBottom(
+                      width: deviceWidth * 0.9,
+                      height: deviceWidth * 0.14,
+                      text: 'Confirm',
+                      isActive: wasteCartItems.isNotEmpty,
                     ),
                   ),
-                  Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
-                                  ),
-                                );
-                              },
-                            )
-                          : Container(),
-                    ),
-                  )
-                ],
-              ),
+                ),
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      index.isEven ? Colors.grey : Colors.grey,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(),
+                  ),
+                )
+              ],
             ),
           ),
         );
