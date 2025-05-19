@@ -56,11 +56,9 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
   List<DateTime> dateList = [];
 
+  late String selectedHours = '0';
 
-
-  late String selectedHours='0';
-
-  late DateTime selectedDay=DateTime.now();
+  late DateTime selectedDay = DateTime.now();
 
   late RequestWaste requestWaste;
 
@@ -285,7 +283,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    // var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
     bool isLogin =
         Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
@@ -300,7 +298,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
           style: TextStyle(
             color: AppTheme.white,
             fontFamily: 'Iransans',
-            fontSize: textScaleFactor * 15.0,
+            fontSize: 15.0,
           ),
         ),
         centerTitle: true,
@@ -328,7 +326,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                             style: TextStyle(
                               color: AppTheme.h1,
                               fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 17.0,
+                              fontSize: 17.0,
                             ),
                           ),
                         ),
@@ -362,7 +360,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
+                                          fontSize: 12,
                                         ),
                                       ),
                                       Spacer(),
@@ -377,7 +375,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.h1,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ),
@@ -401,7 +399,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 14,
+                                          fontSize: 14,
                                         ),
                                       ),
                                       Text(
@@ -409,7 +407,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
+                                          fontSize: 12,
                                         ),
                                       ),
                                       Spacer(),
@@ -426,7 +424,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.h1,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ),
@@ -450,7 +448,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 14,
+                                          fontSize: 14,
                                         ),
                                       ),
                                       Text(
@@ -458,7 +456,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
+                                          fontSize: 12,
                                         ),
                                       ),
                                       Spacer(),
@@ -472,7 +470,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.h1,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ),
@@ -515,7 +513,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 15.0,
+                                            fontSize: 15.0,
                                           ),
                                         ),
                                       ),
@@ -527,7 +525,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.black,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
+                                            fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
@@ -540,7 +538,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         style: TextStyle(
                                           color: AppTheme.black,
                                           fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 18.0,
+                                          fontSize: 18.0,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -567,7 +565,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 15.0,
+                                            fontSize: 15.0,
                                           ),
                                         ),
                                       ),
@@ -578,7 +576,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.black,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
+                                            fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
@@ -606,7 +604,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.grey,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 15.0,
+                                            fontSize: 15.0,
                                           ),
                                         ),
                                       ),
@@ -617,7 +615,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           style: TextStyle(
                                             color: AppTheme.black,
                                             fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
+                                            fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
@@ -647,7 +645,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 14.0,
+                              fontSize: 14.0,
                             ),
                           ),
                           action: SnackBarAction(
@@ -664,14 +662,14 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                           _showLogindialog();
                         } else {
                           // if (isCompleted) {
-                            await createRequest(context);
+                          await createRequest(context);
 
-                            await sendRequest(context, isLogin).then((value) {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  NavigationBottomScreen.routeName,
-                                  (Route<dynamic> route) => false);
-                              _showSenddialog();
-                            });
+                          await sendRequest(context, isLogin).then((value) {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                NavigationBottomScreen.routeName,
+                                (Route<dynamic> route) => false);
+                            _showSenddialog();
+                          });
                           // } else {
                           //   _showCompletedialog();
                           // }
