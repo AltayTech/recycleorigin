@@ -298,7 +298,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
           style: TextStyle(
             color: AppTheme.white,
             fontFamily: 'Iransans',
-            fontSize: 15.0,
+            // fontSize: 15.0,
           ),
         ),
         centerTitle: true,
@@ -328,243 +328,219 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                           ),
                         ),
                       ),
-                      Container(
-                        height: deviceHeight * 0.25,
-                        width: deviceWidth * 0.9,
-                        decoration: BoxDecoration(
-                            color: AppTheme.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.grey, width: 0.2)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Expanded(
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Image.asset(
-                                        'assets/images/main_page_request_ic.png',
-                                        height: deviceWidth * 0.06,
-                                        width: deviceWidth * 0.06,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Number',
-                                      style: TextStyle(
-                                        color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(wasteCartItems
-                                                .length
-                                                .toString())
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
-                                          fontSize: 18,
+                      Card(
+                        color: AppTheme.white,
+                        child: Container(
+                          height: deviceHeight * 0.25,
+                          width: deviceWidth * 0.9,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            // borderRadius: BorderRadius.circular(5),
+                            // border: Border.all(
+                            //   color: Colors.grey,
+                            //   width: 0.2,
+                            // ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.asset(
+                                          'assets/images/main_page_request_ic.png',
+                                          height: deviceWidth * 0.06,
+                                          width: deviceWidth * 0.06,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Image.asset(
-                                        'assets/images/waste_cart_price_ic.png',
-                                        height: deviceWidth * 0.06,
-                                        width: deviceWidth * 0.06,
-                                        color: Colors.yellow,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Total Price',
-                                      style: TextStyle(
-                                        color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    Text(
-                                      '(\$)',
-                                      style: TextStyle(
-                                        color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        totalPrice.toString().isNotEmpty
-                                            ? EnArConvertor().replaceArNumber(
-                                                currencyFormat
-                                                    .format(totalPrice)
-                                                    .toString())
-                                            : EnArConvertor()
-                                                .replaceArNumber('0'),
+                                      Text(
+                                        'Number',
                                         style: TextStyle(
-                                          color: AppTheme.h1,
+                                          color: AppTheme.grey,
                                           fontFamily: 'Iransans',
-                                          fontSize: 18,
+                                          fontSize: 12,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Image.asset(
-                                        'assets/images/waste_cart_weight_ic.png',
-                                        height: deviceWidth * 0.06,
-                                        width: deviceWidth * 0.06,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Total Weight',
-                                      style: TextStyle(
-                                        color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    Text(
-                                      '(\$)',
-                                      style: TextStyle(
-                                        color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(
-                                                totalWeight.toString())
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
-                                          fontSize: 18,
+                                      Spacer(),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          EnArConvertor()
+                                              .replaceArNumber(wasteCartItems
+                                                  .length
+                                                  .toString())
+                                              .toString(),
+                                          style: TextStyle(
+                                            color: AppTheme.h1,
+                                            fontFamily: 'Iransans',
+                                            fontSize: 18,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.asset(
+                                          'assets/images/waste_cart_price_ic.png',
+                                          height: deviceWidth * 0.06,
+                                          width: deviceWidth * 0.06,
+                                          color: Colors.yellow,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Total Price',
+                                        style: TextStyle(
+                                          color: AppTheme.grey,
+                                          fontFamily: 'Iransans',
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        '(\$)',
+                                        style: TextStyle(
+                                          color: AppTheme.grey,
+                                          fontFamily: 'Iransans',
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          totalPrice.toString().isNotEmpty
+                                              ? EnArConvertor().replaceArNumber(
+                                                  currencyFormat
+                                                      .format(totalPrice)
+                                                      .toString())
+                                              : EnArConvertor()
+                                                  .replaceArNumber('0'),
+                                          style: TextStyle(
+                                            color: AppTheme.h1,
+                                            fontFamily: 'Iransans',
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.asset(
+                                          'assets/images/waste_cart_weight_ic.png',
+                                          height: deviceWidth * 0.06,
+                                          width: deviceWidth * 0.06,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Total Weight',
+                                        style: TextStyle(
+                                          color: AppTheme.grey,
+                                          fontFamily: 'Iransans',
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        '(\$)',
+                                        style: TextStyle(
+                                          color: AppTheme.grey,
+                                          fontFamily: 'Iransans',
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          EnArConvertor()
+                                              .replaceArNumber(
+                                                  totalWeight.toString())
+                                              .toString(),
+                                          style: TextStyle(
+                                            color: AppTheme.h1,
+                                            fontFamily: 'Iransans',
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      Container(
-                        width: deviceWidth * 0.9,
-                        decoration: BoxDecoration(
-                            color: AppTheme.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.grey, width: 0.2)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.date_range,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Collect Date',
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: 15.0,
+                      Card(
+                        color: AppTheme.white,
+                        child: Container(
+                          width: deviceWidth * 0.9,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            // borderRadius: BorderRadius.circular(5),
+                            // border: Border.all(
+                            //   color: Colors.grey,
+                            //   width: 0.2,
+                            // ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.date_range,
+                                          size: 30,
                                         ),
                                       ),
-                                    ),
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 4),
-                                      child: Text(
-                                        weekDays[selectedDay.weekday - 1],
-                                        style: TextStyle(
-                                          color: AppTheme.black,
-                                          fontFamily: 'Iransans',
-                                          fontSize: 18.0,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Text(
-                                      EnArConvertor().replaceArNumber(' ' +
-                                          selectedDay.day.toString() +
-                                          ' ' +
-                                          months[selectedDay.month - 1]),
-                                      style: TextStyle(
-                                        color: AppTheme.black,
-                                        fontFamily: 'Iransans',
-                                        fontSize: 18.0,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.access_time,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Collect hour',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: 15.0,
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Collect Date',
+                                          textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            color: AppTheme.grey,
+                                            fontFamily: 'Iransans',
+                                            fontSize: 15.0,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Spacer(),
-                                    Center(
-                                      child: Text(
-                                        selectedHours,
+                                      Spacer(),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 4),
+                                        child: Text(
+                                          weekDays[selectedDay.weekday - 1],
+                                          style: TextStyle(
+                                            color: AppTheme.black,
+                                            fontFamily: 'Iransans',
+                                            fontSize: 18.0,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      Text(
+                                        EnArConvertor().replaceArNumber(' ' +
+                                            selectedDay.day.toString() +
+                                            ' ' +
+                                            months[selectedDay.month - 1]),
                                         style: TextStyle(
                                           color: AppTheme.black,
                                           fontFamily: 'Iransans',
@@ -572,49 +548,87 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.location_on,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Region:',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: 15.0,
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.access_time,
+                                          size: 30,
                                         ),
                                       ),
-                                    ),
-                                    Spacer(),
-                                    Center(
-                                      child: Text(
-                                        selectedRegion.name,
-                                        style: TextStyle(
-                                          color: AppTheme.black,
-                                          fontFamily: 'Iransans',
-                                          fontSize: 18.0,
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Collect hour',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: AppTheme.grey,
+                                            fontFamily: 'Iransans',
+                                            fontSize: 15.0,
+                                          ),
                                         ),
-                                        textAlign: TextAlign.center,
                                       ),
-                                    ),
-                                  ],
+                                      Spacer(),
+                                      Center(
+                                        child: Text(
+                                          selectedHours,
+                                          style: TextStyle(
+                                            color: AppTheme.black,
+                                            fontFamily: 'Iransans',
+                                            fontSize: 18.0,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.location_on,
+                                          size: 30,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Region:',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: AppTheme.grey,
+                                            fontFamily: 'Iransans',
+                                            fontSize: 15.0,
+                                          ),
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Center(
+                                        child: Text(
+                                          selectedRegion.name,
+                                          style: TextStyle(
+                                            color: AppTheme.black,
+                                            fontFamily: 'Iransans',
+                                            fontSize: 18.0,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
