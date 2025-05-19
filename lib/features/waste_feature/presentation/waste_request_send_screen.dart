@@ -334,8 +334,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                         decoration: BoxDecoration(
                             color: AppTheme.white,
                             borderRadius: BorderRadius.circular(5),
-                            border:
-                                Border.all(color: Colors.grey, width: 0.2)),
+                            border: Border.all(color: Colors.grey, width: 0.2)),
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Column(
@@ -350,7 +349,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         'assets/images/main_page_request_ic.png',
                                         height: deviceWidth * 0.06,
                                         width: deviceWidth * 0.06,
-                                        color: Colors.grey,
                                       ),
                                     ),
                                     Text(
@@ -389,7 +387,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         'assets/images/waste_cart_price_ic.png',
                                         height: deviceWidth * 0.06,
                                         width: deviceWidth * 0.06,
-                                        color: Colors.grey,
+                                        color: Colors.yellow,
                                       ),
                                     ),
                                     Text(
@@ -438,7 +436,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         'assets/images/waste_cart_weight_ic.png',
                                         height: deviceWidth * 0.06,
                                         width: deviceWidth * 0.06,
-                                        color: Colors.grey,
                                       ),
                                     ),
                                     Text(
@@ -484,8 +481,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                         decoration: BoxDecoration(
                             color: AppTheme.white,
                             borderRadius: BorderRadius.circular(5),
-                            border:
-                                Border.all(color: Colors.grey, width: 0.2)),
+                            border: Border.all(color: Colors.grey, width: 0.2)),
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Column(
@@ -498,7 +494,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Icon(
                                         Icons.date_range,
-                                        color: AppTheme.grey,
                                         size: 30,
                                       ),
                                     ),
@@ -529,10 +524,10 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                       ),
                                     ),
                                     Text(
-                                      EnArConvertor().replaceArNumber(
+                                      EnArConvertor().replaceArNumber(' ' +
                                           selectedDay.day.toString() +
-                                              ' ' +
-                                              months[selectedDay.month - 1]),
+                                          ' ' +
+                                          months[selectedDay.month - 1]),
                                       style: TextStyle(
                                         color: AppTheme.black,
                                         fontFamily: 'Iransans',
@@ -551,7 +546,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Icon(
                                         Icons.access_time,
-                                        color: AppTheme.grey,
                                         size: 30,
                                       ),
                                     ),
@@ -590,7 +584,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Icon(
                                         Icons.location_on,
-                                        color: AppTheme.grey,
                                         size: 30,
                                       ),
                                     ),
@@ -694,9 +687,8 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: index.isEven
-                                      ? Colors.grey
-                                      : Colors.grey,
+                                  color:
+                                      index.isEven ? Colors.grey : Colors.grey,
                                 ),
                               );
                             },
