@@ -137,7 +137,9 @@ class _CollectListScreenState extends State<CollectListScreen>
         title: Text(
           'Request List',
           style: TextStyle(
+            color: AppTheme.white,
             fontFamily: 'Iransans',
+            // fontSize: 15.0,
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
