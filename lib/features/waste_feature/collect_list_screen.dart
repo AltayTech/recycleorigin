@@ -40,6 +40,7 @@ class _CollectListScreenState extends State<CollectListScreen>
     with SingleTickerProviderStateMixin {
   /// The scroll controller of the list view
   ScrollController _scrollController = new ScrollController();
+  bool _isInit = true;
 
   /// The flag to indicate if the screen is loading
   var _isLoading;
@@ -65,11 +66,50 @@ class _CollectListScreenState extends State<CollectListScreen>
   /// The list of loaded products to list
   List<RequestWasteItem> loadedProductstolist = [];
 
+
+  @override
+  void initState() {
+    Provider.of<Wastes>(context, listen: false).sPage = 1;
+
+    Provider.of<Wastes>(context, listen: false).searchBuilder();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (page < productsDetail.max_page) {
+          page = page + 1;
+          Provider.of<Wastes>(context, listen: false).sPage = page;
+
+          searchItems();
+        }
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    if (_isInit) {
+      searchItems();
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   /// The function to submit the search
   Future<void> _submit() async {
     loadedProducts.clear();
     loadedProducts =
         await Provider.of<Wastes>(context, listen: false).CollectItems;
+    debugPrint("loadedproduct $loadedProducts");
     loadedProductstolist.addAll(loadedProducts);
   }
 
@@ -88,6 +128,7 @@ class _CollectListScreenState extends State<CollectListScreen>
     Provider.of<Wastes>(context, listen: false).searchBuilder();
     await Provider.of<Wastes>(context, listen: false).searchCollectItems();
     productsDetail = Provider.of<Wastes>(context, listen: false).searchDetails;
+    debugPrint("productsDetail $productsDetail");
     _submit();
 
     setState(() {
@@ -115,6 +156,7 @@ class _CollectListScreenState extends State<CollectListScreen>
       print(_isLoading.toString());
     });
   }
+
 
   /// The build method of the screen
   @override
@@ -147,235 +189,232 @@ class _CollectListScreenState extends State<CollectListScreen>
         elevation: 0,
         centerTitle: true,
       ),
-      body: Directionality(
-        textDirection: TextDirection.ltr,
-        child: SingleChildScrollView(
-          child: !isLogin
-              ? Container(
-                  height: deviceHeight * 0.8,
-                  child: Center(
-                    child: Wrap(
-                      direction: Axis.vertical,
-                      crossAxisAlignment: WrapCrossAlignment.center,
+      body: SingleChildScrollView(
+        child: !isLogin
+            ? Container(
+                height: deviceHeight * 0.8,
+                child: Center(
+                  child: Wrap(
+                    direction: Axis.vertical,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('You are not Login'),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(LoginScreen.routeName);
+                        },
+                        child: Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text(
+                              'Login',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                              color: AppTheme.primary,
+                              borderRadius: BorderRadius.circular(5)),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            : Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: deviceHeight * 0.0,
+                    horizontal: deviceWidth * 0.03),
+                child: Stack(
+                  children: <Widget>[
+                    Column(
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text('You are not Login'),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(LoginScreen.routeName);
-                          },
                           child: Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Text(
-                                'Login',
-                                style: TextStyle(color: Colors.white),
-                              ),
+                            height: deviceWidth * 0.25,
+                            child: Builder(
+                              builder: (BuildContext context) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Container(
+                                    width: deviceWidth,
+                                    child: FadeInImage(
+                                      placeholder: AssetImage(
+                                          'assets/images/circle.gif'),
+                                      image: AssetImage(
+                                          'assets/images/collect_list_header.png'),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                            decoration: BoxDecoration(
-                                color: AppTheme.primary,
-                                borderRadius: BorderRadius.circular(5)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Spacer(),
+                                  Consumer<Wastes>(builder: (_, Wastes, ch) {
+                                    return Container(
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: deviceHeight * 0.0,
+                                            horizontal: 3),
+                                        child: Wrap(
+                                            alignment: WrapAlignment.start,
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            direction: Axis.horizontal,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets
+                                                    .symmetric(
+                                                    horizontal: 3,
+                                                    vertical: 5),
+                                                child: Text(
+                                                  'Number:',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Iransans',
+                                                    fontSize:
+                                                        textScaleFactor *
+                                                            12.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.only(
+                                                        right: 4.0, left: 6),
+                                                child: Text(
+                                                  productsDetail != null
+                                                      ? EnArConvertor()
+                                                          .replaceArNumber(
+                                                              loadedProductstolist
+                                                                  .length
+                                                                  .toString())
+                                                      : EnArConvertor()
+                                                          .replaceArNumber(
+                                                              '0'),
+                                                  style: TextStyle(
+                                                    fontFamily: 'Iransans',
+                                                    fontSize:
+                                                        textScaleFactor *
+                                                            13.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets
+                                                    .symmetric(
+                                                    horizontal: 3,
+                                                    vertical: 5),
+                                                child: Text(
+                                                  'From',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Iransans',
+                                                    fontSize:
+                                                        textScaleFactor *
+                                                            12.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.only(
+                                                        right: 4.0, left: 6),
+                                                child: Text(
+                                                  productsDetail != null
+                                                      ? EnArConvertor()
+                                                          .replaceArNumber(
+                                                              productsDetail
+                                                                  .total
+                                                                  .toString()
+                                                                  )
+                                                      : EnArConvertor()
+                                                          .replaceArNumber(
+                                                              '0'),
+                                                  style: TextStyle(
+                                                    fontFamily: 'Iransans',
+                                                    fontSize:
+                                                        textScaleFactor *
+                                                            13.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ]),
+                                      ),
+                                    );
+                                  }),
+                                ],
+                              ),
+                              Container(
+                                width: double.infinity,
+                                height: deviceHeight * 0.68,
+                                child: ListView.builder(
+                                  controller: _scrollController,
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: loadedProductstolist.length,
+                                  itemBuilder: (ctx, i) =>
+                                      ChangeNotifierProvider.value(
+                                    value: loadedProductstolist[i],
+                                    child: CollectItemCollectsScreen(),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         )
                       ],
                     ),
-                  ),
-                )
-              : Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: deviceHeight * 0.0,
-                      horizontal: deviceWidth * 0.03),
-                  child: Stack(
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: deviceWidth * 0.25,
-                              child: Builder(
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Container(
-                                      width: deviceWidth,
-                                      child: FadeInImage(
-                                        placeholder: AssetImage(
-                                            'assets/images/circle.gif'),
-                                        image: AssetImage(
-                                            'assets/images/collect_list_header.png'),
-                                        fit: BoxFit.contain,
-                                      ),
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: _isLoading
+                            ? SpinKitFadingCircle(
+                                itemBuilder:
+                                    (BuildContext context, int index) {
+                                  return DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: index.isEven
+                                          ? Colors.grey
+                                          : Colors.grey,
                                     ),
                                   );
                                 },
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Spacer(),
-                                    Consumer<Wastes>(builder: (_, Wastes, ch) {
-                                      return Container(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: deviceHeight * 0.0,
-                                              horizontal: 3),
-                                          child: Wrap(
-                                              alignment: WrapAlignment.start,
-                                              crossAxisAlignment:
-                                                  WrapCrossAlignment.center,
-                                              direction: Axis.horizontal,
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 3,
-                                                      vertical: 5),
-                                                  child: Text(
-                                                    'Number:',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              12.0,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 4.0, left: 6),
-                                                  child: Text(
-                                                    productsDetail != null
-                                                        ? EnArConvertor()
-                                                            .replaceArNumber(
-                                                                loadedProductstolist
-                                                                    .length
-                                                                    .toString())
-                                                        : EnArConvertor()
-                                                            .replaceArNumber(
-                                                                '0'),
-                                                    style: TextStyle(
-                                                      fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              13.0,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 3,
-                                                      vertical: 5),
-                                                  child: Text(
-                                                    'From',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              12.0,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 4.0, left: 6),
-                                                  child: Text(
-                                                    productsDetail != null
-                                                        ? EnArConvertor()
-                                                            .replaceArNumber(
-                                                                productsDetail
-                                                                    .total
-                                                                    .toString()
-                                                                    .toString())
-                                                        : EnArConvertor()
-                                                            .replaceArNumber(
-                                                                '0'),
-                                                    style: TextStyle(
-                                                      fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              13.0,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ]),
-                                        ),
-                                      );
-                                    }),
-                                  ],
-                                ),
-                                Container(
-                                  width: double.infinity,
-                                  height: deviceHeight * 0.68,
-                                  child: ListView.builder(
-                                    controller: _scrollController,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: loadedProductstolist.length,
-                                    itemBuilder: (ctx, i) =>
-                                        ChangeNotifierProvider.value(
-                                      value: loadedProductstolist[i],
-                                      child: CollectItemCollectsScreen(),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      Positioned(
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: _isLoading
-                              ? SpinKitFadingCircle(
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: index.isEven
-                                            ? Colors.grey
-                                            : Colors.grey,
-                                      ),
-                                    );
-                                  },
-                                )
-                              : Container(
-                                  child: loadedProductstolist.isEmpty
-                                      ? Center(
-                                          child: Text(
-                                            'No Request',
-                                            style: TextStyle(
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 14.0,
-                                            ),
+                              )
+                            : Container(
+                                child: loadedProductstolist.isEmpty
+                                    ? Center(
+                                        child: Text(
+                                          'No Request',
+                                          style: TextStyle(
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 14.0,
                                           ),
-                                        )
-                                      : Container(),
-                                ),
-                        ),
+                                        ),
+                                      )
+                                    : Container(),
+                              ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-        ),
+              ),
       ),
       endDrawer: Theme(
         data: Theme.of(context).copyWith(

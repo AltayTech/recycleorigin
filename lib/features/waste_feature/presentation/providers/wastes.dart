@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_main.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/waste.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/models/search_detail.dart';
 import '../../../../core/constants/urls.dart';
+import '../../../../core/models/search_detail.dart';
 
 class Wastes with ChangeNotifier {
   List<Waste> _wasteItems = [];
@@ -199,19 +199,21 @@ class Wastes with ChangeNotifier {
       debugPrint(response.statusCode.toString());
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
-        debugPrint(extractedData.toString());
+        debugPrint("extractedData.toString() ${extractedData.toString()}");
 
         CollectMain collectMain = CollectMain.fromJson(extractedData);
-        debugPrint(collectMain.searchDetail.max_page.toString());
+        debugPrint(
+            "collectMain.searchDetail.max_page.toString() ${collectMain.searchDetail.max_page.toString()}");
 
         _collectItems = collectMain.requestWasteItem;
+        debugPrint("_collectItems $_collectItems");
         _searchDetails = collectMain.searchDetail;
       } else {
         _collectItems = [];
       }
       notifyListeners();
     } catch (error) {
-      debugPrint(error.toString());
+      debugPrint("error.toString() ${error.toString()}");
       // throw (error);
     }
   }
@@ -232,7 +234,8 @@ class Wastes with ChangeNotifier {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      debugPrint("response.statusCode.toString() ${response.statusCode.toString()}");
+      debugPrint(
+          "response.statusCode.toString() ${response.statusCode.toString()}");
       final extractedData = json.decode(response.body) as dynamic;
       debugPrint(extractedData);
 
