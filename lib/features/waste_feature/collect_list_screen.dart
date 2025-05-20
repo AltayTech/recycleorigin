@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 
+import '../../core/logic/en_to_ar_number_convertor.dart';
 import '../../core/models/search_detail.dart';
 import '../../core/theme/app_theme.dart';
-import 'presentation/providers/wastes.dart';
-import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
-import '../../core/logic/en_to_ar_number_convertor.dart';
 import '../../core/widgets/main_drawer.dart';
+import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 import '../customer_feature/presentation/screens/login_screen.dart';
+import 'presentation/providers/wastes.dart';
 
 /// Collect List Screen
 ///
@@ -65,7 +65,6 @@ class _CollectListScreenState extends State<CollectListScreen>
 
   /// The list of loaded products to list
   List<RequestWasteItem> loadedProductstolist = [];
-
 
   @override
   void initState() {
@@ -156,7 +155,6 @@ class _CollectListScreenState extends State<CollectListScreen>
       print(_isLoading.toString());
     });
   }
-
 
   /// The build method of the screen
   @override
@@ -277,24 +275,22 @@ class _CollectListScreenState extends State<CollectListScreen>
                                             direction: Axis.horizontal,
                                             children: <Widget>[
                                               Padding(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal: 3,
-                                                    vertical: 5),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 3,
+                                                        vertical: 5),
                                                 child: Text(
                                                   'Number:',
                                                   style: TextStyle(
                                                     fontFamily: 'Iransans',
                                                     fontSize:
-                                                        textScaleFactor *
-                                                            12.0,
+                                                        textScaleFactor * 12.0,
                                                   ),
                                                 ),
                                               ),
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.only(
-                                                        right: 4.0, left: 6),
+                                                padding: const EdgeInsets.only(
+                                                    right: 4.0, left: 6),
                                                 child: Text(
                                                   productsDetail != null
                                                       ? EnArConvertor()
@@ -303,51 +299,44 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                                   .length
                                                                   .toString())
                                                       : EnArConvertor()
-                                                          .replaceArNumber(
-                                                              '0'),
+                                                          .replaceArNumber('0'),
                                                   style: TextStyle(
                                                     fontFamily: 'Iransans',
                                                     fontSize:
-                                                        textScaleFactor *
-                                                            13.0,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal: 3,
-                                                    vertical: 5),
-                                                child: Text(
-                                                  'From',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor *
-                                                            12.0,
+                                                        textScaleFactor * 13.0,
                                                   ),
                                                 ),
                                               ),
                                               Padding(
                                                 padding:
-                                                    const EdgeInsets.only(
-                                                        right: 4.0, left: 6),
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 3,
+                                                        vertical: 5),
+                                                child: Text(
+                                                  'From',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Iransans',
+                                                    fontSize:
+                                                        textScaleFactor * 12.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 4.0, left: 6),
                                                 child: Text(
                                                   productsDetail != null
                                                       ? EnArConvertor()
                                                           .replaceArNumber(
                                                               productsDetail
                                                                   .total
-                                                                  .toString()
-                                                                  )
+                                                                  .toString())
                                                       : EnArConvertor()
-                                                          .replaceArNumber(
-                                                              '0'),
+                                                          .replaceArNumber('0'),
                                                   style: TextStyle(
                                                     fontFamily: 'Iransans',
                                                     fontSize:
-                                                        textScaleFactor *
-                                                            13.0,
+                                                        textScaleFactor * 13.0,
                                                   ),
                                                 ),
                                               ),
@@ -385,8 +374,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                         alignment: Alignment.center,
                         child: _isLoading
                             ? SpinKitFadingCircle(
-                                itemBuilder:
-                                    (BuildContext context, int index) {
+                                itemBuilder: (BuildContext context, int index) {
                                   return DecoratedBox(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
