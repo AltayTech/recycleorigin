@@ -20,6 +20,7 @@ import 'features/about_feature/presentation/pages/about_us_screen.dart';
 import 'features/articles_feature/presentation/pages/article_detail_screen.dart';
 import 'features/articles_feature/presentation/pages/article_screen.dart';
 import 'features/articles_feature/presentation/providers/articles.dart';
+import 'features/collect_feature/presentation/pages/waste_cart_screen.dart';
 import 'features/contac_us_feature/presentation/pages/contact_with_us_screen.dart';
 import 'features/customer_feature/presentation/providers/authentication_provider.dart';
 import 'features/customer_feature/presentation/providers/customer_info_provider.dart';
@@ -46,10 +47,10 @@ import 'features/waste_feature/collect_list_screen.dart';
 import 'features/waste_feature/presentation/address_screen.dart';
 import 'features/waste_feature/presentation/pages/map_screen.dart';
 import 'features/waste_feature/presentation/providers/wastes.dart';
-import 'features/collect_feature/presentation/pages/waste_cart_screen.dart';
 import 'features/waste_feature/presentation/waste_request_date_screen.dart';
 import 'features/waste_feature/presentation/waste_request_send_screen.dart';
 import 'features/waste_feature/presentation/wastes_screen.dart';
+
 /// The main application widget.
 ///
 /// This widget is the root of the application. It uses the [MultiProvider]
