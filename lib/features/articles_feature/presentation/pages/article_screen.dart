@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../../business/entities/article.dart';
+import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/category.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/main_drawer.dart';
+import '../../business/entities/article.dart';
 import '../providers/articles.dart';
 import '../widgets/article_item_article_screen.dart';
-import '../../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../../core/widgets/main_drawer.dart';
 
 class ArticlesScreen extends StatefulWidget {
   static const routeName = '/articlesScreen';
@@ -159,6 +159,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
           'Articles',
           style: TextStyle(
             fontFamily: 'Iransans',
+            color: Colors.white,
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -166,259 +167,253 @@ class _ArticlesScreenState extends State<ArticlesScreen>
         elevation: 0,
         centerTitle: true,
       ),
-      body: Directionality(
-        textDirection: TextDirection.rtl,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: deviceHeight * 0.0, horizontal: deviceWidth * 0.03),
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                      child: Container(
-                        color: AppTheme.white,
-                        height: deviceHeight * 0.05,
-                        width: deviceWidth,
-                        child: Row(
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () {
-                                _selectedCategoryIndexes.clear();
-                                _selectedCategoryTitle.clear();
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: deviceHeight * 0.0, horizontal: deviceWidth * 0.03),
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                    child: Container(
+                      color: AppTheme.white,
+                      height: deviceHeight * 0.05,
+                      width: deviceWidth,
+                      child: Row(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () {
+                              _selectedCategoryIndexes.clear();
+                              _selectedCategoryTitle.clear();
 
-                                _selectedCategoryIndexes.add(-1);
-                                _selectedCategoryId = 0;
-                                _selectedCategoryTitle.add('All');
+                              _selectedCategoryIndexes.add(-1);
+                              _selectedCategoryId = 0;
+                              _selectedCategoryTitle.add('All');
 
-                                changeCat(context);
-                              },
-                              child: Container(
-                                decoration: _selectedCategoryId == 0
-                                    ? BoxDecoration(
-                                        color: AppTheme.bg,
-                                        border: Border(
-                                          bottom: BorderSide(
-                                              color: AppTheme.primary,
-                                              width: 3),
-                                        ),
-                                      )
-                                    : BoxDecoration(
-                                        color: Colors.transparent,
+                              changeCat(context);
+                            },
+                            child: Container(
+                              decoration: _selectedCategoryId == 0
+                                  ? BoxDecoration(
+                                      color: AppTheme.bg,
+                                      border: Border(
+                                        bottom: BorderSide(
+                                            color: AppTheme.primary, width: 3),
                                       ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      'All',
-                                      style: TextStyle(
-                                        color: _selectedCategoryId == 0
-                                            ? AppTheme.primary
-                                            : AppTheme.h1,
-                                        fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 14.0,
-                                      ),
-                                      textAlign: TextAlign.center,
+                                    )
+                                  : BoxDecoration(
+                                      color: Colors.transparent,
                                     ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    'All',
+                                    style: TextStyle(
+                                      color: _selectedCategoryId == 0
+                                          ? AppTheme.primary
+                                          : AppTheme.h1,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 14.0,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
                             ),
-                            Expanded(
-                                child: Consumer<Articles>(
-                              builder: (_, data, ch) => ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: data.categoryItems.length,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    child: InkWell(
-                                      onTap: () {
-                                        _selectedCategoryIndexes.clear();
-                                        _selectedCategoryTitle.clear();
+                          ),
+                          Expanded(
+                              child: Consumer<Articles>(
+                            builder: (_, data, ch) => ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: data.categoryItems.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  child: InkWell(
+                                    onTap: () {
+                                      _selectedCategoryIndexes.clear();
+                                      _selectedCategoryTitle.clear();
 
-                                        _selectedCategoryIndexes.add(index);
-                                        _selectedCategoryId =
-                                            data.categoryItems[index].term_id;
-                                        _selectedCategoryTitle.add(
-                                            data.categoryItems[index].name);
+                                      _selectedCategoryIndexes.add(index);
+                                      _selectedCategoryId =
+                                          data.categoryItems[index].term_id;
+                                      _selectedCategoryTitle
+                                          .add(data.categoryItems[index].name);
 
-                                        changeCat(context);
-                                      },
-                                      child: Container(
-                                        decoration: _selectedCategoryIndexes
-                                                .contains(index)
-                                            ? BoxDecoration(
-                                                color: AppTheme.bg,
-                                                border: Border(
-                                                  bottom: BorderSide(
-                                                      color: AppTheme.primary,
-                                                      width: 3),
-                                                ),
-                                              )
-                                            : BoxDecoration(
-                                                color: Colors.transparent,
+                                      changeCat(context);
+                                    },
+                                    child: Container(
+                                      decoration: _selectedCategoryIndexes
+                                              .contains(index)
+                                          ? BoxDecoration(
+                                              color: AppTheme.bg,
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                    color: AppTheme.primary,
+                                                    width: 3),
                                               ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20.0),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              data.categoryItems[index].name !=
-                                                      null
-                                                  ? data
-                                                      .categoryItems[index].name
-                                                  : 'n',
-                                              style: TextStyle(
-                                                color: data.categoryItems[index]
-                                                            .term_id ==
-                                                        _selectedCategoryId
-                                                    ? AppTheme.primary
-                                                    : AppTheme.h1,
-                                                fontFamily: 'Iransans',
-                                                fontSize:
-                                                    textScaleFactor * 14.0,
-                                              ),
-                                              textAlign: TextAlign.center,
+                                            )
+                                          : BoxDecoration(
+                                              color: Colors.transparent,
                                             ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            data.categoryItems[index].name !=
+                                                    null
+                                                ? data.categoryItems[index].name
+                                                : 'n',
+                                            style: TextStyle(
+                                              color: data.categoryItems[index]
+                                                          .term_id ==
+                                                      _selectedCategoryId
+                                                  ? AppTheme.primary
+                                                  : AppTheme.h1,
+                                              fontFamily: 'Iransans',
+                                              fontSize: textScaleFactor * 14.0,
+                                            ),
+                                            textAlign: TextAlign.center,
                                           ),
                                         ),
                                       ),
                                     ),
-                                  );
-                                },
-                              ),
-                            )),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Spacer(),
-                        Consumer<Articles>(builder: (_, Articles, ch) {
-                          return Container(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: deviceHeight * 0.0, horizontal: 3),
-                              child: Wrap(
-                                  alignment: WrapAlignment.start,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  direction: Axis.horizontal,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 3, vertical: 5),
-                                      child: Text(
-                                        'Number:',
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12.0,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 4.0, left: 6),
-                                      child: Text(
-                                        productsDetail.total != -1
-                                            ? EnArConvertor().replaceArNumber(
-                                                productsDetail.total.toString())
-                                            : EnArConvertor()
-                                                .replaceArNumber('0'),
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 13.0,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 3, vertical: 5),
-                                      child: Text(
-                                        'From',
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12.0,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 4.0, left: 6),
-                                      child: Text(
-                                        productsDetail.total != -1
-                                            ? EnArConvertor().replaceArNumber(
-                                                productsDetail.total.toString())
-                                            : EnArConvertor()
-                                                .replaceArNumber('0'),
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 13.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ]),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        }),
-                      ],
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: deviceHeight * 0.75,
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        scrollDirection: Axis.vertical,
-                        itemCount: loadedProductstolist.length,
-                        itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-                          value: loadedProductstolist[i],
-                          child: ArticleItemArticlesScreen(),
-                        ),
+                          )),
+                        ],
                       ),
-                    )
-                  ],
-                ),
-                Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? SpinKitFadingCircle(
-                                itemBuilder: (BuildContext context, int index) {
-                                  return DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? Colors.grey
-                                          : Colors.grey,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Spacer(),
+                      Consumer<Articles>(builder: (_, Articles, ch) {
+                        return Container(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: deviceHeight * 0.0, horizontal: 3),
+                            child: Wrap(
+                                alignment: WrapAlignment.start,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                direction: Axis.horizontal,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3, vertical: 5),
+                                    child: Text(
+                                      'Number:',
+                                      style: TextStyle(
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12.0,
+                                      ),
                                     ),
-                                  );
-                                },
-                              )
-                            : Container(
-                                child: loadedProductstolist.isEmpty
-                                    ? Center(
-                                        child: Text(
-                                        'No Product',
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 15.0,
-                                        ),
-                                      ))
-                                    : Container())))
-              ],
-            ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 4.0, left: 6),
+                                    child: Text(
+                                      productsDetail.total != -1
+                                          ? EnArConvertor().replaceArNumber(
+                                              productsDetail.total.toString())
+                                          : EnArConvertor()
+                                              .replaceArNumber('0'),
+                                      style: TextStyle(
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 13.0,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3, vertical: 5),
+                                    child: Text(
+                                      'From',
+                                      style: TextStyle(
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 4.0, left: 6),
+                                    child: Text(
+                                      productsDetail.total != -1
+                                          ? EnArConvertor().replaceArNumber(
+                                              productsDetail.total.toString())
+                                          : EnArConvertor()
+                                              .replaceArNumber('0'),
+                                      style: TextStyle(
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 13.0,
+                                      ),
+                                    ),
+                                  ),
+                                ]),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: deviceHeight * 0.75,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      scrollDirection: Axis.vertical,
+                      itemCount: loadedProductstolist.length,
+                      itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+                        value: loadedProductstolist[i],
+                        child: ArticleItemArticlesScreen(),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: _isLoading
+                          ? SpinKitFadingCircle(
+                              itemBuilder: (BuildContext context, int index) {
+                                return DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: index.isEven
+                                        ? Colors.grey
+                                        : Colors.grey,
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(
+                              child: loadedProductstolist.isEmpty
+                                  ? Center(
+                                      child: Text(
+                                      'No Product',
+                                      style: TextStyle(
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 15.0,
+                                      ),
+                                    ))
+                                  : Container())))
+            ],
           ),
         ),
       ),
