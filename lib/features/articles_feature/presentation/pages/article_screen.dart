@@ -209,8 +209,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20.0),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 10),
+                                child: Center(
                                   child: Text(
                                     'All',
                                     style: TextStyle(
@@ -218,7 +217,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                           ? AppTheme.primary
                                           : AppTheme.h1,
                                       fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 14.0,
+                                      fontSize:  14.0,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -233,56 +232,52 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                               itemCount: data.categoryItems.length,
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  child: InkWell(
-                                    onTap: () {
-                                      _selectedCategoryIndexes.clear();
-                                      _selectedCategoryTitle.clear();
+                                return InkWell(
+                                  onTap: () {
+                                    _selectedCategoryIndexes.clear();
+                                    _selectedCategoryTitle.clear();
 
-                                      _selectedCategoryIndexes.add(index);
-                                      _selectedCategoryId =
-                                          data.categoryItems[index].term_id;
-                                      _selectedCategoryTitle
-                                          .add(data.categoryItems[index].name);
+                                    _selectedCategoryIndexes.add(index);
+                                    _selectedCategoryId =
+                                        data.categoryItems[index].term_id;
+                                    _selectedCategoryTitle
+                                        .add(data.categoryItems[index].name);
 
-                                      changeCat(context);
-                                    },
-                                    child: Container(
-                                      decoration: _selectedCategoryIndexes
-                                              .contains(index)
-                                          ? BoxDecoration(
-                                              color: AppTheme.bg,
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                    color: AppTheme.primary,
-                                                    width: 3),
-                                              ),
-                                            )
-                                          : BoxDecoration(
-                                              color: Colors.transparent,
+                                    changeCat(context);
+                                  },
+                                  child: Container(
+                                    decoration: _selectedCategoryIndexes
+                                            .contains(index)
+                                        ? BoxDecoration(
+                                            color: AppTheme.bg,
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                  color: AppTheme.primary,
+                                                  width: 3),
                                             ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20.0),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            data.categoryItems[index].name !=
-                                                    null
-                                                ? data.categoryItems[index].name
-                                                : 'n',
-                                            style: TextStyle(
-                                              color: data.categoryItems[index]
-                                                          .term_id ==
-                                                      _selectedCategoryId
-                                                  ? AppTheme.primary
-                                                  : AppTheme.h1,
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 14.0,
-                                            ),
-                                            textAlign: TextAlign.center,
+                                          )
+                                        : BoxDecoration(
+                                            color: Colors.transparent,
                                           ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20.0),
+                                      child: Center(
+                                        child: Text(
+                                          data.categoryItems[index].name !=
+                                                  null
+                                              ? data.categoryItems[index].name
+                                              : 'n',
+                                          style: TextStyle(
+                                            color: data.categoryItems[index]
+                                                        .term_id ==
+                                                    _selectedCategoryId
+                                                ? AppTheme.primary
+                                                : AppTheme.h1,
+                                            fontFamily: 'Iransans',
+                                            fontSize:  14.0,
+                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),
