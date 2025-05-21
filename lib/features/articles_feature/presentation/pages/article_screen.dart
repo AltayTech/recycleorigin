@@ -218,7 +218,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                           ? AppTheme.primary
                                           : AppTheme.h1,
                                       fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 14.0,
+                                      fontSize:  14.0,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -233,20 +233,20 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                               itemCount: data.categoryItems.length,
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  child: InkWell(
-                                    onTap: () {
-                                      _selectedCategoryIndexes.clear();
-                                      _selectedCategoryTitle.clear();
+                                return InkWell(
+                                  onTap: () {
+                                    _selectedCategoryIndexes.clear();
+                                    _selectedCategoryTitle.clear();
 
-                                      _selectedCategoryIndexes.add(index);
-                                      _selectedCategoryId =
-                                          data.categoryItems[index].term_id;
-                                      _selectedCategoryTitle
-                                          .add(data.categoryItems[index].name);
+                                    _selectedCategoryIndexes.add(index);
+                                    _selectedCategoryId =
+                                        data.categoryItems[index].term_id;
+                                    _selectedCategoryTitle
+                                        .add(data.categoryItems[index].name);
 
-                                      changeCat(context);
-                                    },
+                                    changeCat(context);
+                                  },
+                                  child: Center(
                                     child: Container(
                                       decoration: _selectedCategoryIndexes
                                               .contains(index)
@@ -279,7 +279,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                                   ? AppTheme.primary
                                                   : AppTheme.h1,
                                               fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 14.0,
+                                              fontSize:  14.0,
                                             ),
                                             textAlign: TextAlign.center,
                                           ),
