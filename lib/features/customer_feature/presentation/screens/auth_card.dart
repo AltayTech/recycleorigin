@@ -230,62 +230,67 @@ class _AuthCardState extends State<AuthCard>
                           opacity: _opacityAnimation,
                           child: SlideTransition(
                             position: _slideAnimation,
-                            child: Center(
-                              child: Container(
-                                height: deviceSize.height * 0.055,
-                                width: deviceSize.width * 0.6,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      color: AppTheme.h1, width: 0.5),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      TextFormField(
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            suffix: Text(''),
-                                            counterStyle: TextStyle(
-                                              decorationStyle:
-                                                  TextDecorationStyle.dashed,
-                                              color: Colors.grey,
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 18.0,
-                                            ),
-                                            hintStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontFamily: 'Iransans',
-                                              fontSize: 11,
-                                            ),
-                                            hintText: ' First name'),
-                                        keyboardType: TextInputType.name,
-                                        validator:
-                                            _authMode == AuthMode.Registration
-                                                ? (value) {
-                                                    if (value!.isEmpty) {
-                                                      return 'Please enter your first name';
-                                                    }
-                                                  }
-                                                : null,
-                                        onSaved: (value) {
-                                          _authData['first_name'] = value!;
-                                        },
-                                      ),
-                                      Positioned(
-                                          right: 3,
-                                          top: 5,
-                                          bottom: 12,
-                                          child: Icon(
-                                            Icons.mobile_screen_share,
-                                            color: AppTheme.secondary,
-                                          )),
-                                    ],
+                            child: Container(
+                              height: deviceSize.height * 0.055,
+                              width: deviceSize.width * 0.6,
+                              decoration: BoxDecoration(
+                                // borderRadius: BorderRadius.circular(5),
+                                // border: Border.all(
+                                //     color: AppTheme.h1, width: 0.5),
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  TextFormField(
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              8.0), // Example: rounded corners
+                                          borderSide: BorderSide(
+                                              color: Colors.blue,
+                                              width:
+                                                  2.0), // Example: blue border, 2px wide
+                                        ),
+                                        contentPadding:
+                                            EdgeInsets.symmetric(vertical: 4.0),
+                                        // Optional: Add some vertical padding
+                                        suffix: Text(''),
+                                        counterStyle: TextStyle(
+                                          decorationStyle:
+                                              TextDecorationStyle.dashed,
+                                          color: Colors.grey,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 18.0,
+                                        ),
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontFamily: 'Iransans',
+                                          fontSize: 11,
+                                        ),
+                                        hintText: ' First name'),
+                                    keyboardType: TextInputType.name,
+                                    validator:
+                                        _authMode == AuthMode.Registration
+                                            ? (value) {
+                                                if (value!.isEmpty) {
+                                                  return 'Please enter your first name';
+                                                }
+                                              }
+                                            : null,
+                                    onSaved: (value) {
+                                      _authData['first_name'] = value!;
+                                    },
                                   ),
-                                ),
+                                  Positioned(
+                                      right: 3,
+                                      top: 5,
+                                      bottom: 12,
+                                      child: Icon(
+                                        Icons.mobile_screen_share,
+                                        color: AppTheme.secondary,
+                                      )),
+                                ],
                               ),
                             ),
                           ),
@@ -303,64 +308,61 @@ class _AuthCardState extends State<AuthCard>
                           opacity: _opacityAnimation,
                           child: SlideTransition(
                             position: _slideAnimation,
-                            child: Center(
-                              child: Container(
-                                height: deviceSize.height * 0.055,
-                                width: deviceSize.width * 0.6,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                      color: AppTheme.h1, width: 0.5),
-                                ),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      TextFormField(
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          suffix: Text(''),
-                                          hintStyle: TextStyle(
-                                            color: Colors.grey,
-                                            fontFamily: 'Iransans',
-                                            fontSize: 11,
-                                          ),
-                                          hintText: 'Last name',
-                                          counterStyle: TextStyle(
-                                            decorationStyle:
-                                                TextDecorationStyle.dashed,
-                                            color: Colors.grey,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
-                                          ),
+                            child: Container(
+                              height: deviceSize.height * 0.055,
+                              width: deviceSize.width * 0.6,
+                              decoration: BoxDecoration(
+                                // borderRadius: BorderRadius.circular(5),
+                                // border: Border.all(
+                                //     color: AppTheme.h1, width: 0.5),
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  TextFormField(
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0), // Example: rounded corners
+                                          borderSide: BorderSide(color: Colors.blue, width: 2.0), // Example: blue border, 2px wide
                                         ),
-                                        keyboardType: TextInputType.name,
-                                        validator:
-                                            _authMode == AuthMode.Registration
-                                                ? (value) {
-                                                    if (value!.isEmpty) {
-                                                      return 'Please enter your last name';
-                                                    }
-                                                  }
-                                                : null,
-                                        onSaved: (value) {
-                                          _authData['last_name'] = value!;
-                                        },
+                                        contentPadding: EdgeInsets.symmetric(vertical: 4.0),                                         suffix: Text(''),
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: 11,
                                       ),
-                                      Positioned(
-                                          right: 3,
-                                          top: 5,
-                                          bottom: 12,
-                                          child: Icon(
-                                            Icons.mobile_screen_share,
-                                            color: AppTheme.secondary,
-                                          )),
-                                    ],
+                                      hintText: 'Last name',
+                                      counterStyle: TextStyle(
+                                        decorationStyle:
+                                            TextDecorationStyle.dashed,
+                                        color: Colors.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 18.0,
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.name,
+                                    validator:
+                                        _authMode == AuthMode.Registration
+                                            ? (value) {
+                                                if (value!.isEmpty) {
+                                                  return 'Please enter your last name';
+                                                }
+                                              }
+                                            : null,
+                                    onSaved: (value) {
+                                      _authData['last_name'] = value!;
+                                    },
                                   ),
-                                ),
+                                  Positioned(
+                                      right: 3,
+                                      top: 5,
+                                      bottom: 12,
+                                      child: Icon(
+                                        Icons.mobile_screen_share,
+                                        color: AppTheme.secondary,
+                                      )),
+                                ],
                               ),
                             ),
                           ),
@@ -374,53 +376,53 @@ class _AuthCardState extends State<AuthCard>
                     height: deviceSize.height * 0.055,
                     width: deviceSize.width * 0.6,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: AppTheme.h1, width: 0.5),
+                      // borderRadius: BorderRadius.circular(5),
+                      // border: Border.all(color: AppTheme.h1, width: 0.5),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          TextFormField(
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              suffix: Text(''),
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontFamily: 'Iransans',
-                                fontSize: 11,
-                              ),
-                              hintText: 'Email',
-                              counterStyle: TextStyle(
-                                decorationStyle: TextDecorationStyle.dashed,
-                                color: Colors.grey,
-                                fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 18.0,
-                              ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        TextFormField(
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0), // Example: rounded corners
+                              borderSide: BorderSide(color: Colors.blue, width: 2.0), // Example: blue border, 2px wide
                             ),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter your email';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _authData['email'] = value!;
-                            },
+                            contentPadding: EdgeInsets.symmetric(vertical: 4.0),                                  suffix: Text(''),
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontFamily: 'Iransans',
+                              fontSize: 11,
+                            ),
+                            hintText: 'Email',
+                            counterStyle: TextStyle(
+                              decorationStyle: TextDecorationStyle.dashed,
+                              color: Colors.grey,
+                              fontFamily: 'Iransans',
+                              fontSize: textScaleFactor * 18.0,
+                            ),
                           ),
-                          Positioned(
-                              right: 3,
-                              top: 5,
-                              bottom: 12,
-                              child: Icon(
-                                Icons.mobile_screen_share,
-                                color: AppTheme.secondary,
-                              )),
-                        ],
-                      ),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _authData['email'] = value!;
+                          },
+                        ),
+                        Positioned(
+                            right: 3,
+                            top: 5,
+                            bottom: 12,
+                            child: Icon(
+                              Icons.mobile_screen_share,
+                              color: AppTheme.secondary,
+                            )),
+                      ],
                     ),
                   ),
                 ),
@@ -432,53 +434,53 @@ class _AuthCardState extends State<AuthCard>
                     height: deviceSize.height * 0.055,
                     width: deviceSize.width * 0.6,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: AppTheme.h1, width: 0.5),
+                      // borderRadius: BorderRadius.circular(5),
+                      // border: Border.all(color: AppTheme.h1, width: 0.5),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          TextFormField(
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              suffix: Text(''),
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontFamily: 'Iransans',
-                                fontSize: 11,
-                              ),
-                              hintText: 'Password',
-                              counterStyle: TextStyle(
-                                decorationStyle: TextDecorationStyle.dashed,
-                                color: Colors.grey,
-                                fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 18.0,
-                              ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        TextFormField(
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0), // Example: rounded corners
+                              borderSide: BorderSide(color: Colors.blue, width: 2.0), // Example: blue border, 2px wide
                             ),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _authData['password'] = value!;
-                            },
+                            contentPadding: EdgeInsets.symmetric(vertical: 4.0),                                suffix: Text(''),
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontFamily: 'Iransans',
+                              fontSize: 11,
+                            ),
+                            hintText: 'Password',
+                            counterStyle: TextStyle(
+                              decorationStyle: TextDecorationStyle.dashed,
+                              color: Colors.grey,
+                              fontFamily: 'Iransans',
+                              fontSize: textScaleFactor * 18.0,
+                            ),
                           ),
-                          Positioned(
-                              right: 3,
-                              top: 5,
-                              bottom: 12,
-                              child: Icon(
-                                Icons.mobile_screen_share,
-                                color: AppTheme.secondary,
-                              )),
-                        ],
-                      ),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _authData['password'] = value!;
+                          },
+                        ),
+                        Positioned(
+                            right: 3,
+                            top: 5,
+                            bottom: 12,
+                            child: Icon(
+                              Icons.mobile_screen_share,
+                              color: AppTheme.secondary,
+                            )),
+                      ],
                     ),
                   ),
                 ),
