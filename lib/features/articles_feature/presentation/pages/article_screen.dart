@@ -209,8 +209,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20.0),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 10),
+                                child: Center(
                                   child: Text(
                                     'All',
                                     style: TextStyle(
@@ -246,43 +245,39 @@ class _ArticlesScreenState extends State<ArticlesScreen>
 
                                     changeCat(context);
                                   },
-                                  child: Center(
-                                    child: Container(
-                                      decoration: _selectedCategoryIndexes
-                                              .contains(index)
-                                          ? BoxDecoration(
-                                              color: AppTheme.bg,
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                    color: AppTheme.primary,
-                                                    width: 3),
-                                              ),
-                                            )
-                                          : BoxDecoration(
-                                              color: Colors.transparent,
+                                  child: Container(
+                                    decoration: _selectedCategoryIndexes
+                                            .contains(index)
+                                        ? BoxDecoration(
+                                            color: AppTheme.bg,
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                  color: AppTheme.primary,
+                                                  width: 3),
                                             ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20.0),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            data.categoryItems[index].name !=
-                                                    null
-                                                ? data.categoryItems[index].name
-                                                : 'n',
-                                            style: TextStyle(
-                                              color: data.categoryItems[index]
-                                                          .term_id ==
-                                                      _selectedCategoryId
-                                                  ? AppTheme.primary
-                                                  : AppTheme.h1,
-                                              fontFamily: 'Iransans',
-                                              fontSize:  14.0,
-                                            ),
-                                            textAlign: TextAlign.center,
+                                          )
+                                        : BoxDecoration(
+                                            color: Colors.transparent,
                                           ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20.0),
+                                      child: Center(
+                                        child: Text(
+                                          data.categoryItems[index].name !=
+                                                  null
+                                              ? data.categoryItems[index].name
+                                              : 'n',
+                                          style: TextStyle(
+                                            color: data.categoryItems[index]
+                                                        .term_id ==
+                                                    _selectedCategoryId
+                                                ? AppTheme.primary
+                                                : AppTheme.h1,
+                                            fontFamily: 'Iransans',
+                                            fontSize:  14.0,
+                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),
