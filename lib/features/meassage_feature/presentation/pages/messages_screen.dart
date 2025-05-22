@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/main_drawer.dart';
 import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../business/entities/message.dart';
 import '../providers/messages.dart';
+import '../widgets/message_item.dart';
 import 'message_detail_screen.dart';
 import 'messages_create_screen.dart';
-import '../../../../core/widgets/main_drawer.dart';
-import '../widgets/message_item.dart';
 
 class MessageScreen extends StatefulWidget {
   static const routeName = '/messageScreen';
@@ -69,11 +69,10 @@ class _MessageScreenState extends State<MessageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'پشتیبانی',
+          'ُSupport',
           style: TextStyle(
             color: AppTheme.bg,
             fontFamily: 'Iransans',
-            fontSize: textScaleFactor * 18.0,
           ),
           textAlign: TextAlign.center,
         ),
@@ -116,7 +115,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    'هرگونه انتقاد، پیشنهاد و نظر خود را با ما در میان بگذارید',
+                                    'Send us any suggestion or comment you have',
                                     maxLines: 3,
                                     style: TextStyle(
                                       color: AppTheme.black,
@@ -147,7 +146,7 @@ class _MessageScreenState extends State<MessageScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  'پیام ها',
+                                  'messages',
                                   maxLines: 3,
                                   style: TextStyle(
                                     color: AppTheme.black,
@@ -214,7 +213,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             child: messages.isEmpty
                                 ? Center(
                                     child: Text(
-                                    'سوالی وجود ندارد',
+                                    'No messages',
                                     style: TextStyle(
                                       fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 15.0,

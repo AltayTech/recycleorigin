@@ -23,7 +23,7 @@ class CustomerInfoProvider with ChangeNotifier {
 
   late int _currentOrderId;
 
-  late Shop _shop;
+  late Shop _shop=Shop();
 
   String get payUrl => _payUrl;
   List<File> chequeImageList = [];
