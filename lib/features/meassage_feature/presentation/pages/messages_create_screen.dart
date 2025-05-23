@@ -88,7 +88,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'سوال جدید',
+          'New message',
           style: TextStyle(
             color: AppTheme.bg,
             fontFamily: 'Iransans',
@@ -121,7 +121,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                               bottom: 8.0,
                             ),
                             child: Text(
-                              'لطفا سوال خودتان را وارد کنید. همکاران ما سوال شما را بررسی کرده و جواب آن را برایتان ارسال می کنند. ',
+                              'Please enter your question. Our colleagues will review your question and send the answer to you.',
                               style: TextStyle(
                                 color: AppTheme.black,
                                 fontFamily: 'Iransans',
@@ -161,7 +161,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                     fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
                                   ),
-                                  labelText: 'عنوان',
+                                  labelText: 'Title',
                                 ),
                               ),
                             ),
@@ -200,7 +200,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                     fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
                                   ),
-                                  labelText: 'سوال خود را در اینجا بنویسید',
+                                  labelText: 'write your message',
                                 ),
                               ),
                             ),
