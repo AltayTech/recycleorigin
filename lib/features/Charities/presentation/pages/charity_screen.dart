@@ -5,11 +5,11 @@ import 'package:recycleorigin/features/Charities/business/entities/charity.dart'
 import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
 import 'package:recycleorigin/features/Charities/presentation/widgets/charity_item_Charities_screen.dart';
 
-import '../../../../core/models/search_detail.dart';
-import '../../../store_feature/presentation/providers/Products.dart';
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/models/search_detail.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
+import '../../../store_feature/presentation/providers/Products.dart';
 
 class CharityScreen extends StatefulWidget {
   static const routeName = '/charitiesScreen';
@@ -142,6 +142,7 @@ class _CharityScreenState extends State<CharityScreen>
           'Charities list:',
           style: TextStyle(
             fontFamily: 'Iransans',
+            color: AppTheme.bg,
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -149,154 +150,149 @@ class _CharityScreenState extends State<CharityScreen>
         elevation: 0,
         centerTitle: true,
       ),
-      body: Directionality(
-        textDirection: TextDirection.rtl,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: deviceHeight * 0.0, horizontal: deviceWidth * 0.03),
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Text(
-                        'Please select the charity you want to donate to',
-                        style: TextStyle(
-                          fontFamily: 'Iransans',
-                          color: AppTheme.grey,
-                          fontSize: textScaleFactor * 18.0,
-                        ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: deviceHeight * 0.0, horizontal: deviceWidth * 0.03),
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
+                      'Please select the charity you want to donate to',
+                      style: TextStyle(
+                        fontFamily: 'Iransans',
+                        color: AppTheme.grey,
+                        fontSize: 18.0,
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Spacer(),
-                        Consumer<Products>(
-                          builder: (_, products, ch) {
-                            return Container(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: deviceHeight * 0.0,
-                                    horizontal: 3),
-                                child: Wrap(
-                                  alignment: WrapAlignment.start,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  direction: Axis.horizontal,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 3, vertical: 5),
-                                      child: Text(
-                                        'Number:',
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12.0,
-                                        ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Spacer(),
+                      Consumer<Products>(
+                        builder: (_, products, ch) {
+                          return Container(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: deviceHeight * 0.0, horizontal: 3),
+                              child: Wrap(
+                                alignment: WrapAlignment.start,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                direction: Axis.horizontal,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3, vertical: 5),
+                                    child: Text(
+                                      'Number:',
+                                      style: TextStyle(
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12.0,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 4.0, left: 6),
-                                      child: Text(
-                                        productsDetail.total != -1
-                                            ? EnArConvertor().replaceArNumber(
-                                                loadedProductstolist.length
-                                                    .toString())
-                                            : EnArConvertor()
-                                                .replaceArNumber('0'),
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 13.0,
-                                        ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 4.0, left: 6),
+                                    child: Text(
+                                      productsDetail.total != -1
+                                          ? EnArConvertor().replaceArNumber(
+                                              loadedProductstolist.length
+                                                  .toString())
+                                          : EnArConvertor()
+                                              .replaceArNumber('0'),
+                                      style: TextStyle(
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 13.0,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 3, vertical: 5),
-                                      child: Text(
-                                        'From',
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12.0,
-                                        ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3, vertical: 5),
+                                    child: Text(
+                                      'From',
+                                      style: TextStyle(
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12.0,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 4.0, left: 6),
-                                      child: Text(
-                                        productsDetail.total != -1
-                                            ? EnArConvertor().replaceArNumber(
-                                                productsDetail.total.toString())
-                                            : EnArConvertor()
-                                                .replaceArNumber('0'),
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 13.0,
-                                        ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 4.0, left: 6),
+                                    child: Text(
+                                      productsDetail.total != -1
+                                          ? EnArConvertor().replaceArNumber(
+                                              productsDetail.total.toString())
+                                          : EnArConvertor()
+                                              .replaceArNumber('0'),
+                                      style: TextStyle(
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 13.0,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: deviceHeight * 0.68,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      scrollDirection: Axis.vertical,
+                      itemCount: loadedProductstolist.length,
+                      itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+                        value: loadedProductstolist[i],
+                        child: CharityItemCharitiesScreen(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: _isLoading
+                      ? SpinKitFadingCircle(
+                          itemBuilder: (BuildContext context, int index) {
+                            return DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: index.isEven ? Colors.grey : Colors.grey,
                               ),
                             );
                           },
+                        )
+                      : Container(
+                          child: loadedProductstolist.isEmpty
+                              ? Center(
+                                  child: Text(
+                                  'No items found',
+                                  style: TextStyle(
+                                    fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 15.0,
+                                  ),
+                                ))
+                              : Container(),
                         ),
-                      ],
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: deviceHeight * 0.68,
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        scrollDirection: Axis.vertical,
-                        itemCount: loadedProductstolist.length,
-                        itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-                          value: loadedProductstolist[i],
-                          child: CharityItemCharitiesScreen(),
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
-                Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: _isLoading
-                        ? SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
-                                ),
-                              );
-                            },
-                          )
-                        : Container(
-                            child: loadedProductstolist.isEmpty
-                                ? Center(
-                                    child: Text(
-                                    'No items found',
-                                    style: TextStyle(
-                                      fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 15.0,
-                                    ),
-                                  ))
-                                : Container(),
-                          ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
