@@ -822,8 +822,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                           fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 15.0,
                         ),
-                        textAlign: TextAlign.right,
-                        textDirection: TextDirection.rtl,
+
                       ),
                     ),
                     Padding(
