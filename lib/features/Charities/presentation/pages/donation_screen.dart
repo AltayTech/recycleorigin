@@ -3,20 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
 import 'package:recycleorigin/core/models/customer.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
-import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/core/widgets/currency_input_formatter.dart';
 import 'package:recycleorigin/core/widgets/custom_dialog_send_request.dart';
+import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
+import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/screens/navigation_bottom_screen.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../customer_feature/presentation/screens/login_screen.dart';
-import '../../../../core/screens/navigation_bottom_screen.dart';
 
 class DonationScreen extends StatefulWidget {
   static const routeName = '/DonationScreen';
@@ -161,6 +161,7 @@ class _DonationScreenState extends State<DonationScreen>
           'Donate to Charity',
           style: TextStyle(
             fontFamily: 'Iransans',
+            color: Colors.white,
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
