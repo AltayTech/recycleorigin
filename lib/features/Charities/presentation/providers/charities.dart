@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
 import 'package:recycleorigin/features/Charities/presentation/providers/charity_main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/models/search_detail.dart';
 import '../../../../core/constants/urls.dart';
+import '../../../../core/models/search_detail.dart';
 
 class Charities with ChangeNotifier {
   List<Charity> _charitiesItems = [];
@@ -38,7 +38,6 @@ class Charities with ChangeNotifier {
 
     debugPrint(searchEndPoint);
   }
-
 
   Future<void> searchCharitiesItem() async {
     debugPrint('searchCharityItem');
@@ -108,23 +107,51 @@ class Charities with ChangeNotifier {
     debugPrint(url);
 
     try {
-      final response = await get(Uri.parse(url), headers: {
+      Dio dio = Dio();
+      dio.options.headers = {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      final extractedData = json.decode(response.body) as dynamic;
-      debugPrint(extractedData);
+        'Accept': 'application/json',
+      };
 
-      Charity charity = Charity.fromJson(extractedData);
+      final response = await dio.get(url);
+
+      // If the response is JSON, Dio automatically parses it to a Map<String, dynamic>
+      Charity charity = Charity.fromJson(response.data);
       debugPrint(charity.id.toString());
 
       _item = charity;
     } catch (error) {
       debugPrint(error.toString());
-      throw (error);
+      throw error;
     }
+
     notifyListeners();
   }
+
+  // Future<void> retrieveCharityItem(int charityId) async {
+  //   debugPrint('retrieveCharityItemvvvvv');
+  //
+  //   final url = Urls.rootUrl + Urls.charitiesEndPoint + "/$charityId";
+  //   debugPrint(url);
+  //
+  //   try {
+  //     final response = await get(Uri.parse(url), headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json'
+  //     });
+  //     // final extractedData = json.decode(response.body) as dynamic;
+  //     // debugPrint(extractedData);
+  //
+  //     Charity charity = Charity.fromJson(response.body);
+  //     debugPrint(charity.id.toString());
+  //
+  //     _item = charity;
+  //   } catch (error) {
+  //     debugPrint(error.toString());
+  //     throw (error);
+  //   }
+  //   notifyListeners();
+  // }
 
   List<Charity> get charitiesItems => _charitiesItems;
 
