@@ -3,15 +3,15 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
-import 'package:recycleorigin/core/models/customer.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
-import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
-import 'package:recycleorigin/features/Charities/presentation/pages/donation_screen.dart';
-import 'package:recycleorigin/features/waste_feature/presentation/widgets/custom_dialog_enter.dart';
-import 'package:recycleorigin/features/Charities/presentation/widgets/custom_dialog_pay_charity.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
+import 'package:recycleorigin/core/models/customer.dart';
+import 'package:recycleorigin/features/Charities/business/entities/charity.dart';
+import 'package:recycleorigin/features/Charities/presentation/pages/donation_screen.dart';
+import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
+import 'package:recycleorigin/features/Charities/presentation/widgets/custom_dialog_pay_charity.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
+import 'package:recycleorigin/features/waste_feature/presentation/widgets/custom_dialog_enter.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
@@ -199,8 +199,8 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                               child: FadeInImage(
                                 placeholder:
                                     AssetImage('assets/images/circle.gif'),
-                                image: NetworkImage(loadedCharity
-                                    .featured_image.sizes.medium),
+                                image: NetworkImage(
+                                    loadedCharity.featured_image.sizes.medium),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -216,8 +216,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                     fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 17.0,
                                     fontWeight: FontWeight.w700),
-                                textAlign: TextAlign.right,
-                                textDirection: TextDirection.rtl,
                               ),
                             ),
                             Padding(
@@ -227,8 +225,8 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 4.0),
                                     child: Text(
-                                      EnArConvertor().replaceArNumber(
-                                          '  ${loadedCharity.sum_of_helps_months} '),
+                                      EnArConvertor()
+                                          .replaceArNumber('Total Donation:'),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -237,8 +235,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                           fontWeight: FontWeight.w700),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
                                     ),
                                   ),
                                   Text(
@@ -255,8 +251,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                         fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                         fontWeight: FontWeight.w700),
-                                    textAlign: TextAlign.right,
-                                    textDirection: TextDirection.rtl,
                                   ),
                                   Spacer(),
                                   InkWell(
@@ -268,28 +262,27 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                           DonationScreen.routeName,
                                           arguments: loadedCharity,
                                         );
-        //                                          _showPayCharitydialog(loadedCharity,
-        //                                              int.parse(customer.money));
+                                        //                                          _showPayCharitydialog(loadedCharity,
+                                        //                                              int.parse(customer.money));
                                       }
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
-        //                                          boxShadow: [
-        //                                            BoxShadow(
-        //                                              color: Colors.grey,
-        //                                              blurRadius: 1.0,
-        //                                              // has the effect of softening the shadow
-        //                                              spreadRadius: 1,
-        //                                              // has the effect of extending the shadow
-        //                                              offset: Offset(
-        //                                                1.0, // horizontal, move right 10
-        //                                                1.0, // vertical, move down 10
-        //                                              ),
-        //                                            )
-        //                                          ],
+                                        //                                          boxShadow: [
+                                        //                                            BoxShadow(
+                                        //                                              color: Colors.grey,
+                                        //                                              blurRadius: 1.0,
+                                        //                                              // has the effect of softening the shadow
+                                        //                                              spreadRadius: 1,
+                                        //                                              // has the effect of extending the shadow
+                                        //                                              offset: Offset(
+                                        //                                                1.0, // horizontal, move right 10
+                                        //                                                1.0, // vertical, move down 10
+                                        //                                              ),
+                                        //                                            )
+                                        //                                          ],
                                         color: AppTheme.primary,
-                                        borderRadius:
-                                            BorderRadius.circular(5),
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -303,8 +296,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                             fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14.0,
                                           ),
-                                          textAlign: TextAlign.right,
-                                          textDirection: TextDirection.rtl,
                                         ),
                                       ),
                                     ),
@@ -330,8 +321,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                             fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 13.0,
                                             fontWeight: FontWeight.w700),
-                                        textAlign: TextAlign.right,
-                                        textDirection: TextDirection.rtl,
                                       ),
                                     ),
                                     Wrap(
@@ -355,8 +344,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                                     fontFamily: 'Iransans',
                                                     color: Colors.black87,
                                                     fontSize:
-                                                        textScaleFactor *
-                                                            14.0,
+                                                        textScaleFactor * 14.0,
                                                   ),
                                                   textAlign: TextAlign.center,
                                                 ),
@@ -398,8 +386,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                           fontWeight: FontWeight.w700),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
                                     ),
                                   ),
                                   Padding(
@@ -414,8 +400,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                           fontWeight: FontWeight.w700),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
                                     ),
                                   ),
                                   Spacer(),
@@ -438,8 +422,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                           fontWeight: FontWeight.w700),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
                                     ),
                                   ),
                                   Padding(
@@ -454,8 +436,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                           fontWeight: FontWeight.w700),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
                                     ),
                                   ),
                                   Spacer(),
@@ -478,8 +458,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                           fontWeight: FontWeight.w700),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
                                     ),
                                   ),
                                   Padding(
@@ -494,8 +472,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                           fontWeight: FontWeight.w700),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
                                     ),
                                   ),
                                   Spacer(),
@@ -519,8 +495,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                           fontWeight: FontWeight.w700),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
                                     ),
                                   ),
                                   Expanded(
@@ -536,8 +510,6 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                             fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14.0,
                                             fontWeight: FontWeight.w700),
-                                        textAlign: TextAlign.right,
-                                        textDirection: TextDirection.rtl,
                                       ),
                                     ),
                                   ),
