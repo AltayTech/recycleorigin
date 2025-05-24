@@ -174,327 +174,311 @@ class _DonationScreenState extends State<DonationScreen>
         builder: (ctx) {
           buildContex = ctx;
 
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: deviceHeight * 0.0,
-                    horizontal: deviceWidth * 0.03),
-                child: !isLogin
-                    ? Container(
-                        height: deviceHeight * 0.8,
-                        child: Center(
-                          child: Wrap(
-                            direction: Axis.vertical,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('You are not logged in'),
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: deviceHeight * 0.0, horizontal: deviceWidth * 0.03),
+              child: !isLogin
+                  ? Container(
+                      height: deviceHeight * 0.8,
+                      child: Center(
+                        child: Wrap(
+                          direction: Axis.vertical,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('You are not logged in'),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(LoginScreen.routeName);
+                              },
+                              child: Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                    color: AppTheme.primary,
+                                    borderRadius: BorderRadius.circular(5)),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(LoginScreen.routeName);
-                                },
-                                child: Container(
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  : Container(
+                      color: AppTheme.white,
+                      height: deviceHeight * 0.9,
+                      child: Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: AppTheme.white,
+                                      border: Border.all(
+                                        width: 5,
+                                        color: AppTheme.white,
+                                      )),
+                                  height: deviceWidth * 0.5,
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
-                                    child: Text(
-                                      'Login',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                      color: AppTheme.primary,
-                                      borderRadius: BorderRadius.circular(5)),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    : Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Container(
-                          color: AppTheme.white,
-                          height: deviceHeight * 0.9,
-                          child: Stack(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      decoration: BoxDecoration(
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Container(
+                                          height: deviceWidth * 0.9,
+                                          width: deviceWidth,
                                           color: AppTheme.white,
-                                          border: Border.all(
-                                            width: 5,
-                                            color: AppTheme.white,
-                                          )),
-                                      height: deviceWidth * 0.5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(15.0),
-                                        child: Stack(
-                                          children: <Widget>[
-                                            Container(
-                                              height: deviceWidth * 0.9,
-                                              width: deviceWidth,
-                                              color: AppTheme.white,
-                                              child: FadeInImage(
-                                                placeholder: AssetImage(
-                                                    'assets/images/circle.gif'),
-                                                image: AssetImage(
-                                                    'assets/images/wallet_money_bg.png'),
-                                                fit: BoxFit.contain,
+                                          child: FadeInImage(
+                                            placeholder: AssetImage(
+                                                'assets/images/circle.gif'),
+                                            image: AssetImage(
+                                                'assets/images/wallet_money_bg.png'),
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                'Credit',
+                                                style: TextStyle(
+                                                  color: AppTheme.grey,
+                                                  fontFamily: 'Iransans',
+                                                  fontSize:
+                                                      textScaleFactor * 13.0,
+                                                ),
+                                                textAlign: TextAlign.center,
                                               ),
-                                            ),
-                                            Center(
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Text(
-                                                    'Credit',
-                                                    style: TextStyle(
-                                                      color: AppTheme.grey,
-                                                      fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              13.0,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                  Consumer<
-                                                      CustomerInfoProvider>(
-                                                    builder: (_, data, ch) =>
-                                                        Text(
-                                                      data.customer != null
-                                                          ? EnArConvertor().replaceArNumber(
+                                              Consumer<CustomerInfoProvider>(
+                                                builder: (_, data, ch) => Text(
+                                                  data.customer != null
+                                                      ? EnArConvertor()
+                                                          .replaceArNumber(
                                                               currencyFormat
                                                                   .format(double
                                                                       .parse(data
                                                                           .customer
                                                                           .money))
                                                                   .toString())
-                                                          : EnArConvertor()
-                                                              .replaceArNumber(
-                                                                  currencyFormat
-                                                                      .format(double
-                                                                          .parse(
-                                                                              '0'))),
-                                                      style: TextStyle(
-                                                        color: AppTheme.black,
-                                                        fontFamily: 'Iransans',
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize:
-                                                            textScaleFactor *
-                                                                18.0,
-                                                      ),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
+                                                      : EnArConvertor()
+                                                          .replaceArNumber(
+                                                              currencyFormat
+                                                                  .format(double
+                                                                      .parse(
+                                                                          '0'))),
+                                                  style: TextStyle(
+                                                    color: AppTheme.black,
+                                                    fontFamily: 'Iransans',
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize:
+                                                        textScaleFactor * 18.0,
                                                   ),
-                                                  Text(
-                                                    '\$',
-                                                    style: TextStyle(
-                                                      color: AppTheme.grey,
-                                                      fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              13.0,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ],
+                                                  textAlign: TextAlign.center,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                              Text(
+                                                '\$',
+                                                style: TextStyle(
+                                                  color: AppTheme.grey,
+                                                  fontFamily: 'Iransans',
+                                                  fontSize:
+                                                      textScaleFactor * 13.0,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Charity name:',
+                                      style: TextStyle(
+                                        color: AppTheme.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 13.0,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        loadedCharity.charity_data.name,
+                                        style: TextStyle(
+                                          color: AppTheme.h1,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'Iransans',
+                                          fontSize: 16.0,
                                         ),
                                       ),
                                     ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Charity name:',
-                                          style: TextStyle(
-                                            color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 13.0,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            loadedCharity.charity_data.name,
-                                            style: TextStyle(
-                                              color: AppTheme.h1,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 16.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Wrap(
-                                      alignment: WrapAlignment.center,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 16.0, right: 16, bottom: 6),
-                                          child: Text(
-                                            'Amount (\$)',
-                                            style: TextStyle(
-                                              color: AppTheme.h1,
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 14.0,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 16.0,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                          textAlignVertical:
-                                              TextAlignVertical.center,
-                                          textInputAction: TextInputAction.go,
-                                          keyboardType: TextInputType.number,
-                                          controller: donationController,
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.only(
-                                                    left: 20.0,
-                                                    right: 20,
-                                                    top: 0,
-                                                    bottom: 10),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              borderSide: BorderSide(
-                                                width: 0,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            labelStyle: TextStyle(
-                                              color: Colors.blue,
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 10.0,
-                                            ),
-                                          ),
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter
-                                                .digitsOnly,
-                                            new CurrencyInputFormatter(),
-                                          ],
-                                        ),
-                                      ],
-                                    )
                                   ],
                                 ),
-                              ),
-                              Positioned(
-                                bottom: 15,
-                                left: 0,
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () async {
-                                    SnackBar addToCartSnackBar = SnackBar(
-                                      content: Text(
-                                        'Enter a valid card number',
+                                Wrap(
+                                  alignment: WrapAlignment.center,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 16.0, right: 16, bottom: 6),
+                                      child: Text(
+                                        'Amount (\$)',
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: AppTheme.h1,
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),
+                                        textAlign: TextAlign.center,
                                       ),
-                                      action: SnackBarAction(
-                                        label: 'OK',
-                                        onPressed: () {
-                                          // Some code to undo the change.
-                                        },
+                                    ),
+                                    TextFormField(
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        color: AppTheme.h1,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 16.0,
                                       ),
-                                    );
-
-                                    if (double.parse(removeSemicolon(
-                                            donationController.text)) >
-                                        double.parse(customer.money)) {
-                                      SnackBar addToCartSnackBar = SnackBar(
-                                        content: Text(
-                                          'The requested amount exceeds your credit',
-                                          style: TextStyle(
+                                      textAlign: TextAlign.center,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      textInputAction: TextInputAction.go,
+                                      keyboardType: TextInputType.number,
+                                      controller: donationController,
+                                      decoration: InputDecoration(
+                                        contentPadding: const EdgeInsets.only(
+                                            left: 20.0,
+                                            right: 20,
+                                            top: 0,
+                                            bottom: 10),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          borderSide: BorderSide(
+                                            width: 0,
                                             color: Colors.white,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 14.0,
                                           ),
                                         ),
-                                        action: SnackBarAction(
-                                          label: 'OK',
-                                          onPressed: () {
-                                            // Some code to undo the change.
-                                          },
+                                        labelStyle: TextStyle(
+                                          color: Colors.blue,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 10.0,
                                         ),
-                                      );
-                                      ScaffoldMessenger.of(ctx)
-                                          .showSnackBar(addToCartSnackBar);
-                                    } else {
-                                      await donateToCharityFromDialogBox(
-                                              int.parse(removeSemicolon(
-                                                  donationController.text)))
-                                          .then((value) {
-                                        Navigator.of(context)
-                                            .pushNamedAndRemoveUntil(
-                                                NavigationBottomScreen
-                                                    .routeName,
-                                                (Route<dynamic> route) =>
-                                                    false);
-                                        _showSenddialog();
-                                      });
-                                    }
-                                  },
-                                  child: ButtonBottom(
-                                    width: deviceWidth * 0.9,
-                                    height: deviceWidth * 0.14,
-                                    text: 'Donate',
-                                    isActive: true,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                  top: 0,
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: Align(
-                                      alignment: Alignment.center,
-                                      child: _isLoading
-                                          ? SpinKitFadingCircle(
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return DecoratedBox(
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: index.isEven
-                                                        ? Colors.grey
-                                                        : Colors.grey,
-                                                  ),
-                                                );
-                                              },
-                                            )
-                                          : Container()))
-                            ],
+                                      ),
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        new CurrencyInputFormatter(),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            bottom: 15,
+                            left: 0,
+                            right: 0,
+                            child: InkWell(
+                              onTap: () async {
+                                SnackBar addToCartSnackBar = SnackBar(
+                                  content: Text(
+                                    'Enter a valid card number',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 14.0,
+                                    ),
+                                  ),
+                                  action: SnackBarAction(
+                                    label: 'OK',
+                                    onPressed: () {
+                                      // Some code to undo the change.
+                                    },
+                                  ),
+                                );
+
+                                if (double.parse(removeSemicolon(
+                                        donationController.text)) >
+                                    double.parse(customer.money)) {
+                                  SnackBar addToCartSnackBar = SnackBar(
+                                    content: Text(
+                                      'The requested amount exceeds your credit',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 14.0,
+                                      ),
+                                    ),
+                                    action: SnackBarAction(
+                                      label: 'OK',
+                                      onPressed: () {
+                                        // Some code to undo the change.
+                                      },
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(ctx)
+                                      .showSnackBar(addToCartSnackBar);
+                                } else {
+                                  await donateToCharityFromDialogBox(int.parse(
+                                          removeSemicolon(
+                                              donationController.text)))
+                                      .then((value) {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                            NavigationBottomScreen.routeName,
+                                            (Route<dynamic> route) => false);
+                                    _showSenddialog();
+                                  });
+                                }
+                              },
+                              child: ButtonBottom(
+                                width: deviceWidth * 0.9,
+                                height: deviceWidth * 0.14,
+                                text: 'Donate',
+                                isActive: true,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                              top: 0,
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Align(
+                                  alignment: Alignment.center,
+                                  child: _isLoading
+                                      ? SpinKitFadingCircle(
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return DecoratedBox(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: index.isEven
+                                                    ? Colors.grey
+                                                    : Colors.grey,
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : Container()))
+                        ],
                       ),
-              ),
+                    ),
             ),
           );
         },
