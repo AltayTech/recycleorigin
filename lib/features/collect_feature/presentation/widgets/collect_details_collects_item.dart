@@ -4,8 +4,8 @@ import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class CollectDetailsCollectItem extends StatefulWidget {
   final Collect collectItem;
@@ -84,7 +84,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                               color: AppTheme.black,
                               fontWeight: FontWeight.w700,
                               fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 16,
+                              fontSize: 16,
                             ),
                           ),
                           Spacer(),
@@ -102,7 +102,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                               color: AppTheme.black.withOpacity(0.7),
                               fontWeight: FontWeight.w500,
                               fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 14,
+                              fontSize: 14,
                             ),
                           ),
                           Spacer(),
@@ -122,7 +122,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 12,
+                                    fontSize: 12,
                                   ),
                                 ),
                                 Text(
@@ -134,7 +134,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 16,
+                                    fontSize: 16,
                                   ),
                                 ),
                               ],
@@ -149,7 +149,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 12,
+                                    fontSize: 12,
                                   ),
                                 ),
                                 Text(
@@ -161,7 +161,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 16,
+                                    fontSize: 16,
                                   ),
                                 ),
                               ],
@@ -181,7 +181,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                               color: AppTheme.black.withOpacity(0.7),
                               fontWeight: FontWeight.w500,
                               fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 14,
+                              fontSize: 14,
                             ),
                           ),
                           Spacer(),
@@ -201,7 +201,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 12,
+                                    fontSize: 12,
                                   ),
                                 ),
                                 Text(
@@ -214,7 +214,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 18,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ],
@@ -229,7 +229,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 12,
+                                    fontSize: 12,
                                   ),
                                 ),
                                 Text(
@@ -241,7 +241,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 18,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ],

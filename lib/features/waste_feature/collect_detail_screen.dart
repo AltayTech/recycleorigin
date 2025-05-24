@@ -820,7 +820,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                           height: 2,
                           color: AppTheme.grey,
                           fontFamily: 'Iransans',
-                          fontSize: textScaleFactor * 15.0,
+                          fontSize:  15.0,
                         ),
 
                       ),
