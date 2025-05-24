@@ -227,7 +227,6 @@ class MainDrawer extends StatelessWidget {
                                 child: Image.asset(
                                   'assets/images/donation_ic.png',
                                   color: iconColor,
-
                                 )),
                             onTap: () {
                               Navigator.of(context).pop();
@@ -236,28 +235,28 @@ class MainDrawer extends StatelessWidget {
                                   .pushNamed(CharityScreen.routeName);
                             },
                           ),
-                          ListTile(
-                            title: Text(
-                              "Cources",
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.description,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
-
-                              Navigator.of(context)
-                                  .pushNamed(MessageScreen.routeName);
-                            },
-                          ),
+                          // ListTile(
+                          //   title: Text(
+                          //     "Cources",
+                          //     style: TextStyle(
+                          //       fontFamily: "Iransans",
+                          //       fontWeight: FontWeight.w500,
+                          //       fontSize: 16,
+                          //       color: textColor,
+                          //     ),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          //   trailing: Icon(
+                          //     Icons.description,
+                          //     color: iconColor,
+                          //   ),
+                          //   onTap: () {
+                          //     Navigator.of(context).pop();
+                          //
+                          //     Navigator.of(context)
+                          //         .pushNamed(MessageScreen.routeName);
+                          //   },
+                          // ),
                           ListTile(
                             title: Text(
                               "Supports",
