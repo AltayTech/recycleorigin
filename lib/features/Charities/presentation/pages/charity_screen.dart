@@ -139,10 +139,10 @@ class _CharityScreenState extends State<CharityScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Charities list:',
+          'Charities',
           style: TextStyle(
             fontFamily: 'Iransans',
-            color: AppTheme.bg,
+            color: Colors.white,
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -191,7 +191,7 @@ class _CharityScreenState extends State<CharityScreen>
                                       'Number:',
                                       style: TextStyle(
                                         fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 12.0,
+                                        fontSize: 12.0,
                                       ),
                                     ),
                                   ),
@@ -207,7 +207,7 @@ class _CharityScreenState extends State<CharityScreen>
                                               .replaceArNumber('0'),
                                       style: TextStyle(
                                         fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 13.0,
+                                        fontSize: 13.0,
                                       ),
                                     ),
                                   ),
@@ -218,7 +218,7 @@ class _CharityScreenState extends State<CharityScreen>
                                       'From',
                                       style: TextStyle(
                                         fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 12.0,
+                                        fontSize: 12.0,
                                       ),
                                     ),
                                   ),
@@ -233,7 +233,7 @@ class _CharityScreenState extends State<CharityScreen>
                                               .replaceArNumber('0'),
                                       style: TextStyle(
                                         fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 13.0,
+                                        fontSize: 13.0,
                                       ),
                                     ),
                                   ),
