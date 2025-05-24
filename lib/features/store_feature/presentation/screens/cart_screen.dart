@@ -191,169 +191,166 @@ class _CartScreenState extends State<CartScreen> {
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Builder(builder: (context) {
-        return Directionality(
-          textDirection: TextDirection.ltr,
-          child: Container(
-            color: AppTheme.bg,
-            height: double.infinity,
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: deviceHeight * 0.07,
-                          decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border:
-                                  Border.all(color: Colors.grey, width: 0.2)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Text(
-                                  'Number: ' +
-                                      EnArConvertor()
-                                          .replaceArNumber(
-                                              shoppItems.length.toString())
-                                          .toString(),
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 14,
-                                  ),
+        return Container(
+          color: AppTheme.bg,
+          height: double.infinity,
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Stack(
+              children: <Widget>[
+                SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: deviceHeight * 0.07,
+                        decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border:
+                                Border.all(color: Colors.grey, width: 0.2)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text(
+                                'Number: ' +
+                                    EnArConvertor()
+                                        .replaceArNumber(
+                                            shoppItems.length.toString())
+                                        .toString(),
+                                style: TextStyle(
+                                  color: AppTheme.black,
+                                  fontFamily: 'Iransans',
+                                  fontSize: textScaleFactor * 14,
                                 ),
-                                VerticalDivider(
+                              ),
+                              VerticalDivider(
+                                color: AppTheme.grey,
+                                thickness: 1,
+                                indent: 4,
+                                endIndent: 4,
+                              ),
+                              Text(
+                                'Total: ',
+                                style: TextStyle(
                                   color: AppTheme.grey,
-                                  thickness: 1,
-                                  indent: 4,
-                                  endIndent: 4,
+                                  fontFamily: 'Iransans',
+                                  fontSize: textScaleFactor * 12,
                                 ),
-                                Text(
-                                  'Total: ',
-                                  style: TextStyle(
-                                    color: AppTheme.grey,
-                                    fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 12,
-                                  ),
+                              ),
+                              Text(
+                                totalPrice.toString().isNotEmpty
+                                    ? EnArConvertor().replaceArNumber(
+                                        currencyFormat
+                                            .format(totalPrice)
+                                            .toString())
+                                    : EnArConvertor().replaceArNumber('0'),
+                                style: TextStyle(
+                                  color: AppTheme.black,
+                                  fontFamily: 'Iransans',
+                                  fontSize: textScaleFactor * 18,
                                 ),
-                                Text(
-                                  totalPrice.toString().isNotEmpty
-                                      ? EnArConvertor().replaceArNumber(
-                                          currencyFormat
-                                              .format(totalPrice)
-                                              .toString())
-                                      : EnArConvertor().replaceArNumber('0'),
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 18,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: shoppItems.length != 0
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.bg,
-                                    borderRadius: BorderRadius.circular(5),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: shoppItems.length != 0
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  color: AppTheme.bg,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics:
+                                      const NeverScrollableScrollPhysics(),
+                                  itemCount: shoppItems.length,
+                                  itemBuilder: (ctx, i) => CardItem(
+                                    shoppItem: shoppItems[i],
+                                    callFunction: setStateFun,
                                   ),
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: shoppItems.length,
-                                    itemBuilder: (ctx, i) => CardItem(
-                                      shoppItem: shoppItems[i],
-                                      callFunction: setStateFun,
-                                    ),
-                                  ),
-                                )
-                              : Center(child: Text('No Items')),
+                                ),
+                              )
+                            : Center(child: Text('No Items')),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      )
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: InkWell(
+                    onTap: () {
+                      SnackBar addToCartSnackBar = SnackBar(
+                        content: Text(
+                          'Cart is empty',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Iransans',
+                            fontSize: textScaleFactor * 14.0,
+                          ),
                         ),
-                        SizedBox(
-                          height: 50,
-                        )
-                      ],
+                        action: SnackBarAction(
+                          label: 'OK',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      );
+                      if (shoppItems.isEmpty) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(addToCartSnackBar);
+                      } else if (!isLogin) {
+                        _showLogindialog();
+                      } else {
+                        if (isCompleted) {
+                          Navigator.of(context)
+                              .pushNamed(OrderProductsSendScreen.routeName);
+                        } else {
+                          _showCompletedialog();
+                        }
+                      }
+                    },
+                    child: ButtonBottom(
+                      width: deviceWidth * 0.9,
+                      height: deviceWidth * 0.14,
+                      text: 'Continue',
+                      isActive: shoppItems.isNotEmpty,
                     ),
                   ),
-                  Positioned(
+                ),
+                Positioned(
+                    top: 0,
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: InkWell(
-                      onTap: () {
-                        SnackBar addToCartSnackBar = SnackBar(
-                          content: Text(
-                            'Cart is empty',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 14.0,
-                            ),
-                          ),
-                          action: SnackBarAction(
-                            label: 'OK',
-                            onPressed: () {
-                              // Some code to undo the change.
-                            },
-                          ),
-                        );
-                        if (shoppItems.isEmpty) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(addToCartSnackBar);
-                        } else if (!isLogin) {
-                          _showLogindialog();
-                        } else {
-                          if (isCompleted) {
-                            Navigator.of(context)
-                                .pushNamed(OrderProductsSendScreen.routeName);
-                          } else {
-                            _showCompletedialog();
-                          }
-                        }
-                      },
-                      child: ButtonBottom(
-                        width: deviceWidth * 0.9,
-                        height: deviceWidth * 0.14,
-                        text: 'Continue',
-                        isActive: shoppItems.isNotEmpty,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Align(
-                          alignment: Alignment.center,
-                          child: _isLoading
-                              ? SpinKitFadingCircle(
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: index.isEven
-                                            ? Colors.grey
-                                            : Colors.grey,
-                                      ),
-                                    );
-                                  },
-                                )
-                              : Container()))
-                ],
-              ),
+                    child: Align(
+                        alignment: Alignment.center,
+                        child: _isLoading
+                            ? SpinKitFadingCircle(
+                                itemBuilder:
+                                    (BuildContext context, int index) {
+                                  return DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: index.isEven
+                                          ? Colors.grey
+                                          : Colors.grey,
+                                    ),
+                                  );
+                                },
+                              )
+                            : Container()))
+              ],
             ),
           ),
         );
