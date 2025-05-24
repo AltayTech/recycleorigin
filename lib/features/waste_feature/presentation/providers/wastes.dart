@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart' as diolib;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_main.dart';
@@ -229,18 +230,26 @@ class Wastes with ChangeNotifier {
       _token = prefs.getString('token')!;
       debugPrint('tooookkkeeennnnnn  $_token');
 
-      final response = await get(Uri.parse(url), headers: {
-        'Authorization': 'Bearer $_token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      debugPrint(
-          "response.statusCode.toString() ${response.statusCode.toString()}");
-      final extractedData = json.decode(response.body) as dynamic;
-      debugPrint(extractedData);
+      final _dio = diolib.Dio();
+      diolib.Response response = await _dio.get(
+        url,
+        options: diolib.Options(
+          headers: {
+            'Authorization': 'Bearer $_token',
+            // 'Content-Type': 'application/json',
+            // 'Accept': 'application/json'
+          },
+        ),
+      );
+
+      debugPrint("response.statusCode.toString() ${response.statusCode}");
+      debugPrint("response.toString() ${response.data}", wrapWidth: 1024);
+
+      // final extractedData = jsonDecode(response.data);
+      // debugPrint("extractedData $extractedData");
 
       RequestWasteItem requestWasteItem =
-          RequestWasteItem.fromJson(extractedData);
+          RequestWasteItem.fromJson(response.data);
       debugPrint(requestWasteItem.id.toString());
 
       _requestWasteItem = requestWasteItem;
@@ -250,6 +259,44 @@ class Wastes with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  // Future<void> retrieveCollectItem(int collectId) async {
+  //   debugPrint('retrieveCollectItem');
+  //
+  //   final url = Urls.rootUrl + Urls.collectsEndPoint + "/$collectId";
+  //   debugPrint(url);
+  //   Dio
+  //
+  //   try {
+  //     final prefs = await SharedPreferences.getInstance();
+  //     _token = prefs.getString('token')!;
+  //     debugPrint('tooookkkeeennnnnn  $_token');
+  //
+  //     Response response = await get(Uri.parse(url), headers: {
+  //       'Authorization': 'Bearer $_token',
+  //       // 'Content-Type': 'application/json',
+  //       // 'Accept': 'application/json'
+  //     });
+  //     debugPrint(
+  //         "response.statusCode.toString() ${response.statusCode}");
+  //     debugPrint(
+  //         "response.toString() ${response.body.toString()}",wrapWidth: 1024);
+  //     // final extractedDatajson = jsonEncode(response.bodyBytes);
+  //     // debugPrint(extractedDatajson);
+  //     final extractedData = jsonDecode(response.body);
+  //     debugPrint(extractedData);
+  //
+  //     RequestWasteItem requestWasteItem =
+  //         RequestWasteItem.fromJson(extractedData);
+  //     debugPrint(requestWasteItem.id.toString());
+  //
+  //     _requestWasteItem = requestWasteItem;
+  //   } catch (error) {
+  //     debugPrint(error.toString());
+  //     throw (error);
+  //   }
+  //   notifyListeners();
+  // }
 
   get sCategory => _sCategory;
 
