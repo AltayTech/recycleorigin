@@ -8,12 +8,9 @@ import 'package:recycleorigin/features/Charities/presentation/pages/charity_scre
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/pages/messages_screen.dart';
 
-import '../../features/about_feature/presentation/pages/about_us_screen.dart';
-import '../../features/contac_us_feature/presentation/pages/contact_with_us_screen.dart';
 import '../../features/customer_feature/presentation/providers/authentication_provider.dart';
 import '../../features/customer_feature/presentation/screens/login_screen.dart';
 import '../../features/customer_feature/presentation/screens/profile_screen.dart';
-import '../../features/guid_feature/presentation/pages/guide_screen.dart';
 import '../../features/store_feature/presentation/screens/cart_screen.dart';
 import '../../features/store_feature/presentation/screens/product_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
@@ -279,72 +276,72 @@ class MainDrawer extends StatelessWidget {
                                   .pushNamed(MessageScreen.routeName);
                             },
                           ),
-                          ListTile(
-                            title: Text(
-                              "Guids",
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.help,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
-
-                              Navigator.of(context)
-                                  .pushNamed(GuideScreen.routeName);
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              "Contact Us",
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.contact_phone,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
-
-                              Navigator.of(context)
-                                  .pushNamed(ContactWithUs.routeName);
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              "About Us",
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.account_balance,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
-
-                              Navigator.of(context)
-                                  .pushNamed(AboutUsScreen.routeName);
-                            },
-                          ),
+                          // ListTile(
+                          //   title: Text(
+                          //     "Guids",
+                          //     style: TextStyle(
+                          //       fontFamily: "Iransans",
+                          //       fontWeight: FontWeight.w500,
+                          //       fontSize: 16,
+                          //       color: textColor,
+                          //     ),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          //   trailing: Icon(
+                          //     Icons.help,
+                          //     color: iconColor,
+                          //   ),
+                          //   onTap: () {
+                          //     Navigator.of(context).pop();
+                          //
+                          //     Navigator.of(context)
+                          //         .pushNamed(GuideScreen.routeName);
+                          //   },
+                          // ),
+                          // ListTile(
+                          //   title: Text(
+                          //     "Contact Us",
+                          //     style: TextStyle(
+                          //       fontFamily: "Iransans",
+                          //       fontWeight: FontWeight.w500,
+                          //       fontSize: 16,
+                          //       color: textColor,
+                          //     ),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          //   trailing: Icon(
+                          //     Icons.contact_phone,
+                          //     color: iconColor,
+                          //   ),
+                          //   onTap: () {
+                          //     Navigator.of(context).pop();
+                          //
+                          //     Navigator.of(context)
+                          //         .pushNamed(ContactWithUs.routeName);
+                          //   },
+                          // ),
+                          // ListTile(
+                          //   title: Text(
+                          //     "About Us",
+                          //     style: TextStyle(
+                          //       fontFamily: "Iransans",
+                          //       fontWeight: FontWeight.w500,
+                          //       fontSize: 16,
+                          //       color: textColor,
+                          //     ),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          //   trailing: Icon(
+                          //     Icons.account_balance,
+                          //     color: iconColor,
+                          //   ),
+                          //   onTap: () {
+                          //     Navigator.of(context).pop();
+                          //
+                          //     Navigator.of(context)
+                          //         .pushNamed(AboutUsScreen.routeName);
+                          //   },
+                          // ),
                           ListTile(
                             title: Text(
                               "Logout",
