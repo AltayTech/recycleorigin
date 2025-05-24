@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,6 +39,7 @@ class Charities with ChangeNotifier {
     debugPrint(searchEndPoint);
   }
 
+
   Future<void> searchCharitiesItem() async {
     debugPrint('searchCharityItem');
 
@@ -45,27 +47,59 @@ class Charities with ChangeNotifier {
     debugPrint(url);
 
     try {
-      final response = await get(Uri.parse(url), headers: {
+      Dio dio = Dio();
+      dio.options.headers = {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
+        'Accept': 'application/json',
+      };
+
+      final response = await dio.get(url);
       debugPrint(response.statusCode.toString());
+
       if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body);
-        debugPrint(extractedData);
-        CharityMain charityMain = CharityMain.fromJson(extractedData);
+        CharityMain charityMain = CharityMain.fromJson(response.data);
 
         _charitiesItems = charityMain.charities;
         _searchDetails = charityMain.charitiesDetail;
       } else {
         _charitiesItems = [];
       }
+
       notifyListeners();
     } catch (error) {
       debugPrint(error.toString());
-      throw (error);
+      throw error;
     }
   }
+
+  // Future<void> searchCharitiesItem() async {
+  //   debugPrint('searchCharityItem');
+  //
+  //   final url = Urls.rootUrl + Urls.charitiesEndPoint + searchEndPoint;
+  //   debugPrint(url);
+  //
+  //   try {
+  //     final response = await get(Uri.parse(url), headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json'
+  //     });
+  //     debugPrint(response.statusCode.toString());
+  //     if (response.statusCode == 200) {
+  //       // final extractedData = json.decode(response.body);
+  //       // debugPrint(extractedData);
+  //       CharityMain charityMain = CharityMain.fromJson(response.body);
+  //
+  //       _charitiesItems = charityMain.charities;
+  //       _searchDetails = charityMain.charitiesDetail;
+  //     } else {
+  //       _charitiesItems = [];
+  //     }
+  //     notifyListeners();
+  //   } catch (error) {
+  //     debugPrint(error.toString());
+  //     throw (error);
+  //   }
+  // }
 
   Future<void> retrieveCharityItem(int charityId) async {
     debugPrint('retrieveCharityItemvvvvv');
