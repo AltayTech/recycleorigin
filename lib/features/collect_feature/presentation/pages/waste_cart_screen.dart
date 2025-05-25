@@ -238,23 +238,113 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Expanded(
-                                child: Column(
-                                  children: <Widget>[
-                                    Spacer(),
-                                    Image.asset(
-                                      'assets/images/main_page_request_ic.png',
-                                      height: deviceWidth * 0.09,
-                                      width: deviceWidth * 0.09,
+                              Column(
+                                children: <Widget>[
+                                  Spacer(),
+                                  Image.asset(
+                                    'assets/images/main_page_request_ic.png',
+                                    height: deviceWidth * 0.09,
+                                    width: deviceWidth * 0.09,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 4, bottom: 4),
+                                    child: Text(
+                                      EnArConvertor()
+                                          .replaceArNumber(wasteCartItems
+                                              .length
+                                              .toString())
+                                          .toString(),
+                                      style: TextStyle(
+                                        color: AppTheme.h1,
+                                        fontFamily: 'Iransans',
+                                        fontSize: 18,
+                                      ),
                                     ),
-                                    Padding(
+                                  ),
+                                  Text(
+                                    'Number',
+                                    style: TextStyle(
+                                      color: AppTheme.grey,
+                                      fontFamily: 'Iransans',
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Spacer(),
+                                  Image.asset(
+                                    'assets/images/waste_cart_price_ic.png',
+                                    height: deviceWidth * 0.09,
+                                    width: deviceWidth * 0.09,
+                                    color: Colors.yellow[600],
+                                  ),
+                                  AnimatedBuilder(
+                                    animation: _totalPriceAnimation,
+                                    builder: (BuildContext context,
+                                        Widget? child) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 4, bottom: 4),
+                                        child: Text(
+                                          totalPrice.toString().isNotEmpty
+                                              ? EnArConvertor()
+                                                  .replaceArNumber(
+                                                      currencyFormat
+                                                          .format(
+                                                              double.parse(
+                                                            _totalPriceAnimation
+                                                                .value
+                                                                .toStringAsFixed(
+                                                                    0),
+                                                          ))
+                                                          .toString())
+                                              : EnArConvertor()
+                                                  .replaceArNumber('0'),
+                                          style: TextStyle(
+                                            color: AppTheme.h1,
+                                            fontFamily: 'Iransans',
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  Text(
+                                    '\$ ',
+                                    style: TextStyle(
+                                      color: AppTheme.grey,
+                                      fontFamily: 'Iransans',
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Spacer(),
+                                  Image.asset(
+                                    'assets/images/waste_cart_weight_ic.png',
+                                    height: deviceWidth * 0.09,
+                                    width: deviceWidth * 0.09,
+                                  ),
+                                  //                                      Icon(
+                                  //                                        Icons.av_timer,
+                                  //                                        color: Colors.blue,
+                                  //                                        size: 40,
+                                  //                                      ),
+                                  FittedBox(
+                                    child: Padding(
                                       padding: const EdgeInsets.only(
                                           top: 4, bottom: 4),
                                       child: Text(
                                         EnArConvertor()
-                                            .replaceArNumber(wasteCartItems
-                                                .length
-                                                .toString())
+                                            .replaceArNumber(
+                                                totalWeight.toString())
                                             .toString(),
                                         style: TextStyle(
                                           color: AppTheme.h1,
@@ -263,115 +353,19 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      'Number',
+                                  ),
+                                  FittedBox(
+                                    child: Text(
+                                      'Kilogram',
                                       style: TextStyle(
                                         color: AppTheme.grey,
                                         fontFamily: 'Iransans',
                                         fontSize: 12,
                                       ),
                                     ),
-                                    Spacer(),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: <Widget>[
-                                    Spacer(),
-                                    Image.asset(
-                                      'assets/images/waste_cart_price_ic.png',
-                                      height: deviceWidth * 0.09,
-                                      width: deviceWidth * 0.09,
-                                      color: Colors.yellow[600],
-                                    ),
-                                    AnimatedBuilder(
-                                      animation: _totalPriceAnimation,
-                                      builder: (BuildContext context,
-                                          Widget? child) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 4, bottom: 4),
-                                          child: Text(
-                                            totalPrice.toString().isNotEmpty
-                                                ? EnArConvertor()
-                                                    .replaceArNumber(
-                                                        currencyFormat
-                                                            .format(
-                                                                double.parse(
-                                                              _totalPriceAnimation
-                                                                  .value
-                                                                  .toStringAsFixed(
-                                                                      0),
-                                                            ))
-                                                            .toString())
-                                                : EnArConvertor()
-                                                    .replaceArNumber('0'),
-                                            style: TextStyle(
-                                              color: AppTheme.h1,
-                                              fontFamily: 'Iransans',
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    Text(
-                                      '\$ ',
-                                      style: TextStyle(
-                                        color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: <Widget>[
-                                    Spacer(),
-                                    Image.asset(
-                                      'assets/images/waste_cart_weight_ic.png',
-                                      height: deviceWidth * 0.09,
-                                      width: deviceWidth * 0.09,
-                                    ),
-                                    //                                      Icon(
-                                    //                                        Icons.av_timer,
-                                    //                                        color: Colors.blue,
-                                    //                                        size: 40,
-                                    //                                      ),
-                                    FittedBox(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 4, bottom: 4),
-                                        child: Text(
-                                          EnArConvertor()
-                                              .replaceArNumber(
-                                                  totalWeight.toString())
-                                              .toString(),
-                                          style: TextStyle(
-                                            color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    FittedBox(
-                                      child: Text(
-                                        'Kilogram',
-                                        style: TextStyle(
-                                          color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                  ],
-                                ),
+                                  ),
+                                  Spacer(),
+                                ],
                               ),
                             ],
                           ),
@@ -454,13 +448,11 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                             // }
                           }
                         },
-                        child: Expanded(
-                          child: ButtonBottom(
-                            width: deviceWidth * 0.75,
-                            height: deviceWidth * 0.14,
-                            text: 'Continue',
-                            isActive: wasteCartItems.isNotEmpty,
-                          ),
+                        child: ButtonBottom(
+                          width: deviceWidth * 0.75,
+                          height: deviceWidth * 0.14,
+                          text: 'Continue',
+                          isActive: wasteCartItems.isNotEmpty,
                         ),
                       ),
                       InkWell(

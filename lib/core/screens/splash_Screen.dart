@@ -34,7 +34,7 @@ class _SplashScreensState extends State<SplashScreens> {
       ),
       loadingText: Text(
         EnArConvertor()
-            .replaceArNumber('Version 1.0'),
+            .replaceArNumber('Version 1.1.3'),
         style: new TextStyle(
           fontFamily: 'Iransans',
           fontWeight: FontWeight.w400,
