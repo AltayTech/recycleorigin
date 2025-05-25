@@ -137,11 +137,7 @@ class MyApp extends StatelessWidget {
         ),
         // localizationsDelegates: AppLocalizations.localizationsDelegates,
         // supportedLocales: AppLocalizations.supportedLocales,
-        home: Directionality(
-          child: SplashScreens(),
-          textDirection: TextDirection.rtl,
-          // setting rtl
-        ),
+        home: SplashScreens(),
         routes: {
           NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
           HomeScreen.routeName: (ctx) => HomeScreen(),
