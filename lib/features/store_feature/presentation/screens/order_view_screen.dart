@@ -469,8 +469,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            orderDetails.pish != null &&
-                                                    orderDetails.pish.isNotEmpty
+                                            orderDetails.pish.isNotEmpty
                                                 ? _formatPrice(
                                                     orderDetails.pish)
                                                 : '-',

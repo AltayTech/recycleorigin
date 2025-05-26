@@ -145,7 +145,7 @@ class _AuthCardState extends State<AuthCard>
 //          }
           var loginResponse =
               await Provider.of<AuthenticationProvider>(context, listen: false)
-                  .login(_authData!)
+                  .login(_authData)
                   .then(
             (value) async {
               debugPrint('login response $value');
@@ -276,6 +276,7 @@ class _AuthCardState extends State<AuthCard>
                                                 if (value!.isEmpty) {
                                                   return 'Please enter your first name';
                                                 }
+                                                return null;
                                               }
                                             : null,
                                     onSaved: (value) {
@@ -348,6 +349,7 @@ class _AuthCardState extends State<AuthCard>
                                                 if (value!.isEmpty) {
                                                   return 'Please enter your last name';
                                                 }
+                                                return null;
                                               }
                                             : null,
                                     onSaved: (value) {
