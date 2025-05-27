@@ -158,7 +158,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
         title: Text(
           'Articles',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: Colors.white,
           ),
         ),
@@ -216,7 +216,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                       color: _selectedCategoryId == 0
                                           ? AppTheme.primary
                                           : AppTheme.h1,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize:  14.0,
                                     ),
                                     textAlign: TextAlign.center,
@@ -274,7 +274,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                                     _selectedCategoryId
                                                 ? AppTheme.primary
                                                 : AppTheme.h1,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize:  14.0,
                                           ),
                                           textAlign: TextAlign.center,
@@ -310,7 +310,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                     child: Text(
                                       'Number:',
                                       style: TextStyle(
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 12.0,
                                       ),
                                     ),
@@ -325,7 +325,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                           : EnArConvertor()
                                               .replaceArNumber('0'),
                                       style: TextStyle(
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 13.0,
                                       ),
                                     ),
@@ -336,7 +336,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                     child: Text(
                                       'From',
                                       style: TextStyle(
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 12.0,
                                       ),
                                     ),
@@ -351,7 +351,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                           : EnArConvertor()
                                               .replaceArNumber('0'),
                                       style: TextStyle(
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 13.0,
                                       ),
                                     ),
@@ -403,7 +403,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                       child: Text(
                                       'No Product',
                                       style: TextStyle(
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
                                       ),
                                     ))
