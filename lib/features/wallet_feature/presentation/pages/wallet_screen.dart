@@ -251,6 +251,7 @@ class _WalletScreenState extends State<WalletScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
+
                               InkWell(
                                 onTap: () {
                                   Navigator.of(context)
@@ -307,69 +308,69 @@ class _WalletScreenState extends State<WalletScreen>
                                   ),
                                 ),
                               ),
-                              Spacer(),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 5.0, bottom: 5),
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed(CharityScreen.routeName);
-                                  },
-                                  child: Container(
-                                    width: deviceWidth * 0.42,
-                                    height: deviceWidth * 0.12,
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey,
-                                          blurRadius: 0.0,
-                                          // has the effect of softening the shadow
-                                          spreadRadius: 0.0,
-                                          // has the effect of extending the shadow
-                                          offset: Offset(
-                                            1.0, // horizontal, move right 10
-                                            1.0, // vertical, move down 10
-                                          ),
-                                        )
-                                      ],
-                                      color: Color(0xff6A4C93),
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 12, top: 7, left: 3),
-                                              child: Image.asset(
-                                                  'assets/images/donation_ic.png'),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: Text(
-                                                'Donate to charity',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontFamily: 'Iransans',
-                                                  fontSize:
-                                                      textScaleFactor * 14.0,
-                                                ),
-                                                textAlign: TextAlign.right,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Spacer(),
+                              // Padding(
+                              //   padding:
+                              //       const EdgeInsets.only(top: 5.0, bottom: 5),
+                              //   child: InkWell(
+                              //     onTap: () {
+                              //       Navigator.of(context)
+                              //           .pushNamed(CharityScreen.routeName);
+                              //     },
+                              //     child: Container(
+                              //       width: deviceWidth * 0.42,
+                              //       height: deviceWidth * 0.12,
+                              //       decoration: BoxDecoration(
+                              //         boxShadow: [
+                              //           BoxShadow(
+                              //             color: Colors.grey,
+                              //             blurRadius: 0.0,
+                              //             // has the effect of softening the shadow
+                              //             spreadRadius: 0.0,
+                              //             // has the effect of extending the shadow
+                              //             offset: Offset(
+                              //               1.0, // horizontal, move right 10
+                              //               1.0, // vertical, move down 10
+                              //             ),
+                              //           )
+                              //         ],
+                              //         color: Color(0xff6A4C93),
+                              //         borderRadius: BorderRadius.circular(50),
+                              //       ),
+                              //       child: Center(
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.all(4.0),
+                              //           child: Row(
+                              //             mainAxisAlignment:
+                              //                 MainAxisAlignment.center,
+                              //             children: <Widget>[
+                              //               Padding(
+                              //                 padding: const EdgeInsets.only(
+                              //                     bottom: 12, top: 7, left: 3),
+                              //                 child: Image.asset(
+                              //                     'assets/images/donation_ic.png'),
+                              //               ),
+                              //               Padding(
+                              //                 padding:
+                              //                     const EdgeInsets.all(4.0),
+                              //                 child: Text(
+                              //                   'Donate to charity',
+                              //                   style: TextStyle(
+                              //                     color: Colors.white,
+                              //                     fontFamily: 'Iransans',
+                              //                     fontSize:
+                              //                         textScaleFactor * 14.0,
+                              //                   ),
+                              //                   textAlign: TextAlign.right,
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),

@@ -187,7 +187,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              "Cards",
+                              "Card",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -207,31 +207,31 @@ class MainDrawer extends StatelessWidget {
                                   .pushNamed(CartScreen.routeName);
                             },
                           ),
-                          ListTile(
-                            title: Text(
-                              "Charities",
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Container(
-                                height: deviceHeight * 0.025,
-                                width: deviceHeight * 0.025,
-                                child: Image.asset(
-                                  'assets/images/donation_ic.png',
-                                  color: iconColor,
-                                )),
-                            onTap: () {
-                              Navigator.of(context).pop();
-
-                              Navigator.of(context)
-                                  .pushNamed(CharityScreen.routeName);
-                            },
-                          ),
+                          // ListTile(
+                          //   title: Text(
+                          //     "Charities",
+                          //     style: TextStyle(
+                          //       fontFamily: "Iransans",
+                          //       fontWeight: FontWeight.w500,
+                          //       fontSize: 16,
+                          //       color: textColor,
+                          //     ),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          //   trailing: Container(
+                          //       height: deviceHeight * 0.025,
+                          //       width: deviceHeight * 0.025,
+                          //       child: Image.asset(
+                          //         'assets/images/donation_ic.png',
+                          //         color: iconColor,
+                          //       )),
+                          //   onTap: () {
+                          //     Navigator.of(context).pop();
+                          //
+                          //     Navigator.of(context)
+                          //         .pushNamed(CharityScreen.routeName);
+                          //   },
+                          // ),
                           // ListTile(
                           //   title: Text(
                           //     "Cources",
