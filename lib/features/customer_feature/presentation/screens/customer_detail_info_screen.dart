@@ -97,7 +97,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                             'Personal Info',
                             style: TextStyle(
                               color: AppTheme.h1,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 18.0,
                             ),
                             textAlign: TextAlign.right,
@@ -114,7 +114,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                               'Info',
                               style: TextStyle(
                                 color: AppTheme.black,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),
                               textAlign: TextAlign.right,
@@ -137,7 +137,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                                       ' Edit',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
                                     ),
@@ -256,7 +256,7 @@ class InfoItem extends StatelessWidget {
               '$title : ',
               style: TextStyle(
                 color: AppTheme.grey,
-                fontFamily: 'Iransans',
+                //fontFamily: 'Iransans',
                 fontSize: textScaleFactor * 14.0,
               ),
             ),
@@ -277,7 +277,7 @@ class InfoItem extends StatelessWidget {
                   text,
                   style: TextStyle(
                     color: AppTheme.black,
-                    fontFamily: 'Iransans',
+                    //fontFamily: 'Iransans',
                     fontSize: textScaleFactor * 14.0,
                   ),
                 ),
