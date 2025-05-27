@@ -49,7 +49,7 @@ class InfoEditItem extends StatelessWidget {
                   '$title : ',
                   style: TextStyle(
                     color: AppTheme.h1,
-                    fontFamily: 'Iransans',
+                    //fontFamily: 'Iransans',
                     fontSize: textScaleFactor * 14.0,
                   ),
                 ),
@@ -70,7 +70,7 @@ class InfoEditItem extends StatelessWidget {
                     },
                     style: TextStyle(
                       color: AppTheme.h1,
-                      fontFamily: 'Iransans',
+                      //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 14.0,
                     ),
                     onFieldSubmitted: (_) =>
@@ -88,7 +88,7 @@ class InfoEditItem extends StatelessWidget {
                       ),
                       labelStyle: TextStyle(
                         color: Colors.blue,
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 10.0,
                       ),
                     ),

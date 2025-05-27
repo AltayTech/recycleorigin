@@ -72,7 +72,7 @@ class MainItemButton extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.h1,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 18.0,
                         ),
                       ),
