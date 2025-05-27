@@ -60,7 +60,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
         title: Text(
           '',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -102,7 +102,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                                     style: TextStyle(
                                       height: 2,
                                       color: AppTheme.grey,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                     textAlign: TextAlign.right,
@@ -120,7 +120,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                                     style: TextStyle(
                                       height: 2,
                                       color: AppTheme.grey,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 16.0,
                                     ),
                                     textAlign: TextAlign.right,
@@ -139,7 +139,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                               style: TextStyle(
                                 height: 2,
                                 color: AppTheme.black,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontWeight: FontWeight.w700,
                                 fontSize: textScaleFactor * 16.0,
                               ),
