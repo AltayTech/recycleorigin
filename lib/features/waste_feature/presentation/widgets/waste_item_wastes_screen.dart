@@ -57,7 +57,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       color: AppTheme.black,
-                      fontFamily: 'Iransans',
+                      //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 14.0,
                     ),
                   ),

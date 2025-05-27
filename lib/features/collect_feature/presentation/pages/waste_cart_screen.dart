@@ -204,7 +204,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
           'Waste selection ',
           style: TextStyle(
             color: AppTheme.white,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
 //            fontSize: textScaleFactor * 14,
           ),
         ),
@@ -257,7 +257,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                           .toString(),
                                       style: TextStyle(
                                         color: AppTheme.h1,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: 18,
                                       ),
                                     ),
@@ -266,7 +266,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                     'Number',
                                     style: TextStyle(
                                       color: AppTheme.grey,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: 12,
                                     ),
                                   ),
@@ -306,7 +306,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                                   .replaceArNumber('0'),
                                           style: TextStyle(
                                             color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 18,
                                           ),
                                         ),
@@ -317,7 +317,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                     '\$ ',
                                     style: TextStyle(
                                       color: AppTheme.grey,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: 12,
                                     ),
                                   ),
@@ -348,7 +348,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                             .toString(),
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: 18,
                                         ),
                                       ),
@@ -359,7 +359,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                       'Kilogram',
                                       style: TextStyle(
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: 12,
                                       ),
                                     ),
@@ -423,7 +423,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                               'Please add waste',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: 14.0,
                               ),
                             ),
@@ -462,7 +462,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                                 'Please add waste',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: 14.0,
                                 ),
                               ),
