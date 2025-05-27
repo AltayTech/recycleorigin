@@ -69,7 +69,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
         title: Text(
           '',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -110,7 +110,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                         style: TextStyle(
                           height: 2,
                           color: AppTheme.grey,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           fontSize: 14.0,
                         ),
                         textAlign: TextAlign.right,
@@ -160,7 +160,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                         style: TextStyle(
                                           height: 2,
                                           color: AppTheme.black,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),
                                         textAlign: TextAlign.left,
@@ -175,7 +175,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                         style: TextStyle(
                                           height: 2,
                                           color: AppTheme.black,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),
                                         textAlign: TextAlign.left,
@@ -204,7 +204,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                           style: TextStyle(
                                             height: 2,
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14.0,
                                           ),
                                         ),
@@ -219,7 +219,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                           style: TextStyle(
                                             height: 2,
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 16.0,
                                           ),
                                         ),
@@ -240,7 +240,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                           style: TextStyle(
                                             height: 2,
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14.0,
                                           ),
                                           textAlign: TextAlign.right,
@@ -257,7 +257,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                           style: TextStyle(
                                             height: 2,
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 16.0,
                                           ),
                                         ),
@@ -292,7 +292,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -309,7 +309,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -331,7 +331,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -350,7 +350,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -372,7 +372,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -391,7 +391,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -413,7 +413,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -432,7 +432,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -454,7 +454,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -477,7 +477,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -514,7 +514,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 16,
                                   ),
                                 ),
@@ -534,7 +534,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                           style: TextStyle(
                                             height: 2,
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 12.0,
                                           ),
                                         ),
@@ -553,7 +553,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             style: TextStyle(
                                               height: 2,
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 16.0,
                                             ),
                                           ),
@@ -573,7 +573,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                           style: TextStyle(
                                             height: 2,
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 12.0,
                                           ),
                                         ),
@@ -592,7 +592,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             style: TextStyle(
                                               height: 2,
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: 16.0,
                                             ),
                                           ),
@@ -614,7 +614,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 16,
                                   ),
                                 ),
@@ -633,7 +633,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                           style: TextStyle(
                                             height: 2,
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 12.0,
                                           ),
                                         ),
@@ -652,7 +652,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             style: TextStyle(
                                               height: 2,
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: 16.0,
                                             ),
                                           ),
@@ -672,7 +672,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                           style: TextStyle(
                                             height: 2,
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 12.0,
                                           ),
                                         ),
@@ -691,7 +691,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             style: TextStyle(
                                               height: 2,
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: 16.0,
                                             ),
                                           ),
@@ -715,7 +715,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 16,
                                   ),
                                 ),
@@ -734,7 +734,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                           style: TextStyle(
                                             height: 2,
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 12.0,
                                           ),
                                         ),
@@ -753,7 +753,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             style: TextStyle(
                                               height: 2,
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: 16.0,
                                             ),
                                           ),
@@ -775,7 +775,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             style: TextStyle(
                                               height: 2,
                                               color: AppTheme.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 12.0,
                                             ),
                                           ),
@@ -795,7 +795,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                                             style: TextStyle(
                                               height: 2,
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: 16.0,
                                             ),
                                           ),
@@ -819,7 +819,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                         style: TextStyle(
                           height: 2,
                           color: AppTheme.grey,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           fontSize: 15.0,
                         ),
                       ),
