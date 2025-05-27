@@ -178,7 +178,7 @@ class _CollectListScreenState extends State<CollectListScreen>
           'Request List',
           style: TextStyle(
             color: AppTheme.white,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             // fontSize: 15.0,
           ),
         ),
@@ -282,7 +282,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                 child: Text(
                                                   'Number:',
                                                   style: TextStyle(
-                                                    fontFamily: 'Iransans',
+                                                    //fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 12.0,
                                                   ),
@@ -301,7 +301,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                       : EnArConvertor()
                                                           .replaceArNumber('0'),
                                                   style: TextStyle(
-                                                    fontFamily: 'Iransans',
+                                                    //fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 13.0,
                                                   ),
@@ -315,7 +315,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                 child: Text(
                                                   'From',
                                                   style: TextStyle(
-                                                    fontFamily: 'Iransans',
+                                                    //fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 12.0,
                                                   ),
@@ -334,7 +334,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                       : EnArConvertor()
                                                           .replaceArNumber('0'),
                                                   style: TextStyle(
-                                                    fontFamily: 'Iransans',
+                                                    //fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 13.0,
                                                   ),
@@ -391,7 +391,7 @@ class _CollectListScreenState extends State<CollectListScreen>
                                         child: Text(
                                           'No Request',
                                           style: TextStyle(
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14.0,
                                           ),
                                         ),
