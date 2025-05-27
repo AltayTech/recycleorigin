@@ -83,7 +83,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                             style: TextStyle(
                               color: AppTheme.black,
                               fontWeight: FontWeight.w700,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: 16,
                             ),
                           ),
@@ -101,7 +101,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                             style: TextStyle(
                               color: AppTheme.black.withOpacity(0.7),
                               fontWeight: FontWeight.w500,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: 14,
                             ),
                           ),
@@ -121,7 +121,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   'Request: ',
                                   style: TextStyle(
                                     color: Colors.grey,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 12,
                                   ),
                                 ),
@@ -133,7 +133,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                       .toString(),
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 16,
                                   ),
                                 ),
@@ -148,7 +148,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   'Delivered: ',
                                   style: TextStyle(
                                     color: Colors.grey,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 12,
                                   ),
                                 ),
@@ -160,7 +160,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                       .toString(),
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 16,
                                   ),
                                 ),
@@ -180,7 +180,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                             style: TextStyle(
                               color: AppTheme.black.withOpacity(0.7),
                               fontWeight: FontWeight.w500,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: 14,
                             ),
                           ),
@@ -200,7 +200,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   'Request: ',
                                   style: TextStyle(
                                     color: Colors.grey,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 12,
                                   ),
                                 ),
@@ -213,7 +213,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                       : EnArConvertor().replaceArNumber('0'),
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 18,
                                   ),
                                 ),
@@ -228,7 +228,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   'Delivered: ',
                                   style: TextStyle(
                                     color: Colors.grey,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 12,
                                   ),
                                 ),
@@ -240,7 +240,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                       : EnArConvertor().replaceArNumber('0'),
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: 18,
                                   ),
                                 ),
