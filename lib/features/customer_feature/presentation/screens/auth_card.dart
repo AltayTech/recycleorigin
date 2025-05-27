@@ -534,7 +534,7 @@ class _AuthCardState extends State<AuthCard>
               TextButton(
                 child: Text(
                   _authMode == AuthMode.Login
-                      ? 'Change the Register'
+                      ? 'Not Registered?'
                       : 'Change the login',
                   style: TextStyle(
                     color: Colors.black,
