@@ -121,16 +121,16 @@ class MyApp extends StatelessWidget {
           // accentColor: Colors.amber,
           textTheme: ThemeData.light().textTheme.copyWith(
                 bodyLarge: TextStyle(
-                  fontFamily: 'Iransans',
+                  fontFamily: 'Roboto',
                   color: Color.fromRGBO(20, 51, 51, 1),
                 ),
                 bodyMedium: TextStyle(
-                  fontFamily: 'Iransans',
+                  fontFamily: 'Roboto',
                   color: Color.fromRGBO(20, 51, 51, 1),
                 ),
                 displayLarge: TextStyle(
                   fontSize: 20,
-                  fontFamily: 'Iransans',
+                  fontFamily: 'Roboto',
                   fontWeight: FontWeight.bold,
                 ),
               ),

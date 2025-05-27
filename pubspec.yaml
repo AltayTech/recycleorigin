@@ -1,5 +1,5 @@
 name: recycleorigin
-description: Appliction of RecycleOrigin
+description: Application of RecycleOrigin
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -35,6 +35,7 @@ dependencies:
     sdk: flutter
   font_awesome_flutter: any
   dio: ^5.8.0+1
+  google_fonts: ^6.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -67,6 +68,13 @@ flutter:
     - family: BFarnaz
       fonts:
         - asset: assets/fonts/B_Farnaz.ttf
+          weight: 700
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/roboto/Roboto-Regular.ttf
+        - asset: assets/fonts/roboto/Roboto-Bold.ttf
+        - asset: assets/fonts/roboto/Roboto-Light.ttf
+        - asset: assets/fonts/roboto/Roboto-Italic.ttf
           weight: 700
 
 

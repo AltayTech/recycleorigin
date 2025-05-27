@@ -194,7 +194,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
             title: Text(
               "Recycle Origin",
               style: TextStyle(
-                fontFamily: 'Iransans',
+                // fontFamily: 'Iransans',
                 color: Colors.white,
               ),
             ),
