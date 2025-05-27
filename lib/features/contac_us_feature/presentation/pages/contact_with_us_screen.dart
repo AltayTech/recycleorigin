@@ -89,7 +89,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
           'Connect us',
           style: TextStyle(
             color: AppTheme.bg,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
           textAlign: TextAlign.center,
@@ -163,7 +163,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                         shopData.address,
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                         overflow: TextOverflow.clip,
@@ -194,7 +194,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                         ),
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                         overflow: TextOverflow.clip,
@@ -224,7 +224,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                             .replaceArNumber(shopData.mobile),
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                         overflow: TextOverflow.clip,
