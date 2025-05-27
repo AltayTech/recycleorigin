@@ -59,7 +59,7 @@ class CharityItemCharitiesScreen extends StatelessWidget {
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 color: AppTheme.black,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
 //                                fontWeight: FontWeight.w500,
                                 fontSize: textScaleFactor * 16.0,
                               ),
@@ -79,7 +79,7 @@ class CharityItemCharitiesScreen extends StatelessWidget {
                                                 ? (e.name + '، ')
                                                 : e.name,
                                             style: TextStyle(
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               color: Colors.grey,
                                               fontSize: textScaleFactor * 14.0,
                                             ),
