@@ -100,21 +100,21 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
         builder: (context) => new AlertDialog(
           contentTextStyle: TextStyle(
               color: AppTheme.grey,
-              fontFamily: 'Iransans',
+              //fontFamily: 'Iransans',
               fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
           title: Text(
             "Exit from app",
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: AppTheme.black,
-                fontFamily: 'Iransans',
+                //fontFamily: 'Iransans',
                 fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
           ),
           content: Text(
             "Do you want to exit from the app?",
             style: TextStyle(
                 color: AppTheme.grey,
-                fontFamily: 'Iransans',
+                //fontFamily: 'Iransans',
                 fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
           ),
           actionsPadding: EdgeInsets.all(10),
@@ -125,7 +125,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
                 "No",
                 style: TextStyle(
                     color: AppTheme.black,
-                    fontFamily: 'Iransans',
+                    //fontFamily: 'Iransans',
                     fontSize: MediaQuery.of(context).textScaleFactor * 18.0),
               ),
             ),
@@ -166,7 +166,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: AppTheme.black,
-                    fontFamily: 'Iransans',
+                    //fontFamily: 'Iransans',
                     fontSize: MediaQuery.of(context).textScaleFactor * 13.0),
               ),
             ),
@@ -194,7 +194,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
             title: Text(
               "Recycle Origin",
               style: TextStyle(
-                // fontFamily: 'Iransans',
+                // //fontFamily: 'Iransans',
                 color: Colors.white,
               ),
             ),
@@ -221,7 +221,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
 //            elevation: 8,
 //            selectedLabelStyle: TextStyle(
 //                color: AppTheme.secondary,
-//                fontFamily: 'Iransans',
+//                //fontFamily: 'Iransans',
 //                fontSize: MediaQuery.of(context).textScaleFactor * 10.0),
 //            onTap: _selectBNBItem,
 //            backgroundColor: AppTheme.bg,
