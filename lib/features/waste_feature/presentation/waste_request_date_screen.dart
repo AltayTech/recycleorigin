@@ -209,7 +209,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: AppTheme.white,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
           ),
         ),
         centerTitle: true,
@@ -234,7 +234,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: AppTheme.h1,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontWeight: FontWeight.w500,
                             fontSize: textScaleFactor * 16.0,
                           ),
@@ -270,7 +270,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                       'Number ',
                                       style: TextStyle(
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 12,
                                       ),
                                     ),
@@ -285,7 +285,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                             .toString(),
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                       ),
@@ -311,7 +311,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                       'Total Price',
                                       style: TextStyle(
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14,
                                       ),
                                     ),
@@ -319,7 +319,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                       ' (\$)',
                                       style: TextStyle(
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 12,
                                       ),
                                     ),
@@ -336,7 +336,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                                 .replaceArNumber('0'),
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                       ),
@@ -362,7 +362,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                       'Total Weight',
                                       style: TextStyle(
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14,
                                       ),
                                     ),
@@ -370,7 +370,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                       ' (Kilogram)',
                                       style: TextStyle(
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 12,
                                       ),
                                     ),
@@ -384,7 +384,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                             .toString(),
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                       ),
@@ -421,7 +421,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,
                                             ),
                                           ),
@@ -577,7 +577,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: 15.0,
                                             ),
                                           ),
@@ -736,7 +736,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                           'Please select a collect date',
                           style: TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
                         ),
