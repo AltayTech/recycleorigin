@@ -132,7 +132,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             : EnArConvertor().replaceArNumber('0'),
         style: TextStyle(
           color: AppTheme.black,
-          fontFamily: 'Iransans',
+          //fontFamily: 'Iransans',
           fontWeight: FontWeight.bold,
           fontSize: textScaleFactor * 20,
         ),
@@ -148,7 +148,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             : EnArConvertor().replaceArNumber('0'),
         style: TextStyle(
           color: AppTheme.black,
-          fontFamily: 'Iransans',
+          //fontFamily: 'Iransans',
           fontWeight: FontWeight.bold,
           fontSize: textScaleFactor * 20,
         ),
@@ -162,7 +162,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             : EnArConvertor().replaceArNumber('0'),
         style: TextStyle(
           color: AppTheme.black,
-          fontFamily: 'Iransans',
+          //fontFamily: 'Iransans',
           fontWeight: FontWeight.bold,
           fontSize: textScaleFactor * 20,
         ),
@@ -181,7 +181,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               decoration: TextDecoration.lineThrough,
               decorationThickness: 2,
               color: AppTheme.grey,
-              fontFamily: 'Iransans',
+              //fontFamily: 'Iransans',
               fontSize: textScaleFactor * 16,
             ),
           ),
@@ -193,7 +193,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 : EnArConvertor().replaceArNumber('0'),
             style: TextStyle(
               color: AppTheme.black,
-              fontFamily: 'Iransans',
+              //fontFamily: 'Iransans',
               fontWeight: FontWeight.bold,
               fontSize: textScaleFactor * 20,
             ),
@@ -219,7 +219,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           title: Text(
             '',
             style: TextStyle(
-              fontFamily: 'Iransans',
+              //fontFamily: 'Iransans',
             ),
           ),
           backgroundColor: AppTheme.appBarColor,
@@ -372,7 +372,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       style: TextStyle(
                                         height: 2,
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 18,
                                       ),
                                       textAlign: TextAlign.right,
@@ -393,7 +393,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,
                                             ),
                                           ),
@@ -446,7 +446,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               _snackBarMessage,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),
                             ),
@@ -467,7 +467,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               _snackBarMessage,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),
                             ),
@@ -489,7 +489,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               _snackBarMessage,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),
                             ),
