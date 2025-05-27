@@ -97,7 +97,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
           'جواب',
           style: TextStyle(
             color: AppTheme.bg,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
           textAlign: TextAlign.center,
@@ -131,7 +131,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                                 'پاسخ: ',
                                 style: TextStyle(
                                   color: AppTheme.grey,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 18.0,
                                 ),
                                 textAlign: TextAlign.right,
@@ -169,7 +169,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                                 ),
                                 labelStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
                                 labelText: 'جواب خود را در اینجا بنویسید',
