@@ -35,7 +35,7 @@ class CashPaymentProductItem extends StatelessWidget {
                   currencyFormat.format(double.parse(price)).toString())
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: AppTheme.primary,
             fontWeight: FontWeight.w600,
             fontSize: textScaleFactor * 15.0,
@@ -48,7 +48,7 @@ class CashPaymentProductItem extends StatelessWidget {
                   currencyFormat.format(double.parse(price_low)).toString())
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: AppTheme.primary,
             fontWeight: FontWeight.w600,
             fontSize: textScaleFactor * 15.0,
@@ -61,7 +61,7 @@ class CashPaymentProductItem extends StatelessWidget {
                   currencyFormat.format(double.parse(price)).toString())
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: AppTheme.primary,
             fontWeight: FontWeight.w600,
             fontSize: textScaleFactor * 15.0,
@@ -78,7 +78,7 @@ class CashPaymentProductItem extends StatelessWidget {
                   : EnArConvertor().replaceArNumber('0'),
               style: TextStyle(
                 decoration: TextDecoration.lineThrough,
-                fontFamily: 'Iransans',
+                //fontFamily: 'Iransans',
                 color: AppTheme.accent,
                 fontSize: textScaleFactor * 15.0,
               ),
@@ -89,7 +89,7 @@ class CashPaymentProductItem extends StatelessWidget {
                       currencyFormat.format(double.parse(price_low)).toString())
                   : EnArConvertor().replaceArNumber('0'),
               style: TextStyle(
-                fontFamily: 'Iransans',
+                //fontFamily: 'Iransans',
                 fontWeight: FontWeight.w600,
                 color: AppTheme.primary,
                 fontSize: textScaleFactor * 15.0,
@@ -114,7 +114,7 @@ class CashPaymentProductItem extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: Colors.blue,
-                  fontFamily: 'Iransans',
+                  //fontFamily: 'Iransans',
                   fontSize: textScaleFactor * 12,
                 ),
               ),
@@ -130,7 +130,7 @@ class CashPaymentProductItem extends StatelessWidget {
                       'Number: ' + EnArConvertor().replaceArNumber('1'),
                       style: TextStyle(
                         color: Colors.grey,
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 12,
                       ),
                     ),
@@ -147,7 +147,7 @@ class CashPaymentProductItem extends StatelessWidget {
                             color_selected.title,
                             style: TextStyle(
                               color: Colors.blue,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 12,
                             ),
                           ),
@@ -179,7 +179,7 @@ class CashPaymentProductItem extends StatelessWidget {
                     ' \$ ',
                     style: TextStyle(
                       color: Colors.redAccent,
-                      fontFamily: 'Iransans',
+                      //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 15,
                     ),
                     textAlign: TextAlign.left,
