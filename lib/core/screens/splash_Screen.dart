@@ -36,7 +36,7 @@ class _SplashScreensState extends State<SplashScreens> {
         EnArConvertor()
             .replaceArNumber('Version 1.1.3'),
         style: new TextStyle(
-          fontFamily: 'Iransans',
+          //fontFamily: 'Iransans',
           fontWeight: FontWeight.w400,
           fontSize: MediaQuery.of(context).textScaleFactor * 18,
           color: Colors.black,

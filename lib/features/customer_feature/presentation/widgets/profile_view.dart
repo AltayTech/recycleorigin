@@ -122,7 +122,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                       color: AppTheme.bg,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 24.0,
                                       fontWeight: FontWeight.w600),
                                 ),
