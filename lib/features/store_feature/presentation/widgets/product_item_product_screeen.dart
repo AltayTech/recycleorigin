@@ -25,7 +25,7 @@ class ProductItemProductScreen extends StatelessWidget {
                   currencyFormat.format(double.parse(product.price)).toString())
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: AppTheme.black,
             fontWeight: FontWeight.w500,
             fontSize: textScaleFactor * 17.0,
@@ -38,7 +38,7 @@ class ProductItemProductScreen extends StatelessWidget {
                   currencyFormat.format(double.parse(product.price)).toString())
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: AppTheme.black,
             fontWeight: FontWeight.w500,
             fontSize: textScaleFactor * 17.0,
@@ -51,7 +51,7 @@ class ProductItemProductScreen extends StatelessWidget {
                   currencyFormat.format(double.parse(product.price)).toString())
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: AppTheme.black,
             fontWeight: FontWeight.w500,
             fontSize: textScaleFactor * 17.0,
@@ -69,7 +69,7 @@ class ProductItemProductScreen extends StatelessWidget {
                   : EnArConvertor().replaceArNumber('0'),
               style: TextStyle(
                 decoration: TextDecoration.lineThrough,
-                fontFamily: 'Iransans',
+                //fontFamily: 'Iransans',
                 color: AppTheme.grey,
                 fontSize: textScaleFactor * 15.0,
               ),
@@ -81,7 +81,7 @@ class ProductItemProductScreen extends StatelessWidget {
                       .toString())
                   : EnArConvertor().replaceArNumber('0'),
               style: TextStyle(
-                fontFamily: 'Iransans',
+                //fontFamily: 'Iransans',
                 fontWeight: FontWeight.w500,
                 color: AppTheme.black,
                 fontSize: textScaleFactor * 17.0,
@@ -148,7 +148,7 @@ class ProductItemProductScreen extends StatelessWidget {
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 color: AppTheme.black,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
 //                                fontWeight: FontWeight.w500,
                                 fontSize: textScaleFactor * 15.0,
                               ),
@@ -172,7 +172,7 @@ class ProductItemProductScreen extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 9.0,
                                       ),
                                     ),
