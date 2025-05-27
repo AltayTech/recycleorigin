@@ -123,7 +123,7 @@ class _WalletScreenState extends State<WalletScreen>
         title: Text(
           'Wallet',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: Colors.white,
           ),
         ),
@@ -203,7 +203,7 @@ class _WalletScreenState extends State<WalletScreen>
                                         'Credit',
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                         ),
                                         textAlign: TextAlign.center,
@@ -222,7 +222,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                       double.parse('0'))),
                                           style: TextStyle(
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontWeight: FontWeight.w700,
                                             fontSize: textScaleFactor * 18.0,
                                           ),
@@ -233,7 +233,7 @@ class _WalletScreenState extends State<WalletScreen>
                                         '\$',
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                         ),
                                         textAlign: TextAlign.center,
@@ -297,7 +297,7 @@ class _WalletScreenState extends State<WalletScreen>
                                             'Withdraw request',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: 14.0,
                                             ),
                                             textAlign: TextAlign.center,
@@ -357,7 +357,7 @@ class _WalletScreenState extends State<WalletScreen>
                               //                   'Donate to charity',
                               //                   style: TextStyle(
                               //                     color: Colors.white,
-                              //                     fontFamily: 'Iransans',
+                              //                     //fontFamily: 'Iransans',
                               //                     fontSize:
                               //                         textScaleFactor * 14.0,
                               //                   ),
@@ -397,7 +397,7 @@ class _WalletScreenState extends State<WalletScreen>
                                           style: TextStyle(
                                             color:
                                                 AppTheme.black.withOpacity(0.5),
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14.0,
                                           ),
                                         ),
@@ -423,7 +423,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                     child: Text(
                                                       'Number:',
                                                       style: TextStyle(
-                                                        fontFamily: 'Iransans',
+                                                        //fontFamily: 'Iransans',
                                                         fontSize:
                                                             textScaleFactor *
                                                                 12.0,
@@ -446,7 +446,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                               .replaceArNumber(
                                                                   '0'),
                                                       style: TextStyle(
-                                                        fontFamily: 'Iransans',
+                                                        //fontFamily: 'Iransans',
                                                         fontSize:
                                                             textScaleFactor *
                                                                 13.0,
@@ -461,7 +461,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                     child: Text(
                                                       'from',
                                                       style: TextStyle(
-                                                        fontFamily: 'Iransans',
+                                                        //fontFamily: 'Iransans',
                                                         fontSize:
                                                             textScaleFactor *
                                                                 12.0,
@@ -484,7 +484,7 @@ class _WalletScreenState extends State<WalletScreen>
                                                               .replaceArNumber(
                                                                   '0'),
                                                       style: TextStyle(
-                                                        fontFamily: 'Iransans',
+                                                        //fontFamily: 'Iransans',
                                                         fontSize:
                                                             textScaleFactor *
                                                                 13.0,
@@ -513,7 +513,7 @@ class _WalletScreenState extends State<WalletScreen>
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 color: AppTheme.grey,
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize:
                                                     textScaleFactor * 14.0,
                                               ),
@@ -528,7 +528,7 @@ class _WalletScreenState extends State<WalletScreen>
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 color: AppTheme.grey,
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize:
                                                     textScaleFactor * 14.0,
                                               ),
@@ -543,7 +543,7 @@ class _WalletScreenState extends State<WalletScreen>
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 color: AppTheme.grey,
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize:
                                                     textScaleFactor * 14.0,
                                               ),
@@ -602,7 +602,7 @@ class _WalletScreenState extends State<WalletScreen>
                                             child: Text(
                                             'there is no transaction',
                                             style: TextStyle(
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,
                                             ),
                                           ))
