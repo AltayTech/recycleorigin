@@ -178,7 +178,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                     style: TextStyle(
                                       color: AppTheme.grey,
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 18,
                                     ),
                                   ),
@@ -193,7 +193,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                       'Per Kilo: ',
                                       style: TextStyle(
                                         color: Colors.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 12,
                                       ),
                                     ),
@@ -216,7 +216,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                                   .replaceArNumber('0'),
                                           style: TextStyle(
                                             color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 16,
                                           ),
                                         );
@@ -226,7 +226,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                       '  \$ ',
                                       style: TextStyle(
                                         color: Colors.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 12,
                                       ),
                                     ),
@@ -242,7 +242,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                       'Total: ',
                                       style: TextStyle(
                                         color: Colors.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 12,
                                       ),
                                     ),
@@ -264,7 +264,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                                   .replaceArNumber('0'),
                                           style: TextStyle(
                                             color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 18,
                                           ),
                                         );
@@ -274,7 +274,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                       '  \$ ',
                                       style: TextStyle(
                                         color: Colors.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 12,
                                       ),
                                     ),
@@ -404,7 +404,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                                   .toString(),
                                               style: TextStyle(
                                                 color: AppTheme.black,
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize: textScaleFactor * 15,
                                               ),
                                               textAlign: TextAlign.center,
