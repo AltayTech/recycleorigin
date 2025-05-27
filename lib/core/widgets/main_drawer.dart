@@ -256,7 +256,7 @@ class MainDrawer extends StatelessWidget {
                           // ),
                           ListTile(
                             title: Text(
-                              "Supports",
+                              "Support",
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
