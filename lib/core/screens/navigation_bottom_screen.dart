@@ -192,7 +192,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
 //              preferredSize: Size.fromHeight(15),
 //            ),
             title: Text(
-              "Clean City",
+              "Recycle Origin",
               style: TextStyle(
                 fontFamily: 'Iransans',
                 color: Colors.white,

@@ -399,7 +399,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                               : Container(
                                   height: deviceHeight * 0.6,
                                   child: Center(
-                                    child: Text('Please add waste'),
+                                    child: Text('No waste added'),
                                   ),
                                 ),
                         ),
