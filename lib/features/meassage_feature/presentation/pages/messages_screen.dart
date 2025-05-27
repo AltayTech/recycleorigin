@@ -72,7 +72,7 @@ class _MessageScreenState extends State<MessageScreen> {
           'ُSupport',
           style: TextStyle(
             color: AppTheme.bg,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
           ),
           textAlign: TextAlign.center,
         ),
@@ -117,7 +117,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                   maxLines: 3,
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 16.0,
                                   ),
                                   textAlign: TextAlign.center,
@@ -148,7 +148,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                 maxLines: 3,
                                 style: TextStyle(
                                   color: AppTheme.black,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 16.0,
                                 ),
                                 textAlign: TextAlign.right,
@@ -213,7 +213,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                   child: Text(
                                   'No messages',
                                   style: TextStyle(
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
                                   ),
                                 ))

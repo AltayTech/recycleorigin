@@ -91,7 +91,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
           'New message',
           style: TextStyle(
             color: AppTheme.bg,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
           textAlign: TextAlign.center,
@@ -122,7 +122,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                             'Please enter your question. Our colleagues will review your question and send the answer to you.',
                             style: TextStyle(
                               color: AppTheme.black,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
                             textAlign: TextAlign.center,
@@ -136,7 +136,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                               controller: subjectTextController,
                               style: TextStyle(
                                 color: Colors.black87,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
                               decoration: InputDecoration(
@@ -156,7 +156,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                 ),
                                 labelStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
                                 labelText: 'Title',
@@ -173,7 +173,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                               controller: contentTextController,
                               style: TextStyle(
                                 color: Colors.black87,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
                               textAlign: TextAlign.start,
@@ -195,7 +195,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                 alignLabelWithHint: true,
                                 labelStyle: TextStyle(
                                   color: Colors.grey,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
                                 labelText: 'write your message',
