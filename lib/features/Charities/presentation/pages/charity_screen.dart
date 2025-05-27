@@ -141,7 +141,7 @@ class _CharityScreenState extends State<CharityScreen>
         title: Text(
           'Charities',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: Colors.white,
           ),
         ),
@@ -163,7 +163,7 @@ class _CharityScreenState extends State<CharityScreen>
                     child: Text(
                       'Please select the charity you want to donate to',
                       style: TextStyle(
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         color: AppTheme.grey,
                         fontSize: 18.0,
                       ),
@@ -190,7 +190,7 @@ class _CharityScreenState extends State<CharityScreen>
                                     child: Text(
                                       'Number:',
                                       style: TextStyle(
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: 12.0,
                                       ),
                                     ),
@@ -206,7 +206,7 @@ class _CharityScreenState extends State<CharityScreen>
                                           : EnArConvertor()
                                               .replaceArNumber('0'),
                                       style: TextStyle(
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: 13.0,
                                       ),
                                     ),
@@ -217,7 +217,7 @@ class _CharityScreenState extends State<CharityScreen>
                                     child: Text(
                                       'From',
                                       style: TextStyle(
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: 12.0,
                                       ),
                                     ),
@@ -232,7 +232,7 @@ class _CharityScreenState extends State<CharityScreen>
                                           : EnArConvertor()
                                               .replaceArNumber('0'),
                                       style: TextStyle(
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: 13.0,
                                       ),
                                     ),
@@ -284,7 +284,7 @@ class _CharityScreenState extends State<CharityScreen>
                                   child: Text(
                                   'No items found',
                                   style: TextStyle(
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
                                   ),
                                 ))
