@@ -61,7 +61,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 color: AppTheme.black,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),
                             ),
@@ -80,7 +80,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
                                     style: TextStyle(
                                       height: 2,
                                       color: AppTheme.grey,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 16.0,
                                     ),
                                     textAlign: TextAlign.right,
@@ -103,7 +103,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
                                         style: TextStyle(
                                           color:
                                               AppTheme.black.withOpacity(0.5),
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                         ),
                                       ),
