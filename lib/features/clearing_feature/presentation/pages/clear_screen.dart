@@ -165,7 +165,7 @@ class _ClearScreenState extends State<ClearScreen>
         title: Text(
           'Pay',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: Colors.white,
           ),
         ),
@@ -258,7 +258,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 //                                                    'امتیاز',
                                 //                                                    style: TextStyle(
                                 //                                                      color: AppTheme.grey,
-                                //                                                      fontFamily: 'Iransans',
+                                //                                                      //fontFamily: 'Iransans',
                                 //                                                      fontSize:
                                 //                                                          textScaleFactor *
                                 //                                                              13.0,
@@ -284,7 +284,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 //                                                                              '0'))),
                                 //                                                      style: TextStyle(
                                 //                                                        color: AppTheme.black,
-                                //                                                        fontFamily: 'Iransans',
+                                //                                                        //fontFamily: 'Iransans',
                                 //                                                        fontWeight:
                                 //                                                            FontWeight.w700,
                                 //                                                        fontSize:
@@ -299,7 +299,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 //                                                    'تومان',
                                 //                                                    style: TextStyle(
                                 //                                                      color: AppTheme.grey,
-                                //                                                      fontFamily: 'Iransans',
+                                //                                                      //fontFamily: 'Iransans',
                                 //                                                      fontSize:
                                 //                                                          textScaleFactor *
                                 //                                                              13.0,
@@ -350,7 +350,7 @@ class _ClearScreenState extends State<ClearScreen>
                                               'Credit (\$)',
                                               style: TextStyle(
                                                 color: AppTheme.grey,
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize: 13.0,
                                               ),
                                               textAlign: TextAlign.center,
@@ -375,7 +375,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                                   '0'))),
                                               style: TextStyle(
                                                 color: AppTheme.black,
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 18.0,
                                               ),
@@ -394,7 +394,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     'Account Number',
                                     style: TextStyle(
                                       color: AppTheme.h1,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                   ),
@@ -403,7 +403,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   maxLines: 1,
                                   style: TextStyle(
                                     color: AppTheme.h1,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 16.0,
                                   ),
                                   textDirection: TextDirection.ltr,
@@ -428,7 +428,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     ),
                                     labelStyle: TextStyle(
                                       color: Colors.blue,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 10.0,
                                     ),
                                   ),
@@ -440,7 +440,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     'Request amount(\$)',
                                     style: TextStyle(
                                       color: AppTheme.h1,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                   ),
@@ -449,7 +449,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   maxLines: 1,
                                   style: TextStyle(
                                     color: AppTheme.h1,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 16.0,
                                   ),
                                   keyboardType: TextInputType.number,
@@ -474,7 +474,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     ),
                                     labelStyle: TextStyle(
                                       color: Colors.blue,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 10.0,
                                     ),
                                   ),
@@ -490,7 +490,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     'Payment List',
                                     style: TextStyle(
                                       color: AppTheme.h1,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                   ),
@@ -512,7 +512,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         style: TextStyle(
                                           color:
                                               AppTheme.black.withOpacity(0.5),
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),
                                       ),
@@ -538,7 +538,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                   child: Text(
                                                     'Number:',
                                                     style: TextStyle(
-                                                      fontFamily: 'Iransans',
+                                                      //fontFamily: 'Iransans',
                                                       fontSize:
                                                           textScaleFactor *
                                                               12.0,
@@ -560,7 +560,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                             .replaceArNumber(
                                                                 '0'),
                                                     style: TextStyle(
-                                                      fontFamily: 'Iransans',
+                                                      //fontFamily: 'Iransans',
                                                       fontSize:
                                                           textScaleFactor *
                                                               13.0,
@@ -575,7 +575,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                   child: Text(
                                                     'From',
                                                     style: TextStyle(
-                                                      fontFamily: 'Iransans',
+                                                      //fontFamily: 'Iransans',
                                                       fontSize:
                                                           textScaleFactor *
                                                               12.0,
@@ -597,7 +597,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                             .replaceArNumber(
                                                                 '0'),
                                                     style: TextStyle(
-                                                      fontFamily: 'Iransans',
+                                                      //fontFamily: 'Iransans',
                                                       fontSize:
                                                           textScaleFactor *
                                                               13.0,
@@ -626,7 +626,7 @@ class _ClearScreenState extends State<ClearScreen>
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
                                           ),
@@ -640,7 +640,7 @@ class _ClearScreenState extends State<ClearScreen>
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
                                           ),
@@ -654,7 +654,7 @@ class _ClearScreenState extends State<ClearScreen>
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
                                           ),
@@ -691,7 +691,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     'Enter Credit number',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                   ),
@@ -713,7 +713,7 @@ class _ClearScreenState extends State<ClearScreen>
                                       'Your Request amount is exceed',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
                                     ),
