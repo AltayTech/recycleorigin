@@ -75,7 +75,7 @@ class _AddressScreenState extends State<AddressScreen> {
           'Address',
           style: TextStyle(
             color: AppTheme.white,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
 //            fontSize: textScaleFactor * 14,
           ),
         ),
@@ -204,7 +204,7 @@ class _AddressScreenState extends State<AddressScreen> {
                               'Address does not selected',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),
                             ),
