@@ -57,7 +57,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           'About us',
           style: TextStyle(
             color: AppTheme.bg,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
           textAlign: TextAlign.center,
@@ -117,7 +117,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                             shopData.subject,
                             style: TextStyle(
                               color: AppTheme.grey,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
                             textAlign: TextAlign.center,
@@ -131,7 +131,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                               shopData.about,
                               style: TextStyle(
                                 color: AppTheme.black,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
                               textAlign: TextAlign.center,
@@ -158,7 +158,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                       shopData.features_list[index].feature,
                                       style: TextStyle(
                                         color: AppTheme.h1,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontStyle: FontStyle.italic,
                                         fontSize: textScaleFactor * 15.0,
                                       ),

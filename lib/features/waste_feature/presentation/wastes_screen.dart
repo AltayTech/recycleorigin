@@ -69,7 +69,7 @@ class _WastesScreenState extends State<WastesScreen>
         title: Text(
           "Waste List",
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: AppTheme.white,
           ),
         ),
@@ -149,7 +149,7 @@ class _WastesScreenState extends State<WastesScreen>
                                   child: Text(
                                   'No items found',
                                   style: TextStyle(
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
                                   ),
                                 ))

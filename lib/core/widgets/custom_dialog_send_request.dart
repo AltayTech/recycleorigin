@@ -104,7 +104,7 @@ class CustomDialogSendRequest extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           fontSize: MediaQuery.of(context).textScaleFactor * 20,
                         ),
                       ),

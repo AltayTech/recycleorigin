@@ -177,7 +177,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                 'This payment option is not available',
                 style: TextStyle(
                   color: Colors.white,
-                  fontFamily: 'Iransans',
+                  //fontFamily: 'Iransans',
                 ),
               ),
               action: SnackBarAction(
@@ -221,7 +221,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                     'Payment',
                     style: TextStyle(
                       color: Colors.white,
-                      fontFamily: 'Iransans',
+                      //fontFamily: 'Iransans',
                       fontSize: MediaQuery.of(context).textScaleFactor * 16.0,
                     ),
                     textAlign: TextAlign.center,
@@ -270,7 +270,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
           'Order Details',
           style: TextStyle(
             color: AppTheme.appBarIconColor,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
           ),
         ),
       ),
@@ -299,7 +299,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                         'Order Status: ',
                                         style: TextStyle(
                                           color: Colors.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14,
                                         ),
                                       ),
@@ -309,7 +309,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                         orderDetails.order_status.toString(),
                                         style: TextStyle(
                                           color: AppTheme.primary,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14,
                                         ),
                                       ),
@@ -334,7 +334,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             'Order Number: ',
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -344,7 +344,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             orderDetails.shenaseh.toString(),
                                             style: TextStyle(
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -358,7 +358,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             'Order Date: ',
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -369,7 +369,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                                 .toString(),
                                             style: TextStyle(
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -383,7 +383,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             'Total Price: ',
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -400,7 +400,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                                 ' \$',
                                             style: TextStyle(
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -414,7 +414,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             'Payment Type: ',
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -424,7 +424,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             orderDetails.pay_type.toString(),
                                             style: TextStyle(
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -438,7 +438,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             'Payment Status: ',
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -448,7 +448,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             orderDetails.pay_status.toString(),
                                             style: TextStyle(
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -462,7 +462,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             'Prepay: ',
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -475,7 +475,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                                 : '-',
                                             style: TextStyle(
                                               color: AppTheme.black,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
                                           ),
@@ -493,7 +493,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                               'Product List',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14,
                               ),
                             ),
@@ -613,7 +613,7 @@ class OrderProductItem extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
                         color: AppTheme.black),
                   ),
@@ -632,7 +632,7 @@ class OrderProductItem extends StatelessWidget {
                                   .toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
                         ),
@@ -650,7 +650,7 @@ class OrderProductItem extends StatelessWidget {
                                     color.title,
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 12,
                                     ),
                                   ),
@@ -688,7 +688,7 @@ class OrderProductItem extends StatelessWidget {
                               : '0 \$',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 16.0,
                               color: AppTheme.primary),
                         ),

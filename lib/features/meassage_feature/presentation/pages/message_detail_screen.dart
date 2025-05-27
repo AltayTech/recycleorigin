@@ -74,7 +74,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
           '',
           style: TextStyle(
             color: AppTheme.bg,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
           textAlign: TextAlign.center,
@@ -101,7 +101,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                             'عنوان سوال:',
                             style: TextStyle(
                               color: Colors.black54,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
                             textAlign: TextAlign.right,
@@ -112,7 +112,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                                 '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}:${(DateTime.parse(message.comment_date)).second}'),
                             style: TextStyle(
                               color: Colors.black54,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
                             textAlign: TextAlign.right,
@@ -130,7 +130,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                               ).day}'),
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
                               textAlign: TextAlign.right,
@@ -147,7 +147,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                           message.subject,
                           style: TextStyle(
                             color: Colors.black,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 15.0,
                           ),
                           textAlign: TextAlign.right,
@@ -198,7 +198,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                                       child: Text(
                                       'سوالی وجود ندارد',
                                       style: TextStyle(
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
                                       ),
                                     ))

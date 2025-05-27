@@ -183,7 +183,7 @@ class _CartScreenState extends State<CartScreen> {
         title: Text(
           "Shop Cart",
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: Colors.white,
           ),
         ),
@@ -222,7 +222,7 @@ class _CartScreenState extends State<CartScreen> {
                                         .toString(),
                                 style: TextStyle(
                                   color: AppTheme.black,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 14,
                                 ),
                               ),
@@ -236,7 +236,7 @@ class _CartScreenState extends State<CartScreen> {
                                 'Total: ',
                                 style: TextStyle(
                                   color: AppTheme.grey,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 12,
                                 ),
                               ),
@@ -249,7 +249,7 @@ class _CartScreenState extends State<CartScreen> {
                                     : EnArConvertor().replaceArNumber('0'),
                                 style: TextStyle(
                                   color: AppTheme.black,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 18,
                                 ),
                               ),
@@ -295,7 +295,7 @@ class _CartScreenState extends State<CartScreen> {
                           'Cart is empty',
                           style: TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
                         ),

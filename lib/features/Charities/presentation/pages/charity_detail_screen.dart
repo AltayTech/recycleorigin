@@ -109,7 +109,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
         _snackBarMessage,
         style: TextStyle(
           color: Colors.white,
-          fontFamily: 'Iransans',
+          //fontFamily: 'Iransans',
           fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
         ),
       ),
@@ -159,7 +159,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
         title: Text(
           '',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -213,7 +213,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                 style: TextStyle(
                                     height: 2,
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 17.0,
                                     fontWeight: FontWeight.w700),
                               ),
@@ -232,7 +232,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                       style: TextStyle(
                                           height: 2,
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                           fontWeight: FontWeight.w700),
                                     ),
@@ -248,7 +248,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                     style: TextStyle(
                                         height: 2,
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -293,7 +293,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                           style: TextStyle(
                                             height: 2,
                                             color: AppTheme.white,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14.0,
                                           ),
                                         ),
@@ -318,7 +318,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                         style: TextStyle(
                                             height: 2,
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 13.0,
                                             fontWeight: FontWeight.w700),
                                       ),
@@ -341,7 +341,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                                       ? (e.name + '، ')
                                                       : e.name,
                                                   style: TextStyle(
-                                                    fontFamily: 'Iransans',
+                                                    //fontFamily: 'Iransans',
                                                     color: Colors.black87,
                                                     fontSize:
                                                         textScaleFactor * 14.0,
@@ -383,7 +383,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                       style: TextStyle(
                                           height: 2,
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                           fontWeight: FontWeight.w700),
                                     ),
@@ -397,7 +397,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                       style: TextStyle(
                                           height: 2,
                                           color: AppTheme.black,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                           fontWeight: FontWeight.w700),
                                     ),
@@ -419,7 +419,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                       style: TextStyle(
                                           height: 2,
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                           fontWeight: FontWeight.w700),
                                     ),
@@ -433,7 +433,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                       style: TextStyle(
                                           height: 2,
                                           color: AppTheme.black,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                           fontWeight: FontWeight.w700),
                                     ),
@@ -455,7 +455,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                       style: TextStyle(
                                           height: 2,
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                           fontWeight: FontWeight.w700),
                                     ),
@@ -469,7 +469,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                       style: TextStyle(
                                           height: 2,
                                           color: AppTheme.black,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                           fontWeight: FontWeight.w700),
                                     ),
@@ -492,7 +492,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                       style: TextStyle(
                                           height: 2,
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                           fontWeight: FontWeight.w700),
                                     ),
@@ -507,7 +507,7 @@ class _CharityDetailScreenState extends State<CharityDetailScreen> {
                                         style: TextStyle(
                                             height: 2,
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14.0,
                                             fontWeight: FontWeight.w700),
                                       ),

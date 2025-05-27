@@ -87,7 +87,7 @@ class CustomDialog extends StatelessWidget {
                           buttonText,
                           style: TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize:
                                 MediaQuery.of(context).textScaleFactor * 16,
                           ),

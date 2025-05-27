@@ -40,16 +40,20 @@ class ButtonBottom extends StatelessWidget {
       ),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 0),
           child: Text(
             text,
             style: TextStyle(
               color: Colors.white,
-              fontFamily: 'Iransans',
-              fontSize: 18,
+              // //fontFamily: 'Iransans',
+              fontSize: 24,
               fontWeight: FontWeight.w600,
+
             ),
-            textAlign: TextAlign.center,
+            textHeightBehavior: TextHeightBehavior(
+              applyHeightToFirstAscent: false,
+            ),
+            // textAlign: TextAlign.center,
           ),
         ),
       ),

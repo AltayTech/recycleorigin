@@ -71,7 +71,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: AppTheme.black,
-                    fontFamily: 'Iransans',
+                    //fontFamily: 'Iransans',
                     height: 2,
                     fontSize: MediaQuery.of(context).textScaleFactor * 15,
                     fontWeight: FontWeight.w700,
@@ -86,7 +86,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppTheme.primary,
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         height: 2,
                         fontSize: MediaQuery.of(context).textScaleFactor * 18,
                         fontWeight: FontWeight.w700,
@@ -98,7 +98,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppTheme.grey,
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         height: 2,
                         fontSize: MediaQuery.of(context).textScaleFactor * 15,
                         fontWeight: FontWeight.w700,
@@ -117,7 +117,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.grey,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           height: 2,
                           fontSize: MediaQuery.of(context).textScaleFactor * 16,
                           fontWeight: FontWeight.w700,
@@ -157,7 +157,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                                     .toString(),
                                 style: TextStyle(
                                   color: AppTheme.black,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 18,
                                 ),
                                 textAlign: TextAlign.center,
@@ -190,7 +190,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.grey,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           height: 2,
                           fontSize: MediaQuery.of(context).textScaleFactor * 13,
                           fontWeight: FontWeight.w700,
@@ -226,7 +226,7 @@ class _CustomDialogPayCharityState extends State<CustomDialogPayCharity> {
                                 'Confirm',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 16,
                                 ),
                               ),

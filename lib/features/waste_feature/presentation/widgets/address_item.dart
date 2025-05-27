@@ -113,7 +113,7 @@ class _AddressItemState extends State<AddressItem> {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 18,
                                   ),
                                 ),
@@ -128,7 +128,7 @@ class _AddressItemState extends State<AddressItem> {
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   color: AppTheme.grey,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15,
                                 ),
                               ),
@@ -142,7 +142,7 @@ class _AddressItemState extends State<AddressItem> {
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   color: AppTheme.grey,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15,
                                 ),
                               ),

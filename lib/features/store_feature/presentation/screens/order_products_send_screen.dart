@@ -159,7 +159,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                   'Pay ',
                   style: TextStyle(
                       color: AppTheme.bg,
-                      fontFamily: 'Iransans',
+                      //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 22,
                       fontWeight: FontWeight.bold),
                 ),
@@ -192,7 +192,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                   'Information',
                                   style: TextStyle(
                                     color: AppTheme.bg,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15,
                                   ),
                                 ),
@@ -218,7 +218,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                           'Name and Latname:    ',
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
                                         ),
@@ -228,7 +228,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                               customer.personalData.last_name,
                                           style: TextStyle(
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
                                         ),
@@ -243,7 +243,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                           'Province:    ',
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
                                         ),
@@ -251,7 +251,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                           customer.personalData.ostan,
                                           style: TextStyle(
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
                                         ),
@@ -266,7 +266,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                           'City:   ',
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
                                         ),
@@ -274,7 +274,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                           customer.personalData.city,
                                           style: TextStyle(
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
                                         ),
@@ -289,7 +289,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                           'Zipcode:    ',
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
                                         ),
@@ -298,7 +298,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                               customer.personalData.postcode),
                                           style: TextStyle(
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
                                         ),
@@ -313,7 +313,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                           'Mobile:    ',
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
                                         ),
@@ -324,7 +324,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                                   .toString()),
                                           style: TextStyle(
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
                                         ),
@@ -347,7 +347,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                     'Total Price: ',
                                     style: TextStyle(
                                       color: AppTheme.grey,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14,
                                     ),
                                   ),
@@ -361,7 +361,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                             .toString()),
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontWeight: FontWeight.w700,
                                       fontSize: textScaleFactor * 22,
                                     ),
@@ -389,7 +389,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           _snackBarMessage,
                           style: TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
                         ),
@@ -410,7 +410,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           _snackBarMessage,
                           style: TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
                         ),

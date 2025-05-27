@@ -157,7 +157,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                         style: TextStyle(
                                           color: AppTheme.black,
                                           fontWeight: FontWeight.bold,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                       ),
@@ -214,7 +214,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                                   .toString(),
                                               style: TextStyle(
                                                 color: AppTheme.black,
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize: textScaleFactor * 14,
                                               ),
                                               textAlign: TextAlign.center,
@@ -279,7 +279,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                         'per kilo: ',
                                         style: TextStyle(
                                           color: Colors.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
                                       ),
@@ -298,7 +298,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                                 .replaceArNumber('0'),
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                       ),
@@ -306,7 +306,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                         '  \$ ',
                                         style: TextStyle(
                                           color: Colors.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
                                       ),
@@ -320,7 +320,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                         'Total: ',
                                         style: TextStyle(
                                           color: Colors.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
                                       ),
@@ -344,7 +344,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                                     .replaceArNumber('0'),
                                             style: TextStyle(
                                               color: AppTheme.h1,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 18,
                                             ),
                                           );
@@ -354,7 +354,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                         '  \$ ',
                                         style: TextStyle(
                                           color: Colors.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
                                       ),

@@ -48,7 +48,7 @@ class MessageItem extends StatelessWidget {
                           ).day}'),
                           style: TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 15.0,
                           ),
                           textAlign: TextAlign.right,
@@ -58,7 +58,7 @@ class MessageItem extends StatelessWidget {
                               '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}:${(DateTime.parse(message.comment_date)).second}'),
                           style: TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 15.0,
                           ),
                           textAlign: TextAlign.right,
@@ -84,7 +84,7 @@ class MessageItem extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: AppTheme.black,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 16.0,
                               ),
                               textAlign: TextAlign.center,
@@ -104,7 +104,7 @@ class MessageItem extends StatelessWidget {
                               overflow: TextOverflow.fade,
                               style: TextStyle(
                                 color: AppTheme.grey,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 13.0,
                               ),
                               textAlign: TextAlign.right,

@@ -78,7 +78,7 @@ class _GuideScreenState extends State<GuideScreen> {
           'Guide',
           style: TextStyle(
             color: AppTheme.bg,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
           textAlign: TextAlign.center,
@@ -136,7 +136,7 @@ class _GuideScreenState extends State<GuideScreen> {
                             shopData.subject,
                             style: TextStyle(
                               color: AppTheme.grey,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
                             textAlign: TextAlign.center,
@@ -158,7 +158,7 @@ class _GuideScreenState extends State<GuideScreen> {
                                       aboutInfotitle[index],
                                       style: TextStyle(
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
                                       ),
                                     ),

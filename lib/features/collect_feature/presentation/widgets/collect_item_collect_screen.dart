@@ -103,7 +103,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                           color: AppTheme.black,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12.0,
                                         ),
                                       ),
@@ -129,7 +129,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
                                     ),
@@ -158,7 +158,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: AppTheme.black,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 16.0,
                                       ),
                                     ),
@@ -169,7 +169,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: AppTheme.grey,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 10.0,
                                     ),
                                   ),
@@ -191,7 +191,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                   ),
@@ -201,7 +201,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       color: AppTheme.grey,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 11.0,
                                     ),
                                   ),
@@ -216,7 +216,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: AppTheme.black,
-                                  fontFamily: 'Iransans',
+                                  //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 12.0,
                                 ),
                               ),

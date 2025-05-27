@@ -297,7 +297,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: AppTheme.white,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             // fontSize: 15.0,
           ),
         ),
@@ -323,7 +323,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: AppTheme.h1,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: 17.0,
                           ),
                         ),
@@ -361,7 +361,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         'Number',
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: 12,
                                         ),
                                       ),
@@ -376,7 +376,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                               .toString(),
                                           style: TextStyle(
                                             color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 18,
                                           ),
                                         ),
@@ -400,7 +400,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         'Total Price',
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: 14,
                                         ),
                                       ),
@@ -408,7 +408,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         '(\$)',
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: 12,
                                         ),
                                       ),
@@ -425,7 +425,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                                   .replaceArNumber('0'),
                                           style: TextStyle(
                                             color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 18,
                                           ),
                                         ),
@@ -448,7 +448,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         'Total Weight',
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: 14,
                                         ),
                                       ),
@@ -456,7 +456,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                         '(\$)',
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: 12,
                                         ),
                                       ),
@@ -470,7 +470,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                               .toString(),
                                           style: TextStyle(
                                             color: AppTheme.h1,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 18,
                                           ),
                                         ),
@@ -518,7 +518,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           maxLines: 1,
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 15.0,
                                           ),
                                         ),
@@ -530,7 +530,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           weekDays[selectedDay.weekday - 1],
                                           style: TextStyle(
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
@@ -543,7 +543,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                             months[selectedDay.month - 1]),
                                         style: TextStyle(
                                           color: AppTheme.black,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: 18.0,
                                         ),
                                         textAlign: TextAlign.center,
@@ -569,7 +569,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 15.0,
                                           ),
                                         ),
@@ -580,7 +580,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           selectedHours,
                                           style: TextStyle(
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
@@ -607,7 +607,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: AppTheme.grey,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 15.0,
                                           ),
                                         ),
@@ -618,7 +618,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                                           selectedRegion.name,
                                           style: TextStyle(
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
@@ -649,7 +649,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                           'Card is empty',
                           style: TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: 14.0,
                           ),
                         ),

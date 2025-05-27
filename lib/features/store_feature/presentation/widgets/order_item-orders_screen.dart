@@ -92,7 +92,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                   ),
@@ -119,7 +119,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                   ),
@@ -145,7 +145,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     color: AppTheme.grey,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 11.0,
                                   ),
                                 ),
@@ -157,7 +157,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
                                   ),
                                 ),
@@ -176,7 +176,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
                                   ),
                                 ),
@@ -187,7 +187,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     color: AppTheme.grey,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 11.0,
                                   ),
                                 ),
@@ -202,7 +202,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: AppTheme.black,
-                                fontFamily: 'Iransans',
+                                //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
                             ),

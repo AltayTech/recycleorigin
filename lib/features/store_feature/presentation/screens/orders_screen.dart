@@ -149,7 +149,7 @@ class _OrdersScreenState extends State<OrdersScreen>
         title: Text(
           'Orders',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -220,7 +220,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                       'Orders',
                                       style: TextStyle(
                                         color: Colors.blueGrey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
                                       textAlign: TextAlign.right,
@@ -241,7 +241,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                             child: Text(
                                               'Number:',
                                               style: TextStyle(
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize:
                                                     textScaleFactor * 12.0,
                                               ),
@@ -261,7 +261,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                                   : EnArConvertor()
                                                       .replaceArNumber('0'),
                                               style: TextStyle(
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize:
                                                     textScaleFactor * 13.0,
                                               ),
@@ -315,7 +315,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                                 child: Text(
                                                 'Not Order',
                                                 style: TextStyle(
-                                                  fontFamily: 'Iransans',
+                                                  //fontFamily: 'Iransans',
                                                   fontSize:
                                                       textScaleFactor * 15.0,
                                                 ),

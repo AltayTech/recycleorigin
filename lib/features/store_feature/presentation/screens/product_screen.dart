@@ -203,7 +203,7 @@ class _ProductsScreenState extends State<ProductsScreen>
         title: Text(
           'Products',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: Colors.white,
           ),
         ),
@@ -288,7 +288,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                       color: _selectedCategoryId == 0
                                           ? AppTheme.primary
                                           : AppTheme.h1,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                     textAlign: TextAlign.center,
@@ -345,7 +345,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                                           _selectedCategoryId
                                                       ? AppTheme.primary
                                                       : AppTheme.h1,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
                                             textAlign: TextAlign.center,
@@ -396,7 +396,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                     ),
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 13.0,
                                     ),
                                     isDense: true,
@@ -462,7 +462,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                               value,
                                               style: TextStyle(
                                                 color: AppTheme.black,
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize:
                                                     textScaleFactor * 13.0,
                                               ),
@@ -494,7 +494,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                       child: Text(
                                         'Number:',
                                         style: TextStyle(
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12.0,
                                         ),
                                       ),
@@ -510,7 +510,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                             : EnArConvertor()
                                                 .replaceArNumber('0'),
                                         style: TextStyle(
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                         ),
                                       ),
@@ -521,7 +521,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                       child: Text(
                                         'From',
                                         style: TextStyle(
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12.0,
                                         ),
                                       ),
@@ -536,7 +536,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                             : EnArConvertor()
                                                 .replaceArNumber('0'),
                                         style: TextStyle(
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                         ),
                                       ),
@@ -591,7 +591,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                     child: Text(
                                     'No Product',
                                     style: TextStyle(
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 15.0,
                                     ),
                                   ))
@@ -708,7 +708,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       //                                        border: InputBorder.none,
       //                                        hintStyle: TextStyle(
       //                                          color: AppTheme.secondary,
-      //                                          fontFamily: 'Iransans',
+      //                                          //fontFamily: 'Iransans',
       //                                          fontSize: MediaQuery.of(context)
       //                                              .textScaleFactor *
       //                                              12.0,
@@ -716,7 +716,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       //                                        hintText: 'جستجوی محصولات ...',
       //                                        labelStyle: TextStyle(
       //                                          color: AppTheme.secondary,
-      //                                          fontFamily: 'Iransans',
+      //                                          //fontFamily: 'Iransans',
       //                                          fontSize: MediaQuery.of(context)
       //                                              .textScaleFactor *
       //                                              10.0,

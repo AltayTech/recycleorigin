@@ -128,7 +128,7 @@ class _CardItemState extends State<CardItem> {
                                       style: TextStyle(
                                         color: AppTheme.black,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15,
                                       ),
                                     ),
@@ -195,7 +195,7 @@ class _CardItemState extends State<CardItem> {
                                                     .toString(),
                                                 style: TextStyle(
                                                   color: AppTheme.black,
-                                                  fontFamily: 'Iransans',
+                                                  //fontFamily: 'Iransans',
                                                   fontSize:
                                                       textScaleFactor * 14,
                                                 ),
@@ -264,7 +264,7 @@ class _CardItemState extends State<CardItem> {
                                                       .replaceArNumber('0'),
                                               style: TextStyle(
                                                 color: AppTheme.black,
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize: textScaleFactor * 17,
                                               ),
                                             ),
@@ -272,7 +272,7 @@ class _CardItemState extends State<CardItem> {
                                               '  \$ ',
                                               style: TextStyle(
                                                 color: Colors.grey,
-                                                fontFamily: 'Iransans',
+                                                //fontFamily: 'Iransans',
                                                 fontSize: textScaleFactor * 12,
                                               ),
                                             ),

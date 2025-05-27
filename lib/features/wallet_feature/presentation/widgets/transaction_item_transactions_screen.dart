@@ -45,7 +45,7 @@ class TransactionItemTransactionsScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.black,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 15.0,
                         ),
                       ),
@@ -60,7 +60,7 @@ class TransactionItemTransactionsScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppTheme.black,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 15.0,
                         ),
                       ),
@@ -78,7 +78,7 @@ class TransactionItemTransactionsScreen extends StatelessWidget {
                           color: transaction.operation == 'Withdraw'
                               ? Colors.red
                               : AppTheme.primary,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 14.0,
                         ),
                       ),

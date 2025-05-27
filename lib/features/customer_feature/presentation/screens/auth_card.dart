@@ -260,12 +260,12 @@ class _AuthCardState extends State<AuthCard>
                                           decorationStyle:
                                               TextDecorationStyle.dashed,
                                           color: Colors.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18.0,
                                         ),
                                         hintStyle: TextStyle(
                                           color: Colors.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: 11,
                                         ),
                                         hintText: ' First name'),
@@ -330,7 +330,7 @@ class _AuthCardState extends State<AuthCard>
                                         contentPadding: EdgeInsets.symmetric(vertical: 4.0),                                         suffix: Text(''),
                                       hintStyle: TextStyle(
                                         color: Colors.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: 11,
                                       ),
                                       hintText: 'Last name',
@@ -338,7 +338,7 @@ class _AuthCardState extends State<AuthCard>
                                         decorationStyle:
                                             TextDecorationStyle.dashed,
                                         color: Colors.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 18.0,
                                       ),
                                     ),
@@ -394,14 +394,14 @@ class _AuthCardState extends State<AuthCard>
                             contentPadding: EdgeInsets.symmetric(vertical: 4.0),                                  suffix: Text(''),
                             hintStyle: TextStyle(
                               color: Colors.grey,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: 11,
                             ),
                             hintText: 'Email',
                             counterStyle: TextStyle(
                               decorationStyle: TextDecorationStyle.dashed,
                               color: Colors.grey,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 18.0,
                             ),
                           ),
@@ -452,14 +452,14 @@ class _AuthCardState extends State<AuthCard>
                             contentPadding: EdgeInsets.symmetric(vertical: 4.0),                                suffix: Text(''),
                             hintStyle: TextStyle(
                               color: Colors.grey,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: 11,
                             ),
                             hintText: 'Password',
                             counterStyle: TextStyle(
                               decorationStyle: TextDecorationStyle.dashed,
                               color: Colors.grey,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 18.0,
                             ),
                           ),
@@ -510,7 +510,7 @@ class _AuthCardState extends State<AuthCard>
                               ? 'Login'
                               : 'Confirmation Code',
                           style: TextStyle(
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 13.0,
                           ),
                         ),
@@ -538,7 +538,7 @@ class _AuthCardState extends State<AuthCard>
                       : 'Change the login',
                   style: TextStyle(
                     color: Colors.black,
-                    fontFamily: 'Iransans',
+                    //fontFamily: 'Iransans',
                     fontSize: textScaleFactor * 9.0,
                   ),
                 ),

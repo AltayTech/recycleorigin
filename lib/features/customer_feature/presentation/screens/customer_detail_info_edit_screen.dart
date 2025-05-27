@@ -130,7 +130,7 @@ class _CustomerDetailInfoEditScreenState
                             'Personal Info',
                             style: TextStyle(
                               color: AppTheme.black,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 14.0,
                             ),
                             textAlign: TextAlign.center,
@@ -166,7 +166,7 @@ class _CustomerDetailInfoEditScreenState
                                     'User type:',
                                     style: TextStyle(
                                       color: AppTheme.black,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 13.0,
                                     ),
                                   ),
@@ -193,7 +193,7 @@ class _CustomerDetailInfoEditScreenState
                                             'User Type',
                                             style: TextStyle(
                                               color: AppTheme.grey,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 13.0,
                                             ),
                                           ),
@@ -210,7 +210,7 @@ class _CustomerDetailInfoEditScreenState
                                           dropdownColor: AppTheme.white,
                                           style: TextStyle(
                                             color: AppTheme.black,
-                                            fontFamily: 'Iransans',
+                                            //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 13.0,
                                           ),
                                           isDense: true,
@@ -234,7 +234,7 @@ class _CustomerDetailInfoEditScreenState
                                                   value,
                                                   style: TextStyle(
                                                     color: AppTheme.black,
-                                                    fontFamily: 'Iransans',
+                                                    //fontFamily: 'Iransans',
                                                     fontSize:
                                                         textScaleFactor * 13.0,
                                                   ),
@@ -317,7 +317,7 @@ class _CustomerDetailInfoEditScreenState
                   _snackBarMessage,
                   style: TextStyle(
                     color: Colors.white,
-                    fontFamily: 'Iransans',
+                    //fontFamily: 'Iransans',
                     fontSize: textScaleFactor * 14.0,
                   ),
                 ),

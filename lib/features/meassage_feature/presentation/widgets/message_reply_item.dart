@@ -52,7 +52,7 @@ class MessageReplyItem extends StatelessWidget {
                         message.comment_author,
                         style: TextStyle(
                           color: Colors.black54,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 15.0,
                         ),
                         textAlign: TextAlign.center,
@@ -66,7 +66,7 @@ class MessageReplyItem extends StatelessWidget {
                           ),
                           style: TextStyle(
                             color: Colors.grey,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
                           textAlign: TextAlign.right,
@@ -88,7 +88,7 @@ class MessageReplyItem extends StatelessWidget {
                         ).day}'),
                         style: TextStyle(
                           color: AppTheme.grey,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 14.0,
                         ),
                         textAlign: TextAlign.center,
@@ -103,7 +103,7 @@ class MessageReplyItem extends StatelessWidget {
                     overflow: TextOverflow.fade,
                     style: TextStyle(
                       color: AppTheme.grey,
-                      fontFamily: 'Iransans',
+                      //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 12.0,
                     ),
                     textAlign: TextAlign.right,

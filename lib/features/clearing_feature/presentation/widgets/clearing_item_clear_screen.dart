@@ -51,7 +51,7 @@ class ClearingItemClearScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppTheme.black,
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
                       ),
                     ),
@@ -62,7 +62,7 @@ class ClearingItemClearScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppTheme.black,
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
                       ),
                     ),
@@ -76,7 +76,7 @@ class ClearingItemClearScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppTheme.black,
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 15.0,
                       ),
                     ),

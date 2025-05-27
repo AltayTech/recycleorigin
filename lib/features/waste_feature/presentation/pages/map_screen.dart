@@ -223,7 +223,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         title: Text(
           'New Address',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: AppTheme.white,
           ),
         ),
@@ -369,7 +369,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                     'Region : ',
                     style: TextStyle(
                       color: AppTheme.h1,
-                      fontFamily: 'Iransans',
+                      //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 14.0,
                     ),
                   ),
@@ -393,7 +393,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                         'Select Region',
                         style: TextStyle(
                           color: AppTheme.grey,
-                          fontFamily: 'Iransans',
+                          //fontFamily: 'Iransans',
                           fontSize:  13.0,
                         ),
                       ),
@@ -413,7 +413,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                       dropdownColor: AppTheme.white,
                       style: TextStyle(
                         color: AppTheme.black,
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         fontSize:  13.0,
                       ),
                       isDense: true,
@@ -440,7 +440,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     color: AppTheme.black,
-                                    fontFamily: 'Iransans',
+                                    //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 13.0,
                                   ),
                                 ),
@@ -477,7 +477,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 'Region does not added to your address list',
                 style: TextStyle(
                   color: Colors.white,
-                  fontFamily: 'Iransans',
+                  //fontFamily: 'Iransans',
                   fontSize: textScaleFactor * 14.0,
                 ),
               ),

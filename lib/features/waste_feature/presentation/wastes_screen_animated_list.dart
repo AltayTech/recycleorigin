@@ -219,7 +219,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
           'Select Waste',
           style: TextStyle(
             color: AppTheme.white,
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
 //            fontSize: textScaleFactor * 14,
           ),
         ),
@@ -270,7 +270,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                             .toString(),
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                       ),
@@ -278,7 +278,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                         'Number',
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
                                       ),
@@ -316,7 +316,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                                     .replaceArNumber('0'),
                                             style: TextStyle(
                                               color: AppTheme.h1,
-                                              fontFamily: 'Iransans',
+                                              //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 18,
                                             ),
                                           );
@@ -326,7 +326,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                          '\$',
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
                                       ),
@@ -350,7 +350,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                             .toString(),
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
                                       ),
@@ -358,7 +358,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                         'Kilogram ',
                                         style: TextStyle(
                                           color: AppTheme.grey,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
                                       ),
@@ -418,7 +418,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                             'No waste added yet',
                             style: TextStyle(
                               color: Colors.white,
-                              fontFamily: 'Iransans',
+                              //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 14.0,
                             ),
                           ),

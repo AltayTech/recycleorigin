@@ -70,7 +70,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppTheme.primary,
-                  fontFamily: 'Iransans',
+                  //fontFamily: 'Iransans',
                   height: 2,
                   fontSize: MediaQuery.of(context).textScaleFactor * 15,
                   fontWeight: FontWeight.w700,
@@ -83,7 +83,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                   'رنگ محصول را انتخاب نمایید',
                   style: TextStyle(
                     color: AppTheme.secondary,
-                    fontFamily: 'Iransans',
+                    //fontFamily: 'Iransans',
                     fontSize: textScaleFactor * 14,
                     fontWeight: FontWeight.w400,
                   ),
@@ -137,7 +137,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
 //                                  color: widget.product.color[index].available
 //                                      ? AppTheme.primary
 //                                      : AppTheme.grey,
-//                                  fontFamily: 'Iransans',
+//                                  //fontFamily: 'Iransans',
 //                                  fontSize: textScaleFactor * 20.0,
 //                                ),
 //                              ),
@@ -150,7 +150,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
 //                                  color: widget.product.color[index].available
 //                                      ? AppTheme.primary
 //                                      : AppTheme.grey,
-//                                  fontFamily: 'Iransans',
+//                                  //fontFamily: 'Iransans',
 //                                  fontSize: textScaleFactor * 16,
 //                                ),
 //                              ),
@@ -207,7 +207,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                                     'افزودن به سبد خرید',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 16,
                                     ),
                                   ),

@@ -53,7 +53,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                               .replaceArNumber((orderList.length.toString())),
                           style: TextStyle(
                             color: Color(0xffA67FEC),
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
                         ),
@@ -61,7 +61,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                           'Number ',
                           style: TextStyle(
                             color: Colors.grey,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
                         ),
@@ -75,7 +75,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                       'Orders',
                       style: TextStyle(
                         color: Colors.blueGrey,
-                        fontFamily: 'Iransans',
+                        //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
                       ),
                       textAlign: TextAlign.right,
@@ -166,7 +166,7 @@ class OrderItem extends StatelessWidget {
                     'Order No.: ' + number,
                     style: TextStyle(
                       color: AppTheme.h1,
-                      fontFamily: 'Iransans',
+                      //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 12.0,
                     ),
                   ),
@@ -175,7 +175,7 @@ class OrderItem extends StatelessWidget {
                     status,
                     style: TextStyle(
                       color: AppTheme.primary,
-                      fontFamily: 'Iransans',
+                      //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 14.0,
                     ),
                   ),
@@ -206,7 +206,7 @@ class OrderItem extends StatelessWidget {
                           date,
                           style: TextStyle(
                             color: AppTheme.primary,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 13.0,
                           ),
                         ),
@@ -219,7 +219,7 @@ class OrderItem extends StatelessWidget {
                               ' \$',
                           style: TextStyle(
                             color: AppTheme.primary,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 15.0,
                           ),
                         ),
@@ -239,7 +239,7 @@ class OrderItem extends StatelessWidget {
                           'Number: ',
                           style: TextStyle(
                             color: Colors.grey,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 12.0,
                           ),
                         ),
@@ -249,7 +249,7 @@ class OrderItem extends StatelessWidget {
                           ),
                           style: TextStyle(
                             color: AppTheme.h1,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
                         ),
@@ -258,7 +258,7 @@ class OrderItem extends StatelessWidget {
                           'Details',
                           style: TextStyle(
                             color: AppTheme.secondary,
-                            fontFamily: 'Iransans',
+                            //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 11.0,
                           ),
                         ),

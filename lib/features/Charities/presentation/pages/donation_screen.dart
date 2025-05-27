@@ -100,7 +100,7 @@ class _DonationScreenState extends State<DonationScreen>
         _snackBarMessage,
         style: TextStyle(
           color: Colors.white,
-          fontFamily: 'Iransans',
+          //fontFamily: 'Iransans',
           fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
         ),
       ),
@@ -160,7 +160,7 @@ class _DonationScreenState extends State<DonationScreen>
         title: Text(
           'Donate to Charity',
           style: TextStyle(
-            fontFamily: 'Iransans',
+            //fontFamily: 'Iransans',
             color: Colors.white,
           ),
         ),
@@ -254,7 +254,7 @@ class _DonationScreenState extends State<DonationScreen>
                                                 'Credit',
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
-                                                  fontFamily: 'Iransans',
+                                                  //fontFamily: 'Iransans',
                                                   fontSize:
                                                       textScaleFactor * 13.0,
                                                 ),
@@ -279,7 +279,7 @@ class _DonationScreenState extends State<DonationScreen>
                                                                           '0'))),
                                                   style: TextStyle(
                                                     color: AppTheme.black,
-                                                    fontFamily: 'Iransans',
+                                                    //fontFamily: 'Iransans',
                                                     fontWeight: FontWeight.w700,
                                                     fontSize:
                                                         textScaleFactor * 18.0,
@@ -291,7 +291,7 @@ class _DonationScreenState extends State<DonationScreen>
                                                 '\$',
                                                 style: TextStyle(
                                                   color: AppTheme.grey,
-                                                  fontFamily: 'Iransans',
+                                                  //fontFamily: 'Iransans',
                                                   fontSize:
                                                       textScaleFactor * 13.0,
                                                 ),
@@ -312,7 +312,7 @@ class _DonationScreenState extends State<DonationScreen>
                                       'Charity name:',
                                       style: TextStyle(
                                         color: AppTheme.grey,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 13.0,
                                       ),
                                     ),
@@ -323,7 +323,7 @@ class _DonationScreenState extends State<DonationScreen>
                                         style: TextStyle(
                                           color: AppTheme.h1,
                                           fontWeight: FontWeight.w600,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: 16.0,
                                         ),
                                       ),
@@ -340,7 +340,7 @@ class _DonationScreenState extends State<DonationScreen>
                                         'Amount (\$)',
                                         style: TextStyle(
                                           color: AppTheme.h1,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),
                                         textAlign: TextAlign.center,
@@ -350,7 +350,7 @@ class _DonationScreenState extends State<DonationScreen>
                                       maxLines: 1,
                                       style: TextStyle(
                                         color: AppTheme.h1,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 16.0,
                                       ),
                                       textAlign: TextAlign.center,
@@ -375,7 +375,7 @@ class _DonationScreenState extends State<DonationScreen>
                                         ),
                                         labelStyle: TextStyle(
                                           color: Colors.blue,
-                                          fontFamily: 'Iransans',
+                                          //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 10.0,
                                         ),
                                       ),
@@ -400,7 +400,7 @@ class _DonationScreenState extends State<DonationScreen>
                                     'Enter a valid card number',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontFamily: 'Iransans',
+                                      //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
                                   ),
@@ -420,7 +420,7 @@ class _DonationScreenState extends State<DonationScreen>
                                       'The requested amount exceeds your credit',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontFamily: 'Iransans',
+                                        //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
                                     ),
