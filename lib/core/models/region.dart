@@ -20,8 +20,8 @@ class Region with ChangeNotifier {
     }
     ;
     return Region(
-      term_id: parsedJson['term_id'],
-      name: parsedJson['name'],
+      term_id: parsedJson['term_id']?? 1,
+      name: parsedJson['name']?? '',
       collect_hour: hourRaw,
     );
   }

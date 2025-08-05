@@ -13,9 +13,9 @@ class TypePost with ChangeNotifier {
 
   factory TypePost.fromJson(Map<String, dynamic> parsedJson) {
     return TypePost(
-      term_id: parsedJson['term_id'],
-      name: parsedJson['name'],
-      slug: parsedJson['slug'],
+      term_id: parsedJson['term_id']?? 0,
+      name: parsedJson['name']?? '',
+      slug: parsedJson['slug']?? '',
     );
   }
 
