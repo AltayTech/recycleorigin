@@ -15,54 +15,85 @@ import '../../features/store_feature/presentation/screens/cart_screen.dart';
 import '../../features/store_feature/presentation/screens/product_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
 
-/// This widget is a drawer that contains main menu options
-/// it is used in [NavigationBottomScreen] as a drawer
-/// it contains a list of [ListTile] which are built by [buildListTile]
-/// it also contains a [Divider] to separate the list from the logout button
-/// the logout button is used to log out the user
-/// it calls [AuthenticationProvider.logout] when clicked
-///
-/// It is used in [NavigationBottomScreen] as a drawer
-///
-/// The drawer contains the following items:
-/// - Home
-/// - Store
-/// - Cards
-/// - Charities
-/// - Cources
-/// - Supports
-/// - Guids
-/// - Contact Us
-/// - About Us
-/// - Logout
-///
-/// It also contains a [Image] at the top of the drawer which is the header image of the app
-///
-/// The [buildListTile] method is used to build each item in the list
-/// it takes a [String] title and an [IconData] icon as arguments
-/// it returns a [ListTile] with the given title and icon
-///
-/// The [Divider] is used to separate the list from the logout button
-///
-/// The logout button is a [ListTile] with a title of "Logout"
-/// it calls [AuthenticationProvider.logout] when clicked
-/// it also pops the drawer when clicked
+/// Modern drawer menu with improved design and user experience
+/// Features:
+/// - Clean Material Design 3 styling
+/// - User profile section with avatar
+/// - Organized menu sections
+/// - Smooth animations and interactions
+/// - Better visual hierarchy
+/// - Responsive design
+class MainDrawer extends StatefulWidget {
+  @override
+  _MainDrawerState createState() => _MainDrawerState();
+}
 
-class MainDrawer extends StatelessWidget {
-  Widget buildListTile(String title, IconData icon, Function()? tapHandler) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        size: 26,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
+class _MainDrawerState extends State<MainDrawer> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: Duration(milliseconds: 300),
+      vsync: this,
+    );
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(-0.3, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+        parent: _animationController, curve: Curves.easeOutCubic));
+
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    Color? iconColor,
+    Color? textColor,
+    bool isLogout = false,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                color: isLogout ? Colors.red.shade300 : Colors.white,
+                size: 24,
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: isLogout ? Colors.red.shade300 : Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      onTap: tapHandler,
     );
   }
 
@@ -70,317 +101,197 @@ class MainDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    Color textColor = Colors.white;
-    Color iconColor = Colors.white;
+
     return Drawer(
-      child: Directionality(
-        textDirection: TextDirection.ltr,
-        child: Container(
-          child: Stack(
-            children: <Widget>[
+      child: Container(
+        color: Color(0xFF2E7D32),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Minimal Header
               Container(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 5,
-                    sigmaY: 5,
-                  ),
-                  child:
-                      Container(color: AppTheme.appBarColor.withOpacity(0.9)),
+                padding: EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    // App Logo
+                    Container(
+                      height: 80,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.recycling,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+
+                    SizedBox(height: 16),
+
+                    Text(
+                      "Recycle Origin",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Wrap(
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        height: deviceHeight * 0.25,
-                        width: double.infinity,
-                        child: Image.asset(
-                          'assets/images/main_page_header.png',
-                          fit: BoxFit.cover,
+
+              // Divider
+              Container(
+                height: 1,
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                color: Colors.white.withOpacity(0.2),
+              ),
+
+              SizedBox(height: 8),
+
+              // Menu Items
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildDrawerItem(
+                        icon: Icons.home_rounded,
+                        title: "Home",
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            NavigationBottomScreen.routeName,
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                      ),
+
+                      _buildDrawerItem(
+                        icon: Icons.store_rounded,
+                        title: "Store",
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pushNamed(
+                            ProductsScreen.routeName,
+                            arguments: 0,
+                          );
+                        },
+                      ),
+
+                      _buildDrawerItem(
+                        icon: Icons.shopping_cart_rounded,
+                        title: "Shopping Cart",
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pushNamed(CartScreen.routeName);
+                        },
+                      ),
+
+                      _buildDrawerItem(
+                        icon: Icons.support_agent_rounded,
+                        title: "Support & Help",
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context)
+                              .pushNamed(MessageScreen.routeName);
+                        },
+                      ),
+
+                      // Profile/Login Item
+                      Consumer<AuthenticationProvider>(
+                        builder: (_, auth, ch) => _buildDrawerItem(
+                          icon: auth.isAuth
+                              ? Icons.person_rounded
+                              : Icons.login_rounded,
+                          title: auth.isAuth ? "Profile" : "Sign In",
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            auth.isAuth
+                                ? Navigator.of(context)
+                                    .pushNamed(ProfileScreen.routeName)
+                                : Navigator.of(context)
+                                    .pushNamed(LoginScreen.routeName);
+                          },
                         ),
+                      ),
+
+                      // Logout (only if authenticated)
+                      Consumer<AuthenticationProvider>(
+                        builder: (_, auth, ch) => auth.isAuth
+                            ? _buildDrawerItem(
+                                icon: Icons.logout_rounded,
+                                title: "Sign Out",
+                                isLogout: true,
+                                onTap: () async {
+                                  // Show simple confirmation
+                                  bool? shouldLogout = await showDialog<bool>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Sign Out"),
+                                        content: Text("Are you sure?"),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context)
+                                                    .pop(false),
+                                            child: Text("Cancel"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(true),
+                                            child: Text("Sign Out",
+                                                style: TextStyle(
+                                                    color: Colors.red)),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+
+                                  if (shouldLogout == true) {
+                                    Provider.of<CustomerInfoProvider>(context,
+                                                listen: false)
+                                            .customer =
+                                        Provider.of<CustomerInfoProvider>(
+                                                context,
+                                                listen: false)
+                                            .customer_zero;
+                                    await Provider.of<AuthenticationProvider>(
+                                            context,
+                                            listen: false)
+                                        .removeToken();
+                                    Provider.of<AuthenticationProvider>(context,
+                                            listen: false)
+                                        .isFirstLogout = true;
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                      NavigationBottomScreen.routeName,
+                                      (Route<dynamic> route) => false,
+                                    );
+                                  }
+                                },
+                              )
+                            : SizedBox.shrink(),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Consumer<AuthenticationProvider>(
-                    builder: (_, auth, ch) => ListTile(
-                      title: Text(
-                        auth.isAuth ? "Profile" : "Login",
-                        style: TextStyle(
-                          fontFamily: "Iransans",
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: textColor,
-                        ),
-                        textAlign: TextAlign.right,
-                      ),
-                      trailing: Icon(
-                        Icons.account_circle,
-                        color: iconColor,
-                      ),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        auth.isAuth
-                            ? Navigator.of(context)
-                                .pushNamed(ProfileScreen.routeName)
-                            : Navigator.of(context)
-                                .pushNamed(LoginScreen.routeName);
-                      },
-                    ),
-                  ),
-                  Divider(
-                    thickness: 2,
-                  ),
-                  Container(
-                    height: deviceHeight * 0.63,
-                    child: SingleChildScrollView(
-                      child: Wrap(
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              "Home",
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.home,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  NavigationBottomScreen.routeName,
-                                  (Route<dynamic> route) => false);
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              "Store",
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.phonelink,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
+                ),
+              ),
 
-                              Navigator.of(context).pushNamed(
-                                  ProductsScreen.routeName,
-                                  arguments: 0);
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              "Card",
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.shopping_cart,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
-
-                              Navigator.of(context)
-                                  .pushNamed(CartScreen.routeName);
-                            },
-                          ),
-                          // ListTile(
-                          //   title: Text(
-                          //     "Charities",
-                          //     style: TextStyle(
-                          //       fontFamily: "Iransans",
-                          //       fontWeight: FontWeight.w500,
-                          //       fontSize: 16,
-                          //       color: textColor,
-                          //     ),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          //   trailing: Container(
-                          //       height: deviceHeight * 0.025,
-                          //       width: deviceHeight * 0.025,
-                          //       child: Image.asset(
-                          //         'assets/images/donation_ic.png',
-                          //         color: iconColor,
-                          //       )),
-                          //   onTap: () {
-                          //     Navigator.of(context).pop();
-                          //
-                          //     Navigator.of(context)
-                          //         .pushNamed(CharityScreen.routeName);
-                          //   },
-                          // ),
-                          // ListTile(
-                          //   title: Text(
-                          //     "Cources",
-                          //     style: TextStyle(
-                          //       fontFamily: "Iransans",
-                          //       fontWeight: FontWeight.w500,
-                          //       fontSize: 16,
-                          //       color: textColor,
-                          //     ),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          //   trailing: Icon(
-                          //     Icons.description,
-                          //     color: iconColor,
-                          //   ),
-                          //   onTap: () {
-                          //     Navigator.of(context).pop();
-                          //
-                          //     Navigator.of(context)
-                          //         .pushNamed(MessageScreen.routeName);
-                          //   },
-                          // ),
-                          ListTile(
-                            title: Text(
-                              "Support",
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.description,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
-
-                              Navigator.of(context)
-                                  .pushNamed(MessageScreen.routeName);
-                            },
-                          ),
-                          // ListTile(
-                          //   title: Text(
-                          //     "Guids",
-                          //     style: TextStyle(
-                          //       fontFamily: "Iransans",
-                          //       fontWeight: FontWeight.w500,
-                          //       fontSize: 16,
-                          //       color: textColor,
-                          //     ),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          //   trailing: Icon(
-                          //     Icons.help,
-                          //     color: iconColor,
-                          //   ),
-                          //   onTap: () {
-                          //     Navigator.of(context).pop();
-                          //
-                          //     Navigator.of(context)
-                          //         .pushNamed(GuideScreen.routeName);
-                          //   },
-                          // ),
-                          // ListTile(
-                          //   title: Text(
-                          //     "Contact Us",
-                          //     style: TextStyle(
-                          //       fontFamily: "Iransans",
-                          //       fontWeight: FontWeight.w500,
-                          //       fontSize: 16,
-                          //       color: textColor,
-                          //     ),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          //   trailing: Icon(
-                          //     Icons.contact_phone,
-                          //     color: iconColor,
-                          //   ),
-                          //   onTap: () {
-                          //     Navigator.of(context).pop();
-                          //
-                          //     Navigator.of(context)
-                          //         .pushNamed(ContactWithUs.routeName);
-                          //   },
-                          // ),
-                          // ListTile(
-                          //   title: Text(
-                          //     "About Us",
-                          //     style: TextStyle(
-                          //       fontFamily: "Iransans",
-                          //       fontWeight: FontWeight.w500,
-                          //       fontSize: 16,
-                          //       color: textColor,
-                          //     ),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          //   trailing: Icon(
-                          //     Icons.account_balance,
-                          //     color: iconColor,
-                          //   ),
-                          //   onTap: () {
-                          //     Navigator.of(context).pop();
-                          //
-                          //     Navigator.of(context)
-                          //         .pushNamed(AboutUsScreen.routeName);
-                          //   },
-                          // ),
-                          ListTile(
-                            title: Text(
-                              "Logout",
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              FontAwesomeIcons.signOutAlt,
-                              color: iconColor,
-                            ),
-                            onTap: () async {
-                              Provider.of<CustomerInfoProvider>(context,
-                                      listen: false)
-                                  .customer = Provider.of<CustomerInfoProvider>(
-                                      context,
-                                      listen: false)
-                                  .customer_zero;
-                              await Provider.of<AuthenticationProvider>(context,
-                                      listen: false)
-                                  .removeToken();
-                              Provider.of<AuthenticationProvider>(context,
-                                      listen: false)
-                                  .isFirstLogout = true;
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  NavigationBottomScreen.routeName,
-                                  (Route<dynamic> route) => false);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+              // Minimal Footer
+              Container(
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  "v1.1.8",
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 12,
                   ),
-                ],
+                ),
               ),
             ],
           ),

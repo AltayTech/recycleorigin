@@ -13,9 +13,9 @@ class Status with ChangeNotifier {
 
   factory Status.fromJson(Map<String, dynamic> parsedJson) {
     return Status(
-      term_id: parsedJson['term_id'],
-      name: parsedJson['name'],
-      slug: parsedJson['slug'],
+      term_id: parsedJson['term_id']?? 0,
+      name: parsedJson['name']?? '',
+      slug: parsedJson['slug']?? '',
     );
   }
 
