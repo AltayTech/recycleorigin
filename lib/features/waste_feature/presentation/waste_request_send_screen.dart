@@ -247,11 +247,16 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
       );
     }
 
+    debugPrint("selectedDay.day ${selectedDay.day}");
+    debugPrint("selectedDay.month ${selectedDay.month}");
+    debugPrint("selectedDay.year ${selectedDay.year}");
+
+
     requestWaste = RequestWaste(
         collect_date: CollectTime(
             time: selectedHours,
             day:
-                '${weekDays[selectedDay.weekday - 1]}  ${selectedDay.day} ${months[selectedDay.month]}'),
+                '${weekDays[selectedDay.weekday - 1]}  ${selectedDay.day} ${months[selectedDay.month-1].toString()}'),
         address_data: RequestAddress(
           name: selectedAddress.name,
           address: selectedAddress.address,
