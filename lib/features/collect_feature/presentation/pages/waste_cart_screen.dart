@@ -10,7 +10,6 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../customer_feature/presentation/providers/authentication_provider.dart';
-import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../waste_feature/presentation/address_screen.dart';
 import '../../../waste_feature/presentation/providers/wastes.dart';
 import '../../../waste_feature/presentation/wastes_screen.dart';
@@ -83,17 +82,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
     );
   }
 
-  void _showCompletedialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogProfile(
-        title: 'User Information',
-        buttonText: 'Profile ',
-        description: 'Please complete the information for continue',
-        image: Image.asset('assets/images/main_page_request_ic.png'),
-      ),
-    );
-  }
+  // Removed unused completed profile dialog to declutter screen logic
 
   @override
   void didChangeDependencies() async {
@@ -189,377 +178,345 @@ class _WasteCartScreenState extends State<WasteCartScreen>
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
+    // double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     // var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
     bool isLogin =
         Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
-    bool isCompleted =
-        Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
+    // bool isCompleted =
+    //     Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
         title: Text(
-          'Waste selection ',
+          'Waste cart',
           style: TextStyle(
             color: AppTheme.white,
-            //fontFamily: 'Iransans',
-//            fontSize: textScaleFactor * 14,
           ),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        actions: [
+          IconButton(
+            tooltip: 'Add items',
+            icon: Icon(Icons.add),
+            onPressed: () async {
+              await Navigator.of(context).pushNamed(
+                WastesScreen.routeName,
+              );
+              await getWasteItems();
+              setState(() {});
+            },
+          )
+        ],
       ),
-      body: Builder(builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            height: double.infinity,
-            width: double.infinity,
-            child: Stack(
-              children: <Widget>[
-                SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: deviceWidth * 0.35,
-                        decoration: BoxDecoration(
-                          color: AppTheme.white,
-                          borderRadius: BorderRadius.circular(5),
-                          // border: Border.all(
-                          //   color: Colors.grey,
-                          //   width: 0.2,
-                          // ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Spacer(),
-                                  Image.asset(
-                                    'assets/images/main_page_request_ic.png',
-                                    height: deviceWidth * 0.09,
-                                    width: deviceWidth * 0.09,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 4, bottom: 4),
-                                    child: Text(
-                                      EnArConvertor()
-                                          .replaceArNumber(wasteCartItems
-                                              .length
-                                              .toString())
-                                          .toString(),
-                                      style: TextStyle(
-                                        color: AppTheme.h1,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    'Number',
-                                    style: TextStyle(
-                                      color: AppTheme.grey,
-                                      //fontFamily: 'Iransans',
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Spacer(),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Spacer(),
-                                  Image.asset(
-                                    'assets/images/waste_cart_price_ic.png',
-                                    height: deviceWidth * 0.09,
-                                    width: deviceWidth * 0.09,
-                                    color: Colors.yellow[600],
-                                  ),
-                                  AnimatedBuilder(
-                                    animation: _totalPriceAnimation,
-                                    builder: (BuildContext context,
-                                        Widget? child) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 4, bottom: 4),
-                                        child: Text(
-                                          totalPrice.toString().isNotEmpty
-                                              ? EnArConvertor()
-                                                  .replaceArNumber(
-                                                      currencyFormat
-                                                          .format(
-                                                              double.parse(
-                                                            _totalPriceAnimation
-                                                                .value
-                                                                .toStringAsFixed(
-                                                                    0),
-                                                          ))
-                                                          .toString())
-                                              : EnArConvertor()
-                                                  .replaceArNumber('0'),
-                                          style: TextStyle(
-                                            color: AppTheme.h1,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  Text(
-                                    '\$ ',
-                                    style: TextStyle(
-                                      color: AppTheme.grey,
-                                      //fontFamily: 'Iransans',
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Spacer(),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Spacer(),
-                                  Image.asset(
-                                    'assets/images/waste_cart_weight_ic.png',
-                                    height: deviceWidth * 0.09,
-                                    width: deviceWidth * 0.09,
-                                  ),
-                                  //                                      Icon(
-                                  //                                        Icons.av_timer,
-                                  //                                        color: Colors.blue,
-                                  //                                        size: 40,
-                                  //                                      ),
-                                  FittedBox(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 4, bottom: 4),
-                                      child: Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(
-                                                totalWeight.toString())
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: AppTheme.h1,
-                                          //fontFamily: 'Iransans',
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  FittedBox(
-                                    child: Text(
-                                      'Kilogram',
-                                      style: TextStyle(
-                                        color: AppTheme.grey,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                ],
-                              ),
-                            ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  _buildSummaryCard(deviceWidth, currencyFormat),
+                  SizedBox(height: 16),
+                  Expanded(
+                    child: Consumer<Wastes>(
+                      builder: (_, value, __) {
+                        final items = value.wasteCartItems;
+                        if (items.isEmpty) {
+                          return _buildEmptyState(deviceWidth);
+                        }
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.circular(12),
                           ),
+                          child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 8,
+                            ),
+                            itemBuilder: (ctx, i) => WasteCartItem(
+                              wasteItem: items[i],
+                              function: getWasteItems,
+                            ),
+                            separatorBuilder: (ctx, i) => Divider(
+                              height: 1,
+                              color: Colors.grey.withOpacity(0.2),
+                            ),
+                            itemCount: items.length,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (_isLoading)
+              Positioned.fill(
+                child: Container(
+                  color: Colors.black.withOpacity(0.05),
+                  alignment: Alignment.center,
+                  child: SpinKitFadingCircle(
+                    itemBuilder: (BuildContext context, int index) {
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: index.isEven ? Colors.grey : Colors.grey,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Consumer<Wastes>(
-                          builder: (_, value, ch) => value
-                                      .wasteCartItems.length !=
-                                  0
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.white,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: value.wasteCartItems.length,
-                                      itemBuilder: (ctx, i) => WasteCartItem(
-                                        wasteItem: value.wasteCartItems[i],
-                                        function: getWasteItems,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  height: deviceHeight * 0.6,
-                                  child: Center(
-                                    child: Text('No waste added'),
-                                  ),
-                                ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
+                      );
+                    },
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: _buildBottomBar(deviceWidth, isLogin),
+      endDrawer: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.transparent,
+        ),
+        child: MainDrawer(),
+      ),
+    );
+  }
+
+  Widget _buildSummaryCard(
+      double deviceWidth, intl.NumberFormat currencyFormat) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppTheme.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildStat(
+              icon: 'assets/images/main_page_request_ic.png',
+              label: 'Items',
+              value: EnArConvertor()
+                  .replaceArNumber(wasteCartItems.length.toString())
+                  .toString(),
+            ),
+          ),
+          Container(
+            height: deviceWidth * 0.16,
+            width: 1,
+            color: Colors.grey.withOpacity(0.15),
+          ),
+          Expanded(
+            child: AnimatedBuilder(
+              animation: _totalPriceAnimation,
+              builder: (context, child) => _buildStat(
+                icon: 'assets/images/waste_cart_price_ic.png',
+                label: 'Total',
+                value: totalPrice.toString().isNotEmpty
+                    ? EnArConvertor().replaceArNumber(
+                        currencyFormat
+                            .format(
+                              double.parse(
+                                _totalPriceAnimation.value.toStringAsFixed(0),
+                              ),
+                            )
+                            .toString(),
                       )
-                    ],
+                    : EnArConvertor().replaceArNumber('0'),
+              ),
+            ),
+          ),
+          Container(
+            height: deviceWidth * 0.16,
+            width: 1,
+            color: Colors.grey.withOpacity(0.15),
+          ),
+          Expanded(
+            child: _buildStat(
+              icon: 'assets/images/waste_cart_weight_ic.png',
+              label: 'Weight (kg)',
+              value: EnArConvertor()
+                  .replaceArNumber(totalWeight.toString())
+                  .toString(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStat(
+      {required String icon, required String label, required String value}) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.asset(
+          icon,
+          height: 28,
+          width: 28,
+        ),
+        SizedBox(height: 6),
+        Text(
+          value,
+          style: TextStyle(
+            color: AppTheme.h1,
+            fontSize: 18,
+          ),
+        ),
+        SizedBox(height: 2),
+        Text(
+          label,
+          style: TextStyle(
+            color: AppTheme.grey,
+            fontSize: 12,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmptyState(double deviceWidth) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            'assets/images/collect_list_header.png',
+            width: deviceWidth * 0.5,
+            fit: BoxFit.contain,
+          ),
+          SizedBox(height: 16),
+          Text(
+            'Your cart is empty',
+            style: TextStyle(
+              color: AppTheme.h1,
+              fontSize: 18,
+            ),
+          ),
+          SizedBox(height: 6),
+          Text(
+            'Add waste items to continue',
+            style: TextStyle(
+              color: AppTheme.grey,
+              fontSize: 13,
+            ),
+          ),
+          SizedBox(height: 16),
+          SizedBox(
+            width: 200,
+            child: ElevatedButton.icon(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(AppTheme.primary),
+                foregroundColor: MaterialStateProperty.all(AppTheme.white),
+                padding: MaterialStateProperty.all(
+                  const EdgeInsets.symmetric(vertical: 12),
+                ),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  //                    right: 0,
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          SnackBar addToCartSnackBar = SnackBar(
-                            content: Text(
-                              'Please add waste',
-                              style: TextStyle(
-                                color: Colors.white,
-                                //fontFamily: 'Iransans',
-                                fontSize: 14.0,
-                              ),
-                            ),
-                            action: SnackBarAction(
-                              label: 'Ok',
-                              onPressed: () {
-                                // Some code to undo the change.
-                              },
-                            ),
-                          );
-                          if (wasteCartItems.isEmpty) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(addToCartSnackBar);
-                          } else if (!isLogin) {
-                            _showLogindialog();
-                          } else {
-                            // if (isCompleted) {
-                            Navigator.of(context)
-                                .pushNamed(AddressScreen.routeName);
-                            // } else {
-                            //   _showCompletedialog();
-                            // }
-                          }
-                        },
-                        child: ButtonBottom(
-                          width: deviceWidth * 0.75,
-                          height: deviceWidth * 0.14,
-                          text: 'Continue',
-                          isActive: wasteCartItems.isNotEmpty,
-                        ),
-                      ),
-                      InkWell(
-                          onTap: () {
-                            SnackBar addToCartSnackBar = SnackBar(
-                              content: Text(
-                                'Please add waste',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  //fontFamily: 'Iransans',
-                                  fontSize: 14.0,
-                                ),
-                              ),
-                              action: SnackBarAction(
-                                label: 'Ok',
-                                onPressed: () {
-                                  // Some code to undo the change.
-                                },
-                              ),
-                            );
-                            if (wasteCartItems.isEmpty) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(addToCartSnackBar);
-                            } else if (!isLogin) {
-                              _showLogindialog();
-                            } else {
-                              // if (isCompleted) {
-                              Navigator.of(context)
-                                  .pushNamed(AddressScreen.routeName);
-                              // } else {
-                              //   _showCompletedialog();
-                              // }
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              width: deviceWidth * 0.14,
-                              height: deviceWidth * 0.14,
-                              child: FloatingActionButton(
-                                onPressed: () async {
-                                  await Navigator.of(context).pushNamed(
-                                    WastesScreen.routeName,
-                                  );
-                                  getWasteItems();
-                                  setState(() {});
-                                },
-                                backgroundColor: AppTheme.primary,
-                                child: Icon(
-                                  Icons.add,
-                                  color: AppTheme.white,
-                                ),
-                              ),
-                            ),
-                          )),
-                    ],
+              ),
+              onPressed: () async {
+                await Navigator.of(context).pushNamed(
+                  WastesScreen.routeName,
+                );
+                await getWasteItems();
+                setState(() {});
+              },
+              icon: Icon(Icons.add),
+              label: Text('Add waste items'),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomBar(double deviceWidth, bool isLogin) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppTheme.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: Offset(0, -2),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Total',
+                  style: TextStyle(
+                    color: AppTheme.grey,
+                    fontSize: 12,
                   ),
                 ),
-                Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: _isLoading
-                        ? SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
-                                ),
-                              );
-                            },
+                AnimatedBuilder(
+                  animation: _totalPriceAnimation,
+                  builder: (context, child) => Text(
+                    EnArConvertor().replaceArNumber(
+                      intl.NumberFormat.decimalPattern()
+                          .format(
+                            double.parse(
+                              _totalPriceAnimation.value.toStringAsFixed(0),
+                            ),
                           )
-                        : Container(),
+                          .toString(),
+                    ),
+                    style: TextStyle(
+                      color: AppTheme.h1,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        );
-      }),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
+          InkWell(
+            onTap: () {
+              SnackBar addToCartSnackBar = SnackBar(
+                content: Text(
+                  'Please add waste',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.0,
+                  ),
+                ),
+                action: SnackBarAction(
+                  label: 'Ok',
+                  onPressed: () {},
+                ),
+              );
+              if (wasteCartItems.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(addToCartSnackBar);
+              } else if (!isLogin) {
+                _showLogindialog();
+              } else {
+                Navigator.of(context).pushNamed(AddressScreen.routeName);
+              }
+            },
+            child: ButtonBottom(
+              width: deviceWidth * 0.5,
+              height: deviceWidth * 0.14,
+              text: 'Continue',
+              isActive: wasteCartItems.isNotEmpty,
+            ),
+          ),
+        ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () async {
-      //     await Navigator.of(context).pushNamed(
-      //       WastesScreen.routeName,
-      //     );
-      //     getWasteItems();
-      //     setState(() {});
-      //   },
-      //   backgroundColor: AppTheme.primary,
-      //   child: Icon(
-      //     Icons.add,
-      //     color: AppTheme.white,
-      //   ),
-      // ),
     );
   }
 }
