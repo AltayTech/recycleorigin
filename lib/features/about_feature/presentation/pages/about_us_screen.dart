@@ -93,9 +93,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                             child: FadeInImage(
                               placeholder:
                                   AssetImage('assets/images/circle.gif'),
-                              image: NetworkImage(shopData != null
-                                  ? shopData.logo.sizes.medium
-                                  : ''),
+                              image: NetworkImage(shopData.logo.sizes.medium),
                               fit: BoxFit.contain,
                               height: deviceWidth * 0.5,
                             )),

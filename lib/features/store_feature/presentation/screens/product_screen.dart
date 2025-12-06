@@ -336,9 +336,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                             horizontal: 15.0),
                                         child: Center(
                                           child: Text(
-                                            categoryList[index].name != null
-                                                ? categoryList[index].name
-                                                : 'n',
+                                            categoryList[index].name,
                                             style: TextStyle(
                                               color:
                                                   categoryList[index].term_id ==

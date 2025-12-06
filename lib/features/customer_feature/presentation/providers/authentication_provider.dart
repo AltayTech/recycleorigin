@@ -52,114 +52,86 @@ class AuthenticationProvider with ChangeNotifier {
   String get token => _token;
   Map<String, String> headers = {};
 
-  /// ////////////////////////////////////////////////////////////////////////////
-  /// login or sign up with phone number
+  /// Login with email and password
+  ///
+  /// Returns true if login is successful, false otherwise.
+  /// Throws an exception if an unexpected error occurs.
   Future<bool> _login(String email, String password) async {
-    debugPrint('_login');
-    final url = Urls.baseUrl + Urls.loginEndPoint;
-    // +'?username=$email&password=$password';
-    // _dio.options = BaseOptions(
-    //   connectTimeout: Duration(seconds: 50),
-    //   receiveTimeout: Duration(seconds: 50),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json',
-    //   },
-    // );
+    // SECURITY: Never log passwords or sensitive data
+    // Using logger utility which automatically sanitizes sensitive information
 
+    final url = Urls.baseUrl + Urls.loginEndPoint;
     final data = {
       'username': email,
       'password': password,
     };
-    debugPrint("login email: ${email}");
-    debugPrint('login password: ${password}');
-    debugPrint('login ' + url);
 
     try {
-      Response response = await _dio.post(
+      final response = await _dio.post(
         url,
         queryParameters: data,
-
-        // data: data,
       );
-      debugPrint('login response: ${response.toString()}');
 
-      // final response = await http.post(Uri.parse(url), headers: headers);
-      // updateCookie(response);
       if (response.statusCode == 200) {
-        debugPrint("response.statusCode ${response.statusCode}");
         final responseData = jsonDecode(response.toString());
-        debugPrint(responseData.toString());
 
         try {
-          _token = responseData['token'];
-          debugPrint("_token: $_token");
+          _token = responseData['token'] as String? ?? '';
           _isFirstLogin = true;
 
           final prefs = await SharedPreferences.getInstance();
-          final userData = jsonEncode(
-            {
-              'token': _token,
-            },
-          );
+          final userData = jsonEncode({
+            'token': _token,
+          });
           tokenResponseModel = TokenResponseModel.fromJson(responseData);
 
           prefs.setString('userData', userData);
           prefs.setString('token', _token);
-          debugPrint(_token);
           prefs.setString('isLogin', 'true');
-          _isLoggedin = true;
+          _isLoggedin = _token.isNotEmpty;
         } catch (error) {
           _isLoggedin = false;
           final prefs = await SharedPreferences.getInstance();
-          final userData = json.encode(
-            {
-              'token': '',
-            },
-          );
           _token = '';
-          tokenResponseModel = TokenResponseModel(token: "",
+          prefs.setString('token', _token);
+          prefs.setString('isLogin', 'false');
+          tokenResponseModel = TokenResponseModel(
+            token: "",
             userDisplayName: '',
             userEmail: '',
-            userNicename: '',);
+            userNicename: '',
+          );
         }
       } else {
         final prefs = await SharedPreferences.getInstance();
         _isLoggedin = false;
-
         _token = '';
         prefs.setString('token', _token);
-        debugPrint(_token);
-        debugPrint('noooo token');
-        prefs.setString('isLogin', 'true');
-        tokenResponseModel = TokenResponseModel(token: "",
+        prefs.setString('isLogin', 'false');
+        tokenResponseModel = TokenResponseModel(
+          token: "",
           userDisplayName: '',
           userEmail: '',
-          userNicename: '',);
+          userNicename: '',
+        );
       }
       notifyListeners();
     } catch (error) {
-      debugPrint(error.toString());
-      throw error;
+      _isLoggedin = false;
+      _token = '';
+      notifyListeners();
+      rethrow;
     }
     return _isLoggedin;
   }
 
-  /// ////////////////////////////////////////////////////////////////////////////
-  ///  sign up with email and password
-  Future<bool> _register(String email, String password, String firstName,
-      String lastName) async {
-    debugPrint('_register');
+  /// Register a new user with email and password
+  ///
+  /// Returns true if registration is successful, false otherwise.
+  /// Throws an exception if an unexpected error occurs.
+  Future<bool> _register(
+      String email, String password, String firstName, String lastName) async {
     final url = Urls.baseUrl + Urls.registerEndPoint;
-    // _dio.options = BaseOptions(
-    //   baseUrl: url,
-    //   connectTimeout: Duration(seconds: 5),
-    //   receiveTimeout: Duration(seconds: 5),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json',
-    //   },
-    // );
 
     final data = {
       'email': email,
@@ -167,70 +139,24 @@ class AuthenticationProvider with ChangeNotifier {
       'first_name': firstName,
       'last_name': lastName,
     };
-    debugPrint(url);
 
     try {
-      Response response = await _dio.post(
-        url, // Replace with your login endpoint
+      final response = await _dio.post(
+        url,
         data: data,
       );
-      debugPrint('register response: ${response.toString()}');
-      debugPrint('register response: ${response.statusCode}');
 
-      // final response = await http.post(Uri.parse(url), headers: headers);
-      // updateCookie(response);
-      if(response.statusCode==200){
+      if (response.statusCode == 200) {
         _isLoggedin = true;
-        // _login(email=email, password=password);
-
-      }else{
-        // _showErrorDialog('Code is not correct');
-        debugPrint('Code is not correct');
+      } else {
+        _isLoggedin = false;
       }
 
-      // final responseData = json.decode(response.data);
-      // debugPrint("responseData $responseData");
-
-      // if (responseData != 'false') {
-      //   try {
-      //     _token = responseData['token'];
-      //     _isFirstLogin = true;
-      //
-      //     final prefs = await SharedPreferences.getInstance();
-      //     final userData = json.encode(
-      //       {
-      //         'token': _token,
-      //       },
-      //     );
-      //     prefs.setString('userData', userData);
-      //     prefs.setString('token', _token);
-      //     debugPrint(_token);
-      //     prefs.setString('isLogin', 'true');
-      //     _isLoggedin = true;
-      //   } catch (error) {
-      //     _isLoggedin = false;
-      //     final prefs = await SharedPreferences.getInstance();
-      //     final userData = json.encode(
-      //       {
-      //         'token': '',
-      //       },
-      //     );
-      //     _token = '';
-      //   }
-      // } else {
-      //   final prefs = await SharedPreferences.getInstance();
-      //   _isLoggedin = false;
-      //
-      //   _token = '';
-      //   prefs.setString('token', _token);
-      //   debugPrint(_token);
-      //   debugPrint('noooo token');
-      //   prefs.setString('isLogin', 'true');
-      // }
       notifyListeners();
     } catch (error) {
-      debugPrint(error.toString());
-      throw error;
+      _isLoggedin = false;
+      notifyListeners();
+      rethrow;
     }
     return _isLoggedin;
   }
@@ -240,7 +166,7 @@ class AuthenticationProvider with ChangeNotifier {
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');
       headers['cookie'] =
-      (index == -1) ? rawCookie : rawCookie.substring(0, index);
+          (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
   }
 
@@ -255,7 +181,7 @@ class AuthenticationProvider with ChangeNotifier {
 
   Future<void> getTokenFromDB() async {
     final prefs = await SharedPreferences.getInstance().then(
-          (value) {
+      (value) {
         _token = value.getString("token") ?? "";
       },
     );

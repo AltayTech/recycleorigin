@@ -142,19 +142,13 @@ class _AddressScreenState extends State<AddressScreen> {
                                       child: AddressItem(
                                         addressItem: products.addressItems[i],
                                         isSelected:
-                                            Provider.of<AuthenticationProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .selectedAddress !=
-                                                    null
-                                                ? products
+                                            products
                                                         .addressItems[i].name ==
                                                     Provider.of<AuthenticationProvider>(
                                                             context,
                                                             listen: false)
                                                         .selectedAddress
-                                                        .name
-                                                : false,
+                                                        .name,
                                       ),
                                     ),
                                   ),

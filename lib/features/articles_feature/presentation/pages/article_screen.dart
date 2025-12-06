@@ -264,10 +264,7 @@ class _ArticlesScreenState extends State<ArticlesScreen>
                                           horizontal: 20.0),
                                       child: Center(
                                         child: Text(
-                                          data.categoryItems[index].name !=
-                                                  null
-                                              ? data.categoryItems[index].name
-                                              : 'n',
+                                          data.categoryItems[index].name,
                                           style: TextStyle(
                                             color: data.categoryItems[index]
                                                         .term_id ==

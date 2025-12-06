@@ -189,25 +189,19 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                               ),
                               InfoItem(
                                 title: 'Province',
-                                text: customer.personalData.ostan != null
-                                    ? customer.personalData.ostan
-                                    : '',
+                                text: customer.personalData.ostan,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xff4392F1),
                               ),
                               InfoItem(
                                 title: 'City',
-                                text: customer.personalData.city != null
-                                    ? customer.personalData.city
-                                    : '',
+                                text: customer.personalData.city,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xff4392F1),
                               ),
                               InfoItem(
                                 title: 'Zip Code',
-                                text: customer.personalData.postcode != null
-                                    ? customer.personalData.postcode
-                                    : '',
+                                text: customer.personalData.postcode,
                                 bgColor: Colors.white,
                                 iconColor: Color(0xff4392F1),
                               ),

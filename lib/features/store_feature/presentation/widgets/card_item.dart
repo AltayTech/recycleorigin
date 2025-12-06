@@ -38,7 +38,6 @@ class _CardItemState extends State<CardItem> {
       _isLoading = false;
 
       productCount = widget.shoppItem.productCount;
-      print('productCount' + productCount.toString());
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -54,9 +53,7 @@ class _CardItemState extends State<CardItem> {
 
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
   @override
@@ -100,9 +97,7 @@ class _CardItemState extends State<CardItem> {
                                 placeholder:
                                     AssetImage('assets/images/circle.gif'),
                                 image: NetworkImage(
-                                    widget.shoppItem.featured_media_url != null
-                                        ? widget.shoppItem.featured_media_url
-                                        : ''),
+                                    widget.shoppItem.featured_media_url),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -122,9 +117,7 @@ class _CardItemState extends State<CardItem> {
                                   child: Align(
                                     alignment: Alignment.centerRight,
                                     child: Text(
-                                      widget.shoppItem.title != null
-                                          ? widget.shoppItem.title
-                                          : 'Not',
+                                      widget.shoppItem.title,
                                       style: TextStyle(
                                         color: AppTheme.black,
                                         fontWeight: FontWeight.w600,
@@ -206,8 +199,6 @@ class _CardItemState extends State<CardItem> {
                                                 child: InkWell(
                                               onTap: () {
                                                 productCount = productCount - 1;
-                                                print('productCount' +
-                                                    productCount.toString());
 
                                                 Provider.of<Products>(context,
                                                         listen: false)

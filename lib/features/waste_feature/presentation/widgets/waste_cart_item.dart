@@ -172,9 +172,7 @@ class _WasteCartItemState extends State<WasteCartItem>
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 8),
                                   child: Text(
-                                    widget.wasteItem.name != null
-                                        ? widget.wasteItem.name
-                                        : 'Empty',
+                                    widget.wasteItem.name,
                                     style: TextStyle(
                                       color: AppTheme.grey,
                                       fontWeight: FontWeight.w600,
@@ -295,10 +293,8 @@ class _WasteCartItemState extends State<WasteCartItem>
                                     placeholder: AssetImage(
                                         'assets/images/main_page_request_ic.png'),
                                     image: NetworkImage(
-                                        widget.wasteItem.featured_image != null
-                                            ? widget.wasteItem.featured_image
-                                                .sizes.medium
-                                            : ''),
+                                        widget.wasteItem.featured_image
+                                                .sizes.medium),
                                     fit: BoxFit.contain,
                                   ),
                                 ),

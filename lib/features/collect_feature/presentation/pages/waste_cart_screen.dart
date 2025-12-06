@@ -410,12 +410,12 @@ class _WasteCartScreenState extends State<WasteCartScreen>
             width: 200,
             child: ElevatedButton.icon(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(AppTheme.primary),
-                foregroundColor: MaterialStateProperty.all(AppTheme.white),
-                padding: MaterialStateProperty.all(
+                backgroundColor: WidgetStateProperty.all(AppTheme.primary),
+                foregroundColor: WidgetStateProperty.all(AppTheme.white),
+                padding: WidgetStateProperty.all(
                   const EdgeInsets.symmetric(vertical: 12),
                 ),
-                shape: MaterialStateProperty.all(
+                shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

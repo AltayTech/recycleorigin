@@ -19,9 +19,7 @@ class AddressMain with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    List<Map>? addressData = this.addressData != null
-        ? this.addressData.map((i) => i.toJson()).toList()
-        : null;
+    List<Map>? addressData = this.addressData.map((i) => i.toJson()).toList();
     return {
       'address_data': addressData,
     };
