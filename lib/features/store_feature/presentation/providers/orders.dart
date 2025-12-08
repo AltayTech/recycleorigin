@@ -8,6 +8,7 @@ import 'package:recycleorigin/features/store_feature/business/entities/order_mai
 import 'package:recycleorigin/core/models/search_detail.dart';
 
 import '../../../../core/constants/urls.dart';
+import '../../../../core/utils/logger.dart';
 
 class Orders with ChangeNotifier {
   late String _token;
@@ -42,14 +43,14 @@ class Orders with ChangeNotifier {
       searchEndPoint = searchEndPoint + '&orderby=$_sOrderBy';
     }
 
-    debugPrint(searchEndPoint);
+    AppLogger.debug('Search endpoint: $searchEndPoint');
   }
 
   Future<void> searchOrderItems() async {
-    debugPrint('searchOrderItems');
+    AppLogger.debug('Searching order items');
 
     final url = Urls.rootUrl + Urls.orderEndPoint + '$searchEndPoint';
-    debugPrint(url);
+    AppLogger.debug('Order search URL: $url');
     final prefs = await SharedPreferences.getInstance();
 
     _token = prefs.getString('token')!;
@@ -60,13 +61,13 @@ class Orders with ChangeNotifier {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      debugPrint(response.statusCode.toString());
+      AppLogger.debug('Order search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
-        debugPrint(extractedData.toString());
+        AppLogger.debug('Order items retrieved');
 
         OrdersMain ordersMain = OrdersMain.fromJson(extractedData);
-        debugPrint(ordersMain.searchDetail.max_page.toString());
+        AppLogger.debug('Max page: ${ordersMain.searchDetail.max_page}');
 
         _ordersItems = ordersMain.transactions;
         _searchDetails = ordersMain.searchDetail;
@@ -74,17 +75,18 @@ class Orders with ChangeNotifier {
         _ordersItems = [];
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to search order items',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> retrieveOrderItem(int ordrId) async {
-    debugPrint('retrieveOrderItem');
+    AppLogger.debug('Retrieving order item: $ordrId');
 
     final url = Urls.rootUrl + Urls.orderEndPoint + "/$ordrId";
-    debugPrint(url);
+    AppLogger.debug('Order item URL: $url');
 
     try {
       final response = await get(url as Uri, headers: {
@@ -92,13 +94,14 @@ class Orders with ChangeNotifier {
         'Accept': 'application/json'
       });
       final extractedData = json.decode(response.body) as dynamic;
-      debugPrint(extractedData);
+      AppLogger.debug('Order item data retrieved');
 
       Order order = Order.fromJson(extractedData);
 
       _orderItem = order;
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to retrieve order item',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
     notifyListeners();

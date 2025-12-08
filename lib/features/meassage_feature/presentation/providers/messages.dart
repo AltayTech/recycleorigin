@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/constants/urls.dart';
+import '../../../../core/utils/logger.dart';
 
 class Messages with ChangeNotifier {
   List<Message> _allMessages = [];
@@ -18,7 +19,7 @@ class Messages with ChangeNotifier {
 
   Future<void> createMessage(String subject, String content,
       String comment_post_ID, String parent_id, bool isLogin) async {
-    debugPrint('createMessage');
+    AppLogger.debug('Creating message');
     try {
       if (isLogin) {
         final prefs = await SharedPreferences.getInstance();
@@ -41,18 +42,18 @@ class Messages with ChangeNotifier {
 
         final extractedData = json.decode(response.body);
 
-        debugPrint(extractedData.toString());
+        AppLogger.debug('Message created successfully');
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to create message',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> getMessages(String commentPostId, bool isLogin) async {
-    debugPrint('getMessages');
-    debugPrint(commentPostId);
+    AppLogger.debug('Getting messages for comment post ID: $commentPostId');
 
     try {
       if (isLogin) {
@@ -63,7 +64,7 @@ class Messages with ChangeNotifier {
         final url = commentPostId == '0'
             ? Urls.rootUrl + Urls.messageEndPoint
             : Urls.rootUrl + Urls.messageEndPoint + '/$commentPostId';
-        debugPrint(url);
+        AppLogger.debug('Messages URL: $url');
 
         final response = await get(Uri.parse(url), headers: {
           'Authorization': 'Bearer $_token',
@@ -72,19 +73,19 @@ class Messages with ChangeNotifier {
         });
 
         final extractedData = json.decode(response.body) as List<dynamic>;
-        debugPrint(extractedData.toString());
+        AppLogger.debug('Loaded ${extractedData.length} messages');
 
         List<Message> messageList =
             extractedData.map((i) => Message.fromJson(i)).toList();
-        debugPrint(extractedData.toString());
 
         commentPostId == '0'
             ? _allMessages = messageList
             : _allMessagesDetail = messageList;
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to get messages',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }

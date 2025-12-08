@@ -8,6 +8,7 @@ import '../../business/entities/article.dart';
 import '../../../../core/models/category.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/constants/urls.dart';
+import '../../../../core/utils/logger.dart';
 
 class Articles with ChangeNotifier {
   List<Article> _articleItems = [];
@@ -41,7 +42,7 @@ class Articles with ChangeNotifier {
     if (!(_sCategory == '' || _sCategory == null)) {
       searchEndPoint = searchEndPoint + '&cat=$_sCategory';
     }
-    print(searchEndPoint);
+    AppLogger.debug('Search endpoint: $searchEndPoint');
   }
 
   get sCategory => _sCategory;
@@ -51,20 +52,21 @@ class Articles with ChangeNotifier {
   }
 
   Future<void> searchItem() async {
-    print('searchItem');
+    AppLogger.debug('Searching articles');
 
     final url = Urls.rootUrl + Urls.articlesEndPoint + searchEndPoint;
-    print(url);
+    AppLogger.debug('Articles search URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      print(response.statusCode);
+      AppLogger.debug('Articles search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
-        print(extractedData);
+        AppLogger.debug('Articles retrieved');
+
         ArticleMain articleMain = ArticleMain.fromJson(extractedData);
 
         _articleItems = articleMain.articles;
@@ -73,17 +75,18 @@ class Articles with ChangeNotifier {
         _articleItems = [];
       }
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to search articles',
+          error: error, stackTrace: stackTrace);
       // throw (error);
     }
   }
 
   Future<void> retrieveCategory() async {
-    print('retrieveCategory');
+    AppLogger.debug('Retrieving article categories');
 
     final url = Urls.rootUrl + Urls.articlesCatEndPoint;
-    print(url);
+    AppLogger.debug('Article categories URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
@@ -92,24 +95,25 @@ class Articles with ChangeNotifier {
       });
 
       final extractedData = json.decode(response.body) as List<dynamic>;
-      print(extractedData);
+      AppLogger.debug('Loaded ${extractedData.length} article categories');
 
       List<Category> categories =
           extractedData.map((i) => Category.fromJson(i)).toList();
 
       _categoryItems = categories;
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to retrieve article categories',
+          error: error, stackTrace: stackTrace);
       // throw (error);
     }
   }
 
   Future<void> retrieveItem(int articleId) async {
-    print('retrieveItem');
+    AppLogger.debug('Retrieving article: $articleId');
 
     final url = Urls.rootUrl + Urls.articlesEndPoint + "/$articleId";
-    print(url);
+    AppLogger.debug('Article URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
@@ -117,14 +121,15 @@ class Articles with ChangeNotifier {
         'Accept': 'application/json'
       });
       final extractedData = json.decode(response.body) as dynamic;
-      print(extractedData);
+      AppLogger.debug('Article data retrieved');
 
       Article article = Article.fromJson(extractedData);
-      print(article.id.toString());
+      AppLogger.debug('Article ID: ${article.id}');
 
       _item = article;
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to retrieve article',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
     notifyListeners();

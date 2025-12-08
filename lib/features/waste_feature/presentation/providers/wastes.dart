@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/constants/urls.dart';
 import '../../../../core/models/search_detail.dart';
+import '../../../../core/utils/logger.dart';
 
 class Wastes with ChangeNotifier {
   List<Waste> _wasteItems = [];
@@ -26,20 +27,20 @@ class Wastes with ChangeNotifier {
   late RequestWasteItem _requestWasteItem;
 
   Future<void> searchWastesItem() async {
-    debugPrint('searchItem');
+    AppLogger.debug('Searching waste items');
 
     final url = Urls.rootUrl + Urls.pasmandsEndPoint;
-    debugPrint(url);
+    AppLogger.debug('Waste search URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      debugPrint(response.statusCode.toString());
+      AppLogger.debug('Waste search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List<dynamic>;
-        debugPrint(extractedData.toString());
+        AppLogger.debug('Loaded ${extractedData.length} waste items');
 
         List<Waste> wastes =
             extractedData.map((i) => Waste.fromJson(i)).toList();
@@ -49,14 +50,15 @@ class Wastes with ChangeNotifier {
         _wasteItems = [];
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to search waste items',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> addWasteCart(Waste waste, int weight) async {
-    debugPrint('addWasteCart');
+    AppLogger.debug('Adding waste to cart: ${waste.id}');
     try {
       _wasteCartItems.add(WasteCart(
           id: waste.id,
@@ -68,26 +70,28 @@ class Wastes with ChangeNotifier {
           weight: weight));
       _wasteCartItemsId.add(waste.id);
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to add waste to cart',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> updateWasteCart(WasteCart waste, int quantity) async {
-    debugPrint('updateShopCart');
+    AppLogger.debug('Updating waste cart item: ${waste.id}');
     try {
       _wasteCartItems.firstWhere((prod) => prod.id == waste.id).weight =
           quantity;
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to update waste cart',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> removeWasteCart(int wasteId) async {
-    debugPrint('removeShopCart');
+    AppLogger.debug('Removing waste from cart: $wasteId');
 
     _wasteCartItems
         .remove(_wasteCartItems.firstWhere((prod) => prod.id == wasteId));
@@ -106,16 +110,14 @@ class Wastes with ChangeNotifier {
   List<int> get wasteCartItemsId => _wasteCartItemsId;
 
   Future<void> sendRequest(RequestWaste request, bool isLogin) async {
-    debugPrint('sendRequest');
+    AppLogger.debug('Sending waste request');
     try {
       if (isLogin) {
         final prefs = await SharedPreferences.getInstance();
         _token = prefs.getString('token')!;
-        debugPrint('tooookkkeeennnnnn  $_token');
 
         final url = Urls.rootUrl + Urls.collectsEndPoint;
-        debugPrint('url  $url');
-        debugPrint(jsonEncode(request));
+        AppLogger.debug('Waste request URL: $url');
 
         final response = await post(Uri.parse(url),
             headers: {
@@ -126,10 +128,12 @@ class Wastes with ChangeNotifier {
             body: jsonEncode(request));
 
         final extractedData = json.decode(response.body);
+        AppLogger.debug('Waste request sent successfully');
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to send waste request',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
@@ -178,57 +182,55 @@ class Wastes with ChangeNotifier {
     if (!(_sCategory == '' || _sCategory == null)) {
       searchEndPoint = searchEndPoint + '&category=$_sCategory';
     }
-    debugPrint(searchEndPoint);
+    AppLogger.debug('Search endpoint: $searchEndPoint');
   }
 
   Future<void> searchCollectItems() async {
-    debugPrint('searchCollectItems');
+    AppLogger.debug('Searching collect items');
 
     final url = Urls.rootUrl + Urls.collectsEndPoint + '$searchEndPoint';
-    debugPrint(url);
+    AppLogger.debug('Collect search URL: $url');
 
     try {
       final prefs = await SharedPreferences.getInstance();
       _token = prefs.getString('token')!;
-      debugPrint('tooookkkeeennnnnn  $_token');
 
       final response = await get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      debugPrint(response.statusCode.toString());
+      AppLogger.debug('Collect search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
-        debugPrint("extractedData.toString() ${extractedData.toString()}");
+        AppLogger.debug('Collect items retrieved');
 
         CollectMain collectMain = CollectMain.fromJson(extractedData);
-        debugPrint(
-            "collectMain.searchDetail.max_page.toString() ${collectMain.searchDetail.max_page.toString()}");
+        AppLogger.debug('Max page: ${collectMain.searchDetail.max_page}');
 
         _collectItems = collectMain.requestWasteItem;
-        debugPrint("_collectItems $_collectItems");
+        AppLogger.debug('Loaded ${_collectItems.length} collect items');
         _searchDetails = collectMain.searchDetail;
       } else {
         _collectItems = [];
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint("error.toString() ${error.toString()}");
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to search collect items',
+          error: error, stackTrace: stackTrace);
       // throw (error);
     }
   }
 
   Future<void> retrieveCollectItem(int collectId) async {
-    debugPrint('retrieveCollectItem');
+    AppLogger.debug('Retrieving collect item: $collectId');
 
     final url = Urls.rootUrl + Urls.collectsEndPoint + "/$collectId";
-    debugPrint(url);
+    AppLogger.debug('Collect item URL: $url');
 
     try {
       final prefs = await SharedPreferences.getInstance();
       _token = prefs.getString('token')!;
-      debugPrint('tooookkkeeennnnnn  $_token');
 
       final _dio = diolib.Dio();
       diolib.Response response = await _dio.get(
@@ -242,19 +244,17 @@ class Wastes with ChangeNotifier {
         ),
       );
 
-      debugPrint("response.statusCode.toString() ${response.statusCode}");
-      debugPrint("response.toString() ${response.data}", wrapWidth: 1024);
-
-      // final extractedData = jsonDecode(response.data);
-      // debugPrint("extractedData $extractedData");
+      AppLogger.debug('Collect item response status: ${response.statusCode}');
+      AppLogger.debug('Collect item data retrieved');
 
       RequestWasteItem requestWasteItem =
           RequestWasteItem.fromJson(response.data);
-      debugPrint(requestWasteItem.id.toString());
+      AppLogger.debug('Collect item ID: ${requestWasteItem.id}');
 
       _requestWasteItem = requestWasteItem;
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to retrieve collect item',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
     notifyListeners();

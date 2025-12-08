@@ -13,6 +13,7 @@ import '../../business/entities/product_cart.dart';
 import '../../business/entities/product_main.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/constants/urls.dart';
+import '../../../../core/utils/logger.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [];
@@ -67,7 +68,7 @@ class Products with ChangeNotifier {
     if (!(_sCategory == '' || _sCategory == null)) {
       searchEndPoint = searchEndPoint + '&category=$_sCategory';
     }
-    debugPrint(searchEndPoint);
+    AppLogger.debug('Search endpoint: $searchEndPoint');
   }
 
   static Product _itemZero = Product();
@@ -102,7 +103,7 @@ class Products with ChangeNotifier {
     ColorCodeProductDetail colorId,
     int quantity,
   ) async {
-    debugPrint('addShopCart');
+    AppLogger.debug('Adding product to cart: ${product.id}');
     try {
       _cartItems.add(ProductCart(
           id: product.id,
@@ -111,33 +112,36 @@ class Products with ChangeNotifier {
           featured_media_url: product.featured_image.sizes.medium,
           productCount: quantity));
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to add product to cart',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> updateShopCart(ProductCart product, ColorCodeCard colorId,
       int quantity, bool isLogin) async {
-    debugPrint('updateShopCart');
+    AppLogger.debug('Updating cart item: ${product.id}');
     try {
       _cartItems.firstWhere((prod) => prod.id == product.id).productCount =
           quantity;
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to update cart item',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> removeShopCart(int productId) async {
-    debugPrint('removeShopCart');
+    AppLogger.debug('Removing product from cart: $productId');
 
     try {
       _cartItems.remove(_cartItems.firstWhere((prod) => prod.id == productId));
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to remove product from cart',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
@@ -147,10 +151,10 @@ class Products with ChangeNotifier {
   }
 
   Future<void> retrieveCategory() async {
-    debugPrint('fetchAndSetHomeData');
+    AppLogger.debug('Fetching categories');
 
     final url = Urls.rootUrl + Urls.categoriesEndPoint;
-    debugPrint(url);
+    AppLogger.debug('Categories URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
@@ -159,37 +163,37 @@ class Products with ChangeNotifier {
       });
 
       final extractedData = json.decode(response.body) as List<dynamic>;
-      debugPrint(extractedData.toString());
+      AppLogger.debug('Loaded ${extractedData.length} categories');
 
       List<Category> categories =
           extractedData.map((i) => Category.fromJson(i)).toList();
-      debugPrint(categories[0].name);
 
       _categoryItems = categories;
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to retrieve categories',
+          error: error, stackTrace: stackTrace);
     }
   }
 
   Future<void> searchItem() async {
-    debugPrint('searchItem');
+    AppLogger.debug('Searching products');
 
     final url = Urls.rootUrl + Urls.productsEndPoint + '$searchEndPoint';
-    debugPrint(url);
+    AppLogger.debug('Products search URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      debugPrint(response.statusCode.toString());
+      AppLogger.debug('Products search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
-        debugPrint(extractedData.toString());
+        AppLogger.debug('Products retrieved');
 
         ProductMain productMain = ProductMain.fromJson(extractedData);
-        debugPrint(productMain.productsDetail.max_page.toString());
+        AppLogger.debug('Max page: ${productMain.productsDetail.max_page}');
 
         _items = productMain.products;
         _searchDetails = productMain.productsDetail;
@@ -197,17 +201,18 @@ class Products with ChangeNotifier {
         _items = [];
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to search products',
+          error: error, stackTrace: stackTrace);
       // throw (error);
     }
   }
 
   Future<void> retrieveItem(int productId) async {
-    debugPrint('retrieveItem');
+    AppLogger.debug('Retrieving product: $productId');
 
     final url = Urls.rootUrl + Urls.productsEndPoint + "/$productId";
-    debugPrint(url);
+    AppLogger.debug('Product URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
@@ -215,15 +220,15 @@ class Products with ChangeNotifier {
         'Accept': 'application/json'
       });
       final extractedData = json.decode(response.body) as dynamic;
-      debugPrint(extractedData);
+      AppLogger.debug('Product data retrieved');
 
       Product product = Product.fromJson(extractedData);
-      debugPrint(product.id.toString());
-      debugPrint(product.description.toString());
+      AppLogger.debug('Product ID: ${product.id}');
 
       _item = product;
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to retrieve product',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
     notifyListeners();
@@ -260,15 +265,13 @@ class Products with ChangeNotifier {
   Future<void> sendRequest(
     OrderSendDetails request,
   ) async {
-    debugPrint('sendRequestOrder');
+    AppLogger.debug('Sending order request');
     try {
       final prefs = await SharedPreferences.getInstance();
       _token = prefs.getString('token')!;
-      debugPrint('tooookkkeeennnnnn  $_token');
 
       final url = Urls.rootUrl + Urls.orderEndPoint;
-      debugPrint('url  $url');
-      debugPrint(jsonEncode(request));
+      AppLogger.debug('Order URL: $url');
 
       final response = await post(Uri.parse(url),
           headers: {
@@ -278,14 +281,13 @@ class Products with ChangeNotifier {
           },
           body: jsonEncode(request));
 
-      final extractedData = json.decode(response.body);
-      debugPrint(extractedData);
-
-      debugPrint('qqqqqqqqqqqqqqggggggggq11111111111');
+      json.decode(response.body); // Validate response
+      AppLogger.debug('Order request sent successfully');
 
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to send order request',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }

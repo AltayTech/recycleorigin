@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/constants/urls.dart';
 import '../../../../core/models/search_detail.dart';
+import '../../../../core/utils/logger.dart';
 
 class Charities with ChangeNotifier {
   List<Charity> _charitiesItems = [];
@@ -36,14 +37,14 @@ class Charities with ChangeNotifier {
       searchEndPoint = searchEndPoint + '?page=$_sPage&per_page=$_sPerPage';
     }
 
-    debugPrint(searchEndPoint);
+    AppLogger.debug('Search endpoint: $searchEndPoint');
   }
 
   Future<void> searchCharitiesItem() async {
-    debugPrint('searchCharityItem');
+    AppLogger.debug('Searching charities');
 
     final url = Urls.rootUrl + Urls.charitiesEndPoint + searchEndPoint;
-    debugPrint(url);
+    AppLogger.debug('Charities search URL: $url');
 
     try {
       Dio dio = Dio();
@@ -53,7 +54,7 @@ class Charities with ChangeNotifier {
       };
 
       final response = await dio.get(url);
-      debugPrint(response.statusCode.toString());
+      AppLogger.debug('Charities search response status: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         CharityMain charityMain = CharityMain.fromJson(response.data);
@@ -65,8 +66,9 @@ class Charities with ChangeNotifier {
       }
 
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to search charities',
+          error: error, stackTrace: stackTrace);
       throw error;
     }
   }
@@ -101,10 +103,10 @@ class Charities with ChangeNotifier {
   // }
 
   Future<void> retrieveCharityItem(int charityId) async {
-    debugPrint('retrieveCharityItemvvvvv');
+    AppLogger.debug('Retrieving charity item: $charityId');
 
     final url = Urls.rootUrl + Urls.charitiesEndPoint + "/$charityId";
-    debugPrint(url);
+    AppLogger.debug('Charity URL: $url');
 
     try {
       Dio dio = Dio();
@@ -117,11 +119,12 @@ class Charities with ChangeNotifier {
 
       // If the response is JSON, Dio automatically parses it to a Map<String, dynamic>
       Charity charity = Charity.fromJson(response.data);
-      debugPrint(charity.id.toString());
+      AppLogger.debug('Charity retrieved: ${charity.id}');
 
       _item = charity;
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to retrieve charity item',
+          error: error, stackTrace: stackTrace);
       throw error;
     }
 
@@ -172,18 +175,13 @@ class Charities with ChangeNotifier {
   Charity get item => _item;
 
   Future<void> sendCharityRequest(int charityId, String totalPrice) async {
-    debugPrint('sendCharityRequest');
+    AppLogger.debug('Sending charity request for charity ID: $charityId');
     try {
       final prefs = await SharedPreferences.getInstance();
       _token = prefs.getString('token')!;
-      debugPrint('tooookkkeeennnnnn  $_token');
 
       final url = Urls.rootUrl + Urls.charitiesEndPoint;
-      debugPrint('url  $url');
-      debugPrint(jsonEncode({
-        "charity_id": charityId,
-        "total_price": totalPrice,
-      }));
+      AppLogger.debug('Charity request URL: $url');
 
       final response = await post(Uri.parse(url),
           headers: {
@@ -196,14 +194,13 @@ class Charities with ChangeNotifier {
             "total_price": totalPrice,
           }));
 
-      final extractedData = json.decode(response.body);
-      debugPrint(extractedData);
-
-      debugPrint('qqqqqqqqqqqqqqggggggggq11111111111');
+      json.decode(response.body); // Validate response
+      AppLogger.debug('Charity request sent successfully');
 
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to send charity request',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }

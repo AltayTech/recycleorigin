@@ -9,6 +9,7 @@ import 'package:recycleorigin/features/clearing_feature/business/entities/cleari
 
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/constants/urls.dart';
+import '../../../../core/utils/logger.dart';
 
 class Clearings with ChangeNotifier {
   late String _token;
@@ -61,32 +62,31 @@ class Clearings with ChangeNotifier {
     if (!(_sCategory == '' || _sCategory == null)) {
       searchEndPoint = searchEndPoint + '&category=$_sCategory';
     }
-    debugPrint(searchEndPoint);
+    AppLogger.debug('Search endpoint: $searchEndPoint');
   }
 
   Future<void> searchCleaingsItems() async {
-    debugPrint('searchCleaingsItems');
+    AppLogger.debug('Searching clearing items');
 
     final url = Urls.rootUrl + Urls.clearingEndPoint + '$searchEndPoint';
-    debugPrint(url);
+    AppLogger.debug('Clearing search URL: $url');
 
     try {
       final prefs = await SharedPreferences.getInstance();
       _token = prefs.getString('token')!;
-      debugPrint('tooookkkeeennnnnn  $_token');
 
       final response = await get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      debugPrint(response.statusCode.toString());
+      AppLogger.debug('Clearing search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
-        debugPrint(extractedData.toString());
+        AppLogger.debug('Clearing items retrieved');
 
         ClearingMain deliveryMain = ClearingMain.fromJson(extractedData);
-        debugPrint(deliveryMain.searchDetail.max_page.toString());
+        AppLogger.debug('Max page: ${deliveryMain.searchDetail.max_page}');
 
         _deliveriesItems = deliveryMain.clearings;
         _searchDetails = deliveryMain.searchDetail;
@@ -94,8 +94,9 @@ class Clearings with ChangeNotifier {
         _deliveriesItems = [];
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to search clearing items',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }

@@ -17,6 +17,7 @@ import '../../../store_feature/business/entities/order_details.dart';
 import '../../business/entities/personal_data.dart';
 import '../../../store_feature/business/entities/shop.dart';
 import '../../../../core/constants/urls.dart';
+import '../../../../core/utils/logger.dart';
 
 class CustomerInfoProvider with ChangeNotifier {
   String _payUrl = '';
@@ -53,16 +54,14 @@ class CustomerInfoProvider with ChangeNotifier {
   List<Order> get orders => _orders;
 
   Future<void> getCustomer() async {
-    print('getCustomer');
+    AppLogger.debug('Fetching customer data');
 
     final url = Urls.rootUrl + Urls.customerEndPoint;
-    print(url);
+    AppLogger.debug('Customer URL: $url');
 
     final prefs = await SharedPreferences.getInstance();
 
     _token = prefs.getString('token')!;
-
-    print(_token);
 
     Customer customers;
     try {
@@ -73,28 +72,28 @@ class CustomerInfoProvider with ChangeNotifier {
       });
 
       final extractedData = json.decode(response.body);
-      print(extractedData);
+      AppLogger.debug('Customer data received');
 
       customers = Customer.fromJson(extractedData);
 
       _customer = customers;
 
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to get customer data',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> sendCustomer(Customer customer) async {
-    print('sendCustomer');
+    AppLogger.debug('Sending customer data');
 
     final url = Urls.rootUrl + Urls.customerEndPoint;
 
     final prefs = await SharedPreferences.getInstance();
 
     _token = prefs.getString('token')!;
-    print(jsonEncode(customer));
 
     try {
       final response = await post(
@@ -110,11 +109,12 @@ class CustomerInfoProvider with ChangeNotifier {
         }),
       );
 
-      final extractedData = json.decode(response.body);
-      print(extractedData);
+      json.decode(response.body); // Validate response
+      AppLogger.debug('Customer data sent successfully');
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to send customer data',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
@@ -128,8 +128,7 @@ class CustomerInfoProvider with ChangeNotifier {
   }
 
   Future<void> getOrderDetails(int orderId) async {
-    print('getOrderDetails');
-    print(orderId.toString());
+    AppLogger.debug('Getting order details for order ID: $orderId');
 
     _currentOrderId = orderId;
 
@@ -152,17 +151,18 @@ class CustomerInfoProvider with ChangeNotifier {
       orderDetails = OrderDetails.fromJson(extractedData);
 
       _order = orderDetails;
-      print(extractedData.toString());
+      AppLogger.debug('Order details retrieved successfully');
 
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to get order details',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> payCashOrder(int orderId) async {
-    print('payCashOrder');
+    AppLogger.debug('Processing cash payment for order ID: $orderId');
 
     final url = Urls.rootUrl + Urls.payEndPoint + '?order_id=$orderId';
 
@@ -178,20 +178,20 @@ class CustomerInfoProvider with ChangeNotifier {
       });
 
       final extractedData = json.decode(response.body);
-      print(extractedData.toString());
 
       _payUrl = extractedData;
-      print(extractedData.toString());
+      AppLogger.debug('Payment URL generated successfully');
 
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to process cash payment',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> sendNaghdOrder() async {
-    print('sendNaghdOrder');
+    AppLogger.debug('Sending naghd order');
 
     final url = Urls.rootUrl + Urls.orderInfoEndPoint + '?paytype=naghd';
 
@@ -207,23 +207,24 @@ class CustomerInfoProvider with ChangeNotifier {
       });
 
       final extractedData = json.decode(response.body);
-      print(extractedData);
+      AppLogger.debug('Naghd order sent successfully');
 
       int orderId = extractedData['order_id'];
       _currentOrderId = orderId;
 
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to send naghd order',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> fetchShopData() async {
-    print('fetchShopData');
+    AppLogger.debug('Fetching shop data');
 
     final url = Urls.rootUrl + Urls.shopEndPoint;
-    print(url);
+    AppLogger.debug('Shop URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
@@ -232,14 +233,15 @@ class CustomerInfoProvider with ChangeNotifier {
       });
 
       final extractedData = json.decode(response.body) as dynamic;
-      print(extractedData);
+      AppLogger.debug('Shop data received');
 
       Shop shopData = Shop.fromJson(extractedData);
 
       _shop = shopData;
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to fetch shop data',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
@@ -288,14 +290,14 @@ class CustomerInfoProvider with ChangeNotifier {
       searchEndPoint = searchEndPoint + '&orderby=$_sOrderBy';
     }
 
-    print(searchEndPoint);
+    AppLogger.debug('Search endpoint: $searchEndPoint');
   }
 
   Future<void> searchTransactionItems() async {
-    print('searchTransactionItems');
+    AppLogger.debug('Searching transaction items');
 
     final url = Urls.rootUrl + Urls.transactionsEndPoint + '$searchEndPoint';
-    print(url);
+    AppLogger.debug('Transaction search URL: $url');
     final prefs = await SharedPreferences.getInstance();
 
     _token = prefs.getString('token')!;
@@ -306,14 +308,14 @@ class CustomerInfoProvider with ChangeNotifier {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      print(response.statusCode);
+      AppLogger.debug('Transaction search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
-        print(extractedData.toString());
+        AppLogger.debug('Transaction items retrieved');
 
         TransactionMain transactionMain =
             TransactionMain.fromJson(extractedData);
-        print(transactionMain.searchDetail.max_page.toString());
+        AppLogger.debug('Max page: ${transactionMain.searchDetail.max_page}');
 
         _transactionItems = transactionMain.transactions;
         _searchDetails = transactionMain.searchDetail;
@@ -321,17 +323,18 @@ class CustomerInfoProvider with ChangeNotifier {
         _transactionItems = [];
       }
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to search transaction items',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> retrieveItem(int collectId) async {
-    print('retrieveItem');
+    AppLogger.debug('Retrieving item for collect ID: $collectId');
 
     final url = Urls.rootUrl + Urls.collectsEndPoint + "/$collectId";
-    print(url);
+    AppLogger.debug('Retrieve item URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
@@ -339,13 +342,14 @@ class CustomerInfoProvider with ChangeNotifier {
         'Accept': 'application/json'
       });
       final extractedData = json.decode(response.body) as dynamic;
-      print(extractedData);
+      AppLogger.debug('Item data retrieved');
 
       Transaction transaction = Transaction.fromJson(extractedData);
 
       _transactionItem = transaction;
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to retrieve item',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
     notifyListeners();
@@ -384,20 +388,20 @@ class CustomerInfoProvider with ChangeNotifier {
   }
 
   Future<void> getProvinces() async {
-    print('getProvinces');
+    AppLogger.debug('Fetching provinces');
 
     final url = Urls.rootUrl + Urls.provincesEndPoint;
-    print(url);
+    AppLogger.debug('Provinces URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      print(response.statusCode);
+      AppLogger.debug('Provinces response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List<dynamic>;
-        print(extractedData);
+        AppLogger.debug('Loaded ${extractedData.length} provinces');
 
         List<Province> wastes =
             extractedData.map((i) => Province.fromJson(i)).toList();
@@ -407,8 +411,9 @@ class CustomerInfoProvider with ChangeNotifier {
         _provincesItems = [];
       }
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to get provinces',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
@@ -418,20 +423,20 @@ class CustomerInfoProvider with ChangeNotifier {
   List<Province> get provincesItems => _provincesItems;
 
   Future<void> getCities(int provinceId) async {
-    print('getCities');
+    AppLogger.debug('Fetching cities for province ID: $provinceId');
 
     final url = Urls.rootUrl + Urls.provincesEndPoint + '$provinceId';
-    print(url);
+    AppLogger.debug('Cities URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      print(response.statusCode);
+      AppLogger.debug('Cities response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List<dynamic>;
-        print(extractedData);
+        AppLogger.debug('Loaded ${extractedData.length} cities');
 
         List<City> wastes = extractedData.map((i) => City.fromJson(i)).toList();
 
@@ -440,8 +445,9 @@ class CustomerInfoProvider with ChangeNotifier {
         _citiesItems = [];
       }
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to get cities',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
@@ -451,20 +457,20 @@ class CustomerInfoProvider with ChangeNotifier {
   List<City> get citiesItems => _citiesItems;
 
   Future<void> getTypes() async {
-    print('getTypes');
+    AppLogger.debug('Fetching types');
 
     final url = Urls.rootUrl + Urls.typesEndPoint;
-    print(url);
+    AppLogger.debug('Types URL: $url');
 
     try {
       final response = await get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      print(response.statusCode);
+      AppLogger.debug('Types response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List<dynamic>;
-        print(extractedData);
+        AppLogger.debug('Loaded ${extractedData.length} types');
 
         List<Status> wastes =
             extractedData.map((i) => Status.fromJson(i)).toList();
@@ -474,8 +480,9 @@ class CustomerInfoProvider with ChangeNotifier {
         _typesItems = [];
       }
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to get types',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
@@ -485,17 +492,13 @@ class CustomerInfoProvider with ChangeNotifier {
   List<Status> get typesItems => _typesItems;
 
   Future<void> sendClearingRequest(String money, String shaba) async {
-    print('sendCharityRequest');
+    AppLogger.debug('Sending clearing request');
     try {
       final prefs = await SharedPreferences.getInstance();
       _token = prefs.getString('token')!;
-      print('tooookkkeeennnnnn  $_token');
 
       final url = Urls.rootUrl + Urls.clearingEndPoint;
-      print('url  $url');
-      print(jsonEncode({
-        "money": money,
-      }));
+      AppLogger.debug('Clearing request URL: $url');
 
       final response = await post(Uri.parse(url),
           headers: {
@@ -505,14 +508,13 @@ class CustomerInfoProvider with ChangeNotifier {
           },
           body: jsonEncode({"money": money, 'shaba': shaba}));
 
-      final extractedData = json.decode(response.body);
-      print(extractedData);
-
-      print('qqqqqqqqqqqqqqggggggggq11111111111');
+      json.decode(response.body); // Validate response
+      AppLogger.debug('Clearing request sent successfully');
 
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to send clearing request',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
