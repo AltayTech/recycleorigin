@@ -24,7 +24,7 @@ class CustomerInfoProvider with ChangeNotifier {
 
   late int _currentOrderId;
 
-  late Shop _shop=Shop();
+  late Shop _shop = Shop();
 
   String get payUrl => _payUrl;
   List<File> chequeImageList = [];
@@ -308,7 +308,8 @@ class CustomerInfoProvider with ChangeNotifier {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      AppLogger.debug('Transaction search response status: ${response.statusCode}');
+      AppLogger.debug(
+          'Transaction search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         AppLogger.debug('Transaction items retrieved');

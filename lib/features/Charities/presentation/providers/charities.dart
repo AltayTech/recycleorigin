@@ -54,7 +54,8 @@ class Charities with ChangeNotifier {
       };
 
       final response = await dio.get(url);
-      AppLogger.debug('Charities search response status: ${response.statusCode}');
+      AppLogger.debug(
+          'Charities search response status: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         CharityMain charityMain = CharityMain.fromJson(response.data);

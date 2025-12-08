@@ -187,7 +187,8 @@ class Products with ChangeNotifier {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      AppLogger.debug('Products search response status: ${response.statusCode}');
+      AppLogger.debug(
+          'Products search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         AppLogger.debug('Products retrieved');

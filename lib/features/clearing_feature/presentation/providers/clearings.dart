@@ -80,7 +80,8 @@ class Clearings with ChangeNotifier {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      AppLogger.debug('Clearing search response status: ${response.statusCode}');
+      AppLogger.debug(
+          'Clearing search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         AppLogger.debug('Clearing items retrieved');

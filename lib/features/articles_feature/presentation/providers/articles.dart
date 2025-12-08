@@ -62,7 +62,8 @@ class Articles with ChangeNotifier {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-      AppLogger.debug('Articles search response status: ${response.statusCode}');
+      AppLogger.debug(
+          'Articles search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         AppLogger.debug('Articles retrieved');
