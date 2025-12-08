@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../customer_feature/presentation/providers/authentication_provider.dart';
 import '../../business/entities/address.dart';
 
-/// A widget that represents an individual address item.
-///
-/// Displays information about the address and provides functionality
-/// to remove the address.
 class AddressItem extends StatefulWidget {
   final Address addressItem;
   final bool isSelected;
+  final VoidCallback? onTap;
 
   const AddressItem({
     Key? key,
     required this.addressItem,
     this.isSelected = false,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -26,169 +22,127 @@ class AddressItem extends StatefulWidget {
 }
 
 class _AddressItemState extends State<AddressItem> {
-  bool _isInit = true;
-  late bool _isLoading;
-  late bool _isLogin;
-  late List<Address> _addressList;
+  bool _isLoading = false;
 
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      _isLoading = false;
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
-
-  /// Removes the address item from the list.
   Future<void> _removeItem() async {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
 
-    await Provider.of<AuthenticationProvider>(context, listen: false)
-        .getAddresses();
-    _addressList = Provider.of<AuthenticationProvider>(context, listen: false)
-        .addressItems;
+    try {
+      final authProvider =
+          Provider.of<AuthenticationProvider>(context, listen: false);
 
-    _addressList.remove(_addressList
-        .firstWhere((prod) => prod.name == widget.addressItem.name));
-    await Provider.of<AuthenticationProvider>(context, listen: false)
-        .updateAddress(_addressList);
+      await authProvider.getAddresses();
+      final List<Address> currentList = authProvider.addressItems;
 
-    setState(() {
-      _isLoading = false;
-    });
+      currentList.removeWhere((item) => item.name == widget.addressItem.name);
+
+      await authProvider.updateAddress(currentList);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error removing address: $e')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    final currencyFormat = intl.NumberFormat.decimalPattern();
-
     return Card(
-      // color: Colors.white,
-      child: Container(
-        height: deviceWidth * 0.28,
-        width: deviceWidth,
-        decoration: BoxDecoration(
-          color: widget.isSelected
-              ? AppTheme.primary.withOpacity(0.1)
-              : Colors.white,
-          // border: Border.all(color: AppTheme.white, width: 0.3),
-          // borderRadius: BorderRadius.circular(5),
-        ),
-        child: LayoutBuilder(
-          builder: (_, constraints) => Stack(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: deviceWidth * 0.05),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Icon(
-                        Icons.place,
-                        color: AppTheme.primary,
-                        size: 30,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 6,
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 3,
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  widget.addressItem.name ?? 'Not',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Text(
-                                widget.addressItem.region.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: AppTheme.grey,
-                                  //fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 15,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Text(
-                                widget.addressItem.address,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: AppTheme.grey,
-                                  //fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 15,
-                                ),
-                              ),
-                            ),
-                          ],
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      margin: EdgeInsets.zero,
+      child: InkWell(
+        onTap: widget.onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          decoration: BoxDecoration(
+            color: widget.isSelected
+                ? AppTheme.primary.withOpacity(0.1)
+                : Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: widget.isSelected
+                ? Border.all(color: AppTheme.primary, width: 1)
+                : null,
+          ),
+          padding: const EdgeInsets.all(12),
+          child: Stack(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.location_on,
+                    color: AppTheme.primary,
+                    size: 28,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.addressItem.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.h1,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                top: 2,
-                left: 2,
-                child: Container(
-                  height: deviceWidth * 0.10,
-                  width: deviceWidth * 0.1,
-                  child: InkWell(
-                    onTap: _removeItem,
-                    child: Icon(
-                      Icons.close,
-                      size: 20,
-                      color: Colors.black54,
+                        const SizedBox(height: 4),
+                        Text(
+                          widget.addressItem.region.name,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppTheme.grey,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          widget.addressItem.address,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppTheme.grey.withOpacity(0.8),
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
                   ),
-                ),
+                  const SizedBox(width: 30), // Space for delete button
+                ],
               ),
               Positioned(
                 top: 0,
-                bottom: 0,
-                left: 0,
                 right: 0,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: _isLoading
-                      ? SpinKitFadingCircle(
-                          itemBuilder: (BuildContext context, int index) {
-                            return DecoratedBox(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: index.isEven ? Colors.grey : Colors.grey,
-                              ),
-                            );
-                          },
-                        )
-                      : Container(),
+                child: InkWell(
+                  onTap: _isLoading ? null : _removeItem,
+                  customBorder: const CircleBorder(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: _isLoading
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.grey),
+                            ),
+                          )
+                        : Icon(
+                            Icons.close,
+                            size: 20,
+                            color: Colors.grey[400],
+                          ),
+                  ),
                 ),
               ),
             ],
