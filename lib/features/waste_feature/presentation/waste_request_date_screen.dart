@@ -90,14 +90,13 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     totalWeight = 0;
 
     for (var item in wasteCartItems) {
-      int itemPrice = 0;
       if (item.prices.isNotEmpty) {
         String priceStr = _getPriceForWeight(item.prices, item.weight);
-        itemPrice = int.tryParse(priceStr) ?? 0;
-      }
+        int itemPrice = int.tryParse(priceStr) ?? 0;
 
-      totalPrice += itemPrice * item.weight;
-      totalWeight += item.weight;
+        totalPrice += itemPrice * item.weight;
+        totalWeight += item.weight;
+      }
     }
   }
 
