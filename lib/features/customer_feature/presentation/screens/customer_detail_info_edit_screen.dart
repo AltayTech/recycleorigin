@@ -151,17 +151,46 @@ class _CustomerDetailInfoEditScreenState
     });
 
     try {
+      // Capture form values
+      final firstName = _nameController.text.trim();
+      final lastName = _familyController.text.trim();
+      final email = _emailController.text.trim();
+      final city = _cityController.text.trim();
+      final ostan = _ostanController.text.trim();
+      final postcode = _postCodeController.text.trim();
+
+      // Debug: Verify values are captured
+      debugPrint('Form values captured:');
+      debugPrint('First Name: $firstName');
+      debugPrint('Last Name: $lastName');
+      debugPrint('Email: $email');
+      debugPrint('City: $city');
+      debugPrint('Province: $ostan');
+      debugPrint('Postcode: $postcode');
+      debugPrint(
+          'Customer Type: ${_selectedType?.name} (ID: ${_selectedType?.term_id})');
+
+      final personalData = PersonalData(
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        city: city,
+        ostan: ostan,
+        postcode: postcode,
+      );
+
       final customerToSend = Customer(
         customer_type: _selectedType!,
-        personalData: PersonalData(
-          first_name: _nameController.text.trim(),
-          last_name: _familyController.text.trim(),
-          email: _emailController.text.trim(),
-          city: _cityController.text.trim(),
-          ostan: _ostanController.text.trim(),
-          postcode: _postCodeController.text.trim(),
-        ),
+        personalData: personalData,
       );
+
+      // Debug: Verify Customer object
+      debugPrint('Customer object created:');
+      debugPrint(
+          'PersonalData first_name: ${customerToSend.personalData.first_name}');
+      debugPrint(
+          'PersonalData last_name: ${customerToSend.personalData.last_name}');
+      debugPrint('Customer type: ${customerToSend.customer_type.name}');
 
       await Provider.of<CustomerInfoProvider>(context, listen: false)
           .sendCustomer(customerToSend);

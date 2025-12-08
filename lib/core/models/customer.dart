@@ -12,13 +12,13 @@ class Customer with ChangeNotifier {
 
   Customer({
     this.id = 1,
-    status,
-    customer_type,
-    personalData,
+    Status? status,
+    Status? customer_type,
+    PersonalData? personalData,
     this.money = '',
-  })  : this.status = Status(),
-        this.customer_type = Status(),
-        this.personalData = PersonalData();
+  })  : this.status = status ?? Status(),
+        this.customer_type = customer_type ?? Status(),
+        this.personalData = personalData ?? PersonalData();
 
   factory Customer.fromJson(Map<String, dynamic> parsedJson) {
     return Customer(
