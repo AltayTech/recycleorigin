@@ -1,12 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/Products.dart';
+import '../../../helpers/mock_api_client.dart';
 
 void main() {
   group('Products Provider', () {
     late Products productsProvider;
+    late MockApiClient mockApiClient;
 
     setUp(() {
-      productsProvider = Products();
+      mockApiClient = MockApiClient();
+      productsProvider = Products(mockApiClient);
     });
 
     group('Initial state', () {

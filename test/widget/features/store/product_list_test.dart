@@ -3,11 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/Products.dart';
 import '../../../helpers/test_helpers.dart';
+import '../../../helpers/mock_api_client.dart';
 
 void main() {
   group('Product List Widget Tests', () {
     testWidgets('should display empty state when no products', (WidgetTester tester) async {
-      final productsProvider = Products();
+      final mockApiClient = MockApiClient();
+      final productsProvider = Products(mockApiClient);
 
       await tester.pumpWidget(
         TestHelpers.createTestWidget(
@@ -36,7 +38,8 @@ void main() {
     });
 
     testWidgets('should display products list', (WidgetTester tester) async {
-      final productsProvider = Products();
+      final mockApiClient = MockApiClient();
+      final productsProvider = Products(mockApiClient);
       // Note: In a real test, you'd mock the API response
       // For now, we test the structure
 

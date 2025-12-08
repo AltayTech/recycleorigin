@@ -11,6 +11,7 @@ import 'package:recycleorigin/features/meassage_feature/presentation/providers/m
 import 'package:recycleorigin/features/store_feature/presentation/providers/Products.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/providers/wastes.dart';
+import 'mock_api_client.dart';
 
 /// Test helper utilities for creating test widgets and providers
 class TestHelpers {
@@ -28,17 +29,20 @@ class TestHelpers {
     Orders? orders,
     Clearings? clearings,
   }) {
+    // Use MockApiClient by default for testing
+    final testApiClient = apiClient ?? MockApiClient();
+    
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<Products>(
-          create: (_) => products ?? Products(),
+          create: (_) => products ?? Products(testApiClient),
         ),
         ChangeNotifierProvider<AuthenticationProvider>(
           create: (_) =>
-              authProvider ?? AuthenticationProvider(apiClient ?? ApiClient()),
+              authProvider ?? AuthenticationProvider(testApiClient),
         ),
         ChangeNotifierProvider<CustomerInfoProvider>(
-          create: (_) => customerInfoProvider ?? CustomerInfoProvider(),
+          create: (_) => customerInfoProvider ?? CustomerInfoProvider(testApiClient),
         ),
         ChangeNotifierProvider<Messages>(
           create: (_) => messages ?? Messages(),
