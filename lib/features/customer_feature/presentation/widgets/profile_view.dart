@@ -27,13 +27,7 @@ class _ProfileViewState extends State<ProfileView> {
   bool _isInitialized = false;
 
   /// Constants for layout calculations
-  static const double _profileHeaderTopOffset = 0.07;
-  static const double _gridTopOffset = 0.25;
-  static const double _gridHeightFactor = 0.7;
-  static const double _gridWidthFactor = 0.9;
-  static const double _itemPaddingFactor = 0.03;
   static const double _horizontalPadding = 20.0;
-  static const double _gridPadding = 5.0;
   static const double _gridSpacing = 12.0;
   static const int _crossAxisCount = 2;
   static const double _childAspectRatio = 1.0;
@@ -143,10 +137,6 @@ class _ProfileViewState extends State<ProfileView> {
 
   /// Builds the main profile content when user is logged in
   Widget _buildProfileContent(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final deviceHeight = mediaQuery.size.height;
-    final deviceWidth = mediaQuery.size.width;
-
     if (_isLoading && !_isInitialized) {
       return _buildLoadingView();
     }
@@ -158,11 +148,13 @@ class _ProfileViewState extends State<ProfileView> {
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
           SliverToBoxAdapter(
-            child: Stack(
+            child: Column(
               children: [
                 TopBar(),
-                _buildProfileHeader(context, deviceHeight, deviceWidth),
-                _buildProfileGrid(context, deviceHeight, deviceWidth),
+                _buildProfileHeader(context),
+                _buildInfoSection(context),
+                _buildProfileGrid(context),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -182,11 +174,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   /// Builds the profile header with user information
-  Widget _buildProfileHeader(
-    BuildContext context,
-    double deviceHeight,
-    double deviceWidth,
-  ) {
+  Widget _buildProfileHeader(BuildContext context) {
     return Consumer<CustomerInfoProvider>(
       builder: (context, customerProvider, _) {
         final customer = customerProvider.customer;
@@ -194,175 +182,507 @@ class _ProfileViewState extends State<ProfileView> {
         final fullName =
             '${personalData.first_name} ${personalData.last_name}'.trim();
         final displayName = fullName.isEmpty
-            ? (personalData.phone.isNotEmpty ? personalData.phone : 'User')
+            ? (personalData.phone.isNotEmpty
+                ? personalData.phone
+                : personalData.mobile.isNotEmpty
+                    ? personalData.mobile
+                    : 'User')
             : fullName;
 
-        return Positioned(
-          top: deviceHeight * _profileHeaderTopOffset,
-          left: _horizontalPadding,
-          right: _horizontalPadding,
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: AppTheme.primary.withValues(alpha: 0.1),
-                  blurRadius: 10,
-                  spreadRadius: 2,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppTheme.primary.withValues(alpha: 0.1),
-                    border: Border.all(
+        // Determine email - check email field first, then mobile (as it might contain email)
+        final email = personalData.email.isNotEmpty
+            ? personalData.email
+            : (personalData.mobile.contains('@') ? personalData.mobile : '');
+
+        // Determine phone - prefer phone field, fallback to mobile if it's not an email
+        final phone = personalData.phone.isNotEmpty
+            ? personalData.phone
+            : (personalData.mobile.contains('@') ? '' : personalData.mobile);
+
+        return Container(
+          margin: const EdgeInsets.fromLTRB(
+            _horizontalPadding,
+            20,
+            _horizontalPadding,
+            16,
+          ),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: AppTheme.primary.withValues(alpha: 0.1),
+                blurRadius: 10,
+                spreadRadius: 2,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 70,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppTheme.primary.withValues(alpha: 0.1),
+                      border: Border.all(
+                        color: AppTheme.primary,
+                        width: 2,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.person,
+                      size: 40,
                       color: AppTheme.primary,
-                      width: 2,
                     ),
                   ),
-                  child: Icon(
-                    Icons.person,
-                    size: 40,
-                    color: AppTheme.primary,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        displayName,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.h1,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      if (personalData.email.isNotEmpty) ...[
-                        const SizedBox(height: 4),
-                        Text(
-                          personalData.email,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppTheme.grey,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                      if (customer.money.isNotEmpty &&
-                          double.tryParse(customer.money) != null) ...[
-                        const SizedBox(height: 8),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Row(
                           children: [
-                            Icon(
-                              Icons.account_balance_wallet,
-                              size: 16,
-                              color: AppTheme.primary,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              '${customer.money} ${AppLocalizations.of(context)?.price_unit ?? '\$'}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.primary,
+                            Expanded(
+                              child: Text(
+                                displayName,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.h1,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
+                            if (customer.status.name.isNotEmpty)
+                              _buildStatusBadge(customer.status.name),
                           ],
                         ),
+                        if (email.isNotEmpty) ...[
+                          const SizedBox(height: 6),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.email_outlined,
+                                size: 14,
+                                color: AppTheme.grey,
+                              ),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  email,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppTheme.grey,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                        if (phone.isNotEmpty) ...[
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.phone_outlined,
+                                size: 14,
+                                color: AppTheme.grey,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                phone,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppTheme.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              _buildInfoRow(context, customer, personalData),
+            ],
           ),
         );
       },
     );
   }
 
-  /// Builds the grid of profile action buttons
-  Widget _buildProfileGrid(
-    BuildContext context,
-    double deviceHeight,
-    double deviceWidth,
-  ) {
-    return Positioned(
-      top: deviceHeight * _gridTopOffset,
-      left: 0,
-      right: 0,
-      child: Container(
-        height: deviceHeight * _gridHeightFactor,
-        width: deviceWidth * _gridWidthFactor,
-        margin: EdgeInsets.symmetric(
-          horizontal: deviceWidth * ((1 - _gridWidthFactor) / 2),
+  /// Builds a status badge widget
+  Widget _buildStatusBadge(String status) {
+    final isActive = status.toLowerCase() == 'active';
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: isActive
+            ? AppTheme.primary.withValues(alpha: 0.1)
+            : Colors.red.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isActive ? AppTheme.primary : Colors.red,
+          width: 1,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(_gridPadding),
-          child: GridView.count(
-            crossAxisCount: _crossAxisCount,
-            childAspectRatio: _childAspectRatio,
-            crossAxisSpacing: _gridSpacing,
-            mainAxisSpacing: _gridSpacing,
-            padding: const EdgeInsets.all(8),
-            children: [
-              _buildProfileMenuItem(
-                context: context,
-                title: 'Order',
-                iconPath: 'assets/images/orders_list.png',
-                onTap: () {
-                  Navigator.of(context).pushNamed(OrdersScreen.routeName);
-                },
-                itemPaddingF: _itemPaddingFactor,
-                imageSizeFactor: 0.25,
-              ),
-              _buildProfileMenuItem(
-                context: context,
-                title: 'Personal Info',
-                iconPath: 'assets/images/user_Icon.png',
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(CustomerUserInfoScreen.routeName);
-                },
-                itemPaddingF: _itemPaddingFactor,
-                imageSizeFactor: 0.30,
-              ),
-              _buildProfileMenuItem(
-                context: context,
-                title: 'Messages',
-                iconPath: 'assets/images/message_icon.png',
-                onTap: () {
-                  Navigator.of(context).pushNamed(MessageScreen.routeName);
-                },
-                itemPaddingF: _itemPaddingFactor,
-                imageSizeFactor: 0.25,
-              ),
-              _buildProfileMenuItem(
-                context: context,
-                title: 'Requests',
-                iconPath: 'assets/images/main_page_request_ic.png',
-                onTap: () {
-                  Navigator.of(context).pushNamed(CollectListScreen.routeName);
-                },
-                itemPaddingF: _itemPaddingFactor,
-                imageSizeFactor: 0.35,
+      ),
+      child: Text(
+        status,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: isActive ? AppTheme.primary : Colors.red,
+        ),
+      ),
+    );
+  }
+
+  /// Builds information row with wallet and other details
+  Widget _buildInfoRow(
+    BuildContext context,
+    dynamic customer,
+    dynamic personalData,
+  ) {
+    final localizations = AppLocalizations.of(context);
+    final priceUnit = localizations?.price_unit ?? '\$';
+    final hasMoney = customer.money.isNotEmpty &&
+        double.tryParse(customer.money) != null &&
+        double.parse(customer.money) > 0;
+
+    return Wrap(
+      spacing: 12,
+      runSpacing: 8,
+      children: [
+        if (hasMoney)
+          _buildInfoChip(
+            icon: Icons.account_balance_wallet,
+            label: '${customer.money} $priceUnit',
+            color: AppTheme.primary,
+          ),
+
+        if (personalData.addresses.isNotEmpty)
+          _buildInfoChip(
+            icon: Icons.location_on,
+            label:
+                '${personalData.addresses.length} ${personalData.addresses.length == 1 ? 'Address' : 'Addresses'}',
+            color: Colors.blue,
+          ),
+        if (customer.customer_type.name.isNotEmpty)
+          _buildInfoChip(
+            icon: Icons.category,
+            label: customer.customer_type.name,
+            color: Colors.purple,
+          ),
+      ],
+    );
+  }
+
+  /// Builds an info chip widget
+  Widget _buildInfoChip({
+    required IconData icon,
+    required String label,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: color.withValues(alpha: 0.3),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Builds the information section with addresses and location
+  Widget _buildInfoSection(BuildContext context) {
+    return Consumer<CustomerInfoProvider>(
+      builder: (context, customerProvider, _) {
+        final customer = customerProvider.customer;
+        final personalData = customer.personalData;
+        final hasAddresses = personalData.addresses.isNotEmpty;
+        final hasLocation = personalData.ostan.isNotEmpty ||
+            personalData.city.isNotEmpty;
+
+        if (!hasAddresses && !hasLocation) {
+          return const SizedBox.shrink();
+        }
+
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: AppTheme.primary.withValues(alpha: 0.08),
+                blurRadius: 8,
+                spreadRadius: 1,
+                offset: const Offset(0, 2),
               ),
             ],
           ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (hasLocation) ...[
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_city,
+                      size: 18,
+                      color: AppTheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Location',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.h1,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                if (personalData.ostan.isNotEmpty)
+                  _buildInfoItem('Province', personalData.ostan),
+                if (personalData.city.isNotEmpty)
+                  _buildInfoItem('City', personalData.city),
+                if (hasAddresses) const SizedBox(height: 16),
+              ],
+              if (hasAddresses) ...[
+                Row(
+                  children: [
+                    Icon(
+                      Icons.home,
+                      size: 18,
+                      color: AppTheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Addresses (${personalData.addresses.length})',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.h1,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                ...personalData.addresses.take(2).map((address) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: _buildAddressCard(address),
+                  );
+                }),
+                if (personalData.addresses.length > 2)
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushNamed(CustomerUserInfoScreen.routeName);
+                    },
+                    child: Text(
+                      'View all ${personalData.addresses.length} addresses',
+                      style: TextStyle(
+                        color: AppTheme.primary,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+              ],
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  /// Builds an info item row
+  Widget _buildInfoItem(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 80,
+            child: Text(
+              '$label:',
+              style: TextStyle(
+                fontSize: 13,
+                color: AppTheme.grey,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 13,
+                color: AppTheme.h1,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Builds an address card
+  Widget _buildAddressCard(dynamic address) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppTheme.bg,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: AppTheme.primary.withValues(alpha: 0.2),
+          width: 1,
         ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (address.name.isNotEmpty)
+            Text(
+              address.name,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.h1,
+              ),
+            ),
+          if (address.address.isNotEmpty) ...[
+            if (address.name.isNotEmpty) const SizedBox(height: 4),
+            Text(
+              address.address,
+              style: TextStyle(
+                fontSize: 12,
+                color: AppTheme.grey,
+              ),
+            ),
+          ],
+          if (address.region.name.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Icon(
+                  Icons.map_outlined,
+                  size: 12,
+                  color: AppTheme.primary,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  address.region.name,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppTheme.primary,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  /// Builds the grid of profile action buttons
+  Widget _buildProfileGrid(BuildContext context) {
+    final itemPaddingF = 0.03;
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(
+        _horizontalPadding,
+        16,
+        _horizontalPadding,
+        0,
+      ),
+      child: GridView.count(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: _crossAxisCount,
+        childAspectRatio: _childAspectRatio,
+        crossAxisSpacing: _gridSpacing,
+        mainAxisSpacing: _gridSpacing,
+        padding: const EdgeInsets.all(8),
+        children: [
+          _buildProfileMenuItem(
+            context: context,
+            title: 'Order',
+            iconPath: 'assets/images/orders_list.png',
+            onTap: () {
+              Navigator.of(context).pushNamed(OrdersScreen.routeName);
+            },
+            itemPaddingF: itemPaddingF,
+            imageSizeFactor: 0.25,
+          ),
+          _buildProfileMenuItem(
+            context: context,
+            title: 'Personal Info',
+            iconPath: 'assets/images/user_Icon.png',
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed(CustomerUserInfoScreen.routeName);
+            },
+            itemPaddingF: itemPaddingF,
+            imageSizeFactor: 0.30,
+          ),
+          _buildProfileMenuItem(
+            context: context,
+            title: 'Messages',
+            iconPath: 'assets/images/message_icon.png',
+            onTap: () {
+              Navigator.of(context).pushNamed(MessageScreen.routeName);
+            },
+            itemPaddingF: itemPaddingF,
+            imageSizeFactor: 0.25,
+          ),
+          _buildProfileMenuItem(
+            context: context,
+            title: 'Requests',
+            iconPath: 'assets/images/main_page_request_ic.png',
+            onTap: () {
+              Navigator.of(context).pushNamed(CollectListScreen.routeName);
+            },
+            itemPaddingF: itemPaddingF,
+            imageSizeFactor: 0.35,
+          ),
+        ],
       ),
     );
   }
