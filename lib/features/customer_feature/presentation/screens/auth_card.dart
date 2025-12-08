@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/connection/http_exception.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/utils/logger.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/screens/login_screen.dart';
 
@@ -107,7 +108,7 @@ class _AuthCardState extends State<AuthCard>
     });
     try {
       if (_authMode == AuthMode.Login) {
-        debugPrint('login mode');
+        AppLogger.debug('Login mode');
         // Log user in
         var response =
             await Provider.of<AuthenticationProvider>(context, listen: false)
@@ -122,33 +123,23 @@ class _AuthCardState extends State<AuthCard>
             }
           },
         );
-        debugPrint(response.toString());
-
-        print('veriiiii');
+        AppLogger.debug('Login response received');
 
         _isLoading = false;
-
-        // _switchAuthMode();
       } else {
-        print('loginmode');
+        AppLogger.debug('Registration mode');
         // Sign user up
 
         var response =
             await Provider.of<AuthenticationProvider>(context, listen: false)
                 .register(_authData);
         if (response) {
-//          try {
-//            Provider.of<Products>(context, listen: false)
-//                .addShopCartAfterLogin(true);
-//          } catch (error) {
-//            print(error.toString());
-//          }
           var loginResponse =
               await Provider.of<AuthenticationProvider>(context, listen: false)
                   .login(_authData)
                   .then(
             (value) async {
-              debugPrint('login response $value');
+              AppLogger.debug('Login response after registration: $value');
               if (await value) {
                 Navigator.of(context)
                     .pushReplacementNamed(NavigationBottomScreen.routeName);
@@ -186,7 +177,7 @@ class _AuthCardState extends State<AuthCard>
   }
 
   void _switchInputAuthMode() async {
-    print('swotchMode');
+    AppLogger.debug('Switching auth mode');
     if (_authMode == AuthMode.Login) {
       _controller.forward();
       // await Future.delayed(Duration(milliseconds: 600), () {
@@ -234,10 +225,10 @@ class _AuthCardState extends State<AuthCard>
                               height: deviceSize.height * 0.055,
                               width: deviceSize.width * 0.6,
                               decoration: BoxDecoration(
-                                // borderRadius: BorderRadius.circular(5),
-                                // border: Border.all(
-                                //     color: AppTheme.h1, width: 0.5),
-                              ),
+                                  // borderRadius: BorderRadius.circular(5),
+                                  // border: Border.all(
+                                  //     color: AppTheme.h1, width: 0.5),
+                                  ),
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: <Widget>[
@@ -313,21 +304,27 @@ class _AuthCardState extends State<AuthCard>
                               height: deviceSize.height * 0.055,
                               width: deviceSize.width * 0.6,
                               decoration: BoxDecoration(
-                                // borderRadius: BorderRadius.circular(5),
-                                // border: Border.all(
-                                //     color: AppTheme.h1, width: 0.5),
-                              ),
+                                  // borderRadius: BorderRadius.circular(5),
+                                  // border: Border.all(
+                                  //     color: AppTheme.h1, width: 0.5),
+                                  ),
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: <Widget>[
                                   TextFormField(
                                     textAlign: TextAlign.center,
                                     decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(8.0), // Example: rounded corners
-                                          borderSide: BorderSide(color: Colors.blue, width: 2.0), // Example: blue border, 2px wide
-                                        ),
-                                        contentPadding: EdgeInsets.symmetric(vertical: 4.0),                                         suffix: Text(''),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            8.0), // Example: rounded corners
+                                        borderSide: BorderSide(
+                                            color: Colors.blue,
+                                            width:
+                                                2.0), // Example: blue border, 2px wide
+                                      ),
+                                      contentPadding:
+                                          EdgeInsets.symmetric(vertical: 4.0),
+                                      suffix: Text(''),
                                       hintStyle: TextStyle(
                                         color: Colors.grey,
                                         //fontFamily: 'Iransans',
@@ -378,9 +375,9 @@ class _AuthCardState extends State<AuthCard>
                     height: deviceSize.height * 0.055,
                     width: deviceSize.width * 0.6,
                     decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(5),
-                      // border: Border.all(color: AppTheme.h1, width: 0.5),
-                    ),
+                        // borderRadius: BorderRadius.circular(5),
+                        // border: Border.all(color: AppTheme.h1, width: 0.5),
+                        ),
                     child: Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
@@ -388,10 +385,14 @@ class _AuthCardState extends State<AuthCard>
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0), // Example: rounded corners
-                              borderSide: BorderSide(color: Colors.blue, width: 2.0), // Example: blue border, 2px wide
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Example: rounded corners
+                              borderSide: BorderSide(
+                                  color: Colors.blue,
+                                  width: 2.0), // Example: blue border, 2px wide
                             ),
-                            contentPadding: EdgeInsets.symmetric(vertical: 4.0),                                  suffix: Text(''),
+                            contentPadding: EdgeInsets.symmetric(vertical: 4.0),
+                            suffix: Text(''),
                             hintStyle: TextStyle(
                               color: Colors.grey,
                               //fontFamily: 'Iransans',
@@ -436,9 +437,9 @@ class _AuthCardState extends State<AuthCard>
                     height: deviceSize.height * 0.055,
                     width: deviceSize.width * 0.6,
                     decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(5),
-                      // border: Border.all(color: AppTheme.h1, width: 0.5),
-                    ),
+                        // borderRadius: BorderRadius.circular(5),
+                        // border: Border.all(color: AppTheme.h1, width: 0.5),
+                        ),
                     child: Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
@@ -446,10 +447,14 @@ class _AuthCardState extends State<AuthCard>
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0), // Example: rounded corners
-                              borderSide: BorderSide(color: Colors.blue, width: 2.0), // Example: blue border, 2px wide
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Example: rounded corners
+                              borderSide: BorderSide(
+                                  color: Colors.blue,
+                                  width: 2.0), // Example: blue border, 2px wide
                             ),
-                            contentPadding: EdgeInsets.symmetric(vertical: 4.0),                                suffix: Text(''),
+                            contentPadding: EdgeInsets.symmetric(vertical: 4.0),
+                            suffix: Text(''),
                             hintStyle: TextStyle(
                               color: Colors.grey,
                               //fontFamily: 'Iransans',
@@ -515,10 +520,9 @@ class _AuthCardState extends State<AuthCard>
                           ),
                         ),
                         onPressed: () async {
-                          debugPrint("login clicked");
+                          AppLogger.debug("Login button clicked");
                           FocusScope.of(context).requestFocus(FocusNode());
                           await _submit();
-                          // Navigator.of(context).pop();
                         },
 
                         // shape: RoundedRectangleBorder(

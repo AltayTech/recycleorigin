@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:recycleorigin/features/customer_feature/business/entities/city.dart';
 import 'package:recycleorigin/features/customer_feature/business/entities/province.dart';
 import 'package:recycleorigin/core/models/search_detail.dart';
@@ -17,9 +14,13 @@ import '../../../store_feature/business/entities/order_details.dart';
 import '../../business/entities/personal_data.dart';
 import '../../../store_feature/business/entities/shop.dart';
 import '../../../../core/constants/urls.dart';
+import '../../../../core/network/api_client.dart';
 import '../../../../core/utils/logger.dart';
 
 class CustomerInfoProvider with ChangeNotifier {
+  final ApiClient _apiClient;
+
+  CustomerInfoProvider(this._apiClient);
   String _payUrl = '';
 
   late int _currentOrderId;
@@ -43,7 +44,6 @@ class CustomerInfoProvider with ChangeNotifier {
     money: '0',
   );
   Customer _customer = _customer_zero;
-  late String _token;
 
   Customer get customer => _customer;
 
@@ -56,67 +56,47 @@ class CustomerInfoProvider with ChangeNotifier {
   Future<void> getCustomer() async {
     AppLogger.debug('Fetching customer data');
 
-    final url = Urls.rootUrl + Urls.customerEndPoint;
-    AppLogger.debug('Customer URL: $url');
+    final path = 'pasmands/v1${Urls.customerEndPoint}';
+    AppLogger.debug('Customer path: $path');
 
-    final prefs = await SharedPreferences.getInstance();
+    final result = await _apiClient.get<Map<String, dynamic>>(
+      path,
+      parser: (data) => data as Map<String, dynamic>,
+    );
 
-    _token = prefs.getString('token')!;
-
-    Customer customers;
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Authorization': 'Bearer $_token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-
-      final extractedData = json.decode(response.body);
+    result.onSuccess((extractedData) {
       AppLogger.debug('Customer data received');
 
-      customers = Customer.fromJson(extractedData);
-
+      Customer customers = Customer.fromJson(extractedData);
       _customer = customers;
-
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to get customer data',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to get customer data: $error');
+      throw Exception(error);
+    });
   }
 
   Future<void> sendCustomer(Customer customer) async {
     AppLogger.debug('Sending customer data');
 
-    final url = Urls.rootUrl + Urls.customerEndPoint;
+    final path = 'pasmands/v1${Urls.customerEndPoint}';
 
-    final prefs = await SharedPreferences.getInstance();
+    final result = await _apiClient.post<Map<String, dynamic>>(
+      path,
+      data: {
+        'customer_type': customer.customer_type.term_id,
+        'customer_data': customer.personalData.toJson(),
+      },
+      parser: (data) => data as Map<String, dynamic>,
+    );
 
-    _token = prefs.getString('token')!;
-
-    try {
-      final response = await post(
-        Uri.parse(url),
-        headers: {
-          'Authorization': 'Bearer $_token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: jsonEncode({
-          'customer_type': customer.customer_type.term_id,
-          'customer_data': customer.personalData,
-        }),
-      );
-
-      json.decode(response.body); // Validate response
+    result.onSuccess((_) {
       AppLogger.debug('Customer data sent successfully');
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to send customer data',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to send customer data: $error');
+      throw Exception(error);
+    });
   }
 
   Order findById(int id) {
@@ -132,118 +112,92 @@ class CustomerInfoProvider with ChangeNotifier {
 
     _currentOrderId = orderId;
 
-    final url = Urls.rootUrl + Urls.orderInfoEndPoint + '?order_id=$orderId';
+    final path = 'pasmands/v1${Urls.orderInfoEndPoint}?order_id=$orderId';
 
-    final prefs = await SharedPreferences.getInstance();
+    final result = await _apiClient.get<Map<String, dynamic>>(
+      path,
+      parser: (data) => data as Map<String, dynamic>,
+    );
 
-    _token = prefs.getString('token')!;
-
-    OrderDetails orderDetails;
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Authorization': 'Bearer $_token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-
-      final extractedData = json.decode(response.body);
-
-      orderDetails = OrderDetails.fromJson(extractedData);
-
+    result.onSuccess((extractedData) {
+      OrderDetails orderDetails = OrderDetails.fromJson(extractedData);
       _order = orderDetails;
       AppLogger.debug('Order details retrieved successfully');
-
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to get order details',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to get order details: $error');
+      throw Exception(error);
+    });
   }
 
   Future<void> payCashOrder(int orderId) async {
     AppLogger.debug('Processing cash payment for order ID: $orderId');
 
-    final url = Urls.rootUrl + Urls.payEndPoint + '?order_id=$orderId';
+    final path = 'pasmands/v1${Urls.payEndPoint}?order_id=$orderId';
 
-    final prefs = await SharedPreferences.getInstance();
+    final result = await _apiClient.get<dynamic>(
+      path,
+      parser: (data) => data,
+    );
 
-    _token = prefs.getString('token')!;
-
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Authorization': 'Bearer $_token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-
-      final extractedData = json.decode(response.body);
-
-      _payUrl = extractedData;
+    result.onSuccess((extractedData) {
+      // Handle both string and object responses
+      if (extractedData is String) {
+        _payUrl = extractedData;
+      } else if (extractedData is Map && extractedData.containsKey('url')) {
+        _payUrl = extractedData['url'] as String;
+      } else {
+        _payUrl = extractedData.toString();
+      }
       AppLogger.debug('Payment URL generated successfully');
-
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to process cash payment',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to process cash payment: $error');
+      throw Exception(error);
+    });
   }
 
   Future<void> sendNaghdOrder() async {
     AppLogger.debug('Sending naghd order');
 
-    final url = Urls.rootUrl + Urls.orderInfoEndPoint + '?paytype=naghd';
+    final path = 'pasmands/v1${Urls.orderInfoEndPoint}?paytype=naghd';
 
-    final prefs = await SharedPreferences.getInstance();
+    final result = await _apiClient.post<Map<String, dynamic>>(
+      path,
+      parser: (data) => data as Map<String, dynamic>,
+    );
 
-    _token = prefs.getString('token')!;
-
-    try {
-      final response = await post(Uri.parse(url), headers: {
-        'Authorization': 'Bearer $_token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-
-      final extractedData = json.decode(response.body);
+    result.onSuccess((extractedData) {
       AppLogger.debug('Naghd order sent successfully');
-
-      int orderId = extractedData['order_id'];
+      int orderId = extractedData['order_id'] as int;
       _currentOrderId = orderId;
-
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to send naghd order',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to send naghd order: $error');
+      throw Exception(error);
+    });
   }
 
   Future<void> fetchShopData() async {
     AppLogger.debug('Fetching shop data');
 
-    final url = Urls.rootUrl + Urls.shopEndPoint;
-    AppLogger.debug('Shop URL: $url');
+    final path = 'pasmands/v1${Urls.shopEndPoint}';
+    AppLogger.debug('Shop path: $path');
 
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
+    final result = await _apiClient.get<Map<String, dynamic>>(
+      path,
+      parser: (data) => data as Map<String, dynamic>,
+    );
 
-      final extractedData = json.decode(response.body) as dynamic;
+    result.onSuccess((extractedData) {
       AppLogger.debug('Shop data received');
-
       Shop shopData = Shop.fromJson(extractedData);
-
       _shop = shopData;
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to fetch shop data',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to fetch shop data: $error');
+      throw Exception(error);
+    });
   }
 
   int get currentOrderId => _currentOrderId;
@@ -296,64 +250,48 @@ class CustomerInfoProvider with ChangeNotifier {
   Future<void> searchTransactionItems() async {
     AppLogger.debug('Searching transaction items');
 
-    final url = Urls.rootUrl + Urls.transactionsEndPoint + '$searchEndPoint';
-    AppLogger.debug('Transaction search URL: $url');
-    final prefs = await SharedPreferences.getInstance();
+    final path = 'pasmands/v1${Urls.transactionsEndPoint}$searchEndPoint';
+    AppLogger.debug('Transaction search path: $path');
 
-    _token = prefs.getString('token')!;
+    final result = await _apiClient.get<Map<String, dynamic>>(
+      path,
+      parser: (data) => data as Map<String, dynamic>,
+    );
 
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Authorization': 'Bearer $_token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      AppLogger.debug(
-          'Transaction search response status: ${response.statusCode}');
-      if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body);
-        AppLogger.debug('Transaction items retrieved');
-
-        TransactionMain transactionMain =
-            TransactionMain.fromJson(extractedData);
-        AppLogger.debug('Max page: ${transactionMain.searchDetail.max_page}');
-
-        _transactionItems = transactionMain.transactions;
-        _searchDetails = transactionMain.searchDetail;
-      } else {
-        _transactionItems = [];
-      }
+    result.onSuccess((extractedData) {
+      AppLogger.debug('Transaction items retrieved');
+      TransactionMain transactionMain = TransactionMain.fromJson(extractedData);
+      AppLogger.debug('Max page: ${transactionMain.searchDetail.max_page}');
+      _transactionItems = transactionMain.transactions;
+      _searchDetails = transactionMain.searchDetail;
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to search transaction items',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to search transaction items: $error');
+      _transactionItems = [];
+      notifyListeners();
+    });
   }
 
   Future<void> retrieveItem(int collectId) async {
     AppLogger.debug('Retrieving item for collect ID: $collectId');
 
-    final url = Urls.rootUrl + Urls.collectsEndPoint + "/$collectId";
-    AppLogger.debug('Retrieve item URL: $url');
+    final path = 'pasmands/v1${Urls.collectsEndPoint}/$collectId';
+    AppLogger.debug('Retrieve item path: $path');
 
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      final extractedData = json.decode(response.body) as dynamic;
+    final result = await _apiClient.get<Map<String, dynamic>>(
+      path,
+      parser: (data) => data as Map<String, dynamic>,
+    );
+
+    result.onSuccess((extractedData) {
       AppLogger.debug('Item data retrieved');
-
       Transaction transaction = Transaction.fromJson(extractedData);
-
       _transactionItem = transaction;
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to retrieve item',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
-    notifyListeners();
+      notifyListeners();
+    }).onFailure((error) {
+      AppLogger.error('Failed to retrieve item: $error');
+      throw Exception(error);
+    });
   }
 
   Transaction get transactionItem => _transactionItem;
@@ -391,32 +329,25 @@ class CustomerInfoProvider with ChangeNotifier {
   Future<void> getProvinces() async {
     AppLogger.debug('Fetching provinces');
 
-    final url = Urls.rootUrl + Urls.provincesEndPoint;
-    AppLogger.debug('Provinces URL: $url');
+    final path = 'pasmands/v1${Urls.provincesEndPoint}';
+    AppLogger.debug('Provinces path: $path');
 
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      AppLogger.debug('Provinces response status: ${response.statusCode}');
-      if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body) as List<dynamic>;
-        AppLogger.debug('Loaded ${extractedData.length} provinces');
+    final result = await _apiClient.get<List<dynamic>>(
+      path,
+      parser: (data) => data as List<dynamic>,
+    );
 
-        List<Province> wastes =
-            extractedData.map((i) => Province.fromJson(i)).toList();
-
-        _provincesItems = wastes;
-      } else {
-        _provincesItems = [];
-      }
+    result.onSuccess((extractedData) {
+      AppLogger.debug('Loaded ${extractedData.length} provinces');
+      List<Province> provinces =
+          extractedData.map((i) => Province.fromJson(i)).toList();
+      _provincesItems = provinces;
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to get provinces',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to get provinces: $error');
+      _provincesItems = [];
+      notifyListeners();
+    });
   }
 
   List<Province> _provincesItems = [];
@@ -426,31 +357,24 @@ class CustomerInfoProvider with ChangeNotifier {
   Future<void> getCities(int provinceId) async {
     AppLogger.debug('Fetching cities for province ID: $provinceId');
 
-    final url = Urls.rootUrl + Urls.provincesEndPoint + '$provinceId';
-    AppLogger.debug('Cities URL: $url');
+    final path = 'pasmands/v1${Urls.provincesEndPoint}$provinceId';
+    AppLogger.debug('Cities path: $path');
 
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      AppLogger.debug('Cities response status: ${response.statusCode}');
-      if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body) as List<dynamic>;
-        AppLogger.debug('Loaded ${extractedData.length} cities');
+    final result = await _apiClient.get<List<dynamic>>(
+      path,
+      parser: (data) => data as List<dynamic>,
+    );
 
-        List<City> wastes = extractedData.map((i) => City.fromJson(i)).toList();
-
-        _citiesItems = wastes;
-      } else {
-        _citiesItems = [];
-      }
+    result.onSuccess((extractedData) {
+      AppLogger.debug('Loaded ${extractedData.length} cities');
+      List<City> cities = extractedData.map((i) => City.fromJson(i)).toList();
+      _citiesItems = cities;
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to get cities',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to get cities: $error');
+      _citiesItems = [];
+      notifyListeners();
+    });
   }
 
   List<City> _citiesItems = [];
@@ -460,32 +384,25 @@ class CustomerInfoProvider with ChangeNotifier {
   Future<void> getTypes() async {
     AppLogger.debug('Fetching types');
 
-    final url = Urls.rootUrl + Urls.typesEndPoint;
-    AppLogger.debug('Types URL: $url');
+    final path = 'pasmands/v1${Urls.typesEndPoint}';
+    AppLogger.debug('Types path: $path');
 
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      AppLogger.debug('Types response status: ${response.statusCode}');
-      if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body) as List<dynamic>;
-        AppLogger.debug('Loaded ${extractedData.length} types');
+    final result = await _apiClient.get<List<dynamic>>(
+      path,
+      parser: (data) => data as List<dynamic>,
+    );
 
-        List<Status> wastes =
-            extractedData.map((i) => Status.fromJson(i)).toList();
-
-        _typesItems = wastes;
-      } else {
-        _typesItems = [];
-      }
+    result.onSuccess((extractedData) {
+      AppLogger.debug('Loaded ${extractedData.length} types');
+      List<Status> types =
+          extractedData.map((i) => Status.fromJson(i)).toList();
+      _typesItems = types;
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to get types',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to get types: $error');
+      _typesItems = [];
+      notifyListeners();
+    });
   }
 
   List<Status> _typesItems = [];
@@ -494,29 +411,22 @@ class CustomerInfoProvider with ChangeNotifier {
 
   Future<void> sendClearingRequest(String money, String shaba) async {
     AppLogger.debug('Sending clearing request');
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      _token = prefs.getString('token')!;
 
-      final url = Urls.rootUrl + Urls.clearingEndPoint;
-      AppLogger.debug('Clearing request URL: $url');
+    final path = 'pasmands/v1${Urls.clearingEndPoint}';
+    AppLogger.debug('Clearing request path: $path');
 
-      final response = await post(Uri.parse(url),
-          headers: {
-            'Authorization': 'Bearer $_token',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: jsonEncode({"money": money, 'shaba': shaba}));
+    final result = await _apiClient.post<Map<String, dynamic>>(
+      path,
+      data: {"money": money, 'shaba': shaba},
+      parser: (data) => data as Map<String, dynamic>,
+    );
 
-      json.decode(response.body); // Validate response
+    result.onSuccess((_) {
       AppLogger.debug('Clearing request sent successfully');
-
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to send clearing request',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to send clearing request: $error');
+      throw Exception(error);
+    });
   }
 }

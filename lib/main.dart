@@ -95,14 +95,14 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => Products(),
+          create: (context) => Products(ApiClient()),
           lazy: false,
         ),
         ChangeNotifierProvider(
           create: (context) => AuthenticationProvider(ApiClient()),
         ),
         ChangeNotifierProvider(
-          create: (context) => CustomerInfoProvider(),
+          create: (context) => CustomerInfoProvider(ApiClient()),
         ),
         ChangeNotifierProvider(
           create: (context) => Messages(),

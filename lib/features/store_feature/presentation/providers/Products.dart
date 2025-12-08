@@ -1,8 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/models/category.dart';
 import '../../business/entities/color_code_card.dart';
@@ -13,9 +9,13 @@ import '../../business/entities/product_cart.dart';
 import '../../business/entities/product_main.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/constants/urls.dart';
+import '../../../../core/network/api_client.dart';
 import '../../../../core/utils/logger.dart';
 
 class Products with ChangeNotifier {
+  final ApiClient _apiClient;
+
+  Products(this._apiClient);
   List<Product> _items = [];
   List<ProductCart> _cartItems = [];
   List<Category> _categoryItems = [];
@@ -73,8 +73,6 @@ class Products with ChangeNotifier {
 
   static Product _itemZero = Product();
   Product _item = _itemZero;
-
-  late String _token;
 
   List<Product> get items {
     return _items;
@@ -153,16 +151,15 @@ class Products with ChangeNotifier {
   Future<void> retrieveCategory() async {
     AppLogger.debug('Fetching categories');
 
-    final url = Urls.rootUrl + Urls.categoriesEndPoint;
-    AppLogger.debug('Categories URL: $url');
+    final path = 'pasmands/v1${Urls.categoriesEndPoint}';
+    AppLogger.debug('Categories path: $path');
 
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
+    final result = await _apiClient.get<List<dynamic>>(
+      path,
+      parser: (data) => data as List<dynamic>,
+    );
 
-      final extractedData = json.decode(response.body) as List<dynamic>;
+    result.onSuccess((extractedData) {
       AppLogger.debug('Loaded ${extractedData.length} categories');
 
       List<Category> categories =
@@ -170,69 +167,61 @@ class Products with ChangeNotifier {
 
       _categoryItems = categories;
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to retrieve categories',
-          error: error, stackTrace: stackTrace);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to retrieve categories: $error');
+    });
   }
 
   Future<void> searchItem() async {
     AppLogger.debug('Searching products');
 
-    final url = Urls.rootUrl + Urls.productsEndPoint + '$searchEndPoint';
-    AppLogger.debug('Products search URL: $url');
+    final path = 'pasmands/v1${Urls.productsEndPoint}$searchEndPoint';
+    AppLogger.debug('Products search path: $path');
 
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      AppLogger.debug(
-          'Products search response status: ${response.statusCode}');
-      if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body);
-        AppLogger.debug('Products retrieved');
+    final result = await _apiClient.get<Map<String, dynamic>>(
+      path,
+      parser: (data) => data as Map<String, dynamic>,
+    );
 
-        ProductMain productMain = ProductMain.fromJson(extractedData);
-        AppLogger.debug('Max page: ${productMain.productsDetail.max_page}');
+    result.onSuccess((extractedData) {
+      AppLogger.debug('Products retrieved');
 
-        _items = productMain.products;
-        _searchDetails = productMain.productsDetail;
-      } else {
-        _items = [];
-      }
+      ProductMain productMain = ProductMain.fromJson(extractedData);
+      AppLogger.debug('Max page: ${productMain.productsDetail.max_page}');
+
+      _items = productMain.products;
+      _searchDetails = productMain.productsDetail;
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to search products',
-          error: error, stackTrace: stackTrace);
-      // throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to search products: $error');
+      _items = [];
+      notifyListeners();
+    });
   }
 
   Future<void> retrieveItem(int productId) async {
     AppLogger.debug('Retrieving product: $productId');
 
-    final url = Urls.rootUrl + Urls.productsEndPoint + "/$productId";
-    AppLogger.debug('Product URL: $url');
+    final path = 'pasmands/v1${Urls.productsEndPoint}/$productId';
+    AppLogger.debug('Product path: $path');
 
-    try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      });
-      final extractedData = json.decode(response.body) as dynamic;
+    final result = await _apiClient.get<Map<String, dynamic>>(
+      path,
+      parser: (data) => data as Map<String, dynamic>,
+    );
+
+    result.onSuccess((extractedData) {
       AppLogger.debug('Product data retrieved');
 
       Product product = Product.fromJson(extractedData);
       AppLogger.debug('Product ID: ${product.id}');
 
       _item = product;
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to retrieve product',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
-    notifyListeners();
+      notifyListeners();
+    }).onFailure((error) {
+      AppLogger.error('Failed to retrieve product: $error');
+      throw Exception(error);
+    });
   }
 
   set sPerPage(value) {
@@ -267,29 +256,22 @@ class Products with ChangeNotifier {
     OrderSendDetails request,
   ) async {
     AppLogger.debug('Sending order request');
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      _token = prefs.getString('token')!;
 
-      final url = Urls.rootUrl + Urls.orderEndPoint;
-      AppLogger.debug('Order URL: $url');
+    final path = 'pasmands/v1${Urls.orderEndPoint}';
+    AppLogger.debug('Order path: $path');
 
-      final response = await post(Uri.parse(url),
-          headers: {
-            'Authorization': 'Bearer $_token',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: jsonEncode(request));
+    final result = await _apiClient.post<Map<String, dynamic>>(
+      path,
+      data: request.toJson(),
+      parser: (data) => data as Map<String, dynamic>,
+    );
 
-      json.decode(response.body); // Validate response
+    result.onSuccess((_) {
       AppLogger.debug('Order request sent successfully');
-
       notifyListeners();
-    } catch (error, stackTrace) {
-      AppLogger.error('Failed to send order request',
-          error: error, stackTrace: stackTrace);
-      throw (error);
-    }
+    }).onFailure((error) {
+      AppLogger.error('Failed to send order request: $error');
+      throw Exception(error);
+    });
   }
 }
