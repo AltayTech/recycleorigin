@@ -46,13 +46,13 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
     try {
       await Provider.of<CustomerInfoProvider>(context, listen: false)
           .getCustomer();
-      
+
       if (mounted) {
         final updatedCustomer = Provider.of<CustomerInfoProvider>(
           context,
           listen: false,
         ).customer;
-        
+
         setState(() {
           _customer = updatedCustomer;
           _isLoading = false;
@@ -63,7 +63,8 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
       if (mounted) {
         setState(() {
           _isLoading = false;
-          _errorMessage = 'Failed to load customer information. Please try again.';
+          _errorMessage =
+              'Failed to load customer information. Please try again.';
           _isInitialized = true;
         });
       }
@@ -385,7 +386,7 @@ class _InfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Column(
