@@ -1,7 +1,7 @@
 import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/utils/result.dart';
 import 'package:recycleorigin/features/customer_feature/data/models/TokenResponseModel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /// Remote data source for authentication operations
 ///
@@ -15,9 +15,8 @@ abstract class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiClient _apiClient;
-  final SharedPreferences _prefs;
 
-  AuthRemoteDataSourceImpl(this._apiClient, this._prefs);
+  AuthRemoteDataSourceImpl(this._apiClient);
 
   @override
   Future<Result<TokenResponseModel>> login(
@@ -36,23 +35,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       parser: (data) => data as Map<String, dynamic>,
     );
 
-    return result.map((data) {
-      try {
-        final tokenModel = TokenResponseModel.fromJson(data);
+    if (result.isFailure) {
+      return Failure(result.errorOrNull ?? 'Login failed');
+    }
 
-        // Store token securely
-        final token = tokenModel.token;
-        if (token != null && token.isNotEmpty) {
-          _prefs.setString('token', token);
-          _prefs.setString('userData', tokenModel.toJson().toString());
-          _prefs.setString('isLogin', 'true');
-        }
+    try {
+      final data = result.valueOrNull!;
+      final tokenModel = TokenResponseModel.fromJson(data);
 
-        return tokenModel;
-      } catch (e) {
-        throw Exception('Failed to parse token response: $e');
+      // Store token securely using SecureStorage
+      final token = tokenModel.token;
+      if (token != null && token.isNotEmpty) {
+        await SecureStorage.saveToken(token);
+        await SecureStorage.saveUserData(tokenModel.toJson().toString());
+        await SecureStorage.saveLoginStatus(true);
       }
-    });
+
+      return Success(tokenModel);
+    } catch (e) {
+      return Failure('Failed to parse token response: $e');
+    }
   }
 
   @override
@@ -90,7 +92,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Result<bool>> checkCompleted() async {
-    final token = _prefs.getString('token');
+    final token = await SecureStorage.getToken();
     if (token == null || token.isEmpty) {
       return const Failure('Not authenticated');
     }

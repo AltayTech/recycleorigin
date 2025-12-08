@@ -13,8 +13,10 @@ import 'package:recycleorigin/features/wallet_feature/presentation/pages/wallet_
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/wastes_screen_animated_list.dart';
 
-import 'core/constants/strings.dart';
-import 'core/screens/navigation_bottom_screen.dart';
+import 'package:recycleorigin/core/config/app_config.dart';
+import 'package:recycleorigin/core/constants/strings.dart';
+import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'core/screens/splash_Screen.dart';
 import 'core/utils/app_info_service.dart';
 import 'features/about_feature/presentation/pages/about_us_screen.dart';
@@ -77,6 +79,9 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  // Initialize app configuration (loads environment variables)
+  await AppConfig.initialize();
+
   // Initialize app info service early for better performance
   await AppInfoService.instance.initialize();
 
@@ -94,7 +99,7 @@ class MyApp extends StatelessWidget {
           lazy: false,
         ),
         ChangeNotifierProvider(
-          create: (context) => AuthenticationProvider(),
+          create: (context) => AuthenticationProvider(ApiClient()),
         ),
         ChangeNotifierProvider(
           create: (context) => CustomerInfoProvider(),

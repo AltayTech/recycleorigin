@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/storage/secure_storage.dart';
+import 'package:recycleorigin/core/utils/logger.dart';
 import 'package:recycleorigin/features/customer_feature/data/models/TokenResponseModel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/constants/urls.dart';
 import '../../../../core/models/region.dart';
@@ -13,7 +14,9 @@ import '../../../waste_feature/business/entities/address.dart';
 import '../../../waste_feature/business/entities/address_main.dart';
 
 class AuthenticationProvider with ChangeNotifier {
-  final Dio _dio = Dio();
+  final ApiClient _apiClient;
+
+  AuthenticationProvider(this._apiClient);
 
   String _token = '';
   TokenResponseModel tokenResponseModel = TokenResponseModel();
@@ -60,69 +63,74 @@ class AuthenticationProvider with ChangeNotifier {
     // SECURITY: Never log passwords or sensitive data
     // Using logger utility which automatically sanitizes sensitive information
 
-    final url = Urls.baseUrl + Urls.loginEndPoint;
     final data = {
       'username': email,
       'password': password,
     };
 
     try {
-      final response = await _dio.post(
-        url,
+      // Use ApiClient for secure, logged requests
+      final result = await _apiClient.post<Map<String, dynamic>>(
+        Urls.loginEndPoint,
         queryParameters: data,
+        parser: (data) => data as Map<String, dynamic>,
       );
 
-      if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.toString());
+      if (result.isSuccess) {
+        final responseData = result.valueOrNull!;
 
         try {
           _token = responseData['token'] as String? ?? '';
           _isFirstLogin = true;
 
-          final prefs = await SharedPreferences.getInstance();
+          // Store token securely
           final userData = jsonEncode({
             'token': _token,
           });
           tokenResponseModel = TokenResponseModel.fromJson(responseData);
 
-          prefs.setString('userData', userData);
-          prefs.setString('token', _token);
-          prefs.setString('isLogin', 'true');
+          await SecureStorage.saveUserData(userData);
+          await SecureStorage.saveToken(_token);
+          await SecureStorage.saveLoginStatus(true);
           _isLoggedin = _token.isNotEmpty;
-        } catch (error) {
+          notifyListeners();
+          return true;
+        } catch (error, stackTrace) {
           _isLoggedin = false;
-          final prefs = await SharedPreferences.getInstance();
           _token = '';
-          prefs.setString('token', _token);
-          prefs.setString('isLogin', 'false');
+          await SecureStorage.saveToken('');
+          await SecureStorage.saveLoginStatus(false);
+          AppLogger.error('Failed to process login response',
+              error: error, stackTrace: stackTrace);
           tokenResponseModel = TokenResponseModel(
             token: "",
             userDisplayName: '',
             userEmail: '',
             userNicename: '',
           );
+          notifyListeners();
+          return false;
         }
       } else {
-        final prefs = await SharedPreferences.getInstance();
         _isLoggedin = false;
         _token = '';
-        prefs.setString('token', _token);
-        prefs.setString('isLogin', 'false');
+        AppLogger.warning('Login failed: ${result.errorOrNull}');
         tokenResponseModel = TokenResponseModel(
           token: "",
           userDisplayName: '',
           userEmail: '',
           userNicename: '',
         );
+        notifyListeners();
+        return false;
       }
-      notifyListeners();
-    } catch (error) {
+    } catch (error, stackTrace) {
       _isLoggedin = false;
       _token = '';
+      AppLogger.error('Login error', error: error, stackTrace: stackTrace);
       notifyListeners();
-      rethrow;
+      return false;
     }
-    return _isLoggedin;
   }
 
   /// Register a new user with email and password
@@ -131,8 +139,6 @@ class AuthenticationProvider with ChangeNotifier {
   /// Throws an exception if an unexpected error occurs.
   Future<bool> _register(
       String email, String password, String firstName, String lastName) async {
-    final url = Urls.baseUrl + Urls.registerEndPoint;
-
     final data = {
       'email': email,
       'password': password,
@@ -141,24 +147,29 @@ class AuthenticationProvider with ChangeNotifier {
     };
 
     try {
-      final response = await _dio.post(
-        url,
+      final result = await _apiClient.post<Map<String, dynamic>>(
+        Urls.registerEndPoint,
         data: data,
+        parser: (data) => data as Map<String, dynamic>,
       );
 
-      if (response.statusCode == 200) {
+      if (result.isSuccess) {
         _isLoggedin = true;
+        notifyListeners();
+        return true;
       } else {
         _isLoggedin = false;
+        AppLogger.warning('Registration failed: ${result.errorOrNull}');
+        notifyListeners();
+        return false;
       }
-
-      notifyListeners();
-    } catch (error) {
+    } catch (error, stackTrace) {
       _isLoggedin = false;
+      AppLogger.error('Registration error',
+          error: error, stackTrace: stackTrace);
       notifyListeners();
-      rethrow;
+      return false;
     }
-    return _isLoggedin;
   }
 
   void updateCookie(http.Response response) {
@@ -180,13 +191,15 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> getTokenFromDB() async {
-    final prefs = await SharedPreferences.getInstance().then(
-      (value) {
-        _token = value.getString("token") ?? "";
-      },
-    );
-
-    notifyListeners();
+    try {
+      _token = await SecureStorage.getToken() ?? "";
+      notifyListeners();
+    } catch (e, stackTrace) {
+      AppLogger.error('Failed to get token from secure storage',
+          error: e, stackTrace: stackTrace);
+      _token = "";
+      notifyListeners();
+    }
   }
 
   // //////////////////////////////////////////////////////////////////////////
@@ -194,57 +207,53 @@ class AuthenticationProvider with ChangeNotifier {
   /// //////////////////////////////////////////////////////////////////////////
   ///  sing up or login with email and password
   Future<bool> emailAuth(String email, String password) async {
-    debugPrint('_authenticate');
+    AppLogger.debug('Starting email authentication');
 
     final url = Urls.rootUrl + Urls.loginEndPoint + email;
-    debugPrint(url);
+    AppLogger.debug('Authentication URL: $url');
 
     try {
       final response = await http.post(Uri.parse(url), headers: headers);
       updateCookie(response);
 
       final responseData = json.decode(response.body);
-      debugPrint(responseData);
+      AppLogger.debug('Authentication response received');
 
       if (responseData != 'false') {
         try {
           _token = responseData['token'];
           _isFirstLogin = true;
 
-          final prefs = await SharedPreferences.getInstance();
+          // Store token securely - NEVER log the token
+          await SecureStorage.saveToken(_token);
           final userData = json.encode(
             {
               'token': _token,
             },
           );
-          prefs.setString('userData', userData);
-          prefs.setString('token', _token);
-          debugPrint(_token);
-          prefs.setString('isLogin', 'true');
+          await SecureStorage.saveUserData(userData);
+          await SecureStorage.saveLoginStatus(true);
+          AppLogger.info('User authenticated successfully');
           _isLoggedin = true;
-        } catch (error) {
+        } catch (error, stackTrace) {
           _isLoggedin = false;
-          final prefs = await SharedPreferences.getInstance();
-          final userData = json.encode(
-            {
-              'token': '',
-            },
-          );
           _token = '';
+          await SecureStorage.saveToken('');
+          await SecureStorage.saveLoginStatus(false);
+          AppLogger.error('Failed to process authentication response',
+              error: error, stackTrace: stackTrace);
         }
       } else {
-        final prefs = await SharedPreferences.getInstance();
         _isLoggedin = false;
-
         _token = '';
-        prefs.setString('token', _token);
-        debugPrint(_token);
-        debugPrint('noooo token');
-        prefs.setString('isLogin', 'true');
+        await SecureStorage.saveToken('');
+        await SecureStorage.saveLoginStatus(false);
+        AppLogger.warning('Authentication failed: invalid response');
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Authentication error',
+          error: error, stackTrace: stackTrace);
       throw error;
     }
     return _isLoggedin;
@@ -253,8 +262,7 @@ class AuthenticationProvider with ChangeNotifier {
   Future<void> checkCompleted() async {
     try {
       if (isAuth) {
-        final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
+        _token = await SecureStorage.getToken() ?? '';
 
         final url = Urls.rootUrl + Urls.checkCompletedEndPoint;
 
@@ -269,7 +277,7 @@ class AuthenticationProvider with ChangeNotifier {
 
         final extractedData = json.decode(response.body) as dynamic;
 
-        debugPrint(extractedData.toString());
+        AppLogger.debug('Check completed response received');
         bool isCompleted = extractedData['complete'];
 
         _isCompleted = isCompleted;
@@ -277,8 +285,9 @@ class AuthenticationProvider with ChangeNotifier {
         _isCompleted = false;
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to check completion status',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
 
@@ -286,12 +295,18 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> removeToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
-    _token = '';
-    debugPrint('toookeeen');
-    debugPrint(prefs.getString('token'));
-    notifyListeners();
+    try {
+      await SecureStorage.deleteToken();
+      await SecureStorage.saveLoginStatus(false);
+      _token = '';
+      AppLogger.debug('Token removed successfully');
+      notifyListeners();
+    } catch (e, stackTrace) {
+      AppLogger.error('Failed to remove token',
+          error: e, stackTrace: stackTrace);
+      _token = '';
+      notifyListeners();
+    }
   }
 
   bool get isCompleted => _isCompleted;
@@ -303,11 +318,10 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   Future<void> getAddresses() async {
-    debugPrint('getAddresses');
+    AppLogger.debug('Fetching addresses');
     try {
       if (isAuth) {
-        final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
+        _token = await SecureStorage.getToken() ?? '';
 
         final url = Urls.rootUrl + Urls.addressEndPoint;
 
@@ -322,37 +336,32 @@ class AuthenticationProvider with ChangeNotifier {
 
         final extractedData = json.decode(response.body);
 
-        debugPrint(extractedData.toString());
+        AppLogger.debug('Addresses response received');
         AddressMain addressMain = AddressMain.fromJson(extractedData);
-        debugPrint(extractedData.toString());
 
         List<Address> addresseList = addressMain.addressData;
-        debugPrint('sssssssssssssssssssssssssss ${addresseList.length}');
+        AppLogger.debug('Loaded ${addresseList.length} addresses');
 
         _addressItems = addresseList;
       } else {
         _addressItems = [];
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to get addresses',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> updateAddress(List<Address> addressList) async {
-    debugPrint('addAddress');
+    AppLogger.debug('Updating addresses');
     try {
       if (isAuth) {
-        final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
-        debugPrint('tooookkkkeeennnn    $_token');
+        _token = await SecureStorage.getToken() ?? '';
 
         final url = Urls.rootUrl + Urls.addressEndPoint;
-        debugPrint('url  $url');
-        debugPrint(jsonEncode(AddressMain(
-          addressData: addressList,
-        )));
+        AppLogger.debug('Update address URL: $url');
 
         final response = await http.post(Uri.parse(url),
             headers: {
@@ -367,20 +376,20 @@ class AuthenticationProvider with ChangeNotifier {
         final extractedData = json.decode(response.body);
 
         AddressMain addressMain = AddressMain.fromJson(extractedData);
-        debugPrint(extractedData.toString());
+        AppLogger.debug('Address update response received');
 
         List<Address> addresses = addressMain.addressData;
-        debugPrint('ییییییییییییییییییی  ${addresses.length}');
+        AppLogger.debug('Updated ${addresses.length} addresses');
 
         _addressItems = addresses;
       } else {
-        debugPrint('qqqqqqqqqqqqqqggggggggq');
-
+        AppLogger.debug('User not authenticated, using local address list');
         _addressItems = addressList;
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to update addresses',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
@@ -388,14 +397,13 @@ class AuthenticationProvider with ChangeNotifier {
   List<Address> get addressItems => _addressItems;
 
   Future<void> getOrder(List<Address> addressList) async {
-    debugPrint('addAddress');
+    AppLogger.debug('Getting order');
     try {
       if (isAuth) {
-        final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
+        _token = await SecureStorage.getToken() ?? '';
 
         final url = Urls.rootUrl + Urls.addressEndPoint;
-        final response = await http.post(Uri.parse(url),
+        await http.post(Uri.parse(url),
             headers: {
               'Authorization': 'Bearer $_token',
               'Content-Type': 'application/json',
@@ -405,29 +413,28 @@ class AuthenticationProvider with ChangeNotifier {
               addressData: addressList,
             )));
 
-        final extractedData = json.decode(response.body);
-
-        debugPrint(extractedData.toString());
+        AppLogger.debug('Order response received');
 
         _addressItems = addressList;
       } else {
         _addressItems = addressList;
       }
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to get order',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
 
   Future<void> selectAddress(Address address) async {
-    debugPrint('selectAddress');
+    AppLogger.debug('Selecting address');
     try {
       _selectedAddress = address;
-
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to select address',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
@@ -435,7 +442,7 @@ class AuthenticationProvider with ChangeNotifier {
   Address get selectedAddress => _selectedAddress;
 
   Future<void> retrieveRegionList() async {
-    debugPrint('retrieveRegionList');
+    AppLogger.debug('Retrieving region list');
 
     final url = Urls.rootUrl + Urls.regionEndPoint;
 
@@ -446,18 +453,19 @@ class AuthenticationProvider with ChangeNotifier {
       });
 
       final extractedData = json.decode(response.body) as List;
-      debugPrint(extractedData.toString());
+      AppLogger.debug('Region list response received');
 
       List<Region> regionList = [];
 
       regionList = extractedData.map((i) => Region.fromJson(i)).toList();
-      debugPrint(regionList.length.toString());
+      AppLogger.debug('Loaded ${regionList.length} regions');
 
       _regionItems = regionList;
 
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to retrieve region list',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }
@@ -465,10 +473,10 @@ class AuthenticationProvider with ChangeNotifier {
   List<Region> get regionItems => _regionItems;
 
   Future<void> retrieveRegion(int regionId) async {
-    debugPrint('retrieveRegion');
+    AppLogger.debug('Retrieving region: $regionId');
 
     final url = Urls.rootUrl + Urls.regionEndPoint + '/$regionId';
-    debugPrint(url);
+    AppLogger.debug('Region URL: $url');
 
     try {
       final response = await http.get(Uri.parse(url), headers: {
@@ -477,13 +485,14 @@ class AuthenticationProvider with ChangeNotifier {
       });
 
       final extractedData = json.decode(response.body);
-      debugPrint("extractedData  $extractedData");
+      AppLogger.debug('Region response received');
 
       _regionData = Region.fromJson(extractedData);
 
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
+    } catch (error, stackTrace) {
+      AppLogger.error('Failed to retrieve region',
+          error: error, stackTrace: stackTrace);
       throw (error);
     }
   }

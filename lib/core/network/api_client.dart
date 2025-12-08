@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
+import 'package:recycleorigin/core/config/app_config.dart';
+import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
 import 'package:recycleorigin/core/utils/result.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /// Centralized API client with proper error handling and logging
 class ApiClient {
   late final Dio _dio;
-  final SharedPreferences _prefs;
 
-  ApiClient(this._prefs) {
+  ApiClient() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: 'https://recycleorigin.com/rest/',
+        baseUrl: AppConfig.apiBaseUrl,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {
@@ -27,9 +27,9 @@ class ApiClient {
   void _setupInterceptors() {
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) {
-          // Add auth token if available
-          final token = _prefs.getString('token');
+        onRequest: (options, handler) async {
+          // Add auth token if available (from secure storage)
+          final token = await SecureStorage.getToken();
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
