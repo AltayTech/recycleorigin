@@ -154,34 +154,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ),
 
-              const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-              // 4. Services Title
-              SliverToBoxAdapter(
-                child: SlideTransition(
-                  position: _slideAnimation,
-                  child: FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        "Our Services",
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                  color: AppTheme.h1,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.2,
-                                ) ??
-                            TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.h1,
-                            ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
               const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
               // 5. Services Grid
@@ -366,7 +338,8 @@ class _ServicesGrid extends StatelessWidget {
       children: [
         _ServiceCard(
           title: "Request",
-          icon: Icons.assignment, // Fallback icon
+          icon: Icons.assignment,
+          // Fallback icon
           imageUrl: 'assets/images/main_page_request_ic.png',
           onTap: () =>
               Navigator.of(context).pushNamed(CollectListScreen.routeName),
