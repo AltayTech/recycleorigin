@@ -36,6 +36,7 @@ dependencies:
   font_awesome_flutter: any
   dio: ^5.9.0
   google_fonts: ^6.3.3
+  package_info_plus: ^8.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

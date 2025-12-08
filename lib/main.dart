@@ -16,6 +16,7 @@ import 'package:recycleorigin/features/waste_feature/presentation/wastes_screen_
 import 'core/constants/strings.dart';
 import 'core/screens/navigation_bottom_screen.dart';
 import 'core/screens/splash_Screen.dart';
+import 'core/utils/app_info_service.dart';
 import 'features/about_feature/presentation/pages/about_us_screen.dart';
 import 'features/articles_feature/presentation/pages/article_detail_screen.dart';
 import 'features/articles_feature/presentation/pages/article_screen.dart';
@@ -75,6 +76,9 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  // Initialize app info service early for better performance
+  await AppInfoService.instance.initialize();
 
   runApp(MyApp());
 }

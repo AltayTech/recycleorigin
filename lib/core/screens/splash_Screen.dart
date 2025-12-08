@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
 import '../logic/en_to_ar_number_convertor.dart';
+import '../utils/app_info_service.dart';
 import '../widgets/splashscreen.dart';
 import 'navigation_bottom_screen.dart';
 
@@ -11,6 +12,36 @@ class SplashScreens extends StatefulWidget {
 }
 
 class _SplashScreensState extends State<SplashScreens> {
+  String _appVersion = 'Version 1.0.0';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAppVersion();
+  }
+
+  /// Loads app version dynamically from AppInfoService
+  Future<void> _loadAppVersion() async {
+    try {
+      final appInfo = AppInfoService.instance;
+      if (!appInfo.isInitialized) {
+        await appInfo.initialize();
+      }
+      if (mounted) {
+        setState(() {
+          _appVersion = 'Version ${appInfo.version}';
+        });
+      }
+    } catch (e) {
+      // Fallback to default version if loading fails
+      if (mounted) {
+        setState(() {
+          _appVersion = 'Version 1.0.0';
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new SplashScreen(
@@ -33,8 +64,7 @@ class _SplashScreensState extends State<SplashScreens> {
         ),
       ),
       loadingText: Text(
-        EnArConvertor()
-            .replaceArNumber('Version 1.1.8'),
+        EnArConvertor().replaceArNumber(_appVersion),
         style: new TextStyle(
           //fontFamily: 'Iransans',
           fontWeight: FontWeight.w400,
@@ -61,7 +91,6 @@ class _SplashScreensState extends State<SplashScreens> {
       imageBackground: AssetImage(
         'assets/images/login_bg.png',
 //        color: AppTheme.primary,
-
       ),
       styleTextUnderTheLoader: new TextStyle(),
       photoSize: MediaQuery.of(context).size.width * 0.7,

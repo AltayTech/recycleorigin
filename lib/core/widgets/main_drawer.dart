@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/utils/app_info_service.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/pages/messages_screen.dart';
 
@@ -13,7 +14,7 @@ import '../../features/store_feature/presentation/screens/product_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
 
 /// Production-grade drawer menu with Material Design 3 styling
-/// 
+///
 /// Features:
 /// - Clean, modern UI with proper visual hierarchy
 /// - User profile section with avatar and name when authenticated
@@ -49,7 +50,9 @@ class _MainDrawerState extends State<MainDrawer>
   static const double _spacingLarge = 24.0;
   static const Duration _animationDuration = Duration(milliseconds: 300);
   static const String _appName = 'Recycle Origin';
-  static const String _appVersion = 'v1.1.8';
+
+  // App version will be loaded dynamically
+  String _appVersion = 'v1.0.0';
 
   @override
   void initState() {
@@ -74,6 +77,29 @@ class _MainDrawerState extends State<MainDrawer>
       ),
     );
     _animationController.forward();
+    _loadAppVersion();
+  }
+
+  /// Loads app version dynamically from AppInfoService
+  Future<void> _loadAppVersion() async {
+    try {
+      final appInfo = AppInfoService.instance;
+      if (!appInfo.isInitialized) {
+        await appInfo.initialize();
+      }
+      if (mounted) {
+        setState(() {
+          _appVersion = appInfo.shortVersion;
+        });
+      }
+    } catch (e) {
+      // Fallback to default version if loading fails
+      if (mounted) {
+        setState(() {
+          _appVersion = 'v1.0.0';
+        });
+      }
+    }
   }
 
   @override
@@ -102,9 +128,8 @@ class _MainDrawerState extends State<MainDrawer>
         : isSelected
             ? colorScheme.primary
             : Colors.white;
-    final backgroundColor = isSelected
-        ? Colors.white.withOpacity(0.15)
-        : Colors.transparent;
+    final backgroundColor =
+        isSelected ? Colors.white.withOpacity(0.15) : Colors.transparent;
 
     return Material(
       color: Colors.transparent,
@@ -208,7 +233,8 @@ class _MainDrawerState extends State<MainDrawer>
                           .map((n) => n.isNotEmpty ? n[0] : '')
                           .join('')
                           .toUpperCase()
-                          .substring(0, displayName.split(' ').length > 1 ? 2 : 1),
+                          .substring(
+                              0, displayName.split(' ').length > 1 ? 2 : 1),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 24,
@@ -420,7 +446,8 @@ class _MainDrawerState extends State<MainDrawer>
                 builder: (context, authProvider, customerProvider, _) {
                   return _buildUserHeader(
                     isAuthenticated: authProvider.isAuth,
-                    customer: authProvider.isAuth ? customerProvider.customer : null,
+                    customer:
+                        authProvider.isAuth ? customerProvider.customer : null,
                   );
                 },
               ),
@@ -482,7 +509,8 @@ class _MainDrawerState extends State<MainDrawer>
                           _buildDrawerItem(
                             icon: Icons.support_agent_rounded,
                             title: 'Support & Help',
-                            onTap: () => _navigateToRoute(MessageScreen.routeName),
+                            onTap: () =>
+                                _navigateToRoute(MessageScreen.routeName),
                           ),
 
                           const SizedBox(height: _spacingSmall),
@@ -494,7 +522,8 @@ class _MainDrawerState extends State<MainDrawer>
                                 icon: authProvider.isAuth
                                     ? Icons.person_rounded
                                     : Icons.login_rounded,
-                                title: authProvider.isAuth ? 'Profile' : 'Sign In',
+                                title:
+                                    authProvider.isAuth ? 'Profile' : 'Sign In',
                                 onTap: () {
                                   Navigator.of(context).pop();
                                   if (authProvider.isAuth) {
