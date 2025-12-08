@@ -6,860 +6,591 @@ import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 import 'package:recycleorigin/features/collect_feature/presentation/widgets/collect_details_collects_item.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/providers/wastes.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/widgets/main_drawer.dart';
 
 class CollectDetailScreen extends StatefulWidget {
   static const routeName = '/collectDetailScreen';
+
+  const CollectDetailScreen({Key? key}) : super(key: key);
 
   @override
   _CollectDetailScreenState createState() => _CollectDetailScreenState();
 }
 
 class _CollectDetailScreenState extends State<CollectDetailScreen> {
-  int _current = 0;
-  var _isLoading;
-
+  bool _isLoading = false;
   bool _isInit = true;
-
-  late RequestWasteItem loadedCollect;
-  String _snackBarMessage = '';
+  bool _hasError = false;
+  late RequestWasteItem _loadedCollect;
 
   @override
-  void didChangeDependencies() async {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     if (_isInit) {
-      await searchItems();
+      _loadData();
     }
     _isInit = false;
-    super.didChangeDependencies();
   }
 
-  Future<void> searchItems() async {
+  Future<void> _loadData() async {
     setState(() {
       _isLoading = true;
+      _hasError = false;
     });
-    final productId = ModalRoute.of(context)?.settings.arguments as int;
-    await Provider.of<Wastes>(context, listen: false)
-        .retrieveCollectItem(productId);
-    loadedCollect =
-        Provider.of<Wastes>(context, listen: false).requestWasteItem;
-    print(
-        'ssssssssssssssssssss ' + loadedCollect.collect_list.length.toString());
 
-    setState(() {
-      _isLoading = false;
-    });
-    print(_isLoading.toString());
+    try {
+      final productId = ModalRoute.of(context)?.settings.arguments as int?;
+      if (productId != null) {
+        await Provider.of<Wastes>(context, listen: false)
+            .retrieveCollectItem(productId);
+        if (mounted) {
+          _loadedCollect =
+              Provider.of<Wastes>(context, listen: false).requestWasteItem;
+        }
+      } else {
+        throw Exception("Invalid Product ID");
+      }
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          _hasError = true;
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
-
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text(
-          '',
-          style: TextStyle(
-            //fontFamily: 'Iransans',
-          ),
-        ),
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: Stack(
-        children: <Widget>[
+      backgroundColor: const Color(0xffF5F5F5),
+      body: CustomScrollView(
+        slivers: [
+          _buildSliverAppBar(),
           if (_isLoading)
-            Align(
-              alignment: Alignment.center,
-              child: SpinKitFadingCircle(
-                itemBuilder: (BuildContext context, int index) {
-                  return DecoratedBox(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: index.isEven ? Colors.grey : Colors.grey,
-                    ),
-                  );
-                },
+            SliverFillRemaining(
+              child: Center(
+                child: SpinKitFadingCircle(
+                  color: AppTheme.primary,
+                  size: 50.0,
+                ),
               ),
             )
-          else
-            SingleChildScrollView(
+          else if (_hasError)
+            SliverFillRemaining(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline,
+                        size: 64, color: Colors.redAccent),
+                    const SizedBox(height: 16),
+                    const Text("Something went wrong",
+                        style: TextStyle(fontSize: 16)),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: _loadData,
+                      child: const Text("Retry"),
+                    )
+                  ],
+                ),
+              ),
+            )
+          else ...[
+            SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        'Driver Info',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          height: 2,
-                          color: AppTheme.grey,
-                          //fontFamily: 'Iransans',
-                          fontSize: 14.0,
-                        ),
-                        textAlign: TextAlign.right,
-                        textDirection: TextDirection.rtl,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Container(
-                        color: AppTheme.white,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                width: deviceWidth * 0.15,
-                                height: deviceWidth * 0.155,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: new NetworkImage(
-                                      loadedCollect.driver.driver_data
-                                          .driver_image.sizes.medium,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 15.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Text(
-                                        loadedCollect.driver.driver_data.fname +
-                                            ' ' +
-                                            loadedCollect
-                                                .driver.driver_data.lname,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          height: 2,
-                                          color: AppTheme.black,
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 14.0,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Text(
-                                        loadedCollect.driver.car.name,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          height: 2,
-                                          color: AppTheme.black,
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 14.0,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Text(
-                                          'plate Number',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            height: 2,
-                                            color: AppTheme.grey,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 14.0,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Text(
-                                          EnArConvertor().replaceArNumber(
-                                              loadedCollect.driver.car_number),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            height: 2,
-                                            color: AppTheme.black,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 16.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Text(
-                                          'Color',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            height: 2,
-                                            color: AppTheme.grey,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 14.0,
-                                          ),
-                                          textAlign: TextAlign.right,
-                                          textDirection: TextDirection.rtl,
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          loadedCollect.driver.car_color.name,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            height: 2,
-                                            color: AppTheme.black,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 16.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Container(
-                        color: AppTheme.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      'Status',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        height: 2,
-                                        color: AppTheme.grey,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 14.0,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      loadedCollect.status.name,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        height: 2,
-                                        color: AppTheme.black,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 15.0,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      'Request Date',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        height: 2,
-                                        color: AppTheme.grey,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 14.0,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      EnArConvertor().replaceArNumber(
-                                        loadedCollect.collect_date.day,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        height: 2,
-                                        color: AppTheme.black,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 15.0,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      'Request Time',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        height: 2,
-                                        color: AppTheme.grey,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 14.0,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      EnArConvertor().replaceArNumber(
-                                        loadedCollect.collect_date.time,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        height: 2,
-                                        color: AppTheme.black,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 15.0,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      'Region Request',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        height: 2,
-                                        color: AppTheme.grey,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 14.0,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      EnArConvertor().replaceArNumber(
-                                        loadedCollect.address_data.region.name,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        height: 2,
-                                        color: AppTheme.black,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 15.0,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      'Collect Date',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        height: 2,
-                                        color: AppTheme.grey,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 14.0,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      loadedCollect.collect_date
-                                                  .collect_done_time !=
-                                              ''
-                                          ? EnArConvertor().replaceArNumber(
-                                              loadedCollect.collect_date
-                                                  .collect_done_time)
-                                          : 'Not Collected',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        height: 2,
-                                        color: AppTheme.black,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 15.0,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: AppTheme.white),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 10,
-                                ),
-                                child: Text(
-                                  'Total(\$)',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    fontWeight: FontWeight.w700,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          'Request:',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            height: 2,
-                                            color: AppTheme.grey,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 12.0,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            EnArConvertor().replaceArNumber(
-                                                currencyFormat
-                                                    .format(double.parse(
-                                                        loadedCollect
-                                                            .total_collects_price
-                                                            .estimated))
-                                                    .toString()),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              height: 2,
-                                              color: AppTheme.black,
-                                              //fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 16.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          'Deliver:',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            height: 2,
-                                            color: AppTheme.grey,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 12.0,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            EnArConvertor().replaceArNumber(
-                                                currencyFormat
-                                                    .format(double.parse(
-                                                        loadedCollect
-                                                            .total_collects_price
-                                                            .exact))
-                                                    .toString()),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              height: 2,
-                                              color: AppTheme.black,
-                                              //fontFamily: 'Iransans',
-                                              fontSize: 16.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                thickness: 0.5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: Text(
-                                  'Total Weight(Kg):',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    fontWeight: FontWeight.w700,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          'Request:',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            height: 2,
-                                            color: AppTheme.grey,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: 12.0,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            EnArConvertor().replaceArNumber(
-                                                currencyFormat
-                                                    .format(double.parse(
-                                                        loadedCollect
-                                                            .total_collects_weight
-                                                            .estimated))
-                                                    .toString()),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              height: 2,
-                                              color: AppTheme.black,
-                                              //fontFamily: 'Iransans',
-                                              fontSize: 16.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          'Deliver:',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            height: 2,
-                                            color: AppTheme.grey,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: 12.0,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            EnArConvertor().replaceArNumber(
-                                                currencyFormat
-                                                    .format(double.parse(
-                                                        loadedCollect
-                                                            .total_collects_weight
-                                                            .exact))
-                                                    .toString()),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              height: 2,
-                                              color: AppTheme.black,
-                                              //fontFamily: 'Iransans',
-                                              fontSize: 16.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                thickness: 0.5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 10,
-                                ),
-                                child: Text(
-                                  'Total Number:',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    fontWeight: FontWeight.w700,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          'Request:',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            height: 2,
-                                            color: AppTheme.grey,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: 12.0,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            EnArConvertor().replaceArNumber(
-                                                currencyFormat
-                                                    .format(double.parse(
-                                                        loadedCollect
-                                                            .total_collects_number
-                                                            .estimated))
-                                                    .toString()),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              height: 2,
-                                              color: AppTheme.black,
-                                              //fontFamily: 'Iransans',
-                                              fontSize: 16.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            'Deliver:',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              height: 2,
-                                              color: AppTheme.grey,
-                                              //fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 12.0,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            EnArConvertor().replaceArNumber(
-                                                currencyFormat
-                                                    .format(double.parse(
-                                                        loadedCollect
-                                                            .total_collects_number
-                                                            .exact))
-                                                    .toString()),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              height: 2,
-                                              color: AppTheme.black,
-                                              //fontFamily: 'Iransans',
-                                              fontSize: 16.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: Text(
-                        'Wastes List:',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          height: 2,
-                          color: AppTheme.grey,
-                          //fontFamily: 'Iransans',
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6.0),
-                      child: Consumer<Wastes>(
-                        builder: (_, value, ch) =>
-                            value.requestWasteItem.collect_list.length != 0
-                                ? Container(
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: value
-                                          .requestWasteItem.collect_list.length,
-                                      itemBuilder: (ctx, i) =>
-                                          CollectDetailsCollectItem(
-                                        collectItem: value
-                                            .requestWasteItem.collect_list[i],
-                                      ),
-                                    ),
-                                  )
-                                : Center(
-                                    child: Text('No Waste'),
-                                  ),
-                      ),
-                    ),
-                    //                        Spacer(),
+                  children: [
+                    _StatusHeaderCard(loadedCollect: _loadedCollect),
+                    const SizedBox(height: 16),
+                    if (_hasDriverInfo()) ...[
+                      const _SectionHeader(title: 'Driver Information'),
+                      const SizedBox(height: 8),
+                      _DriverInfoCard(loadedCollect: _loadedCollect),
+                      const SizedBox(height: 24),
+                    ],
+                    const _SectionHeader(title: 'Order Summary'),
+                    const SizedBox(height: 8),
+                    _SummaryGridCard(loadedCollect: _loadedCollect),
+                    const SizedBox(height: 24),
+                    const _SectionHeader(title: 'Details'),
+                    const SizedBox(height: 8),
+                    _DetailsCard(loadedCollect: _loadedCollect),
+                    const SizedBox(height: 24),
+                    const _SectionHeader(title: 'Waste Items'),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),
             ),
+            _WasteListSliver(loadedCollect: _loadedCollect),
+            const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
+          ]
         ],
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.transparent,
+    );
+  }
+
+  SliverAppBar _buildSliverAppBar() {
+    return SliverAppBar(
+      floating: false,
+      pinned: true,
+      backgroundColor: AppTheme.appBarColor,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+      centerTitle: true,
+      title: const Text(
+        'Collect Details',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
         ),
-        child: MainDrawer(),
+      ),
+    );
+  }
+
+  bool _hasDriverInfo() {
+    try {
+      return _loadedCollect.driver.driver_data.fname.isNotEmpty;
+    } catch (e) {
+      return false;
+    }
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  final String title;
+
+  const _SectionHeader({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Text(
+        title,
+        style: TextStyle(
+          color: Colors.grey[700],
+          fontSize: 16.0,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
+}
+
+class _StatusHeaderCard extends StatelessWidget {
+  final RequestWasteItem loadedCollect;
+
+  const _StatusHeaderCard({required this.loadedCollect});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      shadowColor: Colors.black26,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppTheme.primary.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.assignment_turned_in,
+                color: AppTheme.primary,
+                size: 32,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Current Status',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  loadedCollect.status.name,
+                  style: TextStyle(
+                    color: AppTheme.primary,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DriverInfoCard extends StatelessWidget {
+  final RequestWasteItem loadedCollect;
+
+  const _DriverInfoCard({required this.loadedCollect});
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    if (await canLaunchUrl(launchUri)) {
+      await launchUrl(launchUri);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final driver = loadedCollect.driver;
+    final driverData = driver.driver_data;
+
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.grey.shade200, width: 2),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(driverData.driver_image.sizes.medium),
+                      onError: (_, __) => const Icon(Icons.person),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${driverData.fname} ${driverData.lname}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        driver.car.name,
+                        style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ),
+                if (driverData.mobile.isNotEmpty || driverData.phone.isNotEmpty)
+                  IconButton(
+                    onPressed: () => _makePhoneCall(driverData.mobile.isNotEmpty
+                        ? driverData.mobile
+                        : driverData.phone),
+                    icon: const Icon(Icons.phone),
+                    color: Colors.green,
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.green.withOpacity(0.1),
+                    ),
+                  ),
+              ],
+            ),
+            const Divider(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildDriverStat('Plate Number',
+                    EnArConvertor().replaceArNumber(driver.car_number)),
+                _buildDriverStat('Car Color', driver.car_color.name),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDriverStat(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        ),
+      ],
+    );
+  }
+}
+
+class _SummaryGridCard extends StatelessWidget {
+  final RequestWasteItem loadedCollect;
+
+  const _SummaryGridCard({required this.loadedCollect});
+
+  @override
+  Widget build(BuildContext context) {
+    final currencyFormat = intl.NumberFormat.decimalPattern();
+
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            _buildComparisonRow(
+              context,
+              'Total Price (\$)',
+              loadedCollect.total_collects_price.estimated,
+              loadedCollect.total_collects_price.exact,
+              currencyFormat,
+              icon: Icons.monetization_on_outlined,
+              isCurrency: true,
+            ),
+            const Divider(height: 24),
+            _buildComparisonRow(
+              context,
+              'Total Weight (Kg)',
+              loadedCollect.total_collects_weight.estimated,
+              loadedCollect.total_collects_weight.exact,
+              currencyFormat,
+              icon: Icons.scale_outlined,
+            ),
+            const Divider(height: 24),
+            _buildComparisonRow(
+              context,
+              'Items Count',
+              loadedCollect.total_collects_number.estimated,
+              loadedCollect.total_collects_number.exact,
+              currencyFormat,
+              icon: Icons.numbers,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildComparisonRow(
+    BuildContext context,
+    String title,
+    String estimated,
+    String exact,
+    intl.NumberFormat formatter, {
+    required IconData icon,
+    bool isCurrency = false,
+  }) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(icon, color: Colors.grey[700], size: 20),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  _buildValueBadge(
+                      'Req', _format(formatter, estimated), Colors.orange),
+                  const SizedBox(width: 8),
+                  const Icon(Icons.arrow_forward, size: 14, color: Colors.grey),
+                  const SizedBox(width: 8),
+                  _buildValueBadge(
+                      'Del', _format(formatter, exact), Colors.green),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildValueBadge(String label, String value, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: color.withOpacity(0.3)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '$label: ',
+            style: TextStyle(
+                fontSize: 10,
+                color: color.withOpacity(0.8),
+                fontWeight: FontWeight.bold),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+                fontSize: 12, fontWeight: FontWeight.bold, color: color),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _format(intl.NumberFormat formatter, String value) {
+    try {
+      final doubleVal = double.parse(value);
+      return EnArConvertor().replaceArNumber(formatter.format(doubleVal));
+    } catch (e) {
+      return value;
+    }
+  }
+}
+
+class _DetailsCard extends StatelessWidget {
+  final RequestWasteItem loadedCollect;
+
+  const _DetailsCard({required this.loadedCollect});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            _buildDetailRow(
+              'Region',
+              EnArConvertor()
+                  .replaceArNumber(loadedCollect.address_data.region.name),
+              Icons.location_on_outlined,
+            ),
+            const Divider(height: 20),
+            _buildDetailRow(
+              'Request Date',
+              '${EnArConvertor().replaceArNumber(loadedCollect.collect_date.day)} - ${EnArConvertor().replaceArNumber(loadedCollect.collect_date.time)}',
+              Icons.calendar_today_outlined,
+            ),
+            const Divider(height: 20),
+            _buildDetailRow(
+              'Collect Time',
+              loadedCollect.collect_date.collect_done_time.isNotEmpty
+                  ? EnArConvertor().replaceArNumber(
+                      loadedCollect.collect_date.collect_done_time)
+                  : 'Pending',
+              Icons.access_time,
+              valueColor: loadedCollect.collect_date.collect_done_time.isEmpty
+                  ? Colors.orange
+                  : null,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, String value, IconData icon,
+      {Color? valueColor}) {
+    return Row(
+      children: [
+        Icon(icon, size: 20, color: Colors.grey),
+        const SizedBox(width: 12),
+        Text(
+          label,
+          style: const TextStyle(color: Colors.grey, fontSize: 14),
+        ),
+        const Spacer(),
+        Text(
+          value,
+          style: TextStyle(
+            color: valueColor ?? Colors.black87,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _WasteListSliver extends StatelessWidget {
+  final RequestWasteItem loadedCollect;
+
+  const _WasteListSliver({required this.loadedCollect});
+
+  @override
+  Widget build(BuildContext context) {
+    if (loadedCollect.collect_list.isEmpty) {
+      return const SliverToBoxAdapter(
+        child: Padding(
+          padding: EdgeInsets.all(32.0),
+          child: Center(
+            child: Text(
+              'No Waste Items Found',
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (ctx, i) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+          child: CollectDetailsCollectItem(
+            collectItem: loadedCollect.collect_list[i],
+          ),
+        ),
+        childCount: loadedCollect.collect_list.length,
       ),
     );
   }
