@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
@@ -13,398 +12,336 @@ import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart
 import '../customer_feature/presentation/screens/login_screen.dart';
 import 'presentation/providers/wastes.dart';
 
-/// Collect List Screen
-///
-/// This screen is used to show the list of all waste collect requests.
-///
-/// It loads the list of requests from the server and shows them in a list view.
-/// The user can filter the requests by date and waste type.
-/// The user can also sort the requests by newest, highest price, lowest price.
-///
-/// The screen is divided into two parts. The first part shows the list of requests
-/// and the second part shows the details of the selected request.
-///
-/// The screen also has a drawer that contains the menu items to navigate to other
-/// screens.
 class CollectListScreen extends StatefulWidget {
   static const routeName = '/collectListScreen';
+
+  const CollectListScreen({Key? key}) : super(key: key);
 
   @override
   _CollectListScreenState createState() => _CollectListScreenState();
 }
 
-/// The state of the Collect List Screen
-///
-/// It contains the logic to load the list of requests, filter and sort them.
-class _CollectListScreenState extends State<CollectListScreen>
-    with SingleTickerProviderStateMixin {
-  /// The scroll controller of the list view
-  ScrollController _scrollController = new ScrollController();
+class _CollectListScreenState extends State<CollectListScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  bool _isLoading = false;
   bool _isInit = true;
+  bool _hasError = false;
+  int _page = 1;
+  SearchDetail _searchDetail = SearchDetail();
 
-  /// The flag to indicate if the screen is loading
-  var _isLoading;
-
-  /// The key of the scaffold
-  var scaffoldKey;
-
-  /// The page number of the list
-  int page = 1;
-
-  /// The search detail object
-  SearchDetail productsDetail = SearchDetail();
-
-  /// The sort value
-  var sortValue = 'Newest';
-
-  /// The list of sort values
-  List<String> sortValueList = ['Newest', 'Highest Price', 'Lowest Price'];
-
-  /// The list of loaded products
-  List<RequestWasteItem> loadedProducts = [];
-
-  /// The list of loaded products to list
-  List<RequestWasteItem> loadedProductstolist = [];
+  // Using a local list to track items shown in UI
+  final List<RequestWasteItem> _loadedRequests = [];
 
   @override
   void initState() {
-    Provider.of<Wastes>(context, listen: false).sPage = 1;
-
-    Provider.of<Wastes>(context, listen: false).searchBuilder();
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (page < productsDetail.max_page) {
-          page = page + 1;
-          Provider.of<Wastes>(context, listen: false).sPage = page;
-
-          searchItems();
-        }
-      }
-    });
-
     super.initState();
+    _scrollController.addListener(_onScroll);
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() async {
+  void didChangeDependencies() {
     if (_isInit) {
-      searchItems();
+      _loadInitialData();
     }
     _isInit = false;
     super.didChangeDependencies();
   }
 
-  /// The function to submit the search
-  Future<void> _submit() async {
-    loadedProducts.clear();
-    loadedProducts =
-        await Provider.of<Wastes>(context, listen: false).CollectItems;
-    debugPrint("loadedproduct $loadedProducts");
-    loadedProductstolist.addAll(loadedProducts);
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
-  /// The function to filter the items
-  Future<void> filterItems() async {
-    loadedProductstolist.clear();
-    await searchItems();
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      if (!_isLoading && _page < _searchDetail.max_page && !_hasError) {
+        _loadMoreItems();
+      }
+    }
   }
 
-  /// The function to search the items
-  Future<void> searchItems() async {
+  Future<void> _loadInitialData() async {
     setState(() {
       _isLoading = true;
+      _hasError = false;
     });
+    try {
+      final wastesProvider = Provider.of<Wastes>(context, listen: false);
+      wastesProvider.sPage = 1;
+      wastesProvider.searchBuilder(); // Prepare search params if any
 
-    Provider.of<Wastes>(context, listen: false).searchBuilder();
-    await Provider.of<Wastes>(context, listen: false).searchCollectItems();
-    productsDetail = Provider.of<Wastes>(context, listen: false).searchDetails;
-    debugPrint("productsDetail $productsDetail");
-    _submit();
+      await wastesProvider.searchCollectItems();
 
-    setState(() {
-      _isLoading = false;
-    });
+      _searchDetail = wastesProvider.searchDetails;
+
+      // Update local list
+      _loadedRequests.clear();
+      _loadedRequests.addAll(await wastesProvider.CollectItems);
+    } catch (error) {
+      debugPrint('Error loading initial data: $error');
+      if (mounted) {
+        setState(() => _hasError = true);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
-  /// The function to change the category
-  Future<void> changeCat(BuildContext context) async {
-    setState(() {
-      _isLoading = true;
-    });
-    print(_isLoading.toString());
+  Future<void> _loadMoreItems() async {
+    setState(() => _isLoading = true);
+    try {
+      _page++;
+      final wastesProvider = Provider.of<Wastes>(context, listen: false);
+      wastesProvider.sPage = _page;
 
-    Provider.of<Wastes>(context, listen: false).sPage = 1;
+      await wastesProvider.searchCollectItems();
 
-    Provider.of<Wastes>(context, listen: false).searchBuilder();
-
-    loadedProductstolist.clear();
-
-    await searchItems();
-
-    setState(() {
-      _isLoading = false;
-      print(_isLoading.toString());
-    });
+      final newItems = await wastesProvider.CollectItems;
+      _loadedRequests.addAll(newItems);
+      _searchDetail = wastesProvider.searchDetails;
+    } catch (error) {
+      debugPrint('Error loading more items: $error');
+      _page--; // Revert page increment on failure
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Failed to load more items. Please try again.'),
+            action: SnackBarAction(
+              label: 'Retry',
+              onPressed: _loadMoreItems,
+            ),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
-  /// The build method of the screen
+  Future<void> _refresh() async {
+    _page = 1;
+    await _loadInitialData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
-
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
 
     return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Color(0xffF9F9F9),
+      backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
         title: Text(
           'Request List',
-          style: TextStyle(
-            color: AppTheme.white,
-            //fontFamily: 'Iransans',
-            // fontSize: 15.0,
-          ),
+          style: TextStyle(color: AppTheme.white),
         ),
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         elevation: 0,
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: !isLogin
-            ? Container(
-                height: deviceHeight * 0.8,
-                child: Center(
-                  child: Wrap(
-                    direction: Axis.vertical,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('You are not Login'),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(LoginScreen.routeName);
-                        },
-                        child: Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Text(
-                              'Login',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              color: AppTheme.primary,
-                              borderRadius: BorderRadius.circular(5)),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              )
-            : Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: deviceHeight * 0.0,
-                    horizontal: deviceWidth * 0.03),
-                child: Stack(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: deviceWidth * 0.25,
-                            child: Builder(
-                              builder: (BuildContext context) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Container(
-                                    width: deviceWidth,
-                                    child: FadeInImage(
-                                      placeholder: AssetImage(
-                                          'assets/images/circle.gif'),
-                                      image: AssetImage(
-                                          'assets/images/collect_list_header.png'),
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Spacer(),
-                                  Consumer<Wastes>(builder: (_, Wastes, ch) {
-                                    return Container(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: deviceHeight * 0.0,
-                                            horizontal: 3),
-                                        child: Wrap(
-                                            alignment: WrapAlignment.start,
-                                            crossAxisAlignment:
-                                                WrapCrossAlignment.center,
-                                            direction: Axis.horizontal,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 3,
-                                                        vertical: 5),
-                                                child: Text(
-                                                  'Number:',
-                                                  style: TextStyle(
-                                                    //fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor * 12.0,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 4.0, left: 6),
-                                                child: Text(
-                                                  EnArConvertor()
-                                                          .replaceArNumber(
-                                                              loadedProductstolist
-                                                                  .length
-                                                                  .toString()),
-                                                  style: TextStyle(
-                                                    //fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor * 13.0,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 3,
-                                                        vertical: 5),
-                                                child: Text(
-                                                  'From',
-                                                  style: TextStyle(
-                                                    //fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor * 12.0,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 4.0, left: 6),
-                                                child: Text(
-                                                  EnArConvertor()
-                                                          .replaceArNumber(
-                                                              productsDetail
-                                                                  .total
-                                                                  .toString()),
-                                                  style: TextStyle(
-                                                    //fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor * 13.0,
-                                                  ),
-                                                ),
-                                              ),
-                                            ]),
-                                      ),
-                                    );
-                                  }),
-                                ],
-                              ),
-                              Container(
-                                width: double.infinity,
-                                height: deviceHeight * 0.68,
-                                child: ListView.builder(
-                                  controller: _scrollController,
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: loadedProductstolist.length,
-                                  itemBuilder: (ctx, i) =>
-                                      ChangeNotifierProvider.value(
-                                    value: loadedProductstolist[i],
-                                    child: CollectItemCollectsScreen(),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    Positioned(
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? SpinKitFadingCircle(
-                                itemBuilder: (BuildContext context, int index) {
-                                  return DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? Colors.grey
-                                          : Colors.grey,
-                                    ),
-                                  );
-                                },
-                              )
-                            : Container(
-                                child: loadedProductstolist.isEmpty
-                                    ? Center(
-                                        child: Text(
-                                          'No Request',
-                                          style: TextStyle(
-                                            //fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 14.0,
-                                          ),
-                                        ),
-                                      )
-                                    : Container(),
-                              ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-      ),
       endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
+        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
+      ),
+      body: !isLogin ? _buildNotLoggedInView() : _buildContent(),
+    );
+  }
+
+  Widget _buildNotLoggedInView() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text(
+            'Please login to view your requests',
+            style: TextStyle(fontSize: 16, color: Colors.grey),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () =>
+                Navigator.of(context).pushNamed(LoginScreen.routeName),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primary,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Login', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    if (_hasError && _loadedRequests.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, size: 64, color: Colors.redAccent),
+            const SizedBox(height: 16),
+            const Text(
+              'Something went wrong!',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: _loadInitialData,
+              icon: const Icon(Icons.refresh, color: Colors.white),
+              label: const Text('Retry', style: TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primary,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      color: AppTheme.primary,
+      child: CustomScrollView(
+        controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        slivers: [
+          SliverToBoxAdapter(child: _buildHeaderImage()),
+          if (_loadedRequests.isNotEmpty)
+            SliverToBoxAdapter(child: _buildStatsRow()),
+          _buildRequestsList(),
+          if (_isLoading && _loadedRequests.isNotEmpty)
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            ),
+          const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeaderImage() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      child: Image.asset(
+        'assets/images/collect_list_header.png',
+        height: 150,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) {
+          return const SizedBox(
+            height: 100,
+            child: Center(
+              child:
+                  Icon(Icons.image_not_supported, size: 50, color: Colors.grey),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildStatsRow() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _buildStatItem('Count:', _loadedRequests.length.toString()),
+          const SizedBox(width: 12),
+          _buildStatItem('Total:', _searchDetail.total.toString()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatItem(String label, String value) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey.shade600,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            EnArConvertor().replaceArNumber(value),
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.primary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRequestsList() {
+    if (_isLoading && _loadedRequests.isEmpty) {
+      return SliverFillRemaining(
+        child: Center(
+          child: SpinKitFadingCircle(
+            color: AppTheme.primary,
+            size: 50.0,
+          ),
+        ),
+      );
+    }
+
+    if (_loadedRequests.isEmpty) {
+      return const SliverFillRemaining(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.inbox_outlined, size: 64, color: Colors.grey),
+              SizedBox(height: 16),
+              Text(
+                'No requests found',
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          return Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+            child: ChangeNotifierProvider.value(
+              value: _loadedRequests[index],
+              child: CollectItemCollectsScreen(),
+            ),
+          );
+        },
+        childCount: _loadedRequests.length,
       ),
     );
   }
