@@ -19,8 +19,8 @@ void main() {
 
     testWidgets('app launches successfully', (WidgetTester tester) async {
       // Note: Integration tests require actual app setup
-      // This test verifies the app structure can be created
-      // For full integration testing, use flutter drive
+      // This test verifies the app structure can be created For full
+      // integration testing, use flutter drive
       
       // Skip this test if .env file is required and not available
       // In a real scenario, you'd have a .env file or mock the initialization
