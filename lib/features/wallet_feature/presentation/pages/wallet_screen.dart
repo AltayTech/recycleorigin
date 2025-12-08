@@ -210,16 +210,12 @@ class _WalletScreenState extends State<WalletScreen>
                                       ),
                                       Consumer<CustomerInfoProvider>(
                                         builder: (_, data, ch) => Text(
-                                          data.customer != null
-                                              ? EnArConvertor().replaceArNumber(
+                                          EnArConvertor().replaceArNumber(
                                                   currencyFormat
                                                       .format(double.parse(data
                                                               .customer.money)
                                                           .round())
-                                                      .toString())
-                                              : EnArConvertor().replaceArNumber(
-                                                  currencyFormat.format(
-                                                      double.parse('0'))),
+                                                      .toString()),
                                           style: TextStyle(
                                             color: AppTheme.black,
                                             //fontFamily: 'Iransans',

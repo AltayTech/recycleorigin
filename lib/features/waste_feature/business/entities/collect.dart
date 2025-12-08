@@ -40,7 +40,7 @@ class Collect with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map? pasmand = this.pasmand != null ? this.pasmand.toJson() : null;
+    Map? pasmand = this.pasmand.toJson();
 
     return {
       'pasmand': pasmand,

@@ -62,8 +62,6 @@ class _MainDrawerState extends State<MainDrawer> with TickerProviderStateMixin {
     required IconData icon,
     required String title,
     required VoidCallback onTap,
-    Color? iconColor,
-    Color? textColor,
     bool isLogout = false,
   }) {
     return Material(

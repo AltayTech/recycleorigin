@@ -77,9 +77,7 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            widget.collectItem.pasmand.post_title != null
-                                ? widget.collectItem.pasmand.post_title
-                                : 'Not',
+                            widget.collectItem.pasmand.post_title,
                             style: TextStyle(
                               color: AppTheme.black,
                               fontWeight: FontWeight.w700,
@@ -205,12 +203,10 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   ),
                                 ),
                                 Text(
-                                  widget.collectItem.estimated_price != null
-                                      ? EnArConvertor().replaceArNumber(
+                                  EnArConvertor().replaceArNumber(
                                           currencyFormat.format(double.parse(
                                               widget.collectItem
-                                                  .estimated_price)))
-                                      : EnArConvertor().replaceArNumber('0'),
+                                                  .estimated_price))),
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     //fontFamily: 'Iransans',
@@ -233,11 +229,9 @@ class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
                                   ),
                                 ),
                                 Text(
-                                  widget.collectItem.exact_price != null
-                                      ? EnArConvertor().replaceArNumber(
+                                  EnArConvertor().replaceArNumber(
                                           currencyFormat.format(double.parse(
-                                              widget.collectItem.exact_price)))
-                                      : EnArConvertor().replaceArNumber('0'),
+                                              widget.collectItem.exact_price))),
                                   style: TextStyle(
                                     color: AppTheme.black,
                                     //fontFamily: 'Iransans',

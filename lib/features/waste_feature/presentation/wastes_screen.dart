@@ -12,173 +12,190 @@ import 'widgets/waste_item_wastes_screen.dart';
 class WastesScreen extends StatefulWidget {
   static const routeName = '/wastesScreen';
 
+  const WastesScreen({Key? key}) : super(key: key);
+
   @override
   _WastesScreenState createState() => _WastesScreenState();
 }
 
-class _WastesScreenState extends State<WastesScreen>
-    with SingleTickerProviderStateMixin {
+class _WastesScreenState extends State<WastesScreen> {
   bool _isInit = true;
-  var _isLoading;
-  Function? callBack = () {};
+  bool _isLoading = false;
 
   List<WasteCart> wasteCartItems = [];
   List<int> wasteCartItemsId = [];
+  List<Waste> loadedWastes = [];
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      callBack = ModalRoute.of(context)?.settings.arguments as Function?;
-
-      searchItems();
+      _loadData();
     }
     _isInit = false;
     super.didChangeDependencies();
   }
 
-  List<Waste> loadedWastes = [];
-
-  Future<void> searchItems() async {
+  Future<void> _loadData() async {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Wastes>(context, listen: false).searchWastesItem();
-    loadedWastes.clear();
-    loadedWastes = Provider.of<Wastes>(context, listen: false).wasteItems;
-    wasteCartItems = Provider.of<Wastes>(context, listen: false).wasteCartItems;
-    wasteCartItemsId =
-        Provider.of<Wastes>(context, listen: false).wasteCartItemsId;
+
+    try {
+      final wastesProvider = Provider.of<Wastes>(context, listen: false);
+      await wastesProvider.searchWastesItem();
+
+      if (mounted) {
+        setState(() {
+          loadedWastes = wastesProvider.wasteItems;
+          wasteCartItems = wastesProvider.wasteCartItems;
+          wasteCartItemsId = wastesProvider.wasteCartItemsId;
+          _isLoading = false;
+        });
+      }
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        // Consider showing a snackbar here in a real app
+      }
+    }
+  }
+
+  void _toggleSelection(Waste waste) {
+    final wastesProvider = Provider.of<Wastes>(context, listen: false);
+
+    if (wasteCartItemsId.contains(waste.id)) {
+      wastesProvider.removeWasteCart(waste.id);
+    } else {
+      wastesProvider.addWasteCart(waste, 1);
+    }
 
     setState(() {
-      _isLoading = false;
+      wasteCartItemsId = wastesProvider.wasteCartItemsId;
+      wasteCartItems = wastesProvider.wasteCartItems;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final screenWidth = MediaQuery.of(context).size.width;
+    // Responsive grid count: 2 for small phones, 3 for large phones/tablets, 4 for tablets
+    final crossAxisCount = screenWidth < 360 ? 2 : (screenWidth > 600 ? 4 : 3);
 
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         centerTitle: true,
         title: Text(
           "Waste List",
           style: TextStyle(
-            //fontFamily: 'Iransans',
             color: AppTheme.white,
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: deviceHeight * 0.03, horizontal: deviceWidth * 0.03),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                height: deviceHeight * 0.9,
-                child: GridView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: loadedWastes.length,
-                  itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-                    value: loadedWastes[i],
-                    child: InkWell(
-                        onTap: () {
-                          wasteCartItems =
-                              Provider.of<Wastes>(context, listen: false)
-                                  .wasteCartItems;
-                          wasteCartItemsId =
-                              Provider.of<Wastes>(context, listen: false)
-                                  .wasteCartItemsId;
-
-                          if (wasteCartItemsId.contains(loadedWastes[i].id)) {
-                            Provider.of<Wastes>(context, listen: false)
-                                .removeWasteCart(loadedWastes[i].id);
-                          } else {
-                            Provider.of<Wastes>(context, listen: false)
-                                .addWasteCart(loadedWastes[i], 1);
-                          }
-                          wasteCartItemsId =
-                              Provider.of<Wastes>(context, listen: false)
-                                  .wasteCartItemsId;
-
-                          setState(() {});
-                        },
-                        child: WasteItemWastesScreen(
-                          waste: loadedWastes[i],
-                          isSelected:
-                              wasteCartItemsId.contains(loadedWastes[i].id),
-                        )),
-                  ),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: _isLoading
-                      ? SpinKitFadingCircle(
-                          itemBuilder: (BuildContext context, int index) {
-                            return DecoratedBox(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: index.isEven ? Colors.grey : Colors.grey,
-                              ),
-                            );
-                          },
-                        )
-                      : Container(
-                          child: loadedWastes.isEmpty
-                              ? Center(
-                                  child: Text(
-                                  'No items found',
-                                  style: TextStyle(
-                                    //fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 15.0,
-                                  ),
-                                ))
-                              : Container(),
-                        ),
-                ),
-              )
-            ],
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
       ),
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+          canvasColor: Colors.transparent,
         ),
         child: MainDrawer(),
       ),
+      body: _isLoading
+          ? Center(
+              child: SpinKitFadingCircle(
+                color: AppTheme.primary,
+                size: 50.0,
+              ),
+            )
+          : loadedWastes.isEmpty
+              ? _buildEmptyState()
+              : RefreshIndicator(
+                  onRefresh: _loadData,
+                  color: AppTheme.primary,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: CustomScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      slivers: [
+                        SliverPadding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 100),
+                          sliver: SliverGrid(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: crossAxisCount,
+                              childAspectRatio: 0.85,
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                            ),
+                            delegate: SliverChildBuilderDelegate(
+                              (ctx, i) {
+                                final waste = loadedWastes[i];
+                                return WasteItemWastesScreen(
+                                  waste: waste,
+                                  isSelected:
+                                      wasteCartItemsId.contains(waste.id),
+                                  onTap: () => _toggleSelection(waste),
+                                );
+                              },
+                              childCount: loadedWastes.length,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.of(context).pop();
         },
         backgroundColor: AppTheme.primary,
-        child: Icon(
-          Icons.check,
-          color: AppTheme.white,
+        icon: Icon(Icons.check, color: AppTheme.white),
+        label: Text(
+          "Done",
+          style: TextStyle(color: AppTheme.white, fontWeight: FontWeight.bold),
         ),
+        elevation: 4,
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.search_off_rounded, size: 80, color: Colors.grey[400]),
+          const SizedBox(height: 16),
+          Text(
+            'No items found',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: _loadData,
+            icon: const Icon(Icons.refresh),
+            label: const Text("Retry"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primary,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

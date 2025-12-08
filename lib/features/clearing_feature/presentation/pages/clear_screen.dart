@@ -359,20 +359,14 @@ class _ClearScreenState extends State<ClearScreen>
                                           Spacer(),
                                           Consumer<CustomerInfoProvider>(
                                             builder: (_, data, ch) => Text(
-                                              data.customer != null
-                                                  ? EnArConvertor()
+                                              EnArConvertor()
                                                       .replaceArNumber(
                                                           currencyFormat
                                                               .format(double
                                                                   .parse(data
                                                                       .customer
                                                                       .money))
-                                                              .toString())
-                                                  : EnArConvertor()
-                                                      .replaceArNumber(
-                                                          currencyFormat.format(
-                                                              double.parse(
-                                                                  '0'))),
+                                                              .toString()),
                                               style: TextStyle(
                                                 color: AppTheme.black,
                                                 //fontFamily: 'Iransans',

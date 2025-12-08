@@ -28,13 +28,11 @@ class RequestWaste with ChangeNotifier {
 
   Map<String, dynamic> toJson() {
     Map? collect_date =
-        this.collect_date != null ? this.collect_date.toJson() : null;
+        this.collect_date.toJson();
     Map? address_data =
-        this.address_data != null ? this.address_data.toJson() : null;
+        this.address_data.toJson();
 
-    List<Map>? collect_list = this.collect_list != null
-        ? this.collect_list.map((i) => i.toJson()).toList()
-        : null;
+    List<Map>? collect_list = this.collect_list.map((i) => i.toJson()).toList();
 
     return {
       'collect_date': collect_date,

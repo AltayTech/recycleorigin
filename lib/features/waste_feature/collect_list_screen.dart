@@ -292,14 +292,11 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                 padding: const EdgeInsets.only(
                                                     right: 4.0, left: 6),
                                                 child: Text(
-                                                  productsDetail != null
-                                                      ? EnArConvertor()
+                                                  EnArConvertor()
                                                           .replaceArNumber(
                                                               loadedProductstolist
                                                                   .length
-                                                                  .toString())
-                                                      : EnArConvertor()
-                                                          .replaceArNumber('0'),
+                                                                  .toString()),
                                                   style: TextStyle(
                                                     //fontFamily: 'Iransans',
                                                     fontSize:
@@ -325,14 +322,11 @@ class _CollectListScreenState extends State<CollectListScreen>
                                                 padding: const EdgeInsets.only(
                                                     right: 4.0, left: 6),
                                                 child: Text(
-                                                  productsDetail != null
-                                                      ? EnArConvertor()
+                                                  EnArConvertor()
                                                           .replaceArNumber(
                                                               productsDetail
                                                                   .total
-                                                                  .toString())
-                                                      : EnArConvertor()
-                                                          .replaceArNumber('0'),
+                                                                  .toString()),
                                                   style: TextStyle(
                                                     //fontFamily: 'Iransans',
                                                     fontSize:
