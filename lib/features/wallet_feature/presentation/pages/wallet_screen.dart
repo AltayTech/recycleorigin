@@ -93,12 +93,13 @@ class _WalletScreenState extends State<WalletScreen> {
       final customerProvider =
           Provider.of<CustomerInfoProvider>(context, listen: false);
       customerProvider.sPage = _page;
-      
-      // Assuming searchTransactionItems appends or we need to fetch and append. 
+
+      // Assuming searchTransactionItems appends or we need to fetch and append.
       // The original code seemed to re-fetch or use pagination state internally.
       // Based on original code:
-      await customerProvider.searchTransactionItems(); // This likely updates the provider's list
-      
+      await customerProvider
+          .searchTransactionItems(); // This likely updates the provider's list
+
       final newTransactions = customerProvider.transactionItems;
 
       if (mounted) {
