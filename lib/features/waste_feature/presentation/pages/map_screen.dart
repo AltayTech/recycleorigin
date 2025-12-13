@@ -496,7 +496,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget _buildRegionDropdown() {
     return DropdownButtonFormField<Region>(
-      value: _selectedRegion,
+      initialValue: _selectedRegion,
       items: _regions.map((region) {
         return DropdownMenuItem<Region>(
           value: region,

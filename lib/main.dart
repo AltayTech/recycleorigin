@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:recycleorigin/core/config/app_config.dart';
+import 'package:recycleorigin/core/constants/strings.dart';
+import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
+import 'package:recycleorigin/l10n/app_localizations.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_detail_screen.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';
 import 'package:recycleorigin/features/Charities/presentation/pages/donation_screen.dart';
@@ -13,10 +18,6 @@ import 'package:recycleorigin/features/wallet_feature/presentation/pages/wallet_
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/wastes_screen_animated_list.dart';
 
-import 'package:recycleorigin/core/config/app_config.dart';
-import 'package:recycleorigin/core/constants/strings.dart';
-import 'package:recycleorigin/core/network/api_client.dart';
-import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'core/screens/splash_Screen.dart';
 import 'core/utils/app_info_service.dart';
 import 'features/about_feature/presentation/pages/about_us_screen.dart';
@@ -125,6 +126,18 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: Strings.appTitle,
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        localeResolutionCallback: (locale, supportedLocales) {
+          if (locale == null) return supportedLocales.first;
+          for (final supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode) {
+              return supportedLocale;
+            }
+          }
+          return supportedLocales.first;
+        },
         theme: ThemeData(
           primarySwatch: Colors.green,
           // accentColor: Colors.amber,
@@ -144,8 +157,6 @@ class MyApp extends StatelessWidget {
                 ),
               ),
         ),
-        // localizationsDelegates: AppLocalizations.localizationsDelegates,
-        // supportedLocales: AppLocalizations.supportedLocales,
         home: SplashScreens(),
         routes: {
           NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
