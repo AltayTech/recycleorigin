@@ -263,13 +263,13 @@ class _DonationScreenState extends State<DonationScreen>
                                               Consumer<CustomerInfoProvider>(
                                                 builder: (_, data, ch) => Text(
                                                   EnArConvertor()
-                                                          .replaceArNumber(
-                                                              currencyFormat
-                                                                  .format(double
-                                                                      .parse(data
-                                                                          .customer
-                                                                          .money))
-                                                                  .toString()),
+                                                      .replaceArNumber(
+                                                          currencyFormat
+                                                              .format(double
+                                                                  .parse(data
+                                                                      .customer
+                                                                      .money))
+                                                              .toString()),
                                                   style: TextStyle(
                                                     color: AppTheme.black,
                                                     //fontFamily: 'Iransans',

@@ -149,8 +149,8 @@ class _OrdersScreenState extends State<OrdersScreen>
         title: Text(
           'Orders',
           style: TextStyle(
-            //fontFamily: 'Iransans',
-          ),
+              //fontFamily: 'Iransans',
+              ),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),

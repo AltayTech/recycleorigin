@@ -134,8 +134,8 @@ class _MessageScreenState extends State<MessageScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10.0, right: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 10.0, right: 10),
                               child: Container(
                                   width: deviceWidth * 0.1,
                                   child: Image.asset(
@@ -200,8 +200,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             return DecoratedBox(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color:
-                                    index.isEven ? Colors.grey : Colors.grey,
+                                color: index.isEven ? Colors.grey : Colors.grey,
                               ),
                             );
                           },
