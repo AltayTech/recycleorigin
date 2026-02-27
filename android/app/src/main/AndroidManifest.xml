@@ -12,7 +12,8 @@
     <application
         android:name="${applicationName}"
         android:icon="@drawable/tamizshahr_ic"
-        android:label="Recycle Origin">
+        android:label="Recycle Origin"
+        android:usesCleartextTraffic="true">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCRlaVGOEihxi7V69rWNNF_37i6z4wRZDM" />

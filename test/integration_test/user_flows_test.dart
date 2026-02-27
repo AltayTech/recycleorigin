@@ -95,26 +95,6 @@ void main() {
       });
     });
 
-    group('Charity Flow', () {
-      testWidgets('user can browse charities', (WidgetTester tester) async {
-        await tester.pumpAndSettle();
-
-        // Navigate to charities screen
-        // Verify charities list
-        // Tap on charity
-        // Verify charity details
-      });
-
-      testWidgets('user can make donation', (WidgetTester tester) async {
-        await tester.pumpAndSettle();
-
-        // Navigate to charity
-        // Enter donation amount
-        // Submit donation
-        // Verify success message
-      });
-    });
-
     group('Article Flow', () {
       testWidgets('user can browse articles', (WidgetTester tester) async {
         await tester.pumpAndSettle();

@@ -21,13 +21,15 @@ class AppConfig {
     }
   }
 
+  /// Backend API root (no trailing path). E.g. https://api.example.com/
+  /// Do not include /rest; the backend serves at root.
   static String get apiBaseUrl {
-    final url = _getEnv('API_BASE_URL') ?? 'https://recycleorigin.com/rest/';
+    final url = _getEnv('API_BASE_URL') ?? 'https://recycleorigin.com/';
     if (url.isEmpty) {
       AppLogger.warning('API_BASE_URL not set, using default');
-      return 'https://recycleorigin.com/rest/';
+      return 'https://recycleorigin.com/';
     }
-    return url;
+    return url.endsWith('/') ? url : '$url/';
   }
 
   static String get apiRootUrl {
@@ -57,18 +59,19 @@ class AppConfig {
 
   /// Initialize configuration
   /// Call this in main() before runApp()
+  /// Loads .env from assets (bundled) so it works on device/emulator.
   static Future<void> initialize() async {
     try {
-      // Try to load .env file, but don't fail if it doesn't exist
-      // The app will use default values defined in the getters
       await dotenv.load(fileName: '.env');
       _isInitialized = true;
-      AppLogger.info('App configuration loaded from .env file');
+      AppLogger.info(
+        'App configuration loaded from .env file. API_BASE_URL=${apiBaseUrl}',
+      );
     } catch (e) {
-      // .env file doesn't exist or couldn't be loaded
-      // This is okay - we'll use default values
       _isInitialized = false;
-      AppLogger.info('No .env file found, using default configuration');
+      AppLogger.info(
+        'No .env loaded, using default. API_BASE_URL=$apiBaseUrl',
+      );
     }
   }
 }

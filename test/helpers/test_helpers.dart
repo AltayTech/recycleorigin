@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
-import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
 import 'package:recycleorigin/features/articles_feature/presentation/providers/articles.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
@@ -25,7 +24,6 @@ class TestHelpers {
     Messages? messages,
     Wastes? wastes,
     Articles? articles,
-    Charities? charities,
     Orders? orders,
     Clearings? clearings,
   }) {
@@ -52,9 +50,6 @@ class TestHelpers {
         ),
         ChangeNotifierProvider<Articles>(
           create: (_) => articles ?? Articles(),
-        ),
-        ChangeNotifierProvider<Charities>(
-          create: (_) => charities ?? Charities(),
         ),
         ChangeNotifierProvider<Orders>(
           create: (_) => orders ?? Orders(),
@@ -96,7 +91,6 @@ class TestConstants {
   static const String testPhone = '+1234567890';
   static const String testUrl = 'https://example.com';
   static const int testProductId = 1;
-  static const int testCharityId = 1;
   static const int testArticleId = 1;
   static const String testApiBaseUrl = 'https://test-api.example.com';
 }

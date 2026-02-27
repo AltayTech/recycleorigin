@@ -1,6 +1,11 @@
+import 'package:recycleorigin/core/config/app_config.dart';
+
+/// API URL constants. [baseUrl] and [rootUrl] use [AppConfig.apiBaseUrl]
+/// so the app talks to the correct backend (set API_BASE_URL in .env; no /rest suffix).
 class Urls {
-  static const baseUrl = 'https://recycleorigin.com/rest/';
-  static const rootUrl = baseUrl + 'pasmands/v1';
+  static String get baseUrl => AppConfig.apiBaseUrl;
+  static String get rootUrl => baseUrl + 'pasmands/v1';
+
   static const pasmandsEndPoint = '/pasmands';
   static const productsEndPoint = '/products';
   static const categoriesEndPoint = '/products/category';
@@ -13,7 +18,6 @@ class Urls {
   static const customerEndPoint = '/customer';
   static const orderEndPoint = '/orders';
   static const transactionsEndPoint = '/transactions';
-  static const charitiesEndPoint = '/charities';
   static const provincesEndPoint = '/provinces';
   static const typesEndPoint = '/customer/types';
   static const clearingEndPoint = '/clearings';

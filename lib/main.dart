@@ -6,10 +6,6 @@ import 'package:recycleorigin/core/constants/strings.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/l10n/app_localizations.dart';
-import 'package:recycleorigin/features/Charities/presentation/pages/charity_detail_screen.dart';
-import 'package:recycleorigin/features/Charities/presentation/pages/charity_screen.dart';
-import 'package:recycleorigin/features/Charities/presentation/pages/donation_screen.dart';
-import 'package:recycleorigin/features/Charities/presentation/providers/charities.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
@@ -59,7 +55,7 @@ import 'features/waste_feature/presentation/wastes_screen.dart';
 ///
 /// This widget is the root of the application. It uses the [MultiProvider]
 /// widget to provide the [Products], [AuthenticationProvider], [CustomerInfoProvider],
-/// [Messages], [Wastes], [Articles], [Charities], [Orders], and [Clearings]
+/// [Messages], [Wastes], [Articles], [Orders], and [Clearings]
 /// providers to the application.
 ///
 /// The application's theme is defined in the [MaterialApp] widget. The
@@ -113,9 +109,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => Articles(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => Charities(),
         ),
         ChangeNotifierProvider(
           create: (context) => Orders(),
@@ -192,11 +185,8 @@ class MyApp extends StatelessWidget {
           WasteRequestSendScreen.routeName: (ctx) => WasteRequestSendScreen(),
           CollectListScreen.routeName: (ctx) => CollectListScreen(),
           WalletScreen.routeName: (ctx) => WalletScreen(),
-          CharityScreen.routeName: (ctx) => CharityScreen(),
-          CharityDetailScreen.routeName: (ctx) => CharityDetailScreen(),
           OrdersScreen.routeName: (ctx) => OrdersScreen(),
           CollectDetailScreen.routeName: (ctx) => CollectDetailScreen(),
-          DonationScreen.routeName: (ctx) => DonationScreen(),
           WastesScreenAnimatedList.routeName: (ctx) =>
               WastesScreenAnimatedList(),
           ClearScreen.routeName: (ctx) => ClearScreen(),

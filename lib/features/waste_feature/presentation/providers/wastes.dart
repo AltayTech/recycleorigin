@@ -7,8 +7,8 @@ import 'package:recycleorigin/features/waste_feature/business/entities/collect_m
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/waste.dart';
+import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/constants/urls.dart';
 import '../../../../core/models/search_detail.dart';
@@ -113,8 +113,10 @@ class Wastes with ChangeNotifier {
     AppLogger.debug('Sending waste request');
     try {
       if (isLogin) {
-        final prefs = await SharedPreferences.getInstance();
-        _token = prefs.getString('token')!;
+        _token = await SecureStorage.getToken() ?? '';
+        if (_token.isEmpty) {
+          throw Exception('Not logged in. Please sign in again.');
+        }
 
         final url = Urls.rootUrl + Urls.collectsEndPoint;
         AppLogger.debug('Waste request URL: $url');
@@ -127,7 +129,13 @@ class Wastes with ChangeNotifier {
             },
             body: jsonEncode(request));
 
-        final extractedData = json.decode(response.body);
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          final body = json.decode(response.body);
+          final message = body is Map && body['error'] != null
+              ? body['error'].toString()
+              : 'Failed to send request (${response.statusCode})';
+          throw Exception(message);
+        }
         AppLogger.debug('Waste request sent successfully');
       }
       notifyListeners();
@@ -192,8 +200,12 @@ class Wastes with ChangeNotifier {
     AppLogger.debug('Collect search URL: $url');
 
     try {
-      final prefs = await SharedPreferences.getInstance();
-      _token = prefs.getString('token')!;
+      _token = await SecureStorage.getToken() ?? '';
+      if (_token.isEmpty) {
+        _collectItems = [];
+        notifyListeners();
+        return;
+      }
 
       final response = await get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',
@@ -229,8 +241,10 @@ class Wastes with ChangeNotifier {
     AppLogger.debug('Collect item URL: $url');
 
     try {
-      final prefs = await SharedPreferences.getInstance();
-      _token = prefs.getString('token')!;
+      _token = await SecureStorage.getToken() ?? '';
+      if (_token.isEmpty) {
+        throw Exception('Not logged in. Please sign in again.');
+      }
 
       final _dio = diolib.Dio();
       diolib.Response response = await _dio.get(

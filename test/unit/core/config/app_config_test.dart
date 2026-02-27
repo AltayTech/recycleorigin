@@ -19,7 +19,7 @@ void main() {
       test('should return default URL when env variable not set', () {
         // AppConfig uses default when env variable is not set
         final url = AppConfig.apiBaseUrl;
-        expect(url, 'https://recycleorigin.com/rest/');
+        expect(url, 'https://recycleorigin.com/');
       });
     });
 
@@ -55,7 +55,7 @@ void main() {
       test('should handle missing .env file gracefully', () async {
         // This should not throw even if .env doesn't exist
         await AppConfig.initialize();
-        expect(AppConfig.apiBaseUrl, 'https://recycleorigin.com/rest/');
+        expect(AppConfig.apiBaseUrl, 'https://recycleorigin.com/');
       });
     });
 
@@ -63,7 +63,7 @@ void main() {
       test('should return default values when environment variables not set',
           () {
         // Test that defaults are returned when env vars are not set
-        expect(AppConfig.apiBaseUrl, 'https://recycleorigin.com/rest/');
+        expect(AppConfig.apiBaseUrl, 'https://recycleorigin.com/');
         expect(AppConfig.apiRootUrl, 'https://recycleorigin.com/');
         expect(AppConfig.googleMapsApiKey, '');
         expect(AppConfig.isProduction, isFalse);

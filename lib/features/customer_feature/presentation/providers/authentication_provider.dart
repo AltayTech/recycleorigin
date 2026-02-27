@@ -371,10 +371,17 @@ class AuthenticationProvider with ChangeNotifier {
             },
             body: jsonEncode(AddressMain(
               addressData: addressList,
-            )));
+            ).toJson()));
 
-        final extractedData = json.decode(response.body);
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          final body = json.decode(response.body);
+          final message = body is Map && body['error'] != null
+              ? body['error'].toString()
+              : 'Failed to save address (${response.statusCode})';
+          throw Exception(message);
+        }
 
+        final extractedData = json.decode(response.body) as Map<String, dynamic>;
         AddressMain addressMain = AddressMain.fromJson(extractedData);
         AppLogger.debug('Address update response received');
 
