@@ -22,6 +22,9 @@ class Wastes with ChangeNotifier {
 
   List<RequestWasteItem> _collectItems = [];
 
+  /// When true, the requests list screen should refresh on next visibility.
+  bool _requestsListDirty = false;
+
   SearchDetail _searchDetails = SearchDetail();
 
   late RequestWasteItem _requestWasteItem;
@@ -137,6 +140,7 @@ class Wastes with ChangeNotifier {
           throw Exception(message);
         }
         AppLogger.debug('Waste request sent successfully');
+        markRequestsListDirty();
       }
       notifyListeners();
     } catch (error, stackTrace) {
@@ -223,6 +227,7 @@ class Wastes with ChangeNotifier {
         _collectItems = collectMain.requestWasteItem;
         AppLogger.debug('Loaded ${_collectItems.length} collect items');
         _searchDetails = collectMain.searchDetail;
+        _requestsListDirty = false;
       } else {
         _collectItems = [];
       }
@@ -327,6 +332,13 @@ class Wastes with ChangeNotifier {
   SearchDetail get searchDetails => _searchDetails;
 
   List<RequestWasteItem> get CollectItems => _collectItems;
+
+  bool get requestsListDirty => _requestsListDirty;
+
+  void markRequestsListDirty() {
+    _requestsListDirty = true;
+    notifyListeners();
+  }
 
   set sCategory(value) {
     _sCategory = value;

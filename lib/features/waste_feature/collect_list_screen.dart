@@ -41,11 +41,14 @@ class _CollectListScreenState extends State<CollectListScreen> {
 
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
+    final wastesProvider = Provider.of<Wastes>(context, listen: false);
     if (_isInit) {
       _loadInitialData();
+      _isInit = false;
+    } else if (wastesProvider.requestsListDirty) {
+      _loadInitialData();
     }
-    _isInit = false;
-    super.didChangeDependencies();
   }
 
   @override
