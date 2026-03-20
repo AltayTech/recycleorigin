@@ -24,6 +24,9 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  static const double _labelToFieldGap = 6;
+  static const double _fieldBlockGap = 14;
+
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _addressController = TextEditingController();
@@ -411,13 +414,25 @@ class _MapScreenState extends State<MapScreen> {
                         const SizedBox(height: 16),
 
                         // Location hierarchy: Country -> Province -> City -> Region
-                        _buildCountryDropdown(),
-                        const SizedBox(height: 16),
-                        _buildProvinceDropdown(),
-                        const SizedBox(height: 16),
-                        _buildCityDropdown(),
-                        const SizedBox(height: 16),
-                        _buildRegionDropdown(),
+                        _buildLabeledField(
+                          label: 'Country',
+                          child: _buildCountryDropdown(),
+                        ),
+                        const SizedBox(height: _fieldBlockGap),
+                        _buildLabeledField(
+                          label: 'Province',
+                          child: _buildProvinceDropdown(),
+                        ),
+                        const SizedBox(height: _fieldBlockGap),
+                        _buildLabeledField(
+                          label: 'City',
+                          child: _buildCityDropdown(),
+                        ),
+                        const SizedBox(height: _fieldBlockGap),
+                        _buildLabeledField(
+                          label: 'Region',
+                          child: _buildRegionDropdown(),
+                        ),
                         const SizedBox(height: 16),
 
                         // Address Field
@@ -578,6 +593,31 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
+  Widget _buildLabeledField({
+    required String label,
+    required Widget child,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          child: Text(
+            label,
+            style: TextStyle(
+              color: AppTheme.primary,
+              fontFamily: 'Iransans',
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        const SizedBox(height: _labelToFieldGap),
+        child,
+      ],
+    );
+  }
+
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
@@ -706,16 +746,6 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ),
       decoration: InputDecoration(
-        labelText: 'Country',
-        labelStyle: TextStyle(
-          color: AppTheme.grey,
-          fontFamily: 'Iransans',
-        ),
-        floatingLabelStyle: TextStyle(
-          color: AppTheme.primary,
-          fontFamily: 'Iransans',
-          fontWeight: FontWeight.w700,
-        ),
         prefixIcon: Icon(Icons.public_rounded, color: AppTheme.grey),
         suffixIcon: _selectedCountry == null
             ? null
@@ -850,16 +880,6 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ),
       decoration: InputDecoration(
-        labelText: 'Province',
-        labelStyle: TextStyle(
-          color: AppTheme.grey,
-          fontFamily: 'Iransans',
-        ),
-        floatingLabelStyle: TextStyle(
-          color: AppTheme.primary,
-          fontFamily: 'Iransans',
-          fontWeight: FontWeight.w700,
-        ),
         prefixIcon: Icon(Icons.location_city_rounded, color: AppTheme.grey),
         suffixIcon: _selectedProvince == null
             ? null
@@ -992,16 +1012,6 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ),
       decoration: InputDecoration(
-        labelText: 'City',
-        labelStyle: TextStyle(
-          color: AppTheme.grey,
-          fontFamily: 'Iransans',
-        ),
-        floatingLabelStyle: TextStyle(
-          color: AppTheme.primary,
-          fontFamily: 'Iransans',
-          fontWeight: FontWeight.w700,
-        ),
         prefixIcon: Icon(Icons.location_pin, color: AppTheme.grey),
         suffixIcon: _selectedCity == null
             ? null
@@ -1130,16 +1140,6 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ),
       decoration: InputDecoration(
-        labelText: 'Region',
-        labelStyle: TextStyle(
-          color: AppTheme.grey,
-          fontFamily: 'Iransans',
-        ),
-        floatingLabelStyle: TextStyle(
-          color: AppTheme.primary,
-          fontFamily: 'Iransans',
-          fontWeight: FontWeight.w700,
-        ),
         prefixIcon: Icon(Icons.map, color: AppTheme.grey),
         suffixIcon: _selectedRegion == null
             ? null
