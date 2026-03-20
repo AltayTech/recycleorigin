@@ -11,6 +11,7 @@ class Urls {
   static const categoriesEndPoint = '/products/category';
   static const addressEndPoint = '/customer/address';
   static const regionEndPoint = '/customer/regions';
+  static const countriesEndPoint = '/countries';
   static const articlesEndPoint = '/articles';
   static const articlesCatEndPoint = '/articles/category';
   static const collectsEndPoint = '/collects';

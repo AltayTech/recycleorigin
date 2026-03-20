@@ -381,7 +381,8 @@ class AuthenticationProvider with ChangeNotifier {
           throw Exception(message);
         }
 
-        final extractedData = json.decode(response.body) as Map<String, dynamic>;
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
         AddressMain addressMain = AddressMain.fromJson(extractedData);
         AppLogger.debug('Address update response received');
 
@@ -478,6 +479,33 @@ class AuthenticationProvider with ChangeNotifier {
   }
 
   List<Region> get regionItems => _regionItems;
+
+  Future<void> retrieveRegionsByCity(int cityId) async {
+    AppLogger.debug('Retrieving regions for city: $cityId');
+
+    final url = '${Urls.rootUrl}${Urls.regionEndPoint}?city_id=$cityId';
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      });
+
+      final extractedData = json.decode(response.body) as List;
+
+      final regionList = extractedData.map((i) => Region.fromJson(i)).toList();
+
+      _regionItems = regionList;
+      notifyListeners();
+    } catch (error, stackTrace) {
+      AppLogger.error(
+        'Failed to retrieve regions by city',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      throw error;
+    }
+  }
 
   Future<void> retrieveRegion(int regionId) async {
     AppLogger.debug('Retrieving region: $regionId');

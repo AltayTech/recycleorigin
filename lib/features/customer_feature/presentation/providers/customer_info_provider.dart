@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:recycleorigin/features/customer_feature/business/entities/country.dart';
 import 'package:recycleorigin/features/customer_feature/business/entities/city.dart';
 import 'package:recycleorigin/features/customer_feature/business/entities/province.dart';
 import 'package:recycleorigin/core/models/search_detail.dart';
@@ -354,10 +355,59 @@ class CustomerInfoProvider with ChangeNotifier {
 
   List<Province> get provincesItems => _provincesItems;
 
+  Future<void> getCountries() async {
+    AppLogger.debug('Fetching countries');
+
+    final path = 'pasmands/v1${Urls.countriesEndPoint}';
+
+    final result = await _apiClient.get<List<dynamic>>(
+      path,
+      parser: (data) => data as List<dynamic>,
+    );
+
+    result.onSuccess((extractedData) {
+      AppLogger.debug('Loaded ${extractedData.length} countries');
+      final countries = extractedData.map((i) => Country.fromJson(i)).toList();
+      _countriesItems = countries;
+      notifyListeners();
+    }).onFailure((error) {
+      AppLogger.error('Failed to get countries: $error');
+      _countriesItems = [];
+      notifyListeners();
+    });
+  }
+
+  List<Country> _countriesItems = [];
+
+  List<Country> get countriesItems => _countriesItems;
+
+  Future<void> getProvincesByCountry(int countryId) async {
+    AppLogger.debug('Fetching provinces for country ID: $countryId');
+
+    final path = 'pasmands/v1${Urls.provincesEndPoint}';
+
+    final result = await _apiClient.get<List<dynamic>>(
+      path,
+      queryParameters: <String, dynamic>{'country_id': countryId},
+      parser: (data) => data as List<dynamic>,
+    );
+
+    result.onSuccess((extractedData) {
+      AppLogger.debug('Loaded ${extractedData.length} provinces');
+      final provinces = extractedData.map((i) => Province.fromJson(i)).toList();
+      _provincesItems = provinces;
+      notifyListeners();
+    }).onFailure((error) {
+      AppLogger.error('Failed to get provinces: $error');
+      _provincesItems = [];
+      notifyListeners();
+    });
+  }
+
   Future<void> getCities(int provinceId) async {
     AppLogger.debug('Fetching cities for province ID: $provinceId');
 
-    final path = 'pasmands/v1${Urls.provincesEndPoint}$provinceId';
+    final path = 'pasmands/v1${Urls.provincesEndPoint}/$provinceId';
     AppLogger.debug('Cities path: $path');
 
     final result = await _apiClient.get<List<dynamic>>(

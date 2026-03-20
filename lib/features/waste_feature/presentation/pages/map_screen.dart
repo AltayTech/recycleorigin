@@ -8,6 +8,10 @@ import 'package:provider/provider.dart';
 import '../../../../core/models/region.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
+import '../../../customer_feature/business/entities/city.dart';
+import '../../../customer_feature/business/entities/country.dart';
+import '../../../customer_feature/business/entities/province.dart';
 import '../../business/entities/address.dart';
 
 class MapScreen extends StatefulWidget {
@@ -25,6 +29,9 @@ class _MapScreenState extends State<MapScreen> {
   final _addressController = TextEditingController();
 
   bool _isLoading = false;
+  bool _isCountriesLoading = false;
+  bool _isProvincesLoading = false;
+  bool _isCitiesLoading = false;
   bool _isRegionsLoading = false;
 
   // Default to Tabriz, Iran as in original code
@@ -35,8 +42,16 @@ class _MapScreenState extends State<MapScreen> {
   // Map Controller for the preview map
   late osm.MapController _mapController;
 
+  Country? _selectedCountry;
+  Province? _selectedProvince;
+  City? _selectedCity;
+
+  List<Country> _countries = <Country>[];
+  List<Province> _provinces = <Province>[];
+  List<City> _cities = <City>[];
+
   Region? _selectedRegion;
-  List<Region> _regions = [];
+  List<Region> _regions = <Region>[];
 
   @override
   void initState() {
@@ -51,7 +66,7 @@ class _MapScreenState extends State<MapScreen> {
       ), // Approximate bounding box for Iran/Region
     );
 
-    _loadRegions();
+    _loadCountries();
     _getCurrentLocation();
   }
 
@@ -100,32 +115,116 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  Future<void> _loadRegions() async {
-    setState(() {
-      _isRegionsLoading = true;
-    });
+  Future<void> _loadCountries() async {
+    setState(() => _isCountriesLoading = true);
+    try {
+      await Provider.of<CustomerInfoProvider>(context, listen: false)
+          .getCountries();
+
+      if (!mounted) return;
+
+      final customerInfo =
+          Provider.of<CustomerInfoProvider>(context, listen: false);
+
+      setState(() {
+        _countries = customerInfo.countriesItems;
+        _isCountriesLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Error loading countries: $e');
+      if (!mounted) return;
+      setState(() => _isCountriesLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Failed to load countries. Please check your internet connection.',
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _loadProvinces(int countryId) async {
+    setState(() => _isProvincesLoading = true);
+    try {
+      await Provider.of<CustomerInfoProvider>(context, listen: false)
+          .getProvincesByCountry(countryId);
+
+      if (!mounted) return;
+      final customerInfo =
+          Provider.of<CustomerInfoProvider>(context, listen: false);
+
+      setState(() {
+        _provinces = customerInfo.provincesItems;
+        _isProvincesLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Error loading provinces: $e');
+      if (!mounted) return;
+      setState(() => _isProvincesLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Failed to load provinces. Please check your internet connection.',
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _loadCities(int provinceId) async {
+    setState(() => _isCitiesLoading = true);
+    try {
+      await Provider.of<CustomerInfoProvider>(context, listen: false)
+          .getCities(provinceId);
+
+      if (!mounted) return;
+      final customerInfo =
+          Provider.of<CustomerInfoProvider>(context, listen: false);
+
+      setState(() {
+        _cities = customerInfo.citiesItems;
+        _isCitiesLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Error loading cities: $e');
+      if (!mounted) return;
+      setState(() => _isCitiesLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Failed to load cities. Please check your internet connection.',
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _loadRegions(int cityId) async {
+    setState(() => _isRegionsLoading = true);
     try {
       await Provider.of<AuthenticationProvider>(context, listen: false)
-          .retrieveRegionList();
-      if (mounted) {
-        setState(() {
-          _regions = Provider.of<AuthenticationProvider>(context, listen: false)
-              .regionItems;
-          _isRegionsLoading = false;
-        });
-      }
+          .retrieveRegionsByCity(cityId);
+
+      if (!mounted) return;
+      final authProvider =
+          Provider.of<AuthenticationProvider>(context, listen: false);
+
+      setState(() {
+        _regions = authProvider.regionItems;
+        _isRegionsLoading = false;
+      });
     } catch (e) {
-      debugPrint("Error loading regions: $e");
-      if (mounted) {
-        setState(() {
-          _isRegionsLoading = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-                  'Failed to load regions. Please check your internet connection.')),
-        );
-      }
+      debugPrint('Error loading regions: $e');
+      if (!mounted) return;
+      setState(() => _isRegionsLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Failed to load regions. Please check your internet connection.',
+          ),
+        ),
+      );
     }
   }
 
@@ -180,6 +279,24 @@ class _MapScreenState extends State<MapScreen> {
       return;
     }
 
+    if (_selectedCountry == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a country')),
+      );
+      return;
+    }
+    if (_selectedProvince == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a province')),
+      );
+      return;
+    }
+    if (_selectedCity == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a city')),
+      );
+      return;
+    }
     if (_selectedRegion == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please select a region')),
@@ -293,7 +410,13 @@ class _MapScreenState extends State<MapScreen> {
                         ),
                         const SizedBox(height: 16),
 
-                        // Region Dropdown
+                        // Location hierarchy: Country -> Province -> City -> Region
+                        _buildCountryDropdown(),
+                        const SizedBox(height: 16),
+                        _buildProvinceDropdown(),
+                        const SizedBox(height: 16),
+                        _buildCityDropdown(),
+                        const SizedBox(height: 16),
                         _buildRegionDropdown(),
                         const SizedBox(height: 16),
 
@@ -494,24 +617,537 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  Widget _buildRegionDropdown() {
-    return DropdownButtonFormField<Region>(
-      initialValue: _selectedRegion,
-      items: _regions.map((region) {
-        return DropdownMenuItem<Region>(
-          value: region,
-          child: Text(region.name),
+  Widget _buildCountryDropdown() {
+    return DropdownButtonFormField<Country>(
+      key: ValueKey<String>(
+        'country_${_selectedCountry?.id ?? 'none'}',
+      ),
+      initialValue: _selectedCountry,
+      dropdownColor: AppTheme.white,
+      menuMaxHeight: 320,
+      isExpanded: true,
+      style: TextStyle(
+        fontFamily: 'Iransans',
+        color: AppTheme.black,
+        fontSize: 14,
+      ),
+      selectedItemBuilder: (BuildContext context) {
+        return _countries.map((country) {
+          final isSelected =
+              _selectedCountry != null && _selectedCountry!.id == country.id;
+          return Text(
+            country.name,
+            style: TextStyle(
+              fontFamily: 'Iransans',
+              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+              color: isSelected ? AppTheme.primary : AppTheme.black,
+            ),
+          );
+        }).toList();
+      },
+      items: _countries.map((country) {
+        final isSelected =
+            _selectedCountry != null && _selectedCountry!.id == country.id;
+        return DropdownMenuItem<Country>(
+          value: country,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? AppTheme.primary.withOpacity(0.12)
+                  : AppTheme.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: isSelected
+                    ? AppTheme.primary
+                    : AppTheme.primary.withOpacity(0.12),
+              ),
+            ),
+            child: Text(
+              country.name,
+              style: TextStyle(
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? AppTheme.primary : AppTheme.black,
+              ),
+            ),
+          ),
         );
       }).toList(),
-      onChanged: (value) {
-        setState(() {
-          _selectedRegion = value;
-        });
+      onChanged: _isCountriesLoading
+          ? null
+          : (value) async {
+              if (value == null) return;
+              setState(() {
+                _selectedCountry = value;
+                _selectedProvince = null;
+                _selectedCity = null;
+                _selectedRegion = null;
+                _provinces = <Province>[];
+                _cities = <City>[];
+                _regions = <Region>[];
+              });
+              await _loadProvinces(value.id);
+            },
+      validator: (value) => value == null ? 'Please select a country' : null,
+      disabledHint: _isCountriesLoading
+          ? Text(
+              'Loading...',
+              style: TextStyle(
+                color: AppTheme.grey,
+                fontFamily: 'Iransans',
+              ),
+            )
+          : null,
+      hint: Text(
+        'Select country',
+        style: TextStyle(
+          color: AppTheme.grey,
+          fontFamily: 'Iransans',
+        ),
+      ),
+      decoration: InputDecoration(
+        labelText: 'Country',
+        labelStyle: TextStyle(
+          color: AppTheme.grey,
+          fontFamily: 'Iransans',
+        ),
+        floatingLabelStyle: TextStyle(
+          color: AppTheme.primary,
+          fontFamily: 'Iransans',
+          fontWeight: FontWeight.w700,
+        ),
+        prefixIcon: Icon(Icons.public_rounded, color: AppTheme.grey),
+        suffixIcon: _selectedCountry == null
+            ? null
+            : const Icon(
+                Icons.check_circle_rounded,
+                color: Colors.green,
+                size: 20,
+              ),
+        filled: true,
+        fillColor: AppTheme.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: AppTheme.primary, width: 1.5),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.red, width: 1),
+        ),
+      ),
+      icon: _isCountriesLoading
+          ? SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primary),
+              ),
+            )
+          : Icon(
+              Icons.arrow_drop_down,
+              color: AppTheme.black,
+            ),
+    );
+  }
+
+  Widget _buildProvinceDropdown() {
+    return DropdownButtonFormField<Province>(
+      key: ValueKey<String>(
+        'province_${_selectedProvince?.id ?? 'none'}',
+      ),
+      initialValue: _selectedProvince,
+      dropdownColor: AppTheme.white,
+      menuMaxHeight: 320,
+      isExpanded: true,
+      style: TextStyle(
+        fontFamily: 'Iransans',
+        color: AppTheme.black,
+        fontSize: 14,
+      ),
+      selectedItemBuilder: (BuildContext context) {
+        return _provinces.map((province) {
+          final isSelected =
+              _selectedProvince != null && _selectedProvince!.id == province.id;
+          return Text(
+            province.name,
+            style: TextStyle(
+              fontFamily: 'Iransans',
+              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+              color: isSelected ? AppTheme.primary : AppTheme.black,
+            ),
+          );
+        }).toList();
       },
+      items: _provinces.map((province) {
+        final isSelected =
+            _selectedProvince != null && _selectedProvince!.id == province.id;
+        return DropdownMenuItem<Province>(
+          value: province,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? AppTheme.primary.withOpacity(0.12)
+                  : AppTheme.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: isSelected
+                    ? AppTheme.primary
+                    : AppTheme.primary.withOpacity(0.12),
+              ),
+            ),
+            child: Text(
+              province.name,
+              style: TextStyle(
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? AppTheme.primary : AppTheme.black,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+      onChanged: (_isProvincesLoading || _countries.isEmpty)
+          ? null
+          : (value) async {
+              if (value == null) return;
+              setState(() {
+                _selectedProvince = value;
+                _selectedCity = null;
+                _selectedRegion = null;
+                _cities = <City>[];
+                _regions = <Region>[];
+              });
+              await _loadCities(value.id);
+            },
+      validator: (value) => value == null ? 'Please select a province' : null,
+      disabledHint: _isProvincesLoading
+          ? Text(
+              'Loading...',
+              style: TextStyle(
+                color: AppTheme.grey,
+                fontFamily: 'Iransans',
+              ),
+            )
+          : null,
+      hint: Text(
+        'Select province',
+        style: TextStyle(
+          color: AppTheme.grey,
+          fontFamily: 'Iransans',
+        ),
+      ),
+      decoration: InputDecoration(
+        labelText: 'Province',
+        labelStyle: TextStyle(
+          color: AppTheme.grey,
+          fontFamily: 'Iransans',
+        ),
+        floatingLabelStyle: TextStyle(
+          color: AppTheme.primary,
+          fontFamily: 'Iransans',
+          fontWeight: FontWeight.w700,
+        ),
+        prefixIcon: Icon(Icons.location_city_rounded, color: AppTheme.grey),
+        suffixIcon: _selectedProvince == null
+            ? null
+            : const Icon(
+                Icons.check_circle_rounded,
+                color: Colors.green,
+                size: 20,
+              ),
+        filled: true,
+        fillColor: AppTheme.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: AppTheme.primary, width: 1.5),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.red, width: 1),
+        ),
+      ),
+      icon: _isProvincesLoading
+          ? SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primary),
+              ),
+            )
+          : Icon(
+              Icons.arrow_drop_down,
+              color: AppTheme.black,
+            ),
+    );
+  }
+
+  Widget _buildCityDropdown() {
+    return DropdownButtonFormField<City>(
+      key: ValueKey<String>(
+        'city_${_selectedCity?.id ?? 'none'}',
+      ),
+      initialValue: _selectedCity,
+      dropdownColor: AppTheme.white,
+      menuMaxHeight: 320,
+      isExpanded: true,
+      style: TextStyle(
+        fontFamily: 'Iransans',
+        color: AppTheme.black,
+        fontSize: 14,
+      ),
+      selectedItemBuilder: (BuildContext context) {
+        return _cities.map((city) {
+          final isSelected =
+              _selectedCity != null && _selectedCity!.id == city.id;
+          return Text(
+            city.name,
+            style: TextStyle(
+              fontFamily: 'Iransans',
+              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+              color: isSelected ? AppTheme.primary : AppTheme.black,
+            ),
+          );
+        }).toList();
+      },
+      items: _cities.map((city) {
+        final isSelected =
+            _selectedCity != null && _selectedCity!.id == city.id;
+        return DropdownMenuItem<City>(
+          value: city,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? AppTheme.primary.withOpacity(0.12)
+                  : AppTheme.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: isSelected
+                    ? AppTheme.primary
+                    : AppTheme.primary.withOpacity(0.12),
+              ),
+            ),
+            child: Text(
+              city.name,
+              style: TextStyle(
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? AppTheme.primary : AppTheme.black,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+      onChanged: (_isCitiesLoading || _provinces.isEmpty)
+          ? null
+          : (value) async {
+              if (value == null) return;
+              setState(() {
+                _selectedCity = value;
+                _selectedRegion = null;
+                _regions = <Region>[];
+              });
+              await _loadRegions(value.id);
+            },
+      validator: (value) => value == null ? 'Please select a city' : null,
+      disabledHint: _isCitiesLoading
+          ? Text(
+              'Loading...',
+              style: TextStyle(
+                color: AppTheme.grey,
+                fontFamily: 'Iransans',
+              ),
+            )
+          : null,
+      hint: Text(
+        'Select city',
+        style: TextStyle(
+          color: AppTheme.grey,
+          fontFamily: 'Iransans',
+        ),
+      ),
+      decoration: InputDecoration(
+        labelText: 'City',
+        labelStyle: TextStyle(
+          color: AppTheme.grey,
+          fontFamily: 'Iransans',
+        ),
+        floatingLabelStyle: TextStyle(
+          color: AppTheme.primary,
+          fontFamily: 'Iransans',
+          fontWeight: FontWeight.w700,
+        ),
+        prefixIcon: Icon(Icons.location_pin, color: AppTheme.grey),
+        suffixIcon: _selectedCity == null
+            ? null
+            : const Icon(
+                Icons.check_circle_rounded,
+                color: Colors.green,
+                size: 20,
+              ),
+        filled: true,
+        fillColor: AppTheme.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: AppTheme.primary, width: 1.5),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.red, width: 1),
+        ),
+      ),
+      icon: _isCitiesLoading
+          ? SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primary),
+              ),
+            )
+          : Icon(
+              Icons.arrow_drop_down,
+              color: AppTheme.black,
+            ),
+    );
+  }
+
+  Widget _buildRegionDropdown() {
+    return DropdownButtonFormField<Region>(
+      key: ValueKey<String>(
+        'region_${_selectedRegion?.term_id ?? 'none'}',
+      ),
+      initialValue: _selectedRegion,
+      dropdownColor: AppTheme.white,
+      menuMaxHeight: 320,
+      isExpanded: true,
+      style: TextStyle(
+        fontFamily: 'Iransans',
+        color: AppTheme.black,
+        fontSize: 14,
+      ),
+      selectedItemBuilder: (BuildContext context) {
+        return _regions.map((region) {
+          final isSelected = _selectedRegion != null &&
+              _selectedRegion!.term_id == region.term_id;
+          return Text(
+            region.name,
+            style: TextStyle(
+              fontFamily: 'Iransans',
+              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+              color: isSelected ? AppTheme.primary : AppTheme.black,
+            ),
+          );
+        }).toList();
+      },
+      items: _regions.map((region) {
+        final isSelected = _selectedRegion != null &&
+            _selectedRegion!.term_id == region.term_id;
+        return DropdownMenuItem<Region>(
+          value: region,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? AppTheme.primary.withOpacity(0.12)
+                  : AppTheme.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: isSelected
+                    ? AppTheme.primary
+                    : AppTheme.primary.withOpacity(0.12),
+              ),
+            ),
+            child: Text(
+              region.name,
+              style: TextStyle(
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? AppTheme.primary : AppTheme.black,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+      onChanged: _isRegionsLoading
+          ? null
+          : (value) {
+              setState(() {
+                _selectedRegion = value;
+              });
+            },
       validator: (value) => value == null ? 'Please select a region' : null,
+      disabledHint: _isRegionsLoading
+          ? Text(
+              'Loading...',
+              style: TextStyle(
+                color: AppTheme.grey,
+                fontFamily: 'Iransans',
+              ),
+            )
+          : null,
+      hint: Text(
+        'Select region',
+        style: TextStyle(
+          color: AppTheme.grey,
+          fontFamily: 'Iransans',
+        ),
+      ),
       decoration: InputDecoration(
         labelText: 'Region',
+        labelStyle: TextStyle(
+          color: AppTheme.grey,
+          fontFamily: 'Iransans',
+        ),
+        floatingLabelStyle: TextStyle(
+          color: AppTheme.primary,
+          fontFamily: 'Iransans',
+          fontWeight: FontWeight.w700,
+        ),
         prefixIcon: Icon(Icons.map, color: AppTheme.grey),
+        suffixIcon: _selectedRegion == null
+            ? null
+            : const Icon(
+                Icons.check_circle_rounded,
+                color: Colors.green,
+                size: 20,
+              ),
         filled: true,
         fillColor: AppTheme.white,
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -536,8 +1172,14 @@ class _MapScreenState extends State<MapScreen> {
           ? SizedBox(
               width: 20,
               height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2))
-          : Icon(Icons.arrow_drop_down),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primary),
+              ))
+          : Icon(
+              Icons.arrow_drop_down,
+              color: AppTheme.black,
+            ),
     );
   }
 }
