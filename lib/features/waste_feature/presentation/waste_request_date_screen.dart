@@ -239,7 +239,9 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                           ),
                           const SizedBox(height: 24),
                           TimeSelector(
-                            hours: selectedRegion?.collect_hour ?? [],
+                            hours: (selectedRegion?.collect_hour ?? [])
+                                .where((CollectHour h) => h.collect_hour_status)
+                                .toList(),
                             selectedStartHour: _selectedStartHour,
                             onHourSelected: _handleHourSelection,
                             isLoading:

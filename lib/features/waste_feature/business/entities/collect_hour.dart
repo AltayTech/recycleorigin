@@ -13,9 +13,9 @@ class CollectHour with ChangeNotifier {
 
   factory CollectHour.fromJson(Map<String, dynamic> parsedJson) {
     return CollectHour(
-      start: parsedJson['start'],
-      end: parsedJson['end'],
-      collect_hour_status: parsedJson['collect_hour_status'],
+      start: parsedJson['start']?.toString() ?? '',
+      end: parsedJson['end']?.toString() ?? '',
+      collect_hour_status: parsedJson['collect_hour_status'] as bool? ?? true,
     );
   }
 
