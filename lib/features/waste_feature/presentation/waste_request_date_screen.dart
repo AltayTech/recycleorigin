@@ -9,6 +9,7 @@ import '../../customer_feature/presentation/providers/authentication_provider.da
 import '../business/entities/address.dart';
 import '../business/entities/price_weight.dart';
 import '../business/entities/wasteCart.dart';
+import '../business/collect_hour_schedule.dart';
 import '../business/entities/collect_hour.dart';
 import 'providers/wastes.dart';
 import 'waste_request_send_screen.dart';
@@ -130,10 +131,36 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
+  /// Builds the legacy "HH-HH" segment for the request payload from ISO or HH:mm.
+  String? _hourKeyForSubmit(String raw) {
+    final DateTime? parsed = DateTime.tryParse(raw);
+    if (parsed != null) {
+      return parsed.hour.toString().padLeft(2, '0');
+    }
+    if (raw.length >= 2) {
+      return raw.substring(0, 2);
+    }
+    return null;
+  }
+
   void _handleDateSelection(DateTime date) {
     setState(() {
       _selectedDay = date;
+      final List<CollectHour> forDay = _hoursForSelectedDay();
+      if (_selectedStartHour != null &&
+          !forDay.any((CollectHour h) => h.start == _selectedStartHour)) {
+        _selectedStartHour = null;
+        _selectedEndHour = null;
+      }
     });
+  }
+
+  List<CollectHour> _hoursForSelectedDay() {
+    return (selectedRegion?.collect_hour ?? <CollectHour>[])
+        .where((CollectHour h) => h.collect_hour_status)
+        .where((CollectHour h) =>
+            CollectHourSchedule.appliesOnDay(h, _selectedDay))
+        .toList();
   }
 
   void _handleHourSelection(CollectHour hour) {
@@ -176,9 +203,15 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
 
     // Save to provider
     final wasteProvider = Provider.of<Wastes>(context, listen: false);
-    // Format: "HH-HH" roughly based on original logic
-    String formattedHours =
-        "${_selectedStartHour!.substring(0, 2)}-${_selectedEndHour!.substring(0, 2)}";
+    final String? startKey = _hourKeyForSubmit(_selectedStartHour!);
+    final String? endKey = _hourKeyForSubmit(_selectedEndHour!);
+    if (startKey == null || endKey == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid time selection')),
+      );
+      return;
+    }
+    final String formattedHours = '$startKey-$endKey';
 
     wasteProvider.selectedHours = formattedHours;
     wasteProvider.selectedDay = _selectedDay;
@@ -239,9 +272,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                           ),
                           const SizedBox(height: 24),
                           TimeSelector(
-                            hours: (selectedRegion?.collect_hour ?? [])
-                                .where((CollectHour h) => h.collect_hour_status)
-                                .toList(),
+                            hours: _hoursForSelectedDay(),
                             selectedStartHour: _selectedStartHour,
                             onHourSelected: _handleHourSelection,
                             isLoading:

@@ -101,13 +101,20 @@ class TimeSelector extends StatelessWidget {
   }
 
   String _formatHourRange(String start, String end) {
-    // Format HH:mm if possible
-    final s = start.length >= 5 ? start.substring(0, 5) : start;
-    final e = end.length >= 5 ? end.substring(0, 5) : end;
-
-    if (s.length >= 2 && e.length >= 2) {
-      return "${s.substring(0, 2)}-${e.substring(0, 2)}";
+    final DateTime? ds = DateTime.tryParse(start);
+    final DateTime? de = DateTime.tryParse(end);
+    if (ds != null && de != null) {
+      final String a =
+          '${ds.hour.toString().padLeft(2, '0')}:${ds.minute.toString().padLeft(2, '0')}';
+      final String b =
+          '${de.hour.toString().padLeft(2, '0')}:${de.minute.toString().padLeft(2, '0')}';
+      return '$a–$b';
     }
-    return "$s-$e";
+    final String s = start.length >= 5 ? start.substring(0, 5) : start;
+    final String e = end.length >= 5 ? end.substring(0, 5) : end;
+    if (s.length >= 2 && e.length >= 2) {
+      return '${s.substring(0, 2)}-${e.substring(0, 2)}';
+    }
+    return '$s-$e';
   }
 }
