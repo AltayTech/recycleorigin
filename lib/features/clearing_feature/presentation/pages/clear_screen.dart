@@ -93,14 +93,10 @@ class _ClearScreenState extends State<ClearScreen>
   }
 
   void _showSenddialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogSendRequest(
-        title: '',
-        buttonText: 'Ok',
-        description: 'Your Request registered Successfully',
-        image: Image.asset('assets/images/main_page_request_ic.png'),
-      ),
+    CustomDialogSendRequest.show(
+      context,
+      description: 'Your Request registered Successfully',
+      buttonText: 'Ok',
     );
   }
 

@@ -110,18 +110,6 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
     });
   }
 
-  void _showSendOrderdialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogSendRequest(
-        title: '',
-        buttonText: 'OK',
-        description: 'Your order has been sent successfully.',
-        image: Image.asset('assets/images/main_page_request_ic.png'),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -424,18 +412,19 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(addToCartSnackBar);
                     } else {
-                      await createRequest(context).then(
-                        (value) => sendRequest(context).then(
-                          (value) {
-                            Provider.of<Products>(context, listen: false)
-                                .cartItems = [];
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                NavigationBottomScreen.routeName,
-                                (Route<dynamic> route) => false);
-
-                            _showSendOrderdialog();
-                          },
-                        ),
+                      await createRequest(context);
+                      await sendRequest(context);
+                      if (!context.mounted) return;
+                      Provider.of<Products>(context, listen: false).cartItems =
+                          [];
+                      await CustomDialogSendRequest.show(
+                        context,
+                        description: 'Your order has been sent successfully.',
+                      );
+                      if (!context.mounted) return;
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        NavigationBottomScreen.routeName,
+                        (Route<dynamic> route) => false,
                       );
                     }
                   },

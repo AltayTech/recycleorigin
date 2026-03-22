@@ -195,18 +195,16 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
       if (!mounted) return;
 
+      await CustomDialogSendRequest.show(
+        context,
+        description: 'Your request has been sent successfully',
+      );
+
+      if (!mounted) return;
+
       Navigator.of(context).pushNamedAndRemoveUntil(
         NavigationBottomScreen.routeName,
         (Route<dynamic> route) => false,
-      );
-
-      _showDialog(
-        CustomDialogSendRequest(
-          title: '',
-          buttonText: 'OK',
-          description: 'Your request has been sent successfully',
-          image: Image.asset('assets/images/main_page_request_ic.png'),
-        ),
       );
     } catch (e) {
       debugPrint("Error sending request: $e");

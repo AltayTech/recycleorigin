@@ -130,14 +130,9 @@ class _DonationScreenState extends State<DonationScreen>
   }
 
   void _showSenddialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogSendRequest(
-        title: '',
-        buttonText: 'OK',
-        description: 'Your donation has been successfully registered',
-        image: Image.asset('assets/images/main_page_request_ic.png'),
-      ),
+    CustomDialogSendRequest.show(
+      context,
+      description: 'Your donation has been successfully registered',
     );
   }
 
