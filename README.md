@@ -177,6 +177,24 @@ We welcome contributions to make RecycleOrigin even better! Please read our cont
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## 🧱 Engineering Standards
+
+To keep the app maintainable as features grow:
+
+- **Architecture**: preserve feature-first modules (`presentation`, `business`,
+  `data`) and keep cross-cutting services in `core`.
+- **State management**: use `provider` for app state and keep UI widgets thin.
+- **Documentation**: add `///` docs for public classes/methods and explain
+  non-obvious business behavior near implementation.
+- **Safety**: avoid silent failures; return explicit error results/messages.
+- **Quality gates**: run formatting, analysis, and tests before merging.
+
+```bash
+dart format lib test
+flutter analyze
+flutter test
+```
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

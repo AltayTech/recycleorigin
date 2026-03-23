@@ -51,24 +51,13 @@ import 'features/waste_feature/presentation/waste_request_date_screen.dart';
 import 'features/waste_feature/presentation/waste_request_send_screen.dart';
 import 'features/waste_feature/presentation/wastes_screen.dart';
 
-/// The main application widget.
+/// Bootstraps the customer app and required platform services.
 ///
-/// This widget is the root of the application. It uses the [MultiProvider]
-/// widget to provide the [Products], [AuthenticationProvider], [CustomerInfoProvider],
-/// [Messages], [Wastes], [Articles], [Orders], and [Clearings]
-/// providers to the application.
-///
-/// The application's theme is defined in the [MaterialApp] widget. The
-/// theme is based on the [Colors.green] color and uses the [Iransans] font.
-///
-/// The application's routes are defined in the [MaterialApp] widget. The
-/// routes are used to navigate between the different screens of the application.
-///
-/// The application's home screen is [SplashScreens].
-///
-/// The application's localizations are defined in the [AppLocalizations]
-/// class. The localizations are used to translate the application's text
-/// into different languages.
+/// Startup steps:
+/// 1. Lock orientation to portrait.
+/// 2. Load environment-based app configuration.
+/// 3. Warm up app metadata service.
+/// 4. Launch the root widget tree.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
@@ -82,11 +71,13 @@ void main() async {
   // Initialize app info service early for better performance
   await AppInfoService.instance.initialize();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
+/// Root widget that wires providers, localization, theme, and routes.
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

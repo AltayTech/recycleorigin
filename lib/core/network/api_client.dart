@@ -4,10 +4,17 @@ import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
 import 'package:recycleorigin/core/utils/result.dart';
 
-/// Centralized API client with proper error handling and logging
+/// Centralized HTTP client for all backend communication.
+///
+/// `ApiClient` wraps Dio with:
+/// - shared base options and timeouts,
+/// - automatic bearer token injection from secure storage,
+/// - request/response/error logging, and
+/// - unified mapping of transport failures into `Result<T>`.
 class ApiClient {
   late final Dio _dio;
 
+  /// Creates a configured Dio client for app API calls.
   ApiClient() {
     _dio = Dio(
       BaseOptions(
@@ -24,6 +31,7 @@ class ApiClient {
     _setupInterceptors();
   }
 
+  /// Registers request, response, and error interceptors.
   void _setupInterceptors() {
     _dio.interceptors.add(
       InterceptorsWrapper(
@@ -165,6 +173,7 @@ class ApiClient {
     }
   }
 
+  /// Converts low-level Dio exceptions into user-facing failure messages.
   Result<T> _handleDioError<T>(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
