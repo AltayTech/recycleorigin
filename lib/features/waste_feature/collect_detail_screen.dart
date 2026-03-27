@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 import 'package:recycleorigin/features/collect_feature/presentation/widgets/collect_details_collects_item.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
-import 'package:recycleorigin/features/waste_feature/presentation/providers/wastes.dart';
+import 'package:recycleorigin/features/waste_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -42,11 +42,10 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
     try {
       final productId = ModalRoute.of(context)?.settings.arguments as int?;
       if (productId != null) {
-        await Provider.of<Wastes>(context, listen: false)
-            .retrieveCollectItem(productId);
+        await context.read<WastesBloc>().retrieveCollectItem(productId);
         if (mounted) {
           _loadedCollect =
-              Provider.of<Wastes>(context, listen: false).requestWasteItem;
+              context.read<WastesBloc>().requestWasteItem!;
         }
       } else {
         throw Exception("Invalid Product ID");

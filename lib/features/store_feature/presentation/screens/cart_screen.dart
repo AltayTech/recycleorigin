@@ -13,7 +13,7 @@ import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import '../../business/entities/product_cart.dart';
-import '../providers/Products.dart';
+import '../bloc/products_bloc.dart';
 import '../widgets/card_item.dart';
 import 'order_products_send_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -137,7 +137,7 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {
       _isLoading = true;
     });
-    shoppItems = Provider.of<Products>(context, listen: false).cartItems;
+    shoppItems = context.read<ProductsBloc>().cartItems;
     totalPrice = 0;
     transportCost = 10000;
 

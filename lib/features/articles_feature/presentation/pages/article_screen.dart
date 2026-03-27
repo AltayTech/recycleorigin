@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
@@ -9,7 +10,8 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../business/entities/article.dart';
 import '../constants/articles_constants.dart';
-import '../providers/articles.dart';
+import '../bloc/articles_bloc.dart';
+import '../bloc/articles_state.dart';
 import '../widgets/article_item_article_screen.dart';
 
 /// Main screen for displaying articles with category filtering
@@ -67,7 +69,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   }
 
   Future<void> _initializeData() async {
-    final articlesProvider = Provider.of<Articles>(context, listen: false);
+    final articlesProvider = context.read<ArticlesBloc>();
 
     // Load categories
     await articlesProvider.retrieveCategory();
@@ -89,7 +91,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     }
 
     try {
-      final articlesProvider = Provider.of<Articles>(context, listen: false);
+      final articlesProvider = context.read<ArticlesBloc>();
       await articlesProvider.searchItem();
 
       final newArticles = articlesProvider.articleItems;
@@ -122,7 +124,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
 
     try {
       _currentPage++;
-      final articlesProvider = Provider.of<Articles>(context, listen: false);
+      final articlesProvider = context.read<ArticlesBloc>();
       articlesProvider.sPage = _currentPage;
       articlesProvider.searchBuilder();
       await articlesProvider.searchItem();
@@ -152,7 +154,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     });
 
     try {
-      final articlesProvider = Provider.of<Articles>(context, listen: false);
+      final articlesProvider = context.read<ArticlesBloc>();
       articlesProvider.sPage = 1;
       articlesProvider.sCategory = categoryId != 0 ? categoryId.toString() : '';
       articlesProvider.searchBuilder();
@@ -175,7 +177,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
 
   Future<void> _onRefresh() async {
     _currentPage = 1;
-    final articlesProvider = Provider.of<Articles>(context, listen: false);
+    final articlesProvider = context.read<ArticlesBloc>();
     articlesProvider.sPage = 1;
     articlesProvider.searchBuilder();
     await _loadArticles(isRefresh: true);
@@ -283,9 +285,9 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           ),
           // Category list
           Expanded(
-            child: Consumer<Articles>(
-              builder: (context, articlesProvider, _) {
-                final categories = articlesProvider.categoryItems;
+            child: BlocBuilder<ArticlesBloc, ArticlesState>(
+              builder: (context, state) {
+                final categories = state.categoryItems;
                 if (categories.isEmpty && !_isLoading) {
                   return const SizedBox.shrink();
                 }

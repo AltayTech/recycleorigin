@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_time.dart';
@@ -19,7 +18,7 @@ import '../../../core/widgets/custom_dialog_send_request.dart';
 import '../../../core/widgets/main_drawer.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../business/entities/address.dart';
-import 'providers/wastes.dart';
+import 'bloc/wastes_bloc.dart';
 import 'widgets/custom_dialog_enter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -85,7 +84,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
     try {
       final authProvider = context.read<AuthBloc>();
-      final wastesProvider = Provider.of<Wastes>(context, listen: false);
+      final wastesProvider = context.read<WastesBloc>();
 
       _selectedRegion = authProvider.regionData;
       _selectedHours = wastesProvider.selectedHours;
@@ -189,7 +188,8 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
     setState(() => _isLoading = true);
     try {
       await _createRequest();
-      await Provider.of<Wastes>(context, listen: false)
+      await context
+          .read<WastesBloc>()
           .sendRequest(_requestWaste, isLogin);
 
       if (!mounted) return;

@@ -8,7 +8,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/core/widgets/currency_input_formatter.dart';
 import 'package:recycleorigin/core/widgets/custom_dialog_send_request.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing.dart';
-import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
+import 'package:recycleorigin/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/widgets/clearing_item_clear_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
@@ -46,13 +46,13 @@ class _ClearScreenState extends State<ClearScreen>
   void initState() {
     context.read<CustomerInfoBloc>().sPage = 1;
 
-    Provider.of<Clearings>(context, listen: false).searchBuilder();
+    context.read<ClearingsBloc>().searchBuilder();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (page < productsDetail.max_page) {
           page = page + 1;
-          Provider.of<Clearings>(context, listen: false).sPage = page;
+          context.read<ClearingsBloc>().sPage = page;
 
           searchItems();
         }
@@ -120,14 +120,12 @@ class _ClearScreenState extends State<ClearScreen>
       _isLoading = true;
     });
 
-    Provider.of<Clearings>(context, listen: false).searchBuilder();
-    await Provider.of<Clearings>(context, listen: false).searchCleaingsItems();
-    productsDetail =
-        Provider.of<Clearings>(context, listen: false).searchDetails;
+    context.read<ClearingsBloc>().searchBuilder();
+    await context.read<ClearingsBloc>().searchCleaingsItems();
+    productsDetail = context.read<ClearingsBloc>().searchDetails;
 
     loadedProducts.clear();
-    loadedProducts =
-        await Provider.of<Clearings>(context, listen: false).deliveriesItems;
+    loadedProducts = context.read<ClearingsBloc>().deliveriesItems;
     loadedProductstolist.addAll(loadedProducts);
 
     setState(() {

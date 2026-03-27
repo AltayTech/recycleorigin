@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/custom_dialog.dart';
 import '../../articles_feature/presentation/pages/article_screen.dart';
 import '../../collect_feature/presentation/pages/waste_cart_screen.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
-import '../../store_feature/presentation/providers/Products.dart';
+import '../../store_feature/presentation/bloc/products_bloc.dart';
 import '../../store_feature/presentation/screens/product_screen.dart';
 import '../../wallet_feature/presentation/pages/wallet_screen.dart';
 import '../../waste_feature/collect_list_screen.dart';
@@ -55,8 +55,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (!mounted) return;
 
     // Fetch initial data
-    final productsProvider = Provider.of<Products>(context, listen: false);
-    productsProvider.retrieveCategory();
+    context.read<ProductsBloc>().retrieveCategory();
 
     final authProvider = context.read<AuthBloc>();
     authProvider.getTokenFromDB();

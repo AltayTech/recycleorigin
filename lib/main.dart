@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/config/app_config.dart';
 import 'package:recycleorigin/core/constants/strings.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
-import 'package:recycleorigin/l10n/app_localizations.dart';
+import 'package:recycleorigin/features/articles_feature/presentation/bloc/articles_bloc.dart';
+import 'package:recycleorigin/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
-import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
-import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
+import 'package:recycleorigin/features/meassage_feature/presentation/bloc/messages_bloc.dart';
+import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_bloc.dart';
+import 'package:recycleorigin/features/store_feature/presentation/bloc/products_bloc.dart';
 import 'package:recycleorigin/features/store_feature/presentation/screens/orders_screen.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/pages/wallet_screen.dart';
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
+import 'package:recycleorigin/features/waste_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/wastes_screen_animated_list.dart';
+import 'package:recycleorigin/l10n/app_localizations.dart';
 
 import 'core/screens/splash_Screen.dart';
 import 'core/utils/app_info_service.dart';
 import 'features/about_feature/presentation/pages/about_us_screen.dart';
 import 'features/articles_feature/presentation/pages/article_detail_screen.dart';
 import 'features/articles_feature/presentation/pages/article_screen.dart';
-import 'features/articles_feature/presentation/providers/articles.dart';
 import 'features/collect_feature/presentation/pages/waste_cart_screen.dart';
 import 'features/contac_us_feature/presentation/pages/contact_with_us_screen.dart';
 import 'features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -37,8 +39,6 @@ import 'features/meassage_feature/presentation/pages/message_detail_screen.dart'
 import 'features/meassage_feature/presentation/pages/messages_create_reply_screen.dart';
 import 'features/meassage_feature/presentation/pages/messages_create_screen.dart';
 import 'features/meassage_feature/presentation/pages/messages_screen.dart';
-import 'features/meassage_feature/presentation/providers/messages.dart';
-import 'features/store_feature/presentation/providers/Products.dart';
 import 'features/store_feature/presentation/screens/cart_screen.dart';
 import 'features/store_feature/presentation/screens/order_products_send_screen.dart';
 import 'features/store_feature/presentation/screens/order_view_screen.dart';
@@ -47,7 +47,6 @@ import 'features/store_feature/presentation/screens/product_screen.dart';
 import 'features/waste_feature/collect_list_screen.dart';
 import 'features/waste_feature/presentation/address_screen.dart';
 import 'features/waste_feature/presentation/pages/map_screen.dart';
-import 'features/waste_feature/presentation/providers/wastes.dart';
 import 'features/waste_feature/presentation/waste_request_date_screen.dart';
 import 'features/waste_feature/presentation/waste_request_send_screen.dart';
 import 'features/waste_feature/presentation/wastes_screen.dart';
@@ -75,38 +74,39 @@ void main() async {
   runApp(const MyApp());
 }
 
-/// Root widget that wires providers, localization, theme, and routes.
+/// Root widget that wires blocs, localization, theme, and routes.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    final apiClient = ApiClient();
+    return MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => Products(ApiClient()),
+        BlocProvider<ProductsBloc>(
+          create: (_) => ProductsBloc(apiClient),
           lazy: false,
         ),
         BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(ApiClient()),
+          create: (_) => AuthBloc(apiClient),
         ),
         BlocProvider<CustomerInfoBloc>(
-          create: (context) => CustomerInfoBloc(ApiClient()),
+          create: (_) => CustomerInfoBloc(apiClient),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Messages(),
+        BlocProvider<MessagesBloc>(
+          create: (_) => MessagesBloc(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Wastes(),
+        BlocProvider<WastesBloc>(
+          create: (_) => WastesBloc(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Articles(),
+        BlocProvider<ArticlesBloc>(
+          create: (_) => ArticlesBloc(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Orders(),
+        BlocProvider<OrdersBloc>(
+          create: (_) => OrdersBloc(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Clearings(),
+        BlocProvider<ClearingsBloc>(
+          create: (_) => ClearingsBloc(),
         ),
       ],
       child: MaterialApp(

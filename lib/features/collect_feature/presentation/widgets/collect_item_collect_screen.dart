@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../store_feature/presentation/providers/Products.dart';
+import '../../../store_feature/presentation/bloc/products_bloc.dart';
 
 class CollectItemCollectsScreen extends StatelessWidget {
   Widget getStatusIcon(String statusSlug) {
@@ -67,8 +68,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
           builder: (ctx, constraints) {
             return InkWell(
               onTap: () {
-                Provider.of<Products>(context, listen: false).item =
-                    Provider.of<Products>(context, listen: false).itemZero;
+                context.read<ProductsBloc>().item = ProductsBloc.itemZero;
                 Navigator.of(context).pushNamed(
                   CollectDetailScreen.routeName,
                   arguments: collect.id,

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../business/entities/message.dart';
-import '../providers/messages.dart';
+import '../bloc/messages_bloc.dart';
 import '../widgets/message_item.dart';
 import 'message_detail_screen.dart';
 import 'messages_create_screen.dart';
@@ -31,7 +29,7 @@ class _MessageScreenState extends State<MessageScreen> {
 
   @override
   void didChangeDependencies() {
-    messages = Provider.of<Messages>(context).allMessages;
+    messages = context.read<MessagesBloc>().allMessages;
 
     if (_isInit) {
       loadMessages();
@@ -48,10 +46,9 @@ class _MessageScreenState extends State<MessageScreen> {
 
     bool isLogin = context.read<AuthBloc>().isAuth;
 
-    await Provider.of<Messages>(context, listen: false)
-        .getMessages('0', isLogin);
+    await context.read<MessagesBloc>().getMessages('0', isLogin);
 
-    messages = Provider.of<Messages>(context, listen: false).allMessages;
+    messages = context.read<MessagesBloc>().allMessages;
 
     setState(() {
       _isLoading = false;

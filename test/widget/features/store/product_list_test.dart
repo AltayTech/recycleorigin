@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-import 'package:recycleorigin/features/store_feature/presentation/providers/Products.dart';
+import 'package:recycleorigin/features/store_feature/presentation/bloc/products_bloc.dart';
+import 'package:recycleorigin/features/store_feature/presentation/bloc/products_state.dart';
 import '../../../helpers/test_helpers.dart';
 import '../../../helpers/mock_api_client.dart';
 
@@ -9,20 +10,20 @@ void main() {
   group('Product List Widget Tests', () {
     testWidgets('should display empty state when no products', (WidgetTester tester) async {
       final mockApiClient = MockApiClient();
-      final productsProvider = Products(mockApiClient);
+      final productsBloc = ProductsBloc(mockApiClient);
 
       await tester.pumpWidget(
         TestHelpers.createTestWidget(
-          products: productsProvider,
-          child: Consumer<Products>(
-            builder: (context, products, child) {
-              if (products.items.isEmpty) {
+          productsBloc: productsBloc,
+          child: BlocBuilder<ProductsBloc, ProductsState>(
+            builder: (context, state) {
+              if (state.items.isEmpty) {
                 return const Center(child: Text('No products available'));
               }
               return ListView.builder(
-                itemCount: products.items.length,
+                itemCount: state.items.length,
                 itemBuilder: (context, index) {
-                  final product = products.items[index];
+                  final product = state.items[index];
                   return ListTile(
                     title: Text(product.name),
                     subtitle: Text(product.price),
@@ -39,22 +40,20 @@ void main() {
 
     testWidgets('should display products list', (WidgetTester tester) async {
       final mockApiClient = MockApiClient();
-      final productsProvider = Products(mockApiClient);
-      // Note: In a real test, you'd mock the API response
-      // For now, we test the structure
+      final productsBloc = ProductsBloc(mockApiClient);
 
       await tester.pumpWidget(
         TestHelpers.createTestWidget(
-          products: productsProvider,
-          child: Consumer<Products>(
-            builder: (context, products, child) {
-              if (products.items.isEmpty) {
+          productsBloc: productsBloc,
+          child: BlocBuilder<ProductsBloc, ProductsState>(
+            builder: (context, state) {
+              if (state.items.isEmpty) {
                 return const Center(child: Text('No products available'));
               }
               return ListView.builder(
-                itemCount: products.items.length,
+                itemCount: state.items.length,
                 itemBuilder: (context, index) {
-                  final product = products.items[index];
+                  final product = state.items[index];
                   return ListTile(
                     title: Text(product.name),
                     subtitle: Text(product.price),
@@ -66,9 +65,7 @@ void main() {
         ),
       );
 
-      // Verify the widget structure
-      expect(find.byType(Consumer<Products>), findsOneWidget);
+      expect(find.byType(BlocBuilder<ProductsBloc, ProductsState>), findsOneWidget);
     });
   });
 }
-

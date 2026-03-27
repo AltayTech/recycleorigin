@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
@@ -11,7 +10,8 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../waste_feature/presentation/address_screen.dart';
-import '../../../waste_feature/presentation/providers/wastes.dart';
+import '../../../waste_feature/presentation/bloc/wastes_bloc.dart';
+import '../../../waste_feature/presentation/bloc/wastes_state.dart';
 import '../../../waste_feature/presentation/wastes_screen.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import '../../../waste_feature/presentation/widgets/waste_cart_item.dart';
@@ -81,7 +81,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
     // The original code reset local variables here.
 
     // We trigger a rebuild to recalculate totals
-    final wastesProvider = Provider.of<Wastes>(context, listen: false);
+    final wastesProvider = context.read<WastesBloc>();
     // If there's an async fetch in provider: await wastesProvider.fetchCart();
 
     // Calculate total for animation
@@ -149,7 +149,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
   }
 
   void _handleContinue() {
-    final wastesProvider = Provider.of<Wastes>(context, listen: false);
+    final wastesProvider = context.read<WastesBloc>();
     final isAuth = context.read<AuthBloc>().isAuth;
 
     if (wastesProvider.wasteCartItems.isEmpty) {
@@ -194,9 +194,9 @@ class _WasteCartScreenState extends State<WasteCartScreen>
           )
         ],
       ),
-      body: Consumer<Wastes>(
-        builder: (context, wastesData, child) {
-          final items = wastesData.wasteCartItems;
+      body: BlocBuilder<WastesBloc, WastesState>(
+        builder: (context, state) {
+          final items = state.wasteCartItems;
           final totalWeight = _calculateTotalWeight(items);
 
           if (_isLoading) {

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
-import '../providers/messages.dart';
+import '../bloc/messages_bloc.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,7 +60,8 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
     debugPrint(' contentTextController.text');
     debugPrint(contentTextController.text);
 
-    await Provider.of<Messages>(context, listen: false)
+    await context
+        .read<MessagesBloc>()
         .createMessage(
       subjectTextController.text,
       contentTextController.text,
@@ -71,8 +70,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
       isLogin,
     )
         .then((value) async {
-      await Provider.of<Messages>(context, listen: false)
-          .getMessages('0', isLogin);
+      await context.read<MessagesBloc>().getMessages('0', isLogin);
       Navigator.of(context).pop();
     });
     setState(() {

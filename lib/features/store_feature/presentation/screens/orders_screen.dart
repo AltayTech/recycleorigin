@@ -6,7 +6,7 @@ import 'package:recycleorigin/core/models/order.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_state.dart';
-import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
+import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_bloc.dart';
 import 'package:recycleorigin/features/store_feature/presentation/widgets/order_item-orders_screen.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
@@ -67,14 +67,14 @@ class _OrdersScreenState extends State<OrdersScreen>
 
   @override
   void initState() {
-    Provider.of<Orders>(context, listen: false).sPage = 1;
+    context.read<OrdersBloc>().sPage = 1;
 
-    Provider.of<Orders>(context, listen: false).searchBuilder();
+    context.read<OrdersBloc>().searchBuilder();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         page = page + 1;
-        Provider.of<Orders>(context, listen: false).sPage = page;
+        context.read<OrdersBloc>().sPage = page;
 
         searchItems();
       }
@@ -115,13 +115,12 @@ class _OrdersScreenState extends State<OrdersScreen>
       _isLoading = true;
     });
 
-    Provider.of<Orders>(context, listen: false).searchBuilder();
-    await Provider.of<Orders>(context, listen: false).searchOrderItems();
-    productsDetail = Provider.of<Orders>(context, listen: false).searchDetails;
+    context.read<OrdersBloc>().searchBuilder();
+    await context.read<OrdersBloc>().searchOrderItems();
+    productsDetail = context.read<OrdersBloc>().searchDetails;
 
     loadedProducts.clear();
-    loadedProducts =
-        await Provider.of<Orders>(context, listen: false).ordersItems;
+    loadedProducts = context.read<OrdersBloc>().ordersItems;
     loadedProductstolist.addAll(loadedProducts);
 
     setState(() {

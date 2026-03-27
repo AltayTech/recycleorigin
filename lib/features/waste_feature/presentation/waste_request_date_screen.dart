@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../../../core/models/region.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/buton_bottom.dart';
@@ -11,7 +9,7 @@ import '../business/entities/price_weight.dart';
 import '../business/entities/wasteCart.dart';
 import '../business/collect_hour_schedule.dart';
 import '../business/entities/collect_hour.dart';
-import 'providers/wastes.dart';
+import 'bloc/wastes_bloc.dart';
 import 'waste_request_send_screen.dart';
 import 'widgets/custom_dialog_enter.dart';
 import 'widgets/date_selector.dart';
@@ -64,7 +62,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
 
       if (!mounted) return;
 
-      final wasteProvider = Provider.of<Wastes>(context, listen: false);
+      final wasteProvider = context.read<WastesBloc>();
 
       setState(() {
         selectedRegion = authProvider.regionData;
@@ -200,8 +198,8 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
       return;
     }
 
-    // Save to provider
-    final wasteProvider = Provider.of<Wastes>(context, listen: false);
+    // Save to bloc
+    final wasteProvider = context.read<WastesBloc>();
     final String? startKey = _hourKeyForSubmit(_selectedStartHour!);
     final String? endKey = _hourKeyForSubmit(_selectedEndHour!);
     if (startKey == null || endKey == null) {

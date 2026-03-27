@@ -10,7 +10,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/widgets/main_drawer.dart';
 import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 import '../auth_feature/presentation/screens/login_screen.dart';
-import 'presentation/providers/wastes.dart';
+import 'presentation/bloc/wastes_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CollectListScreen extends StatefulWidget {
@@ -43,7 +43,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final wastesProvider = Provider.of<Wastes>(context, listen: false);
+    final wastesProvider = context.read<WastesBloc>();
     if (_isInit) {
       _loadInitialData();
       _isInit = false;
@@ -73,7 +73,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
       _hasError = false;
     });
     try {
-      final wastesProvider = Provider.of<Wastes>(context, listen: false);
+      final wastesProvider = context.read<WastesBloc>();
       wastesProvider.sPage = 1;
       wastesProvider.searchBuilder(); // Prepare search params if any
 
@@ -100,7 +100,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
     setState(() => _isLoading = true);
     try {
       _page++;
-      final wastesProvider = Provider.of<Wastes>(context, listen: false);
+      final wastesProvider = context.read<WastesBloc>();
       wastesProvider.sPage = _page;
 
       await wastesProvider.searchCollectItems();

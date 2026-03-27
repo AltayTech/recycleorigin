@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../providers/wastes.dart';
+import '../bloc/wastes_bloc.dart';
 
 class WasteCartItem extends StatefulWidget {
   final WasteCart wasteItem;
@@ -50,7 +50,7 @@ class _WasteCartItemState extends State<WasteCartItem>
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Wastes>(context, listen: false).removeWasteCart(
+    await context.read<WastesBloc>().removeWasteCart(
       widget.wasteItem.id,
     );
 
@@ -319,8 +319,8 @@ class _WasteCartItemState extends State<WasteCartItem>
                                                 print('productCount' +
                                                     productWeight.toString());
 
-                                                Provider.of<Wastes>(context,
-                                                        listen: false)
+                                                context
+                                                    .read<WastesBloc>()
                                                     .updateWasteCart(
                                                   widget.wasteItem,
                                                   productWeight,
@@ -348,8 +348,8 @@ class _WasteCartItemState extends State<WasteCartItem>
                                                 print('productCount' +
                                                     productWeight.toString());
 
-                                                Provider.of<Wastes>(context,
-                                                        listen: false)
+                                                context
+                                                    .read<WastesBloc>()
                                                     .updateWasteCart(
                                                   widget.wasteItem,
                                                   productWeight,
@@ -411,8 +411,8 @@ class _WasteCartItemState extends State<WasteCartItem>
                                           onTap: () async {
                                             productWeight = productWeight + 1;
 
-                                            await Provider.of<Wastes>(context,
-                                                    listen: false)
+                                            await context
+                                                .read<WastesBloc>()
                                                 .updateWasteCart(
                                               widget.wasteItem,
                                               productWeight,
@@ -432,8 +432,8 @@ class _WasteCartItemState extends State<WasteCartItem>
                                           onDoubleTap: () async {
                                             productWeight = productWeight + 10;
 
-                                            await Provider.of<Wastes>(context,
-                                                    listen: false)
+                                            await context
+                                                .read<WastesBloc>()
                                                 .updateWasteCart(
                                               widget.wasteItem,
                                               productWeight,

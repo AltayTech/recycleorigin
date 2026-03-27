@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
-import 'package:recycleorigin/features/articles_feature/presentation/providers/articles.dart';
+import 'package:recycleorigin/features/articles_feature/presentation/bloc/articles_bloc.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
-import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
+import 'package:recycleorigin/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigin/features/meassage_feature/presentation/providers/messages.dart';
-import 'package:recycleorigin/features/store_feature/presentation/providers/Products.dart';
-import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
-import 'package:recycleorigin/features/waste_feature/presentation/providers/wastes.dart';
+import 'package:recycleorigin/features/meassage_feature/presentation/bloc/messages_bloc.dart';
+import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_bloc.dart';
+import 'package:recycleorigin/features/store_feature/presentation/bloc/products_bloc.dart';
+import 'package:recycleorigin/features/waste_feature/presentation/bloc/wastes_bloc.dart';
 import 'mock_api_client.dart';
 
 /// Test helper utilities for creating test widgets and providers
@@ -19,22 +18,22 @@ class TestHelpers {
   static Widget createTestWidget({
     required Widget child,
     ApiClient? apiClient,
-    Products? products,
+    ProductsBloc? productsBloc,
     AuthBloc? authBloc,
     CustomerInfoBloc? customerInfoBloc,
-    Messages? messages,
-    Wastes? wastes,
-    Articles? articles,
-    Orders? orders,
-    Clearings? clearings,
+    MessagesBloc? messagesBloc,
+    WastesBloc? wastesBloc,
+    ArticlesBloc? articlesBloc,
+    OrdersBloc? ordersBloc,
+    ClearingsBloc? clearingsBloc,
   }) {
     // Use MockApiClient by default for testing
     final testApiClient = apiClient ?? MockApiClient();
 
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider<Products>(
-          create: (_) => products ?? Products(testApiClient),
+        BlocProvider<ProductsBloc>(
+          create: (_) => productsBloc ?? ProductsBloc(testApiClient),
         ),
         BlocProvider<AuthBloc>(
           create: (_) => authBloc ?? AuthBloc(testApiClient),
@@ -42,20 +41,20 @@ class TestHelpers {
         BlocProvider<CustomerInfoBloc>(
           create: (_) => customerInfoBloc ?? CustomerInfoBloc(testApiClient),
         ),
-        ChangeNotifierProvider<Messages>(
-          create: (_) => messages ?? Messages(),
+        BlocProvider<MessagesBloc>(
+          create: (_) => messagesBloc ?? MessagesBloc(),
         ),
-        ChangeNotifierProvider<Wastes>(
-          create: (_) => wastes ?? Wastes(),
+        BlocProvider<WastesBloc>(
+          create: (_) => wastesBloc ?? WastesBloc(),
         ),
-        ChangeNotifierProvider<Articles>(
-          create: (_) => articles ?? Articles(),
+        BlocProvider<ArticlesBloc>(
+          create: (_) => articlesBloc ?? ArticlesBloc(),
         ),
-        ChangeNotifierProvider<Orders>(
-          create: (_) => orders ?? Orders(),
+        BlocProvider<OrdersBloc>(
+          create: (_) => ordersBloc ?? OrdersBloc(),
         ),
-        ChangeNotifierProvider<Clearings>(
-          create: (_) => clearings ?? Clearings(),
+        BlocProvider<ClearingsBloc>(
+          create: (_) => clearingsBloc ?? ClearingsBloc(),
         ),
       ],
       child: MaterialApp(

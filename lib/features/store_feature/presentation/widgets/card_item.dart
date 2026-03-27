@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
-
 import '../../business/entities/product_cart.dart';
-import '../providers/Products.dart';
+import '../bloc/products_bloc.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../screens/product_detail_screen.dart';
@@ -48,8 +46,7 @@ class _CardItemState extends State<CardItem> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Products>(context, listen: false)
-        .removeShopCart(widget.shoppItem.id);
+    await context.read<ProductsBloc>().removeShopCart(widget.shoppItem.id);
     widget.callFunction();
 
     setState(() {
@@ -73,8 +70,7 @@ class _CardItemState extends State<CardItem> {
           height: deviceWidth * 0.35,
           child: InkWell(
             onTap: () {
-              Provider.of<Products>(context).item =
-                  Provider.of<Products>(context).itemZero;
+              context.read<ProductsBloc>().item = ProductsBloc.itemZero;
               Navigator.of(context).pushNamed(
                 ProductDetailScreen.routeName,
                 arguments: widget.shoppItem.id,
@@ -150,9 +146,8 @@ class _CardItemState extends State<CardItem> {
                                               onTap: () async {
                                                 productCount = productCount + 1;
 
-                                                await Provider.of<Products>(
-                                                        context,
-                                                        listen: false)
+                                                await context
+                                                    .read<ProductsBloc>()
                                                     .updateShopCart(
                                                         widget.shoppItem,
                                                         widget.shoppItem
@@ -201,8 +196,8 @@ class _CardItemState extends State<CardItem> {
                                               onTap: () {
                                                 productCount = productCount - 1;
 
-                                                Provider.of<Products>(context,
-                                                        listen: false)
+                                                context
+                                                    .read<ProductsBloc>()
                                                     .updateShopCart(
                                                         widget.shoppItem,
                                                         widget.shoppItem

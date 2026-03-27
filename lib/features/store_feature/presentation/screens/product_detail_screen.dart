@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
@@ -11,7 +12,8 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../business/entities/product.dart';
-import '../providers/Products.dart';
+import '../bloc/products_bloc.dart';
+import '../bloc/products_state.dart';
 import 'cart_screen.dart';
 
 /// This file defines the `ProductDetailScreen` widget, which displays detailed information about a specific product.
@@ -76,8 +78,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       _isLoading = true;
     });
     final productId = ModalRoute.of(context)?.settings.arguments as int;
-    await Provider.of<Products>(context, listen: false).retrieveItem(productId);
-    loadedProduct = Provider.of<Products>(context, listen: false).findById();
+    await context.read<ProductsBloc>().retrieveItem(productId);
+    loadedProduct = context.read<ProductsBloc>().findById();
 
     setState(() {
       _isLoading = false;
@@ -91,7 +93,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       _isLoading = true;
     });
 
-    await Provider.of<Products>(context, listen: false)
+    await context
+        .read<ProductsBloc>()
         .addShopCart(loadedProduct, _selectedColor, 1);
 
     setState(() {
@@ -107,7 +110,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     setState(() {
       _isLoading = true;
     });
-    isExist = Provider.of<Products>(context, listen: false)
+    isExist = context
+        .read<ProductsBloc>()
         .cartItems
         .any((prod) => prod.id == loadedProduct.id);
 
@@ -227,29 +231,30 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           elevation: 0,
           centerTitle: true,
           actions: <Widget>[
-            Consumer<Products>(
-              builder: (_, products, ch) {
-                if (products.cartItemsCount != 0) {
+            BlocBuilder<ProductsBloc, ProductsState>(
+              buildWhen: (a, b) => a.cartItems.length != b.cartItems.length,
+              builder: (context, state) {
+                final count = state.cartItems.length;
+                final cartIcon = IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(CartScreen.routeName);
+                  },
+                  color: AppTheme.bg,
+                  icon: const Icon(
+                    Icons.shopping_cart,
+                  ),
+                );
+                if (count != 0) {
                   return badges.Badge(
-                    badgeContent: ch,
+                    badgeContent: cartIcon,
                     badgeStyle: badges.BadgeStyle(
                       badgeColor: Color(0xff06623B),
                     ),
-                    child: Text(products.cartItemsCount.toString()),
+                    child: Text(count.toString()),
                   );
-                } else {
-                  return ch!;
                 }
+                return cartIcon;
               },
-              child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(CartScreen.routeName);
-                },
-                color: AppTheme.bg,
-                icon: Icon(
-                  Icons.shopping_cart,
-                ),
-              ),
             ),
           ],
         ),

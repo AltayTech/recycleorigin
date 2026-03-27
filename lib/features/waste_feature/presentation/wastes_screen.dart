@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/waste.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/main_drawer.dart';
-import 'providers/wastes.dart';
+import 'bloc/wastes_bloc.dart';
 import 'widgets/waste_item_wastes_screen.dart';
 
 class WastesScreen extends StatefulWidget {
@@ -41,7 +41,7 @@ class _WastesScreenState extends State<WastesScreen> {
     });
 
     try {
-      final wastesProvider = Provider.of<Wastes>(context, listen: false);
+      final wastesProvider = context.read<WastesBloc>();
       await wastesProvider.searchWastesItem();
 
       if (mounted) {
@@ -63,7 +63,7 @@ class _WastesScreenState extends State<WastesScreen> {
   }
 
   void _toggleSelection(Waste waste) {
-    final wastesProvider = Provider.of<Wastes>(context, listen: false);
+    final wastesProvider = context.read<WastesBloc>();
 
     if (wasteCartItemsId.contains(waste.id)) {
       wastesProvider.removeWasteCart(waste.id);

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 
 import '../../../../core/models/customer.dart';
@@ -8,7 +7,7 @@ import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
-import '../providers/messages.dart';
+import '../bloc/messages_bloc.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../widgets/message_reply_item.dart';
 import 'messages_create_reply_screen.dart';
@@ -33,7 +32,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
   @override
   void didChangeDependencies() async {
-    messages = Provider.of<Messages>(context, listen: false).allMessagesDetail;
+    messages = context.read<MessagesBloc>().allMessagesDetail;
 
     if (_isInit) {
       message = ModalRoute.of(context)?.settings.arguments as Message;
@@ -53,9 +52,10 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
     });
 
     bool isLogin = context.watch<AuthBloc>().isAuth;
-    await Provider.of<Messages>(context, listen: false)
+    await context
+        .read<MessagesBloc>()
         .getMessages(message.comment_post_ID, isLogin);
-    messages = Provider.of<Messages>(context, listen: false).allMessagesDetail;
+    messages = context.read<MessagesBloc>().allMessagesDetail;
     setState(() {
       _isLoading = false;
       print(_isLoading.toString());

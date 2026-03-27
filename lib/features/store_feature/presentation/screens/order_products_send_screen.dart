@@ -14,7 +14,7 @@ import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../business/entities/order_send_details.dart';
 import '../../business/entities/product_cart.dart';
 import '../../business/entities/product_order_send.dart';
-import '../providers/Products.dart';
+import '../bloc/products_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderProductsSendScreen extends StatefulWidget {
@@ -53,7 +53,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
       _isLoading = true;
     });
 
-    shoppItems = Provider.of<Products>(context, listen: false).cartItems;
+    shoppItems = context.read<ProductsBloc>().cartItems;
     totalNumber = 0;
     totalPrice = 0;
 
@@ -103,8 +103,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
       _isLoading = true;
     });
 
-    await Provider.of<Products>(context, listen: false)
-        .sendRequest(orderRequest);
+    await context.read<ProductsBloc>().sendRequest(orderRequest);
 
     setState(() {
       _isLoading = false;
@@ -416,8 +415,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                       await createRequest(context);
                       await sendRequest(context);
                       if (!context.mounted) return;
-                      Provider.of<Products>(context, listen: false).cartItems =
-                          [];
+                      context.read<ProductsBloc>().cartItems = [];
                       await CustomDialogSendRequest.show(
                         context,
                         description: 'Your order has been sent successfully.',

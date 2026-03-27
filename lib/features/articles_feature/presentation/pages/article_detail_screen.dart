@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../business/entities/article.dart';
 import '../constants/articles_constants.dart';
-import '../providers/articles.dart';
+import '../bloc/articles_bloc.dart';
 
 /// Screen for displaying article details
 class ArticleDetailScreen extends StatefulWidget {
@@ -47,9 +47,9 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
         throw Exception('Article ID not provided');
       }
 
-      final articlesProvider = Provider.of<Articles>(context, listen: false);
-      await articlesProvider.retrieveItem(articleId);
-      final article = articlesProvider.item;
+      final articlesBloc = context.read<ArticlesBloc>();
+      await articlesBloc.retrieveItem(articleId);
+      final article = articlesBloc.item;
 
       setState(() {
         _article = article;

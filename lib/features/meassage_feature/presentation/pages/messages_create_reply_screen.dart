@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
-import '../providers/messages.dart';
+import '../bloc/messages_bloc.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -63,7 +61,8 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
       _isLoading = true;
     });
 
-    await Provider.of<Messages>(context, listen: false)
+    await context
+        .read<MessagesBloc>()
         .createMessage(
       message.subject,
       contentTextController.text,
@@ -72,7 +71,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
       isLogin,
     )
         .then((value) async {
-      await Provider.of<Messages>(context, listen: false).getMessages(
+      await context.read<MessagesBloc>().getMessages(
         message.comment_post_ID,
         isLogin,
       );

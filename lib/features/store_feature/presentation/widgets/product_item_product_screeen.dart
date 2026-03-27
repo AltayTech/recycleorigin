@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../business/entities/product.dart';
-import '../providers/Products.dart';
+import '../bloc/products_bloc.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../screens/product_detail_screen.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
@@ -98,8 +99,7 @@ class ProductItemProductScreen extends StatelessWidget {
         builder: (ctx, constraints) {
           return InkWell(
             onTap: () {
-              Provider.of<Products>(context, listen: false).item =
-                  Provider.of<Products>(context, listen: false).itemZero;
+              context.read<ProductsBloc>().item = ProductsBloc.itemZero;
               Navigator.of(context).pushNamed(
                 ProductDetailScreen.routeName,
                 arguments: product.id,

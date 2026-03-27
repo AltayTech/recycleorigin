@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
@@ -9,7 +8,8 @@ import 'package:recycleorigin/features/waste_feature/presentation/widgets/waste_
 
 import '../../../core/theme/app_theme.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
-import 'providers/wastes.dart';
+import 'bloc/wastes_bloc.dart';
+import 'bloc/wastes_state.dart';
 import 'wastes_screen.dart';
 import 'widgets/custom_dialog_enter.dart';
 import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
@@ -84,7 +84,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
       _isLoading = true;
     });
     index = wasteCartItems.length;
-    wasteCartItems = Provider.of<Wastes>(context, listen: false).wasteCartItems;
+    wasteCartItems = context.read<WastesBloc>().wasteCartItems;
 
     totalPrice = 0;
     totalWeight = 0;
@@ -194,7 +194,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Wastes>(context, listen: false).removeWasteCart(
+    await context.read<WastesBloc>().removeWasteCart(
       itemId,
     );
 
@@ -369,21 +369,21 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
-                          child: Consumer<Wastes>(
-                            builder: (_, value, ch) =>
-                                value.wasteCartItems.length != 0
+                          child: BlocBuilder<WastesBloc, WastesState>(
+                            builder: (context, state) => state
+                                        .wasteCartItems.isNotEmpty
                                     ? Container(
                                         height: deviceHeight * 0.7,
                                         child: AnimatedList(
                                           key: _listKey,
                                           initialItemCount:
-                                              value.wasteCartItems.length,
+                                              state.wasteCartItems.length,
                                           itemBuilder: (ctx, i, animation) =>
                                               FadeTransition(
                                             opacity: animation,
                                             child: WasteCartItemAnimatedList(
                                               wasteItem:
-                                                  value.wasteCartItems[i],
+                                                  state.wasteCartItems[i],
                                               function: getWasteItems,
                                               onRemove: () {},
                                               key: Key(''),
