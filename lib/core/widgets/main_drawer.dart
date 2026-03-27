@@ -6,12 +6,14 @@ import 'package:recycleorigin/core/utils/app_info_service.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/pages/messages_screen.dart';
 
-import '../../features/auth_feature/presentation/providers/authentication_provider.dart';
+import '../../features/auth_feature/presentation/bloc/auth_bloc.dart';
+import '../../features/auth_feature/presentation/bloc/auth_state.dart';
 import '../../features/auth_feature/presentation/screens/login_screen.dart';
 import '../../features/customer_feature/presentation/screens/profile_screen.dart';
 import '../../features/store_feature/presentation/screens/cart_screen.dart';
 import '../../features/store_feature/presentation/screens/product_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Production-grade drawer menu with Material Design 3 styling
 ///
@@ -394,12 +396,10 @@ class _MainDrawerState extends State<MainDrawer>
                 .customer_zero;
 
         // Remove authentication token
-        await Provider.of<AuthenticationProvider>(context, listen: false)
-            .removeToken();
+        await context.read<AuthBloc>().removeToken();
 
         // Set first logout flag
-        Provider.of<AuthenticationProvider>(context, listen: false)
-            .isFirstLogout = true;
+        context.read<AuthBloc>().isFirstLogout = true;
 
         // Navigate to home
         if (mounted) {
@@ -442,12 +442,14 @@ class _MainDrawerState extends State<MainDrawer>
           child: Column(
             children: [
               // Header Section (User Profile or App Logo)
-              Consumer2<AuthenticationProvider, CustomerInfoProvider>(
-                builder: (context, authProvider, customerProvider, _) {
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, authState) {
+                  final customerProvider =
+                      Provider.of<CustomerInfoProvider>(context);
                   return _buildUserHeader(
-                    isAuthenticated: authProvider.isAuth,
+                    isAuthenticated: authState.isAuth,
                     customer:
-                        authProvider.isAuth ? customerProvider.customer : null,
+                        authState.isAuth ? customerProvider.customer : null,
                   );
                 },
               ),
@@ -516,17 +518,16 @@ class _MainDrawerState extends State<MainDrawer>
                           const SizedBox(height: _spacingSmall),
 
                           // Profile/Login Item
-                          Consumer<AuthenticationProvider>(
-                            builder: (context, authProvider, _) {
+                          BlocBuilder<AuthBloc, AuthState>(
+                            builder: (context, authState) {
                               return _buildDrawerItem(
-                                icon: authProvider.isAuth
+                                icon: authState.isAuth
                                     ? Icons.person_rounded
                                     : Icons.login_rounded,
-                                title:
-                                    authProvider.isAuth ? 'Profile' : 'Sign In',
+                                title: authState.isAuth ? 'Profile' : 'Sign In',
                                 onTap: () {
                                   Navigator.of(context).pop();
-                                  if (authProvider.isAuth) {
+                                  if (authState.isAuth) {
                                     Navigator.of(context)
                                         .pushNamed(ProfileScreen.routeName);
                                   } else {
@@ -539,9 +540,9 @@ class _MainDrawerState extends State<MainDrawer>
                           ),
 
                           // Logout (only if authenticated)
-                          Consumer<AuthenticationProvider>(
-                            builder: (context, authProvider, _) {
-                              if (!authProvider.isAuth) {
+                          BlocBuilder<AuthBloc, AuthState>(
+                            builder: (context, authState) {
+                              if (!authState.isAuth) {
                                 return const SizedBox.shrink();
                               }
                               return _buildDrawerItem(

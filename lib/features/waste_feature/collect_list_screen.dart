@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 
 import '../../core/logic/en_to_ar_number_convertor.dart';
@@ -11,6 +11,7 @@ import '../../core/widgets/main_drawer.dart';
 import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 import '../auth_feature/presentation/screens/login_screen.dart';
 import 'presentation/providers/wastes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CollectListScreen extends StatefulWidget {
   static const routeName = '/collectListScreen';
@@ -135,7 +136,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
+    final isLogin = context.watch<AuthBloc>().isAuth;
 
     return Scaffold(
       backgroundColor: const Color(0xffF9F9F9),

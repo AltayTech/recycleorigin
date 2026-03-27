@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:meditest/features/athentication_feature/presentation/pages/auth_page.dart';
 
 // import '../../features/athentication_feature/presentation/providers/authentication_provider.dart';
@@ -42,10 +43,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ListTile(
             title: const Text('Log out'),
             onTap: () async {
-              // await Provider.of<AuthenticationProvider>(context, listen: false)
+              // await context.read<AuthBloc>()
               //     .eitherFailureOrLogout();
               // debugPrint(
-              //     Provider.of<AuthenticationProvider>(context, listen: false)
+              //     context.read<AuthBloc>()
               //         .loginSituation
               //         ?.situation);
               Navigator.of(context).pop();

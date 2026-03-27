@@ -8,7 +8,7 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
@@ -16,6 +16,7 @@ import '../../business/entities/product_cart.dart';
 import '../providers/Products.dart';
 import '../widgets/card_item.dart';
 import 'order_products_send_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// This file defines the `CartScreen` widget, which displays the shopping cart for the user.
 ///
@@ -96,8 +97,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      await Provider.of<AuthenticationProvider>(context, listen: false)
-          .checkCompleted();
+      await context.read<AuthBloc>().checkCompleted();
 
       await getShopItems();
       customer =
@@ -105,8 +105,7 @@ class _CartScreenState extends State<CartScreen> {
       _isLoading = true;
 
 //      await getShopItems();
-      bool isLogin =
-          Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+      bool isLogin = context.read<AuthBloc>().isAuth;
 
       if (isLogin) {
         try {
@@ -170,10 +169,8 @@ class _CartScreenState extends State<CartScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
-    bool isCompleted =
-        Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
+    bool isLogin = context.read<AuthBloc>().isAuth;
+    bool isCompleted = context.read<AuthBloc>().isCompleted;
 
     getShopItems();
 
@@ -207,8 +204,7 @@ class _CartScreenState extends State<CartScreen> {
                         decoration: BoxDecoration(
                             color: AppTheme.white,
                             borderRadius: BorderRadius.circular(5),
-                            border:
-                                Border.all(color: Colors.grey, width: 0.2)),
+                            border: Border.all(color: Colors.grey, width: 0.2)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -267,8 +263,7 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  physics:
-                                      const NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: shoppItems.length,
                                   itemBuilder: (ctx, i) => CardItem(
                                     shoppItem: shoppItems[i],
@@ -337,8 +332,7 @@ class _CartScreenState extends State<CartScreen> {
                         alignment: Alignment.center,
                         child: _isLoading
                             ? SpinKitFadingCircle(
-                                itemBuilder:
-                                    (BuildContext context, int index) {
+                                itemBuilder: (BuildContext context, int index) {
                                   return DecoratedBox(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,

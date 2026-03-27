@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_theme.dart';
-import '../../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../business/entities/address.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddressItem extends StatefulWidget {
   final Address addressItem;
@@ -28,8 +29,7 @@ class _AddressItemState extends State<AddressItem> {
     setState(() => _isLoading = true);
 
     try {
-      final authProvider =
-          Provider.of<AuthenticationProvider>(context, listen: false);
+      final authProvider = context.read<AuthBloc>();
 
       await authProvider.getAddresses();
       final List<Address> currentList = authProvider.addressItems;

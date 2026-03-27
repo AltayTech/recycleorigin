@@ -7,12 +7,13 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/models/region.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../../../customer_feature/business/entities/city.dart';
 import '../../../customer_feature/business/entities/country.dart';
 import '../../../customer_feature/business/entities/province.dart';
 import '../../business/entities/address.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MapScreen extends StatefulWidget {
   static const routeName = '/mapScreen';
@@ -206,12 +207,10 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _loadRegions(int cityId) async {
     setState(() => _isRegionsLoading = true);
     try {
-      await Provider.of<AuthenticationProvider>(context, listen: false)
-          .retrieveRegionsByCity(cityId);
+      await context.read<AuthBloc>().retrieveRegionsByCity(cityId);
 
       if (!mounted) return;
-      final authProvider =
-          Provider.of<AuthenticationProvider>(context, listen: false);
+      final authProvider = context.read<AuthBloc>();
 
       setState(() {
         _regions = authProvider.regionItems;
@@ -312,8 +311,7 @@ class _MapScreenState extends State<MapScreen> {
     });
 
     try {
-      final authProvider =
-          Provider.of<AuthenticationProvider>(context, listen: false);
+      final authProvider = context.read<AuthBloc>();
 
       // Ensure we have the latest list
       await authProvider.getAddresses();

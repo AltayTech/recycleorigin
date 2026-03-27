@@ -292,9 +292,8 @@ class _WasteCartItemState extends State<WasteCartItem>
                                   child: FadeInImage(
                                     placeholder: AssetImage(
                                         'assets/images/main_page_request_ic.png'),
-                                    image: NetworkImage(
-                                        widget.wasteItem.featured_image
-                                                .sizes.medium),
+                                    image: NetworkImage(widget
+                                        .wasteItem.featured_image.sizes.medium),
                                     fit: BoxFit.contain,
                                   ),
                                 ),

@@ -7,6 +7,4 @@ class Strings {
   static const navRequest = 'My Request ';
   static const navProfile = 'Profile';
   static const navReservse = 'Reservation';
-
-
 }

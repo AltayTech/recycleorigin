@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../providers/messages.dart';
 import '../../../../core/widgets/main_drawer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MessageCreateScreen extends StatefulWidget {
   static const routeName = '/messageCreateScreen';
@@ -36,7 +37,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
       contentTextController.text = '';
       subjectTextController.text = '';
 
-      isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
+      isLogin = context.watch<AuthBloc>().isAuth;
     }
     _isInit = false;
 
@@ -131,7 +132,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                           child: Container(
-        //                                  height: deviceHeight * 0.1,
+                            //                                  height: deviceHeight * 0.1,
                             child: TextField(
                               controller: subjectTextController,
                               style: TextStyle(
@@ -221,9 +222,8 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: index.isEven
-                                      ? AppTheme.h1
-                                      : AppTheme.h1,
+                                  color:
+                                      index.isEven ? AppTheme.h1 : AppTheme.h1,
                                 ),
                               );
                             },

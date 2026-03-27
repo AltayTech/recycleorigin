@@ -6,9 +6,10 @@ import 'package:provider/provider.dart';
 import '../../business/entities/product_cart.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../screens/product_detail_screen.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CardItem extends StatefulWidget {
   final ProductCart shoppItem;
@@ -62,7 +63,7 @@ class _CardItemState extends State<CardItem> {
     var deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
+    isLogin = context.watch<AuthBloc>().isAuth;
 
     return Padding(
       padding: const EdgeInsets.only(top: 10),

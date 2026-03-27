@@ -4,12 +4,13 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../business/entities/message.dart';
 import '../providers/messages.dart';
 import '../widgets/message_item.dart';
 import 'message_detail_screen.dart';
 import 'messages_create_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MessageScreen extends StatefulWidget {
   static const routeName = '/messageScreen';
@@ -45,8 +46,7 @@ class _MessageScreenState extends State<MessageScreen> {
       _isLoading = true;
     });
 
-    bool isLogin =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isLogin = context.read<AuthBloc>().isAuth;
 
     await Provider.of<Messages>(context, listen: false)
         .getMessages('0', isLogin);

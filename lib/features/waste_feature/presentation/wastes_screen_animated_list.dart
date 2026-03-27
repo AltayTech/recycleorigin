@@ -8,7 +8,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/widgets/waste_cart_item_animated_list.dart';
 
 import '../../../core/theme/app_theme.dart';
-import '../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import 'providers/wastes.dart';
 import 'wastes_screen.dart';
 import 'widgets/custom_dialog_enter.dart';
@@ -16,6 +16,7 @@ import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../core/widgets/main_drawer.dart';
 import 'address_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WastesScreenAnimatedList extends StatefulWidget {
   static const routeName = '/wastesScreenAnimatedList';
@@ -66,8 +67,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      await Provider.of<AuthenticationProvider>(context, listen: false)
-          .checkCompleted();
+      await context.read<AuthBloc>().checkCompleted();
 
       await getWasteItems();
 
@@ -209,10 +209,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
-    bool isCompleted =
-        Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
+    bool isLogin = context.read<AuthBloc>().isAuth;
+    bool isCompleted = context.read<AuthBloc>().isCompleted;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -323,7 +321,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                         },
                                       ),
                                       Text(
-                                         '\$',
+                                        '\$',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           //fontFamily: 'Iransans',

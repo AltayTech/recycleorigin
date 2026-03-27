@@ -1,7 +1,7 @@
 import '../../../../core/models/region.dart';
 
 /// Address entity representing a user's address
-/// 
+///
 /// This is an immutable value object following domain-driven design principles.
 /// Entities should not extend ChangeNotifier - that's the responsibility of
 /// the presentation layer (providers/view models).
@@ -21,7 +21,7 @@ class Address {
   });
 
   /// Creates an Address from JSON
-  /// 
+  ///
   /// Handles null values gracefully with default values
   factory Address.fromJson(Map<String, dynamic> parsedJson) {
     return Address(

@@ -5,7 +5,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/custom_dialog.dart';
 import '../../articles_feature/presentation/pages/article_screen.dart';
 import '../../collect_feature/presentation/pages/waste_cart_screen.dart';
-import '../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../store_feature/presentation/providers/Products.dart';
 import '../../store_feature/presentation/screens/product_screen.dart';
 import '../../wallet_feature/presentation/pages/wallet_screen.dart';
@@ -58,10 +58,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final productsProvider = Provider.of<Products>(context, listen: false);
     productsProvider.retrieveCategory();
 
-    final authProvider = Provider.of<AuthenticationProvider>(
-      context,
-      listen: false,
-    );
+    final authProvider = context.read<AuthBloc>();
     authProvider.getTokenFromDB();
 
     if (authProvider.isFirstLogin) {

@@ -48,7 +48,6 @@ class ButtonBottom extends StatelessWidget {
               // //fontFamily: 'Iransans',
               fontSize: 24,
               fontWeight: FontWeight.w600,
-
             ),
             textHeightBehavior: TextHeightBehavior(
               applyHeightToFirstAscent: false,

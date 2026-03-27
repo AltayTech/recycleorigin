@@ -9,12 +9,13 @@ import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../waste_feature/presentation/address_screen.dart';
 import '../../../waste_feature/presentation/providers/wastes.dart';
 import '../../../waste_feature/presentation/wastes_screen.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import '../../../waste_feature/presentation/widgets/waste_cart_item.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WasteCartScreen extends StatefulWidget {
   static const routeName = '/waste_cart_screen';
@@ -59,8 +60,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
 
     setState(() => _isLoading = true);
 
-    final authProvider =
-        Provider.of<AuthenticationProvider>(context, listen: false);
+    final authProvider = context.read<AuthBloc>();
     // Check completion status if needed (logic from original code)
     if (_isInit) {
       await authProvider.checkCompleted();
@@ -150,8 +150,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
 
   void _handleContinue() {
     final wastesProvider = Provider.of<Wastes>(context, listen: false);
-    final isAuth =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    final isAuth = context.read<AuthBloc>().isAuth;
 
     if (wastesProvider.wasteCartItems.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(

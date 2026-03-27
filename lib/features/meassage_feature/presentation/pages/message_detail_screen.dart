@@ -6,12 +6,13 @@ import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../providers/messages.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../widgets/message_reply_item.dart';
 import 'messages_create_reply_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MessageDetailScreen extends StatefulWidget {
   static const routeName = '/messageDetailScreen';
@@ -51,7 +52,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
       _isLoading = true;
     });
 
-    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
+    bool isLogin = context.watch<AuthBloc>().isAuth;
     await Provider.of<Messages>(context, listen: false)
         .getMessages(message.comment_post_ID, isLogin);
     messages = Provider.of<Messages>(context, listen: false).allMessagesDetail;
@@ -120,14 +121,8 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                           Padding(
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Text(
-                              EnArConvertor()
-                                  .replaceArNumber('${(
-                                DateTime.parse(message.comment_date)
-                              ).year}/${(
-                                DateTime.parse(message.comment_date)
-                              ).month}/${(
-                                DateTime.parse(message.comment_date)
-                              ).day}'),
+                              EnArConvertor().replaceArNumber(
+                                  '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}'),
                               style: TextStyle(
                                 color: Colors.black54,
                                 //fontFamily: 'Iransans',

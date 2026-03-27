@@ -17,10 +17,11 @@ import '../../../core/screens/navigation_bottom_screen.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/custom_dialog_send_request.dart';
 import '../../../core/widgets/main_drawer.dart';
-import '../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../business/entities/address.dart';
 import 'providers/wastes.dart';
 import 'widgets/custom_dialog_enter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WasteRequestSendScreen extends StatefulWidget {
   static const routeName = '/waste_request_send_screen';
@@ -83,8 +84,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final authProvider =
-          Provider.of<AuthenticationProvider>(context, listen: false);
+      final authProvider = context.read<AuthBloc>();
       final wastesProvider = Provider.of<Wastes>(context, listen: false);
 
       _selectedRegion = authProvider.regionData;
@@ -161,8 +161,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
   }
 
   Future<void> _handleConfirm() async {
-    final authProvider =
-        Provider.of<AuthenticationProvider>(context, listen: false);
+    final authProvider = context.read<AuthBloc>();
     final isLogin = authProvider.isAuth;
 
     if (_wasteCartItems.isEmpty) {

@@ -4,12 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/transaction.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
-import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/transaction_item.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/wallet_balance_card.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
 import '../../../../core/models/search_detail.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WalletScreen extends StatefulWidget {
   static const routeName = '/walletScreen';
@@ -50,8 +51,7 @@ class _WalletScreenState extends State<WalletScreen> {
   }
 
   Future<void> _loadData() async {
-    final authProvider =
-        Provider.of<AuthenticationProvider>(context, listen: false);
+    final authProvider = context.read<AuthBloc>();
     if (!authProvider.isAuth) return;
 
     setState(() => _isLoading = true);
@@ -120,7 +120,7 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthenticationProvider>(context);
+    final authProvider = context.watch<AuthBloc>();
     final isLogin = authProvider.isAuth;
 
     return Scaffold(

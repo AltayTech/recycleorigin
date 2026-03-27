@@ -219,8 +219,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           title: Text(
             '',
             style: TextStyle(
-              //fontFamily: 'Iransans',
-            ),
+                //fontFamily: 'Iransans',
+                ),
           ),
           backgroundColor: AppTheme.appBarColor,
           iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),

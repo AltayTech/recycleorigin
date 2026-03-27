@@ -32,9 +32,7 @@ class CollectHourSchedule {
   static bool _isSameCalendarDay(DateTime a, DateTime b) {
     final DateTime la = a.toLocal();
     final DateTime lb = b.toLocal();
-    return la.year == lb.year &&
-        la.month == lb.month &&
-        la.day == lb.day;
+    return la.year == lb.year && la.month == lb.month && la.day == lb.day;
   }
 
   static DateTime? _parseAnchor(String raw) {

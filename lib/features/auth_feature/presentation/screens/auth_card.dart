@@ -5,8 +5,9 @@ import 'package:recycleorigin/core/connection/http_exception.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
-import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/screens/login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCard extends StatefulWidget {
   @override
@@ -110,10 +111,7 @@ class _AuthCardState extends State<AuthCard>
       if (_authMode == AuthMode.Login) {
         AppLogger.debug('Login mode');
         // Log user in
-        var response =
-            await Provider.of<AuthenticationProvider>(context, listen: false)
-                .login(_authData)
-                .then(
+        var response = await context.read<AuthBloc>().login(_authData).then(
           (value) async {
             if (await value) {
               Navigator.of(context)
@@ -130,14 +128,10 @@ class _AuthCardState extends State<AuthCard>
         AppLogger.debug('Registration mode');
         // Sign user up
 
-        var response =
-            await Provider.of<AuthenticationProvider>(context, listen: false)
-                .register(_authData);
+        var response = await context.read<AuthBloc>().register(_authData);
         if (response) {
           var loginResponse =
-              await Provider.of<AuthenticationProvider>(context, listen: false)
-                  .login(_authData)
-                  .then(
+              await context.read<AuthBloc>().login(_authData).then(
             (value) async {
               AppLogger.debug('Login response after registration: $value');
               if (await value) {

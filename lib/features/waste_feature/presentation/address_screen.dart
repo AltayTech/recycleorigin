@@ -5,11 +5,12 @@ import 'package:provider/provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/buton_bottom.dart';
 import '../../../core/widgets/main_drawer.dart';
-import '../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import 'pages/map_screen.dart';
 import 'waste_request_date_screen.dart';
 import 'widgets/address_item.dart';
 import 'widgets/custom_dialog_enter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddressScreen extends StatefulWidget {
   static const routeName = '/address_screen';
@@ -34,8 +35,7 @@ class _AddressScreenState extends State<AddressScreen> {
   Future<void> _loadAddresses() async {
     setState(() => _isLoading = true);
     try {
-      await Provider.of<AuthenticationProvider>(context, listen: false)
-          .getAddresses();
+      await context.read<AuthBloc>().getAddresses();
     } catch (e) {
       // Handle error appropriately, maybe show a snackbar
       ScaffoldMessenger.of(context).showSnackBar(
@@ -61,8 +61,7 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
   void _handleContinue() {
-    final authProvider =
-        Provider.of<AuthenticationProvider>(context, listen: false);
+    final authProvider = context.read<AuthBloc>();
     final isLogin = authProvider.isAuth;
     final selectedAddress = authProvider.selectedAddress;
 
@@ -87,7 +86,7 @@ class _AddressScreenState extends State<AddressScreen> {
   @override
   Widget build(BuildContext context) {
     // Access provider once for the list
-    final authProvider = Provider.of<AuthenticationProvider>(context);
+    final authProvider = context.watch<AuthBloc>();
     final addressList = authProvider.addressItems;
     final hasAddresses = addressList.isNotEmpty;
     // Check if selection is valid for button state

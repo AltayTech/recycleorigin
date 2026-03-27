@@ -1,18 +1,22 @@
 import 'dart:convert';
 
-TokenResponseModel tokenResponseModelFromJson(String str) => TokenResponseModel.fromJson(json.decode(str));
-String tokenResponseModelToJson(TokenResponseModel data) => json.encode(data.toJson());
+TokenResponseModel tokenResponseModelFromJson(String str) =>
+    TokenResponseModel.fromJson(json.decode(str));
+String tokenResponseModelToJson(TokenResponseModel data) =>
+    json.encode(data.toJson());
+
 class TokenResponseModel {
   TokenResponseModel({
-      String? token, 
-      String? userEmail, 
-      String? userNicename, 
-      String? userDisplayName,}){
+    String? token,
+    String? userEmail,
+    String? userNicename,
+    String? userDisplayName,
+  }) {
     _token = token;
     _userEmail = userEmail;
     _userNicename = userNicename;
     _userDisplayName = userDisplayName;
-}
+  }
 
   TokenResponseModel.fromJson(dynamic json) {
     _token = json['token'].toString();
@@ -24,15 +28,18 @@ class TokenResponseModel {
   String? _userEmail;
   String? _userNicename;
   String? _userDisplayName;
-TokenResponseModel copyWith({  String? token,
-  String? userEmail,
-  String? userNicename,
-  String? userDisplayName,
-}) => TokenResponseModel(  token: token ?? _token,
-  userEmail: userEmail ?? _userEmail,
-  userNicename: userNicename ?? _userNicename,
-  userDisplayName: userDisplayName ?? _userDisplayName,
-);
+  TokenResponseModel copyWith({
+    String? token,
+    String? userEmail,
+    String? userNicename,
+    String? userDisplayName,
+  }) =>
+      TokenResponseModel(
+        token: token ?? _token,
+        userEmail: userEmail ?? _userEmail,
+        userNicename: userNicename ?? _userNicename,
+        userDisplayName: userDisplayName ?? _userDisplayName,
+      );
   String? get token => _token;
   String? get userEmail => _userEmail;
   String? get userNicename => _userNicename;
@@ -46,5 +53,4 @@ TokenResponseModel copyWith({  String? token,
     map['user_display_name'] = _userDisplayName;
     return map;
   }
-
 }

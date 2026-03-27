@@ -4,7 +4,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/models/order.dart';
-import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
 import 'package:recycleorigin/features/store_feature/presentation/widgets/order_item-orders_screen.dart';
@@ -14,6 +14,7 @@ import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// This file defines the `OrdersScreen` widget, which displays a list of orders for the logged-in user.
 ///
@@ -100,8 +101,7 @@ class _OrdersScreenState extends State<OrdersScreen>
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isLogin = context.read<AuthBloc>().isAuth;
     if (isLogin) {
       await Provider.of<CustomerInfoProvider>(context, listen: false)
           .getCustomer();
@@ -135,7 +135,7 @@ class _OrdersScreenState extends State<OrdersScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
+    bool isLogin = context.watch<AuthBloc>().isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 

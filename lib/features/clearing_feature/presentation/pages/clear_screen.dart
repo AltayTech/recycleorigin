@@ -10,7 +10,7 @@ import 'package:recycleorigin/core/widgets/custom_dialog_send_request.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/widgets/clearing_item_clear_screen.dart';
-import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
@@ -19,6 +19,7 @@ import '../../../../core/screens/navigation_bottom_screen.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClearScreen extends StatefulWidget {
   static const routeName = '/ClearScreen';
@@ -84,8 +85,7 @@ class _ClearScreenState extends State<ClearScreen>
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isLogin = context.read<AuthBloc>().isAuth;
     if (isLogin) {
       await Provider.of<CustomerInfoProvider>(context, listen: false)
           .getCustomer();
@@ -148,7 +148,7 @@ class _ClearScreenState extends State<ClearScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
+    bool isLogin = context.watch<AuthBloc>().isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/store_feature/presentation/screens/orders_screen.dart';
@@ -9,7 +10,8 @@ import '../../../../core/widgets/main_item_button.dart';
 import '../../../../core/widgets/top_bar.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../meassage_feature/presentation/pages/messages_screen.dart';
-import '../../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
+import '../../../auth_feature/presentation/bloc/auth_state.dart';
 import '../providers/customer_info_provider.dart';
 import '../screens/customer_user_info_screen.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
@@ -69,9 +71,9 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthenticationProvider>(
-      builder: (context, authProvider, _) {
-        if (!authProvider.isAuth) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (!state.isAuth) {
           return _buildNotLoggedInView(context);
         }
 
@@ -370,7 +372,6 @@ class _ProfileViewState extends State<ProfileView> {
             label: '${customer.money} $priceUnit',
             color: AppTheme.primary,
           ),
-
         if (personalData.addresses.isNotEmpty)
           _buildInfoChip(
             icon: Icons.location_on,
@@ -429,8 +430,8 @@ class _ProfileViewState extends State<ProfileView> {
         final customer = customerProvider.customer;
         final personalData = customer.personalData;
         final hasAddresses = personalData.addresses.isNotEmpty;
-        final hasLocation = personalData.ostan.isNotEmpty ||
-            personalData.city.isNotEmpty;
+        final hasLocation =
+            personalData.ostan.isNotEmpty || personalData.city.isNotEmpty;
 
         if (!hasAddresses && !hasLocation) {
           return const SizedBox.shrink();
@@ -656,8 +657,7 @@ class _ProfileViewState extends State<ProfileView> {
             title: 'Personal Info',
             iconPath: 'assets/images/user_Icon.png',
             onTap: () {
-              Navigator.of(context)
-                  .pushNamed(CustomerUserInfoScreen.routeName);
+              Navigator.of(context).pushNamed(CustomerUserInfoScreen.routeName);
             },
             itemPaddingF: itemPaddingF,
             imageSizeFactor: 0.30,

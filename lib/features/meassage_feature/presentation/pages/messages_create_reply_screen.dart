@@ -5,10 +5,11 @@ import 'package:provider/provider.dart';
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../providers/messages.dart';
 import '../../../../core/widgets/main_drawer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MessageCreateReplyScreen extends StatefulWidget {
   static const routeName = '/messageCreateReplyScreen';
@@ -43,8 +44,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
       customer =
           Provider.of<CustomerInfoProvider>(context, listen: false).customer;
 
-      isLogin =
-          Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+      isLogin = context.read<AuthBloc>().isAuth;
     }
     _isInit = false;
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// A badge widget that displays a value on top of a child widget
-/// 
+///
 /// Commonly used to show notification counts, cart items, etc.
 /// The badge is positioned at the top-right corner of the child.
 class Badge extends StatelessWidget {
@@ -17,19 +17,19 @@ class Badge extends StatelessWidget {
 
   /// The widget to display the badge on
   final Widget child;
-  
+
   /// The value to display in the badge
   final String value;
-  
+
   /// Background color of the badge
   final Color color;
-  
+
   /// Text color of the badge
   final Color textColor;
-  
+
   /// Minimum size of the badge
   final double badgeSize;
-  
+
   /// Font size of the badge text
   final double fontSize;
 
@@ -45,7 +45,8 @@ class Badge extends StatelessWidget {
             right: 8,
             top: 8,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(badgeSize / 2),
                 border: Border.all(

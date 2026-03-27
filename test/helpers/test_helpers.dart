@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/features/articles_feature/presentation/providers/articles.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
-import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/providers/messages.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/Products.dart';
@@ -19,7 +20,7 @@ class TestHelpers {
     required Widget child,
     ApiClient? apiClient,
     Products? products,
-    AuthenticationProvider? authProvider,
+    AuthBloc? authBloc,
     CustomerInfoProvider? customerInfoProvider,
     Messages? messages,
     Wastes? wastes,
@@ -29,18 +30,18 @@ class TestHelpers {
   }) {
     // Use MockApiClient by default for testing
     final testApiClient = apiClient ?? MockApiClient();
-    
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<Products>(
           create: (_) => products ?? Products(testApiClient),
         ),
-        ChangeNotifierProvider<AuthenticationProvider>(
-          create: (_) =>
-              authProvider ?? AuthenticationProvider(testApiClient),
+        BlocProvider<AuthBloc>(
+          create: (_) => authBloc ?? AuthBloc(testApiClient),
         ),
         ChangeNotifierProvider<CustomerInfoProvider>(
-          create: (_) => customerInfoProvider ?? CustomerInfoProvider(testApiClient),
+          create: (_) =>
+              customerInfoProvider ?? CustomerInfoProvider(testApiClient),
         ),
         ChangeNotifierProvider<Messages>(
           create: (_) => messages ?? Messages(),

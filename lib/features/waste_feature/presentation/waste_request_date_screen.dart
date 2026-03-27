@@ -5,7 +5,7 @@ import '../../../core/models/region.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/buton_bottom.dart';
 import '../../../core/widgets/main_drawer.dart';
-import '../../auth_feature/presentation/providers/authentication_provider.dart';
+import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../business/entities/address.dart';
 import '../business/entities/price_weight.dart';
 import '../business/entities/wasteCart.dart';
@@ -17,6 +17,7 @@ import 'widgets/custom_dialog_enter.dart';
 import 'widgets/date_selector.dart';
 import 'widgets/request_summary_card.dart';
 import 'widgets/time_selector.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WasteRequestDateScreen extends StatefulWidget {
   static const routeName = '/waste_request_date_screen';
@@ -55,8 +56,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
 
   Future<void> _loadData() async {
     try {
-      final authProvider =
-          Provider.of<AuthenticationProvider>(context, listen: false);
+      final authProvider = context.read<AuthBloc>();
       selectedAddress = authProvider.selectedAddress;
 
       // Fetch region data
@@ -183,8 +183,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
   }
 
   void _submit() {
-    final authProvider =
-        Provider.of<AuthenticationProvider>(context, listen: false);
+    final authProvider = context.read<AuthBloc>();
 
     if (_selectedStartHour == null || _selectedEndHour == null) {
       ScaffoldMessenger.of(context).showSnackBar(
