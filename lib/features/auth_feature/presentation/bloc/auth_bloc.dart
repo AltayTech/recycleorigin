@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/models/region.dart';
@@ -8,14 +8,31 @@ import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
 import 'package:recycleorigin/features/auth_feature/data/models/TokenResponseModel.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_event.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_state.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/address.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/address_main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Central auth/application-account bloc for user app.
-class AuthBloc extends Cubit<AuthState> {
-  AuthBloc(this._apiClient) : super(AuthState());
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  AuthBloc(this._apiClient) : super(AuthState()) {
+    on<AuthLoginRequested>(_onLoginRequested);
+    on<AuthRegisterRequested>(_onRegisterRequested);
+    on<AuthTokenLoadRequested>(_onTokenLoadRequested);
+    on<AuthCompletionCheckRequested>(_onCompletionCheckRequested);
+    on<AuthTokenRemoved>(_onTokenRemoved);
+    on<AuthAddressesLoadRequested>(_onAddressesLoadRequested);
+    on<AuthAddressUpdateRequested>(_onAddressUpdateRequested);
+    on<AuthOrderRequested>(_onOrderRequested);
+    on<AuthAddressSelected>(_onAddressSelected);
+    on<AuthRegionsLoadRequested>(_onRegionsLoadRequested);
+    on<AuthRegionsByCityLoadRequested>(_onRegionsByCityLoadRequested);
+    on<AuthRegionLoadRequested>(_onRegionLoadRequested);
+    on<AuthFirstLoginFlagChanged>(_onFirstLoginFlagChanged);
+    on<AuthFirstLogoutFlagChanged>(_onFirstLogoutFlagChanged);
+    on<AuthLoggedInFlagChanged>(_onLoggedInFlagChanged);
+  }
 
   final ApiClient _apiClient;
   final Map<String, String> headers = <String, String>{};
@@ -32,11 +49,15 @@ class AuthBloc extends Cubit<AuthState> {
   Region get regionData => state.regionData ?? Region();
   TokenResponseModel get tokenResponseModel => state.tokenResponseModel;
 
-  set isFirstLogin(bool value) => emit(state.copyWith(isFirstLogin: value));
-  set isFirstLogout(bool value) => emit(state.copyWith(isFirstLogout: value));
-  set isLoggedin(bool value) => emit(state.copyWith(isLoggedIn: value));
+  set isFirstLogin(bool value) => add(AuthFirstLoginFlagChanged(value));
+  set isFirstLogout(bool value) => add(AuthFirstLogoutFlagChanged(value));
+  set isLoggedin(bool value) => add(AuthLoggedInFlagChanged(value));
 
-  Future<bool> _login(String email, String password) async {
+  Future<bool> _login(
+    String email,
+    String password,
+    Emitter<AuthState> emitter,
+  ) async {
     final data = <String, String>{
       'username': email,
       'password': password,
@@ -50,7 +71,7 @@ class AuthBloc extends Cubit<AuthState> {
       );
 
       if (!result.isSuccess) {
-        emit(
+        emitter(
           state.copyWith(
             token: '',
             isLoggedIn: false,
@@ -75,7 +96,7 @@ class AuthBloc extends Cubit<AuthState> {
       await SecureStorage.saveToken(token);
       await SecureStorage.saveLoginStatus(token.isNotEmpty);
 
-      emit(
+      emitter(
         state.copyWith(
           token: token,
           tokenResponseModel: tokenModel,
@@ -87,7 +108,7 @@ class AuthBloc extends Cubit<AuthState> {
     } catch (error, stackTrace) {
       await SecureStorage.saveToken('');
       await SecureStorage.saveLoginStatus(false);
-      emit(
+      emitter(
         state.copyWith(
           token: '',
           isLoggedIn: false,
@@ -109,6 +130,7 @@ class AuthBloc extends Cubit<AuthState> {
     String password,
     String firstName,
     String lastName,
+    Emitter<AuthState> emitter,
   ) async {
     final data = <String, String>{
       'email': email,
@@ -124,13 +146,13 @@ class AuthBloc extends Cubit<AuthState> {
         parser: (data) => data as Map<String, dynamic>,
       );
       final success = result.isSuccess;
-      emit(state.copyWith(isLoggedIn: success));
+      emitter(state.copyWith(isLoggedIn: success));
       if (!success) {
         AppLogger.warning('Registration failed: ${result.errorOrNull}');
       }
       return success;
     } catch (error, stackTrace) {
-      emit(state.copyWith(isLoggedIn: false));
+      emitter(state.copyWith(isLoggedIn: false));
       AppLogger.error(
         'Registration error',
         error: error,
@@ -150,22 +172,118 @@ class AuthBloc extends Cubit<AuthState> {
   }
 
   Future<Future<bool>> login(Map<String, String> authData) async {
-    return _login(authData['email']!, authData['password']!);
+    final completer = Completer<bool>();
+    add(AuthLoginRequested(authData: authData, completer: completer));
+    return completer.future;
   }
 
   Future<bool> register(Map<String, String> authData) {
-    return _register(
-      authData['email']!,
-      authData['password']!,
-      authData['first_name']!,
-      authData['last_name']!,
-    );
+    final completer = Completer<bool>();
+    add(AuthRegisterRequested(authData: authData, completer: completer));
+    return completer.future;
   }
 
   Future<void> getTokenFromDB() async {
+    final completer = Completer<void>();
+    add(AuthTokenLoadRequested(completer: completer));
+    return completer.future;
+  }
+
+  Future<void> checkCompleted() async {
+    final completer = Completer<void>();
+    add(AuthCompletionCheckRequested(completer: completer));
+    return completer.future;
+  }
+
+  Future<void> removeToken() async {
+    final completer = Completer<void>();
+    add(AuthTokenRemoved(completer: completer));
+    return completer.future;
+  }
+
+  Future<void> getAddresses() async {
+    final completer = Completer<void>();
+    add(AuthAddressesLoadRequested(completer: completer));
+    return completer.future;
+  }
+
+  Future<void> updateAddress(List<Address> addressList) async {
+    final completer = Completer<void>();
+    add(AuthAddressUpdateRequested(
+        addresses: addressList, completer: completer));
+    return completer.future;
+  }
+
+  Future<void> getOrder(List<Address> addressList) async {
+    final completer = Completer<void>();
+    add(AuthOrderRequested(addresses: addressList, completer: completer));
+    return completer.future;
+  }
+
+  Future<void> selectAddress(Address address) async {
+    add(AuthAddressSelected(address));
+  }
+
+  Future<void> retrieveRegionList() async {
+    final completer = Completer<void>();
+    add(AuthRegionsLoadRequested(completer: completer));
+    return completer.future;
+  }
+
+  Future<void> retrieveRegionsByCity(int cityId) async {
+    final completer = Completer<void>();
+    add(AuthRegionsByCityLoadRequested(cityId: cityId, completer: completer));
+    return completer.future;
+  }
+
+  Future<void> retrieveRegion(int regionId) async {
+    final completer = Completer<void>();
+    add(AuthRegionLoadRequested(regionId: regionId, completer: completer));
+    return completer.future;
+  }
+
+  Future<void> _onLoginRequested(
+    AuthLoginRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      final result = await _login(
+        event.authData['email']!,
+        event.authData['password']!,
+        emit,
+      );
+      event.completer.complete(result);
+    } catch (error, stackTrace) {
+      event.completer.completeError(error, stackTrace);
+    }
+  }
+
+  Future<void> _onRegisterRequested(
+    AuthRegisterRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      final result = await _register(
+        event.authData['email']!,
+        event.authData['password']!,
+        event.authData['first_name']!,
+        event.authData['last_name']!,
+        emit,
+      );
+      event.completer.complete(result);
+    } catch (error, stackTrace) {
+      event.completer.completeError(error, stackTrace);
+    }
+  }
+
+  Future<void> _onTokenLoadRequested(
+    AuthTokenLoadRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       final token = await SecureStorage.getToken() ?? '';
       emit(state.copyWith(token: token));
+      event.completer?.complete();
     } catch (error, stackTrace) {
       AppLogger.error(
         'Failed to get token from secure storage',
@@ -173,14 +291,19 @@ class AuthBloc extends Cubit<AuthState> {
         stackTrace: stackTrace,
       );
       emit(state.copyWith(token: ''));
+      event.completer?.completeError(error, stackTrace);
     }
   }
 
-  Future<void> checkCompleted() async {
+  Future<void> _onCompletionCheckRequested(
+    AuthCompletionCheckRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       final token = await SecureStorage.getToken() ?? '';
       if (token.isEmpty) {
         emit(state.copyWith(token: '', isCompleted: false));
+        event.completer?.complete();
         return;
       }
 
@@ -197,17 +320,21 @@ class AuthBloc extends Cubit<AuthState> {
       final isCompleted = extractedData['complete'] as bool? ?? false;
 
       emit(state.copyWith(token: token, isCompleted: isCompleted));
+      event.completer?.complete();
     } catch (error, stackTrace) {
       AppLogger.error(
         'Failed to check completion status',
         error: error,
         stackTrace: stackTrace,
       );
-      rethrow;
+      event.completer?.completeError(error, stackTrace);
     }
   }
 
-  Future<void> removeToken() async {
+  Future<void> _onTokenRemoved(
+    AuthTokenRemoved event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       await SecureStorage.deleteToken();
       await SecureStorage.saveLoginStatus(false);
@@ -219,6 +346,7 @@ class AuthBloc extends Cubit<AuthState> {
           addressItems: <Address>[],
         ),
       );
+      event.completer?.complete();
     } catch (error, stackTrace) {
       AppLogger.error(
         'Failed to remove token',
@@ -226,14 +354,19 @@ class AuthBloc extends Cubit<AuthState> {
         stackTrace: stackTrace,
       );
       emit(state.copyWith(token: '', isLoggedIn: false));
+      event.completer?.completeError(error, stackTrace);
     }
   }
 
-  Future<void> getAddresses() async {
+  Future<void> _onAddressesLoadRequested(
+    AuthAddressesLoadRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       final token = await SecureStorage.getToken() ?? '';
       if (token.isEmpty) {
         emit(state.copyWith(token: '', addressItems: <Address>[]));
+        event.completer?.complete();
         return;
       }
 
@@ -249,21 +382,26 @@ class AuthBloc extends Cubit<AuthState> {
       final extractedData = json.decode(response.body);
       final addresses = AddressMain.fromJson(extractedData).addressData;
       emit(state.copyWith(token: token, addressItems: addresses));
+      event.completer?.complete();
     } catch (error, stackTrace) {
       AppLogger.error(
         'Failed to get addresses',
         error: error,
         stackTrace: stackTrace,
       );
-      rethrow;
+      event.completer?.completeError(error, stackTrace);
     }
   }
 
-  Future<void> updateAddress(List<Address> addressList) async {
+  Future<void> _onAddressUpdateRequested(
+    AuthAddressUpdateRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       final token = await SecureStorage.getToken() ?? '';
       if (token.isEmpty) {
-        emit(state.copyWith(addressItems: addressList));
+        emit(state.copyWith(addressItems: event.addresses));
+        event.completer?.complete();
         return;
       }
 
@@ -274,7 +412,7 @@ class AuthBloc extends Cubit<AuthState> {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: jsonEncode(AddressMain(addressData: addressList).toJson()),
+        body: jsonEncode(AddressMain(addressData: event.addresses).toJson()),
       );
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
@@ -288,17 +426,21 @@ class AuthBloc extends Cubit<AuthState> {
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final addresses = AddressMain.fromJson(extractedData).addressData;
       emit(state.copyWith(token: token, addressItems: addresses));
+      event.completer?.complete();
     } catch (error, stackTrace) {
       AppLogger.error(
         'Failed to update addresses',
         error: error,
         stackTrace: stackTrace,
       );
-      rethrow;
+      event.completer?.completeError(error, stackTrace);
     }
   }
 
-  Future<void> getOrder(List<Address> addressList) async {
+  Future<void> _onOrderRequested(
+    AuthOrderRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       final token = await SecureStorage.getToken() ?? '';
       if (token.isNotEmpty) {
@@ -309,22 +451,26 @@ class AuthBloc extends Cubit<AuthState> {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           },
-          body: json.encode(AddressMain(addressData: addressList)),
+          body: json.encode(AddressMain(addressData: event.addresses)),
         );
       }
-      emit(state.copyWith(token: token, addressItems: addressList));
+      emit(state.copyWith(token: token, addressItems: event.addresses));
+      event.completer?.complete();
     } catch (error, stackTrace) {
       AppLogger.error('Failed to get order',
           error: error, stackTrace: stackTrace);
-      rethrow;
+      event.completer?.completeError(error, stackTrace);
     }
   }
 
-  Future<void> selectAddress(Address address) async {
-    emit(state.copyWith(selectedAddress: address));
+  void _onAddressSelected(AuthAddressSelected event, Emitter<AuthState> emit) {
+    emit(state.copyWith(selectedAddress: event.address));
   }
 
-  Future<void> retrieveRegionList() async {
+  Future<void> _onRegionsLoadRequested(
+    AuthRegionsLoadRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       final response = await http.get(
         Uri.parse(Urls.rootUrl + Urls.regionEndPoint),
@@ -337,20 +483,25 @@ class AuthBloc extends Cubit<AuthState> {
       final extractedData = json.decode(response.body) as List;
       final regionList = extractedData.map((i) => Region.fromJson(i)).toList();
       emit(state.copyWith(regionItems: regionList));
+      event.completer?.complete();
     } catch (error, stackTrace) {
       AppLogger.error(
         'Failed to retrieve region list',
         error: error,
         stackTrace: stackTrace,
       );
-      rethrow;
+      event.completer?.completeError(error, stackTrace);
     }
   }
 
-  Future<void> retrieveRegionsByCity(int cityId) async {
+  Future<void> _onRegionsByCityLoadRequested(
+    AuthRegionsByCityLoadRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       final response = await http.get(
-        Uri.parse('${Urls.rootUrl}${Urls.regionEndPoint}?city_id=$cityId'),
+        Uri.parse(
+            '${Urls.rootUrl}${Urls.regionEndPoint}?city_id=${event.cityId}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -360,20 +511,24 @@ class AuthBloc extends Cubit<AuthState> {
       final extractedData = json.decode(response.body) as List;
       final regionList = extractedData.map((i) => Region.fromJson(i)).toList();
       emit(state.copyWith(regionItems: regionList));
+      event.completer?.complete();
     } catch (error, stackTrace) {
       AppLogger.error(
         'Failed to retrieve regions by city',
         error: error,
         stackTrace: stackTrace,
       );
-      rethrow;
+      event.completer?.completeError(error, stackTrace);
     }
   }
 
-  Future<void> retrieveRegion(int regionId) async {
+  Future<void> _onRegionLoadRequested(
+    AuthRegionLoadRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       final response = await http.get(
-        Uri.parse('${Urls.rootUrl}${Urls.regionEndPoint}/$regionId'),
+        Uri.parse('${Urls.rootUrl}${Urls.regionEndPoint}/${event.regionId}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -382,13 +537,35 @@ class AuthBloc extends Cubit<AuthState> {
 
       final extractedData = json.decode(response.body);
       emit(state.copyWith(regionData: Region.fromJson(extractedData)));
+      event.completer?.complete();
     } catch (error, stackTrace) {
       AppLogger.error(
         'Failed to retrieve region',
         error: error,
         stackTrace: stackTrace,
       );
-      rethrow;
+      event.completer?.completeError(error, stackTrace);
     }
+  }
+
+  void _onFirstLoginFlagChanged(
+    AuthFirstLoginFlagChanged event,
+    Emitter<AuthState> emit,
+  ) {
+    emit(state.copyWith(isFirstLogin: event.value));
+  }
+
+  void _onFirstLogoutFlagChanged(
+    AuthFirstLogoutFlagChanged event,
+    Emitter<AuthState> emit,
+  ) {
+    emit(state.copyWith(isFirstLogout: event.value));
+  }
+
+  void _onLoggedInFlagChanged(
+    AuthLoggedInFlagChanged event,
+    Emitter<AuthState> emit,
+  ) {
+    emit(state.copyWith(isLoggedIn: event.value));
   }
 }
