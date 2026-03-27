@@ -5,8 +5,8 @@ import 'package:recycleorigin/core/connection/http_exception.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/screens/login_screen.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/screens/login_screen.dart';
 
 class AuthCard extends StatefulWidget {
   @override

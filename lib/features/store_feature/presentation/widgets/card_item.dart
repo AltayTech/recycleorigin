@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../business/entities/product_cart.dart';
 import '../providers/Products.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/providers/authentication_provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 

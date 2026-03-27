@@ -1,7 +1,7 @@
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/utils/result.dart';
-import 'package:recycleorigin/features/customer_feature/data/models/TokenResponseModel.dart';
+import 'package:recycleorigin/features/auth_feature/data/models/TokenResponseModel.dart';
 
 /// Remote data source for authentication operations
 ///

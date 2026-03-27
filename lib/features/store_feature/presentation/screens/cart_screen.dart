@@ -8,7 +8,7 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/providers/authentication_provider.dart';
 import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';

@@ -5,7 +5,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/custom_dialog.dart';
 import '../../articles_feature/presentation/pages/article_screen.dart';
 import '../../collect_feature/presentation/pages/waste_cart_screen.dart';
-import '../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../auth_feature/presentation/providers/authentication_provider.dart';
 import '../../store_feature/presentation/providers/Products.dart';
 import '../../store_feature/presentation/screens/product_screen.dart';
 import '../../wallet_feature/presentation/pages/wallet_screen.dart';

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/models/region.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/providers/authentication_provider.dart';
 import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../../../customer_feature/business/entities/city.dart';
 import '../../../customer_feature/business/entities/country.dart';

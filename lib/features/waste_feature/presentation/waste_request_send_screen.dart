@@ -17,7 +17,7 @@ import '../../../core/screens/navigation_bottom_screen.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/custom_dialog_send_request.dart';
 import '../../../core/widgets/main_drawer.dart';
-import '../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../auth_feature/presentation/providers/authentication_provider.dart';
 import '../business/entities/address.dart';
 import 'providers/wastes.dart';
 import 'widgets/custom_dialog_enter.dart';

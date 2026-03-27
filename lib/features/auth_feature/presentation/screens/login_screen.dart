@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/screens/auth_card.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/screens/auth_card.dart';
 
 import '../../../../core/widgets/main_drawer.dart';
 

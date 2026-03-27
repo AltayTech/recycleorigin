@@ -9,10 +9,10 @@ import '../../../../core/widgets/main_item_button.dart';
 import '../../../../core/widgets/top_bar.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../meassage_feature/presentation/pages/messages_screen.dart';
-import '../providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/providers/authentication_provider.dart';
 import '../providers/customer_info_provider.dart';
 import '../screens/customer_user_info_screen.dart';
-import '../screens/login_screen.dart';
+import '../../../auth_feature/presentation/screens/login_screen.dart';
 
 /// Profile view widget that displays user profile information and navigation options
 class ProfileView extends StatefulWidget {

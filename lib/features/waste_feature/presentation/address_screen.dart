@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/buton_bottom.dart';
 import '../../../core/widgets/main_drawer.dart';
-import '../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../auth_feature/presentation/providers/authentication_provider.dart';
 import 'pages/map_screen.dart';
 import 'waste_request_date_screen.dart';
 import 'widgets/address_item.dart';

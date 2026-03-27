@@ -10,7 +10,7 @@ import 'package:recycleorigin/core/widgets/custom_dialog_send_request.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/widgets/clearing_item_clear_screen.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
@@ -18,7 +18,7 @@ import '../../../../core/models/search_detail.dart';
 import '../../../../core/screens/navigation_bottom_screen.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/screens/login_screen.dart';
+import '../../../auth_feature/presentation/screens/login_screen.dart';
 
 class ClearScreen extends StatefulWidget {
   static const routeName = '/ClearScreen';

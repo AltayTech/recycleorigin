@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
-import 'package:recycleorigin/features/customer_feature/data/models/TokenResponseModel.dart';
+import 'package:recycleorigin/features/auth_feature/data/models/TokenResponseModel.dart';
 
 import '../../../../core/constants/urls.dart';
 import '../../../../core/models/region.dart';

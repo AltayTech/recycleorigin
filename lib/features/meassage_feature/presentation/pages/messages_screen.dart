@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/providers/authentication_provider.dart';
 import '../../business/entities/message.dart';
 import '../providers/messages.dart';
 import '../widgets/message_item.dart';

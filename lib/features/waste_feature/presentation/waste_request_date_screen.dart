@@ -5,7 +5,7 @@ import '../../../core/models/region.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/buton_bottom.dart';
 import '../../../core/widgets/main_drawer.dart';
-import '../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../auth_feature/presentation/providers/authentication_provider.dart';
 import '../business/entities/address.dart';
 import '../business/entities/price_weight.dart';
 import '../business/entities/wasteCart.dart';

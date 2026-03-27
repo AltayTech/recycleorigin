@@ -8,7 +8,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/widgets/waste_cart_item_animated_list.dart';
 
 import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../auth_feature/presentation/providers/authentication_provider.dart';
 import 'providers/wastes.dart';
 import 'wastes_screen.dart';
 import 'widgets/custom_dialog_enter.dart';

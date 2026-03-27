@@ -9,7 +9,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/providers/authentication_provider.dart';
 import '../../../waste_feature/presentation/address_screen.dart';
 import '../../../waste_feature/presentation/providers/wastes.dart';
 import '../../../waste_feature/presentation/wastes_screen.dart';

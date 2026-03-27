@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../auth_feature/presentation/providers/authentication_provider.dart';
 import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
 import '../providers/messages.dart';
 import '../../../../core/widgets/main_drawer.dart';

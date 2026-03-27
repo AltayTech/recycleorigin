@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/features/articles_feature/presentation/providers/articles.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/providers/messages.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/Products.dart';

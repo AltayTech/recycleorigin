@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/transaction.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/transaction_item.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/wallet_balance_card.dart';
-import '../../../customer_feature/presentation/screens/login_screen.dart';
+import '../../../auth_feature/presentation/screens/login_screen.dart';
 import '../../../../core/models/search_detail.dart';
 
 class WalletScreen extends StatefulWidget {

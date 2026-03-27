@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/providers/authentication_provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 
 import '../../core/logic/en_to_ar_number_convertor.dart';
@@ -9,7 +9,7 @@ import '../../core/models/search_detail.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/main_drawer.dart';
 import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
-import '../customer_feature/presentation/screens/login_screen.dart';
+import '../auth_feature/presentation/screens/login_screen.dart';
 import 'presentation/providers/wastes.dart';
 
 class CollectListScreen extends StatefulWidget {
