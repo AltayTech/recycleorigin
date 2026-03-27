@@ -6,7 +6,7 @@ import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/features/articles_feature/presentation/providers/articles.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/providers/messages.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/Products.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
@@ -21,7 +21,7 @@ class TestHelpers {
     ApiClient? apiClient,
     Products? products,
     AuthBloc? authBloc,
-    CustomerInfoProvider? customerInfoProvider,
+    CustomerInfoBloc? customerInfoBloc,
     Messages? messages,
     Wastes? wastes,
     Articles? articles,
@@ -39,9 +39,8 @@ class TestHelpers {
         BlocProvider<AuthBloc>(
           create: (_) => authBloc ?? AuthBloc(testApiClient),
         ),
-        ChangeNotifierProvider<CustomerInfoProvider>(
-          create: (_) =>
-              customerInfoProvider ?? CustomerInfoProvider(testApiClient),
+        BlocProvider<CustomerInfoBloc>(
+          create: (_) => customerInfoBloc ?? CustomerInfoBloc(testApiClient),
         ),
         ChangeNotifierProvider<Messages>(
           create: (_) => messages ?? Messages(),

@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/models/region.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../../customer_feature/business/entities/city.dart';
 import '../../../customer_feature/business/entities/country.dart';
 import '../../../customer_feature/business/entities/province.dart';
@@ -122,13 +122,13 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _loadCountries() async {
     setState(() => _isCountriesLoading = true);
     try {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
+      await context.read<CustomerInfoBloc>()
           .getCountries();
 
       if (!mounted) return;
 
       final customerInfo =
-          Provider.of<CustomerInfoProvider>(context, listen: false);
+          context.read<CustomerInfoBloc>();
 
       setState(() {
         _countries = customerInfo.countriesItems;
@@ -151,12 +151,12 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _loadProvinces(int countryId) async {
     setState(() => _isProvincesLoading = true);
     try {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
+      await context.read<CustomerInfoBloc>()
           .getProvincesByCountry(countryId);
 
       if (!mounted) return;
       final customerInfo =
-          Provider.of<CustomerInfoProvider>(context, listen: false);
+          context.read<CustomerInfoBloc>();
 
       setState(() {
         _provinces = customerInfo.provincesItems;
@@ -179,12 +179,12 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _loadCities(int provinceId) async {
     setState(() => _isCitiesLoading = true);
     try {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
+      await context.read<CustomerInfoBloc>()
           .getCities(provinceId);
 
       if (!mounted) return;
       final customerInfo =
-          Provider.of<CustomerInfoProvider>(context, listen: false);
+          context.read<CustomerInfoBloc>();
 
       setState(() {
         _cities = customerInfo.citiesItems;

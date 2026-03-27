@@ -7,7 +7,7 @@ import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../providers/messages.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../widgets/message_reply_item.dart';
@@ -38,7 +38,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
     if (_isInit) {
       message = ModalRoute.of(context)?.settings.arguments as Message;
       customer =
-          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
+          context.read<CustomerInfoBloc>().customer;
 
       loadMessages();
     }

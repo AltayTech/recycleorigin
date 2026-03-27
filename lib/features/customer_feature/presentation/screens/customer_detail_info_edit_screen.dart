@@ -5,10 +5,11 @@ import 'package:recycleorigin/core/models/status.dart';
 import '../../../../core/models/customer.dart';
 import '../../business/entities/personal_data.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../providers/customer_info_provider.dart';
+import '../bloc/customer_info_bloc.dart';
 import '../../../../core/widgets/info_edit_item.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'customer_user_info_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Screen for editing customer information with form validation and modern UI
 class CustomerDetailInfoEditScreen extends StatefulWidget {
@@ -59,10 +60,7 @@ class _CustomerDetailInfoEditScreenState
 
   /// Initializes form fields with current customer data
   void _initializeForm() {
-    final customer = Provider.of<CustomerInfoProvider>(
-      context,
-      listen: false,
-    ).customer;
+    final customer = context.read<CustomerInfoBloc>().customer;
 
     _nameController.text = customer.personalData.first_name;
     _familyController.text = customer.personalData.last_name;
@@ -84,14 +82,10 @@ class _CustomerDetailInfoEditScreenState
     });
 
     try {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
-          .getTypes();
+      await context.read<CustomerInfoBloc>().getTypes();
 
       if (mounted) {
-        final typesList = Provider.of<CustomerInfoProvider>(
-          context,
-          listen: false,
-        ).typesItems;
+        final typesList = context.read<CustomerInfoBloc>().typesItems;
 
         setState(() {
           _typesList = typesList;
@@ -192,8 +186,7 @@ class _CustomerDetailInfoEditScreenState
           'PersonalData last_name: ${customerToSend.personalData.last_name}');
       debugPrint('Customer type: ${customerToSend.customer_type.name}');
 
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
-          .sendCustomer(customerToSend);
+      await context.read<CustomerInfoBloc>().sendCustomer(customerToSend);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

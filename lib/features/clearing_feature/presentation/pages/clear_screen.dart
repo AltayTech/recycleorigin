@@ -11,7 +11,8 @@ import 'package:recycleorigin/features/clearing_feature/business/entities/cleari
 import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/widgets/clearing_item_clear_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_state.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/search_detail.dart';
@@ -43,7 +44,7 @@ class _ClearScreenState extends State<ClearScreen>
 
   @override
   void initState() {
-    Provider.of<CustomerInfoProvider>(context, listen: false).sPage = 1;
+    context.read<CustomerInfoBloc>().sPage = 1;
 
     Provider.of<Clearings>(context, listen: false).searchBuilder();
     _scrollController.addListener(() {
@@ -76,8 +77,7 @@ class _ClearScreenState extends State<ClearScreen>
   void didChangeDependencies() async {
     if (_isInit) {
       getCustomerInfo();
-      customer =
-          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
+      customer = context.read<CustomerInfoBloc>().customer;
       searchItems();
     }
     _isInit = false;
@@ -87,8 +87,7 @@ class _ClearScreenState extends State<ClearScreen>
   Future<void> getCustomerInfo() async {
     bool isLogin = context.read<AuthBloc>().isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
-          .getCustomer();
+      await context.read<CustomerInfoBloc>().getCustomer();
     }
   }
 
@@ -105,7 +104,8 @@ class _ClearScreenState extends State<ClearScreen>
       _isLoading = true;
     });
 
-    await Provider.of<CustomerInfoProvider>(context, listen: false)
+    await context
+        .read<CustomerInfoBloc>()
         .sendClearingRequest(money.toString(), shaba);
     setState(() {
       _isLoading = false;
@@ -353,12 +353,13 @@ class _ClearScreenState extends State<ClearScreen>
                                             ),
                                           ),
                                           Spacer(),
-                                          Consumer<CustomerInfoProvider>(
-                                            builder: (_, data, ch) => Text(
+                                          BlocBuilder<CustomerInfoBloc,
+                                              CustomerInfoState>(
+                                            builder: (_, state) => Text(
                                               EnArConvertor().replaceArNumber(
                                                   currencyFormat
                                                       .format(double.parse(
-                                                          data.customer.money))
+                                                          state.customer.money))
                                                       .toString()),
                                               style: TextStyle(
                                                 color: AppTheme.black,
@@ -504,8 +505,9 @@ class _ClearScreenState extends State<ClearScreen>
                                         ),
                                       ),
                                       Spacer(),
-                                      Consumer<CustomerInfoProvider>(
-                                          builder: (_, Wastes, ch) {
+                                      BlocBuilder<CustomerInfoBloc,
+                                              CustomerInfoState>(
+                                          builder: (_, state) {
                                         return Container(
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(

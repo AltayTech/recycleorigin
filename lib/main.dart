@@ -24,7 +24,7 @@ import 'features/articles_feature/presentation/providers/articles.dart';
 import 'features/collect_feature/presentation/pages/waste_cart_screen.dart';
 import 'features/contac_us_feature/presentation/pages/contact_with_us_screen.dart';
 import 'features/auth_feature/presentation/bloc/auth_bloc.dart';
-import 'features/customer_feature/presentation/providers/customer_info_provider.dart';
+import 'features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'features/customer_feature/presentation/screens/customer_detail_info_edit_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_notification_screen.dart';
 import 'features/customer_feature/presentation/screens/customer_orders_screen.dart';
@@ -90,8 +90,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(ApiClient()),
         ),
-        ChangeNotifierProvider(
-          create: (context) => CustomerInfoProvider(ApiClient()),
+        BlocProvider<CustomerInfoBloc>(
+          create: (context) => CustomerInfoBloc(ApiClient()),
         ),
         ChangeNotifierProvider(
           create: (context) => Messages(),

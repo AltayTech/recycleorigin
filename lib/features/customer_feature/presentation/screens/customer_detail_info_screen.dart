@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../providers/customer_info_provider.dart';
+import '../bloc/customer_info_bloc.dart';
 import 'customer_detail_info_edit_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Screen that displays detailed customer information in a modern, production-grade UI
 class CustomerDetailInfoScreen extends StatefulWidget {
@@ -44,14 +45,10 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
     });
 
     try {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
-          .getCustomer();
+      await context.read<CustomerInfoBloc>().getCustomer();
 
       if (mounted) {
-        final updatedCustomer = Provider.of<CustomerInfoProvider>(
-          context,
-          listen: false,
-        ).customer;
+        final updatedCustomer = context.read<CustomerInfoBloc>().customer;
 
         setState(() {
           _customer = updatedCustomer;

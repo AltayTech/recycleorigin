@@ -12,7 +12,8 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../meassage_feature/presentation/pages/messages_screen.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../auth_feature/presentation/bloc/auth_state.dart';
-import '../providers/customer_info_provider.dart';
+import '../bloc/customer_info_bloc.dart';
+import '../bloc/customer_info_state.dart';
 import '../screens/customer_user_info_screen.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
 
@@ -49,8 +50,7 @@ class _ProfileViewState extends State<ProfileView> {
     });
 
     try {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
-          .getCustomer();
+      await context.read<CustomerInfoBloc>().getCustomer();
     } catch (error) {
       // Error handling - could be extended to show error message to user
       debugPrint('Error loading customer data: $error');
@@ -177,9 +177,9 @@ class _ProfileViewState extends State<ProfileView> {
 
   /// Builds the profile header with user information
   Widget _buildProfileHeader(BuildContext context) {
-    return Consumer<CustomerInfoProvider>(
-      builder: (context, customerProvider, _) {
-        final customer = customerProvider.customer;
+    return BlocBuilder<CustomerInfoBloc, CustomerInfoState>(
+      builder: (context, state) {
+        final customer = state.customer;
         final personalData = customer.personalData;
         final fullName =
             '${personalData.first_name} ${personalData.last_name}'.trim();
@@ -425,9 +425,9 @@ class _ProfileViewState extends State<ProfileView> {
 
   /// Builds the information section with addresses and location
   Widget _buildInfoSection(BuildContext context) {
-    return Consumer<CustomerInfoProvider>(
-      builder: (context, customerProvider, _) {
-        final customer = customerProvider.customer;
+    return BlocBuilder<CustomerInfoBloc, CustomerInfoState>(
+      builder: (context, state) {
+        final customer = state.customer;
         final personalData = customer.personalData;
         final hasAddresses = personalData.addresses.isNotEmpty;
         final hasLocation =

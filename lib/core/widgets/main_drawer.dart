@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/utils/app_info_service.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/pages/messages_screen.dart';
 
 import '../../features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -391,8 +391,8 @@ class _MainDrawerState extends State<MainDrawer>
 
       if (shouldLogout == true && mounted) {
         // Reset customer data
-        Provider.of<CustomerInfoProvider>(context, listen: false).customer =
-            Provider.of<CustomerInfoProvider>(context, listen: false)
+        context.read<CustomerInfoBloc>().customer =
+            context.read<CustomerInfoBloc>()
                 .customer_zero;
 
         // Remove authentication token
@@ -445,7 +445,7 @@ class _MainDrawerState extends State<MainDrawer>
               BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, authState) {
                   final customerProvider =
-                      Provider.of<CustomerInfoProvider>(context);
+                      context.watch<CustomerInfoBloc>();
                   return _buildUserHeader(
                     isAuthenticated: authState.isAuth,
                     customer:

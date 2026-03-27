@@ -9,7 +9,7 @@ import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import '../../business/entities/product_cart.dart';
@@ -101,7 +101,7 @@ class _CartScreenState extends State<CartScreen> {
 
       await getShopItems();
       customer =
-          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
+          context.read<CustomerInfoBloc>().customer;
       _isLoading = true;
 
 //      await getShopItems();
@@ -109,12 +109,12 @@ class _CartScreenState extends State<CartScreen> {
 
       if (isLogin) {
         try {
-          await Provider.of<CustomerInfoProvider>(context, listen: false)
+          await context.read<CustomerInfoBloc>()
               .getCustomer()
               .then(
             (_) {
               customer =
-                  Provider.of<CustomerInfoProvider>(context, listen: false)
+                  context.read<CustomerInfoBloc>()
                       .customer;
             },
           );

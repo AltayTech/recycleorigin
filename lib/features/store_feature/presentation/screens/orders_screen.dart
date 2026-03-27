@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/models/order.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_state.dart';
 import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
 import 'package:recycleorigin/features/store_feature/presentation/widgets/order_item-orders_screen.dart';
 
@@ -103,8 +103,7 @@ class _OrdersScreenState extends State<OrdersScreen>
   Future<void> getCustomerInfo() async {
     bool isLogin = context.read<AuthBloc>().isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
-          .getCustomer();
+      await context.read<CustomerInfoBloc>().getCustomer();
     }
   }
 
@@ -136,8 +135,6 @@ class _OrdersScreenState extends State<OrdersScreen>
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     bool isLogin = context.watch<AuthBloc>().isAuth;
-
-    var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
@@ -227,8 +224,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                     ),
                                   ),
                                   Spacer(),
-                                  Consumer<CustomerInfoProvider>(
-                                      builder: (_, Wastes, ch) {
+                                  BlocBuilder<CustomerInfoBloc,
+                                      CustomerInfoState>(builder: (_, state) {
                                     return Wrap(
                                         alignment: WrapAlignment.start,
                                         crossAxisAlignment:

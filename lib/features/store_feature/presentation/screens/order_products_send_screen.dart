@@ -10,11 +10,12 @@ import '../../../../core/models/customer.dart';
 import '../../../../core/screens/navigation_bottom_screen.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../business/entities/order_send_details.dart';
 import '../../business/entities/product_cart.dart';
 import '../../business/entities/product_order_send.dart';
 import '../providers/Products.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderProductsSendScreen extends StatefulWidget {
   static const routeName = '/orderProductsSendScreen';
@@ -118,7 +119,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     Customer customer =
-        Provider.of<CustomerInfoProvider>(context, listen: false).customer;
+        context.read<CustomerInfoBloc>().customer;
 
     return Scaffold(
       appBar: AppBar(

@@ -5,7 +5,8 @@ import 'package:recycleorigin/core/models/transaction.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_state.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/transaction_item.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/wallet_balance_card.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
@@ -57,8 +58,7 @@ class _WalletScreenState extends State<WalletScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final customerProvider =
-          Provider.of<CustomerInfoProvider>(context, listen: false);
+      final customerProvider = context.read<CustomerInfoBloc>();
 
       // Reset page
       _page = 1;
@@ -90,8 +90,7 @@ class _WalletScreenState extends State<WalletScreen> {
     setState(() => _isLoading = true);
     try {
       _page++;
-      final customerProvider =
-          Provider.of<CustomerInfoProvider>(context, listen: false);
+      final customerProvider = context.read<CustomerInfoBloc>();
       customerProvider.sPage = _page;
 
       // Assuming searchTransactionItems appends or we need to fetch and append.
@@ -151,12 +150,9 @@ class _WalletScreenState extends State<WalletScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                          Consumer<CustomerInfoProvider>(
-                            builder: (context, data, _) {
-                              return WalletBalanceCard(
-                                balance: data.customer.money,
-                              );
-                            },
+                          BlocBuilder<CustomerInfoBloc, CustomerInfoState>(
+                            builder: (context, state) => WalletBalanceCard(
+                                balance: state.customer.money),
                           ),
                           const SizedBox(height: 24),
                           _buildActionButtons(context),

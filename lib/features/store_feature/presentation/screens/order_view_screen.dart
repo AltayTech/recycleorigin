@@ -7,11 +7,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../business/entities/color_code.dart';
 import '../../business/entities/gallery.dart';
 import '../../business/entities/order_details.dart';
 import 'product_detail_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// This file defines the `OrderViewScreen` widget, which displays detailed information about a specific order.
 ///
@@ -82,11 +83,11 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     });
 
     try {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
+      await context.read<CustomerInfoBloc>()
           .payCashOrder(orderId);
 
       final payUrl =
-          await Provider.of<CustomerInfoProvider>(context, listen: false)
+          await context.read<CustomerInfoBloc>()
               .payUrl;
       await _launchURL(payUrl);
     } catch (e) {
@@ -111,7 +112,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     });
 
     try {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
+      await context.read<CustomerInfoBloc>()
           .getOrderDetails(orderId);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -258,7 +259,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     orderDetails =
-        Provider.of<CustomerInfoProvider>(context, listen: false).getOrder();
+        context.read<CustomerInfoBloc>().getOrder();
     checkStatus(orderDetails);
 
     return Scaffold(
