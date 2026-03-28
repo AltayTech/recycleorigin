@@ -11,9 +11,9 @@ class Sizes {
 
   factory Sizes.fromJson(Map<String, dynamic> parsedJson) {
     return Sizes(
-      thumbnail: parsedJson['thumbnail'],
-      medium: parsedJson['medium'],
-      large: parsedJson['large'],
+      thumbnail: parsedJson['thumbnail'] as String? ?? '',
+      medium: parsedJson['medium'] as String? ?? '',
+      large: parsedJson['large'] as String? ?? '',
     );
   }
 }
