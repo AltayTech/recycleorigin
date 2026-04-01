@@ -185,7 +185,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           else
                             SliverFillRemaining(
                               hasScrollBody: false,
-                              child: _buildEmptyState(),
+                              child: _buildEmptyState(context),
                             ),
                           // Add padding at the bottom so the last item isn't covered by the FAB
                           const SliverPadding(
@@ -221,21 +221,21 @@ class _AddressScreenState extends State<AddressScreen> {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(Icons.location_off, size: 64, color: Colors.grey),
-          SizedBox(height: 16),
+        children: [
+          const Icon(Icons.location_off, size: 64, color: Colors.grey),
+          const SizedBox(height: 16),
           Text(
-            'No addresses found',
-            style: TextStyle(fontSize: 18, color: Colors.grey),
+            context.l10n.addressListEmptyTitle,
+            style: const TextStyle(fontSize: 18, color: Colors.grey),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
-            'Add a new address to get started',
-            style: TextStyle(color: Colors.grey),
+            context.l10n.addressListEmptySubtitle,
+            style: const TextStyle(color: Colors.grey),
           ),
         ],
       ),
@@ -261,7 +261,7 @@ class _AddressScreenState extends State<AddressScreen> {
           child: ButtonBottom(
             width: double.infinity,
             height: 50,
-            text: 'Continue',
+            text: context.l10n.continueLabel,
             isActive: isActive,
           ),
         ),

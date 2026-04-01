@@ -15,6 +15,7 @@ import '../bloc/products_bloc.dart';
 import '../bloc/products_state.dart';
 import '../widgets/product_item_product_screeen.dart';
 import 'cart_screen.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `ProductsScreen` widget, which displays a list of products with filtering and sorting options.
 ///
@@ -181,6 +182,19 @@ class _ProductsScreenState extends State<ProductsScreen>
     });
   }
 
+  String _localizedSortLabel(BuildContext context, String value) {
+    switch (value) {
+      case 'Newest':
+        return context.l10n.sortNewestLabel;
+      case 'High Price':
+        return context.l10n.sortHighPriceLabel;
+      case 'Low Price':
+        return context.l10n.sortLowPriceLabel;
+      default:
+        return value;
+    }
+  }
+
   String endPointBuilder(List<dynamic> input) {
     String outPutString = '';
     for (int i = 0; i < input.length; i++) {
@@ -203,7 +217,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       backgroundColor: Color(0xffF9F9F9),
       appBar: AppBar(
         title: Text(
-          'Products',
+          context.l10n.storeProductsAppBarTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
             color: Colors.white,
@@ -286,7 +300,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                     horizontal: 15.0),
                                 child: Center(
                                   child: Text(
-                                    'All',
+                                    context.l10n.filterCategoryAllLabel,
                                     style: TextStyle(
                                       color: _selectedCategoryId == 0
                                           ? AppTheme.primary
@@ -451,7 +465,8 @@ class _ProductsScreenState extends State<ProductsScreen>
                                             padding: const EdgeInsets.only(
                                                 right: 3.0),
                                             child: Text(
-                                              value,
+                                              _localizedSortLabel(
+                                                  context, value),
                                               style: TextStyle(
                                                 color: AppTheme.black,
                                                 //fontFamily: 'Iransans',
@@ -579,7 +594,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                             child: loadedProductstolist.isEmpty
                                 ? Center(
                                     child: Text(
-                                    'No Product',
+                                    context.l10n.storeNoProductsMessage,
                                     style: TextStyle(
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 15.0,

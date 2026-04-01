@@ -9,6 +9,7 @@ import '../bloc/customer_info_bloc.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../store_feature/presentation/screens/order_view_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class CustomerDetailOrderScreen extends StatefulWidget {
   final Customer customer;
@@ -162,7 +163,7 @@ class OrderItem extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Text(
-                    'Order No.: ' + number,
+                    '${context.l10n.customerOrderNumberPrefix} $number',
                     style: TextStyle(
                       color: AppTheme.h1,
                       //fontFamily: 'Iransans',

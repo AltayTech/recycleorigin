@@ -7,6 +7,7 @@ import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart'
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../store_feature/presentation/bloc/products_bloc.dart';
 
 class CollectItemCollectsScreen extends StatelessWidget {
@@ -164,7 +165,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Kilogram",
+                                    context.l10n.weightUnitKilogram,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(

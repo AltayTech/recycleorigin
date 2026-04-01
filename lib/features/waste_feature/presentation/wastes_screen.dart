@@ -159,7 +159,7 @@ class _WastesScreenState extends State<WastesScreen> {
         backgroundColor: AppTheme.primary,
         icon: Icon(Icons.check, color: AppTheme.white),
         label: Text(
-          "Done",
+          context.l10n.doneLabel,
           style: TextStyle(color: AppTheme.white, fontWeight: FontWeight.bold),
         ),
         elevation: 4,
@@ -175,7 +175,7 @@ class _WastesScreenState extends State<WastesScreen> {
           Icon(Icons.search_off_rounded, size: 80, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
-            'No items found',
+            context.l10n.wasteSearchNoItemsMessage,
             style: TextStyle(
               fontSize: 18,
               color: Colors.grey[600],

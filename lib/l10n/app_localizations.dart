@@ -1429,6 +1429,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Added to cart.'**
   String get productAddedToCartSnack;
+
+  /// No description provided for @storeProductsAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get storeProductsAppBarTitle;
+
+  /// No description provided for @filterCategoryAllLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterCategoryAllLabel;
+
+  /// No description provided for @storeNoProductsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No products found'**
+  String get storeNoProductsMessage;
+
+  /// No description provided for @storeNoOrdersYetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet'**
+  String get storeNoOrdersYetMessage;
+
+  /// No description provided for @sortNewestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get sortNewestLabel;
+
+  /// No description provided for @sortHighPriceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'High price'**
+  String get sortHighPriceLabel;
+
+  /// No description provided for @sortLowPriceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Low price'**
+  String get sortLowPriceLabel;
+
+  /// No description provided for @storeBuyButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy'**
+  String get storeBuyButtonLabel;
+
+  /// No description provided for @addressListEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No addresses found'**
+  String get addressListEmptyTitle;
+
+  /// No description provided for @addressListEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a new address to get started'**
+  String get addressListEmptySubtitle;
+
+  /// No description provided for @wasteCartEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add waste items to start recycling'**
+  String get wasteCartEmptySubtitle;
+
+  /// No description provided for @cartTotalAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total amount'**
+  String get cartTotalAmountLabel;
+
+  /// No description provided for @weightUnitKilogram.
+  ///
+  /// In en, this message translates to:
+  /// **'Kilogram'**
+  String get weightUnitKilogram;
+
+  /// No description provided for @collectHourSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect hour'**
+  String get collectHourSectionTitle;
+
+  /// No description provided for @noCollectionHoursForRegion.
+  ///
+  /// In en, this message translates to:
+  /// **'No available hours for this region.'**
+  String get noCollectionHoursForRegion;
+
+  /// No description provided for @orderDetailsAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order details'**
+  String get orderDetailsAppBarTitle;
+
+  /// No description provided for @orderStatusFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order status:'**
+  String get orderStatusFieldLabel;
+
+  /// No description provided for @orderNumberFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order number:'**
+  String get orderNumberFieldLabel;
+
+  /// No description provided for @orderDateFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order date:'**
+  String get orderDateFieldLabel;
+
+  /// No description provided for @authNotRegisteredPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Not registered?'**
+  String get authNotRegisteredPrompt;
+
+  /// No description provided for @authSwitchToLoginPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get authSwitchToLoginPrompt;
+
+  /// No description provided for @customerInfoUnavailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No customer information available'**
+  String get customerInfoUnavailableMessage;
+
+  /// No description provided for @collectDetailNoWasteItemsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No waste items found'**
+  String get collectDetailNoWasteItemsMessage;
+
+  /// No description provided for @collectListNoRequestsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No requests found'**
+  String get collectListNoRequestsMessage;
+
+  /// No description provided for @wasteSearchNoItemsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No items found'**
+  String get wasteSearchNoItemsMessage;
+
+  /// No description provided for @doneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneLabel;
+
+  /// No description provided for @customerOrderNumberPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Order no.:'**
+  String get customerOrderNumberPrefix;
+
+  /// No description provided for @articleNoContentMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No content available'**
+  String get articleNoContentMessage;
+
+  /// No description provided for @collectRequestListAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request list'**
+  String get collectRequestListAppBarTitle;
+
+  /// No description provided for @pleaseLoginToViewRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in to view your requests'**
+  String get pleaseLoginToViewRequests;
+
+  /// No description provided for @listCountSummaryPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Count:'**
+  String get listCountSummaryPrefix;
 }
 
 class _AppLocalizationsDelegate

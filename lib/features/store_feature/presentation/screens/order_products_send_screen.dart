@@ -431,7 +431,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                     child: ButtonBottom(
                       width: deviceWidth * 0.9,
                       height: deviceWidth * 0.14,
-                      text: 'Buy',
+                      text: context.l10n.storeBuyButtonLabel,
                       isActive: true,
                     ),
                   ),

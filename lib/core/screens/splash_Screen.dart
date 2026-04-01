@@ -5,6 +5,7 @@ import '../logic/en_to_ar_number_convertor.dart';
 import '../utils/app_info_service.dart';
 import '../widgets/splashscreen.dart';
 import 'navigation_bottom_screen.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class SplashScreens extends StatefulWidget {
   @override
@@ -12,12 +13,14 @@ class SplashScreens extends StatefulWidget {
 }
 
 class _SplashScreensState extends State<SplashScreens> {
-  String _appVersion = 'Version 1.0.0';
+  String _appVersion = '';
 
   @override
   void initState() {
     super.initState();
-    _loadAppVersion();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _loadAppVersion();
+    });
   }
 
   /// Loads app version dynamically from AppInfoService
@@ -29,14 +32,14 @@ class _SplashScreensState extends State<SplashScreens> {
       }
       if (mounted) {
         setState(() {
-          _appVersion = 'Version ${appInfo.version}';
+          _appVersion = '${context.l10n.version} ${appInfo.version}';
         });
       }
     } catch (e) {
       // Fallback to default version if loading fails
       if (mounted) {
         setState(() {
-          _appVersion = 'Version 1.0.0';
+          _appVersion = '${context.l10n.version} 1.0.0';
         });
       }
     }
@@ -48,7 +51,7 @@ class _SplashScreensState extends State<SplashScreens> {
       seconds: 3,
       navigateAfterSeconds: new NavigationBottomScreen(),
       title: new Text(
-        "Recycle Origin",
+        context.l10n.recycleorigin,
         textAlign: TextAlign.center,
         style: new TextStyle(
           fontFamily: 'BFarnaz',
@@ -64,7 +67,9 @@ class _SplashScreensState extends State<SplashScreens> {
         ),
       ),
       loadingText: Text(
-        EnArConvertor().replaceArNumber(_appVersion),
+        _appVersion.isEmpty
+            ? context.l10n.loadingLabel
+            : EnArConvertor().replaceArNumber(_appVersion),
         style: new TextStyle(
           //fontFamily: 'Iransans',
           fontWeight: FontWeight.w400,

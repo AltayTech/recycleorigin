@@ -684,4 +684,98 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get productAddedToCartSnack => 'Sepete eklendi.';
+
+  @override
+  String get storeProductsAppBarTitle => 'Urunler';
+
+  @override
+  String get filterCategoryAllLabel => 'Tumu';
+
+  @override
+  String get storeNoProductsMessage => 'Urun bulunamadi';
+
+  @override
+  String get storeNoOrdersYetMessage => 'Henuz siparis yok';
+
+  @override
+  String get sortNewestLabel => 'En yeni';
+
+  @override
+  String get sortHighPriceLabel => 'Yuksek fiyat';
+
+  @override
+  String get sortLowPriceLabel => 'Dusuk fiyat';
+
+  @override
+  String get storeBuyButtonLabel => 'Satin al';
+
+  @override
+  String get addressListEmptyTitle => 'Adres bulunamadi';
+
+  @override
+  String get addressListEmptySubtitle => 'Baslamak icin yeni adres ekleyin';
+
+  @override
+  String get wasteCartEmptySubtitle => 'Geri donusum icin atik ekleyin';
+
+  @override
+  String get cartTotalAmountLabel => 'Toplam tutar';
+
+  @override
+  String get weightUnitKilogram => 'Kilogram';
+
+  @override
+  String get collectHourSectionTitle => 'Toplama saati';
+
+  @override
+  String get noCollectionHoursForRegion => 'Bu bolge icin musait saat yok.';
+
+  @override
+  String get orderDetailsAppBarTitle => 'Siparis detayi';
+
+  @override
+  String get orderStatusFieldLabel => 'Siparis durumu:';
+
+  @override
+  String get orderNumberFieldLabel => 'Siparis numarasi:';
+
+  @override
+  String get orderDateFieldLabel => 'Siparis tarihi:';
+
+  @override
+  String get authNotRegisteredPrompt => 'Kayitli degil misiniz?';
+
+  @override
+  String get authSwitchToLoginPrompt => 'Girise don';
+
+  @override
+  String get customerInfoUnavailableMessage => 'Musteri bilgisi bulunamadi';
+
+  @override
+  String get collectDetailNoWasteItemsMessage => 'Atik kalemi bulunamadi';
+
+  @override
+  String get collectListNoRequestsMessage => 'Talep bulunamadi';
+
+  @override
+  String get wasteSearchNoItemsMessage => 'Oge bulunamadi';
+
+  @override
+  String get doneLabel => 'Tamam';
+
+  @override
+  String get customerOrderNumberPrefix => 'Siparis no:';
+
+  @override
+  String get articleNoContentMessage => 'Icerik yok';
+
+  @override
+  String get collectRequestListAppBarTitle => 'Talep listesi';
+
+  @override
+  String get pleaseLoginToViewRequests =>
+      'Taleplerinizi gormek icin giris yapin';
+
+  @override
+  String get listCountSummaryPrefix => 'Adet:';
 }

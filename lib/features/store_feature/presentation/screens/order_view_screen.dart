@@ -274,7 +274,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
         backgroundColor: AppTheme.appBarColor,
         iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
         title: Text(
-          'Order Details',
+          context.l10n.orderDetailsAppBarTitle,
           style: TextStyle(
             color: AppTheme.appBarIconColor,
             //fontFamily: 'Iransans',
@@ -303,7 +303,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                        'Order Status: ',
+                                        '${context.l10n.orderStatusFieldLabel} ',
                                         style: TextStyle(
                                           color: Colors.grey,
                                           //fontFamily: 'Iransans',
@@ -338,7 +338,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'Order Number: ',
+                                            '${context.l10n.orderNumberFieldLabel} ',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               //fontFamily: 'Iransans',
@@ -362,7 +362,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'Order Date: ',
+                                            '${context.l10n.orderDateFieldLabel} ',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               //fontFamily: 'Iransans',

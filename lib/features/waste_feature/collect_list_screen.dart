@@ -143,7 +143,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
       backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
         title: Text(
-          'Request List',
+          context.l10n.collectRequestListAppBarTitle,
           style: TextStyle(color: AppTheme.white),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -164,9 +164,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Text(
-            'Please login to view your requests',
-            style: TextStyle(fontSize: 16, color: Colors.grey),
+          Text(
+            context.l10n.pleaseLoginToViewRequests,
+            style: const TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
@@ -194,9 +194,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
           children: [
             const Icon(Icons.error_outline, size: 64, color: Colors.redAccent),
             const SizedBox(height: 16),
-            const Text(
-              'Something went wrong!',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Text(
+              context.l10n.somethingWentWrong,
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
@@ -224,7 +224,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         slivers: [
           SliverToBoxAdapter(child: _buildHeaderImage()),
           if (_loadedRequests.isNotEmpty)
-            SliverToBoxAdapter(child: _buildStatsRow()),
+            SliverToBoxAdapter(child: _buildStatsRow(context)),
           _buildRequestsList(),
           if (_isLoading && _loadedRequests.isNotEmpty)
             const SliverToBoxAdapter(
@@ -260,15 +260,21 @@ class _CollectListScreenState extends State<CollectListScreen> {
     );
   }
 
-  Widget _buildStatsRow() {
+  Widget _buildStatsRow(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _buildStatItem('Count:', _loadedRequests.length.toString()),
+          _buildStatItem(
+            context.l10n.listCountSummaryPrefix,
+            _loadedRequests.length.toString(),
+          ),
           const SizedBox(width: 12),
-          _buildStatItem('Total:', _searchDetail.total.toString()),
+          _buildStatItem(
+            context.l10n.cartTotalSummaryPrefix,
+            _searchDetail.total.toString(),
+          ),
         ],
       ),
     );
@@ -319,16 +325,16 @@ class _CollectListScreenState extends State<CollectListScreen> {
     }
 
     if (_loadedRequests.isEmpty) {
-      return const SliverFillRemaining(
+      return SliverFillRemaining(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.inbox_outlined, size: 64, color: Colors.grey),
-              SizedBox(height: 16),
+              const Icon(Icons.inbox_outlined, size: 64, color: Colors.grey),
+              const SizedBox(height: 16),
               Text(
-                'No requests found',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                context.l10n.collectListNoRequestsMessage,
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
             ],
           ),

@@ -9,6 +9,7 @@ import '../../../../core/widgets/main_drawer.dart';
 import '../../business/entities/article.dart';
 import '../constants/articles_constants.dart';
 import '../bloc/articles_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Screen for displaying article details
 class ArticleDetailScreen extends StatefulWidget {
@@ -337,7 +338,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
         padding: const EdgeInsets.symmetric(
             vertical: ArticlesConstants.verticalPadding),
         child: Text(
-          'No content available',
+          context.l10n.articleNoContentMessage,
           style: TextStyle(
             color: AppTheme.grey,
             fontSize: ArticlesConstants.bodyFontSize,

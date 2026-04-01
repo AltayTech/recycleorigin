@@ -690,4 +690,99 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get productAddedToCartSnack => 'Added to cart.';
+
+  @override
+  String get storeProductsAppBarTitle => 'Products';
+
+  @override
+  String get filterCategoryAllLabel => 'All';
+
+  @override
+  String get storeNoProductsMessage => 'No products found';
+
+  @override
+  String get storeNoOrdersYetMessage => 'No orders yet';
+
+  @override
+  String get sortNewestLabel => 'Newest';
+
+  @override
+  String get sortHighPriceLabel => 'High price';
+
+  @override
+  String get sortLowPriceLabel => 'Low price';
+
+  @override
+  String get storeBuyButtonLabel => 'Buy';
+
+  @override
+  String get addressListEmptyTitle => 'No addresses found';
+
+  @override
+  String get addressListEmptySubtitle => 'Add a new address to get started';
+
+  @override
+  String get wasteCartEmptySubtitle => 'Add waste items to start recycling';
+
+  @override
+  String get cartTotalAmountLabel => 'Total amount';
+
+  @override
+  String get weightUnitKilogram => 'Kilogram';
+
+  @override
+  String get collectHourSectionTitle => 'Collect hour';
+
+  @override
+  String get noCollectionHoursForRegion =>
+      'No available hours for this region.';
+
+  @override
+  String get orderDetailsAppBarTitle => 'Order details';
+
+  @override
+  String get orderStatusFieldLabel => 'Order status:';
+
+  @override
+  String get orderNumberFieldLabel => 'Order number:';
+
+  @override
+  String get orderDateFieldLabel => 'Order date:';
+
+  @override
+  String get authNotRegisteredPrompt => 'Not registered?';
+
+  @override
+  String get authSwitchToLoginPrompt => 'Back to sign in';
+
+  @override
+  String get customerInfoUnavailableMessage =>
+      'No customer information available';
+
+  @override
+  String get collectDetailNoWasteItemsMessage => 'No waste items found';
+
+  @override
+  String get collectListNoRequestsMessage => 'No requests found';
+
+  @override
+  String get wasteSearchNoItemsMessage => 'No items found';
+
+  @override
+  String get doneLabel => 'Done';
+
+  @override
+  String get customerOrderNumberPrefix => 'Order no.:';
+
+  @override
+  String get articleNoContentMessage => 'No content available';
+
+  @override
+  String get collectRequestListAppBarTitle => 'Request list';
+
+  @override
+  String get pleaseLoginToViewRequests => 'Please log in to view your requests';
+
+  @override
+  String get listCountSummaryPrefix => 'Count:';
 }

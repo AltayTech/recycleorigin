@@ -569,13 +569,13 @@ class _WasteListSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (loadedCollect.collect_list.isEmpty) {
-      return const SliverToBoxAdapter(
+      return SliverToBoxAdapter(
         child: Padding(
-          padding: EdgeInsets.all(32.0),
+          padding: const EdgeInsets.all(32.0),
           child: Center(
             child: Text(
-              'No Waste Items Found',
-              style: TextStyle(color: Colors.grey),
+              context.l10n.collectDetailNoWasteItemsMessage,
+              style: const TextStyle(color: Colors.grey),
             ),
           ),
         ),

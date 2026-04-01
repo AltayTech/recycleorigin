@@ -102,7 +102,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
     }
 
     if (_customer == null) {
-      return _buildEmptyState();
+      return _buildEmptyState(context);
     }
 
     return _buildCustomerInfo(context);
@@ -160,7 +160,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
   }
 
   /// Builds empty state widget
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -174,7 +174,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'No customer information available',
+              context.l10n.customerInfoUnavailableMessage,
               style: TextStyle(
                 color: AppTheme.grey,
                 fontSize: 16,

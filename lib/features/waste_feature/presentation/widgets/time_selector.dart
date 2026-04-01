@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../business/entities/collect_hour.dart';
 import '../../../../core/theme/app_theme.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class TimeSelector extends StatelessWidget {
   final List<CollectHour> hours;
@@ -28,7 +29,7 @@ class TimeSelector extends StatelessWidget {
               Icon(Icons.access_time_rounded, color: AppTheme.grey, size: 20),
               const SizedBox(width: 8),
               Text(
-                'Collect Hour',
+                context.l10n.collectHourSectionTitle,
                 style: TextStyle(
                   color: AppTheme.grey,
                   fontSize: 16,
@@ -47,7 +48,7 @@ class TimeSelector extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'No available hours for this region.',
+              context.l10n.noCollectionHoursForRegion,
               style: TextStyle(color: AppTheme.grey),
             ),
           )

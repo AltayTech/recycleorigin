@@ -41,6 +41,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
           ),
           const Divider(height: 24),
           _buildInfoSection(
+            context,
             title: context.l10n.summaryWeightKgTitle,
             requested: collectItem.estimated_weight,
             delivered: collectItem.exact_weight,
@@ -48,6 +49,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           _buildInfoSection(
+            context,
             title: context.l10n.summaryPriceUsdTitle,
             requested:
                 _formatCurrency(currencyFormat, collectItem.estimated_price),
@@ -59,7 +61,8 @@ class CollectDetailsCollectItem extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoSection({
+  Widget _buildInfoSection(
+    BuildContext context, {
     required String title,
     required String requested,
     required String delivered,
@@ -81,7 +84,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
           children: [
             Expanded(
               child: _buildValueBox(
-                label: 'Request',
+                label: context.l10n.statusRequestLabel,
                 value: requested,
                 color: Colors.orange,
               ),
@@ -89,7 +92,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: _buildValueBox(
-                label: 'Delivered',
+                label: context.l10n.statusDeliveredLabel,
                 value: delivered,
                 color: Colors.green,
               ),

@@ -302,7 +302,7 @@ class _WasteCartSummary extends StatelessWidget {
               animation: priceAnimation,
               builder: (context, child) => _buildStatItem(
                 icon: 'assets/images/waste_cart_price_ic.png',
-                label: 'Total',
+                label: context.l10n.cartTotalLabel,
                 value: EnArConvertor().replaceArNumber(
                   currencyFormat.format(priceAnimation.value.toInt()),
                 ),
@@ -377,9 +377,9 @@ class _WasteCartEmptyState extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
-            'Your cart is empty',
-            style: TextStyle(
+          Text(
+            context.l10n.cartIsEmpty,
+            style: const TextStyle(
               color: AppTheme.h1,
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -387,7 +387,7 @@ class _WasteCartEmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Add waste items to start recycling',
+            context.l10n.wasteCartEmptySubtitle,
             style: TextStyle(color: AppTheme.grey, fontSize: 14),
           ),
           const SizedBox(height: 32),
@@ -450,7 +450,7 @@ class _WasteCartBottomBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Total Amount',
+                  context.l10n.cartTotalAmountLabel,
                   style: TextStyle(color: AppTheme.grey, fontSize: 12),
                 ),
                 const SizedBox(height: 4),
@@ -478,7 +478,7 @@ class _WasteCartBottomBar extends StatelessWidget {
             child: ButtonBottom(
               width: size.width * 0.45,
               height: 56, // Fixed standard height
-              text: 'Continue',
+              text: context.l10n.continueLabel,
               isActive: isEnabled,
             ),
           ),

@@ -144,7 +144,7 @@ class _OrdersScreenState extends State<OrdersScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Orders',
+          context.l10n.ordersLabel,
           style: TextStyle(
               //fontFamily: 'Iransans',
               ),
@@ -181,7 +181,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: Text(
-                                  'Enter to Profile',
+                                  context.l10n.login,
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -214,7 +214,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      'Orders',
+                                      context.l10n.ordersLabel,
                                       style: TextStyle(
                                         color: Colors.blueGrey,
                                         //fontFamily: 'Iransans',
@@ -236,7 +236,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 3, vertical: 5),
                                             child: Text(
-                                              'Number:',
+                                              context.l10n.cartNumberSummaryPrefix,
                                               style: TextStyle(
                                                 //fontFamily: 'Iransans',
                                                 fontSize:
@@ -310,7 +310,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         child: loadedProductstolist.isEmpty
                                             ? Center(
                                                 child: Text(
-                                                'Not Order',
+                                                context.l10n.storeNoOrdersYetMessage,
                                                 style: TextStyle(
                                                   //fontFamily: 'Iransans',
                                                   fontSize:
