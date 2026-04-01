@@ -8,6 +8,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class GuideScreen extends StatefulWidget {
   static const routeName = '/guideScreen';
@@ -20,8 +21,6 @@ class _GuideScreenState extends State<GuideScreen> {
   bool _isInit = true;
 
   late Shop shopData;
-
-  List<String> aboutInfotitle = [];
 
   List<String> aboutInfoContent = [];
 
@@ -39,17 +38,21 @@ class _GuideScreenState extends State<GuideScreen> {
         shopData.faq,
         shopData.pay_methods_desc
       ];
-      aboutInfotitle = [
-        'قوانین بازگردانی',
-        'حریم خصوصی',
-        'نحوه سفارش',
-        'سوالات متداول',
-        'شیوه پرداخت',
-      ];
     }
     _isInit = false;
 
     super.didChangeDependencies();
+  }
+
+  List<String> _guideSectionTitles(BuildContext context) {
+    final l10n = context.l10n;
+    return <String>[
+      l10n.sectionReturnPolicyTitle,
+      l10n.sectionPrivacyTitle,
+      l10n.sectionHowToOrderTitle,
+      l10n.sectionFaqTitle,
+      l10n.sectionPaymentMethodsTitle,
+    ];
   }
 
   Future<void> searchItems() async {
@@ -71,12 +74,13 @@ class _GuideScreenState extends State<GuideScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     shopData = context.watch<CustomerInfoBloc>().shop;
+    final sectionTitles = _guideSectionTitles(context);
 
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
         title: Text(
-          'Guide',
+          context.l10n.guideTitle,
           style: TextStyle(
             color: AppTheme.bg,
             //fontFamily: 'Iransans',
@@ -100,7 +104,7 @@ class _GuideScreenState extends State<GuideScreen> {
               },
             )
           : Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: Directionality.of(context),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
@@ -149,14 +153,14 @@ class _GuideScreenState extends State<GuideScreen> {
                           child: ListView.builder(
                             shrinkWrap: true,
                             primary: false,
-                            itemCount: aboutInfotitle.length,
+                            itemCount: sectionTitles.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
                                 padding: const EdgeInsets.all(1.0),
                                 child: Card(
                                   child: ExpansionTile(
                                     title: Text(
-                                      aboutInfotitle[index],
+                                      sectionTitles[index],
                                       style: TextStyle(
                                         color: AppTheme.black,
                                         //fontFamily: 'Iransans',

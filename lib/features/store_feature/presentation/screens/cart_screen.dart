@@ -17,6 +17,7 @@ import '../bloc/products_bloc.dart';
 import '../widgets/card_item.dart';
 import 'order_products_send_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `CartScreen` widget, which displays the shopping cart for the user.
 ///
@@ -74,9 +75,9 @@ class _CartScreenState extends State<CartScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'Login',
-        buttonText: 'Login page ',
-        description: 'Login to continue',
+        title: ctx.l10n.login,
+        buttonText: ctx.l10n.goToLoginScreenButton,
+        description: ctx.l10n.loginToContinueShort,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -86,9 +87,9 @@ class _CartScreenState extends State<CartScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'User Info',
-        buttonText: 'Profile page',
-        description: 'Complete your profile to continue',
+        title: ctx.l10n.profileInformationDialogTitle,
+        buttonText: ctx.l10n.goToProfileScreenButton,
+        description: ctx.l10n.completeProfileShort,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -178,7 +179,7 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Shop Cart",
+          context.l10n.shopCartTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
             color: Colors.white,
@@ -211,11 +212,11 @@ class _CartScreenState extends State<CartScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Text(
-                                'Number: ' +
-                                    EnArConvertor()
+                                '${context.l10n.cartNumberSummaryPrefix} '
+                                    '${EnArConvertor()
                                         .replaceArNumber(
                                             shoppItems.length.toString())
-                                        .toString(),
+                                        .toString()}',
                                 style: TextStyle(
                                   color: AppTheme.black,
                                   //fontFamily: 'Iransans',
@@ -229,7 +230,7 @@ class _CartScreenState extends State<CartScreen> {
                                 endIndent: 4,
                               ),
                               Text(
-                                'Total: ',
+                                context.l10n.cartTotalSummaryPrefix,
                                 style: TextStyle(
                                   color: AppTheme.grey,
                                   //fontFamily: 'Iransans',
@@ -271,7 +272,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                 ),
                               )
-                            : Center(child: Text('No Items')),
+                            : Center(child: Text(context.l10n.noItemsInCart)),
                       ),
                       SizedBox(
                         height: 50,
@@ -287,7 +288,7 @@ class _CartScreenState extends State<CartScreen> {
                     onTap: () {
                       SnackBar addToCartSnackBar = SnackBar(
                         content: Text(
-                          'Cart is empty',
+                          context.l10n.cartIsEmpty,
                           style: TextStyle(
                             color: Colors.white,
                             //fontFamily: 'Iransans',
@@ -295,7 +296,7 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ),
                         action: SnackBarAction(
-                          label: 'OK',
+                          label: context.l10n.okLabel,
                           onPressed: () {
                             // Some code to undo the change.
                           },
@@ -318,7 +319,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: ButtonBottom(
                       width: deviceWidth * 0.9,
                       height: deviceWidth * 0.14,
-                      text: 'Continue',
+                      text: context.l10n.continueLabel,
                       isActive: shoppItems.isNotEmpty,
                     ),
                   ),

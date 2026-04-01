@@ -21,6 +21,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class ClearScreen extends StatefulWidget {
   static const routeName = '/ClearScreen';
@@ -94,8 +95,8 @@ class _ClearScreenState extends State<ClearScreen>
   void _showSenddialog() {
     CustomDialogSendRequest.show(
       context,
-      description: 'Your Request registered Successfully',
-      buttonText: 'Ok',
+      description: context.l10n.clearingRequestRegisteredSuccess,
+      buttonText: context.l10n.okLabel,
     );
   }
 
@@ -157,7 +158,7 @@ class _ClearScreenState extends State<ClearScreen>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Pay',
+          context.l10n.clearingPayTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
             color: Colors.white,
@@ -186,7 +187,7 @@ class _ClearScreenState extends State<ClearScreen>
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('You are not logged in'),
+                              child: Text(context.l10n.youarenotlogin),
                             ),
                             InkWell(
                               onTap: () {
@@ -197,7 +198,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Text(
-                                    'Login',
+                                    context.l10n.login,
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),
@@ -341,7 +342,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         children: <Widget>[
                                           Center(
                                             child: Text(
-                                              'Credit (\$)',
+                                              context.l10n.walletCreditUsdLabel,
                                               style: TextStyle(
                                                 color: AppTheme.grey,
                                                 //fontFamily: 'Iransans',
@@ -377,7 +378,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   padding:
                                       const EdgeInsets.only(top: 16, bottom: 8),
                                   child: Text(
-                                    'Account Number',
+                                    context.l10n.clearingAccountNumberLabel,
                                     style: TextStyle(
                                       color: AppTheme.h1,
                                       //fontFamily: 'Iransans',
@@ -423,7 +424,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   padding:
                                       const EdgeInsets.only(top: 16, bottom: 8),
                                   child: Text(
-                                    'Request amount(\$)',
+                                    context.l10n.clearingRequestAmountUsdLabel,
                                     style: TextStyle(
                                       color: AppTheme.h1,
                                       //fontFamily: 'Iransans',
@@ -473,7 +474,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   padding:
                                       const EdgeInsets.only(top: 24, bottom: 8),
                                   child: Text(
-                                    'Payment List',
+                                    context.l10n.clearingPaymentListTitle,
                                     style: TextStyle(
                                       color: AppTheme.h1,
                                       //fontFamily: 'Iransans',
@@ -493,7 +494,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text(
-                                        'Payment List',
+                                        context.l10n.clearingPaymentListTitle,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color:
@@ -523,7 +524,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                       horizontal: 3,
                                                       vertical: 5),
                                                   child: Text(
-                                                    'Number:',
+                                                    context.l10n.cartNumberSummaryPrefix,
                                                     style: TextStyle(
                                                       //fontFamily: 'Iransans',
                                                       fontSize:
@@ -560,7 +561,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                       horizontal: 3,
                                                       vertical: 5),
                                                   child: Text(
-                                                    'From',
+                                                    context.l10n.tableColumnFromLabel,
                                                     style: TextStyle(
                                                       //fontFamily: 'Iransans',
                                                       fontSize:
@@ -609,7 +610,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            'Status',
+                                            context.l10n.tableColumnStatusLabel,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
@@ -623,7 +624,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            'Date',
+                                            context.l10n.tableColumnDateLabel,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
@@ -637,7 +638,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            'Price (\$)',
+                                            context.l10n.summaryPriceUsdTitle,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
@@ -675,7 +676,7 @@ class _ClearScreenState extends State<ClearScreen>
                               onTap: () async {
                                 SnackBar addToCartSnackBar = SnackBar(
                                   content: Text(
-                                    'Enter Credit number',
+                                    context.l10n.clearingEnterAccountNumberSnack,
                                     style: TextStyle(
                                       color: Colors.white,
                                       //fontFamily: 'Iransans',
@@ -683,7 +684,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     ),
                                   ),
                                   action: SnackBarAction(
-                                    label: 'Understand',
+                                    label: context.l10n.understandLabel,
                                     onPressed: () {
                                       // Some code to undo the change.
                                     },
@@ -697,7 +698,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     double.parse(customer.money)) {
                                   SnackBar addToCartSnackBar = SnackBar(
                                     content: Text(
-                                      'Your Request amount is exceed',
+                                      context.l10n.clearingAmountExceedsBalance,
                                       style: TextStyle(
                                         color: Colors.white,
                                         //fontFamily: 'Iransans',
@@ -705,7 +706,7 @@ class _ClearScreenState extends State<ClearScreen>
                                       ),
                                     ),
                                     action: SnackBarAction(
-                                      label: 'Ok',
+                                      label: context.l10n.okLabel,
                                       onPressed: () {
                                         // Some code to undo the change.
                                       },
@@ -727,7 +728,7 @@ class _ClearScreenState extends State<ClearScreen>
                               child: ButtonBottom(
                                 width: deviceWidth * 0.9,
                                 height: deviceWidth * 0.14,
-                                text: 'Pay',
+                                text: context.l10n.clearingPayTitle,
                                 isActive: true,
                               ),
                             ),

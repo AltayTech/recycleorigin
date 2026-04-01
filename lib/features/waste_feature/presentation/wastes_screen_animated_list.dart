@@ -17,6 +17,7 @@ import '../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../core/widgets/main_drawer.dart';
 import 'address_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class WastesScreenAnimatedList extends StatefulWidget {
   static const routeName = '/wastesScreenAnimatedList';
@@ -44,9 +45,9 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'Login',
-        buttonText: 'Login Screen',
-        description: 'Please login to continue',
+        title: ctx.l10n.login,
+        buttonText: ctx.l10n.goToLoginScreenButton,
+        description: ctx.l10n.pleaseLoginToContinue,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -56,9 +57,9 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'Profile Info',
-        buttonText: 'Profile Screen ',
-        description: 'Please complete your profile to continue',
+        title: ctx.l10n.profileInformationDialogTitle,
+        buttonText: ctx.l10n.goToProfileScreenButton,
+        description: ctx.l10n.completeProfileToContinue,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -214,7 +215,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Select Waste',
+          context.l10n.selectWasteTitle,
           style: TextStyle(
             color: AppTheme.white,
             //fontFamily: 'Iransans',
@@ -227,7 +228,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
       ),
       body: Builder(builder: (context) {
         return Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
@@ -394,7 +395,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                     : Container(
                                         height: deviceHeight * 0.6,
                                         child: Center(
-                                          child: Text('No waste added yet'),
+                                          child: Text(
+                                              context.l10n.noWasteAddedYet),
                                         ),
                                       ),
                           ),
@@ -413,7 +415,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                       onTap: () {
                         SnackBar addToCartSnackBar = SnackBar(
                           content: Text(
-                            'No waste added yet',
+                            context.l10n.noWasteAddedYet,
                             style: TextStyle(
                               color: Colors.white,
                               //fontFamily: 'Iransans',
@@ -421,7 +423,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                             ),
                           ),
                           action: SnackBarAction(
-                            label: 'OK',
+                            label: context.l10n.okLabel,
                             onPressed: () {
                               // Some code to undo the change.
                             },
@@ -444,7 +446,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,
                         height: deviceWidth * 0.14,
-                        text: 'OK',
+                        text: context.l10n.continueLabel,
                         isActive: wasteCartItems.isNotEmpty,
                       ),
                     ),

@@ -21,6 +21,7 @@ import '../business/entities/address.dart';
 import 'bloc/wastes_bloc.dart';
 import 'widgets/custom_dialog_enter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class WasteRequestSendScreen extends StatefulWidget {
   static const routeName = '/waste_request_send_screen';
@@ -44,31 +45,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
   late String _selectedHours = '0';
   late DateTime _selectedDay = DateTime.now();
   late RequestWaste _requestWaste;
-
-  final List<String> _months = const [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
-
-  final List<String> _weekDays = const [
-    'Saturday',
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday'
-  ];
 
   @override
   void didChangeDependencies() {
@@ -140,8 +116,10 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
       );
     }).toList();
 
-    String formattedDate =
-        '${_weekDays[_selectedDay.weekday - 1]}  ${_selectedDay.day} ${_months[_selectedDay.month - 1]}';
+    final String formattedDate = intl.DateFormat(
+      'EEEE d MMMM',
+      'en_US',
+    ).format(_selectedDay);
 
     _requestWaste = RequestWaste(
       collect_date: CollectTime(
@@ -165,8 +143,9 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
     if (_wasteCartItems.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Cart is empty', style: TextStyle(color: Colors.white)),
+        SnackBar(
+          content: Text(context.l10n.cartIsEmpty,
+              style: const TextStyle(color: Colors.white)),
           backgroundColor: Colors.red,
         ),
       );
@@ -176,9 +155,9 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
     if (!isLogin) {
       _showDialog(
         CustomDialogEnter(
-          title: 'Login',
-          buttonText: 'Login Screen',
-          description: 'Login to continue',
+          title: context.l10n.login,
+          buttonText: context.l10n.goToLoginScreenButton,
+          description: context.l10n.loginToContinueShort,
           image: Image.asset('assets/images/main_page_request_ic.png'),
         ),
       );
@@ -196,7 +175,8 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
       await CustomDialogSendRequest.show(
         context,
-        description: 'Your request has been sent successfully',
+        description: context.l10n.wasteRequestSentSuccess,
+        buttonText: context.l10n.okLabel,
       );
 
       if (!mounted) return;
@@ -209,7 +189,8 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
       debugPrint("Error sending request: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to send request: $e'),
+          content: Text(
+              '${context.l10n.failedSendRequestPrefix}$e'),
           backgroundColor: Colors.red,
         ),
       );
@@ -231,11 +212,11 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Register Request',
-          style: TextStyle(
-              color: AppTheme
-                  .appBarIconColor), // Changed to h1 which is const, or remove const if using AppTheme.white
+        title: Text(
+          context.l10n.registerWasteRequestAppBarTitle,
+          style: const TextStyle(
+            color: AppTheme.appBarIconColor,
+          ),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -260,9 +241,9 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                          const Text(
-                            'Request Details',
-                            style: TextStyle(
+                          Text(
+                            context.l10n.requestDetailsSectionTitle,
+                            style: const TextStyle(
                               color: AppTheme.h1,
                               fontSize: 17.0,
                               fontWeight: FontWeight.bold,
@@ -279,8 +260,6 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                             date: _selectedDay,
                             hours: _selectedHours,
                             regionName: _selectedRegion.name,
-                            weekDay: _weekDays[_selectedDay.weekday - 1],
-                            month: _months[_selectedDay.month - 1],
                           ),
                         ],
                       ),
@@ -294,7 +273,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                       child: ButtonBottom(
                         width: double.infinity,
                         height: 56, // Standard button height
-                        text: 'Confirm',
+                        text: context.l10n.confirmLabel,
                         isActive: _wasteCartItems.isNotEmpty,
                       ),
                     ),
@@ -334,15 +313,15 @@ class _SummaryCard extends StatelessWidget {
             _buildRow(
               context,
               iconPath: 'assets/images/main_page_request_ic.png',
-              label: 'Number',
+              label: context.l10n.numberFieldLabel,
               value: converter.replaceArNumber(count.toString()),
             ),
             const Divider(),
             _buildRow(
               context,
               iconPath: 'assets/images/waste_cart_price_ic.png',
-              label: 'Total Price',
-              subLabel: '(\$)',
+              label: context.l10n.totalPriceFieldLabel,
+              subLabel: context.l10n.parentheticalUsd,
               value:
                   converter.replaceArNumber(currencyFormat.format(totalPrice)),
               iconColor: Colors.yellow[700],
@@ -351,9 +330,8 @@ class _SummaryCard extends StatelessWidget {
             _buildRow(
               context,
               iconPath: 'assets/images/waste_cart_weight_ic.png',
-              label: 'Total Weight',
-              subLabel:
-                  '(\$)', // Copied from original, but seems wrong unit for weight? usually kg
+              label: context.l10n.totalWeightFieldLabel,
+              subLabel: context.l10n.parentheticalKg,
               value: converter.replaceArNumber(totalWeight.toString()),
             ),
           ],
@@ -411,21 +389,20 @@ class _DetailsCard extends StatelessWidget {
   final DateTime date;
   final String hours;
   final String regionName;
-  final String weekDay;
-  final String month;
 
   const _DetailsCard({
     Key? key,
     required this.date,
     required this.hours,
     required this.regionName,
-    required this.weekDay,
-    required this.month,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final converter = EnArConvertor();
+    final locale = Localizations.localeOf(context).toString();
+    final dateHeading = intl.DateFormat('EEEE', locale).format(date);
+    final dateRest = intl.DateFormat('d MMMM', locale).format(date);
 
     return Card(
       elevation: 2,
@@ -438,12 +415,12 @@ class _DetailsCard extends StatelessWidget {
             _buildDetailRow(
               context,
               icon: Icons.date_range,
-              label: 'Collect Date',
+              label: context.l10n.collectDateFieldLabel,
               valueWidget: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    weekDay,
+                    dateHeading,
                     style: TextStyle(
                       color: AppTheme.black,
                       fontSize: 16,
@@ -452,7 +429,7 @@ class _DetailsCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    converter.replaceArNumber('${date.day} $month'),
+                    converter.replaceArNumber(dateRest),
                     style: TextStyle(
                       color: AppTheme.black,
                       fontSize: 16,
@@ -466,14 +443,14 @@ class _DetailsCard extends StatelessWidget {
             _buildDetailRow(
               context,
               icon: Icons.access_time,
-              label: 'Collect hour',
+              label: context.l10n.collectHourFieldLabel,
               value: hours,
             ),
             const Divider(),
             _buildDetailRow(
               context,
               icon: Icons.location_on,
-              label: 'Region:',
+              label: context.l10n.regionColonPrefix,
               value: regionName,
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 class InfoEditItem extends StatelessWidget {
@@ -64,7 +65,7 @@ class InfoEditItem extends StatelessWidget {
                     onEditingComplete: () {},
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'لطفا مقداری را وارد نمایید';
+                        return context.l10n.fieldRequiredValidation;
                       }
                       return null;
                     },

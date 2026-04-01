@@ -13,6 +13,7 @@ import '../../business/entities/gallery.dart';
 import '../../business/entities/order_details.dart';
 import 'product_detail_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `OrderViewScreen` widget, which displays detailed information about a specific order.
 ///
@@ -72,7 +73,9 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not open URL: $urlString')),
+        SnackBar(
+            content: Text(
+                '${context.l10n.couldNotOpenUrlPrefix}$urlString')),
       );
     }
   }
@@ -92,7 +95,9 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
       await _launchURL(payUrl);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Payment failed: ${e.toString()}')),
+        SnackBar(
+            content: Text(
+                '${context.l10n.paymentFailedPrefix}${e.toString()}')),
       );
     } finally {
       setState(() {
@@ -117,7 +122,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Failed to load order details: ${e.toString()}')),
+            content: Text(
+                '${context.l10n.failedLoadOrderDetailsPrefix}${e.toString()}')),
       );
     } finally {
       setState(() {
@@ -144,7 +150,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
         cashOrder();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid order ID')),
+          SnackBar(content: Text(context.l10n.invalidOrderId)),
         );
         Navigator.of(context).pop();
       }
@@ -182,7 +188,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                 ),
               ),
               action: SnackBarAction(
-                label: 'OK',
+                label: context.l10n.okLabel,
                 onPressed: () {},
               ),
             ),
@@ -284,7 +290,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
             child: _isLoading
                 ? _buildLoadingIndicator()
                 : Directionality(
-                    textDirection: TextDirection.rtl,
+                    textDirection: Directionality.of(context),
                     child: SingleChildScrollView(
                       child: Wrap(
                         children: <Widget>[

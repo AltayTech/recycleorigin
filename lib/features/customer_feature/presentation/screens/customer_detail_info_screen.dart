@@ -7,6 +7,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../bloc/customer_info_bloc.dart';
 import 'customer_detail_info_edit_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Screen that displays detailed customer information in a modern, production-grade UI
 class CustomerDetailInfoScreen extends StatefulWidget {
@@ -146,7 +147,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             ElevatedButton.icon(
               onPressed: _loadCustomerData,
               icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
+              label: Text(context.l10n.retryLabel),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
                 foregroundColor: AppTheme.white,
@@ -246,7 +247,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
         ElevatedButton.icon(
           onPressed: _navigateToEditScreen,
           icon: const Icon(Icons.edit, size: 18),
-          label: const Text('Edit'),
+          label: Text(context.l10n.editLabel),
           style: ElevatedButton.styleFrom(
             backgroundColor: AppTheme.primary,
             foregroundColor: AppTheme.white,
@@ -262,24 +263,26 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
 
   /// Builds the personal information section
   Widget _buildPersonalInfoSection() {
+    final l10n = context.l10n;
+    final na = l10n.valueNotAvailableLabel;
     return _buildInfoCard(
-      title: 'Personal Information',
+      title: l10n.personalInformationTitle,
       icon: Icons.person,
       iconColor: const Color(0xffA67FEC),
       children: [
         _InfoItem(
-          title: 'Name',
-          value: _customer?.personalData.first_name ?? 'N/A',
+          title: l10n.nameLabel,
+          value: _customer?.personalData.first_name ?? na,
           icon: Icons.badge,
         ),
         _InfoItem(
-          title: 'Last Name',
-          value: _customer?.personalData.last_name ?? 'N/A',
+          title: l10n.lastNameLabel,
+          value: _customer?.personalData.last_name ?? na,
           icon: Icons.badge_outlined,
         ),
         _InfoItem(
-          title: 'User Type',
-          value: _customer?.customer_type.name ?? 'N/A',
+          title: l10n.userTypeLabel,
+          value: _customer?.customer_type.name ?? na,
           icon: Icons.category,
         ),
       ],
@@ -288,29 +291,31 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
 
   /// Builds the contact information section
   Widget _buildContactInfoSection() {
+    final l10n = context.l10n;
+    final na = l10n.valueNotAvailableLabel;
     return _buildInfoCard(
-      title: 'Contact Information',
+      title: l10n.contactInformationTitle,
       icon: Icons.contact_mail,
       iconColor: const Color(0xff4392F1),
       children: [
         _InfoItem(
-          title: 'Email',
-          value: _customer?.personalData.email ?? 'N/A',
+          title: l10n.emailAddressLabel,
+          value: _customer?.personalData.email ?? na,
           icon: Icons.email,
         ),
         _InfoItem(
-          title: 'Province',
-          value: _customer?.personalData.ostan ?? 'N/A',
+          title: l10n.provinceFieldLabel,
+          value: _customer?.personalData.ostan ?? na,
           icon: Icons.location_city,
         ),
         _InfoItem(
-          title: 'City',
-          value: _customer?.personalData.city ?? 'N/A',
+          title: l10n.cityFieldLabel,
+          value: _customer?.personalData.city ?? na,
           icon: Icons.location_on,
         ),
         _InfoItem(
-          title: 'Zip Code',
-          value: _customer?.personalData.postcode ?? 'N/A',
+          title: l10n.zipCodeLabel,
+          value: _customer?.personalData.postcode ?? na,
           icon: Icons.markunread_mailbox,
         ),
       ],
@@ -422,7 +427,7 @@ class _InfoItem extends StatelessWidget {
               ),
             ),
             child: Text(
-              value.isEmpty ? 'N/A' : value,
+              value.isEmpty ? context.l10n.valueNotAvailableLabel : value,
               style: TextStyle(
                 color: AppTheme.black,
                 fontSize: textScaleFactor * 14.0,

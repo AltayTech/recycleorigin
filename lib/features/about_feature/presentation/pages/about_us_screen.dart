@@ -79,7 +79,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               },
             )
           : Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: Directionality.of(context),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Container(

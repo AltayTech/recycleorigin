@@ -9,6 +9,7 @@ import '../widgets/message_item.dart';
 import 'message_detail_screen.dart';
 import 'messages_create_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class MessageScreen extends StatefulWidget {
   static const routeName = '/messageScreen';
@@ -66,7 +67,7 @@ class _MessageScreenState extends State<MessageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'ُSupport',
+          context.l10n.supportScreenTitle,
           style: TextStyle(
             color: AppTheme.bg,
             //fontFamily: 'Iransans',
@@ -110,7 +111,7 @@ class _MessageScreenState extends State<MessageScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  'Send us any suggestion or comment you have',
+                                  context.l10n.supportIntroMessage,
                                   maxLines: 3,
                                   style: TextStyle(
                                     color: AppTheme.black,
@@ -141,7 +142,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
-                                'messages',
+                                context.l10n.messagesInboxLabel,
                                 maxLines: 3,
                                 style: TextStyle(
                                   color: AppTheme.black,
@@ -207,7 +208,7 @@ class _MessageScreenState extends State<MessageScreen> {
                           child: messages.isEmpty
                               ? Center(
                                   child: Text(
-                                  'No messages',
+                                  context.l10n.noMessagesYet,
                                   style: TextStyle(
                                     //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,

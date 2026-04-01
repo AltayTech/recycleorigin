@@ -11,6 +11,7 @@ import 'waste_request_date_screen.dart';
 import 'widgets/address_item.dart';
 import 'widgets/custom_dialog_enter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class AddressScreen extends StatefulWidget {
   static const routeName = '/address_screen';
@@ -39,7 +40,9 @@ class _AddressScreenState extends State<AddressScreen> {
     } catch (e) {
       // Handle error appropriately, maybe show a snackbar
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load addresses: $e')),
+        SnackBar(
+            content: Text(
+                '${context.l10n.failedLoadAddressesPrefix}$e')),
       );
     } finally {
       if (mounted) {
@@ -52,9 +55,9 @@ class _AddressScreenState extends State<AddressScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'Enter',
-        buttonText: 'Login Page',
-        description: 'Please login to continue',
+        title: context.l10n.signInRequiredTitle,
+        buttonText: context.l10n.login,
+        description: context.l10n.pleaseLoginToContinue,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -68,8 +71,8 @@ class _AddressScreenState extends State<AddressScreen> {
     // Check if a valid address is selected (assuming valid address has a name)
     if (selectedAddress.name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select an address'),
+        SnackBar(
+          content: Text(context.l10n.pleaseSelectAddress),
           backgroundColor: Colors.red,
         ),
       );
@@ -96,7 +99,7 @@ class _AddressScreenState extends State<AddressScreen> {
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
         title: Text(
-          'Address',
+          context.l10n.addressListTitle,
           style: TextStyle(color: AppTheme.white),
         ),
         centerTitle: true,
@@ -118,7 +121,7 @@ class _AddressScreenState extends State<AddressScreen> {
         backgroundColor: AppTheme.primary,
         icon: Icon(Icons.add_location_alt, color: AppTheme.white),
         label: Text(
-          'Add New Address',
+          context.l10n.addNewAddressLabel,
           style: TextStyle(
             color: AppTheme.white,
             fontWeight: FontWeight.bold,

@@ -1,8 +1,9 @@
+import 'dart:ui' show Locale;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/config/app_config.dart';
-import 'package:recycleorigin/core/constants/strings.dart';
+import 'package:recycleorigin/core/config/app_locale_controller.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/features/articles_feature/presentation/bloc/articles_bloc.dart';
@@ -17,8 +18,10 @@ import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart'
 import 'package:recycleorigin/features/waste_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/wastes_screen_animated_list.dart';
 import 'package:recycleorigin/l10n/app_localizations.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 import 'core/screens/splash_Screen.dart';
+import 'core/screens/settings_screen.dart';
 import 'core/utils/app_info_service.dart';
 import 'features/about_feature/presentation/pages/about_us_screen.dart';
 import 'features/articles_feature/presentation/pages/article_detail_screen.dart';
@@ -71,6 +74,8 @@ void main() async {
   // Initialize app info service early for better performance
   await AppInfoService.instance.initialize();
 
+  await AppLocaleController.instance.load();
+
   runApp(const MyApp());
 }
 
@@ -109,79 +114,77 @@ class MyApp extends StatelessWidget {
           create: (_) => ClearingsBloc(),
         ),
       ],
-      child: MaterialApp(
-        title: Strings.appTitle,
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        localeResolutionCallback: (locale, supportedLocales) {
-          if (locale == null) return supportedLocales.first;
-          for (final supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode) {
-              return supportedLocale;
-            }
-          }
-          return supportedLocales.first;
-        },
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-          // accentColor: Colors.amber,
-          textTheme: ThemeData.light().textTheme.copyWith(
-                bodyLarge: TextStyle(
-                  fontFamily: 'Roboto',
-                  color: Color.fromRGBO(20, 51, 51, 1),
-                ),
-                bodyMedium: TextStyle(
-                  fontFamily: 'Roboto',
-                  color: Color.fromRGBO(20, 51, 51, 1),
-                ),
-                displayLarge: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-        ),
-        home: SplashScreens(),
-        routes: {
-          NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
-          HomeScreen.routeName: (ctx) => HomeScreen(),
-          WasteCartScreen.routeName: (ctx) => WasteCartScreen(),
-          WastesScreen.routeName: (ctx) => WastesScreen(),
-          ProfileScreen.routeName: (ctx) => ProfileScreen(),
-          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-          LoginScreen.routeName: (ctx) => LoginScreen(),
-          ProductsScreen.routeName: (ctx) => ProductsScreen(),
-          CartScreen.routeName: (ctx) => CartScreen(),
-          OrderProductsSendScreen.routeName: (ctx) => OrderProductsSendScreen(),
-          OrderViewScreen.routeName: (ctx) => OrderViewScreen(),
-          AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
-          ContactWithUs.routeName: (ctx) => ContactWithUs(),
-          CustomerDetailInfoEditScreen.routeName: (ctx) =>
-              CustomerDetailInfoEditScreen(),
-          CustomerOrdersScreen.routeName: (ctx) => CustomerOrdersScreen(),
-          CustomerUserInfoScreen.routeName: (ctx) => CustomerUserInfoScreen(),
-          CustomerNotificationScreen.routeName: (ctx) =>
-              CustomerNotificationScreen(),
-          GuideScreen.routeName: (ctx) => GuideScreen(),
-          MessageScreen.routeName: (ctx) => MessageScreen(),
-          MessageCreateScreen.routeName: (ctx) => MessageCreateScreen(),
-          MessageCreateReplyScreen.routeName: (ctx) =>
-              MessageCreateReplyScreen(),
-          MessageDetailScreen.routeName: (ctx) => MessageDetailScreen(),
-          MapScreen.routeName: (ctx) => MapScreen(),
-          AddressScreen.routeName: (ctx) => AddressScreen(),
-          ArticlesScreen.routeName: (ctx) => ArticlesScreen(),
-          ArticleDetailScreen.routeName: (ctx) => ArticleDetailScreen(),
-          WasteRequestDateScreen.routeName: (ctx) => WasteRequestDateScreen(),
-          WasteRequestSendScreen.routeName: (ctx) => WasteRequestSendScreen(),
-          CollectListScreen.routeName: (ctx) => CollectListScreen(),
-          WalletScreen.routeName: (ctx) => WalletScreen(),
-          OrdersScreen.routeName: (ctx) => OrdersScreen(),
-          CollectDetailScreen.routeName: (ctx) => CollectDetailScreen(),
-          WastesScreenAnimatedList.routeName: (ctx) =>
-              WastesScreenAnimatedList(),
-          ClearScreen.routeName: (ctx) => ClearScreen(),
+      child: ValueListenableBuilder<Locale>(
+        valueListenable: AppLocaleController.instance.localeNotifier,
+        builder: (context, locale, _) {
+          return MaterialApp(
+            onGenerateTitle: (context) => context.l10n.recycleorigin,
+            debugShowCheckedModeBanner: false,
+            locale: locale,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            theme: ThemeData(
+              primarySwatch: Colors.green,
+              // accentColor: Colors.amber,
+              textTheme: ThemeData.light().textTheme.copyWith(
+                    bodyLarge: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: Color.fromRGBO(20, 51, 51, 1),
+                    ),
+                    bodyMedium: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: Color.fromRGBO(20, 51, 51, 1),
+                    ),
+                    displayLarge: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+            ),
+            home: SplashScreens(),
+            routes: {
+              NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
+              HomeScreen.routeName: (ctx) => HomeScreen(),
+              WasteCartScreen.routeName: (ctx) => WasteCartScreen(),
+              WastesScreen.routeName: (ctx) => WastesScreen(),
+              ProfileScreen.routeName: (ctx) => ProfileScreen(),
+              ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+              LoginScreen.routeName: (ctx) => LoginScreen(),
+              ProductsScreen.routeName: (ctx) => ProductsScreen(),
+              CartScreen.routeName: (ctx) => CartScreen(),
+              OrderProductsSendScreen.routeName: (ctx) => OrderProductsSendScreen(),
+              OrderViewScreen.routeName: (ctx) => OrderViewScreen(),
+              AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
+              ContactWithUs.routeName: (ctx) => ContactWithUs(),
+              SettingsScreen.routeName: (ctx) => const SettingsScreen(),
+              CustomerDetailInfoEditScreen.routeName: (ctx) =>
+                  CustomerDetailInfoEditScreen(),
+              CustomerOrdersScreen.routeName: (ctx) => CustomerOrdersScreen(),
+              CustomerUserInfoScreen.routeName: (ctx) => CustomerUserInfoScreen(),
+              CustomerNotificationScreen.routeName: (ctx) =>
+                  CustomerNotificationScreen(),
+              GuideScreen.routeName: (ctx) => GuideScreen(),
+              MessageScreen.routeName: (ctx) => MessageScreen(),
+              MessageCreateScreen.routeName: (ctx) => MessageCreateScreen(),
+              MessageCreateReplyScreen.routeName: (ctx) =>
+                  MessageCreateReplyScreen(),
+              MessageDetailScreen.routeName: (ctx) => MessageDetailScreen(),
+              MapScreen.routeName: (ctx) => MapScreen(),
+              AddressScreen.routeName: (ctx) => AddressScreen(),
+              ArticlesScreen.routeName: (ctx) => ArticlesScreen(),
+              ArticleDetailScreen.routeName: (ctx) => ArticleDetailScreen(),
+              WasteRequestDateScreen.routeName: (ctx) => WasteRequestDateScreen(),
+              WasteRequestSendScreen.routeName: (ctx) => WasteRequestSendScreen(),
+              CollectListScreen.routeName: (ctx) => CollectListScreen(),
+              WalletScreen.routeName: (ctx) => WalletScreen(),
+              OrdersScreen.routeName: (ctx) => OrdersScreen(),
+              CollectDetailScreen.routeName: (ctx) => CollectDetailScreen(),
+              WastesScreenAnimatedList.routeName: (ctx) =>
+                  WastesScreenAnimatedList(),
+              ClearScreen.routeName: (ctx) => ClearScreen(),
+            },
+          );
         },
       ),
     );

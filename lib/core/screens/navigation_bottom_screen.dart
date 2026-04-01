@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../features/customer_feature/presentation/widgets/profile_view.dart';
 import '../../features/home_feature/presentation/home_screen.dart';
 import '../../l10n/app_localizations.dart';
-import '../constants/strings.dart';
 import '../theme/app_theme.dart';
 import '../widgets/main_drawer.dart';
 
@@ -62,23 +61,11 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
     super.dispose();
   }
 
-  final List<Map<String, Object>> _pages = [
-    {
-      'page': HomeScreen(),
-      'title': Strings.navHome,
-    },
-    {
-      'page': HomeScreen(),
-      'title': Strings.navRequest,
-    },
-    {
-      'page': HomeScreen(),
-      'title': Strings.navShop,
-    },
-    {
-      'page': ProfileView(),
-      'title': Strings.navProfile,
-    }
+  final List<Widget> _pages = <Widget>[
+    HomeScreen(),
+    HomeScreen(),
+    HomeScreen(),
+    ProfileView(),
   ];
 
   Future<bool> onWillPop() async {
@@ -150,7 +137,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
           ),
           child: const MainDrawer(),
         ),
-        body: _pages[_selectedPageIndex]['page'] as Widget,
+        body: _pages[_selectedPageIndex],
 
 //          bottomNavigationBar: BottomNavigationBar(
 //            elevation: 8,

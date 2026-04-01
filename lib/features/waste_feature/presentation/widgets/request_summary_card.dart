@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class RequestSummaryCard extends StatelessWidget {
   final int itemCount;
@@ -38,7 +39,7 @@ class RequestSummaryCard extends StatelessWidget {
           _buildRow(
             context,
             iconPath: 'assets/images/main_page_request_ic.png',
-            label: 'Number',
+            label: context.l10n.numberFieldLabel,
             value: itemCount.toString(),
             color: AppTheme.primary,
           ),
@@ -46,20 +47,20 @@ class RequestSummaryCard extends StatelessWidget {
           _buildRow(
             context,
             iconPath: 'assets/images/waste_cart_price_ic.png',
-            label: 'Total Price',
+            label: context.l10n.totalPriceFieldLabel,
             value: totalPrice.toString().isNotEmpty
                 ? currencyFormat.format(totalPrice)
                 : '0',
-            suffix: '(\$)',
+            suffix: context.l10n.parentheticalUsd,
             iconColor: Colors.yellow[700],
           ),
           const Divider(height: 24, thickness: 0.5),
           _buildRow(
             context,
             iconPath: 'assets/images/waste_cart_weight_ic.png',
-            label: 'Total Weight',
+            label: context.l10n.totalWeightFieldLabel,
             value: totalWeight.toString(),
-            suffix: '(Kg)',
+            suffix: context.l10n.parentheticalKg,
             iconColor: Colors.grey,
           ),
         ],

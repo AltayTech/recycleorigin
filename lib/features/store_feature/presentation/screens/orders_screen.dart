@@ -15,6 +15,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `OrdersScreen` widget, which displays a list of orders for the logged-in user.
 ///
@@ -155,7 +156,7 @@ class _OrdersScreenState extends State<OrdersScreen>
         actions: <Widget>[],
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -169,7 +170,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('You Are Not Login'),
+                            child: Text(context.l10n.youarenotlogin),
                           ),
                           InkWell(
                             onTap: () {

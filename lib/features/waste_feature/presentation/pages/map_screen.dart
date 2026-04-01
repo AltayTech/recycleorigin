@@ -14,6 +14,7 @@ import '../../../customer_feature/business/entities/country.dart';
 import '../../../customer_feature/business/entities/province.dart';
 import '../../business/entities/address.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class MapScreen extends StatefulWidget {
   static const routeName = '/mapScreen';
@@ -140,9 +141,7 @@ class _MapScreenState extends State<MapScreen> {
       setState(() => _isCountriesLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
-            'Failed to load countries. Please check your internet connection.',
-          ),
+          content: Text(context.l10n.failedLoadCountriesRetry),
         ),
       );
     }
@@ -168,9 +167,7 @@ class _MapScreenState extends State<MapScreen> {
       setState(() => _isProvincesLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
-            'Failed to load provinces. Please check your internet connection.',
-          ),
+          content: Text(context.l10n.failedLoadProvincesRetry),
         ),
       );
     }
@@ -196,9 +193,7 @@ class _MapScreenState extends State<MapScreen> {
       setState(() => _isCitiesLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
-            'Failed to load cities. Please check your internet connection.',
-          ),
+          content: Text(context.l10n.failedLoadCitiesRetry),
         ),
       );
     }
@@ -222,9 +217,7 @@ class _MapScreenState extends State<MapScreen> {
       setState(() => _isRegionsLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
-            'Failed to load regions. Please check your internet connection.',
-          ),
+          content: Text(context.l10n.failedLoadRegionsRetry),
         ),
       );
     }
@@ -239,9 +232,9 @@ class _MapScreenState extends State<MapScreen> {
       osm.GeoPoint? p = await osm.showSimplePickerLocation(
         context: context,
         isDismissible: true,
-        title: "Select Address Location",
-        textConfirmPicker: "Confirm",
-        textCancelPicker: "Cancel",
+        title: context.l10n.mapPickerTitle,
+        textConfirmPicker: context.l10n.confirmLabel,
+        textCancelPicker: context.l10n.cancelLabel,
         zoomOption: osm.ZoomOption(
           initZoom: 15,
           minZoomLevel: 3,
@@ -276,32 +269,37 @@ class _MapScreenState extends State<MapScreen> {
 
     if (_selectedLocation == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please select a location on the map')),
+        SnackBar(
+            content: Text(context.l10n.pleaseSelectLocationOnMap)),
       );
       return;
     }
 
     if (_selectedCountry == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a country')),
+        SnackBar(
+            content: Text(context.l10n.pleaseSelectCountry)),
       );
       return;
     }
     if (_selectedProvince == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a province')),
+        SnackBar(
+            content: Text(context.l10n.pleaseSelectProvince)),
       );
       return;
     }
     if (_selectedCity == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a city')),
+        SnackBar(
+            content: Text(context.l10n.pleaseSelectCity)),
       );
       return;
     }
     if (_selectedRegion == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please select a region')),
+        SnackBar(
+            content: Text(context.l10n.pleaseSelectRegion)),
       );
       return;
     }
@@ -332,7 +330,7 @@ class _MapScreenState extends State<MapScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Address saved successfully'),
+            content: Text(context.l10n.addressSavedSuccess),
             backgroundColor: AppTheme.primary,
           ),
         );
@@ -343,7 +341,7 @@ class _MapScreenState extends State<MapScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to save address. Please try again.'),
+            content: Text(context.l10n.failedSaveAddress),
             backgroundColor: Colors.red,
           ),
         );
@@ -366,7 +364,7 @@ class _MapScreenState extends State<MapScreen> {
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
         title: Text(
-          'New Address',
+          context.l10n.newAddressTitle,
           style: TextStyle(color: AppTheme.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -384,7 +382,7 @@ class _MapScreenState extends State<MapScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Map Preview Section
-                _buildMapPreview(size),
+                _buildMapPreview(context, size),
 
                 Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -393,18 +391,18 @@ class _MapScreenState extends State<MapScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildSectionLabel("Location Details"),
+                        _buildSectionLabel(context.l10n.locationDetailsSection),
                         const SizedBox(height: 16),
 
                         // Name Field
                         _buildTextField(
                           controller: _nameController,
-                          label: "Address Name",
-                          hint: "e.g., Home, Office",
+                          label: context.l10n.addressNameFieldLabel,
+                          hint: context.l10n.addressNameHintExample,
                           icon: Icons.bookmark_border,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter a name for this address';
+                              return context.l10n.pleaseEnterAddressName;
                             }
                             return null;
                           },
@@ -413,22 +411,22 @@ class _MapScreenState extends State<MapScreen> {
 
                         // Location hierarchy: Country -> Province -> City -> Region
                         _buildLabeledField(
-                          label: 'Country',
+                          label: context.l10n.countryFieldLabel,
                           child: _buildCountryDropdown(),
                         ),
                         const SizedBox(height: _fieldBlockGap),
                         _buildLabeledField(
-                          label: 'Province',
+                          label: context.l10n.provinceFieldLabel,
                           child: _buildProvinceDropdown(),
                         ),
                         const SizedBox(height: _fieldBlockGap),
                         _buildLabeledField(
-                          label: 'City',
+                          label: context.l10n.cityFieldLabel,
                           child: _buildCityDropdown(),
                         ),
                         const SizedBox(height: _fieldBlockGap),
                         _buildLabeledField(
-                          label: 'Region',
+                          label: context.l10n.regionFieldLabel,
                           child: _buildRegionDropdown(),
                         ),
                         const SizedBox(height: 16),
@@ -436,13 +434,13 @@ class _MapScreenState extends State<MapScreen> {
                         // Address Field
                         _buildTextField(
                           controller: _addressController,
-                          label: "Full Address",
-                          hint: "Street, Alley, Plaque...",
+                          label: context.l10n.fullAddressFieldLabel,
+                          hint: context.l10n.fullAddressHint,
                           icon: Icons.location_on_outlined,
                           maxLines: 3,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter the full address';
+                              return context.l10n.pleaseEnterFullAddress;
                             }
                             return null;
                           },
@@ -465,7 +463,7 @@ class _MapScreenState extends State<MapScreen> {
                             child: _isLoading
                                 ? CircularProgressIndicator(color: Colors.white)
                                 : Text(
-                                    'Save Address',
+                                    context.l10n.saveAddressButton,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -495,7 +493,7 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  Widget _buildMapPreview(Size size) {
+  Widget _buildMapPreview(BuildContext context, Size size) {
     return Container(
       height: size.height * 0.35,
       width: double.infinity,
@@ -561,8 +559,8 @@ class _MapScreenState extends State<MapScreen> {
                           const SizedBox(width: 8),
                           Text(
                             _selectedLocation == null
-                                ? "Tap to Select Location"
-                                : "Tap to Change Location",
+                                ? context.l10n.tapToSelectLocation
+                                : context.l10n.tapToChangeLocation,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: AppTheme.h1),
@@ -726,10 +724,11 @@ class _MapScreenState extends State<MapScreen> {
               });
               await _loadProvinces(value.id);
             },
-      validator: (value) => value == null ? 'Please select a country' : null,
+      validator: (value) =>
+          value == null ? context.l10n.pleaseSelectCountry : null,
       disabledHint: _isCountriesLoading
           ? Text(
-              'Loading...',
+              context.l10n.loadingLabel,
               style: TextStyle(
                 color: AppTheme.grey,
                 fontFamily: 'Iransans',
@@ -737,7 +736,7 @@ class _MapScreenState extends State<MapScreen> {
             )
           : null,
       hint: Text(
-        'Select country',
+        context.l10n.selectCountryHint,
         style: TextStyle(
           color: AppTheme.grey,
           fontFamily: 'Iransans',
@@ -860,10 +859,11 @@ class _MapScreenState extends State<MapScreen> {
               });
               await _loadCities(value.id);
             },
-      validator: (value) => value == null ? 'Please select a province' : null,
+      validator: (value) =>
+          value == null ? context.l10n.pleaseSelectProvince : null,
       disabledHint: _isProvincesLoading
           ? Text(
-              'Loading...',
+              context.l10n.loadingLabel,
               style: TextStyle(
                 color: AppTheme.grey,
                 fontFamily: 'Iransans',
@@ -871,7 +871,7 @@ class _MapScreenState extends State<MapScreen> {
             )
           : null,
       hint: Text(
-        'Select province',
+        context.l10n.selectProvinceHint,
         style: TextStyle(
           color: AppTheme.grey,
           fontFamily: 'Iransans',
@@ -992,10 +992,11 @@ class _MapScreenState extends State<MapScreen> {
               });
               await _loadRegions(value.id);
             },
-      validator: (value) => value == null ? 'Please select a city' : null,
+      validator: (value) =>
+          value == null ? context.l10n.pleaseSelectCity : null,
       disabledHint: _isCitiesLoading
           ? Text(
-              'Loading...',
+              context.l10n.loadingLabel,
               style: TextStyle(
                 color: AppTheme.grey,
                 fontFamily: 'Iransans',
@@ -1003,7 +1004,7 @@ class _MapScreenState extends State<MapScreen> {
             )
           : null,
       hint: Text(
-        'Select city',
+        context.l10n.selectCityHint,
         style: TextStyle(
           color: AppTheme.grey,
           fontFamily: 'Iransans',
@@ -1120,10 +1121,11 @@ class _MapScreenState extends State<MapScreen> {
                 _selectedRegion = value;
               });
             },
-      validator: (value) => value == null ? 'Please select a region' : null,
+      validator: (value) =>
+          value == null ? context.l10n.pleaseSelectRegion : null,
       disabledHint: _isRegionsLoading
           ? Text(
-              'Loading...',
+              context.l10n.loadingLabel,
               style: TextStyle(
                 color: AppTheme.grey,
                 fontFamily: 'Iransans',
@@ -1131,7 +1133,7 @@ class _MapScreenState extends State<MapScreen> {
             )
           : null,
       hint: Text(
-        'Select region',
+        context.l10n.selectRegionHint,
         style: TextStyle(
           color: AppTheme.grey,
           fontFamily: 'Iransans',

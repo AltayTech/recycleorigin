@@ -10,6 +10,7 @@ import '../../store_feature/presentation/bloc/products_bloc.dart';
 import '../../store_feature/presentation/screens/product_screen.dart';
 import '../../wallet_feature/presentation/pages/wallet_screen.dart';
 import '../../waste_feature/collect_list_screen.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -81,10 +82,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     showDialog<String>(
       context: context,
       builder: (ctx) => CustomDialog(
-        title: "Welcome",
-        buttonText: "accept",
-        description:
-            "In order to get profile information go to profile section",
+        title: ctx.l10n.welcome,
+        buttonText: ctx.l10n.accept,
+        description: ctx.l10n.forarticles,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -94,9 +94,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     showDialog<String>(
       context: context,
       builder: (ctx) => CustomDialog(
-        title: "Dear User",
-        buttonText: "accept",
-        description: "You Logout successfully",
+        title: ctx.l10n.dearuser,
+        buttonText: ctx.l10n.accept,
+        description: ctx.l10n.logoutsuccess,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -234,7 +234,7 @@ class _WelcomeSection extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "Welcome to Recycle Origin",
+            context.l10n.homeWelcomeHeadline,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppTheme.h1,
@@ -249,7 +249,7 @@ class _WelcomeSection extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            "Make a difference for our planet",
+            context.l10n.homeWelcomeSubtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: AppTheme.h1.withOpacity(0.7),
                       fontWeight: FontWeight.w400,
@@ -297,12 +297,12 @@ class _PrimaryActionButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(Icons.recycling, color: Colors.white, size: 26),
-                SizedBox(width: 12),
+              children: [
+                const Icon(Icons.recycling, color: Colors.white, size: 26),
+                const SizedBox(width: 12),
                 Text(
-                  "Request Collection",
-                  style: TextStyle(
+                  context.l10n.requestCollectionHeroTitle,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -333,7 +333,7 @@ class _ServicesGrid extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         _ServiceCard(
-          title: "Request",
+          title: context.l10n.request,
           icon: Icons.assignment,
           // Fallback icon
           imageUrl: 'assets/images/main_page_request_ic.png',
@@ -342,14 +342,14 @@ class _ServicesGrid extends StatelessWidget {
           color: Colors.blue,
         ),
         _ServiceCard(
-          title: "Wallet",
+          title: context.l10n.wallet,
           icon: Icons.account_balance_wallet,
           imageUrl: 'assets/images/main_page_wallet_ic.png',
           onTap: () => Navigator.of(context).pushNamed(WalletScreen.routeName),
           color: Colors.green,
         ),
         _ServiceCard(
-          title: "Articles",
+          title: context.l10n.articles,
           icon: Icons.article,
           imageUrl: 'assets/images/main_page_paper_ic.png',
           onTap: () =>
@@ -357,7 +357,7 @@ class _ServicesGrid extends StatelessWidget {
           color: Colors.orange,
         ),
         _ServiceCard(
-          title: "Store",
+          title: context.l10n.store,
           icon: Icons.store,
           imageUrl: 'assets/images/main_page_shop_ic.png',
           onTap: () =>

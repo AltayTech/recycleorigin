@@ -3,6 +3,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class CollectDetailsCollectItem extends StatelessWidget {
   final Collect collectItem;
@@ -40,14 +41,14 @@ class CollectDetailsCollectItem extends StatelessWidget {
           ),
           const Divider(height: 24),
           _buildInfoSection(
-            title: 'Weight (Kg)',
+            title: context.l10n.summaryWeightKgTitle,
             requested: collectItem.estimated_weight,
             delivered: collectItem.exact_weight,
             isCurrency: false,
           ),
           const SizedBox(height: 16),
           _buildInfoSection(
-            title: 'Price (\$)',
+            title: context.l10n.summaryPriceUsdTitle,
             requested:
                 _formatCurrency(currencyFormat, collectItem.estimated_price),
             delivered: _formatCurrency(currencyFormat, collectItem.exact_price),

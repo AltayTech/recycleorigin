@@ -5,6 +5,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../business/entities/address.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class AddressItem extends StatefulWidget {
   final Address addressItem;
@@ -39,7 +40,9 @@ class _AddressItemState extends State<AddressItem> {
       await authProvider.updateAddress(currentList);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error removing address: $e')),
+        SnackBar(
+            content: Text(
+                '${context.l10n.errorRemovingAddressPrefix}$e')),
       );
     } finally {
       if (mounted) {

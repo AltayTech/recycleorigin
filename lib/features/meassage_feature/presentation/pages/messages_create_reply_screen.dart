@@ -8,6 +8,7 @@ import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../bloc/messages_bloc.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class MessageCreateReplyScreen extends StatefulWidget {
   static const routeName = '/messageCreateReplyScreen';
@@ -93,7 +94,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'جواب',
+          context.l10n.messageReplyAppBarTitle,
           style: TextStyle(
             color: AppTheme.bg,
             //fontFamily: 'Iransans',
@@ -107,7 +108,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
       ),
       body: Builder(
         builder: (context) => Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           child: Container(
             height: deviceHeight * 0.9,
             color: AppTheme.primary.withOpacity(0.05),
@@ -127,7 +128,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                             child: Container(
                               width: deviceWidth,
                               child: Text(
-                                'پاسخ: ',
+                                context.l10n.messageReplyPrefix,
                                 style: TextStyle(
                                   color: AppTheme.grey,
                                   //fontFamily: 'Iransans',
@@ -171,7 +172,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
-                                labelText: 'جواب خود را در اینجا بنویسید',
+                                labelText: context.l10n.messageReplyHint,
                               ),
                             ),
                           ),

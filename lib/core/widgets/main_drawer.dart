@@ -14,6 +14,7 @@ import '../../features/store_feature/presentation/screens/cart_screen.dart';
 import '../../features/store_feature/presentation/screens/product_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../l10n/l10n.dart';
 
 /// Production-grade drawer menu with Material Design 3 styling
 ///
@@ -51,8 +52,6 @@ class _MainDrawerState extends State<MainDrawer>
   static const double _spacingMedium = 16.0;
   static const double _spacingLarge = 24.0;
   static const Duration _animationDuration = Duration(milliseconds: 300);
-  static const String _appName = 'Recycle Origin';
-
   // App version will be loaded dynamically
   String _appVersion = 'v1.0.0';
 
@@ -197,9 +196,9 @@ class _MainDrawerState extends State<MainDrawer>
     final email = customer?.personalData.email ?? '';
     final displayName = firstName.isNotEmpty || lastName.isNotEmpty
         ? '$firstName $lastName'.trim()
-        : email.isNotEmpty
-            ? email
-            : 'User';
+            : email.isNotEmpty
+                ? email
+            : context.l10n.guestUserLabel;
 
     return Container(
       padding: const EdgeInsets.all(_headerPadding),
@@ -318,7 +317,7 @@ class _MainDrawerState extends State<MainDrawer>
           const SizedBox(height: _spacingMedium),
           // App Name
           Text(
-            _appName,
+            context.l10n.recycleorigin,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 22,
@@ -344,7 +343,8 @@ class _MainDrawerState extends State<MainDrawer>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Navigation error: ${e.toString()}'),
+            content: Text(
+                '${context.l10n.navigationErrorPrefix}${e.toString()}'),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 3),
           ),
@@ -356,33 +356,34 @@ class _MainDrawerState extends State<MainDrawer>
   /// Handles logout with confirmation dialog
   Future<void> _handleLogout() async {
     try {
+      final l10n = context.l10n;
       final shouldLogout = await showDialog<bool>(
         context: context,
         builder: (BuildContext dialogContext) => AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          title: const Text(
-            'Sign Out',
-            style: TextStyle(fontWeight: FontWeight.w600),
+          title: Text(
+            l10n.signOutDialogTitle,
+            style: const TextStyle(fontWeight: FontWeight.w600),
           ),
-          content: const Text(
-            'Are you sure you want to sign out?',
-            style: TextStyle(fontSize: 16),
+          content: Text(
+            l10n.signOutDialogMessage,
+            style: const TextStyle(fontSize: 16),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancelLabel),
             ),
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(true),
               style: TextButton.styleFrom(
                 foregroundColor: Colors.red,
               ),
-              child: const Text(
-                'Sign Out',
-                style: TextStyle(fontWeight: FontWeight.w600),
+              child: Text(
+                l10n.signOutConfirmButton,
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
           ],
@@ -414,7 +415,8 @@ class _MainDrawerState extends State<MainDrawer>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error signing out: ${e.toString()}'),
+            content: Text(
+                '${context.l10n.signOutErrorPrefix}${e.toString()}'),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 3),
           ),
@@ -480,7 +482,7 @@ class _MainDrawerState extends State<MainDrawer>
                           // Home
                           _buildDrawerItem(
                             icon: Icons.home_rounded,
-                            title: 'Home',
+                            title: context.l10n.home,
                             onTap: () {
                               Navigator.of(context).pop();
                               Navigator.of(context).pushNamedAndRemoveUntil(
@@ -489,11 +491,17 @@ class _MainDrawerState extends State<MainDrawer>
                               );
                             },
                           ),
+                          // Settings
+                          _buildDrawerItem(
+                            icon: Icons.settings_rounded,
+                            title: context.l10n.settingsTitle,
+                            onTap: () => _navigateToRoute('/settings'),
+                          ),
 
                           // Store
                           _buildDrawerItem(
                             icon: Icons.store_rounded,
-                            title: 'Store',
+                            title: context.l10n.store,
                             onTap: () => _navigateToRoute(
                               ProductsScreen.routeName,
                               arguments: 0,
@@ -503,14 +511,14 @@ class _MainDrawerState extends State<MainDrawer>
                           // Shopping Cart
                           _buildDrawerItem(
                             icon: Icons.shopping_cart_rounded,
-                            title: 'Shopping Cart',
+                            title: context.l10n.shoppingCartLabel,
                             onTap: () => _navigateToRoute(CartScreen.routeName),
                           ),
 
                           // Support & Help
                           _buildDrawerItem(
                             icon: Icons.support_agent_rounded,
-                            title: 'Support & Help',
+                            title: context.l10n.supportHelpLabel,
                             onTap: () =>
                                 _navigateToRoute(MessageScreen.routeName),
                           ),
@@ -524,7 +532,9 @@ class _MainDrawerState extends State<MainDrawer>
                                 icon: authState.isAuth
                                     ? Icons.person_rounded
                                     : Icons.login_rounded,
-                                title: authState.isAuth ? 'Profile' : 'Sign In',
+                                title: authState.isAuth
+                                    ? context.l10n.profile
+                                    : context.l10n.login,
                                 onTap: () {
                                   Navigator.of(context).pop();
                                   if (authState.isAuth) {
@@ -547,7 +557,7 @@ class _MainDrawerState extends State<MainDrawer>
                               }
                               return _buildDrawerItem(
                                 icon: Icons.logout_rounded,
-                                title: 'Sign Out',
+                                title: context.l10n.logout,
                                 isLogout: true,
                                 onTap: _handleLogout,
                               );

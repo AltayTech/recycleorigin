@@ -36,7 +36,7 @@ class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
         child: MainDrawer(),
       ), // resizeToAvoidBottomInset: false,
       body: Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           child: CustomerDetailInfoScreen(
             customer: Customer(),
           )),

@@ -12,6 +12,7 @@ import '../../../../core/widgets/main_drawer.dart';
 import '../widgets/message_reply_item.dart';
 import 'messages_create_reply_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class MessageDetailScreen extends StatefulWidget {
   static const routeName = '/messageDetailScreen';
@@ -85,7 +86,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Stack(
@@ -99,7 +100,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'عنوان سوال:',
+                            context.l10n.messageQuestionTitleLabel,
                             style: TextStyle(
                               color: Colors.black54,
                               //fontFamily: 'Iransans',
@@ -191,7 +192,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                               child: messages.isEmpty
                                   ? Center(
                                       child: Text(
-                                      'سوالی وجود ندارد',
+                                      context.l10n.messageNoThreadYet,
                                       style: TextStyle(
                                         //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,

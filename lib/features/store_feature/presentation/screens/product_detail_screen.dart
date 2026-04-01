@@ -15,6 +15,7 @@ import '../../business/entities/product.dart';
 import '../bloc/products_bloc.dart';
 import '../bloc/products_state.dart';
 import 'cart_screen.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `ProductDetailScreen` widget, which displays detailed information about a specific product.
 ///
@@ -62,7 +63,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool _isInit = true;
 
   late Product loadedProduct;
-  String _snackBarMessage = '';
 
   @override
   void didChangeDependencies() async {
@@ -216,7 +216,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       child: Scaffold(
         backgroundColor: AppTheme.white,
         appBar: AppBar(
@@ -381,7 +381,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         fontSize: textScaleFactor * 18,
                                       ),
                                       textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
+                                      textDirection: Directionality.of(context),
                                     ),
                                   ),
                                   Padding(
@@ -411,14 +411,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     ),
                                   ),
                                   Directionality(
-                                    textDirection: TextDirection.rtl,
+                                    textDirection: Directionality.of(context),
                                     child: HtmlWidget(
                                       loadedProduct.description,
                                       onTapUrl: (url) async {
                                         return await showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
-                                            title: Text('onTapUrl'),
+                                            title:
+                                                Text(context.l10n.onTapUrlDebugTitle),
                                             content: Text(url),
                                           ),
                                         );
@@ -445,10 +446,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         bool isExist = await isExistInCart(loadedProduct);
                         setState(() {});
                         if (loadedProduct.price.isEmpty) {
-                          _snackBarMessage = 'The Price is 0';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
-                              _snackBarMessage,
+                              context.l10n.productPriceZeroSnack,
                               style: TextStyle(
                                 color: Colors.white,
                                 //fontFamily: 'Iransans',
@@ -456,7 +456,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             action: SnackBarAction(
-                              label: 'Ok',
+                              label: context.l10n.okLabel,
                               onPressed: () {
                                 // Some code to undo the change.
                               },
@@ -465,11 +465,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(addToCartSnackBar);
                         } else if (isExist) {
-                          _snackBarMessage =
-                              'This product exist in the Shopping Card';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
-                              _snackBarMessage,
+                              context.l10n.productAlreadyInCartSnack,
                               style: TextStyle(
                                 color: Colors.white,
                                 //fontFamily: 'Iransans',
@@ -477,7 +475,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             action: SnackBarAction(
-                              label: 'OK',
+                              label: context.l10n.okLabel,
                               onPressed: () {
                                 // Some code to undo the change.
                               },
@@ -488,10 +486,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         } else {
                           await addToShoppingCart(loadedProduct, null);
 
-                          _snackBarMessage = 'Added to Shopping Card';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
-                              _snackBarMessage,
+                              context.l10n.productAddedToCartSnack,
                               style: TextStyle(
                                 color: Colors.white,
                                 //fontFamily: 'Iransans',
@@ -499,7 +496,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             action: SnackBarAction(
-                              label: 'OK',
+                              label: context.l10n.okLabel,
                               onPressed: () {
                                 // Some code to undo the change.
                               },
@@ -512,7 +509,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,
                         height: deviceWidth * 0.14,
-                        text: 'Add to Shopping Card',
+                        text: context.l10n.addToCartLabel,
                         isActive: true,
                       ),
                     );

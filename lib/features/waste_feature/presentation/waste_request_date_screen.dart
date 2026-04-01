@@ -16,6 +16,7 @@ import 'widgets/date_selector.dart';
 import 'widgets/request_summary_card.dart';
 import 'widgets/time_selector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class WasteRequestDateScreen extends StatefulWidget {
   static const routeName = '/waste_request_date_screen';
@@ -78,7 +79,8 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load data. Please try again.')),
+          SnackBar(
+              content: Text(context.l10n.failedToLoadDataRetry)),
         );
       }
     }
@@ -172,9 +174,9 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'Login',
-        buttonText: 'Login',
-        description: 'Please login to continue',
+        title: ctx.l10n.login,
+        buttonText: ctx.l10n.goToLoginScreenButton,
+        description: ctx.l10n.pleaseLoginToContinue,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -185,8 +187,8 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
 
     if (_selectedStartHour == null || _selectedEndHour == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select a collection hour'),
+        SnackBar(
+          content: Text(context.l10n.pleaseSelectCollectionHour),
           duration: Duration(seconds: 2),
         ),
       );
@@ -204,7 +206,8 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     final String? endKey = _hourKeyForSubmit(_selectedEndHour!);
     if (startKey == null || endKey == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invalid time selection')),
+        SnackBar(
+            content: Text(context.l10n.invalidTimeSelection)),
       );
       return;
     }
@@ -222,7 +225,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
         title: Text(
-          'Collect Date',
+          context.l10n.collectDateFieldLabel,
           style: TextStyle(color: AppTheme.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -246,10 +249,10 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const Text(
-                            'Request Details',
+                          Text(
+                            context.l10n.requestDetailsSectionTitle,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: AppTheme.h1,
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -297,7 +300,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                       child: ButtonBottom(
                         width: double.infinity,
                         height: 50,
-                        text: 'Continue',
+                        text: context.l10n.continueLabel,
                         isActive: _selectedStartHour !=
                             null, // Only active if hour selected (date is auto-selected)
                       ),

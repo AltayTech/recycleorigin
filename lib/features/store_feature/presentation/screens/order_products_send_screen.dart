@@ -16,6 +16,7 @@ import '../../business/entities/product_cart.dart';
 import '../../business/entities/product_order_send.dart';
 import '../bloc/products_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class OrderProductsSendScreen extends StatefulWidget {
   static const routeName = '/orderProductsSendScreen';
@@ -128,7 +129,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
       ),
       body: Builder(
         builder: (context) => Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           child: Stack(
             children: <Widget>[
               Positioned(
@@ -371,10 +372,9 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                 child: InkWell(
                   onTap: () async {
                     if (totalPrice == 0) {
-                      var _snackBarMessage = 'No Item!';
                       final addToCartSnackBar = SnackBar(
                         content: Text(
-                          _snackBarMessage,
+                          context.l10n.orderNoItemsInCartSnack,
                           style: TextStyle(
                             color: Colors.white,
                             //fontFamily: 'Iransans',
@@ -382,7 +382,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           ),
                         ),
                         action: SnackBarAction(
-                          label: 'Ok',
+                          label: context.l10n.okLabel,
                           onPressed: () {
                             // Some code to undo the change.
                           },
@@ -391,11 +391,9 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(addToCartSnackBar);
                     } else if (totalPrice > double.parse(customer.money)) {
-                      var _snackBarMessage =
-                          'The amount in your wallet is not enough.';
                       final addToCartSnackBar = SnackBar(
                         content: Text(
-                          _snackBarMessage,
+                          context.l10n.orderInsufficientWalletSnack,
                           style: TextStyle(
                             color: Colors.white,
                             //fontFamily: 'Iransans',
@@ -403,7 +401,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           ),
                         ),
                         action: SnackBarAction(
-                          label: 'OK',
+                          label: context.l10n.okLabel,
                           onPressed: () {
                             // Some code to undo the change.
                           },
@@ -418,7 +416,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                       context.read<ProductsBloc>().cartItems = [];
                       await CustomDialogSendRequest.show(
                         context,
-                        description: 'Your order has been sent successfully.',
+                        description: context.l10n.orderSentSuccessDescription,
+                        buttonText: context.l10n.okLabel,
                       );
                       if (!context.mounted) return;
                       Navigator.of(context).pushNamedAndRemoveUntil(

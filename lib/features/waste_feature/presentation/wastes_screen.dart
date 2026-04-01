@@ -7,6 +7,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/main_drawer.dart';
 import 'bloc/wastes_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 import 'widgets/waste_item_wastes_screen.dart';
 
 class WastesScreen extends StatefulWidget {
@@ -91,7 +92,7 @@ class _WastesScreenState extends State<WastesScreen> {
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         centerTitle: true,
         title: Text(
-          "Waste List",
+          context.l10n.wasteListTitle,
           style: TextStyle(
             color: AppTheme.white,
             fontWeight: FontWeight.bold,
@@ -185,7 +186,7 @@ class _WastesScreenState extends State<WastesScreen> {
           ElevatedButton.icon(
             onPressed: _loadData,
             icon: const Icon(Icons.refresh),
-            label: const Text("Retry"),
+            label: Text(context.l10n.retryLabel),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.primary,
               foregroundColor: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
@@ -140,9 +141,9 @@ class _WasteCartScreenState extends State<WasteCartScreen>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'Login',
-        buttonText: 'Login page',
-        description: 'Please Login to continue',
+        title: ctx.l10n.login,
+        buttonText: ctx.l10n.goToLoginScreenButton,
+        description: ctx.l10n.pleaseLoginToContinue,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -154,8 +155,8 @@ class _WasteCartScreenState extends State<WasteCartScreen>
 
     if (wastesProvider.wasteCartItems.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please add waste items to your cart'),
+        SnackBar(
+          content: Text(context.l10n.pleaseAddWasteItems),
           backgroundColor: Colors.redAccent,
         ),
       );
@@ -176,7 +177,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
         title: Text(
-          'Waste Cart',
+          context.l10n.wasteCartTitle,
           style: TextStyle(color: AppTheme.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -185,7 +186,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
         elevation: 0,
         actions: [
           IconButton(
-            tooltip: 'Add items',
+            tooltip: context.l10n.addItemsTooltip,
             icon: const Icon(Icons.add_circle_outline),
             onPressed: () async {
               await Navigator.of(context).pushNamed(WastesScreen.routeName);
@@ -292,7 +293,7 @@ class _WasteCartSummary extends StatelessWidget {
           children: [
             _buildStatItem(
               icon: 'assets/images/main_page_request_ic.png',
-              label: 'Items',
+              label: context.l10n.cartItemsLabel,
               value: EnArConvertor().replaceArNumber(itemCount.toString()),
             ),
             const VerticalDivider(
@@ -312,7 +313,7 @@ class _WasteCartSummary extends StatelessWidget {
                 thickness: 1, width: 32, color: Color(0xFFEEEEEE)),
             _buildStatItem(
               icon: 'assets/images/waste_cart_weight_ic.png',
-              label: 'Weight (kg)',
+              label: context.l10n.weightKgFullLabel,
               value: EnArConvertor().replaceArNumber(totalWeight.toString()),
             ),
           ],
@@ -402,7 +403,8 @@ class _WasteCartEmptyState extends StatelessWidget {
             onPressed: onAddPressed,
             icon: const Icon(Icons.add),
             label:
-                const Text('Add Waste Items', style: TextStyle(fontSize: 16)),
+                Text(context.l10n.addWasteItemsTitle,
+                    style: const TextStyle(fontSize: 16)),
           ),
         ],
       ),

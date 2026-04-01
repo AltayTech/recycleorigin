@@ -12,6 +12,7 @@ import 'package:recycleorigin/features/wallet_feature/presentation/widgets/walle
 import '../../../auth_feature/presentation/screens/login_screen.dart';
 import '../../../../core/models/search_detail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class WalletScreen extends StatefulWidget {
   static const routeName = '/walletScreen';
@@ -241,9 +242,9 @@ class _WalletScreenState extends State<WalletScreen> {
                 children: [
                   const Icon(Icons.attach_money, color: Colors.white),
                   const SizedBox(width: 8),
-                  const Text(
-                    'Withdraw Request',
-                    style: TextStyle(
+                  Text(
+                    context.l10n.walletWithdrawRequestButton,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -273,7 +274,7 @@ class _WalletScreenState extends State<WalletScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'No transactions yet',
+            context.l10n.walletNoTransactionsYet,
             style: TextStyle(
               color: AppTheme.grey,
               fontSize: 16,
@@ -297,9 +298,9 @@ class _WalletScreenState extends State<WalletScreen> {
               color: Colors.grey[300],
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Please login to view your wallet',
-              style: TextStyle(fontSize: 18, color: Colors.grey),
+            Text(
+              context.l10n.pleaseLoginToViewWallet,
+              style: const TextStyle(fontSize: 18, color: Colors.grey),
             ),
             const SizedBox(height: 24),
             ElevatedButton(
@@ -316,9 +317,9 @@ class _WalletScreenState extends State<WalletScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text(
-                'Login',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+              child: Text(
+                context.l10n.login,
+                style: const TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
           ],

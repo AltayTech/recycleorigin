@@ -12,6 +12,7 @@ import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart
 import '../auth_feature/presentation/screens/login_screen.dart';
 import 'presentation/bloc/wastes_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class CollectListScreen extends StatefulWidget {
   static const routeName = '/collectListScreen';
@@ -114,9 +115,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Failed to load more items. Please try again.'),
+            content: Text(context.l10n.failedToLoadMoreItems),
             action: SnackBarAction(
-              label: 'Retry',
+              label: context.l10n.retryLabel,
               onPressed: _loadMoreItems,
             ),
           ),
@@ -177,7 +178,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
             ),
-            child: const Text('Login', style: TextStyle(color: Colors.white)),
+            child: Text(context.l10n.login,
+                style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -200,7 +202,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
             ElevatedButton.icon(
               onPressed: _loadInitialData,
               icon: const Icon(Icons.refresh, color: Colors.white),
-              label: const Text('Retry', style: TextStyle(color: Colors.white)),
+              label: Text(context.l10n.retryLabel,
+                  style: const TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
                 padding:

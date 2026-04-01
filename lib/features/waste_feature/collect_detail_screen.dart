@@ -8,6 +8,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/request_w
 import 'package:recycleorigin/features/waste_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_theme.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class CollectDetailScreen extends StatefulWidget {
   static const routeName = '/collectDetailScreen';
@@ -90,12 +91,12 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                     const Icon(Icons.error_outline,
                         size: 64, color: Colors.redAccent),
                     const SizedBox(height: 16),
-                    const Text("Something went wrong",
+                    Text(context.l10n.somethingWentWrong,
                         style: TextStyle(fontSize: 16)),
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: _loadData,
-                      child: const Text("Retry"),
+                      child: Text(context.l10n.retryLabel),
                     )
                   ],
                 ),
@@ -111,20 +112,20 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
                     _StatusHeaderCard(loadedCollect: _loadedCollect),
                     const SizedBox(height: 16),
                     if (_hasDriverInfo()) ...[
-                      const _SectionHeader(title: 'Driver Information'),
+                      _SectionHeader(title: context.l10n.driverInformationSection),
                       const SizedBox(height: 8),
                       _DriverInfoCard(loadedCollect: _loadedCollect),
                       const SizedBox(height: 24),
                     ],
-                    const _SectionHeader(title: 'Order Summary'),
+                    _SectionHeader(title: context.l10n.orderSummarySection),
                     const SizedBox(height: 8),
                     _SummaryGridCard(loadedCollect: _loadedCollect),
                     const SizedBox(height: 24),
-                    const _SectionHeader(title: 'Details'),
+                    _SectionHeader(title: context.l10n.detailsSection),
                     const SizedBox(height: 8),
                     _DetailsCard(loadedCollect: _loadedCollect),
                     const SizedBox(height: 24),
-                    const _SectionHeader(title: 'Waste Items'),
+                    _SectionHeader(title: context.l10n.wasteItemsSection),
                     const SizedBox(height: 8),
                   ],
                 ),

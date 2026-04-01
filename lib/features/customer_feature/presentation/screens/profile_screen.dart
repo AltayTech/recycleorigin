@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_drawer.dart';
-import '../../../../l10n/app_localizations.dart';
+import '../../../../l10n/l10n.dart';
 import '../widgets/profile_view.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -17,8 +17,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -26,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: AppTheme.appBarColor,
         iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
         title: Text(
-          localizations?.profile ?? 'Profile',
+          context.l10n.profile,
           style: TextStyle(
             color: AppTheme.appBarIconColor,
             fontWeight: FontWeight.w600,

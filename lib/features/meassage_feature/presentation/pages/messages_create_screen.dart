@@ -6,6 +6,7 @@ import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../bloc/messages_bloc.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class MessageCreateScreen extends StatefulWidget {
   static const routeName = '/messageCreateScreen';
@@ -87,7 +88,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'New message',
+          context.l10n.newMessageScreenTitle,
           style: TextStyle(
             color: AppTheme.bg,
             //fontFamily: 'Iransans',
@@ -118,7 +119,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            'Please enter your question. Our colleagues will review your question and send the answer to you.',
+                            context.l10n.composeMessageIntroParagraph,
                             style: TextStyle(
                               color: AppTheme.black,
                               //fontFamily: 'Iransans',
@@ -158,7 +159,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
-                                labelText: 'Title',
+                                labelText: context.l10n.composeMessageTitleLabel,
                               ),
                             ),
                           ),
@@ -197,7 +198,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
-                                labelText: 'write your message',
+                                labelText: context.l10n.composeMessageBodyHint,
                               ),
                             ),
                           ),

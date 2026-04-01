@@ -91,29 +91,27 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                   ),
                 ],
               ),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: orderList.length,
-                  itemBuilder: (ctx, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                            OrderViewScreen.routeName,
-                            arguments: orderList[index].id);
-                      },
-                      child: OrderItem(
-                        number: orderList[index].id.toString(),
-                        date: orderList[index].send_date.toString(),
-                        totalPrice: orderList[index].total_price.toString(),
-                        status: orderList[index].pay_status.toString(),
-                        totalNumber: orderList[index].total_number.toString(),
-                      ),
-                    );
-                  },
-                ),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: orderList.length,
+                itemBuilder: (ctx, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        OrderViewScreen.routeName,
+                        arguments: orderList[index].id,
+                      );
+                    },
+                    child: OrderItem(
+                      number: orderList[index].id.toString(),
+                      date: orderList[index].send_date.toString(),
+                      totalPrice: orderList[index].total_price.toString(),
+                      status: orderList[index].pay_status.toString(),
+                      totalNumber: orderList[index].total_number.toString(),
+                    ),
+                  );
+                },
               ),
               SizedBox(
                 height: deviceHeight * 0.05,

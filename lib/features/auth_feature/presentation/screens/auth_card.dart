@@ -8,6 +8,7 @@ import 'package:recycleorigin/core/utils/logger.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class AuthCard extends StatefulWidget {
   @override
@@ -81,14 +82,15 @@ class _AuthCardState extends State<AuthCard>
   }
 
   void _showErrorDialog(String message) {
+    final l10n = context.l10n;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Problem in Authentication'),
+        title: Text(l10n.authProblemTitle),
         content: Text(message),
         actions: <Widget>[
           TextButton(
-            child: Text('Accept'),
+            child: Text(l10n.accept),
             onPressed: () {
               Navigator.of(ctx).pop();
             },
@@ -253,7 +255,7 @@ class _AuthCardState extends State<AuthCard>
                                           //fontFamily: 'Iransans',
                                           fontSize: 11,
                                         ),
-                                        hintText: ' First name'),
+                                        hintText: context.l10n.firstNameHint),
                                     keyboardType: TextInputType.name,
                                     validator:
                                         _authMode == AuthMode.Registration
@@ -324,7 +326,7 @@ class _AuthCardState extends State<AuthCard>
                                         //fontFamily: 'Iransans',
                                         fontSize: 11,
                                       ),
-                                      hintText: 'Last name',
+                                      hintText: context.l10n.lastNameHint,
                                       counterStyle: TextStyle(
                                         decorationStyle:
                                             TextDecorationStyle.dashed,
@@ -392,7 +394,7 @@ class _AuthCardState extends State<AuthCard>
                               //fontFamily: 'Iransans',
                               fontSize: 11,
                             ),
-                            hintText: 'Email',
+                            hintText: context.l10n.emailInputHint,
                             counterStyle: TextStyle(
                               decorationStyle: TextDecorationStyle.dashed,
                               color: Colors.grey,
@@ -454,7 +456,7 @@ class _AuthCardState extends State<AuthCard>
                               //fontFamily: 'Iransans',
                               fontSize: 11,
                             ),
-                            hintText: 'Password',
+                            hintText: context.l10n.passwordInputHint,
                             counterStyle: TextStyle(
                               decorationStyle: TextDecorationStyle.dashed,
                               color: Colors.grey,
@@ -506,8 +508,8 @@ class _AuthCardState extends State<AuthCard>
                       child: ElevatedButton(
                         child: Text(
                           _authMode == AuthMode.Login
-                              ? 'Login'
-                              : 'Confirmation Code',
+                              ? context.l10n.login
+                              : context.l10n.authConfirmationCodeButtonLabel,
                           style: TextStyle(
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 13.0,

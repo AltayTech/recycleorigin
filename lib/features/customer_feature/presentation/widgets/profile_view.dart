@@ -8,7 +8,7 @@ import 'package:recycleorigin/features/waste_feature/collect_list_screen.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_item_button.dart';
 import '../../../../core/widgets/top_bar.dart';
-import '../../../../l10n/app_localizations.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../meassage_feature/presentation/pages/messages_screen.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../auth_feature/presentation/bloc/auth_state.dart';
@@ -84,7 +84,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   /// Builds the view shown when user is not logged in
   Widget _buildNotLoggedInView(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final l10n = context.l10n;
 
     return Center(
       child: Padding(
@@ -99,7 +99,7 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             const SizedBox(height: 24),
             Text(
-              localizations?.youarenotlogin ?? 'You are not login!',
+              l10n.youarenotlogin,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
@@ -123,7 +123,7 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
               child: Text(
-                localizations?.login ?? 'Login',
+                l10n.login,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -356,8 +356,8 @@ class _ProfileViewState extends State<ProfileView> {
     dynamic customer,
     dynamic personalData,
   ) {
-    final localizations = AppLocalizations.of(context);
-    final priceUnit = localizations?.price_unit ?? '\$';
+    final l10n = context.l10n;
+    final priceUnit = l10n.price_unit;
     final hasMoney = customer.money.isNotEmpty &&
         double.tryParse(customer.money) != null &&
         double.parse(customer.money) > 0;
@@ -376,7 +376,7 @@ class _ProfileViewState extends State<ProfileView> {
           _buildInfoChip(
             icon: Icons.location_on,
             label:
-                '${personalData.addresses.length} ${personalData.addresses.length == 1 ? 'Address' : 'Addresses'}',
+                '${personalData.addresses.length} ${personalData.addresses.length == 1 ? l10n.addressSingular : l10n.addressesPlural}',
             color: Colors.blue,
           ),
         if (customer.customer_type.name.isNotEmpty)
@@ -644,7 +644,7 @@ class _ProfileViewState extends State<ProfileView> {
         children: [
           _buildProfileMenuItem(
             context: context,
-            title: 'Order',
+            title: context.l10n.ordersLabel,
             iconPath: 'assets/images/orders_list.png',
             onTap: () {
               Navigator.of(context).pushNamed(OrdersScreen.routeName);
@@ -654,7 +654,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
           _buildProfileMenuItem(
             context: context,
-            title: 'Personal Info',
+            title: context.l10n.personalInfoShortLabel,
             iconPath: 'assets/images/user_Icon.png',
             onTap: () {
               Navigator.of(context).pushNamed(CustomerUserInfoScreen.routeName);
@@ -664,7 +664,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
           _buildProfileMenuItem(
             context: context,
-            title: 'Messages',
+            title: context.l10n.messagesInboxLabel,
             iconPath: 'assets/images/message_icon.png',
             onTap: () {
               Navigator.of(context).pushNamed(MessageScreen.routeName);
@@ -674,7 +674,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
           _buildProfileMenuItem(
             context: context,
-            title: 'Requests',
+            title: context.l10n.profileRequestsMenuTitle,
             iconPath: 'assets/images/main_page_request_ic.png',
             onTap: () {
               Navigator.of(context).pushNamed(CollectListScreen.routeName);

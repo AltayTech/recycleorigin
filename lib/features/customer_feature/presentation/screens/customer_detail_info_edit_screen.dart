@@ -10,6 +10,7 @@ import '../../../../core/widgets/info_edit_item.dart';
 import '../../../../core/widgets/main_drawer.dart';
 import 'customer_user_info_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Screen for editing customer information with form validation and modern UI
 class CustomerDetailInfoEditScreen extends StatefulWidget {
@@ -109,7 +110,7 @@ class _CustomerDetailInfoEditScreenState
       if (mounted) {
         setState(() {
           _isLoadingTypes = false;
-          _errorMessage = 'Failed to load user types. Please try again.';
+          _errorMessage = context.l10n.failedLoadUserTypesMessage;
         });
       }
       debugPrint('Error loading types: $error');
@@ -125,7 +126,7 @@ class _CustomerDetailInfoEditScreenState
     if (_selectedType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Please select a user type'),
+          content: Text(context.l10n.pleaseSelectUserType),
           backgroundColor: AppTheme.colorOne,
         ),
       );
@@ -191,7 +192,7 @@ class _CustomerDetailInfoEditScreenState
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Information updated successfully'),
+            content: Text(context.l10n.informationUpdatedSuccess),
             backgroundColor: AppTheme.primary,
             duration: const Duration(seconds: 2),
           ),
@@ -209,13 +210,13 @@ class _CustomerDetailInfoEditScreenState
       if (mounted) {
         setState(() {
           _isSaving = false;
-          _errorMessage = 'Failed to save information. Please try again.';
+          _errorMessage = context.l10n.failedSaveCustomerInfoMessage;
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              _errorMessage ?? 'An error occurred while saving',
+              _errorMessage ?? context.l10n.failedSaveCustomerInfoMessage,
             ),
             backgroundColor: AppTheme.colorOne,
             duration: const Duration(seconds: 3),
@@ -247,27 +248,24 @@ class _CustomerDetailInfoEditScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: AppTheme.appBarColor,
-          iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
-          title: const Text(
-            'Edit Personal Information',
-            style: TextStyle(color: AppTheme.appBarIconColor),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: AppTheme.appBarColor,
+        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
+        title: Text(
+          context.l10n.editPersonalInformationAppBarTitle,
+          style: const TextStyle(color: AppTheme.appBarIconColor),
         ),
-        drawer: Theme(
-          data: Theme.of(context).copyWith(
-            canvasColor: Colors.transparent,
-          ),
-          child: MainDrawer(),
-        ),
-        body: _buildBody(context),
-        floatingActionButton: _buildSaveButton(context),
       ),
+      drawer: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.transparent,
+        ),
+        child: MainDrawer(),
+      ),
+      body: _buildBody(context),
+      floatingActionButton: _buildSaveButton(context),
     );
   }
 
@@ -339,13 +337,13 @@ class _CustomerDetailInfoEditScreenState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionHeader(
-              'Personal Information',
+              context.l10n.personalInformationTitle,
               Icons.person,
               const Color(0xffA67FEC),
             ),
             const SizedBox(height: 16),
             InfoEditItem(
-              title: 'Name',
+              title: context.l10n.nameLabel,
               controller: _nameController,
               bgColor: AppTheme.white,
               iconColor: const Color(0xffA67FEC),
@@ -355,7 +353,7 @@ class _CustomerDetailInfoEditScreenState
               newFocusNode: _familyFocusNode,
             ),
             InfoEditItem(
-              title: 'Last Name',
+              title: context.l10n.lastNameLabel,
               controller: _familyController,
               bgColor: AppTheme.white,
               iconColor: const Color(0xffA67FEC),
@@ -387,13 +385,13 @@ class _CustomerDetailInfoEditScreenState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionHeader(
-              'Contact Information',
+              context.l10n.contactInformationTitle,
               Icons.contact_mail,
               const Color(0xff4392F1),
             ),
             const SizedBox(height: 16),
             InfoEditItem(
-              title: 'Email',
+              title: context.l10n.emailAddressLabel,
               controller: _emailController,
               bgColor: AppTheme.white,
               iconColor: const Color(0xff4392F1),
@@ -403,7 +401,7 @@ class _CustomerDetailInfoEditScreenState
               newFocusNode: _ostanFocusNode,
             ),
             InfoEditItem(
-              title: 'Province',
+              title: context.l10n.provinceFieldLabel,
               controller: _ostanController,
               bgColor: AppTheme.white,
               iconColor: const Color(0xff4392F1),
@@ -413,7 +411,7 @@ class _CustomerDetailInfoEditScreenState
               newFocusNode: _cityFocusNode,
             ),
             InfoEditItem(
-              title: 'City',
+              title: context.l10n.cityFieldLabel,
               controller: _cityController,
               bgColor: AppTheme.white,
               iconColor: const Color(0xff4392F1),
@@ -423,7 +421,7 @@ class _CustomerDetailInfoEditScreenState
               newFocusNode: _postCodeFocusNode,
             ),
             InfoEditItem(
-              title: 'Zip Code',
+              title: context.l10n.zipCodeLabel,
               controller: _postCodeController,
               bgColor: AppTheme.white,
               iconColor: const Color(0xff4392F1),
@@ -483,7 +481,7 @@ class _CustomerDetailInfoEditScreenState
               ),
               const SizedBox(width: 8),
               Text(
-                'User Type:',
+                '${context.l10n.userTypeLabel}:',
                 style: TextStyle(
                   color: AppTheme.h1,
                   fontSize: textScaleFactor * 14.0,
@@ -518,7 +516,7 @@ class _CustomerDetailInfoEditScreenState
                   child: DropdownButton<String>(
                     value: _selectedTypeValue,
                     hint: Text(
-                      'Select User Type',
+                      context.l10n.selectUserTypeHint,
                       style: TextStyle(
                         color: AppTheme.grey,
                         fontSize: textScaleFactor * 14.0,
@@ -576,7 +574,9 @@ class _CustomerDetailInfoEditScreenState
               ),
             )
           : const Icon(Icons.check),
-      label: Text(_isSaving ? 'Saving...' : 'Save Changes'),
+      label: Text(
+        _isSaving ? context.l10n.savingLabel : context.l10n.saveChangesLabel,
+      ),
     );
   }
 }
