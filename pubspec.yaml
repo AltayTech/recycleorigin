@@ -27,17 +27,17 @@ dependencies:
   cupertino_icons: ^1.0.8
   badges: ^3.1.2
   geolocator: ^14.0.2
-  flutter_osm_plugin: ^1.3.7
+  flutter_osm_plugin: ^1.4.3
   dartz: ^0.10.1
   loading_animation_widget: ^1.3.0
   flutter_localizations:
     sdk: flutter
   font_awesome_flutter: any
   dio: ^5.9.0
-  google_fonts: ^6.3.3
-  package_info_plus: ^8.1.1
-  flutter_secure_storage: ^9.0.0
-  flutter_dotenv: ^5.1.0
+  google_fonts: ^8.0.2
+  package_info_plus: ^9.0.1
+  flutter_secure_storage: ^10.0.0
+  flutter_dotenv: ^6.0.0
   flutter_bloc: ^9.1.1
 dev_dependencies:
   flutter_test:
