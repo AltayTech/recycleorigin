@@ -49,6 +49,15 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
+        actions: <Widget>[
+          if (auth.isAuth)
+            IconButton(
+              tooltip: 'Refresh',
+              onPressed: () =>
+                  context.read<SupportTicketsListCubit>().load(),
+              icon: Icon(Icons.refresh, color: AppTheme.appBarIconColor),
+            ),
+        ],
       ),
       endDrawer: const MainDrawer(),
       floatingActionButton: auth.isAuth

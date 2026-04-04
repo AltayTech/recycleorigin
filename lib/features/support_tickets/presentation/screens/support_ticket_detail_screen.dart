@@ -111,6 +111,13 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
+        actions: <Widget>[
+          IconButton(
+            tooltip: 'Refresh',
+            onPressed: _loading ? null : () => _load(),
+            icon: Icon(Icons.refresh, color: AppTheme.appBarIconColor),
+          ),
+        ],
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
