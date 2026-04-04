@@ -28,6 +28,8 @@
   "applicationLanguageLabel": "Application language",
   "englishLabel": "English",
   "turkishLabel": "Turkish",
+  "settingsScreenIntro": "Language updates apply immediately and are saved on this device.",
+  "appInformationSectionTitle": "App information",
   "charities": "Charities",
   "cards": "Cards",
   "cources": "Courses",

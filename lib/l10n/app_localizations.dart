@@ -266,6 +266,18 @@ abstract class AppLocalizations {
   /// **'Turkish'**
   String get turkishLabel;
 
+  /// No description provided for @settingsScreenIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Language updates apply immediately and are saved on this device.'**
+  String get settingsScreenIntro;
+
+  /// No description provided for @appInformationSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App information'**
+  String get appInformationSectionTitle;
+
   /// No description provided for @charities.
   ///
   /// In en, this message translates to:

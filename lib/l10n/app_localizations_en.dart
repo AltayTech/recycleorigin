@@ -94,6 +94,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get turkishLabel => 'Turkish';
 
   @override
+  String get settingsScreenIntro =>
+      'Language updates apply immediately and are saved on this device.';
+
+  @override
+  String get appInformationSectionTitle => 'App information';
+
+  @override
   String get charities => 'Charities';
 
   @override

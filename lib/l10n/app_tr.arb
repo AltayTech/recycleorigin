@@ -28,6 +28,8 @@
   "applicationLanguageLabel": "Uygulama dili",
   "englishLabel": "English",
   "turkishLabel": "Turkce",
+  "settingsScreenIntro": "Dil degisiklikleri hemen uygulanir ve bu cihazda saklanir.",
+  "appInformationSectionTitle": "Uygulama bilgisi",
   "charities": "Hayir kurumlari",
   "cards": "Kartlar",
   "cources": "Kurslar",
