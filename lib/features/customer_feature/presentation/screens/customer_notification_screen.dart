@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../meassage_feature/presentation/pages/messages_screen.dart';
+import '../../../support_tickets/presentation/screens/support_tickets_list_screen.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/models/customer.dart';
@@ -37,7 +37,7 @@ class _CustomerNotificationScreenState
         ),
         child: MainDrawer(),
       ), // resizeToAvoidBottomInset: false,
-      body: MessageScreen(),
+      body: const SupportTicketsListScreen(),
     );
   }
 }

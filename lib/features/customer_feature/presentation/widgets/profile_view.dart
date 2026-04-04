@@ -9,7 +9,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/main_item_button.dart';
 import '../../../../core/widgets/top_bar.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../meassage_feature/presentation/pages/messages_screen.dart';
+import '../../../support_tickets/presentation/screens/support_tickets_list_screen.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../auth_feature/presentation/bloc/auth_state.dart';
 import '../bloc/customer_info_bloc.dart';
@@ -667,7 +667,8 @@ class _ProfileViewState extends State<ProfileView> {
             title: context.l10n.messagesInboxLabel,
             iconPath: 'assets/images/message_icon.png',
             onTap: () {
-              Navigator.of(context).pushNamed(MessageScreen.routeName);
+              Navigator.of(context)
+                  .pushNamed(SupportTicketsListScreen.routeName);
             },
             itemPaddingF: itemPaddingF,
             imageSizeFactor: 0.25,

@@ -4,7 +4,7 @@ import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/utils/app_info_service.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigin/features/meassage_feature/presentation/pages/messages_screen.dart';
+import 'package:recycleorigin/features/support_tickets/presentation/screens/support_tickets_list_screen.dart';
 
 import '../../features/auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../features/auth_feature/presentation/bloc/auth_state.dart';
@@ -520,7 +520,9 @@ class _MainDrawerState extends State<MainDrawer>
                             icon: Icons.support_agent_rounded,
                             title: context.l10n.supportHelpLabel,
                             onTap: () =>
-                                _navigateToRoute(MessageScreen.routeName),
+                                _navigateToRoute(
+                                  SupportTicketsListScreen.routeName,
+                                ),
                           ),
 
                           const SizedBox(height: _spacingSmall),

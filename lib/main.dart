@@ -10,6 +10,11 @@ import 'package:recycleorigin/features/articles_feature/presentation/bloc/articl
 import 'package:recycleorigin/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/bloc/messages_bloc.dart';
+import 'package:recycleorigin/features/support_tickets/data/support_ticket_repository.dart';
+import 'package:recycleorigin/features/support_tickets/presentation/cubit/support_tickets_list_cubit.dart';
+import 'package:recycleorigin/features/support_tickets/presentation/screens/support_ticket_create_screen.dart';
+import 'package:recycleorigin/features/support_tickets/presentation/screens/support_ticket_detail_screen.dart';
+import 'package:recycleorigin/features/support_tickets/presentation/screens/support_tickets_list_screen.dart';
 import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_bloc.dart';
 import 'package:recycleorigin/features/store_feature/presentation/bloc/products_bloc.dart';
 import 'package:recycleorigin/features/store_feature/presentation/screens/orders_screen.dart';
@@ -101,6 +106,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<MessagesBloc>(
           create: (_) => MessagesBloc(),
         ),
+        BlocProvider<SupportTicketsListCubit>(
+          create: (_) => SupportTicketsListCubit(SupportTicketRepository(
+            ApiClient(),
+          )),
+        ),
         BlocProvider<WastesBloc>(
           create: (_) => WastesBloc(),
         ),
@@ -166,6 +176,12 @@ class MyApp extends StatelessWidget {
                   CustomerNotificationScreen(),
               GuideScreen.routeName: (ctx) => GuideScreen(),
               MessageScreen.routeName: (ctx) => MessageScreen(),
+              SupportTicketsListScreen.routeName: (ctx) =>
+                  const SupportTicketsListScreen(),
+              SupportTicketCreateScreen.routeName: (ctx) =>
+                  const SupportTicketCreateScreen(),
+              SupportTicketDetailScreen.routeName: (ctx) =>
+                  const SupportTicketDetailScreen(),
               MessageCreateScreen.routeName: (ctx) => MessageCreateScreen(),
               MessageCreateReplyScreen.routeName: (ctx) =>
                   MessageCreateReplyScreen(),
