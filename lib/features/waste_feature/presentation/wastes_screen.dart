@@ -63,15 +63,16 @@ class _WastesScreenState extends State<WastesScreen> {
     }
   }
 
-  void _toggleSelection(Waste waste) {
+  Future<void> _toggleSelection(Waste waste) async {
     final wastesProvider = context.read<WastesBloc>();
 
     if (wasteCartItemsId.contains(waste.id)) {
-      wastesProvider.removeWasteCart(waste.id);
+      await wastesProvider.removeWasteCart(waste.id);
     } else {
-      wastesProvider.addWasteCart(waste, 1);
+      await wastesProvider.addWasteCart(waste, 1);
     }
 
+    if (!mounted) return;
     setState(() {
       wasteCartItemsId = wastesProvider.wasteCartItemsId;
       wasteCartItems = wastesProvider.wasteCartItems;

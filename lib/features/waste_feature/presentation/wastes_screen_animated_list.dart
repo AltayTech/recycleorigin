@@ -66,18 +66,25 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
   }
 
   @override
-  void didChangeDependencies() async {
-    if (_isInit) {
-      await context.read<AuthBloc>().checkCompleted();
-
-      await getWasteItems();
-
-      setState(() {});
-    }
-    _isInit = false;
-    await getWasteItems();
-
+  void didChangeDependencies() {
     super.didChangeDependencies();
+    if (_isInit) {
+      _isInit = false;
+      _initData();
+    } else {
+      _refreshCart();
+    }
+  }
+
+  Future<void> _initData() async {
+    await context.read<AuthBloc>().checkCompleted();
+    await _refreshCart();
+  }
+
+  Future<void> _refreshCart() async {
+    if (!mounted) return;
+    await getWasteItems();
+    if (mounted) setState(() {});
   }
 
   Future<void> getWasteItems() async {

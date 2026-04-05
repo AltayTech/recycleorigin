@@ -74,18 +74,18 @@ class _CollectListScreenState extends State<CollectListScreen> {
       _hasError = false;
     });
     try {
+      _page = 1;
       final wastesProvider = context.read<WastesBloc>();
       wastesProvider.sPage = 1;
-      wastesProvider.searchBuilder(); // Prepare search params if any
+      wastesProvider.searchBuilder();
 
       await wastesProvider.searchCollectItems();
 
       _searchDetail = wastesProvider.searchDetails;
 
-      // Update local list
       _loadedRequests.clear();
-      _loadedRequests.addAll(await wastesProvider.CollectItems);
-    } catch (error) {
+      _loadedRequests.addAll(wastesProvider.CollectItems);
+    } on Exception catch (error) {
       debugPrint('Error loading initial data: $error');
       if (mounted) {
         setState(() => _hasError = true);
@@ -103,10 +103,11 @@ class _CollectListScreenState extends State<CollectListScreen> {
       _page++;
       final wastesProvider = context.read<WastesBloc>();
       wastesProvider.sPage = _page;
+      wastesProvider.searchBuilder();
 
       await wastesProvider.searchCollectItems();
 
-      final newItems = await wastesProvider.CollectItems;
+      final newItems = wastesProvider.CollectItems;
       _loadedRequests.addAll(newItems);
       _searchDetail = wastesProvider.searchDetails;
     } catch (error) {
@@ -233,7 +234,11 @@ class _CollectListScreenState extends State<CollectListScreen> {
                 child: Center(child: CircularProgressIndicator()),
               ),
             ),
-          const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
+          SliverPadding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).padding.bottom + 32,
+            ),
+          ),
         ],
       ),
     );
