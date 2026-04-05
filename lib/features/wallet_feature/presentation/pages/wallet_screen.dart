@@ -1,16 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-import 'package:recycleorigin/core/models/transaction.dart';
+import 'package:http/http.dart' as http;
+import 'package:recycleorigin/core/constants/urls.dart';
+import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_state.dart';
+import 'package:recycleorigin/features/wallet_feature/business/entities/wallet.dart';
+import 'package:recycleorigin/features/wallet_feature/business/entities/wallet_transaction.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/transaction_item.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/wallet_balance_card.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
-import '../../../../core/models/search_detail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -25,8 +27,9 @@ class _WalletScreenState extends State<WalletScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
   int _page = 1;
-  SearchDetail _searchDetail = SearchDetail();
-  List<Transaction> _transactions = [];
+  int _maxPage = 1;
+  Wallet _wallet = const Wallet();
+  List<WalletTransaction> _transactions = [];
 
   @override
   void initState() {
@@ -46,10 +49,19 @@ class _WalletScreenState extends State<WalletScreen> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
-      if (!_isLoading && _page < _searchDetail.max_page) {
+      if (!_isLoading && _page < _maxPage) {
         _loadMore();
       }
     }
+  }
+
+  Future<Map<String, String>> _authHeaders() async {
+    final token = await SecureStorage.getToken();
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
   }
 
   Future<void> _loadData() async {
@@ -59,30 +71,50 @@ class _WalletScreenState extends State<WalletScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final customerProvider = context.read<CustomerInfoBloc>();
+      final headers = await _authHeaders();
+      final walletUrl = Uri.parse(
+        Urls.rootUrl + Urls.walletEndPoint,
+      );
+      final walletResp = await http.get(walletUrl, headers: headers);
 
-      // Reset page
+      if (walletResp.statusCode == 200 && mounted) {
+        final data = jsonDecode(walletResp.body) as Map<String, dynamic>;
+        final walletJson = data['wallet'] as Map<String, dynamic>?;
+        if (walletJson != null) {
+          _wallet = Wallet.fromJson(walletJson);
+        }
+        final recentJson = data['recent_transactions'] as List<dynamic>?;
+        if (recentJson != null) {
+          _transactions = recentJson
+              .map((e) =>
+                  WalletTransaction.fromJson(e as Map<String, dynamic>))
+              .toList();
+        }
+      }
+
+      // Load full transaction history.
       _page = 1;
-      customerProvider.sPage = 1;
-
-      // Fetch customer info
-      await customerProvider.getCustomer();
-
-      // Fetch transactions
-      customerProvider.searchBuilder();
-      await customerProvider.searchTransactionItems();
+      final txUrl = Uri.parse(
+        Urls.rootUrl + Urls.walletTransactionsEndPoint,
+      ).replace(queryParameters: {'page': '1', 'per_page': '20'});
+      final txResp = await http.get(txUrl, headers: headers);
+      if (txResp.statusCode == 200 && mounted) {
+        final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
+        final txList = txData['data'] as List<dynamic>? ?? [];
+        _transactions = txList
+            .map((e) =>
+                WalletTransaction.fromJson(e as Map<String, dynamic>))
+            .toList();
+        final details = txData['details'] as Map<String, dynamic>?;
+        _maxPage = details?['max_pages'] as int? ?? 1;
+      }
 
       if (mounted) {
-        setState(() {
-          _searchDetail = customerProvider.searchDetails;
-          _transactions = customerProvider.transactionItems;
-          _isLoading = false;
-        });
+        setState(() => _isLoading = false);
       }
     } catch (error) {
       if (mounted) {
         setState(() => _isLoading = false);
-        // Ideally show error snackbar here
       }
     }
   }
@@ -91,23 +123,23 @@ class _WalletScreenState extends State<WalletScreen> {
     setState(() => _isLoading = true);
     try {
       _page++;
-      final customerProvider = context.read<CustomerInfoBloc>();
-      customerProvider.sPage = _page;
-
-      // Assuming searchTransactionItems appends or we need to fetch and append.
-      // The original code seemed to re-fetch or use pagination state internally.
-      // Based on original code:
-      await customerProvider
-          .searchTransactionItems(); // This likely updates the provider's list
-
-      final newTransactions = customerProvider.transactionItems;
-
-      if (mounted) {
+      final headers = await _authHeaders();
+      final txUrl = Uri.parse(
+        Urls.rootUrl + Urls.walletTransactionsEndPoint,
+      ).replace(queryParameters: {
+        'page': '$_page',
+        'per_page': '20',
+      });
+      final txResp = await http.get(txUrl, headers: headers);
+      if (txResp.statusCode == 200 && mounted) {
+        final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
+        final txList = txData['data'] as List<dynamic>? ?? [];
+        final newTx = txList
+            .map((e) =>
+                WalletTransaction.fromJson(e as Map<String, dynamic>))
+            .toList();
         setState(() {
-          // If the provider replaces the list, we might need to handle it.
-          // But original code did: loadedProducts = await ... transactionItems; loadedProductstolist.addAll(loadedProducts);
-          // Let's assume transactionItems returns the *new* items for the page.
-          _transactions.addAll(newTransactions);
+          _transactions.addAll(newTx);
           _isLoading = false;
         });
       }
@@ -151,9 +183,9 @@ class _WalletScreenState extends State<WalletScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                          BlocBuilder<CustomerInfoBloc, CustomerInfoState>(
-                            builder: (context, state) => WalletBalanceCard(
-                                balance: state.customer.money),
+                          WalletBalanceCard(
+                            balance: _wallet.balance,
+                            currency: _wallet.currency,
                           ),
                           const SizedBox(height: 24),
                           _buildActionButtons(context),
@@ -189,7 +221,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       : SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
-                              return TransactionItem(
+                              return WalletTransactionItem(
                                 transaction: _transactions[index],
                               );
                             },
@@ -255,7 +287,6 @@ class _WalletScreenState extends State<WalletScreen> {
             ),
           ),
         ),
-        // Add more buttons here if needed (e.g. Donate)
       ],
     );
   }

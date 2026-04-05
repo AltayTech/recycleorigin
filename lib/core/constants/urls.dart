@@ -22,6 +22,9 @@ class Urls {
   static const provincesEndPoint = '/provinces';
   static const typesEndPoint = '/customer/types';
   static const clearingEndPoint = '/clearings';
+  static const walletEndPoint = '/wallet';
+  static const walletTransactionsEndPoint = '/wallet/transactions';
+  static const walletWithdrawEndPoint = '/wallet/withdraw';
 
   static const shopEndPoint = '/info';
   static const messageEndPoint = '/messages';

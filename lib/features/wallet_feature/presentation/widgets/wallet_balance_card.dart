@@ -5,17 +5,38 @@ import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 
 class WalletBalanceCard extends StatelessWidget {
   final String balance;
+  final String currency;
 
   const WalletBalanceCard({
     Key? key,
     required this.balance,
+    this.currency = 'USD',
   }) : super(key: key);
+
+  String get _currencySymbol {
+    switch (currency.toUpperCase()) {
+      case 'USD':
+        return '\$';
+      case 'EUR':
+        return '\u20AC';
+      case 'GBP':
+        return '\u00A3';
+      case 'IRR':
+        return 'IRR';
+      default:
+        return currency;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = intl.NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 2,
+    );
+    final parsed = double.tryParse(balance) ?? 0;
     final formattedBalance = EnArConvertor().replaceArNumber(
-      currencyFormat.format(double.tryParse(balance)?.round() ?? 0).toString(),
+      currencyFormat.format(parsed),
     );
 
     return Container(
@@ -61,7 +82,7 @@ class WalletBalanceCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            '$formattedBalance \$',
+            '$formattedBalance $_currencySymbol',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 32,
