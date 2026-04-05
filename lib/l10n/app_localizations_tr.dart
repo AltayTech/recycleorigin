@@ -785,4 +785,61 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get listCountSummaryPrefix => 'Adet:';
+
+  @override
+  String get collectDetailTitle => 'Talep detaylari';
+
+  @override
+  String get currentStatusLabel => 'Mevcut durum';
+
+  @override
+  String get statusPendingAssignment => 'Surucu atamasi bekleniyor';
+
+  @override
+  String get statusPendingDriverAcceptance => 'Surucu onayi bekleniyor';
+
+  @override
+  String get statusDriverAccepted => 'Surucu kabul etti';
+
+  @override
+  String get statusInProgress => 'Devam ediyor';
+
+  @override
+  String get statusPickedUp => 'Surucu tarafindan alindi';
+
+  @override
+  String get statusCollected => 'Toplandi';
+
+  @override
+  String get statusCancelled => 'Iptal edildi';
+
+  @override
+  String get submittedWeightLabel => 'Gonderilen';
+
+  @override
+  String get finalWeightLabel => 'Son';
+
+  @override
+  String get estimatedTotalLabel => 'Tahmini toplam';
+
+  @override
+  String get finalTotalLabel => 'Son toplam';
+
+  @override
+  String get pricePerKgLabel => 'Fiyat/kg';
+
+  @override
+  String get requestDateLabel => 'Talep tarihi';
+
+  @override
+  String get collectDoneTimeLabel => 'Toplama zamani';
+
+  @override
+  String get pendingLabel => 'Beklemede';
+
+  @override
+  String get plateNumberLabel => 'Plaka numarasi';
+
+  @override
+  String get carColorLabel => 'Araba rengi';
 }

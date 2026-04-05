@@ -792,4 +792,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get listCountSummaryPrefix => 'Count:';
+
+  @override
+  String get collectDetailTitle => 'Request details';
+
+  @override
+  String get currentStatusLabel => 'Current status';
+
+  @override
+  String get statusPendingAssignment => 'Waiting for driver assignment';
+
+  @override
+  String get statusPendingDriverAcceptance => 'Waiting for driver acceptance';
+
+  @override
+  String get statusDriverAccepted => 'Driver accepted';
+
+  @override
+  String get statusInProgress => 'In progress';
+
+  @override
+  String get statusPickedUp => 'Picked up by driver';
+
+  @override
+  String get statusCollected => 'Collected';
+
+  @override
+  String get statusCancelled => 'Cancelled';
+
+  @override
+  String get submittedWeightLabel => 'Submitted';
+
+  @override
+  String get finalWeightLabel => 'Final';
+
+  @override
+  String get estimatedTotalLabel => 'Estimated total';
+
+  @override
+  String get finalTotalLabel => 'Final total';
+
+  @override
+  String get pricePerKgLabel => 'Price/kg';
+
+  @override
+  String get requestDateLabel => 'Request date';
+
+  @override
+  String get collectDoneTimeLabel => 'Collect done time';
+
+  @override
+  String get pendingLabel => 'Pending';
+
+  @override
+  String get plateNumberLabel => 'Plate number';
+
+  @override
+  String get carColorLabel => 'Car color';
 }

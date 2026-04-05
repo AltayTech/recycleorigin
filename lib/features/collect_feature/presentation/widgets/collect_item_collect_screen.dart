@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
@@ -8,230 +6,241 @@ import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart'
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../store_feature/presentation/bloc/products_bloc.dart';
 
 class CollectItemCollectsScreen extends StatelessWidget {
-  Widget getStatusIcon(String statusSlug) {
-    Widget icon = Icon(
-      Icons.timer,
-      color: AppTheme.accent,
-//      size: 35,
-    );
-
-    if (statusSlug == 'register') {
-      icon = Icon(
-        Icons.beenhere,
-        color: AppTheme.accent,
-//        size: 25,
-      );
-    } else if (statusSlug == 'cancel') {
-      icon = Icon(
-        Icons.cancel,
-        color: AppTheme.grey,
-//        size: 35,
-      );
-    } else if (statusSlug == 'collected') {
-      icon = Icon(
-        Icons.check_circle,
-        color: AppTheme.primary,
-//        size: 35,
-      );
-    } else if (statusSlug == 'not-accessed') {
-      icon = Icon(
-        Icons.cancel,
-        color: AppTheme.grey,
-//        size: 35,
-      );
-    } else {
-      icon = Icon(
-        Icons.drive_eta,
-        color: AppTheme.accent,
-//        size: 35,
-      );
-    }
-
-    return icon;
-  }
+  const CollectItemCollectsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var heightDevice = MediaQuery.of(context).size.height;
-    var widthDevice = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    final collect = Provider.of<RequestWasteItem>(context, listen: false);
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final collect =
+        Provider.of<RequestWasteItem>(context, listen: false);
+    final l10n = context.l10n;
+    final (statusColor, statusIcon) =
+        _statusVisuals(collect.requestStatusKey);
+    final statusText = _statusText(l10n, collect);
 
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
+    final estWeight =
+        double.tryParse(collect.total_collects_weight.estimated) ?? 0;
+    final estPrice =
+        double.tryParse(collect.total_collects_price.estimated) ?? 0;
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(14),
+      onTap: () => Navigator.of(context).pushNamed(
+        CollectDetailScreen.routeName,
+        arguments: collect.id,
+      ),
       child: Container(
-        height: widthDevice * 0.29,
-        child: LayoutBuilder(
-          builder: (ctx, constraints) {
-            return InkWell(
-              onTap: () {
-                context.read<ProductsBloc>().item = ProductsBloc.itemZero;
-                Navigator.of(context).pushNamed(
-                  CollectDetailScreen.routeName,
-                  arguments: collect.id,
-                );
-              },
-              child: Container(
-                decoration: AppTheme.listItemBox,
-                height: constraints.maxHeight,
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.date_range,
-                                    color: AppTheme.primary,
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 6, right: 4),
-                                      child: Text(
-                                        EnArConvertor().replaceArNumber(
-                                            collect.collect_date.day),
-                                        maxLines: 1,
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          color: AppTheme.black,
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.av_timer,
-                                    color: AppTheme.primary,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 4),
-                                    child: Text(
-                                      EnArConvertor().replaceArNumber(
-                                          collect.collect_date.time),
-                                      maxLines: 1,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        color: AppTheme.black,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 14.0,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(child: getStatusIcon(collect.status.slug)),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 25, left: 4),
-                                    child: Text(
-                                      EnArConvertor().replaceArNumber(collect
-                                          .total_collects_weight.estimated),
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: AppTheme.black,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 16.0,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    context.l10n.weightUnitKilogram,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: AppTheme.grey,
-                                      //fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 10.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    EnArConvertor().replaceArNumber(
-                                        currencyFormat
-                                            .format(double.parse(collect
-                                                .total_collects_price
-                                                .estimated))
-                                            .toString()),
-                                    maxLines: 1,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: AppTheme.black,
-                                      //fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 14.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    "\$",
-                                    maxLines: 1,
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      color: AppTheme.grey,
-                                      //fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 11.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                collect.status.name,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: AppTheme.black,
-                                  //fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 12.0,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: statusColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(statusIcon, color: statusColor, size: 20),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    statusText,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: statusColor,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
+                Icon(Icons.chevron_right, color: Colors.grey.shade400),
+              ],
+            ),
+            const Divider(height: 18),
+            Row(
+              children: [
+                _InfoChip(
+                  icon: Icons.calendar_today_outlined,
+                  text: EnArConvertor()
+                      .replaceArNumber(collect.collect_date.day),
+                ),
+                const SizedBox(width: 12),
+                _InfoChip(
+                  icon: Icons.access_time,
+                  text: EnArConvertor()
+                      .replaceArNumber(collect.collect_date.time),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: _StatBadge(
+                    label: l10n.totalWeightFieldLabel,
+                    value:
+                        '${EnArConvertor().replaceArNumber(estWeight.toStringAsFixed(1))} ${l10n.weightUnitKilogram}',
+                    color: AppTheme.primary,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: _StatBadge(
+                    label: l10n.totalPriceFieldLabel,
+                    value: EnArConvertor()
+                        .replaceArNumber(_fmtPrice(estPrice)),
+                    color: Colors.green.shade700,
+                  ),
+                ),
+              ],
+            ),
+            if (collect.address_data.address.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Icon(Icons.location_on_outlined,
+                      size: 16, color: Colors.grey.shade500),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      collect.address_data.address,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            );
-          },
+            ],
+          ],
         ),
+      ),
+    );
+  }
+
+  String _fmtPrice(double v) {
+    if (v == v.truncateToDouble()) return v.toStringAsFixed(0);
+    return v.toStringAsFixed(1);
+  }
+
+  String _statusText(dynamic l10n, RequestWasteItem c) {
+    switch (c.requestStatusKey) {
+      case 'pending_assignment':
+        return l10n.statusPendingAssignment;
+      case 'pending_driver_acceptance':
+        return l10n.statusPendingDriverAcceptance;
+      case 'driver_accepted':
+        return l10n.statusDriverAccepted;
+      case 'in_progress':
+        return l10n.statusInProgress;
+      case 'picked_up':
+        return l10n.statusPickedUp;
+      case 'collected':
+        return l10n.statusCollected;
+      case 'cancelled':
+        return l10n.statusCancelled;
+      default:
+        if (c.requestStatusLabel.isNotEmpty) return c.requestStatusLabel;
+        final n = c.status.name.trim();
+        return (n.isNotEmpty && n != '0') ? n : '—';
+    }
+  }
+
+  (Color, IconData) _statusVisuals(String key) {
+    return switch (key) {
+      'pending_assignment' => (Colors.grey, Icons.person_search_rounded),
+      'pending_driver_acceptance' =>
+        (Colors.orange, Icons.hourglass_top),
+      'driver_accepted' || 'in_progress' =>
+        (Colors.blue, Icons.local_shipping),
+      'picked_up' => (Colors.indigo, Icons.inventory_2_rounded),
+      'collected' => (Colors.green, Icons.check_circle_rounded),
+      'cancelled' => (Colors.red.shade400, Icons.cancel_rounded),
+      _ => (Colors.grey, Icons.info_outline),
+    };
+  }
+}
+
+class _InfoChip extends StatelessWidget {
+  const _InfoChip({required this.icon, required this.text});
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 15, color: AppTheme.primary),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+        ),
+      ],
+    );
+  }
+}
+
+class _StatBadge extends StatelessWidget {
+  const _StatBadge({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+  final String label;
+  final String value;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.06),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withOpacity(0.15)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10,
+              color: color.withOpacity(0.7),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ],
       ),
     );
   }

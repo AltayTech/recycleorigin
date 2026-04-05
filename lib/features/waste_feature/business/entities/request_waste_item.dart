@@ -18,6 +18,8 @@ class RequestWasteItem with ChangeNotifier {
   final Address address_data;
   final List<Collect> collect_list;
   final Driver driver;
+  final String requestStatusKey;
+  final String requestStatusLabel;
 
   RequestWasteItem({
     required this.id,
@@ -30,6 +32,8 @@ class RequestWasteItem with ChangeNotifier {
     required this.address_data,
     required this.collect_list,
     required this.driver,
+    this.requestStatusKey = '',
+    this.requestStatusLabel = '',
   });
 
   factory RequestWasteItem.fromJson(Map<String, dynamic> parsedJson) {
@@ -60,6 +64,10 @@ class RequestWasteItem with ChangeNotifier {
       address_data: Address.fromJson(parsedJson['address_data']),
       collect_list: collectRaw,
       driver: Driver.fromJson(parsedJson['driver']),
+      requestStatusKey:
+          parsedJson['request_status_key'] as String? ?? '',
+      requestStatusLabel:
+          parsedJson['request_status_label'] as String? ?? '',
     );
   }
 

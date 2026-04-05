@@ -1627,6 +1627,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Count:'**
   String get listCountSummaryPrefix;
+
+  /// No description provided for @collectDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request details'**
+  String get collectDetailTitle;
+
+  /// No description provided for @currentStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current status'**
+  String get currentStatusLabel;
+
+  /// No description provided for @statusPendingAssignment.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for driver assignment'**
+  String get statusPendingAssignment;
+
+  /// No description provided for @statusPendingDriverAcceptance.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for driver acceptance'**
+  String get statusPendingDriverAcceptance;
+
+  /// No description provided for @statusDriverAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver accepted'**
+  String get statusDriverAccepted;
+
+  /// No description provided for @statusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get statusInProgress;
+
+  /// No description provided for @statusPickedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Picked up by driver'**
+  String get statusPickedUp;
+
+  /// No description provided for @statusCollected.
+  ///
+  /// In en, this message translates to:
+  /// **'Collected'**
+  String get statusCollected;
+
+  /// No description provided for @statusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get statusCancelled;
+
+  /// No description provided for @submittedWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted'**
+  String get submittedWeightLabel;
+
+  /// No description provided for @finalWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Final'**
+  String get finalWeightLabel;
+
+  /// No description provided for @estimatedTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated total'**
+  String get estimatedTotalLabel;
+
+  /// No description provided for @finalTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Final total'**
+  String get finalTotalLabel;
+
+  /// No description provided for @pricePerKgLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Price/kg'**
+  String get pricePerKgLabel;
+
+  /// No description provided for @requestDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Request date'**
+  String get requestDateLabel;
+
+  /// No description provided for @collectDoneTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect done time'**
+  String get collectDoneTimeLabel;
+
+  /// No description provided for @pendingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pendingLabel;
+
+  /// No description provided for @plateNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Plate number'**
+  String get plateNumberLabel;
+
+  /// No description provided for @carColorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Car color'**
+  String get carColorLabel;
 }
 
 class _AppLocalizationsDelegate
