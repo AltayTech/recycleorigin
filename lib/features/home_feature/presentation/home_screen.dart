@@ -6,6 +6,7 @@ import '../../../core/widgets/custom_dialog.dart';
 import '../../articles_feature/presentation/pages/article_screen.dart';
 import '../../collect_feature/presentation/pages/waste_cart_screen.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
+import '../../auth_feature/presentation/bloc/auth_state.dart';
 import '../../store_feature/presentation/bloc/products_bloc.dart';
 import '../../store_feature/presentation/screens/product_screen.dart';
 import '../../wallet_feature/presentation/pages/wallet_screen.dart';
@@ -15,13 +16,16 @@ import 'package:recycleorigin/l10n/l10n.dart';
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
 
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  static const _kAnimationDuration = Duration(milliseconds: 800);
+
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
@@ -30,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: _kAnimationDuration,
       vsync: this,
     );
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -46,30 +50,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     _animationController.forward();
 
-    // Defer initialization logic to after build
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
       _initData();
     });
   }
 
-  void _initData() {
-    if (!mounted) return;
-
-    // Fetch initial data
+  Future<void> _initData() async {
     context.read<ProductsBloc>().retrieveCategory();
-
     final authProvider = context.read<AuthBloc>();
-    authProvider.getTokenFromDB();
-
-    if (authProvider.isFirstLogin) {
-      _showLoginDialog(context);
-      authProvider.isFirstLogin = false;
-    }
-
-    if (authProvider.isFirstLogout) {
-      _showLoginDialogExit(context);
-      authProvider.isFirstLogout = false;
-    }
+    await authProvider.getTokenFromDB();
   }
 
   @override
@@ -78,25 +70,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void _showLoginDialog(BuildContext context) {
-    showDialog<String>(
+  Future<void> _showStatusDialog({
+    required BuildContext context,
+    required String title,
+    required String description,
+  }) {
+    return showDialog<String>(
       context: context,
       builder: (ctx) => CustomDialog(
-        title: ctx.l10n.welcome,
+        title: title,
         buttonText: ctx.l10n.accept,
-        description: ctx.l10n.forarticles,
-        image: Image.asset('assets/images/main_page_request_ic.png'),
-      ),
-    );
-  }
-
-  void _showLoginDialogExit(BuildContext context) {
-    showDialog<String>(
-      context: context,
-      builder: (ctx) => CustomDialog(
-        title: ctx.l10n.dearuser,
-        buttonText: ctx.l10n.accept,
-        description: ctx.l10n.logoutsuccess,
+        description: description,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -104,71 +88,77 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppTheme.bg,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [AppTheme.bg, AppTheme.bg.withOpacity(0.95), Colors.white],
+    return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (previous, current) =>
+          previous.isFirstLogin != current.isFirstLogin ||
+          previous.isFirstLogout != current.isFirstLogout,
+      listener: (context, state) {
+        if (state.isFirstLogin) {
+          _showStatusDialog(
+            context: context,
+            title: context.l10n.welcome,
+            description: context.l10n.forarticles,
+          );
+          context.read<AuthBloc>().isFirstLogin = false;
+        }
+
+        if (state.isFirstLogout) {
+          _showStatusDialog(
+            context: context,
+            title: context.l10n.dearuser,
+            description: context.l10n.logoutsuccess,
+          );
+          context.read<AuthBloc>().isFirstLogout = false;
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppTheme.bg,
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                AppTheme.bg,
+                AppTheme.bg.withValues(alpha: 0.95),
+                Colors.white,
+              ],
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              // 1. Header Section
-              SliverToBoxAdapter(
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: const _HomeHeader(),
-                ),
-              ),
-
-              // 2. Welcome Message
-              SliverToBoxAdapter(
-                child: SlideTransition(
-                  position: _slideAnimation,
+          child: SafeArea(
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+                SliverToBoxAdapter(
                   child: FadeTransition(
                     opacity: _fadeAnimation,
-                    child: const _WelcomeSection(),
+                    child: const _HomeHeader(),
                   ),
                 ),
-              ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 12)),
-
-              // 3. Main Action Button
-              SliverToBoxAdapter(
-                child: SlideTransition(
-                  position: _slideAnimation,
-                  child: FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: const _PrimaryActionButton(),
-                  ),
-                ),
-              ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 12)),
-
-              // 5. Services Grid
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                SliverToBoxAdapter(
                   child: SlideTransition(
                     position: _slideAnimation,
                     child: FadeTransition(
                       opacity: _fadeAnimation,
-                      child: const _ServicesGrid(),
+                      child: const _WelcomeSection(),
                     ),
                   ),
                 ),
-              ),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 24)),
-            ],
+                const SliverToBoxAdapter(child: SizedBox(height: 12)),
+                SliverToBoxAdapter(
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: FadeTransition(
+                      opacity: _fadeAnimation,
+                      child: const _PrimaryActionButton(),
+                    ),
+                  ),
+                ),
+                const SliverToBoxAdapter(child: SizedBox(height: 12)),
+                const _ServicesGridSliver(),
+                const SliverToBoxAdapter(child: SizedBox(height: 24)),
+              ],
+            ),
           ),
         ),
       ),
@@ -177,11 +167,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 }
 
 class _HomeHeader extends StatelessWidget {
-  const _HomeHeader({Key? key}) : super(key: key);
+  const _HomeHeader();
 
   @override
   Widget build(BuildContext context) {
-    // Responsive height
     final double height = MediaQuery.of(context).size.height * 0.25;
 
     return Container(
@@ -191,7 +180,7 @@ class _HomeHeader extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primary.withOpacity(0.15),
+            color: AppTheme.primary.withValues(alpha: 0.15),
             blurRadius: 20,
             spreadRadius: 2,
             offset: const Offset(0, 8),
@@ -207,13 +196,15 @@ class _HomeHeader extends StatelessWidget {
               'assets/images/main_page_header.png',
               fit: BoxFit.cover,
             ),
-            // Gradient Overlay for text legibility if needed
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.black.withOpacity(0.1)],
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withValues(alpha: 0.1),
+                  ],
                 ),
               ),
             ),
@@ -225,7 +216,7 @@ class _HomeHeader extends StatelessWidget {
 }
 
 class _WelcomeSection extends StatelessWidget {
-  const _WelcomeSection({Key? key}) : super(key: key);
+  const _WelcomeSection();
 
   @override
   Widget build(BuildContext context) {
@@ -251,10 +242,13 @@ class _WelcomeSection extends StatelessWidget {
           Text(
             context.l10n.homeWelcomeSubtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppTheme.h1.withOpacity(0.7),
+                      color: AppTheme.h1.withValues(alpha: 0.7),
                       fontWeight: FontWeight.w400,
                     ) ??
-                TextStyle(fontSize: 14, color: AppTheme.h1.withOpacity(0.7)),
+                TextStyle(
+                  fontSize: 14,
+                  color: AppTheme.h1.withValues(alpha: 0.7),
+                ),
             textAlign: TextAlign.center,
           ),
         ],
@@ -264,7 +258,7 @@ class _WelcomeSection extends StatelessWidget {
 }
 
 class _PrimaryActionButton extends StatelessWidget {
-  const _PrimaryActionButton({Key? key}) : super(key: key);
+  const _PrimaryActionButton();
 
   @override
   Widget build(BuildContext context) {
@@ -276,7 +270,7 @@ class _PrimaryActionButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.primary.withOpacity(0.3),
+              color: AppTheme.primary.withValues(alpha: 0.3),
               blurRadius: 16,
               spreadRadius: 2,
               offset: const Offset(0, 6),
@@ -318,53 +312,82 @@ class _PrimaryActionButton extends StatelessWidget {
   }
 }
 
-class _ServicesGrid extends StatelessWidget {
-  const _ServicesGrid({Key? key}) : super(key: key);
+class _ServiceItem {
+  const _ServiceItem({
+    required this.title,
+    required this.icon,
+    required this.imageUrl,
+    required this.onTap,
+    required this.color,
+  });
+
+  final String title;
+  final IconData icon;
+  final String imageUrl;
+  final VoidCallback onTap;
+  final Color color;
+}
+
+class _ServicesGridSliver extends StatelessWidget {
+  const _ServicesGridSliver();
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      crossAxisCount: 2,
-      childAspectRatio: 1.1,
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      padding: EdgeInsets.zero,
-      children: [
-        _ServiceCard(
-          title: context.l10n.request,
-          icon: Icons.assignment,
-          // Fallback icon
-          imageUrl: 'assets/images/main_page_request_ic.png',
-          onTap: () =>
-              Navigator.of(context).pushNamed(CollectListScreen.routeName),
-          color: Colors.blue,
+    final items = <_ServiceItem>[
+      _ServiceItem(
+        title: context.l10n.request,
+        icon: Icons.assignment,
+        imageUrl: 'assets/images/main_page_request_ic.png',
+        onTap: () =>
+            Navigator.of(context).pushNamed(CollectListScreen.routeName),
+        color: Colors.blue,
+      ),
+      _ServiceItem(
+        title: context.l10n.wallet,
+        icon: Icons.account_balance_wallet,
+        imageUrl: 'assets/images/main_page_wallet_ic.png',
+        onTap: () => Navigator.of(context).pushNamed(WalletScreen.routeName),
+        color: Colors.green,
+      ),
+      _ServiceItem(
+        title: context.l10n.articles,
+        icon: Icons.article,
+        imageUrl: 'assets/images/main_page_paper_ic.png',
+        onTap: () => Navigator.of(context).pushNamed(ArticlesScreen.routeName),
+        color: Colors.orange,
+      ),
+      _ServiceItem(
+        title: context.l10n.store,
+        icon: Icons.store,
+        imageUrl: 'assets/images/main_page_shop_ic.png',
+        onTap: () => Navigator.of(context).pushNamed(ProductsScreen.routeName),
+        color: Colors.purple,
+      ),
+    ];
+
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      sliver: SliverGrid(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 1.1,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
         ),
-        _ServiceCard(
-          title: context.l10n.wallet,
-          icon: Icons.account_balance_wallet,
-          imageUrl: 'assets/images/main_page_wallet_ic.png',
-          onTap: () => Navigator.of(context).pushNamed(WalletScreen.routeName),
-          color: Colors.green,
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            final item = items[index];
+            return _ServiceCard(
+              title: item.title,
+              icon: item.icon,
+              imageUrl: item.imageUrl,
+              onTap: item.onTap,
+              color: item.color,
+            );
+          },
+          childCount: items.length,
         ),
-        _ServiceCard(
-          title: context.l10n.articles,
-          icon: Icons.article,
-          imageUrl: 'assets/images/main_page_paper_ic.png',
-          onTap: () =>
-              Navigator.of(context).pushNamed(ArticlesScreen.routeName),
-          color: Colors.orange,
-        ),
-        _ServiceCard(
-          title: context.l10n.store,
-          icon: Icons.store,
-          imageUrl: 'assets/images/main_page_shop_ic.png',
-          onTap: () =>
-              Navigator.of(context).pushNamed(ProductsScreen.routeName),
-          color: Colors.purple,
-        ),
-      ],
+      ),
     );
   }
 }
@@ -377,13 +400,12 @@ class _ServiceCard extends StatelessWidget {
   final Color color;
 
   const _ServiceCard({
-    Key? key,
     required this.title,
     required this.icon,
     required this.imageUrl,
     required this.onTap,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -393,13 +415,13 @@ class _ServiceCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             blurRadius: 15,
             spreadRadius: 2,
             offset: const Offset(0, 6),
           ),
         ],
-        border: Border.all(color: color.withOpacity(0.08), width: 1),
+        border: Border.all(color: color.withValues(alpha: 0.08), width: 1),
       ),
       child: Material(
         color: Colors.transparent,
@@ -414,7 +436,7 @@ class _ServiceCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Image.asset(
