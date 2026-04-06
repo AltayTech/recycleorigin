@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
@@ -8,513 +8,358 @@ import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../bloc/wastes_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
+/// A modern cart-item card with image, pricing, and a
+/// quantity stepper. Supports swipe-to-dismiss.
 class WasteCartItem extends StatefulWidget {
   final WasteCart wasteItem;
-  final Function function;
+  final VoidCallback function;
 
-  WasteCartItem({
+  const WasteCartItem({
+    super.key,
     required this.wasteItem,
     required this.function,
   });
 
   @override
-  _WasteCartItemState createState() => _WasteCartItemState();
+  State<WasteCartItem> createState() => _WasteCartItemState();
 }
 
-class _WasteCartItemState extends State<WasteCartItem>
-    with TickerProviderStateMixin {
-  bool _isInit = true;
+class _WasteCartItemState extends State<WasteCartItem> {
+  bool _isRemoving = false;
 
-  var _isLoading = true;
-
-  int productWeight = 0;
-
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      _isLoading = false;
-
-      productWeight = widget.wasteItem.weight;
-      changeNumberAnimation(double.parse(
-              getPrice(widget.wasteItem.prices, widget.wasteItem.weight)) *
-          widget.wasteItem.weight);
-      changeUnitPriceAnimation(double.parse(
-          getPrice(widget.wasteItem.prices, widget.wasteItem.weight)));
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
-
-  Future<void> removeItem() async {
-    setState(() {
-      _isLoading = true;
-    });
-    await context.read<WastesBloc>().removeWasteCart(
-      widget.wasteItem.id,
-    );
-
-    widget.function();
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  String getPrice(List<PriceWeight> prices, int weight) {
-    String price = '0';
-
-    for (int i = 0; i < prices.length; i++) {
-      if (weight > int.parse(prices[i].weight)) {
-        price = prices[i].price;
+  String _getPrice(List<PriceWeight> prices, int weight) {
+    for (var p in prices) {
+      final tierWeight = int.tryParse(p.weight) ?? 0;
+      if (weight > tierWeight) {
+        return p.price;
       } else {
-        price = prices[i].price;
-        break;
+        return p.price;
       }
     }
-    return price;
+    return '0';
   }
 
-  late AnimationController _totalPriceController;
-  late Animation<double> _totalPriceAnimation;
+  int get _unitPrice =>
+      int.tryParse(_getPrice(
+        widget.wasteItem.prices,
+        widget.wasteItem.weight,
+      )) ??
+      0;
 
-  late AnimationController _unitPriceController;
-  late Animation<double> _unitPriceAnimation;
+  int get _totalPrice => _unitPrice * widget.wasteItem.weight;
 
-  @override
-  initState() {
-    _totalPriceController = new AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
+  Future<void> _removeItem() async {
+    setState(() => _isRemoving = true);
+    await context.read<WastesBloc>().removeWasteCart(widget.wasteItem.id);
+    widget.function();
+  }
+
+  Future<bool> _confirmDismiss() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Text(ctx.l10n.removeItemTitle),
+        content: Text(ctx.l10n.removeItemConfirmation),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(ctx.l10n.cancelLabel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: Text(ctx.l10n.removeLabel),
+          ),
+        ],
+      ),
     );
-    _totalPriceAnimation = _totalPriceController;
-
-    _unitPriceController = new AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
-    );
-    _unitPriceAnimation = _unitPriceController;
-    super.initState();
+    return confirmed ?? false;
   }
 
-  @override
-  void dispose() {
-    _totalPriceController.dispose();
-    _unitPriceController.dispose();
-    super.dispose();
-  }
+  void _updateWeight(int delta) {
+    final newWeight = widget.wasteItem.weight + delta;
+    if (newWeight < 1) return;
 
-  void changeNumberAnimation(double newValue) {
-    setState(() {
-      _totalPriceAnimation = new Tween<double>(
-        begin: _totalPriceAnimation.value,
-        end: newValue,
-      ).animate(new CurvedAnimation(
-        curve: Curves.ease,
-        parent: _totalPriceController,
-      ));
-    });
-    _totalPriceController.forward(from: 0.0);
-  }
-
-  void changeUnitPriceAnimation(double newValue) {
-    setState(() {
-      _unitPriceAnimation = new Tween<double>(
-        begin: _unitPriceAnimation.value,
-        end: newValue,
-      ).animate(new CurvedAnimation(
-        curve: Curves.ease,
-        parent: _unitPriceController,
-      ));
-    });
-    _unitPriceController.forward(from: 0.0);
+    HapticFeedback.lightImpact();
+    context.read<WastesBloc>().updateWasteCart(
+          widget.wasteItem,
+          newWeight,
+        );
+    widget.function();
   }
 
   @override
   Widget build(BuildContext context) {
-    var deviceHeight = MediaQuery.of(context).size.height;
-    var deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final l10n = context.l10n;
+    final fmt = intl.NumberFormat.decimalPattern();
+    final converter = EnArConvertor();
 
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Container(
-        height: deviceWidth * 0.35,
-        width: deviceWidth,
-        child: LayoutBuilder(
-          builder: (_, constraints) => Container(
-            decoration: AppTheme.listItemBox.copyWith(
-                // border: Border.all(
-                //   color: AppTheme.grey,
-                //   width: 0.3,
-                // ),
+    return Dismissible(
+      key: ValueKey(widget.wasteItem.id),
+      direction: DismissDirection.endToStart,
+      confirmDismiss: (_) => _confirmDismiss(),
+      onDismissed: (_) => _removeItem(),
+      background: Container(
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 24),
+        decoration: BoxDecoration(
+          color: Colors.red.shade400,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: const Icon(Icons.delete_outline, color: Colors.white, size: 28),
+      ),
+      child: AnimatedOpacity(
+        opacity: _isRemoving ? 0.4 : 1.0,
+        duration: const Duration(milliseconds: 200),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.04),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                _ItemImage(
+                  imageUrl:
+                      widget.wasteItem.featured_image.sizes.medium,
                 ),
-            child: Card(
-              color: Colors.white,
-              child: Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Spacer(
-                                flex: 2,
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Text(
-                                    widget.wasteItem.name,
-                                    style: TextStyle(
-                                      color: AppTheme.grey,
-                                      fontWeight: FontWeight.w600,
-                                      //fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 18,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'Per Kilo: ',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 12,
-                                      ),
-                                    ),
-                                    AnimatedBuilder(
-                                      animation: _unitPriceAnimation,
-                                      builder: (BuildContext context,
-                                          Widget? child) {
-                                        return Text(
-                                          widget.wasteItem.prices.length != 0
-                                              ? EnArConvertor().replaceArNumber(
-                                                  currencyFormat.format(
-                                                    double.parse(
-                                                        _unitPriceAnimation
-                                                            .value
-                                                            .toStringAsFixed(
-                                                                0)),
-                                                  ),
-                                                )
-                                              : EnArConvertor()
-                                                  .replaceArNumber('0'),
-                                          style: TextStyle(
-                                            color: AppTheme.h1,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 16,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    Text(
-                                      '  \$ ',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'Total: ',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 12,
-                                      ),
-                                    ),
-                                    AnimatedBuilder(
-                                      animation: _totalPriceAnimation,
-                                      builder: (BuildContext context,
-                                          Widget? child) {
-                                        return new Text(
-                                          widget.wasteItem.prices.length != 0
-                                              ? EnArConvertor().replaceArNumber(
-                                                  currencyFormat
-                                                      .format(double.parse(
-                                                        _totalPriceAnimation
-                                                            .value
-                                                            .toStringAsFixed(0),
-                                                      ))
-                                                      .toString())
-                                              : EnArConvertor()
-                                                  .replaceArNumber('0'),
-                                          style: TextStyle(
-                                            color: AppTheme.h1,
-                                            //fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    Text(
-                                      '  \$ ',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.wasteItem.name,
+                        style: const TextStyle(
+                          color: AppTheme.h1,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15,
+                          height: 1.3,
                         ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: FadeInImage(
-                                    placeholder: AssetImage(
-                                        'assets/images/main_page_request_ic.png'),
-                                    image: NetworkImage(widget
-                                        .wasteItem.featured_image.sizes.medium),
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Container(
-                                    height: constraints.maxHeight * 0.23,
-                                    width: constraints.maxWidth * 0.28,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {
-                                              if (productWeight > 1) {
-                                                productWeight =
-                                                    productWeight - 1;
-                                                print('productCount' +
-                                                    productWeight.toString());
-
-                                                context
-                                                    .read<WastesBloc>()
-                                                    .updateWasteCart(
-                                                  widget.wasteItem,
-                                                  productWeight,
-                                                );
-                                                changeNumberAnimation(
-                                                    double.parse(getPrice(
-                                                            widget.wasteItem
-                                                                .prices,
-                                                            widget.wasteItem
-                                                                .weight)) *
-                                                        widget
-                                                            .wasteItem.weight);
-                                                changeUnitPriceAnimation(
-                                                    double.parse(getPrice(
-                                                        widget.wasteItem.prices,
-                                                        widget.wasteItem
-                                                            .weight)));
-                                              }
-                                              widget.function();
-                                            },
-                                            onDoubleTap: () async {
-                                              if (productWeight > 10) {
-                                                productWeight =
-                                                    productWeight - 10;
-                                                print('productCount' +
-                                                    productWeight.toString());
-
-                                                context
-                                                    .read<WastesBloc>()
-                                                    .updateWasteCart(
-                                                  widget.wasteItem,
-                                                  productWeight,
-                                                );
-                                                changeNumberAnimation(
-                                                    double.parse(getPrice(
-                                                            widget.wasteItem
-                                                                .prices,
-                                                            widget.wasteItem
-                                                                .weight)) *
-                                                        widget
-                                                            .wasteItem.weight);
-                                                changeUnitPriceAnimation(
-                                                    double.parse(getPrice(
-                                                        widget.wasteItem.prices,
-                                                        widget.wasteItem
-                                                            .weight)));
-                                              }
-                                              widget.function();
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: AppTheme.accent,
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(2.0),
-                                                child: Icon(
-                                                  Icons.remove,
-                                                  color: AppTheme.bg,
-                                                  size: 25,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 3.0),
-                                            child: Text(
-                                              EnArConvertor()
-                                                  .replaceArNumber(widget
-                                                      .wasteItem.weight
-                                                      .toString())
-                                                  .toString(),
-                                              style: TextStyle(
-                                                color: AppTheme.black,
-                                                //fontFamily: 'Iransans',
-                                                fontSize: textScaleFactor * 15,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                            child: InkWell(
-                                          onTap: () async {
-                                            productWeight = productWeight + 1;
-
-                                            await context
-                                                .read<WastesBloc>()
-                                                .updateWasteCart(
-                                              widget.wasteItem,
-                                              productWeight,
-                                            );
-                                            changeNumberAnimation(double.parse(
-                                                    getPrice(
-                                                        widget.wasteItem.prices,
-                                                        widget.wasteItem
-                                                            .weight)) *
-                                                widget.wasteItem.weight);
-                                            widget.function();
-                                            changeUnitPriceAnimation(
-                                                double.parse(getPrice(
-                                                    widget.wasteItem.prices,
-                                                    widget.wasteItem.weight)));
-                                          },
-                                          onDoubleTap: () async {
-                                            productWeight = productWeight + 10;
-
-                                            await context
-                                                .read<WastesBloc>()
-                                                .updateWasteCart(
-                                              widget.wasteItem,
-                                              productWeight,
-                                            );
-                                            changeNumberAnimation(double.parse(
-                                                    getPrice(
-                                                        widget.wasteItem.prices,
-                                                        widget.wasteItem
-                                                            .weight)) *
-                                                widget.wasteItem.weight);
-                                            widget.function();
-                                            changeUnitPriceAnimation(
-                                                double.parse(getPrice(
-                                                    widget.wasteItem.prices,
-                                                    widget.wasteItem.weight)));
-                                          },
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: AppTheme.accent,
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(2.0),
-                                                child: Icon(
-                                                  Icons.add,
-                                                  color: AppTheme.bg,
-                                                  size: 25,
-                                                ),
-                                              )),
-                                        )),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 4,
-                    left: 4,
-                    child: InkWell(
-                      onTap: () async {
-                        return removeItem();
-                      },
-                      child: Icon(
-                        Icons.close,
-                        size: 20,
-                        color: Colors.black,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          _PriceLabel(
+                            label: l10n.perKiloLabel,
+                            value: converter.replaceArNumber(
+                              fmt.format(_unitPrice),
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '\$',
+                            style: TextStyle(
+                              color: AppTheme.grey.withOpacity(0.6),
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Text(
+                            l10n.totalLabel,
+                            style: TextStyle(
+                              color: AppTheme.grey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            converter.replaceArNumber(
+                              fmt.format(_totalPrice),
+                            ),
+                            style: TextStyle(
+                              color: AppTheme.primary,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          const SizedBox(width: 2),
+                          Text(
+                            '\$',
+                            style: TextStyle(
+                              color: AppTheme.primary.withOpacity(0.6),
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  Positioned(
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Align(
-                          alignment: Alignment.center,
-                          child: _isLoading
-                              ? SpinKitFadingCircle(
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: index.isEven
-                                            ? Colors.grey
-                                            : Colors.grey,
-                                      ),
-                                    );
-                                  },
-                                )
-                              : Container()))
-                ],
+                ),
+                const SizedBox(width: 8),
+                _QuantityStepper(
+                  quantity: widget.wasteItem.weight,
+                  onIncrement: () => _updateWeight(1),
+                  onDecrement: () => _updateWeight(-1),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ItemImage extends StatelessWidget {
+  const _ItemImage({required this.imageUrl});
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 72,
+      height: 72,
+      decoration: BoxDecoration(
+        color: AppTheme.bg,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: FadeInImage(
+        placeholder:
+            const AssetImage('assets/images/main_page_request_ic.png'),
+        image: NetworkImage(imageUrl),
+        fit: BoxFit.cover,
+        imageErrorBuilder: (_, __, ___) => Icon(
+          Icons.recycling_rounded,
+          size: 32,
+          color: AppTheme.primary.withOpacity(0.4),
+        ),
+      ),
+    );
+  }
+}
+
+class _PriceLabel extends StatelessWidget {
+  const _PriceLabel({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: AppTheme.grey,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            color: AppTheme.h1,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _QuantityStepper extends StatelessWidget {
+  const _QuantityStepper({
+    required this.quantity,
+    required this.onIncrement,
+    required this.onDecrement,
+  });
+
+  final int quantity;
+  final VoidCallback onIncrement;
+  final VoidCallback onDecrement;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppTheme.bg,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _StepperButton(
+            icon: Icons.add_rounded,
+            onTap: onIncrement,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Text(
+              EnArConvertor()
+                  .replaceArNumber(quantity.toString()),
+              style: const TextStyle(
+                color: AppTheme.h1,
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
               ),
             ),
+          ),
+          _StepperButton(
+            icon: Icons.remove_rounded,
+            onTap: onDecrement,
+            isDecrease: true,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StepperButton extends StatelessWidget {
+  const _StepperButton({
+    required this.icon,
+    required this.onTap,
+    this.isDecrease = false,
+  });
+
+  final IconData icon;
+  final VoidCallback onTap;
+  final bool isDecrease;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: isDecrease
+          ? Colors.red.shade50
+          : AppTheme.primary.withOpacity(0.12),
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: Icon(
+            icon,
+            size: 18,
+            color: isDecrease ? Colors.red.shade400 : AppTheme.primary,
           ),
         ),
       ),

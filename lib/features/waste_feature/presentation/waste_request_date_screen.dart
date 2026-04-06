@@ -21,23 +21,23 @@ import 'package:recycleorigin/l10n/l10n.dart';
 class WasteRequestDateScreen extends StatefulWidget {
   static const routeName = '/waste_request_date_screen';
 
-  const WasteRequestDateScreen({Key? key}) : super(key: key);
+  const WasteRequestDateScreen({super.key});
 
   @override
-  State<WasteRequestDateScreen> createState() => _WasteRequestDateScreenState();
+  State<WasteRequestDateScreen> createState() =>
+      _WasteRequestDateScreenState();
 }
 
-class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
+class _WasteRequestDateScreenState
+    extends State<WasteRequestDateScreen> {
   bool _isLoading = true;
   bool _isInit = true;
 
-  // Data
   List<WasteCart> wasteCartItems = [];
   int totalPrice = 0;
   int totalWeight = 0;
   List<DateTime> dateList = [];
 
-  // Selections
   late Address selectedAddress;
   Region? selectedRegion;
   DateTime _selectedDay = DateTime.now();
@@ -58,8 +58,8 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
       final authProvider = context.read<AuthBloc>();
       selectedAddress = authProvider.selectedAddress;
 
-      // Fetch region data
-      await authProvider.retrieveRegion(selectedAddress.region.term_id);
+      await authProvider
+          .retrieveRegion(selectedAddress.region.term_id);
 
       if (!mounted) return;
 
@@ -70,7 +70,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
         wasteCartItems = wasteProvider.wasteCartItems;
 
         _calculateTotals();
-        _generateDates(7); // Generate next 7 days
+        _generateDates(7);
 
         _isLoading = false;
       });
@@ -80,7 +80,9 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text(context.l10n.failedToLoadDataRetry)),
+            content: Text(context.l10n.failedToLoadDataRetry),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
       }
     }
@@ -92,16 +94,19 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
 
     for (var item in wasteCartItems) {
       if (item.prices.isNotEmpty) {
-        String priceStr = _getPriceForWeight(item.prices, item.weight);
-        int itemPrice = int.tryParse(priceStr) ?? 0;
-
+        final priceStr =
+            _getPriceForWeight(item.prices, item.weight);
+        final itemPrice = int.tryParse(priceStr) ?? 0;
         totalPrice += itemPrice * item.weight;
         totalWeight += item.weight;
       }
     }
   }
 
-  String _getPriceForWeight(List<PriceWeight> prices, int weight) {
+  String _getPriceForWeight(
+    List<PriceWeight> prices,
+    int weight,
+  ) {
     String price = '0';
     for (var p in prices) {
       if (weight > int.parse(p.weight)) {
@@ -120,35 +125,23 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     for (int i = 0; i < days; i++) {
       dateList.add(now.add(Duration(days: i + 1)));
     }
-    // Set default selection to first available day if list is empty
-    if (dateList.isNotEmpty && !_isSameDay(_selectedDay, dateList.first)) {
-      // Optional: auto-select first day
-      // _selectedDay = dateList.first;
-    }
   }
 
-  bool _isSameDay(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
-  }
-
-  /// Builds the legacy "HH-HH" segment for the request payload from ISO or HH:mm.
   String? _hourKeyForSubmit(String raw) {
-    final DateTime? parsed = DateTime.tryParse(raw);
+    final parsed = DateTime.tryParse(raw);
     if (parsed != null) {
       return parsed.hour.toString().padLeft(2, '0');
     }
-    if (raw.length >= 2) {
-      return raw.substring(0, 2);
-    }
+    if (raw.length >= 2) return raw.substring(0, 2);
     return null;
   }
 
   void _handleDateSelection(DateTime date) {
     setState(() {
       _selectedDay = date;
-      final List<CollectHour> forDay = _hoursForSelectedDay();
+      final forDay = _hoursForSelectedDay();
       if (_selectedStartHour != null &&
-          !forDay.any((CollectHour h) => h.start == _selectedStartHour)) {
+          !forDay.any((h) => h.start == _selectedStartHour)) {
         _selectedStartHour = null;
         _selectedEndHour = null;
       }
@@ -157,9 +150,11 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
 
   List<CollectHour> _hoursForSelectedDay() {
     return (selectedRegion?.collect_hour ?? <CollectHour>[])
-        .where((CollectHour h) => h.collect_hour_status)
-        .where((CollectHour h) =>
-            CollectHourSchedule.appliesOnDay(h, _selectedDay))
+        .where((h) => h.collect_hour_status)
+        .where(
+          (h) =>
+              CollectHourSchedule.appliesOnDay(h, _selectedDay),
+        )
         .toList();
   }
 
@@ -177,19 +172,22 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
         title: ctx.l10n.login,
         buttonText: ctx.l10n.goToLoginScreenButton,
         description: ctx.l10n.pleaseLoginToContinue,
-        image: Image.asset('assets/images/main_page_request_ic.png'),
+        image:
+            Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
   }
 
   void _submit() {
     final authProvider = context.read<AuthBloc>();
+    final l10n = context.l10n;
 
     if (_selectedStartHour == null || _selectedEndHour == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(context.l10n.pleaseSelectCollectionHour),
-          duration: Duration(seconds: 2),
+          content: Text(l10n.pleaseSelectCollectionHour),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -200,41 +198,52 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
       return;
     }
 
-    // Save to bloc
     final wasteProvider = context.read<WastesBloc>();
-    final String? startKey = _hourKeyForSubmit(_selectedStartHour!);
-    final String? endKey = _hourKeyForSubmit(_selectedEndHour!);
+    final startKey = _hourKeyForSubmit(_selectedStartHour!);
+    final endKey = _hourKeyForSubmit(_selectedEndHour!);
     if (startKey == null || endKey == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(context.l10n.invalidTimeSelection)),
+          content: Text(l10n.invalidTimeSelection),
+          behavior: SnackBarBehavior.floating,
+        ),
       );
       return;
     }
-    final String formattedHours = '$startKey-$endKey';
 
-    wasteProvider.selectedHours = formattedHours;
+    wasteProvider.selectedHours = '$startKey-$endKey';
     wasteProvider.selectedDay = _selectedDay;
 
-    Navigator.of(context).pushNamed(WasteRequestSendScreen.routeName);
+    Navigator.of(context)
+        .pushNamed(WasteRequestSendScreen.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final hasTimeSelected = _selectedStartHour != null;
+
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
         title: Text(
-          context.l10n.collectDateFieldLabel,
-          style: TextStyle(color: AppTheme.white, fontWeight: FontWeight.bold),
+          l10n.collectDateFieldLabel,
+          style: const TextStyle(
+            color: AppTheme.appBarIconColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
+        iconTheme: const IconThemeData(
+          color: AppTheme.appBarIconColor,
+        ),
       ),
       endDrawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.transparent,
+        ),
         child: MainDrawer(),
       ),
       body: SafeArea(
@@ -242,23 +251,15 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
             ? const Center(child: CircularProgressIndicator())
             : Column(
                 children: [
+                  _StepProgressBar(currentStep: 2),
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16),
                       physics: const BouncingScrollPhysics(),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment:
+                            CrossAxisAlignment.stretch,
                         children: [
-                          Text(
-                            context.l10n.requestDetailsSectionTitle,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: AppTheme.h1,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
                           RequestSummaryCard(
                             itemCount: wasteCartItems.length,
                             totalPrice: totalPrice,
@@ -268,46 +269,222 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
                           DateSelector(
                             dateList: dateList,
                             selectedDate: _selectedDay,
-                            onDateSelected: _handleDateSelection,
+                            onDateSelected:
+                                _handleDateSelection,
                           ),
                           const SizedBox(height: 24),
                           TimeSelector(
                             hours: _hoursForSelectedDay(),
-                            selectedStartHour: _selectedStartHour,
-                            onHourSelected: _handleHourSelection,
-                            isLoading:
-                                false, // Already handled by parent loading
+                            selectedStartHour:
+                                _selectedStartHour,
+                            onHourSelected:
+                                _handleHourSelection,
+                            isLoading: false,
                           ),
-                          const SizedBox(height: 80), // Space for button
+                          if (hasTimeSelected) ...[
+                            const SizedBox(height: 20),
+                            _SelectedTimeConfirmation(
+                              startHour: _selectedStartHour!,
+                              endHour: _selectedEndHour!,
+                            ),
+                          ],
+                          const SizedBox(height: 80),
                         ],
                       ),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: AppTheme.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          offset: const Offset(0, -4),
-                          blurRadius: 10,
-                        ),
-                      ],
-                    ),
-                    child: InkWell(
-                      onTap: _submit,
-                      child: ButtonBottom(
-                        width: double.infinity,
-                        height: 50,
-                        text: context.l10n.continueLabel,
-                        isActive: _selectedStartHour !=
-                            null, // Only active if hour selected (date is auto-selected)
-                      ),
-                    ),
-                  ),
+                  _buildBottomBar(hasTimeSelected),
                 ],
               ),
+      ),
+    );
+  }
+
+  Widget _buildBottomBar(bool isActive) {
+    final l10n = context.l10n;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 16,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: InkWell(
+        onTap: isActive ? _submit : null,
+        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+        child: ButtonBottom(
+          width: double.infinity,
+          height: 52,
+          text: l10n.continueLabel,
+          isActive: isActive,
+          icon: Icons.arrow_forward_rounded,
+        ),
+      ),
+    );
+  }
+}
+
+class _SelectedTimeConfirmation extends StatelessWidget {
+  const _SelectedTimeConfirmation({
+    required this.startHour,
+    required this.endHour,
+  });
+
+  final String startHour;
+  final String endHour;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppTheme.primary.withOpacity(0.06),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: AppTheme.primary.withOpacity(0.15),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.check_circle_rounded,
+            color: AppTheme.primary,
+            size: 20,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              context.l10n.selectedTimeSlotLabel,
+              style: TextStyle(
+                color: AppTheme.primary,
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StepProgressBar extends StatelessWidget {
+  const _StepProgressBar({required this.currentStep});
+
+  final int currentStep;
+
+  static const _steps = [
+    Icons.shopping_cart_outlined,
+    Icons.location_on_outlined,
+    Icons.calendar_today_outlined,
+    Icons.check_circle_outline,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final labels = [
+      l10n.stepCartLabel,
+      l10n.stepAddressLabel,
+      l10n.stepDateLabel,
+      l10n.stepConfirmLabel,
+    ];
+
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 24,
+        vertical: 14,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children:
+            List.generate(_steps.length * 2 - 1, (index) {
+          if (index.isOdd) {
+            final stepBefore = index ~/ 2;
+            return Expanded(
+              child: Container(
+                height: 2,
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: stepBefore < currentStep
+                      ? AppTheme.primary
+                      : Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(1),
+                ),
+              ),
+            );
+          }
+
+          final stepIndex = index ~/ 2;
+          final isActive = stepIndex == currentStep;
+          final isCompleted = stepIndex < currentStep;
+
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: isCompleted
+                      ? AppTheme.primary
+                      : isActive
+                          ? AppTheme.primary.withOpacity(0.12)
+                          : Colors.grey.shade100,
+                  shape: BoxShape.circle,
+                  border: isActive
+                      ? Border.all(
+                          color: AppTheme.primary,
+                          width: 2,
+                        )
+                      : null,
+                ),
+                child: Icon(
+                  isCompleted
+                      ? Icons.check_rounded
+                      : _steps[stepIndex],
+                  size: 16,
+                  color: isCompleted
+                      ? Colors.white
+                      : isActive
+                          ? AppTheme.primary
+                          : Colors.grey.shade400,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                labels[stepIndex],
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: isActive
+                      ? FontWeight.w700
+                      : FontWeight.w500,
+                  color: isActive || isCompleted
+                      ? AppTheme.primary
+                      : Colors.grey.shade400,
+                ),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }

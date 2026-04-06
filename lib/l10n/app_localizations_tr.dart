@@ -845,4 +845,68 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get homeServicesTitle => 'Hizmetler';
+
+  @override
+  String get stepCartLabel => 'Sepet';
+
+  @override
+  String get stepAddressLabel => 'Adres';
+
+  @override
+  String get stepDateLabel => 'Tarih';
+
+  @override
+  String get stepConfirmLabel => 'Onay';
+
+  @override
+  String get removeItemTitle => 'Öğeyi kaldır';
+
+  @override
+  String get removeItemConfirmation =>
+      'Bu öğeyi sepetinizden kaldırmak istediğinizden emin misiniz?';
+
+  @override
+  String get removeLabel => 'Kaldır';
+
+  @override
+  String get perKiloLabel => 'Kilo başı: ';
+
+  @override
+  String get totalLabel => 'Toplam: ';
+
+  @override
+  String get searchWasteHint => 'Atık öğelerini ara…';
+
+  @override
+  String get clearSearchLabel => 'Aramayı temizle';
+
+  @override
+  String get removeAddressTitle => 'Adresi kaldır';
+
+  @override
+  String get removeAddressConfirmation =>
+      'Bu adresi kaldırmak istediğinizden emin misiniz?';
+
+  @override
+  String get selectAddressTitle => 'Teslim alma adresi seçin';
+
+  @override
+  String get selectAddressSubtitle =>
+      'Sürücünün atığınızı toplamasını istediğiniz yeri seçin.';
+
+  @override
+  String get selectedTimeSlotLabel => 'Zaman dilimi seçildi';
+
+  @override
+  String get confirmRequestTitle => 'Talep gönderilsin mi?';
+
+  @override
+  String get confirmRequestSubtitle =>
+      'Atık toplama talebiniz işleme gönderilecektir.';
+
+  @override
+  String get requestSummaryTitle => 'Sipariş özeti';
+
+  @override
+  String get addressLabel => 'Adres';
 }

@@ -852,4 +852,68 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeServicesTitle => 'Services';
+
+  @override
+  String get stepCartLabel => 'Cart';
+
+  @override
+  String get stepAddressLabel => 'Address';
+
+  @override
+  String get stepDateLabel => 'Date';
+
+  @override
+  String get stepConfirmLabel => 'Confirm';
+
+  @override
+  String get removeItemTitle => 'Remove item';
+
+  @override
+  String get removeItemConfirmation =>
+      'Are you sure you want to remove this item from your cart?';
+
+  @override
+  String get removeLabel => 'Remove';
+
+  @override
+  String get perKiloLabel => 'Per kilo: ';
+
+  @override
+  String get totalLabel => 'Total: ';
+
+  @override
+  String get searchWasteHint => 'Search waste items…';
+
+  @override
+  String get clearSearchLabel => 'Clear search';
+
+  @override
+  String get removeAddressTitle => 'Remove address';
+
+  @override
+  String get removeAddressConfirmation =>
+      'Are you sure you want to remove this address?';
+
+  @override
+  String get selectAddressTitle => 'Select pickup address';
+
+  @override
+  String get selectAddressSubtitle =>
+      'Choose where you\'d like the driver to collect your waste.';
+
+  @override
+  String get selectedTimeSlotLabel => 'Time slot selected';
+
+  @override
+  String get confirmRequestTitle => 'Submit request?';
+
+  @override
+  String get confirmRequestSubtitle =>
+      'Your waste collection request will be sent for processing.';
+
+  @override
+  String get requestSummaryTitle => 'Order summary';
+
+  @override
+  String get addressLabel => 'Address';
 }

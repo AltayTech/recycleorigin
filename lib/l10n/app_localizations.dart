@@ -1747,6 +1747,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Services'**
   String get homeServicesTitle;
+
+  /// No description provided for @stepCartLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get stepCartLabel;
+
+  /// No description provided for @stepAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get stepAddressLabel;
+
+  /// No description provided for @stepDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get stepDateLabel;
+
+  /// No description provided for @stepConfirmLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get stepConfirmLabel;
+
+  /// No description provided for @removeItemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove item'**
+  String get removeItemTitle;
+
+  /// No description provided for @removeItemConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove this item from your cart?'**
+  String get removeItemConfirmation;
+
+  /// No description provided for @removeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeLabel;
+
+  /// No description provided for @perKiloLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Per kilo: '**
+  String get perKiloLabel;
+
+  /// No description provided for @totalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total: '**
+  String get totalLabel;
+
+  /// No description provided for @searchWasteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search waste items…'**
+  String get searchWasteHint;
+
+  /// No description provided for @clearSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get clearSearchLabel;
+
+  /// No description provided for @removeAddressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove address'**
+  String get removeAddressTitle;
+
+  /// No description provided for @removeAddressConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove this address?'**
+  String get removeAddressConfirmation;
+
+  /// No description provided for @selectAddressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select pickup address'**
+  String get selectAddressTitle;
+
+  /// No description provided for @selectAddressSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose where you\'d like the driver to collect your waste.'**
+  String get selectAddressSubtitle;
+
+  /// No description provided for @selectedTimeSlotLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Time slot selected'**
+  String get selectedTimeSlotLabel;
+
+  /// No description provided for @confirmRequestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit request?'**
+  String get confirmRequestTitle;
+
+  /// No description provided for @confirmRequestSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your waste collection request will be sent for processing.'**
+  String get confirmRequestSubtitle;
+
+  /// No description provided for @requestSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order summary'**
+  String get requestSummaryTitle;
+
+  /// No description provided for @addressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressLabel;
 }
 
 class _AppLocalizationsDelegate
