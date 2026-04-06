@@ -849,4 +849,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get carColorLabel => 'Car color';
+
+  @override
+  String get homeServicesTitle => 'Services';
 }

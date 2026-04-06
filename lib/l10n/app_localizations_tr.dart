@@ -842,4 +842,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get carColorLabel => 'Araba rengi';
+
+  @override
+  String get homeServicesTitle => 'Hizmetler';
 }

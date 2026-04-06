@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_theme.dart';
 import 'service_card.dart';
 
 /// Descriptor for a single entry in the services grid.
@@ -22,12 +23,14 @@ class ServiceDescriptor {
   final VoidCallback onTap;
 }
 
-/// A 2-column grid of [ServiceCard] widgets.
+/// A responsive grid of [ServiceCard] widgets with staggered
+/// entrance animations.
 ///
-/// The [onNavigate] callback receives the route name so that
-/// navigation logic stays in the parent screen, not deep inside
-/// widget children.
-class ServicesGrid extends StatelessWidget {
+/// Adapts column count based on available width:
+/// - >= 1100 dp: 4 columns
+/// - >= 720 dp: 3 columns
+/// - < 720 dp: 2 columns
+class ServicesGrid extends StatefulWidget {
   const ServicesGrid({
     super.key,
     required this.descriptors,
@@ -36,42 +39,95 @@ class ServicesGrid extends StatelessWidget {
   final List<ServiceDescriptor> descriptors;
 
   @override
-  Widget build(BuildContext context) {
-    return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      sliver: SliverLayoutBuilder(
-        builder: (context, constraints) {
-          final width = constraints.crossAxisExtent;
-          final crossAxisCount = width >= 1100
-              ? 4
-              : width >= 720
-                  ? 3
-                  : 2;
-          final childAspectRatio = width >= 720 ? 1.15 : 1.05;
+  State<ServicesGrid> createState() => _ServicesGridState();
+}
 
-          return SliverGrid(
+class _ServicesGridState extends State<ServicesGrid>
+    with SingleTickerProviderStateMixin {
+  static const _totalDuration = Duration(milliseconds: 600);
+  static const _staggerFraction = 0.15;
+
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: _totalDuration,
+      vsync: this,
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final crossAxisCount = width >= 1100
+            ? 4
+            : width >= 720
+                ? 3
+                : 2;
+        final childAspectRatio = width >= 720 ? 1.15 : 1.05;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppTheme.spacingMd,
+            vertical: AppTheme.spacingSm,
+          ),
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
               childAspectRatio: childAspectRatio,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
+              crossAxisSpacing: AppTheme.spacingMd,
+              mainAxisSpacing: AppTheme.spacingMd,
             ),
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                final item = descriptors[index];
-                return ServiceCard(
+            itemCount: widget.descriptors.length,
+            itemBuilder: (context, index) {
+              final item = widget.descriptors[index];
+              final begin = (index * _staggerFraction).clamp(0.0, 0.7);
+              final end = (begin + 0.5).clamp(0.0, 1.0);
+
+              final animation = CurvedAnimation(
+                parent: _controller,
+                curve: Interval(
+                  begin,
+                  end,
+                  curve: Curves.easeOutCubic,
+                ),
+              );
+
+              return AnimatedBuilder(
+                animation: animation,
+                builder: (context, child) {
+                  return Opacity(
+                    opacity: animation.value,
+                    child: Transform.translate(
+                      offset: Offset(0, 24 * (1 - animation.value)),
+                      child: child,
+                    ),
+                  );
+                },
+                child: ServiceCard(
                   title: item.title,
                   assetPath: item.assetPath,
                   icon: item.icon,
                   color: item.color,
                   onTap: item.onTap,
-                );
-              },
-              childCount: descriptors.length,
-            ),
-          );
-        },
-      ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

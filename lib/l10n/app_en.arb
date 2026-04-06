@@ -273,5 +273,6 @@
   "collectDoneTimeLabel": "Collect done time",
   "pendingLabel": "Pending",
   "plateNumberLabel": "Plate number",
-  "carColorLabel": "Car color"
+  "carColorLabel": "Car color",
+  "homeServicesTitle": "Services"
 }

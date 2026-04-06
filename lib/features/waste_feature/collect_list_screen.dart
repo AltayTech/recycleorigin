@@ -11,7 +11,6 @@ import '../../core/widgets/main_drawer.dart';
 import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 import '../auth_feature/presentation/screens/login_screen.dart';
 import 'presentation/bloc/wastes_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 class CollectListScreen extends StatefulWidget {

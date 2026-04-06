@@ -273,5 +273,6 @@
   "collectDoneTimeLabel": "Toplama zamani",
   "pendingLabel": "Beklemede",
   "plateNumberLabel": "Plaka numarasi",
-  "carColorLabel": "Araba rengi"
+  "carColorLabel": "Araba rengi",
+  "homeServicesTitle": "Hizmetler"
 }

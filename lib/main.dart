@@ -1,8 +1,8 @@
-import 'dart:ui' show Locale;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/config/app_config.dart';
+import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/config/app_locale_controller.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
@@ -133,25 +133,7 @@ class MyApp extends StatelessWidget {
             locale: locale,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            theme: ThemeData(
-              primarySwatch: Colors.green,
-              // accentColor: Colors.amber,
-              textTheme: ThemeData.light().textTheme.copyWith(
-                    bodyLarge: TextStyle(
-                      fontFamily: 'Roboto',
-                      color: Color.fromRGBO(20, 51, 51, 1),
-                    ),
-                    bodyMedium: TextStyle(
-                      fontFamily: 'Roboto',
-                      color: Color.fromRGBO(20, 51, 51, 1),
-                    ),
-                    displayLarge: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-            ),
+            theme: AppTheme.lightTheme(),
             home: SplashScreens(),
             routes: {
               NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),

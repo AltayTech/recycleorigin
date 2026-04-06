@@ -1741,6 +1741,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Car color'**
   String get carColorLabel;
+
+  /// No description provided for @homeServicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get homeServicesTitle;
 }
 
 class _AppLocalizationsDelegate

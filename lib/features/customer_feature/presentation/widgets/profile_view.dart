@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/store_feature/presentation/screens/orders_screen.dart';
 import 'package:recycleorigin/features/waste_feature/collect_list_screen.dart';
 

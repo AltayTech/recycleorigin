@@ -3,8 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
-/// Full-width gradient CTA that navigates to the collection request
+/// Full-width CTA that navigates to the waste-collection request
 /// flow.
+///
+/// Two visual modes:
+/// - **Light surface** (`useLightSurface: true`) — white
+///   background with green text, used inside the gradient hero
+///   banner.
+/// - **Gradient surface** (default) — primary-to-accent gradient
+///   with white text, used standalone.
 class PrimaryActionButton extends StatelessWidget {
   const PrimaryActionButton({
     super.key,
@@ -12,88 +19,96 @@ class PrimaryActionButton extends StatelessWidget {
     this.useLightSurface = false,
   });
 
-  /// Invoked when the user taps the button.
   final VoidCallback onPressed;
   final bool useLightSurface;
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = useLightSurface ? Colors.white : null;
-    final foregroundColor = useLightSurface ? AppTheme.primary : Colors.white;
-    final secondaryColor = useLightSurface
+    final fg = useLightSurface ? AppTheme.primary : Colors.white;
+    final secondaryBg = useLightSurface
         ? AppTheme.primary.withValues(alpha: 0.1)
         : Colors.white.withValues(alpha: 0.16);
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: useLightSurface ? 0 : 20,
-        vertical: 4,
+        horizontal: useLightSurface ? 0 : AppTheme.spacingMd + 4,
+        vertical: AppTheme.spacingXs,
       ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: useLightSurface
-                  ? Colors.black.withValues(alpha: 0.12)
-                  : AppTheme.primary.withValues(alpha: 0.3),
-              blurRadius: useLightSurface ? 20 : 16,
-              spreadRadius: useLightSurface ? 0 : 2,
-              offset: const Offset(0, 10),
-            ),
-          ],
-          gradient: useLightSurface
-              ? null
-              : LinearGradient(
-                  colors: [AppTheme.primary, AppTheme.accent],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+      child: Semantics(
+        button: true,
+        label: context.l10n.requestCollectionHeroTitle,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: useLightSurface ? Colors.white : null,
+            borderRadius: BorderRadius.circular(AppTheme.radiusSm + 6),
+            boxShadow: [
+              BoxShadow(
+                color: useLightSurface
+                    ? Colors.black.withValues(alpha: 0.12)
+                    : AppTheme.primary.withValues(alpha: 0.3),
+                blurRadius: useLightSurface ? 20 : 16,
+                spreadRadius: useLightSurface ? 0 : 2,
+                offset: const Offset(0, 10),
+              ),
+            ],
+            gradient: useLightSurface
+                ? null
+                : const LinearGradient(
+                    colors: [AppTheme.primary, AppTheme.accent],
+                  ),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onPressed,
+              borderRadius: BorderRadius.circular(
+                AppTheme.radiusSm + 6,
+              ),
+              splashColor: fg.withValues(alpha: 0.08),
+              child: SizedBox(
+                height: 60,
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: AppTheme.spacingMd + 2,
+                    ),
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: secondaryBg,
+                        borderRadius: BorderRadius.circular(
+                          AppTheme.radiusSm + 2,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(
+                          Icons.recycling_rounded,
+                          color: fg,
+                          size: 22,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Text(
+                        context.l10n.requestCollectionHeroTitle,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              color: fg,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.2,
+                            ),
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      color: fg,
+                      size: 24,
+                    ),
+                    const SizedBox(
+                      width: AppTheme.spacingMd + 2,
+                    ),
+                  ],
                 ),
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onPressed,
-            borderRadius: BorderRadius.circular(18),
-            child: SizedBox(
-              height: 62,
-              child: Row(
-                children: [
-                  const SizedBox(width: 18),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Icon(
-                        Icons.recycling_rounded,
-                        color: foregroundColor,
-                        size: 22,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Text(
-                      context.l10n.requestCollectionHeroTitle,
-                      style: TextStyle(
-                        color: foregroundColor,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.2,
-                      ),
-                    ),
-                  ),
-                  Icon(
-                    Icons.arrow_forward_rounded,
-                    color: foregroundColor,
-                    size: 24,
-                  ),
-                  const SizedBox(width: 18),
-                ],
               ),
             ),
           ),

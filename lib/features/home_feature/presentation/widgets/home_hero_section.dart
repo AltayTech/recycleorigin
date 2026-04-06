@@ -18,10 +18,12 @@ class HeroQuickLink {
   final VoidCallback onTap;
 }
 
-/// High-priority hero for the home screen.
+/// High-priority hero banner for the home screen.
 ///
-/// It gives the primary flow a clear focus while still surfacing two
-/// secondary shortcuts for repeat actions.
+/// Focuses the primary flow (waste collection request) while still
+/// surfacing secondary quick-link shortcuts for repeat actions.
+/// Layout adapts from a stacked column on phones to a side-by-side
+/// row on wider viewports (>= 720 dp).
 class HomeHeroSection extends StatelessWidget {
   const HomeHeroSection({
     super.key,
@@ -34,33 +36,37 @@ class HomeHeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final ext = theme.extension<AppColorsExtension>()!;
     final isWide = MediaQuery.sizeOf(context).width >= 720;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
-      child: Container(
+      padding: const EdgeInsets.fromLTRB(
+        AppTheme.spacingMd + 4,
+        AppTheme.spacingMd,
+        AppTheme.spacingMd + 4,
+        AppTheme.spacingSm + 4,
+      ),
+      child: DecoratedBox(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppTheme.primary,
-              Color.lerp(AppTheme.primary, AppTheme.accent, 0.45)!,
-              const Color(0xFF1F8B61),
+              ext.heroGradientStart,
+              Color.lerp(
+                ext.heroGradientStart,
+                AppTheme.accent,
+                0.45,
+              )!,
+              ext.heroGradientEnd,
             ],
           ),
-          boxShadow: [
-            BoxShadow(
-              color: AppTheme.primary.withValues(alpha: 0.24),
-              blurRadius: 34,
-              offset: const Offset(0, 18),
-            ),
-          ],
+          boxShadow: AppTheme.heroShadow(ext.heroGradientStart),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           child: Stack(
             children: [
               const Positioned(
@@ -74,19 +80,20 @@ class HomeHeroSection extends StatelessWidget {
                 child: _GlowOrb(size: 124),
               ),
               Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(AppTheme.spacingLg),
                 child: isWide
                     ? Row(
                         children: [
                           Expanded(
                             flex: 3,
                             child: _HeroCopy(
-                              textTheme: textTheme,
                               onPrimaryActionPressed: onPrimaryActionPressed,
                               quickLinks: quickLinks,
                             ),
                           ),
-                          const SizedBox(width: 24),
+                          const SizedBox(
+                            width: AppTheme.spacingLg,
+                          ),
                           const Expanded(
                             flex: 2,
                             child: _HeroVisual(),
@@ -97,11 +104,12 @@ class HomeHeroSection extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _HeroCopy(
-                            textTheme: textTheme,
                             onPrimaryActionPressed: onPrimaryActionPressed,
                             quickLinks: quickLinks,
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(
+                            height: AppTheme.spacingMd + 4,
+                          ),
                           const _HeroVisual(),
                         ],
                       ),
@@ -114,41 +122,26 @@ class HomeHeroSection extends StatelessWidget {
   }
 }
 
+// ── Private child widgets ────────────────────────────────────────
+
 class _HeroCopy extends StatelessWidget {
   const _HeroCopy({
-    required this.textTheme,
     required this.onPrimaryActionPressed,
     required this.quickLinks,
   });
 
-  final TextTheme textTheme;
   final VoidCallback onPrimaryActionPressed;
   final List<HeroQuickLink> quickLinks;
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.18),
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.28),
-            ),
-          ),
-          child: Text(
-            context.l10n.welcome,
-            style: textTheme.labelLarge?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.3,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
+        _WelcomeBadge(),
+        const SizedBox(height: AppTheme.spacingMd),
         Text(
           context.l10n.homeWelcomeHeadline,
           style: textTheme.headlineMedium?.copyWith(
@@ -157,7 +150,7 @@ class _HeroCopy extends StatelessWidget {
             fontWeight: FontWeight.w800,
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: AppTheme.spacingSm + 2),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 460),
           child: Text(
@@ -168,7 +161,7 @@ class _HeroCopy extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: AppTheme.spacingMd + 4),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 360),
           child: PrimaryActionButton(
@@ -176,17 +169,41 @@ class _HeroCopy extends StatelessWidget {
             useLightSurface: true,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppTheme.spacingMd),
         Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: quickLinks
-              .map(
-                (item) => _HeroQuickLinkChip(item: item),
-              )
-              .toList(),
+          spacing: AppTheme.spacingSm + 4,
+          runSpacing: AppTheme.spacingSm + 4,
+          children:
+              quickLinks.map((item) => _HeroQuickLinkChip(item: item)).toList(),
         ),
       ],
+    );
+  }
+}
+
+class _WelcomeBadge extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.spacingSm + 4,
+        vertical: 6,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.18),
+        borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.28),
+        ),
+      ),
+      child: Text(
+        context.l10n.welcome,
+        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.3,
+            ),
+      ),
     );
   }
 }
@@ -205,12 +222,15 @@ class _HeroQuickLinkChip extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: item.onTap,
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: BorderRadius.circular(AppTheme.radiusFull),
           child: Ink(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 10,
+            ),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.14),
-              borderRadius: BorderRadius.circular(999),
+              borderRadius: BorderRadius.circular(AppTheme.radiusFull),
               border: Border.all(
                 color: Colors.white.withValues(alpha: 0.18),
               ),
@@ -219,7 +239,7 @@ class _HeroQuickLinkChip extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(item.icon, color: Colors.white, size: 18),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppTheme.spacingSm),
                 Text(
                   item.label,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
@@ -246,7 +266,7 @@ class _HeroVisual extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(AppTheme.spacingLg),
           border: Border.all(
             color: Colors.white.withValues(alpha: 0.18),
           ),
@@ -256,7 +276,7 @@ class _HeroVisual extends StatelessWidget {
           child: Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                 child: Image.asset(
                   'assets/images/main_page_header.png',
                   fit: BoxFit.cover,
@@ -267,7 +287,9 @@ class _HeroVisual extends StatelessWidget {
               Positioned.fill(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(
+                      AppTheme.radiusMd,
+                    ),
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -285,7 +307,9 @@ class _HeroVisual extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.92),
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(
+                      AppTheme.radiusSm + 6,
+                    ),
                   ),
                   child: Icon(
                     Icons.eco_rounded,
@@ -309,7 +333,7 @@ class _GlowOrb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
+    return ExcludeSemantics(
       child: Container(
         width: size,
         height: size,
