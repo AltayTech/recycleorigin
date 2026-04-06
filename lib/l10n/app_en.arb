@@ -294,5 +294,30 @@
   "confirmRequestTitle": "Submit request?",
   "confirmRequestSubtitle": "Your waste collection request will be sent for processing.",
   "requestSummaryTitle": "Order summary",
-  "addressLabel": "Address"
+  "addressLabel": "Address",
+  "mapScreenLocationSection": "Pin your location",
+  "mapScreenLocationHint": "Drag the map to place the pin at your exact address",
+  "mapScreenMyLocation": "My location",
+  "mapScreenCoordinates": "Coordinates",
+  "mapScreenFormSection": "Address details",
+  "mapScreenFormHint": "Fill in the details so we can find you easily",
+  "mapScreenRequiredFields": "All fields are required",
+  "locationPinned": "Location pinned",
+  "locationNotSet": "Location not set",
+  "swipeToDelete": "Swipe to delete",
+  "addressSavedGoBack": "Address saved! Going back…",
+  "retryLabel": "Retry",
+  "locationPermissionDenied": "Location permission denied. You can still pick manually.",
+  "locationServicesDisabled": "Location services disabled. Enable them to auto-detect.",
+  "fieldRequired": "This field is required",
+  "addressCount": "{count, plural, =0{No addresses} =1{1 address} other{{count} addresses}}",
+  "@addressCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectedLabel": "Selected",
+  "defaultAddressLabel": "Default"
 }

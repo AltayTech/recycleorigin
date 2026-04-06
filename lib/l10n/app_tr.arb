@@ -294,5 +294,30 @@
   "confirmRequestTitle": "Talep gönderilsin mi?",
   "confirmRequestSubtitle": "Atık toplama talebiniz işleme gönderilecektir.",
   "requestSummaryTitle": "Sipariş özeti",
-  "addressLabel": "Adres"
+  "addressLabel": "Adres",
+  "mapScreenLocationSection": "Konumunuzu sabitleyin",
+  "mapScreenLocationHint": "Haritayı sürükleyerek pini tam adresinize yerleştirin",
+  "mapScreenMyLocation": "Konumum",
+  "mapScreenCoordinates": "Koordinatlar",
+  "mapScreenFormSection": "Adres bilgileri",
+  "mapScreenFormHint": "Sizi kolayca bulabilmemiz için bilgileri doldurun",
+  "mapScreenRequiredFields": "Tüm alanlar zorunludur",
+  "locationPinned": "Konum sabitlendi",
+  "locationNotSet": "Konum belirlenmedi",
+  "swipeToDelete": "Silmek için kaydırın",
+  "addressSavedGoBack": "Adres kaydedildi! Geri dönülüyor…",
+  "retryLabel": "Tekrar dene",
+  "locationPermissionDenied": "Konum izni reddedildi. Yine de elle seçebilirsiniz.",
+  "locationServicesDisabled": "Konum servisleri kapalı. Otomatik algılama için açın.",
+  "fieldRequired": "Bu alan zorunludur",
+  "addressCount": "{count, plural, =0{Adres yok} =1{1 adres} other{{count} adres}}",
+  "@addressCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectedLabel": "Seçili",
+  "defaultAddressLabel": "Varsayılan"
 }

@@ -909,4 +909,68 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get addressLabel => 'Adres';
+
+  @override
+  String get mapScreenLocationSection => 'Konumunuzu sabitleyin';
+
+  @override
+  String get mapScreenLocationHint =>
+      'Haritayı sürükleyerek pini tam adresinize yerleştirin';
+
+  @override
+  String get mapScreenMyLocation => 'Konumum';
+
+  @override
+  String get mapScreenCoordinates => 'Koordinatlar';
+
+  @override
+  String get mapScreenFormSection => 'Adres bilgileri';
+
+  @override
+  String get mapScreenFormHint =>
+      'Sizi kolayca bulabilmemiz için bilgileri doldurun';
+
+  @override
+  String get mapScreenRequiredFields => 'Tüm alanlar zorunludur';
+
+  @override
+  String get locationPinned => 'Konum sabitlendi';
+
+  @override
+  String get locationNotSet => 'Konum belirlenmedi';
+
+  @override
+  String get swipeToDelete => 'Silmek için kaydırın';
+
+  @override
+  String get addressSavedGoBack => 'Adres kaydedildi! Geri dönülüyor…';
+
+  @override
+  String get locationPermissionDenied =>
+      'Konum izni reddedildi. Yine de elle seçebilirsiniz.';
+
+  @override
+  String get locationServicesDisabled =>
+      'Konum servisleri kapalı. Otomatik algılama için açın.';
+
+  @override
+  String get fieldRequired => 'Bu alan zorunludur';
+
+  @override
+  String addressCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count adres',
+      one: '1 adres',
+      zero: 'Adres yok',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get selectedLabel => 'Seçili';
+
+  @override
+  String get defaultAddressLabel => 'Varsayılan';
 }

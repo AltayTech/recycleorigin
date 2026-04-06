@@ -916,4 +916,68 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addressLabel => 'Address';
+
+  @override
+  String get mapScreenLocationSection => 'Pin your location';
+
+  @override
+  String get mapScreenLocationHint =>
+      'Drag the map to place the pin at your exact address';
+
+  @override
+  String get mapScreenMyLocation => 'My location';
+
+  @override
+  String get mapScreenCoordinates => 'Coordinates';
+
+  @override
+  String get mapScreenFormSection => 'Address details';
+
+  @override
+  String get mapScreenFormHint =>
+      'Fill in the details so we can find you easily';
+
+  @override
+  String get mapScreenRequiredFields => 'All fields are required';
+
+  @override
+  String get locationPinned => 'Location pinned';
+
+  @override
+  String get locationNotSet => 'Location not set';
+
+  @override
+  String get swipeToDelete => 'Swipe to delete';
+
+  @override
+  String get addressSavedGoBack => 'Address saved! Going back…';
+
+  @override
+  String get locationPermissionDenied =>
+      'Location permission denied. You can still pick manually.';
+
+  @override
+  String get locationServicesDisabled =>
+      'Location services disabled. Enable them to auto-detect.';
+
+  @override
+  String get fieldRequired => 'This field is required';
+
+  @override
+  String addressCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count addresses',
+      one: '1 address',
+      zero: 'No addresses',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get selectedLabel => 'Selected';
+
+  @override
+  String get defaultAddressLabel => 'Default';
 }

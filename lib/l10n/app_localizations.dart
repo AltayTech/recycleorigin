@@ -1867,6 +1867,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Address'**
   String get addressLabel;
+
+  /// No description provided for @mapScreenLocationSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin your location'**
+  String get mapScreenLocationSection;
+
+  /// No description provided for @mapScreenLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the map to place the pin at your exact address'**
+  String get mapScreenLocationHint;
+
+  /// No description provided for @mapScreenMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'My location'**
+  String get mapScreenMyLocation;
+
+  /// No description provided for @mapScreenCoordinates.
+  ///
+  /// In en, this message translates to:
+  /// **'Coordinates'**
+  String get mapScreenCoordinates;
+
+  /// No description provided for @mapScreenFormSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Address details'**
+  String get mapScreenFormSection;
+
+  /// No description provided for @mapScreenFormHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the details so we can find you easily'**
+  String get mapScreenFormHint;
+
+  /// No description provided for @mapScreenRequiredFields.
+  ///
+  /// In en, this message translates to:
+  /// **'All fields are required'**
+  String get mapScreenRequiredFields;
+
+  /// No description provided for @locationPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Location pinned'**
+  String get locationPinned;
+
+  /// No description provided for @locationNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Location not set'**
+  String get locationNotSet;
+
+  /// No description provided for @swipeToDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe to delete'**
+  String get swipeToDelete;
+
+  /// No description provided for @addressSavedGoBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Address saved! Going back…'**
+  String get addressSavedGoBack;
+
+  /// No description provided for @locationPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission denied. You can still pick manually.'**
+  String get locationPermissionDenied;
+
+  /// No description provided for @locationServicesDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Location services disabled. Enable them to auto-detect.'**
+  String get locationServicesDisabled;
+
+  /// No description provided for @fieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get fieldRequired;
+
+  /// No description provided for @addressCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No addresses} =1{1 address} other{{count} addresses}}'**
+  String addressCount(int count);
+
+  /// No description provided for @selectedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected'**
+  String get selectedLabel;
+
+  /// No description provided for @defaultAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get defaultAddressLabel;
 }
 
 class _AppLocalizationsDelegate
