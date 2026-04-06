@@ -1,105 +1,146 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../theme/app_theme.dart';
 import '../logic/en_to_ar_number_convertor.dart';
 import '../utils/app_info_service.dart';
-import '../widgets/splashscreen.dart';
 import 'navigation_bottom_screen.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 class SplashScreens extends StatefulWidget {
+  const SplashScreens({super.key});
+
   @override
-  _SplashScreensState createState() => _SplashScreensState();
+  State<SplashScreens> createState() => _SplashScreensState();
 }
 
 class _SplashScreensState extends State<SplashScreens> {
-  String _appVersion = '';
+  static const Duration _splashDuration = Duration(seconds: 3);
+  static const String _fallbackVersion = '1.0.0';
+  static const double _logoFactor = 0.7;
+
+  final EnArConvertor _numberConvertor = EnArConvertor();
+  String? _version;
+  bool _hasNavigated = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _loadAppVersion();
-    });
+    _loadAppVersion();
+    Future<void>.delayed(_splashDuration, _goToHome);
   }
 
-  /// Loads app version dynamically from AppInfoService
+  void _goToHome() {
+    if (!mounted || _hasNavigated) {
+      return;
+    }
+    _hasNavigated = true;
+    Navigator.of(context)
+        .pushReplacementNamed(NavigationBottomScreen.routeName);
+  }
+
+  /// Loads app version from [AppInfoService] with a safe fallback.
   Future<void> _loadAppVersion() async {
+    String resolvedVersion = _fallbackVersion;
     try {
       final appInfo = AppInfoService.instance;
       if (!appInfo.isInitialized) {
         await appInfo.initialize();
       }
-      if (mounted) {
-        setState(() {
-          _appVersion = '${context.l10n.version} ${appInfo.version}';
-        });
-      }
+      resolvedVersion = appInfo.version;
     } catch (e) {
-      // Fallback to default version if loading fails
-      if (mounted) {
-        setState(() {
-          _appVersion = '${context.l10n.version} 1.0.0';
-        });
-      }
+      resolvedVersion = _fallbackVersion;
     }
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _version = resolvedVersion;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return new SplashScreen(
-      seconds: 3,
-      navigateAfterSeconds: new NavigationBottomScreen(),
-      title: new Text(
-        context.l10n.recycleorigin,
-        textAlign: TextAlign.center,
-        style: new TextStyle(
-          fontFamily: 'BFarnaz',
-          fontSize: MediaQuery.of(context).textScaleFactor * 30,
-          color: Color(0xff06623B),
-          shadows: <Shadow>[
-            Shadow(
-              offset: Offset(0.0, 0.0),
-              blurRadius: 0.0,
-              color: Color.fromARGB(255, 0, 0, 0),
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final side = MediaQuery.sizeOf(context).width * _logoFactor;
+
+    return Scaffold(
+      body: InkWell(
+        onTap: _goToHome,
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage('assets/images/login_bg.png'),
             ),
-          ],
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [AppTheme.bg, AppTheme.bg, AppTheme.bg],
+            ),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Column(
+                children: [
+                  const Spacer(flex: 2),
+                  SizedBox(
+                    height: side,
+                    width: side,
+                    child: Image.asset(
+                      'assets/images/splash_main.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    context.l10n.recycleorigin,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'BFarnaz',
+                      fontSize: textScale * 30,
+                      color: const Color(0xff06623B),
+                      shadows: const <Shadow>[
+                        Shadow(
+                          offset: Offset.zero,
+                          blurRadius: 0,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(flex: 3),
+                  const SpinKitThreeBounce(
+                    size: 25,
+                    color: Color(0xff06623B),
+                    duration: Duration(milliseconds: 2000),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    _buildVersionLabel(context),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: textScale * 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
-      loadingText: Text(
-        _appVersion.isEmpty
-            ? context.l10n.loadingLabel
-            : EnArConvertor().replaceArNumber(_appVersion),
-        style: new TextStyle(
-          //fontFamily: 'Iransans',
-          fontWeight: FontWeight.w400,
-          fontSize: MediaQuery.of(context).textScaleFactor * 18,
-          color: Colors.black,
-        ),
-      ),
-      image: Image.asset(
-        'assets/images/splash_main.png',
-//        color: AppTheme.primary,
-        fit: BoxFit.contain,
-        height: MediaQuery.of(context).size.width * 0.7,
-        width: MediaQuery.of(context).size.width * 0.7,
-      ),
-      gradientBackground: LinearGradient(
-        begin: Alignment.topRight,
-        end: Alignment.bottomLeft,
-        colors: [
-          AppTheme.bg,
-          AppTheme.bg,
-          AppTheme.bg,
-        ],
-      ),
-      imageBackground: AssetImage(
-        'assets/images/login_bg.png',
-//        color: AppTheme.primary,
-      ),
-      styleTextUnderTheLoader: new TextStyle(),
-      photoSize: MediaQuery.of(context).size.width * 0.7,
-      onClick: () => print("Flutter Egypt"),
     );
+  }
+
+  String _buildVersionLabel(BuildContext context) {
+    if (_version == null) {
+      return context.l10n.loadingLabel;
+    }
+    return _numberConvertor
+        .replaceArNumber('${context.l10n.version} $_version');
   }
 }
