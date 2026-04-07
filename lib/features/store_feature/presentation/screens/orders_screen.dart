@@ -236,7 +236,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 3, vertical: 5),
                                             child: Text(
-                                              context.l10n.cartNumberSummaryPrefix,
+                                              context
+                                                  .l10n.cartNumberSummaryPrefix,
                                               style: TextStyle(
                                                 //fontFamily: 'Iransans',
                                                 fontSize:
@@ -310,7 +311,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         child: loadedProductstolist.isEmpty
                                             ? Center(
                                                 child: Text(
-                                                context.l10n.storeNoOrdersYetMessage,
+                                                context.l10n
+                                                    .storeNoOrdersYetMessage,
                                                 style: TextStyle(
                                                   //fontFamily: 'Iransans',
                                                   fontSize:
@@ -324,7 +326,7 @@ class _OrdersScreenState extends State<OrdersScreen>
           ),
         ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

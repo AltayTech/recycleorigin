@@ -203,7 +203,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
           ),
         ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

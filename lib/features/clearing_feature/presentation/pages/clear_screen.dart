@@ -524,7 +524,8 @@ class _ClearScreenState extends State<ClearScreen>
                                                       horizontal: 3,
                                                       vertical: 5),
                                                   child: Text(
-                                                    context.l10n.cartNumberSummaryPrefix,
+                                                    context.l10n
+                                                        .cartNumberSummaryPrefix,
                                                     style: TextStyle(
                                                       //fontFamily: 'Iransans',
                                                       fontSize:
@@ -561,7 +562,8 @@ class _ClearScreenState extends State<ClearScreen>
                                                       horizontal: 3,
                                                       vertical: 5),
                                                   child: Text(
-                                                    context.l10n.tableColumnFromLabel,
+                                                    context.l10n
+                                                        .tableColumnFromLabel,
                                                     style: TextStyle(
                                                       //fontFamily: 'Iransans',
                                                       fontSize:
@@ -676,7 +678,8 @@ class _ClearScreenState extends State<ClearScreen>
                               onTap: () async {
                                 SnackBar addToCartSnackBar = SnackBar(
                                   content: Text(
-                                    context.l10n.clearingEnterAccountNumberSnack,
+                                    context
+                                        .l10n.clearingEnterAccountNumberSnack,
                                     style: TextStyle(
                                       color: Colors.white,
                                       //fontFamily: 'Iransans',
@@ -762,7 +765,7 @@ class _ClearScreenState extends State<ClearScreen>
           },
         ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

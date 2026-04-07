@@ -565,7 +565,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
           ),
         ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.transparent,
         ),

@@ -162,7 +162,7 @@ class _AddressScreenState extends State<AddressScreen>
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         elevation: 0,
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),

@@ -248,7 +248,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
           );
         },
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),

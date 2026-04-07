@@ -278,7 +278,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                 ),
               ),
             ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

@@ -20,6 +20,10 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         elevation: 0,
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -32,7 +36,7 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const MainDrawer(),
       ),

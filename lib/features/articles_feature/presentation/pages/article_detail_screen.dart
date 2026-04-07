@@ -94,7 +94,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
               : _article == null
                   ? _buildEmptyState(context)
                   : _buildArticleContent(context, screenWidth, textScaleFactor),
-      endDrawer: Theme(
+      drawer: Theme(
         data: theme.copyWith(canvasColor: Colors.transparent),
         child: const MainDrawer(),
       ),

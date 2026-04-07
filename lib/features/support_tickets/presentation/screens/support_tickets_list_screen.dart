@@ -42,6 +42,10 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
           l10n.supportScreenTitle,
           style: TextStyle(color: AppTheme.bg),
@@ -53,13 +57,12 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
           if (auth.isAuth)
             IconButton(
               tooltip: 'Refresh',
-              onPressed: () =>
-                  context.read<SupportTicketsListCubit>().load(),
+              onPressed: () => context.read<SupportTicketsListCubit>().load(),
               icon: Icon(Icons.refresh, color: AppTheme.appBarIconColor),
             ),
         ],
       ),
-      endDrawer: const MainDrawer(),
+      drawer: const MainDrawer(),
       floatingActionButton: auth.isAuth
           ? FloatingActionButton(
               onPressed: () async {
@@ -87,7 +90,8 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
                     const Center(child: CircularProgressIndicator()),
                   SupportTicketsListLoading() =>
                     const Center(child: CircularProgressIndicator()),
-                  SupportTicketsListFailed(message: final message) => _ErrorBody(
+                  SupportTicketsListFailed(message: final message) =>
+                    _ErrorBody(
                       message: message,
                       onRetry: () =>
                           context.read<SupportTicketsListCubit>().load(),

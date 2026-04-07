@@ -260,7 +260,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           ],
         ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: theme.copyWith(canvasColor: Colors.transparent),
         child: const MainDrawer(),
       ),

@@ -240,7 +240,7 @@ class _WasteRequestDateScreenState
           color: AppTheme.appBarIconColor,
         ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.transparent,
         ),

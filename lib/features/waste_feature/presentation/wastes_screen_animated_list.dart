@@ -487,7 +487,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
           ),
         );
       }),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

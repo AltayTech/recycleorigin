@@ -350,7 +350,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
         );
       }),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

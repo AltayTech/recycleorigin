@@ -19,6 +19,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         elevation: 0,
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -31,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.transparent,
         ),

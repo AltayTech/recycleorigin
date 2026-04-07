@@ -111,8 +111,7 @@ class _ProductsScreenState extends State<ProductsScreen>
     if (_isInit) {
       context.read<ProductsBloc>().retrieveCategory();
 
-      categoryList =
-          context.read<ProductsBloc>().categoryItems;
+      categoryList = context.read<ProductsBloc>().categoryItems;
       print(_isLoading.toString());
 
       context.read<ProductsBloc>().searchBuilder();
@@ -146,8 +145,7 @@ class _ProductsScreenState extends State<ProductsScreen>
 
     context.read<ProductsBloc>().searchBuilder();
     await context.read<ProductsBloc>().searchItem();
-    productsDetail =
-        context.read<ProductsBloc>().searchDetails;
+    productsDetail = context.read<ProductsBloc>().searchDetails;
 
     _submit();
 
@@ -168,8 +166,7 @@ class _ProductsScreenState extends State<ProductsScreen>
 
     String categoriesEndpoint =
         _selectedCategoryId != 0 ? '$_selectedCategoryId' : '';
-    context.read<ProductsBloc>().sCategory =
-        categoriesEndpoint;
+    context.read<ProductsBloc>().sCategory = categoriesEndpoint;
 
     context.read<ProductsBloc>().searchBuilder();
     loadedProductstolist.clear();
@@ -216,6 +213,10 @@ class _ProductsScreenState extends State<ProductsScreen>
       key: scaffoldKey,
       backgroundColor: Color(0xffF9F9F9),
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
           context.l10n.storeProductsAppBarTitle,
           style: TextStyle(
@@ -280,8 +281,7 @@ class _ProductsScreenState extends State<ProductsScreen>
 
                               changeCat(context);
 
-                              context.read<ProductsBloc>()
-                                  .checkFiltered();
+                              context.read<ProductsBloc>().checkFiltered();
                             },
                             child: Container(
                               decoration: _selectedCategoryId == 0
@@ -422,8 +422,9 @@ class _ProductsScreenState extends State<ProductsScreen>
                                         if (sortValue == 'High Price') {
                                           context.read<ProductsBloc>().sOrder =
                                               'desc';
-                                          context.read<ProductsBloc>().sOrderBy =
-                                              'price';
+                                          context
+                                              .read<ProductsBloc>()
+                                              .sOrderBy = 'price';
                                           page = 1;
                                           context.read<ProductsBloc>().sPage =
                                               page;
@@ -433,8 +434,9 @@ class _ProductsScreenState extends State<ProductsScreen>
                                         } else if (sortValue == 'Low Price') {
                                           context.read<ProductsBloc>().sOrder =
                                               'asc';
-                                          context.read<ProductsBloc>().sOrderBy =
-                                              'price';
+                                          context
+                                              .read<ProductsBloc>()
+                                              .sOrderBy = 'price';
 
                                           page = 1;
                                           context.read<ProductsBloc>().sPage =
@@ -445,8 +447,9 @@ class _ProductsScreenState extends State<ProductsScreen>
                                         } else {
                                           context.read<ProductsBloc>().sOrder =
                                               'desc';
-                                          context.read<ProductsBloc>().sOrderBy =
-                                              'date';
+                                          context
+                                              .read<ProductsBloc>()
+                                              .sOrderBy = 'date';
                                           page = 1;
                                           context.read<ProductsBloc>().sPage =
                                               page;
@@ -487,8 +490,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                           Container(
                             child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  vertical: deviceHeight * 0.0,
-                                  horizontal: 3),
+                                  vertical: deviceHeight * 0.0, horizontal: 3),
                               child: Wrap(
                                 alignment: WrapAlignment.start,
                                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -751,7 +753,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       //            ),
       //          ],
       //        ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors

@@ -151,7 +151,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         elevation: 0,
         centerTitle: true,
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),

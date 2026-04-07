@@ -350,7 +350,7 @@ class _WasteRequestSendScreenState
         ),
         elevation: 0,
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.transparent,
         ),

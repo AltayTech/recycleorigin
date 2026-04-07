@@ -127,7 +127,7 @@ class _WastesScreenState extends State<WastesScreen> {
           ),
         ),
       ),
-      endDrawer: Theme(
+      drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),
