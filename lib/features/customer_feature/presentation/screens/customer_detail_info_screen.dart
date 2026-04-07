@@ -28,6 +28,16 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
   bool _isLoading = false;
   bool _isInitialized = false;
   String? _errorMessage;
+  static const Set<String> _requestStatusNames = {
+    'pending',
+    'collected',
+    'accepted',
+    'rejected',
+    'cancelled',
+    'completed',
+    'processing',
+    'delivered',
+  };
 
   @override
   void initState() {
@@ -282,11 +292,33 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
         ),
         _InfoItem(
           title: l10n.userTypeLabel,
-          value: _customer?.customer_type.name ?? na,
+          value: _resolveUserTypeLabel(_customer) ?? na,
           icon: Icons.category,
         ),
       ],
     );
+  }
+
+  String? _resolveUserTypeLabel(Customer? customer) {
+    if (customer == null) {
+      return null;
+    }
+
+    final typeName = customer.customer_type.name.trim();
+    final typeSlug = customer.customer_type.slug.trim();
+    final normalizedTypeName = typeName.toLowerCase();
+
+    if (typeName.isNotEmpty &&
+        !_requestStatusNames.contains(normalizedTypeName)) {
+      return typeName;
+    }
+
+    if (typeSlug.isNotEmpty &&
+        !_requestStatusNames.contains(typeSlug.toLowerCase())) {
+      return typeSlug;
+    }
+
+    return null;
   }
 
   /// Builds the contact information section

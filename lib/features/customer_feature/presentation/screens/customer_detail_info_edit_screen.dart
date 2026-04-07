@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recycleorigin/core/models/status.dart';
 
 import '../../../../core/models/customer.dart';
 import '../../business/entities/personal_data.dart';
@@ -45,76 +44,25 @@ class _CustomerDetailInfoEditScreenState
   final _postCodeFocusNode = FocusNode();
 
   // State variables
-  List<Status> _typesList = [];
-  String? _selectedTypeValue;
-  Status? _selectedType;
-  bool _isLoadingTypes = false;
+  late final Customer _currentCustomer;
   bool _isSaving = false;
   String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
+    _currentCustomer = context.read<CustomerInfoBloc>().customer;
     _initializeForm();
-    _loadTypes();
   }
 
   /// Initializes form fields with current customer data
   void _initializeForm() {
-    final customer = context.read<CustomerInfoBloc>().customer;
-
-    _nameController.text = customer.personalData.first_name;
-    _familyController.text = customer.personalData.last_name;
-    _emailController.text = customer.personalData.email;
-    _ostanController.text = customer.personalData.ostan;
-    _cityController.text = customer.personalData.city;
-    _postCodeController.text = customer.personalData.postcode;
-    _selectedType = customer.customer_type;
-    _selectedTypeValue = customer.customer_type.name;
-  }
-
-  /// Loads customer types from the provider
-  Future<void> _loadTypes() async {
-    if (_isLoadingTypes || !mounted) return;
-
-    setState(() {
-      _isLoadingTypes = true;
-      _errorMessage = null;
-    });
-
-    try {
-      await context.read<CustomerInfoBloc>().getTypes();
-
-      if (mounted) {
-        final typesList = context.read<CustomerInfoBloc>().typesItems;
-
-        setState(() {
-          _typesList = typesList;
-          _isLoadingTypes = false;
-
-          // Ensure selected type is still valid
-          if (_selectedTypeValue != null) {
-            final foundType = _typesList.firstWhere(
-              (type) => type.name == _selectedTypeValue,
-              orElse: () => _typesList.isNotEmpty ? _typesList.first : Status(),
-            );
-            _selectedType = foundType;
-            _selectedTypeValue = foundType.name;
-          } else if (_typesList.isNotEmpty) {
-            _selectedType = _typesList.first;
-            _selectedTypeValue = _typesList.first.name;
-          }
-        });
-      }
-    } catch (error) {
-      if (mounted) {
-        setState(() {
-          _isLoadingTypes = false;
-          _errorMessage = context.l10n.failedLoadUserTypesMessage;
-        });
-      }
-      debugPrint('Error loading types: $error');
-    }
+    _nameController.text = _currentCustomer.personalData.first_name;
+    _familyController.text = _currentCustomer.personalData.last_name;
+    _emailController.text = _currentCustomer.personalData.email;
+    _ostanController.text = _currentCustomer.personalData.ostan;
+    _cityController.text = _currentCustomer.personalData.city;
+    _postCodeController.text = _currentCustomer.personalData.postcode;
   }
 
   /// Validates the form
@@ -122,17 +70,6 @@ class _CustomerDetailInfoEditScreenState
     if (!_formKey.currentState!.validate()) {
       return false;
     }
-
-    if (_selectedType == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.l10n.pleaseSelectUserType),
-          backgroundColor: AppTheme.colorOne,
-        ),
-      );
-      return false;
-    }
-
     return true;
   }
 
@@ -162,8 +99,6 @@ class _CustomerDetailInfoEditScreenState
       debugPrint('City: $city');
       debugPrint('Province: $ostan');
       debugPrint('Postcode: $postcode');
-      debugPrint(
-          'Customer Type: ${_selectedType?.name} (ID: ${_selectedType?.term_id})');
 
       final personalData = PersonalData(
         first_name: firstName,
@@ -175,7 +110,7 @@ class _CustomerDetailInfoEditScreenState
       );
 
       final customerToSend = Customer(
-        customer_type: _selectedType!,
+        customer_type: _currentCustomer.customer_type,
         personalData: personalData,
       );
 
@@ -323,7 +258,6 @@ class _CustomerDetailInfoEditScreenState
 
   /// Builds the personal information section
   Widget _buildPersonalInfoSection(BuildContext context) {
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return Card(
@@ -362,8 +296,6 @@ class _CustomerDetailInfoEditScreenState
               thisFocusNode: _familyFocusNode,
               newFocusNode: _emailFocusNode,
             ),
-            const SizedBox(height: 8),
-            _buildUserTypeDropdown(context, textScaleFactor, deviceHeight),
           ],
         ),
       ),
@@ -456,103 +388,6 @@ class _CustomerDetailInfoEditScreenState
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
-        ),
-      ],
-    );
-  }
-
-  /// Builds the user type dropdown
-  Widget _buildUserTypeDropdown(
-    BuildContext context,
-    double textScaleFactor,
-    double deviceHeight,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Row(
-            children: [
-              Icon(
-                Icons.category,
-                size: 16,
-                color: AppTheme.grey,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '${context.l10n.userTypeLabel}:',
-                style: TextStyle(
-                  color: AppTheme.h1,
-                  fontSize: textScaleFactor * 14.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          height: deviceHeight * 0.06,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: AppTheme.white,
-            border: Border.all(color: AppTheme.secondary, width: 1),
-          ),
-          child: _isLoadingTypes
-              ? Center(
-                  child: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(AppTheme.primary),
-                    ),
-                  ),
-                )
-              : DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: _selectedTypeValue,
-                    hint: Text(
-                      context.l10n.selectUserTypeHint,
-                      style: TextStyle(
-                        color: AppTheme.grey,
-                        fontSize: textScaleFactor * 14.0,
-                      ),
-                    ),
-                    icon: Icon(
-                      Icons.arrow_drop_down,
-                      color: AppTheme.black,
-                      size: 24,
-                    ),
-                    dropdownColor: AppTheme.white,
-                    style: TextStyle(
-                      color: AppTheme.black,
-                      fontSize: textScaleFactor * 14.0,
-                    ),
-                    isExpanded: true,
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          _selectedTypeValue = newValue;
-                          _selectedType = _typesList.firstWhere(
-                            (type) => type.name == newValue,
-                          );
-                        });
-                      }
-                    },
-                    items: _typesList.map<DropdownMenuItem<String>>(
-                      (Status type) {
-                        return DropdownMenuItem<String>(
-                          value: type.name,
-                          child: Text(type.name),
-                        );
-                      },
-                    ).toList(),
-                  ),
-                ),
         ),
       ],
     );
