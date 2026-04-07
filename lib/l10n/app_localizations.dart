@@ -1616,6 +1616,60 @@ abstract class AppLocalizations {
   /// **'Request list'**
   String get collectRequestListAppBarTitle;
 
+  /// No description provided for @collectListSortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get collectListSortLabel;
+
+  /// No description provided for @collectListFilterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get collectListFilterLabel;
+
+  /// No description provided for @collectListSortSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort requests'**
+  String get collectListSortSheetTitle;
+
+  /// No description provided for @collectListFilterSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by status'**
+  String get collectListFilterSheetTitle;
+
+  /// No description provided for @collectListSortNewestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get collectListSortNewestFirst;
+
+  /// No description provided for @collectListSortOldestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get collectListSortOldestFirst;
+
+  /// No description provided for @collectListSortIdHighToLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Request ID (highest first)'**
+  String get collectListSortIdHighToLow;
+
+  /// No description provided for @collectListSortIdLowToHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Request ID (lowest first)'**
+  String get collectListSortIdLowToHigh;
+
+  /// No description provided for @collectListFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All statuses'**
+  String get collectListFilterAll;
+
   /// No description provided for @pleaseLoginToViewRequests.
   ///
   /// In en, this message translates to:

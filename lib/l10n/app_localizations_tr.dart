@@ -780,6 +780,33 @@ class AppLocalizationsTr extends AppLocalizations {
   String get collectRequestListAppBarTitle => 'Talep listesi';
 
   @override
+  String get collectListSortLabel => 'Sirala';
+
+  @override
+  String get collectListFilterLabel => 'Filtrele';
+
+  @override
+  String get collectListSortSheetTitle => 'Talepleri sirala';
+
+  @override
+  String get collectListFilterSheetTitle => 'Duruma gore filtrele';
+
+  @override
+  String get collectListSortNewestFirst => 'En yeni';
+
+  @override
+  String get collectListSortOldestFirst => 'En eski';
+
+  @override
+  String get collectListSortIdHighToLow => 'Talep no (buyukten kucuge)';
+
+  @override
+  String get collectListSortIdLowToHigh => 'Talep no (kucukten buyuge)';
+
+  @override
+  String get collectListFilterAll => 'Tum durumlar';
+
+  @override
   String get pleaseLoginToViewRequests =>
       'Taleplerinizi gormek icin giris yapin';
 

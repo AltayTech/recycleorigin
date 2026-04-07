@@ -788,6 +788,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get collectRequestListAppBarTitle => 'Request list';
 
   @override
+  String get collectListSortLabel => 'Sort';
+
+  @override
+  String get collectListFilterLabel => 'Filter';
+
+  @override
+  String get collectListSortSheetTitle => 'Sort requests';
+
+  @override
+  String get collectListFilterSheetTitle => 'Filter by status';
+
+  @override
+  String get collectListSortNewestFirst => 'Newest first';
+
+  @override
+  String get collectListSortOldestFirst => 'Oldest first';
+
+  @override
+  String get collectListSortIdHighToLow => 'Request ID (highest first)';
+
+  @override
+  String get collectListSortIdLowToHigh => 'Request ID (lowest first)';
+
+  @override
+  String get collectListFilterAll => 'All statuses';
+
+  @override
   String get pleaseLoginToViewRequests => 'Please log in to view your requests';
 
   @override
