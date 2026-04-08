@@ -140,7 +140,7 @@ class RecycleOriginApp extends StatelessWidget {
                   CustomerUserInfoScreen(),
               CustomerNotificationScreen.routeName: (ctx) =>
                   CustomerNotificationScreen(),
-              GuideScreen.routeName: (ctx) => GuideScreen(),
+              GuideScreen.routeName: (ctx) => const GuideScreen(),
               MessageScreen.routeName: (ctx) => MessageScreen(),
               SupportTicketsListScreen.routeName: (ctx) =>
                   const SupportTicketsListScreen(),

@@ -7,6 +7,7 @@ import '../../articles_feature/presentation/pages/article_screen.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../auth_feature/presentation/bloc/auth_state.dart';
 import '../../collect_feature/presentation/pages/waste_cart_screen.dart';
+import '../../guid_feature/presentation/pages/guide_screen.dart';
 import '../../customer_feature/presentation/screens/profile_screen.dart';
 import '../../store_feature/presentation/bloc/products_bloc.dart';
 import '../../store_feature/presentation/screens/product_screen.dart';
@@ -115,6 +116,9 @@ class _HomeScreenState extends State<HomeScreen>
   void _openSupport() =>
       Navigator.of(context).pushNamed(SupportTicketsListScreen.routeName);
 
+  void _openGuide() =>
+      Navigator.of(context).pushNamed(GuideScreen.routeName);
+
   // ── Dialogs ────────────────────────────────────────────────────
 
   Future<void> _showStatusDialog({
@@ -194,6 +198,11 @@ class _HomeScreenState extends State<HomeScreen>
           label: context.l10n.navMyRequestsTab,
           icon: Icons.inventory_2_outlined,
           onTap: _openCollectList,
+        ),
+        HeroQuickLink(
+          label: context.l10n.guideTitle,
+          icon: Icons.menu_book_outlined,
+          onTap: _openGuide,
         ),
         HeroQuickLink(
           label: context.l10n.supportHelpLabel,

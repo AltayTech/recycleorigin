@@ -6,6 +6,7 @@ import 'package:recycleorigin/features/customer_feature/presentation/bloc/custom
 import 'package:recycleorigin/features/support_tickets/presentation/screens/support_tickets_list_screen.dart';
 
 import '../../features/auth_feature/presentation/bloc/auth_bloc.dart';
+import '../../features/guid_feature/presentation/pages/guide_screen.dart';
 import '../../features/auth_feature/presentation/bloc/auth_state.dart';
 import '../../features/auth_feature/presentation/screens/login_screen.dart';
 import '../../features/customer_feature/presentation/screens/profile_screen.dart';
@@ -447,6 +448,16 @@ class _MainDrawerState extends State<MainDrawer> {
                       onTap: () => _navigateToRoute(CartScreen.routeName),
                     ),
                     _buildSectionTitle(l10n.supportHelpLabel),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.menu_book_rounded,
+                        title: l10n.guideTitle,
+                        routeName: GuideScreen.routeName,
+                      ),
+                      selected: currentRouteName == GuideScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(GuideScreen.routeName),
+                    ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.support_agent_rounded,

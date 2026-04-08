@@ -1,80 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:provider/provider.dart';
 
-import '../../../store_feature/business/entities/shop.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
-import '../../../../core/widgets/main_drawer.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/widgets/main_drawer.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigin/features/store_feature/business/entities/shop.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
+/// In-app guide: policies and FAQ from [GET pasmands/v1/info] (managed in admin under Guide).
 class GuideScreen extends StatefulWidget {
+  const GuideScreen({super.key});
+
   static const routeName = '/guideScreen';
 
   @override
-  _GuideScreenState createState() => _GuideScreenState();
+  State<GuideScreen> createState() => _GuideScreenState();
+}
+
+class _GuideSection {
+  const _GuideSection({required this.title, required this.html});
+
+  final String title;
+  final String html;
 }
 
 class _GuideScreenState extends State<GuideScreen> {
-  bool _isInit = true;
-
-  late Shop shopData;
-
-  List<String> aboutInfoContent = [];
-
-  bool _isLoading = false;
+  bool _loading = true;
+  String? _errorMessage;
 
   @override
-  void didChangeDependencies() async {
-    if (_isInit) {
-      await searchItems();
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+  }
 
-      aboutInfoContent = [
-        shopData.return_policy,
-        shopData.privacy,
-        shopData.how_to_order,
-        shopData.faq,
-        shopData.pay_methods_desc
-      ];
+  Future<void> _load() async {
+    if (!mounted) {
+      return;
     }
-    _isInit = false;
-
-    super.didChangeDependencies();
+    setState(() {
+      _loading = true;
+      _errorMessage = null;
+    });
+    try {
+      await context.read<CustomerInfoBloc>().fetchShopData();
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _loading = false;
+        _errorMessage = e.toString();
+      });
+    }
   }
 
-  List<String> _guideSectionTitles(BuildContext context) {
+  List<_GuideSection> _sections(BuildContext context, Shop shop) {
     final l10n = context.l10n;
-    return <String>[
-      l10n.sectionReturnPolicyTitle,
-      l10n.sectionPrivacyTitle,
-      l10n.sectionHowToOrderTitle,
-      l10n.sectionFaqTitle,
-      l10n.sectionPaymentMethodsTitle,
+    return <_GuideSection>[
+      _GuideSection(title: l10n.sectionReturnPolicyTitle, html: shop.return_policy),
+      _GuideSection(title: l10n.sectionPrivacyTitle, html: shop.privacy),
+      _GuideSection(title: l10n.sectionHowToOrderTitle, html: shop.how_to_order),
+      _GuideSection(title: l10n.sectionFaqTitle, html: shop.faq),
+      _GuideSection(title: l10n.sectionPaymentMethodsTitle, html: shop.pay_methods_desc),
     ];
-  }
-
-  Future<void> searchItems() async {
-    setState(() {
-      _isLoading = true;
-    });
-    await context.read<CustomerInfoBloc>()
-        .fetchShopData();
-    shopData = context.read<CustomerInfoBloc>().shop;
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    shopData = context.watch<CustomerInfoBloc>().shop;
-    final sectionTitles = _guideSectionTitles(context);
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final shop = context.watch<CustomerInfoBloc>().shop;
 
     return Scaffold(
       backgroundColor: AppTheme.white,
@@ -83,114 +86,162 @@ class _GuideScreenState extends State<GuideScreen> {
           context.l10n.guideTitle,
           style: TextStyle(
             color: AppTheme.bg,
-            //fontFamily: 'Iransans',
-            fontSize: textScaleFactor * 18.0,
+            fontSize: textScale * 18,
           ),
-          textAlign: TextAlign.center,
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
       ),
-      body: _isLoading
-          ? SpinKitFadingCircle(
-              itemBuilder: (BuildContext context, int index) {
-                return DecoratedBox(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: index.isEven ? Colors.grey : Colors.grey,
+      body: Directionality(
+        textDirection: Directionality.of(context),
+        child: _buildBody(context, shop, textScale),
+      ),
+      drawer: Theme(
+        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+        child: MainDrawer(),
+      ),
+    );
+  }
+
+  Widget _buildBody(
+    BuildContext context,
+    Shop shop,
+    double textScale,
+  ) {
+    if (_loading) {
+      return Center(
+        child: SpinKitFadingCircle(
+          color: AppTheme.bg,
+          size: 48,
+        ),
+      );
+    }
+    if (_errorMessage != null) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.wifi_off_rounded, size: 48, color: AppTheme.grey),
+              const SizedBox(height: 16),
+              Text(
+                context.l10n.guideTitle,
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                _errorMessage!,
+                style: TextStyle(color: AppTheme.grey, fontSize: textScale * 13),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              FilledButton.icon(
+                onPressed: _load,
+                icon: const Icon(Icons.refresh_rounded),
+                label: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    final mediumLogo = shop.logo.sizes.medium.trim();
+    final sections = _sections(context, shop);
+
+    return RefreshIndicator(
+      onRefresh: _load,
+      color: AppTheme.bg,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            if (mediumLogo.isNotEmpty)
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    mediumLogo,
+                    width: 120,
+                    height: 120,
+                    fit: BoxFit.contain,
+                    errorBuilder: (_, __, ___) => Icon(
+                      Icons.storefront_rounded,
+                      size: 64,
+                      color: AppTheme.grey,
+                    ),
                   ),
-                );
-              },
-            )
-          : Directionality(
-              textDirection: Directionality.of(context),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                            width: deviceWidth * 0.3,
-                            height: deviceWidth * 0.3,
-                            color: AppTheme.bg,
-                            child: FadeInImage(
-                              placeholder:
-                                  AssetImage('assets/images/circle.gif'),
-                              image: NetworkImage(shopData.logo.sizes.medium),
-                              fit: BoxFit.contain,
-                              height: deviceWidth * 0.5,
-                            )),
-                        Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: Text(
-                            shopData.name,
-                            style: TextStyle(
-                              color: AppTheme.h1,
-                              fontFamily: 'BFarnaz',
-                              fontSize: textScaleFactor * 24.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: Text(
-                            shopData.subject,
-                            style: TextStyle(
-                              color: AppTheme.grey,
-                              //fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 15.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Container(
-                          height: deviceHeight * 0.7,
-                          width: deviceWidth,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            primary: false,
-                            itemCount: sectionTitles.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(1.0),
-                                child: Card(
-                                  child: ExpansionTile(
-                                    title: Text(
-                                      sectionTitles[index],
-                                      style: TextStyle(
-                                        color: AppTheme.black,
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 15.0,
-                                      ),
-                                    ),
-                                    children: <Widget>[
-                                      HtmlWidget(
-                                        aboutInfoContent[index],
-                                      ),
-                                    ],
+                ),
+              )
+            else
+              Icon(Icons.recycling_rounded, size: 64, color: AppTheme.bg),
+            const SizedBox(height: 16),
+            Text(
+              shop.name.isNotEmpty ? shop.name : context.l10n.guideTitle,
+              style: TextStyle(
+                color: AppTheme.h1,
+                fontFamily: 'BFarnaz',
+                fontSize: textScale * 22,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            if (shop.subject.isNotEmpty) ...<Widget>[
+              const SizedBox(height: 8),
+              Text(
+                shop.subject,
+                style: TextStyle(
+                  color: AppTheme.grey,
+                  fontSize: textScale * 15,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+            const SizedBox(height: 20),
+            ...sections.map(
+              (s) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  child: ExpansionTile(
+                    title: Text(
+                      s.title,
+                      style: TextStyle(
+                        color: AppTheme.black,
+                        fontSize: textScale * 15,
+                      ),
+                    ),
+                    children: <Widget>[
+                      Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                          child: s.html.trim().isEmpty
+                              ? Text(
+                                  '—',
+                                  style: TextStyle(color: AppTheme.grey),
+                                )
+                              : HtmlWidget(
+                                  s.html,
+                                  textStyle: TextStyle(
+                                    color: AppTheme.black,
+                                    fontSize: textScale * 14,
+                                    height: 1.45,
                                   ),
                                 ),
-                              );
-                            },
-                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+          ],
         ),
-        child: MainDrawer(),
       ),
     );
   }

@@ -7,10 +7,13 @@ class SocialMedia {
     required this.instagram,
   });
 
-  factory SocialMedia.fromJson(Map<String, dynamic> parsedJson) {
+  factory SocialMedia.fromJson(dynamic raw) {
+    if (raw is! Map<String, dynamic>) {
+      return SocialMedia(telegram: '', instagram: '');
+    }
     return SocialMedia(
-      telegram: parsedJson['telegram'],
-      instagram: parsedJson['instagram'],
+      telegram: raw['telegram'] as String? ?? '',
+      instagram: raw['instagram'] as String? ?? '',
     );
   }
 }
