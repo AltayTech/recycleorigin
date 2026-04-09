@@ -129,7 +129,11 @@ class _MapScreenState extends State<MapScreen>
         return;
       }
 
-      final position = await Geolocator.getCurrentPosition();
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
+      );
       if (mounted && _selectedLocation == null) {
         final point = osm.GeoPoint(
           latitude: position.latitude,
@@ -391,6 +395,7 @@ class _MapScreenState extends State<MapScreen>
                     isLocating: _isLocating,
                     onPickLocation: _pickLocation,
                     onMyLocation: _getCurrentLocation,
+                    mapPreviewLabel: l10n.mapPreviewSemanticsLabel,
                   ),
                   _buildFormSection(l10n, size),
                 ],
@@ -636,6 +641,7 @@ class _MapSection extends StatelessWidget {
     required this.isLocating,
     required this.onPickLocation,
     required this.onMyLocation,
+    required this.mapPreviewLabel,
   });
 
   final osm.MapController mapController;
@@ -643,12 +649,14 @@ class _MapSection extends StatelessWidget {
   final bool isLocating;
   final VoidCallback onPickLocation;
   final VoidCallback onMyLocation;
+  final String mapPreviewLabel;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final size = MediaQuery.of(context).size;
     final hasLocation = selectedLocation != null;
+    final mapHeight = (size.height * 0.32).clamp(220.0, 380.0);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -661,96 +669,121 @@ class _MapSection extends StatelessWidget {
             subtitle: l10n.mapScreenLocationHint,
           ),
         ),
-        Container(
-          height: size.height * 0.32,
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.08),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Stack(
-              children: [
-                AbsorbPointer(
-                  absorbing: true,
-                  child: osm.OSMFlutter(
-                    controller: mapController,
-                    osmOption: osm.OSMOption(
-                      userTrackingOption: osm.UserTrackingOption(
-                        enableTracking: false,
-                        unFollowUser: false,
+        Semantics(
+          label: mapPreviewLabel,
+          button: true,
+          child: Container(
+            height: mapHeight,
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Stack(
+                children: [
+                  AbsorbPointer(
+                    absorbing: true,
+                    child: osm.OSMFlutter(
+                      controller: mapController,
+                      osmOption: osm.OSMOption(
+                        userTrackingOption: osm.UserTrackingOption(
+                          enableTracking: false,
+                          unFollowUser: false,
+                        ),
+                        zoomOption: osm.ZoomOption(
+                          initZoom: 15,
+                          minZoomLevel: 3,
+                          maxZoomLevel: 19,
+                          stepZoom: 1.0,
+                        ),
+                        showZoomController: false,
+                        isPicker: true,
                       ),
-                      zoomOption: osm.ZoomOption(
-                        initZoom: 15,
-                        minZoomLevel: 3,
-                        maxZoomLevel: 19,
-                        stepZoom: 1.0,
-                      ),
-                      showZoomController: false,
-                      isPicker: true,
                     ),
                   ),
-                ),
-                Positioned.fill(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: onPickLocation,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.black.withOpacity(0.02),
-                              Colors.black.withOpacity(0.15),
-                            ],
+                  Positioned.fill(
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: onPickLocation,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.02),
+                                Colors.black.withOpacity(0.12),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: 14,
-                  left: 14,
-                  right: 14,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: _MapActionChip(
-                          icon: Icons.edit_location_alt_rounded,
-                          label: hasLocation
-                              ? l10n.tapToChangeLocation
-                              : l10n.tapToSelectLocation,
-                          onTap: onPickLocation,
-                          isPrimary: !hasLocation,
+                  IgnorePointer(
+                    child: Center(
+                      child: Transform.translate(
+                        offset: const Offset(0, -18),
+                        child: Icon(
+                          Icons.location_on_rounded,
+                          size: 46,
+                          color: hasLocation
+                              ? AppTheme.primary
+                              : Colors.grey.shade500,
+                          shadows: const [
+                            Shadow(
+                              blurRadius: 6,
+                              color: Colors.black26,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      _MapIconButton(
-                        icon: Icons.my_location_rounded,
-                        isLoading: isLocating,
-                        onTap: onMyLocation,
-                        tooltip: l10n.mapScreenMyLocation,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                if (hasLocation)
                   Positioned(
-                    top: 12,
-                    left: 12,
-                    child: _LocationBadge(location: selectedLocation!),
+                    bottom: 14,
+                    left: 14,
+                    right: 14,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _MapActionChip(
+                            icon: Icons.edit_location_alt_rounded,
+                            label: hasLocation
+                                ? l10n.tapToChangeLocation
+                                : l10n.tapToSelectLocation,
+                            onTap: onPickLocation,
+                            isPrimary: !hasLocation,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        _MapIconButton(
+                          icon: Icons.my_location_rounded,
+                          isLoading: isLocating,
+                          onTap: onMyLocation,
+                          tooltip: l10n.mapScreenMyLocation,
+                        ),
+                      ],
+                    ),
                   ),
-              ],
+                  if (hasLocation)
+                    Positioned(
+                      top: 12,
+                      left: 12,
+                      child: _LocationBadge(location: selectedLocation!),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

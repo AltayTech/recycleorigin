@@ -968,6 +968,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapScreenRequiredFields => 'All fields are required';
 
   @override
+  String get mapPreviewSemanticsLabel =>
+      'Map preview. Tap to choose your exact location on the map.';
+
+  @override
   String get locationPinned => 'Location pinned';
 
   @override

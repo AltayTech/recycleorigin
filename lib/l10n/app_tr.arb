@@ -311,6 +311,7 @@
   "mapScreenFormSection": "Adres bilgileri",
   "mapScreenFormHint": "Sizi kolayca bulabilmemiz için bilgileri doldurun",
   "mapScreenRequiredFields": "Tüm alanlar zorunludur",
+  "mapPreviewSemanticsLabel": "Harita önizlemesi. Tam adresinizi seçmek için dokunun.",
   "locationPinned": "Konum sabitlendi",
   "locationNotSet": "Konum belirlenmedi",
   "swipeToDelete": "Silmek için kaydırın",

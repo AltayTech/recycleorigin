@@ -311,6 +311,7 @@
   "mapScreenFormSection": "Address details",
   "mapScreenFormHint": "Fill in the details so we can find you easily",
   "mapScreenRequiredFields": "All fields are required",
+  "mapPreviewSemanticsLabel": "Map preview. Tap to choose your exact location on the map.",
   "locationPinned": "Location pinned",
   "locationNotSet": "Location not set",
   "swipeToDelete": "Swipe to delete",

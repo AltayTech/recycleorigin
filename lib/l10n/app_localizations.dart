@@ -1964,6 +1964,12 @@ abstract class AppLocalizations {
   /// **'All fields are required'**
   String get mapScreenRequiredFields;
 
+  /// No description provided for @mapPreviewSemanticsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Map preview. Tap to choose your exact location on the map.'**
+  String get mapPreviewSemanticsLabel;
+
   /// No description provided for @locationPinned.
   ///
   /// In en, this message translates to:

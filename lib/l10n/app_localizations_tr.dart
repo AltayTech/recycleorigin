@@ -961,6 +961,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get mapScreenRequiredFields => 'Tüm alanlar zorunludur';
 
   @override
+  String get mapPreviewSemanticsLabel =>
+      'Harita önizlemesi. Tam adresinizi seçmek için dokunun.';
+
+  @override
   String get locationPinned => 'Konum sabitlendi';
 
   @override
