@@ -18,7 +18,7 @@ void main() {
       test('should have default values before initialization', () {
         final service = AppInfoService.instance;
         expect(service.packageName, 'recycleorigin');
-        expect(service.appName, 'Recycle Origin');
+        expect(service.appName, 'RecycleOrigin');
         expect(service.version, '1.0.0');
         expect(service.buildNumber, '0');
       });

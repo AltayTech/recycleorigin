@@ -9,10 +9,10 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get cleancity1 => 'Clean City';
+  String get cleancity1 => 'RecycleOrigin';
 
   @override
-  String get recycleorigin => 'Recycle Origin';
+  String get recycleorigin => 'RecycleOrigin';
 
   @override
   String get version => 'Version';
@@ -552,7 +552,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchProductsHint => 'Search products…';
 
   @override
-  String get homeWelcomeHeadline => 'Welcome to Recycle Origin';
+  String get homeWelcomeHeadline => 'Welcome to RecycleOrigin';
 
   @override
   String get homeWelcomeSubtitle => 'Make a difference for our planet';
@@ -649,7 +649,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tableColumnDateLabel => 'Date';
 
   @override
-  String get drawerHeaderSubtitle => 'Recycle Origin';
+  String get drawerHeaderSubtitle => 'RecycleOrigin';
 
   @override
   String get parentheticalUsd => '(\$)';

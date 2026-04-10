@@ -101,13 +101,13 @@ abstract class AppLocalizations {
   /// No description provided for @cleancity1.
   ///
   /// In en, this message translates to:
-  /// **'Clean City'**
+  /// **'RecycleOrigin'**
   String get cleancity1;
 
   /// No description provided for @recycleorigin.
   ///
   /// In en, this message translates to:
-  /// **'Recycle Origin'**
+  /// **'RecycleOrigin'**
   String get recycleorigin;
 
   /// No description provided for @version.
@@ -1169,7 +1169,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeWelcomeHeadline.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Recycle Origin'**
+  /// **'Welcome to RecycleOrigin'**
   String get homeWelcomeHeadline;
 
   /// No description provided for @homeWelcomeSubtitle.
@@ -1355,7 +1355,7 @@ abstract class AppLocalizations {
   /// No description provided for @drawerHeaderSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Recycle Origin'**
+  /// **'RecycleOrigin'**
   String get drawerHeaderSubtitle;
 
   /// No description provided for @parentheticalUsd.

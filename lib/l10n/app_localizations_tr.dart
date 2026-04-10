@@ -9,10 +9,10 @@ class AppLocalizationsTr extends AppLocalizations {
   AppLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
-  String get cleancity1 => 'Temiz Sehir';
+  String get cleancity1 => 'RecycleOrigin';
 
   @override
-  String get recycleorigin => 'Recycle Origin';
+  String get recycleorigin => 'RecycleOrigin';
 
   @override
   String get version => 'Surum';
@@ -550,7 +550,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get searchProductsHint => 'Urun ara…';
 
   @override
-  String get homeWelcomeHeadline => 'Recycle Origin\'a hos geldiniz';
+  String get homeWelcomeHeadline => 'RecycleOrigin\'a hos geldiniz';
 
   @override
   String get homeWelcomeSubtitle => 'Gezegenimiz icin fark yaratın';
@@ -646,7 +646,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tableColumnDateLabel => 'Tarih';
 
   @override
-  String get drawerHeaderSubtitle => 'Recycle Origin';
+  String get drawerHeaderSubtitle => 'RecycleOrigin';
 
   @override
   String get parentheticalUsd => '(\$)';

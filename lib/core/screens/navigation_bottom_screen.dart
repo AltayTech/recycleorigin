@@ -11,7 +11,7 @@ import '../widgets/main_drawer.dart';
 ///
 /// The widget includes the following key components:
 ///
-/// - **AppBar**: Displays the app's title "Clean City" with a customizable theme.
+/// - **AppBar**: Displays the app title with a customizable theme.
 /// - **Drawer**: A side navigation menu implemented using the `MainDrawer` widget.
 /// - **Bottom Navigation**: Allows navigation between different sections of the app using a bottom navigation bar.
 /// - **PageView**: Dynamically displays pages based on the selected bottom navigation item.

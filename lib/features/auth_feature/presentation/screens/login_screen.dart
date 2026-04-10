@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/screens/auth_card.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 import '../../../../core/widgets/main_drawer.dart';
 
@@ -53,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 18.0, vertical: 30),
                         child: Text(
-                          'Recycle Origin',
+                          context.l10n.recycleorigin,
                           style: TextStyle(
                             fontFamily: 'BFarnaz',
                             fontWeight: FontWeight.w900,

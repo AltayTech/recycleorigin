@@ -34,8 +34,8 @@ class AppInfoService {
   /// Package name (e.g., "com.example.app")
   String get packageName => _packageInfo?.packageName ?? 'recycleorigin';
 
-  /// App name (e.g., "Recycle Origin")
-  String get appName => _packageInfo?.appName ?? 'Recycle Origin';
+  /// App name (e.g., "RecycleOrigin")
+  String get appName => _packageInfo?.appName ?? 'RecycleOrigin';
 
   /// Version string (e.g., "1.3.1")
   String get version => _packageInfo?.version ?? '1.0.0';
