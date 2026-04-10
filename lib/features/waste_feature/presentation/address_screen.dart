@@ -230,20 +230,24 @@ class _AddressScreenState extends State<AddressScreen>
                                   onAddTap: _navigateToMap,
                                 ),
                               ),
-                            const SliverPadding(
-                              padding: EdgeInsets.only(bottom: 100),
+                            // Space so the last row clears the extended FAB
+                            // (FAB sits above [bottomNavigationBar]).
+                            SliverPadding(
+                              padding: EdgeInsets.only(
+                                bottom: hasAddresses ? 88 : 24,
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
             ),
-            _BottomActionBar(
-              isActive: isSelectionValid,
-              onTap: _handleContinue,
-            ),
           ],
         ),
+      ),
+      bottomNavigationBar: _BottomActionBar(
+        isActive: isSelectionValid,
+        onTap: _handleContinue,
       ),
       floatingActionButton: hasAddresses
           ? FloatingActionButton.extended(
@@ -263,6 +267,7 @@ class _AddressScreenState extends State<AddressScreen>
               ),
             )
           : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
