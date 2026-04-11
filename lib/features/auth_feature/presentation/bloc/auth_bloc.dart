@@ -171,7 +171,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     headers['cookie'] = index == -1 ? rawCookie : rawCookie.substring(0, index);
   }
 
-  Future<Future<bool>> login(Map<String, String> authData) async {
+  Future<bool> login(Map<String, String> authData) {
     final completer = Completer<bool>();
     add(AuthLoginRequested(authData: authData, completer: completer));
     return completer.future;

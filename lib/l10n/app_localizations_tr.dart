@@ -756,6 +756,63 @@ class AppLocalizationsTr extends AppLocalizations {
   String get authSwitchToLoginPrompt => 'Girise don';
 
   @override
+  String get authWelcomeBackTitle => 'Tekrar hos geldiniz';
+
+  @override
+  String get authCreateAccountTitle => 'Hesap olusturun';
+
+  @override
+  String get authRegisterButton => 'Hesap olustur';
+
+  @override
+  String get authSubtitleSignIn => 'Geri donusume devam etmek icin giris yapin';
+
+  @override
+  String get authSubtitleSignUp => 'Katilin, fark yaratmaya baslayin';
+
+  @override
+  String get authEmailRequired => 'E-posta adresinizi girin';
+
+  @override
+  String get authEmailInvalid => 'Gecerli bir e-posta adresi girin';
+
+  @override
+  String get authPasswordRequired => 'Sifrenizi girin';
+
+  @override
+  String get authPasswordTooShort => 'En az 8 karakter kullanin';
+
+  @override
+  String get authFirstNameRequired => 'Adinizi girin';
+
+  @override
+  String get authLastNameRequired => 'Soyadinizi girin';
+
+  @override
+  String get authLoginFailedInvalidCredentials =>
+      'E-posta veya sifre hatali. Lutfen tekrar deneyin.';
+
+  @override
+  String get authEmailAlreadyRegistered =>
+      'Bu e-posta ile zaten bir hesap var.';
+
+  @override
+  String get authLoginAfterRegisterFailed =>
+      'Hesap olusturuldu ancak giris yapilamadi. Lutfen tekrar deneyin.';
+
+  @override
+  String get authGenericError => 'Islem tamamlanamadi. Lutfen tekrar deneyin.';
+
+  @override
+  String get authOpenMenuTooltip => 'Menuyu ac';
+
+  @override
+  String get authShowPassword => 'Sifreyi goster';
+
+  @override
+  String get authHidePassword => 'Sifreyi gizle';
+
+  @override
   String get customerInfoUnavailableMessage => 'Musteri bilgisi bulunamadi';
 
   @override

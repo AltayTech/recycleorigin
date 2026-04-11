@@ -124,7 +124,7 @@ class RecycleOriginApp extends StatelessWidget {
               WastesScreen.routeName: (ctx) => WastesScreen(),
               ProfileScreen.routeName: (ctx) => ProfileScreen(),
               ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-              LoginScreen.routeName: (ctx) => LoginScreen(),
+              LoginScreen.routeName: (ctx) => const LoginScreen(),
               ProductsScreen.routeName: (ctx) => ProductsScreen(),
               CartScreen.routeName: (ctx) => CartScreen(),
               OrderProductsSendScreen.routeName: (ctx) =>

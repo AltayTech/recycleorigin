@@ -763,6 +763,64 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authSwitchToLoginPrompt => 'Back to sign in';
 
   @override
+  String get authWelcomeBackTitle => 'Welcome back';
+
+  @override
+  String get authCreateAccountTitle => 'Create your account';
+
+  @override
+  String get authRegisterButton => 'Create account';
+
+  @override
+  String get authSubtitleSignIn => 'Sign in to continue recycling';
+
+  @override
+  String get authSubtitleSignUp => 'Join us and start making an impact';
+
+  @override
+  String get authEmailRequired => 'Please enter your email';
+
+  @override
+  String get authEmailInvalid => 'Enter a valid email address';
+
+  @override
+  String get authPasswordRequired => 'Please enter your password';
+
+  @override
+  String get authPasswordTooShort => 'Use at least 8 characters';
+
+  @override
+  String get authFirstNameRequired => 'Please enter your first name';
+
+  @override
+  String get authLastNameRequired => 'Please enter your last name';
+
+  @override
+  String get authLoginFailedInvalidCredentials =>
+      'Incorrect email or password. Please try again.';
+
+  @override
+  String get authEmailAlreadyRegistered =>
+      'An account with this email already exists.';
+
+  @override
+  String get authLoginAfterRegisterFailed =>
+      'Account created, but sign-in failed. Please try logging in.';
+
+  @override
+  String get authGenericError =>
+      'Could not complete the request. Please try again.';
+
+  @override
+  String get authOpenMenuTooltip => 'Open menu';
+
+  @override
+  String get authShowPassword => 'Show password';
+
+  @override
+  String get authHidePassword => 'Hide password';
+
+  @override
   String get customerInfoUnavailableMessage =>
       'No customer information available';
 

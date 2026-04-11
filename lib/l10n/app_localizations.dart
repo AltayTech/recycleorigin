@@ -1568,6 +1568,114 @@ abstract class AppLocalizations {
   /// **'Back to sign in'**
   String get authSwitchToLoginPrompt;
 
+  /// No description provided for @authWelcomeBackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get authWelcomeBackTitle;
+
+  /// No description provided for @authCreateAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get authCreateAccountTitle;
+
+  /// No description provided for @authRegisterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get authRegisterButton;
+
+  /// No description provided for @authSubtitleSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to continue recycling'**
+  String get authSubtitleSignIn;
+
+  /// No description provided for @authSubtitleSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Join us and start making an impact'**
+  String get authSubtitleSignUp;
+
+  /// No description provided for @authEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get authEmailRequired;
+
+  /// No description provided for @authEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address'**
+  String get authEmailInvalid;
+
+  /// No description provided for @authPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password'**
+  String get authPasswordRequired;
+
+  /// No description provided for @authPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters'**
+  String get authPasswordTooShort;
+
+  /// No description provided for @authFirstNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your first name'**
+  String get authFirstNameRequired;
+
+  /// No description provided for @authLastNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your last name'**
+  String get authLastNameRequired;
+
+  /// No description provided for @authLoginFailedInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect email or password. Please try again.'**
+  String get authLoginFailedInvalidCredentials;
+
+  /// No description provided for @authEmailAlreadyRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'An account with this email already exists.'**
+  String get authEmailAlreadyRegistered;
+
+  /// No description provided for @authLoginAfterRegisterFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created, but sign-in failed. Please try logging in.'**
+  String get authLoginAfterRegisterFailed;
+
+  /// No description provided for @authGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not complete the request. Please try again.'**
+  String get authGenericError;
+
+  /// No description provided for @authOpenMenuTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Open menu'**
+  String get authOpenMenuTooltip;
+
+  /// No description provided for @authShowPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get authShowPassword;
+
+  /// No description provided for @authHidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get authHidePassword;
+
   /// No description provided for @customerInfoUnavailableMessage.
   ///
   /// In en, this message translates to:
