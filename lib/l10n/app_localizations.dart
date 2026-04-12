@@ -1358,6 +1358,18 @@ abstract class AppLocalizations {
   /// **'RecycleOrigin'**
   String get drawerHeaderSubtitle;
 
+  /// No description provided for @drawerSignedInNoContactHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re signed in.'**
+  String get drawerSignedInNoContactHint;
+
+  /// No description provided for @drawerAccountDisplayFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'My account'**
+  String get drawerAccountDisplayFallback;
+
   /// No description provided for @parentheticalUsd.
   ///
   /// In en, this message translates to:

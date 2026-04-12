@@ -210,6 +210,8 @@
   "tableColumnStatusLabel": "Durum",
   "tableColumnDateLabel": "Tarih",
   "drawerHeaderSubtitle": "RecycleOrigin",
+  "drawerSignedInNoContactHint": "Giris yaptiniz.",
+  "drawerAccountDisplayFallback": "Hesabim",
   "parentheticalUsd": "($)",
   "parentheticalKg": "(kg)",
   "selectUserTypeHint": "Kullanici turu secin",

@@ -210,6 +210,8 @@
   "tableColumnStatusLabel": "Status",
   "tableColumnDateLabel": "Date",
   "drawerHeaderSubtitle": "RecycleOrigin",
+  "drawerSignedInNoContactHint": "You're signed in.",
+  "drawerAccountDisplayFallback": "My account",
   "parentheticalUsd": "($)",
   "parentheticalKg": "(kg)",
   "selectUserTypeHint": "Select user type",

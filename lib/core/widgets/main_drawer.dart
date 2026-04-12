@@ -5,6 +5,7 @@ import 'package:recycleorigin/core/utils/app_info_service.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigin/features/support_tickets/presentation/screens/support_tickets_list_screen.dart';
 
+import '../../features/auth_feature/data/models/TokenResponseModel.dart';
 import '../../features/auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../features/guid_feature/presentation/pages/guide_screen.dart';
 import '../../features/auth_feature/presentation/bloc/auth_state.dart';
@@ -28,6 +29,49 @@ class _MainDrawerState extends State<MainDrawer> {
   static const _horizontalPadding = 14.0;
   static const _tileRadius = 16.0;
   String _appVersion = 'v1.0.0';
+  bool _customerRefreshScheduled = false;
+  bool _attemptedDrawerCustomerBootstrap = false;
+
+  static String? _cleanAuthField(String? value) {
+    if (value == null) return null;
+    final trimmed = value.trim();
+    if (trimmed.isEmpty || trimmed == 'null') return null;
+    return trimmed;
+  }
+
+  static bool _isDrawerCustomerProfileEmpty(Customer customer) {
+    final p = customer.personalData;
+    return p.first_name.isEmpty &&
+        p.last_name.isEmpty &&
+        p.email.isEmpty &&
+        p.mobile.isEmpty &&
+        p.phone.isEmpty;
+  }
+
+  void _requestCustomerRefreshIfNeeded() {
+    if (_attemptedDrawerCustomerBootstrap || _customerRefreshScheduled) return;
+    _customerRefreshScheduled = true;
+    _attemptedDrawerCustomerBootstrap = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      final authed = context.read<AuthBloc>().state.isAuth;
+      if (!authed) {
+        _customerRefreshScheduled = false;
+        return;
+      }
+      try {
+        await context.read<CustomerInfoBloc>().getCustomer();
+      } catch (_) {
+        // Profile may stay empty offline; drawer still uses auth token fields.
+      } finally {
+        if (mounted) {
+          setState(() => _customerRefreshScheduled = false);
+        } else {
+          _customerRefreshScheduled = false;
+        }
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -56,10 +100,72 @@ class _MainDrawerState extends State<MainDrawer> {
     }
   }
 
-  Widget _buildUserHeader({
+  String _resolveDrawerDisplayName({
     required bool isAuthenticated,
     required Customer? customer,
+    required TokenResponseModel tokenModel,
   }) {
+    if (!isAuthenticated) {
+      return context.l10n.guestUserLabel;
+    }
+    final pd = customer?.personalData;
+    final firstName = pd?.first_name ?? '';
+    final lastName = pd?.last_name ?? '';
+    if (firstName.isNotEmpty || lastName.isNotEmpty) {
+      return '$firstName $lastName'.trim();
+    }
+    final customerEmail = pd?.email ?? '';
+    if (customerEmail.isNotEmpty) return customerEmail;
+    final fromTokenDisplay = _cleanAuthField(tokenModel.userDisplayName);
+    if (fromTokenDisplay != null) return fromTokenDisplay;
+    final fromTokenEmail = _cleanAuthField(tokenModel.userEmail);
+    if (fromTokenEmail != null) return fromTokenEmail;
+    final fromNicename = _cleanAuthField(tokenModel.userNicename);
+    if (fromNicename != null) return fromNicename;
+    final mobile = pd?.mobile ?? '';
+    if (mobile.isNotEmpty) return mobile;
+    final phone = pd?.phone ?? '';
+    if (phone.isNotEmpty) return phone;
+    return context.l10n.drawerAccountDisplayFallback;
+  }
+
+  String _resolveDrawerSubtitle({
+    required bool isAuthenticated,
+    required Customer? customer,
+    required TokenResponseModel tokenModel,
+  }) {
+    if (!isAuthenticated) {
+      return context.l10n.loginToContinueShort;
+    }
+    final pd = customer?.personalData;
+    final customerEmail = pd?.email ?? '';
+    if (customerEmail.isNotEmpty) return customerEmail;
+    final authEmail = _cleanAuthField(tokenModel.userEmail);
+    if (authEmail != null) return authEmail;
+    final mobile = pd?.mobile ?? '';
+    if (mobile.isNotEmpty) return mobile;
+    final phone = pd?.phone ?? '';
+    if (phone.isNotEmpty) return phone;
+    return context.l10n.drawerSignedInNoContactHint;
+  }
+
+  Widget _buildUserHeader({
+    required AuthState authState,
+    required Customer? customer,
+  }) {
+    final isAuthenticated = authState.isAuth;
+    final tokenModel = authState.tokenResponseModel;
+
+    if (!isAuthenticated) {
+      _attemptedDrawerCustomerBootstrap = false;
+    }
+
+    if (isAuthenticated &&
+        customer != null &&
+        _isDrawerCustomerProfileEmpty(customer)) {
+      _requestCustomerRefreshIfNeeded();
+    }
+
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final extension = theme.extension<AppColorsExtension>();
@@ -68,12 +174,24 @@ class _MainDrawerState extends State<MainDrawer> {
 
     final firstName = customer?.personalData.first_name ?? '';
     final lastName = customer?.personalData.last_name ?? '';
-    final email = customer?.personalData.email ?? '';
-    final displayName = firstName.isNotEmpty || lastName.isNotEmpty
-        ? '$firstName $lastName'.trim()
-        : email.isNotEmpty
-            ? email
-            : context.l10n.guestUserLabel;
+    final displayName = _resolveDrawerDisplayName(
+      isAuthenticated: isAuthenticated,
+      customer: customer,
+      tokenModel: tokenModel,
+    );
+    var subtitle = _resolveDrawerSubtitle(
+      isAuthenticated: isAuthenticated,
+      customer: customer,
+      tokenModel: tokenModel,
+    );
+    if (isAuthenticated && subtitle == displayName) {
+      subtitle = context.l10n.drawerSignedInNoContactHint;
+    }
+    final showInitialsAvatar = isAuthenticated &&
+        (firstName.isNotEmpty ||
+            lastName.isNotEmpty ||
+            _cleanAuthField(tokenModel.userDisplayName) != null ||
+            _cleanAuthField(tokenModel.userNicename) != null);
 
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
@@ -103,8 +221,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     width: 1.2,
                   ),
                 ),
-                child: isAuthenticated &&
-                        (firstName.isNotEmpty || lastName.isNotEmpty)
+                child: showInitialsAvatar
                     ? Center(
                         child: Text(
                           _nameInitials(displayName),
@@ -141,9 +258,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      isAuthenticated && email.isNotEmpty
-                          ? email
-                          : context.l10n.settingsScreenIntro,
+                      subtitle,
                       style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.86),
                         fontSize: 12,
@@ -384,7 +499,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 builder: (context, authState) {
                   final customerProvider = context.watch<CustomerInfoBloc>();
                   return _buildUserHeader(
-                    isAuthenticated: authState.isAuth,
+                    authState: authState,
                     customer:
                         authState.isAuth ? customerProvider.customer : null,
                   );

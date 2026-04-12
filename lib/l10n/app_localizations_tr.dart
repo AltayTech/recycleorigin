@@ -649,6 +649,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get drawerHeaderSubtitle => 'RecycleOrigin';
 
   @override
+  String get drawerSignedInNoContactHint => 'Giris yaptiniz.';
+
+  @override
+  String get drawerAccountDisplayFallback => 'Hesabim';
+
+  @override
   String get parentheticalUsd => '(\$)';
 
   @override

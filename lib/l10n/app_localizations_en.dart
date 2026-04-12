@@ -652,6 +652,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawerHeaderSubtitle => 'RecycleOrigin';
 
   @override
+  String get drawerSignedInNoContactHint => 'You\'re signed in.';
+
+  @override
+  String get drawerAccountDisplayFallback => 'My account';
+
+  @override
   String get parentheticalUsd => '(\$)';
 
   @override
