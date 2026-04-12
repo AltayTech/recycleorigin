@@ -251,9 +251,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         slivers: [
           SliverToBoxAdapter(child: _buildHeaderImage()),
           if (!(_isLoading && _loadedRequests.isEmpty))
-            SliverToBoxAdapter(child: _buildSortFilterBar(context)),
-          if (_loadedRequests.isNotEmpty)
-            SliverToBoxAdapter(child: _buildStatsRow(context)),
+            SliverToBoxAdapter(child: _buildListToolbar(context)),
           _buildRequestsList(),
           if (_isLoading && _loadedRequests.isNotEmpty)
             const SliverToBoxAdapter(
@@ -293,119 +291,154 @@ class _CollectListScreenState extends State<CollectListScreen> {
     );
   }
 
-  Widget _buildStatsRow(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          _buildStatItem(
-            context.l10n.listCountSummaryPrefix,
-            _loadedRequests.length.toString(),
-          ),
-          const SizedBox(width: 12),
-          _buildStatItem(
-            context.l10n.cartTotalSummaryPrefix,
-            _searchDetail.total.toString(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatItem(String label, String value) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Row(
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            EnArConvertor().replaceArNumber(value),
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.primary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSortFilterBar(BuildContext context) {
+  /// Sort, filter, and result counts in one surfaced block (list header pattern).
+  Widget _buildListToolbar(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final hasFilter = _filterCategorySlug.isNotEmpty;
     final colorScheme = theme.colorScheme;
+    final hasFilter = _filterCategorySlug.isNotEmpty;
+    final showSummary = _loadedRequests.isNotEmpty;
+
+    final borderColor = colorScheme.outlineVariant.withValues(alpha: 0.65);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: () => _showSortSheet(context),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: colorScheme.onSurface,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                side: BorderSide(
-                  color: colorScheme.outline.withValues(alpha: 0.5),
-                ),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      child: Material(
+        color: colorScheme.surface,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: borderColor),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              if (showSummary) ...<Widget>[
+                _buildToolbarSummary(context, theme),
+                const SizedBox(height: 12),
+              ],
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () => _showSortSheet(context),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: colorScheme.onSurface,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 10,
+                        ),
+                        side: BorderSide(
+                          color: colorScheme.outline.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      icon: Icon(
+                        Icons.sort_rounded,
+                        size: 20,
+                        color: colorScheme.primary,
+                      ),
+                      label: Text(
+                        _sortOptionLabel(l10n),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.labelLarge,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () => _showFilterSheet(context),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: colorScheme.onSurface,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 10,
+                        ),
+                        side: BorderSide(
+                          color: colorScheme.outline.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      icon: _FilterIconWithDot(
+                        active: hasFilter,
+                        color: colorScheme.primary,
+                      ),
+                      label: Text(
+                        hasFilter
+                            ? _filterSelectionLabel(l10n)
+                            : l10n.collectListFilterLabel,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.labelLarge,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              icon: Icon(
-                Icons.sort_rounded,
-                size: 20,
-                color: colorScheme.primary,
-              ),
-              label: Text(
-                _sortOptionLabel(l10n),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.labelLarge,
-              ),
-            ),
+            ],
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: () => _showFilterSheet(context),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: colorScheme.onSurface,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                side: BorderSide(
-                  color: colorScheme.outline.withValues(alpha: 0.5),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildToolbarSummary(BuildContext context, ThemeData theme) {
+    final l10n = context.l10n;
+    final colorScheme = theme.colorScheme;
+    final loaded = EnArConvertor()
+        .replaceArNumber(_loadedRequests.length.toString());
+    final total = EnArConvertor().replaceArNumber(
+      _searchDetail.total.toString(),
+    );
+    final labelStyle = theme.textTheme.bodySmall?.copyWith(
+      color: colorScheme.onSurfaceVariant,
+      fontWeight: FontWeight.w500,
+      height: 1.25,
+    );
+    final valueStyle = theme.textTheme.titleSmall?.copyWith(
+      color: colorScheme.primary,
+      fontWeight: FontWeight.w700,
+      height: 1.25,
+    );
+    final sepStyle = theme.textTheme.bodySmall?.copyWith(
+      color: colorScheme.onSurfaceVariant.withValues(alpha: 0.45),
+    );
+
+    final semantic = StringBuffer()
+      ..write('${l10n.listCountSummaryPrefix} $loaded')
+      ..write(', ${l10n.cartTotalSummaryPrefix} $total');
+
+    return Semantics(
+      label: semantic.toString(),
+      container: true,
+      child: ExcludeSemantics(
+        child: Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Text.rich(
+            TextSpan(
+              children: <InlineSpan>[
+                TextSpan(
+                  text: l10n.listCountSummaryPrefix,
+                  style: labelStyle,
                 ),
-              ),
-              icon: _FilterIconWithDot(
-                active: hasFilter,
-                color: colorScheme.primary,
-              ),
-              label: Text(
-                hasFilter
-                    ? _filterSelectionLabel(l10n)
-                    : l10n.collectListFilterLabel,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.labelLarge,
-              ),
+                TextSpan(text: ' ', style: labelStyle),
+                TextSpan(text: loaded, style: valueStyle),
+                TextSpan(text: ' \u00b7 ', style: sepStyle),
+                TextSpan(
+                  text: l10n.cartTotalSummaryPrefix,
+                  style: labelStyle,
+                ),
+                TextSpan(text: ' ', style: labelStyle),
+                TextSpan(text: total, style: valueStyle),
+              ],
             ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
-        ],
+        ),
       ),
     );
   }
