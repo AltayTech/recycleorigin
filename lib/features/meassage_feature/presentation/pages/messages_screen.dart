@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../business/entities/message.dart';
 import '../bloc/messages_bloc.dart';
@@ -66,6 +66,7 @@ class _MessageScreenState extends State<MessageScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.supportScreenTitle,
           style: TextStyle(
@@ -222,14 +223,7 @@ class _MessageScreenState extends State<MessageScreen> {
           ),
         ),
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppTheme.primary,
         child: Icon(

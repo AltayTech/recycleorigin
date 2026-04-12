@@ -8,7 +8,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../waste_feature/presentation/address_screen.dart';
 import '../../../waste_feature/presentation/bloc/wastes_bloc.dart';
@@ -167,6 +167,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.wasteCartTitle,
           style: const TextStyle(
@@ -248,10 +249,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
           );
         },
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

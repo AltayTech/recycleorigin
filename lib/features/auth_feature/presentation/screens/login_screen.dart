@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
-import 'package:recycleorigin/core/widgets/main_drawer.dart';
+import 'package:recycleorigin/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/screens/auth_card.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -22,10 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      drawer: Theme(
-        data: theme.copyWith(canvasColor: Colors.transparent),
-        child: const MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: DecoratedBox(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -99,14 +96,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   left: 0,
                   child: Material(
                     type: MaterialType.transparency,
-                    child: IconButton(
-                      tooltip: l10n.authOpenMenuTooltip,
-                      onPressed: () => Scaffold.of(context).openDrawer(),
-                      icon: const Icon(Icons.menu_rounded),
-                      color: Colors.white,
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.white.withValues(alpha: 0.14),
-                      ),
+                    child: Builder(
+                      builder: (ctx) {
+                        final nav = Navigator.of(ctx);
+                        final style = IconButton.styleFrom(
+                          backgroundColor:
+                              Colors.white.withValues(alpha: 0.14),
+                        );
+                        if (nav.canPop()) {
+                          return IconButton(
+                            tooltip: MaterialLocalizations.of(ctx)
+                                .backButtonTooltip,
+                            onPressed: () => nav.maybePop(),
+                            icon: const Icon(Icons.arrow_back_rounded),
+                            color: Colors.white,
+                            style: style,
+                          );
+                        }
+                        return IconButton(
+                          tooltip: l10n.authOpenMenuTooltip,
+                          onPressed: () => Scaffold.of(ctx).openDrawer(),
+                          icon: const Icon(Icons.menu_rounded),
+                          color: Colors.white,
+                          style: style,
+                        );
+                      },
                     ),
                   ),
                 ),

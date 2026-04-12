@@ -5,7 +5,7 @@ import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AboutUsScreen extends StatefulWidget {
@@ -54,6 +54,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           'About us',
           style: TextStyle(
@@ -175,14 +176,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                 ),
               ),
             ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

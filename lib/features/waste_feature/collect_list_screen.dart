@@ -7,7 +7,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/request_w
 import '../../core/logic/en_to_ar_number_convertor.dart';
 import '../../core/models/search_detail.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/widgets/main_drawer.dart';
+import '../../core/widgets/drawer_or_back_leading.dart';
 import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 import '../auth_feature/presentation/screens/login_screen.dart';
 import 'presentation/bloc/wastes_bloc.dart';
@@ -171,6 +171,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.collectRequestListAppBarTitle,
           style: TextStyle(color: AppTheme.white),
@@ -180,10 +181,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         elevation: 0,
         centerTitle: true,
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: !isLogin ? _buildNotLoggedInView() : _buildContent(),
     );
   }

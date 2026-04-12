@@ -14,7 +14,7 @@ import 'wastes_screen.dart';
 import 'widgets/custom_dialog_enter.dart';
 import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../core/widgets/main_drawer.dart';
+import '../../../core/widgets/drawer_or_back_leading.dart';
 import 'address_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
@@ -221,6 +221,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     bool isCompleted = context.read<AuthBloc>().isCompleted;
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.selectWasteTitle,
           style: TextStyle(
@@ -487,14 +488,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
           ),
         );
       }),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: deviceWidth * 0.13 + 10),
         child: FloatingActionButton(

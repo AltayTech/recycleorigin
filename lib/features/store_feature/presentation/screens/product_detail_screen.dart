@@ -9,7 +9,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../business/entities/product.dart';
 import '../bloc/products_bloc.dart';
 import '../bloc/products_state.dart';
@@ -219,6 +219,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       child: Scaffold(
         backgroundColor: AppTheme.white,
         appBar: AppBar(
+          leading: const DrawerOrBackLeading(),
           title: Text(
             '',
             style: TextStyle(
@@ -516,12 +517,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 )),
           ],
         ),
-        drawer: Theme(
-          data: Theme.of(context).copyWith(
-            canvasColor: Colors.transparent,
-          ),
-          child: MainDrawer(),
-        ),
+        drawer: mainDrawerIfRootRoute(context),
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import 'package:recycleorigin/core/theme/app_theme.dart';
-import 'package:recycleorigin/core/widgets/main_drawer.dart';
+import 'package:recycleorigin/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigin/features/store_feature/business/entities/shop.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
@@ -82,6 +82,7 @@ class _GuideScreenState extends State<GuideScreen> {
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.guideTitle,
           style: TextStyle(
@@ -97,10 +98,7 @@ class _GuideScreenState extends State<GuideScreen> {
         textDirection: Directionality.of(context),
         child: _buildBody(context, shop, textScale),
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 

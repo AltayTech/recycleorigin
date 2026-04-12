@@ -3,7 +3,7 @@ import '../../../support_tickets/presentation/screens/support_tickets_list_scree
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/models/customer.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 
 class CustomerNotificationScreen extends StatefulWidget {
   static const routeName = '/customer_notification_screen';
@@ -24,19 +24,13 @@ class _CustomerNotificationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
 
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ), // resizeToAvoidBottomInset: false,
+      drawer: mainDrawerIfRootRoute(context), // resizeToAvoidBottomInset: false,
       body: const SupportTicketsListScreen(),
     );
   }

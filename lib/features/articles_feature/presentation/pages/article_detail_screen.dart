@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../business/entities/article.dart';
 import '../constants/articles_constants.dart';
 import '../bloc/articles_bloc.dart';
@@ -66,18 +66,13 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: const Text(
           'Article',
           style: TextStyle(color: Colors.white),
@@ -94,10 +89,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
               : _article == null
                   ? _buildEmptyState(context)
                   : _buildArticleContent(context, screenWidth, textScaleFactor),
-      drawer: Theme(
-        data: theme.copyWith(canvasColor: Colors.transparent),
-        child: const MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 

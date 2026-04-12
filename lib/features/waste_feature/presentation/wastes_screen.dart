@@ -5,7 +5,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/waste.dar
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
 import '../../../core/theme/app_theme.dart';
-import '../../../core/widgets/main_drawer.dart';
+import '../../../core/widgets/drawer_or_back_leading.dart';
 import 'bloc/wastes_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 import 'widgets/waste_item_wastes_screen.dart';
@@ -114,6 +114,7 @@ class _WastesScreenState extends State<WastesScreen> {
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         elevation: 0,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
@@ -127,10 +128,7 @@ class _WastesScreenState extends State<WastesScreen> {
           ),
         ),
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: Column(
         children: [
           _SearchBar(

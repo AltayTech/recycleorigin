@@ -15,7 +15,7 @@ import '../../../core/models/region.dart';
 import '../../../core/screens/navigation_bottom_screen.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/custom_dialog_send_request.dart';
-import '../../../core/widgets/main_drawer.dart';
+import '../../../core/widgets/drawer_or_back_leading.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../business/entities/address.dart';
 import 'bloc/wastes_bloc.dart';
@@ -336,6 +336,7 @@ class _WasteRequestSendScreenState
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.registerWasteRequestAppBarTitle,
           style: const TextStyle(
@@ -350,12 +351,7 @@ class _WasteRequestSendScreenState
         ),
         elevation: 0,
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.transparent,
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: _isLoading
           ? Center(
               child: SpinKitFadingCircle(

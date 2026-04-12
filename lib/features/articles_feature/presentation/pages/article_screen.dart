@@ -7,7 +7,7 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/category.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../business/entities/article.dart';
 import '../constants/articles_constants.dart';
 import '../bloc/articles_bloc.dart';
@@ -185,16 +185,10 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: const Text(
           'Articles',
           style: TextStyle(color: Colors.white),
@@ -260,10 +254,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           ],
         ),
       ),
-      drawer: Theme(
-        data: theme.copyWith(canvasColor: Colors.transparent),
-        child: const MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 

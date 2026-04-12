@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/models/region.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/buton_bottom.dart';
-import '../../../core/widgets/main_drawer.dart';
+import '../../../core/widgets/drawer_or_back_leading.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../business/entities/address.dart';
 import '../business/entities/price_weight.dart';
@@ -226,6 +226,7 @@ class _WasteRequestDateScreenState
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.collectDateFieldLabel,
           style: const TextStyle(
@@ -240,12 +241,7 @@ class _WasteRequestDateScreenState
           color: AppTheme.appBarIconColor,
         ),
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.transparent,
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: SafeArea(
         child: _isLoading
             ? const Center(child: CircularProgressIndicator())

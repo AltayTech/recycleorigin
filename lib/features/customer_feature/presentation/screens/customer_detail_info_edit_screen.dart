@@ -6,7 +6,7 @@ import '../../business/entities/personal_data.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../bloc/customer_info_bloc.dart';
 import '../../../../core/widgets/info_edit_item.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import 'customer_user_info_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
@@ -185,10 +185,7 @@ class _CustomerDetailInfoEditScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
@@ -197,12 +194,7 @@ class _CustomerDetailInfoEditScreenState
           style: const TextStyle(color: AppTheme.appBarIconColor),
         ),
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.transparent,
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: _buildBody(context),
       floatingActionButton: _buildSaveButton(context),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
-import 'package:recycleorigin/core/widgets/main_drawer.dart';
+import 'package:recycleorigin/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigin/features/support_tickets/data/support_ticket_models.dart';
@@ -42,10 +42,7 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.supportScreenTitle,
           style: TextStyle(color: AppTheme.bg),
@@ -62,7 +59,7 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
             ),
         ],
       ),
-      drawer: const MainDrawer(),
+      drawer: mainDrawerIfRootRoute(context),
       floatingActionButton: auth.isAuth
           ? FloatingActionButton(
               onPressed: () async {

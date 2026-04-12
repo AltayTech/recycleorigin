@@ -9,7 +9,7 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/category.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../business/entities/product.dart';
 import '../bloc/products_bloc.dart';
 import '../bloc/products_state.dart';
@@ -213,10 +213,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       key: scaffoldKey,
       backgroundColor: Color(0xffF9F9F9),
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.storeProductsAppBarTitle,
           style: TextStyle(
@@ -753,14 +750,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       //            ),
       //          ],
       //        ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

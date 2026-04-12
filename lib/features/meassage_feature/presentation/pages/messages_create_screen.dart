@@ -4,7 +4,7 @@ import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../bloc/messages_bloc.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -87,6 +87,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.newMessageScreenTitle,
           style: TextStyle(
@@ -244,14 +245,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
           color: Colors.white,
         ),
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
 import 'customer_detail_info_screen.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 
 class CustomerUserInfoScreen extends StatefulWidget {
   static const routeName = '/customer_user_info_screen';
@@ -22,23 +22,13 @@ class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
 
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ), // resizeToAvoidBottomInset: false,
+      drawer: mainDrawerIfRootRoute(context), // resizeToAvoidBottomInset: false,
       body: Directionality(
           textDirection: Directionality.of(context),
           child: CustomerDetailInfoScreen(
