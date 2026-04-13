@@ -31,6 +31,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     on<WastesSearchCollectItemsRequested>(_onSearchCollectItems);
     on<WastesRetrieveCollectItemRequested>(_onRetrieveCollectItem);
     on<WastesMarkRequestsListDirty>(_onMarkRequestsListDirty);
+    on<WastesSubmitDriverRatingRequested>(_onSubmitDriverRating);
   }
 
   String get token => state.token;
@@ -105,6 +106,17 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
   Future<void> retrieveCollectItem(int collectId) {
     final c = Completer<void>();
     add(WastesRetrieveCollectItemRequested(collectId, completer: c));
+    return c.future;
+  }
+
+  Future<void> submitDriverRating(int collectId, int score, String comment) {
+    final c = Completer<void>();
+    add(WastesSubmitDriverRatingRequested(
+      collectId,
+      score,
+      comment,
+      completer: c,
+    ));
     return c.future;
   }
 
@@ -391,6 +403,57 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     } catch (e, st) {
       AppLogger.error('Failed to retrieve collect item',
           error: e, stackTrace: st);
+      event.completer?.completeError(e, st);
+      rethrow;
+    }
+  }
+
+  Future<void> _onSubmitDriverRating(
+    WastesSubmitDriverRatingRequested event,
+    Emitter<WastesState> emit,
+  ) async {
+    final url =
+        Urls.rootUrl + Urls.collectRatePath(event.collectId);
+    try {
+      final token = await SecureStorage.getToken() ?? '';
+      if (token.isEmpty) {
+        throw Exception('Not logged in.');
+      }
+      final response = await post(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'score': event.score,
+          'comment': event.comment,
+        }),
+      );
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        final decoded = json.decode(response.body);
+        final message = decoded is Map && decoded['error'] != null
+            ? decoded['error'].toString()
+            : 'Failed (${response.statusCode})';
+        throw Exception(message);
+      }
+      final getUrl =
+          Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
+      final dio = diolib.Dio();
+      final refreshed = await dio.get<dynamic>(
+        getUrl,
+        options: diolib.Options(
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      );
+      final item = RequestWasteItem.fromJson(
+        refreshed.data as Map<String, dynamic>,
+      );
+      emit(state.copyWith(requestWasteItem: item));
+      event.completer?.complete();
+    } catch (e, st) {
+      AppLogger.error('Submit driver rating failed', error: e, stackTrace: st);
       event.completer?.completeError(e, st);
       rethrow;
     }

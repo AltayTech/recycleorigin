@@ -88,3 +88,16 @@ class WastesRetrieveCollectItemRequested extends WastesEvent {
 class WastesMarkRequestsListDirty extends WastesEvent {
   const WastesMarkRequestsListDirty();
 }
+
+class WastesSubmitDriverRatingRequested extends WastesEvent {
+  const WastesSubmitDriverRatingRequested(
+    this.collectId,
+    this.score,
+    this.comment, {
+    this.completer,
+  });
+  final int collectId;
+  final int score;
+  final String comment;
+  final Completer<void>? completer;
+}

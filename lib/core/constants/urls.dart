@@ -15,6 +15,10 @@ class Urls {
   static const articlesEndPoint = '/articles';
   static const articlesCatEndPoint = '/articles/category';
   static const collectsEndPoint = '/collects';
+
+  /// POST body: `{ "score": 1-5, "comment": "optional" }`
+  static String collectRatePath(int collectId) =>
+      '$collectsEndPoint/$collectId/rate';
   static const checkCompletedEndPoint = '/customer/completed';
   static const customerEndPoint = '/customer';
   static const orderEndPoint = '/orders';

@@ -349,5 +349,19 @@
     }
   },
   "selectedLabel": "Seçili",
-  "defaultAddressLabel": "Varsayılan"
+  "defaultAddressLabel": "Varsayılan",
+  "averageRatingLabel": "Ortalama puan",
+  "rateDriverTitle": "Sürücünüzü değerlendirin",
+  "rateDriverHint": "Teslim alma deneyiminiz nasıldı?",
+  "ratingCommentLabel": "Yorum (isteğe bağlı)",
+  "submitRatingLabel": "Değerlendirmeyi gönder",
+  "yourRatingSubmitted": "Geri bildiriminiz için teşekkürler",
+  "ratingScoreOfFive": "{score} / 5",
+  "@ratingScoreOfFive": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  }
 }

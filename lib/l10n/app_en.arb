@@ -349,5 +349,19 @@
     }
   },
   "selectedLabel": "Selected",
-  "defaultAddressLabel": "Default"
+  "defaultAddressLabel": "Default",
+  "averageRatingLabel": "Average rating",
+  "rateDriverTitle": "Rate your driver",
+  "rateDriverHint": "How was your pickup experience?",
+  "ratingCommentLabel": "Comment (optional)",
+  "submitRatingLabel": "Submit rating",
+  "yourRatingSubmitted": "Thank you for your feedback",
+  "ratingScoreOfFive": "{score} of 5",
+  "@ratingScoreOfFive": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -1075,4 +1075,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get defaultAddressLabel => 'Default';
+
+  @override
+  String get averageRatingLabel => 'Average rating';
+
+  @override
+  String get rateDriverTitle => 'Rate your driver';
+
+  @override
+  String get rateDriverHint => 'How was your pickup experience?';
+
+  @override
+  String get ratingCommentLabel => 'Comment (optional)';
+
+  @override
+  String get submitRatingLabel => 'Submit rating';
+
+  @override
+  String get yourRatingSubmitted => 'Thank you for your feedback';
+
+  @override
+  String ratingScoreOfFive(int score) {
+    return '$score of 5';
+  }
 }

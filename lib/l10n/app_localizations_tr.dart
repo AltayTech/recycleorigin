@@ -1067,4 +1067,27 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get defaultAddressLabel => 'Varsayılan';
+
+  @override
+  String get averageRatingLabel => 'Ortalama puan';
+
+  @override
+  String get rateDriverTitle => 'Sürücünüzü değerlendirin';
+
+  @override
+  String get rateDriverHint => 'Teslim alma deneyiminiz nasıldı?';
+
+  @override
+  String get ratingCommentLabel => 'Yorum (isteğe bağlı)';
+
+  @override
+  String get submitRatingLabel => 'Değerlendirmeyi gönder';
+
+  @override
+  String get yourRatingSubmitted => 'Geri bildiriminiz için teşekkürler';
+
+  @override
+  String ratingScoreOfFive(int score) {
+    return '$score / 5';
+  }
 }

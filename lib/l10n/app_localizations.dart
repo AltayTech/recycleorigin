@@ -2149,6 +2149,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Default'**
   String get defaultAddressLabel;
+
+  /// No description provided for @averageRatingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Average rating'**
+  String get averageRatingLabel;
+
+  /// No description provided for @rateDriverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate your driver'**
+  String get rateDriverTitle;
+
+  /// No description provided for @rateDriverHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How was your pickup experience?'**
+  String get rateDriverHint;
+
+  /// No description provided for @ratingCommentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment (optional)'**
+  String get ratingCommentLabel;
+
+  /// No description provided for @submitRatingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit rating'**
+  String get submitRatingLabel;
+
+  /// No description provided for @yourRatingSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your feedback'**
+  String get yourRatingSubmitted;
+
+  /// No description provided for @ratingScoreOfFive.
+  ///
+  /// In en, this message translates to:
+  /// **'{score} of 5'**
+  String ratingScoreOfFive(int score);
 }
 
 class _AppLocalizationsDelegate
