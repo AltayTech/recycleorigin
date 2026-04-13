@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/layout/app_breakpoints.dart';
 import '../../../../core/theme/app_theme.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -38,7 +39,6 @@ class HomeHeroSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final ext = theme.extension<AppColorsExtension>()!;
-    final isWide = MediaQuery.sizeOf(context).width >= 720;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -81,8 +81,14 @@ class HomeHeroSection extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(AppTheme.spacingLg),
-                child: isWide
-                    ? Row(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isWide = AppBreakpoints.isExpandedWidth(
+                      constraints.maxWidth,
+                    );
+                    if (isWide) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             flex: 3,
@@ -99,20 +105,23 @@ class HomeHeroSection extends StatelessWidget {
                             child: _HeroVisual(),
                           ),
                         ],
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _HeroCopy(
-                            onPrimaryActionPressed: onPrimaryActionPressed,
-                            quickLinks: quickLinks,
-                          ),
-                          const SizedBox(
-                            height: AppTheme.spacingMd + 4,
-                          ),
-                          const _HeroVisual(),
-                        ],
-                      ),
+                      );
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _HeroCopy(
+                          onPrimaryActionPressed: onPrimaryActionPressed,
+                          quickLinks: quickLinks,
+                        ),
+                        const SizedBox(
+                          height: AppTheme.spacingMd + 4,
+                        ),
+                        const _HeroVisual(),
+                      ],
+                    );
+                  },
+                ),
               ),
             ],
           ),
@@ -149,6 +158,8 @@ class _HeroCopy extends StatelessWidget {
             height: 1.1,
             fontWeight: FontWeight.w800,
           ),
+          maxLines: 4,
+          overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: AppTheme.spacingSm + 2),
         ConstrainedBox(
@@ -159,6 +170,8 @@ class _HeroCopy extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.9),
               height: 1.35,
             ),
+            maxLines: 6,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         const SizedBox(height: AppTheme.spacingMd + 4),

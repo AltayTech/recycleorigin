@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/layout/app_breakpoints.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/custom_dialog.dart';
 import '../../articles_feature/presentation/pages/article_screen.dart';
@@ -116,8 +117,7 @@ class _HomeScreenState extends State<HomeScreen>
   void _openSupport() =>
       Navigator.of(context).pushNamed(SupportTicketsListScreen.routeName);
 
-  void _openGuide() =>
-      Navigator.of(context).pushNamed(GuideScreen.routeName);
+  void _openGuide() => Navigator.of(context).pushNamed(GuideScreen.routeName);
 
   // ── Dialogs ────────────────────────────────────────────────────
 
@@ -237,55 +237,63 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           child: SafeArea(
-            child: CustomScrollView(
-              physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics(),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: AppBreakpoints.contentMaxWidth,
+                ),
+                child: CustomScrollView(
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
+                  slivers: [
+                    // ── Hero ─────────────────────────────────
+                    SliverToBoxAdapter(
+                      child: SlideTransition(
+                        position: _heroSlide,
+                        child: FadeTransition(
+                          opacity: _heroFade,
+                          child: HomeHeroSection(
+                            onPrimaryActionPressed: _openWasteCart,
+                            quickLinks: _buildQuickLinks(context),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // ── Section header ───────────────────────
+                    SliverToBoxAdapter(
+                      child: SlideTransition(
+                        position: _gridSlide,
+                        child: FadeTransition(
+                          opacity: _gridFade,
+                          child: SectionHeader(
+                            title: context.l10n.homeServicesTitle,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // ── Services grid ────────────────────────
+                    SliverToBoxAdapter(
+                      child: SlideTransition(
+                        position: _gridSlide,
+                        child: FadeTransition(
+                          opacity: _gridFade,
+                          child: ServicesGrid(
+                            descriptors: _buildServiceDescriptors(context),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: AppTheme.spacingLg),
+                    ),
+                  ],
+                ),
               ),
-              slivers: [
-                // ── Hero ─────────────────────────────────
-                SliverToBoxAdapter(
-                  child: SlideTransition(
-                    position: _heroSlide,
-                    child: FadeTransition(
-                      opacity: _heroFade,
-                      child: HomeHeroSection(
-                        onPrimaryActionPressed: _openWasteCart,
-                        quickLinks: _buildQuickLinks(context),
-                      ),
-                    ),
-                  ),
-                ),
-
-                // ── Section header ───────────────────────
-                SliverToBoxAdapter(
-                  child: SlideTransition(
-                    position: _gridSlide,
-                    child: FadeTransition(
-                      opacity: _gridFade,
-                      child: SectionHeader(
-                        title: context.l10n.homeServicesTitle,
-                      ),
-                    ),
-                  ),
-                ),
-
-                // ── Services grid ────────────────────────
-                SliverToBoxAdapter(
-                  child: SlideTransition(
-                    position: _gridSlide,
-                    child: FadeTransition(
-                      opacity: _gridFade,
-                      child: ServicesGrid(
-                        descriptors: _buildServiceDescriptors(context),
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: AppTheme.spacingLg),
-                ),
-              ],
             ),
           ),
         ),

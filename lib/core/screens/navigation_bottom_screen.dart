@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -18,7 +20,7 @@ import '../widgets/main_drawer.dart';
 ///
 /// Key Features:
 /// - Manages navigation between multiple pages using `_pages` list.
-/// - Handles back button presses with a custom `WillPopScope` implementation.
+/// - Handles back button presses with [PopScope] (double-tap to exit).
 /// - Displays a toast message when the back button is pressed twice within a short interval.
 /// - Supports RTL layout for localization.
 ///
@@ -52,7 +54,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
   @override
   void initState() {
     super.initState();
-    // Ensure `onWillPop` can safely run before the first back press.
+    // Ensure back handling can compare against a time before the first press.
     currentBackPressTime = DateTime.now().subtract(const Duration(seconds: 3));
   }
 
@@ -68,7 +70,15 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
     ProfileView(),
   ];
 
-  Future<bool> onWillPop() async {
+  Future<void> _completePopIfAllowed() async {
+    final allowPop = await _onWillPop();
+    if (!mounted) return;
+    if (allowPop) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future<bool> _onWillPop() async {
     if (_scaffoldKey.currentState?.isDrawerOpen == true) {
       Navigator.pop(context);
       return false;
@@ -89,9 +99,9 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
                 l10n.forexit,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: AppTheme.black,
-                    //fontFamily: 'Iransans',
-                    fontSize: MediaQuery.of(context).textScaleFactor * 13.0),
+                  color: AppTheme.black,
+                  fontSize: MediaQuery.textScalerOf(context).scale(13),
+                ),
               ),
             ),
           ),
@@ -105,8 +115,12 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return WillPopScope(
-      onWillPop: onWillPop,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (didPop) return;
+        unawaited(_completePopIfAllowed());
+      },
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -185,3 +199,4 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
     );
   }
 }
+

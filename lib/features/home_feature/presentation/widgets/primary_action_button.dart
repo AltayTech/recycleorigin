@@ -65,49 +65,56 @@ class PrimaryActionButton extends StatelessWidget {
                 AppTheme.radiusSm + 6,
               ),
               splashColor: fg.withValues(alpha: 0.08),
-              child: SizedBox(
-                height: 60,
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: AppTheme.spacingMd + 2,
-                    ),
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: secondaryBg,
-                        borderRadius: BorderRadius.circular(
-                          AppTheme.radiusSm + 2,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 48),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        width: AppTheme.spacingMd + 2,
+                      ),
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: secondaryBg,
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusSm + 2,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Icon(
+                            Icons.recycling_rounded,
+                            color: fg,
+                            size: 22,
+                          ),
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Icon(
-                          Icons.recycling_rounded,
-                          color: fg,
-                          size: 22,
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Text(
+                          context.l10n.requestCollectionHeroTitle,
+                          style:
+                              Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    color: fg,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.2,
+                                  ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Text(
-                        context.l10n.requestCollectionHeroTitle,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              color: fg,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0.2,
-                            ),
+                      Icon(
+                        Icons.arrow_forward_rounded,
+                        color: fg,
+                        size: 24,
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_rounded,
-                      color: fg,
-                      size: 24,
-                    ),
-                    const SizedBox(
-                      width: AppTheme.spacingMd + 2,
-                    ),
-                  ],
+                      const SizedBox(
+                        width: AppTheme.spacingMd + 2,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

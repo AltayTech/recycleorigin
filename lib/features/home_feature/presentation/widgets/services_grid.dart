@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/layout/app_breakpoints.dart';
 import '../../../../core/theme/app_theme.dart';
 import 'service_card.dart';
 
@@ -26,10 +27,7 @@ class ServiceDescriptor {
 /// A responsive grid of [ServiceCard] widgets with staggered
 /// entrance animations.
 ///
-/// Adapts column count based on available width:
-/// - >= 1100 dp: 4 columns
-/// - >= 720 dp: 3 columns
-/// - < 720 dp: 2 columns
+/// Adapts column count from [AppBreakpoints] (parent width, not full screen).
 class ServicesGrid extends StatefulWidget {
   const ServicesGrid({
     super.key,
@@ -69,12 +67,10 @@ class _ServicesGridState extends State<ServicesGrid>
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
-        final crossAxisCount = width >= 1100
-            ? 4
-            : width >= 720
-                ? 3
-                : 2;
-        final childAspectRatio = width >= 720 ? 1.15 : 1.05;
+        final crossAxisCount =
+            AppBreakpoints.servicesGridCrossAxisCount(width);
+        final childAspectRatio =
+            AppBreakpoints.servicesGridChildAspectRatio(width);
 
         return Padding(
           padding: const EdgeInsets.symmetric(

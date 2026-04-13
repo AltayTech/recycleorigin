@@ -46,6 +46,14 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 LayoutBuilder(
                   builder: (context, constraints) {
+                    // With [resizeToAvoidBottomInset], the scaffold body height
+                    // already excludes the keyboard; do not subtract
+                    // [viewInsets.bottom] again or [minHeight] becomes negative
+                    // in landscape when the IME is tall.
+                    final minChildHeight =
+                        constraints.maxHeight.isFinite
+                            ? constraints.maxHeight
+                            : 0.0;
                     return SingleChildScrollView(
                       padding: EdgeInsets.only(
                         left: AppTheme.spacingMd,
@@ -56,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       physics: const ClampingScrollPhysics(),
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
-                          minHeight: constraints.maxHeight - bottomInset,
+                          minHeight: minChildHeight,
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
