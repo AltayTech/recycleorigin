@@ -9,6 +9,8 @@
   "no": "Hayir",
   "forexit": "Cikmak icin geri tusuna tekrar basin",
   "welcome": "Hos geldiniz",
+  "loginSuccessSnack": "Tekrar hos geldiniz",
+  "logoutSuccessSnack": "Oturumunuz kapatildi",
   "accept": "Tamam",
   "dearuser": "Sayin kullanici",
   "logoutsuccess": "Basariyla cikis yaptiniz",

@@ -152,6 +152,18 @@ abstract class AppLocalizations {
   /// **'Welcome'**
   String get welcome;
 
+  /// No description provided for @loginSuccessSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get loginSuccessSnack;
+
+  /// No description provided for @logoutSuccessSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve been signed out'**
+  String get logoutSuccessSnack;
+
   /// No description provided for @accept.
   ///
   /// In en, this message translates to:

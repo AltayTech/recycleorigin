@@ -9,6 +9,8 @@
   "no": "No",
   "forexit": "In order to exit, press back again",
   "welcome": "Welcome",
+  "loginSuccessSnack": "Welcome back",
+  "logoutSuccessSnack": "You've been signed out",
   "accept": "Accept",
   "dearuser": "Dear User",
   "logoutsuccess": "You logged out successfully",

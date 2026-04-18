@@ -36,6 +36,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Welcome';
 
   @override
+  String get loginSuccessSnack => 'Welcome back';
+
+  @override
+  String get logoutSuccessSnack => 'You\'ve been signed out';
+
+  @override
   String get accept => 'Accept';
 
   @override

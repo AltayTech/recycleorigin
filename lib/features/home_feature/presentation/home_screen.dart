@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/layout/app_breakpoints.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../../core/widgets/custom_dialog.dart';
+import '../../../core/widgets/auth_snackbars.dart';
 import '../../articles_feature/presentation/pages/article_screen.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../auth_feature/presentation/bloc/auth_state.dart';
@@ -119,25 +119,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   void _openGuide() => Navigator.of(context).pushNamed(GuideScreen.routeName);
 
-  // ── Dialogs ────────────────────────────────────────────────────
-
-  Future<void> _showStatusDialog({
-    required String title,
-    required String description,
-  }) {
-    return showDialog<void>(
-      context: context,
-      builder: (ctx) => CustomDialog(
-        title: title,
-        buttonText: ctx.l10n.accept,
-        description: description,
-        image: Image.asset(
-          'assets/images/main_page_request_ic.png',
-        ),
-      ),
-    );
-  }
-
   // ── Auth listener ──────────────────────────────────────────────
 
   void _onAuthStateChanged(
@@ -145,18 +126,12 @@ class _HomeScreenState extends State<HomeScreen>
     AuthState state,
   ) {
     if (state.isFirstLogin) {
-      _showStatusDialog(
-        title: context.l10n.welcome,
-        description: context.l10n.forarticles,
-      );
+      showLoginSuccessSnackBar(context, context.l10n);
       context.read<AuthBloc>().isFirstLogin = false;
     }
 
     if (state.isFirstLogout) {
-      _showStatusDialog(
-        title: context.l10n.dearuser,
-        description: context.l10n.logoutsuccess,
-      );
+      showLogoutSuccessSnackBar(context, context.l10n);
       context.read<AuthBloc>().isFirstLogout = false;
     }
   }

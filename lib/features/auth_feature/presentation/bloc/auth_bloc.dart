@@ -102,6 +102,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           tokenResponseModel: tokenModel,
           isLoggedIn: token.isNotEmpty,
           isFirstLogin: true,
+          isFirstLogout: false,
         ),
       );
       return token.isNotEmpty;
@@ -344,6 +345,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isLoggedIn: false,
           isCompleted: false,
           addressItems: <Address>[],
+          isFirstLogin: false,
         ),
       );
       event.completer?.complete();
@@ -353,7 +355,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         error: error,
         stackTrace: stackTrace,
       );
-      emit(state.copyWith(token: '', isLoggedIn: false));
+      emit(
+        state.copyWith(
+          token: '',
+          isLoggedIn: false,
+          isFirstLogin: false,
+        ),
+      );
       event.completer?.completeError(error, stackTrace);
     }
   }

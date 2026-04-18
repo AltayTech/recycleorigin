@@ -406,71 +406,100 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 
   Future<void> _handleLogout() async {
-    try {
-      final l10n = context.l10n;
-      final shouldLogout = await showDialog<bool>(
-        context: context,
-        builder: (BuildContext dialogContext) => AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: Text(
-            l10n.signOutDialogTitle,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
-          content: Text(
-            l10n.signOutDialogMessage,
-            style: const TextStyle(fontSize: 16),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: Text(l10n.cancelLabel),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.red,
+    final parentContext = context;
+    final l10n = parentContext.l10n;
+
+    final bool? shouldNavigate = await showDialog<bool>(
+      context: parentContext,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        var busy = false;
+        return StatefulBuilder(
+          builder: (BuildContext ctx, void Function(void Function()) setD) {
+            Future<void> onConfirm() async {
+              setD(() => busy = true);
+              try {
+                parentContext.read<CustomerInfoBloc>().customer = parentContext
+                    .read<CustomerInfoBloc>()
+                    .customer_zero;
+                await parentContext.read<AuthBloc>().removeToken();
+                parentContext.read<AuthBloc>().isFirstLogout = true;
+                if (ctx.mounted) {
+                  Navigator.of(ctx).pop(true);
+                }
+              } catch (e) {
+                if (parentContext.mounted) {
+                  ScaffoldMessenger.of(parentContext).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '${parentContext.l10n.signOutErrorPrefix}$e',
+                      ),
+                      backgroundColor: Colors.red,
+                      duration: const Duration(seconds: 3),
+                    ),
+                  );
+                }
+                if (ctx.mounted) {
+                  Navigator.of(ctx).pop(false);
+                }
+              } finally {
+                if (ctx.mounted) {
+                  setD(() => busy = false);
+                }
+              }
+            }
+
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
               ),
-              child: Text(
-                l10n.signOutConfirmButton,
+              title: Text(
+                l10n.signOutDialogTitle,
                 style: const TextStyle(fontWeight: FontWeight.w600),
               ),
-            ),
-          ],
-        ),
-      );
-
-      if (shouldLogout == true && mounted) {
-        // Reset customer data
-        context.read<CustomerInfoBloc>().customer =
-            context.read<CustomerInfoBloc>().customer_zero;
-
-        // Remove authentication token
-        await context.read<AuthBloc>().removeToken();
-
-        // Set first logout flag
-        context.read<AuthBloc>().isFirstLogout = true;
-
-        // Navigate to home
-        if (mounted) {
-          Navigator.of(context).pop();
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            NavigationBottomScreen.routeName,
-            (Route<dynamic> route) => false,
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${context.l10n.signOutErrorPrefix}${e.toString()}'),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 3),
-          ),
+              content: Text(
+                l10n.signOutDialogMessage,
+                style: const TextStyle(fontSize: 16),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: busy
+                      ? null
+                      : () => Navigator.of(dialogContext).pop(false),
+                  child: Text(l10n.cancelLabel),
+                ),
+                TextButton(
+                  onPressed: busy ? null : onConfirm,
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.red,
+                  ),
+                  child: busy
+                      ? SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Theme.of(ctx).colorScheme.error,
+                          ),
+                        )
+                      : Text(
+                          l10n.signOutConfirmButton,
+                          style: const TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                ),
+              ],
+            );
+          },
         );
-      }
+      },
+    );
+
+    if (shouldNavigate == true && mounted) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        NavigationBottomScreen.routeName,
+        (Route<dynamic> route) => false,
+      );
     }
   }
 
