@@ -1,0 +1,12 @@
+# Copy this file to key.properties in the same directory (android/).
+# key.properties and release keystores must never be committed.
+#
+#   copy key.properties.example key.properties
+#
+# storeFile is resolved relative to the app module (android/app/).
+# See: https://developer.android.com/studio/publish/app-signing
+
+storePassword=REPLACE_ME
+keyPassword=REPLACE_ME
+keyAlias=REPLACE_ME
+storeFile=your-release-key.keystore

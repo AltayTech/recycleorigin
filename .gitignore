@@ -5,6 +5,11 @@
 **/google-services.json
 **/GoogleService-Info.plist
 
+# Android release signing (local only; use android/key.properties.example)
+**/android/key.properties
+**/*.jks
+**/*.keystore
+
 # Miscellaneous
 *.class
 *.log
