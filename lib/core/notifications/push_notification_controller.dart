@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -57,7 +58,7 @@ class PushNotificationController {
         }
       }
       await _ensureLocalChannels();
-      final token = await _messaging!.getToken();
+      final token = await _getFcmToken();
       if (token == null || token.isEmpty) {
         return;
       }
@@ -102,8 +103,46 @@ class PushNotificationController {
         }
       }
     } catch (e, st) {
-      AppLogger.error('Push init failed', error: e, stackTrace: st);
+      var msg = 'Push init failed';
+      if (Platform.isAndroid && _looksLikeFcmServiceUnavailable(e)) {
+        msg = '$msg (Android: FCM needs Google Play services and network '
+            'access; use a "Google Play" system image on emulators, update '
+            'Play Store / Play services on device, or check VPN/firewall).';
+      }
+      AppLogger.error(msg, error: e, stackTrace: st);
     }
+  }
+
+  /// [getToken] occasionally fails with SERVICE_NOT_AVAILABLE; brief backoff
+  /// helps right after boot or Play services updates.
+  Future<String?> _getFcmToken() async {
+    const backoffMs = <int>[0, 800, 1600];
+    for (var i = 0; i < backoffMs.length; i++) {
+      if (backoffMs[i] > 0) {
+        await Future<void>.delayed(Duration(milliseconds: backoffMs[i]));
+      }
+      try {
+        return await _messaging!.getToken();
+      } catch (e, st) {
+        final retry = Platform.isAndroid &&
+            i < backoffMs.length - 1 &&
+            _looksLikeFcmServiceUnavailable(e);
+        if (!retry) {
+          Error.throwWithStackTrace(e, st);
+        }
+      }
+    }
+    return null;
+  }
+
+  static bool _looksLikeFcmServiceUnavailable(Object e) {
+    if (e is FirebaseException) {
+      final m = e.message;
+      if (m != null && m.contains('SERVICE_NOT_AVAILABLE')) {
+        return true;
+      }
+    }
+    return e.toString().contains('SERVICE_NOT_AVAILABLE');
   }
 
   Map<String, dynamic> _stringData(Map<String, dynamic> raw) {
@@ -155,8 +194,7 @@ class PushNotificationController {
     final title = n?.title ?? m.data['title']?.toString() ?? 'RecycleOrigin';
     final body = n?.body ?? m.data['body']?.toString() ?? '';
     final cat = m.data['category']?.toString() ?? 'transactional';
-    final channelId =
-        cat == 'marketing' ? _marketing.id : _transactional.id;
+    final channelId = cat == 'marketing' ? _marketing.id : _transactional.id;
     final android = AndroidNotificationDetails(
       channelId,
       channelId == _marketing.id ? 'Marketing' : 'Transactional',
