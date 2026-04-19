@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "975667016332",
+    "project_id": "recycleorigin-project",
+    "storage_bucket": "recycleorigin-project.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975667016332:android:4aaa488135f58af6a501a9",
+        "android_client_info": {
+          "package_name": "com.recycleorigin.recycleorigin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9qy_NlMSnk5D30EqPbzFAiyu9ekw5EpQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
