@@ -155,9 +155,15 @@ class ApiClient {
   }
 
   /// Perform a DELETE request
-  Future<Result<void>> delete(String path) async {
+  Future<Result<void>> delete(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await _dio.delete(path);
+      final response = await _dio.delete(
+        path,
+        queryParameters: queryParameters,
+      );
 
       if (response.statusCode == 200 || response.statusCode == 204) {
         return const Success(null);

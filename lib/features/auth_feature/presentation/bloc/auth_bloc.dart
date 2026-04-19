@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/models/region.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/notifications/push_notification_controller.dart';
 import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
 import 'package:recycleorigin/features/auth_feature/data/models/TokenResponseModel.dart';
@@ -105,6 +106,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isFirstLogout: false,
         ),
       );
+      if (token.isNotEmpty) {
+        unawaited(
+          PushNotificationController.instance.syncAfterLogin(_apiClient),
+        );
+      }
       return token.isNotEmpty;
     } catch (error, stackTrace) {
       await SecureStorage.saveToken('');
@@ -284,6 +290,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final token = await SecureStorage.getToken() ?? '';
       emit(state.copyWith(token: token));
+      if (token.isNotEmpty) {
+        unawaited(
+          PushNotificationController.instance.syncAfterLogin(_apiClient),
+        );
+      }
       event.completer?.complete();
     } catch (error, stackTrace) {
       AppLogger.error(
@@ -337,6 +348,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
+      await PushNotificationController.instance.onLogout(_apiClient);
       await SecureStorage.deleteToken();
       await SecureStorage.saveLoginStatus(false);
       emit(

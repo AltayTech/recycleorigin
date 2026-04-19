@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigin/core/config/app_locale_controller.dart';
+import 'package:recycleorigin/core/navigation/app_navigator.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/core/screens/settings_screen.dart';
@@ -20,6 +21,7 @@ import 'package:recycleorigin/features/contac_us_feature/presentation/pages/cont
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/screens/customer_detail_info_edit_screen.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/screens/customer_notification_screen.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/screens/notification_preferences_screen.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/screens/customer_orders_screen.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/screens/profile_screen.dart';
@@ -109,6 +111,7 @@ class RecycleOriginApp extends StatelessWidget {
         valueListenable: AppLocaleController.instance.localeNotifier,
         builder: (context, locale, _) {
           return MaterialApp(
+            navigatorKey: appNavigatorKey,
             onGenerateTitle: (context) => context.l10n.recycleorigin,
             debugShowCheckedModeBanner: false,
             locale: locale,
@@ -139,7 +142,9 @@ class RecycleOriginApp extends StatelessWidget {
               CustomerUserInfoScreen.routeName: (ctx) =>
                   CustomerUserInfoScreen(),
               CustomerNotificationScreen.routeName: (ctx) =>
-                  CustomerNotificationScreen(),
+                  const CustomerNotificationScreen(),
+              NotificationPreferencesScreen.routeName: (ctx) =>
+                  const NotificationPreferencesScreen(),
               GuideScreen.routeName: (ctx) => const GuideScreen(),
               MessageScreen.routeName: (ctx) => MessageScreen(),
               SupportTicketsListScreen.routeName: (ctx) =>
