@@ -1,6 +1,10 @@
 # Local environment (API keys, secrets)
 .env
 
+# Firebase / Google (obtain from Firebase Console; do not commit)
+**/google-services.json
+**/GoogleService-Info.plist
+
 # Miscellaneous
 *.class
 *.log
