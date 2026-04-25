@@ -56,6 +56,24 @@ android {
         multiDexEnabled true
 
     }
+    flavorDimensions "environment"
+    productFlavors {
+        dev {
+            dimension "environment"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name", "RecycleOrigin Dev"
+        }
+        staging {
+            dimension "environment"
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+            resValue "string", "app_name", "RecycleOrigin Staging"
+        }
+        prod {
+            dimension "environment"
+            resValue "string", "app_name", "RecycleOrigin"
+        }
+    }
     signingConfigs {
         debug {
 
