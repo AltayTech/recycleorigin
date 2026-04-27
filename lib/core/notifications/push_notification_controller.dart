@@ -8,6 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:recycleorigin/core/config/app_config.dart';
 import 'package:recycleorigin/core/config/app_locale_controller.dart';
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
@@ -25,6 +26,8 @@ class PushNotificationController {
   FirebaseMessaging? _messaging;
   String? _lastRegisteredToken;
   bool _listenersAttached = false;
+  Future<void>? _syncInFlight;
+  DateTime? _deferSyncUntil;
 
   static const AndroidNotificationChannel _transactional =
       AndroidNotificationChannel(
@@ -44,6 +47,28 @@ class PushNotificationController {
 
   /// Call after login and on cold start when already logged in.
   Future<void> syncAfterLogin(ApiClient api) async {
+    if (!AppConfig.enablePushNotifications) {
+      return;
+    }
+    final now = DateTime.now();
+    final deferUntil = _deferSyncUntil;
+    if (deferUntil != null && now.isBefore(deferUntil)) {
+      return;
+    }
+    final running = _syncInFlight;
+    if (running != null) {
+      await running;
+      return;
+    }
+    _syncInFlight = _syncAfterLoginInternal(api);
+    try {
+      await _syncInFlight;
+    } finally {
+      _syncInFlight = null;
+    }
+  }
+
+  Future<void> _syncAfterLoginInternal(ApiClient api) async {
     if (kIsWeb) {
       return;
     }
@@ -102,21 +127,26 @@ class PushNotificationController {
           });
         }
       }
+      _deferSyncUntil = null;
     } catch (e, st) {
       var msg = 'Push init failed';
-      if (Platform.isAndroid && _looksLikeFcmServiceUnavailable(e)) {
+      if (Platform.isAndroid &&
+          _looksLikeTransientFcmInstallationsError(e)) {
+        _deferSyncUntil = DateTime.now().add(const Duration(minutes: 2));
         msg = '$msg (Android: FCM needs Google Play services and network '
             'access; use a "Google Play" system image on emulators, update '
             'Play Store / Play services on device, or check VPN/firewall).';
+        AppLogger.warning(msg);
+        return;
       }
       AppLogger.error(msg, error: e, stackTrace: st);
     }
   }
 
-  /// [getToken] occasionally fails with SERVICE_NOT_AVAILABLE; brief backoff
-  /// helps right after boot or Play services updates.
+  /// [getToken] occasionally fails with transient Play/FIS errors; brief
+  /// backoff helps right after boot or Play services updates.
   Future<String?> _getFcmToken() async {
-    const backoffMs = <int>[0, 800, 1600];
+    const backoffMs = <int>[0, 800, 1600, 3200];
     for (var i = 0; i < backoffMs.length; i++) {
       if (backoffMs[i] > 0) {
         await Future<void>.delayed(Duration(milliseconds: backoffMs[i]));
@@ -126,7 +156,7 @@ class PushNotificationController {
       } catch (e, st) {
         final retry = Platform.isAndroid &&
             i < backoffMs.length - 1 &&
-            _looksLikeFcmServiceUnavailable(e);
+            _looksLikeTransientFcmInstallationsError(e);
         if (!retry) {
           Error.throwWithStackTrace(e, st);
         }
@@ -135,14 +165,21 @@ class PushNotificationController {
     return null;
   }
 
-  static bool _looksLikeFcmServiceUnavailable(Object e) {
+  static bool _looksLikeTransientFcmInstallationsError(Object e) {
+    final text = e.toString();
     if (e is FirebaseException) {
       final m = e.message;
-      if (m != null && m.contains('SERVICE_NOT_AVAILABLE')) {
+      if (m != null &&
+          (m.contains('SERVICE_NOT_AVAILABLE') ||
+              m.contains('FIS_AUTH_ERROR') ||
+              m.contains('Firebase Installations Service is unavailable'))) {
         return true;
       }
     }
-    return e.toString().contains('SERVICE_NOT_AVAILABLE');
+    return text.contains('SERVICE_NOT_AVAILABLE') ||
+        text.contains('FIS_AUTH_ERROR') ||
+        text.contains('FirebaseInstallationsException') ||
+        text.contains('Firebase Installations Service is unavailable');
   }
 
   Map<String, dynamic> _stringData(Map<String, dynamic> raw) {

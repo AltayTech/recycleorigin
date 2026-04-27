@@ -58,6 +58,18 @@ class AppConfig {
     return _getEnv('ENVIRONMENT') == 'development';
   }
 
+  /// Controls whether push registration should run on this build.
+  ///
+  /// Defaults to disabled on development env to avoid noisy FCM/FIS errors on
+  /// local emulators without fully configured Google Play services.
+  static bool get enablePushNotifications {
+    final raw = _getEnv('ENABLE_PUSH_NOTIFICATIONS');
+    if (raw == null || raw.isEmpty) {
+      return !isDevelopment;
+    }
+    return raw.toLowerCase() == 'true';
+  }
+
   /// Initialize configuration
   /// Call this in main() before runApp()
   /// Loads .env from assets (bundled) so it works on device/emulator.
