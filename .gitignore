@@ -17,6 +17,9 @@ assets/env/.env.prod
 **/android/key.properties
 **/*.jks
 **/*.keystore
+**/*.pem
+**/*.key
+**/*service-account*.json
 
 # Miscellaneous
 *.class
