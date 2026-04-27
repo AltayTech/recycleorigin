@@ -1,72 +1,91 @@
-# RecycleOrigin Customer App Deployment Guide
+# RecycleOrigin Customer App Deployment
 
-## 1) Initial setup
+This guide covers both **dev** and **prod** runs for the customer app.
 
-### Prerequisites
-- Flutter SDK installed.
-- Android Studio / Xcode configured for signing.
-- Backend environment already deployed.
+## 1) Environment mapping
 
-### Flavor setup
-- `dev`: uses `lib/main_dev.dart` and `assets/env/.env.dev`
-- `staging`: uses `lib/main_staging.dart` and `assets/env/.env.staging`
-- `prod`: uses `lib/main_prod.dart` and `assets/env/.env.prod`
+- `dev` entrypoint: `lib/main_dev.dart` -> `assets/env/.env.dev`
+- `staging` entrypoint: `lib/main_staging.dart` -> `assets/env/.env.staging`
+- `prod` entrypoint: `lib/main_prod.dart` -> `assets/env/.env.prod`
 
-Android flavors are configured in `android/app/build.gradle`.
-iOS flavor config files are scaffolded under `ios/Flutter/`.
+Current production backend:
+- `API_BASE_URL=https://api.app.recycleorigin.xyz/`
 
-## 2) How to deploy
+## 2) Dev mode (local run)
 
-### Production Android build
+```bash
+cd recycleorigin
+flutter pub get
+flutter run -t lib/main_dev.dart
+```
+
+## 3) Prod mode (local smoke run)
+
+Use this before creating release artifacts.
+
+```bash
+cd recycleorigin
+flutter pub get
+flutter run --release -t lib/main_prod.dart
+```
+
+## 4) Production artifacts
+
+### Android AAB
+
 ```bash
 cd recycleorigin
 flutter pub get
 flutter build appbundle --release --flavor prod -t lib/main_prod.dart
 ```
 
-### Production iOS build
+Output:
+- `build/app/outputs/bundle/prodRelease/app-prod-release.aab`
+
+### iOS IPA
+
 ```bash
 cd recycleorigin
 flutter pub get
 flutter build ipa --release --flavor prod -t lib/main_prod.dart
 ```
 
-### Staging build (when enabled)
-```bash
-flutter build apk --release --flavor staging -t lib/main_staging.dart
-```
-
-## 3) How to update
+## 5) Update flow
 
 ```bash
 cd recycleorigin
-git pull --ff-only
 flutter pub get
+flutter analyze
+flutter test
 flutter build appbundle --release --flavor prod -t lib/main_prod.dart
 ```
 
-Upload the new bundle to Play Console / App Store Connect.
+Upload artifact to Play Console / App Store Connect.
 
-## 4) Rollback procedure
+## 6) Rollback
 
-- Keep previous signed artifacts (`.aab`, `.ipa`) in release storage.
-- Rollback by resubmitting or promoting the previous approved release in store
-  consoles.
-- For emergency backend compatibility issues, temporarily point clients to a
-  compatible backend via next patch release flavor env files.
+- Promote previous approved release from store console.
+- Keep previous signed `.aab` / `.ipa` artifacts for quick rollback.
 
-## 5) Staging TODO checklist
+## 7) Production verification checklist
 
-- [ ] Add staging app IDs and signing identities.
-- [ ] Create iOS staging scheme tied to `Staging.xcconfig`.
-- [ ] Add `google-services.json` and `GoogleService-Info.plist` for staging.
-- [ ] Build and distribute with `--flavor staging -t lib/main_staging.dart`.
+- [ ] App launches and login works.
+- [ ] Customer profile loads and updates successfully.
+- [ ] Create collect/request flow works end-to-end.
+- [ ] Messages/tickets screen works.
+- [ ] No API calls target localhost or dev URLs.
 
-## 6) Environment variable reference
+Quick backend check:
+
+```bash
+curl -fsS https://api.app.recycleorigin.xyz/healthz
+```
+
+## 8) Config reference
 
 | Variable | Required | Description |
 |---|---|---|
-| `ENVIRONMENT` | Yes | App runtime environment tag. |
-| `API_BASE_URL` | Yes | Backend base URL (must match target backend environment). |
-| `API_ROOT_URL` | No | Optional explicit REST root URL override. |
-| `GOOGLE_MAPS_API_KEY` | No | Maps SDK key for map-related features. |
+| `ENVIRONMENT` | Yes | `development`, `staging`, `production`. |
+| `API_BASE_URL` | Yes | Backend base URL (root, trailing slash recommended). |
+| `API_ROOT_URL` | No | Optional REST root override. |
+| `GOOGLE_MAPS_API_KEY` | No | Maps SDK key. |
