@@ -47,11 +47,14 @@ dev_dependencies:
 
 
 flutter:
+  default-flavor: dev
   generate: true
   uses-material-design: true
   assets:
     - assets/images/
-    - .env
+    - assets/env/.env.dev
+    - assets/env/.env.staging
+    - assets/env/.env.prod
 
 
   fonts:

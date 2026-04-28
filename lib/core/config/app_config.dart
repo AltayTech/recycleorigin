@@ -7,6 +7,7 @@ import 'package:recycleorigin/core/utils/logger.dart';
 /// Load environment variables using: await dotenv.load(fileName: ".env");
 class AppConfig {
   static bool _isInitialized = false;
+  static String _activeEnvFile = 'assets/env/.env.dev';
 
   /// Safely get environment variable or return default
   static String? _getEnv(String key) {
@@ -57,20 +58,33 @@ class AppConfig {
     return _getEnv('ENVIRONMENT') == 'development';
   }
 
+  /// Controls whether push registration should run on this build.
+  ///
+  /// Defaults to disabled on development env to avoid noisy FCM/FIS errors on
+  /// local emulators without fully configured Google Play services.
+  static bool get enablePushNotifications {
+    final raw = _getEnv('ENABLE_PUSH_NOTIFICATIONS');
+    if (raw == null || raw.isEmpty) {
+      return !isDevelopment;
+    }
+    return raw.toLowerCase() == 'true';
+  }
+
   /// Initialize configuration
   /// Call this in main() before runApp()
   /// Loads .env from assets (bundled) so it works on device/emulator.
-  static Future<void> initialize() async {
+  static Future<void> initialize({required String envFile}) async {
+    _activeEnvFile = envFile;
     try {
-      await dotenv.load(fileName: '.env');
+      await dotenv.load(fileName: envFile);
       _isInitialized = true;
       AppLogger.info(
-        'App configuration loaded from .env file. API_BASE_URL=${apiBaseUrl}',
+        'App configuration loaded from $envFile. API_BASE_URL=${apiBaseUrl}',
       );
     } catch (e) {
       _isInitialized = false;
       AppLogger.info(
-        'No .env loaded, using default. API_BASE_URL=$apiBaseUrl',
+        'No env loaded from $_activeEnvFile, using default. API_BASE_URL=$apiBaseUrl',
       );
     }
   }

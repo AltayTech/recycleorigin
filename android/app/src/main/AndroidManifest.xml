@@ -13,7 +13,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@drawable/tamizshahr_ic"
-        android:label="RecycleOrigin"
+        android:label="@string/app_name"
         android:usesCleartextTraffic="true">
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
