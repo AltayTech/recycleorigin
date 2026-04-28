@@ -1,5 +1,6 @@
 # Local environment (API keys, secrets)
 .env
+.env.*
 
 # Firebase / Google (obtain from Firebase Console; do not commit)
 **/google-services.json
