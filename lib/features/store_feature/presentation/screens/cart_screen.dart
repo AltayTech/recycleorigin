@@ -9,6 +9,7 @@ import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
+import '../../../auth_feature/presentation/screens/email_verification_screen.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
@@ -308,6 +309,13 @@ class _CartScreenState extends State<CartScreen> {
                             .showSnackBar(addToCartSnackBar);
                       } else if (!isLogin) {
                         _showLogindialog();
+                      } else if (!context
+                          .read<AuthBloc>()
+                          .state
+                          .emailVerified) {
+                        Navigator.of(context).pushNamed(
+                          EmailVerificationScreen.routeName,
+                        );
                       } else {
                         if (isCompleted) {
                           Navigator.of(context)

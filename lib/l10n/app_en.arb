@@ -365,5 +365,47 @@
         "type": "int"
       }
     }
-  }
+  },
+  "authForgotPasswordLink": "Forgot password?",
+  "authContinueWithGoogle": "Continue with Google",
+  "authOrDivider": "or",
+  "authForgotPasswordTitle": "Reset your password",
+  "authForgotPasswordSubtitle": "Enter the email address linked to your account and we'll send you instructions to reset your password.",
+  "authForgotPasswordSendButton": "Send reset link",
+  "authForgotPasswordSentTitle": "Check your inbox",
+  "authForgotPasswordSentBody": "We've sent password-reset instructions to {email}. Follow the link in the email to choose a new password.",
+  "@authForgotPasswordSentBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authBackToLogin": "Back to sign in",
+  "authVerifyEmailTitle": "Verify your email",
+  "authVerifyEmailSubtitle": "We've sent a verification link to {email}. Please open the link to activate your account.",
+  "@authVerifyEmailSubtitle": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authVerifyEmailIveVerified": "I've verified",
+  "authVerifyEmailResend": "Resend email",
+  "authVerifyEmailResendIn": "Resend in {seconds}s",
+  "@authVerifyEmailResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authVerifyEmailNotYet": "Your email is still not verified. Please check your inbox.",
+  "authVerifyEmailResentSuccess": "Verification email resent.",
+  "authVerifyEmailLogout": "Sign out",
+  "authResetEmailSent": "Reset link sent.",
+  "authGoogleSignInFailed": "Google sign-in failed. Please try again.",
+  "authNetworkError": "Network error. Please check your connection.",
+  "authSessionExpired": "Your session has expired. Please sign in again."
 }

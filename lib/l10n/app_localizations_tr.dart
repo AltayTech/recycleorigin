@@ -1096,4 +1096,78 @@ class AppLocalizationsTr extends AppLocalizations {
   String ratingScoreOfFive(int score) {
     return '$score / 5';
   }
+
+  @override
+  String get authForgotPasswordLink => 'Şifremi unuttum?';
+
+  @override
+  String get authContinueWithGoogle => 'Google ile devam et';
+
+  @override
+  String get authOrDivider => 'veya';
+
+  @override
+  String get authForgotPasswordTitle => 'Şifrenizi sıfırlayın';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Hesabınıza bağlı e-posta adresini girin; size şifrenizi sıfırlamanız için talimatlar göndereceğiz.';
+
+  @override
+  String get authForgotPasswordSendButton => 'Sıfırlama bağlantısı gönder';
+
+  @override
+  String get authForgotPasswordSentTitle => 'Gelen kutunuzu kontrol edin';
+
+  @override
+  String authForgotPasswordSentBody(String email) {
+    return 'Şifre sıfırlama talimatlarını $email adresine gönderdik. E-postadaki bağlantıyı izleyerek yeni bir şifre belirleyin.';
+  }
+
+  @override
+  String get authBackToLogin => 'Girişe dön';
+
+  @override
+  String get authVerifyEmailTitle => 'E-postanızı doğrulayın';
+
+  @override
+  String authVerifyEmailSubtitle(String email) {
+    return '$email adresine bir doğrulama bağlantısı gönderdik. Hesabınızı etkinleştirmek için lütfen bağlantıyı açın.';
+  }
+
+  @override
+  String get authVerifyEmailIveVerified => 'Doğruladım';
+
+  @override
+  String get authVerifyEmailResend => 'E-postayı yeniden gönder';
+
+  @override
+  String authVerifyEmailResendIn(int seconds) {
+    return '$seconds sn sonra yeniden gönder';
+  }
+
+  @override
+  String get authVerifyEmailNotYet =>
+      'E-postanız henüz doğrulanmadı. Lütfen gelen kutunuzu kontrol edin.';
+
+  @override
+  String get authVerifyEmailResentSuccess =>
+      'Doğrulama e-postası yeniden gönderildi.';
+
+  @override
+  String get authVerifyEmailLogout => 'Çıkış yap';
+
+  @override
+  String get authResetEmailSent => 'Sıfırlama bağlantısı gönderildi.';
+
+  @override
+  String get authGoogleSignInFailed =>
+      'Google ile giriş başarısız. Lütfen tekrar deneyin.';
+
+  @override
+  String get authNetworkError => 'Ağ hatası. Bağlantınızı kontrol edin.';
+
+  @override
+  String get authSessionExpired =>
+      'Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın.';
 }

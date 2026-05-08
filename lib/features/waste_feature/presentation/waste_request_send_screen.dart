@@ -17,6 +17,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/custom_dialog_send_request.dart';
 import '../../../core/widgets/drawer_or_back_leading.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
+import '../../auth_feature/presentation/screens/email_verification_screen.dart';
 import '../business/entities/address.dart';
 import 'bloc/wastes_bloc.dart';
 import 'widgets/custom_dialog_enter.dart';
@@ -167,6 +168,11 @@ class _WasteRequestSendScreenState
           ),
         ),
       );
+      return;
+    }
+
+    if (!authProvider.state.emailVerified) {
+      Navigator.of(context).pushNamed(EmailVerificationScreen.routeName);
       return;
     }
 

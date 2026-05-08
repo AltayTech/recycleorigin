@@ -365,5 +365,47 @@
         "type": "int"
       }
     }
-  }
+  },
+  "authForgotPasswordLink": "Şifremi unuttum?",
+  "authContinueWithGoogle": "Google ile devam et",
+  "authOrDivider": "veya",
+  "authForgotPasswordTitle": "Şifrenizi sıfırlayın",
+  "authForgotPasswordSubtitle": "Hesabınıza bağlı e-posta adresini girin; size şifrenizi sıfırlamanız için talimatlar göndereceğiz.",
+  "authForgotPasswordSendButton": "Sıfırlama bağlantısı gönder",
+  "authForgotPasswordSentTitle": "Gelen kutunuzu kontrol edin",
+  "authForgotPasswordSentBody": "Şifre sıfırlama talimatlarını {email} adresine gönderdik. E-postadaki bağlantıyı izleyerek yeni bir şifre belirleyin.",
+  "@authForgotPasswordSentBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authBackToLogin": "Girişe dön",
+  "authVerifyEmailTitle": "E-postanızı doğrulayın",
+  "authVerifyEmailSubtitle": "{email} adresine bir doğrulama bağlantısı gönderdik. Hesabınızı etkinleştirmek için lütfen bağlantıyı açın.",
+  "@authVerifyEmailSubtitle": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authVerifyEmailIveVerified": "Doğruladım",
+  "authVerifyEmailResend": "E-postayı yeniden gönder",
+  "authVerifyEmailResendIn": "{seconds} sn sonra yeniden gönder",
+  "@authVerifyEmailResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authVerifyEmailNotYet": "E-postanız henüz doğrulanmadı. Lütfen gelen kutunuzu kontrol edin.",
+  "authVerifyEmailResentSuccess": "Doğrulama e-postası yeniden gönderildi.",
+  "authVerifyEmailLogout": "Çıkış yap",
+  "authResetEmailSent": "Sıfırlama bağlantısı gönderildi.",
+  "authGoogleSignInFailed": "Google ile giriş başarısız. Lütfen tekrar deneyin.",
+  "authNetworkError": "Ağ hatası. Bağlantınızı kontrol edin.",
+  "authSessionExpired": "Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın."
 }

@@ -4,7 +4,10 @@ import 'package:recycleorigin/core/connection/http_exception.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
+import 'package:recycleorigin/features/auth_feature/data/firebase_auth_service.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/screens/email_verification_screen.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/screens/forgot_password_screen.dart';
 import 'package:recycleorigin/l10n/app_localizations.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -73,28 +76,21 @@ class _AuthCardState extends State<AuthCard> {
         final ok = await authBloc.login(_authData);
         if (!mounted) return;
         if (ok) {
-          Navigator.of(context)
-              .pushReplacementNamed(NavigationBottomScreen.routeName);
+          _routePostLogin(authBloc.state.emailVerified);
         } else {
           _showErrorDialog(l10n.authLoginFailedInvalidCredentials);
         }
       } else {
         AppLogger.debug('Registration mode');
-        final registered = await authBloc.register(_authData);
+        await authBloc.register(_authData);
         if (!mounted) return;
-        if (!registered) {
-          _showErrorDialog(l10n.authEmailAlreadyRegistered);
-          return;
-        }
-        final ok = await authBloc.login(_authData);
-        if (!mounted) return;
-        if (ok) {
-          Navigator.of(context)
-              .pushReplacementNamed(NavigationBottomScreen.routeName);
-        } else {
-          _showErrorDialog(l10n.authLoginAfterRegisterFailed);
-        }
+        Navigator.of(context).pushReplacementNamed(
+          EmailVerificationScreen.routeName,
+        );
       }
+    } on AuthException catch (error) {
+      if (!mounted) return;
+      _showErrorDialog(_mapAuthException(error, l10n));
     } on HttpException catch (error) {
       if (!mounted) return;
       _showErrorDialog(_mapHttpException(error.toString(), l10n));
@@ -110,6 +106,56 @@ class _AuthCardState extends State<AuthCard> {
       if (mounted) {
         setState(() => _isLoading = false);
       }
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    setState(() => _isLoading = true);
+    final authBloc = context.read<AuthBloc>();
+    final l10n = context.l10n;
+    try {
+      final ok = await authBloc.signInWithGoogle();
+      if (!mounted || !ok) return;
+      _routePostLogin(authBloc.state.emailVerified);
+    } on AuthException catch (error) {
+      if (!mounted) return;
+      _showErrorDialog(_mapAuthException(error, l10n));
+    } catch (_) {
+      if (!mounted) return;
+      _showErrorDialog(l10n.authGoogleSignInFailed);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  void _routePostLogin(bool emailVerified) {
+    if (!emailVerified) {
+      Navigator.of(context).pushReplacementNamed(
+        EmailVerificationScreen.routeName,
+      );
+      return;
+    }
+    Navigator.of(context)
+        .pushReplacementNamed(NavigationBottomScreen.routeName);
+  }
+
+  String _mapAuthException(AuthException error, AppLocalizations l10n) {
+    switch (error.code) {
+      case AuthErrorCodes.wrongPassword:
+      case AuthErrorCodes.userNotFound:
+        return l10n.authLoginFailedInvalidCredentials;
+      case AuthErrorCodes.invalidEmail:
+        return l10n.authEmailInvalid;
+      case AuthErrorCodes.weakPassword:
+        return l10n.authPasswordTooShort;
+      case AuthErrorCodes.emailAlreadyInUse:
+        return l10n.authEmailAlreadyRegistered;
+      case AuthErrorCodes.networkRequestFailed:
+        return l10n.authNetworkError;
+      case AuthErrorCodes.cancelled:
+        return l10n.authGenericError;
+      default:
+        return l10n.authGenericError;
     }
   }
 
@@ -358,6 +404,18 @@ class _AuthCardState extends State<AuthCard> {
                   validator: _validatePassword,
                   onSaved: (v) => _authData['password'] = v ?? '',
                 ),
+                if (_authMode == AuthMode.login)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: _isLoading
+                          ? null
+                          : () => Navigator.of(context).pushNamed(
+                                ForgotPasswordScreen.routeName,
+                              ),
+                      child: Text(l10n.authForgotPasswordLink),
+                    ),
+                  ),
                 const SizedBox(height: AppTheme.spacingLg),
                 SizedBox(
                   height: 48,
@@ -385,6 +443,55 @@ class _AuthCardState extends State<AuthCard> {
                               color: colorScheme.onPrimary,
                             ),
                           ),
+                  ),
+                ),
+                const SizedBox(height: AppTheme.spacingMd),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: colorScheme.outline.withValues(alpha: 0.4),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.spacingSm,
+                      ),
+                      child: Text(
+                        l10n.authOrDivider,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: ext?.subtitleColor ??
+                              colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: colorScheme.outline.withValues(alpha: 0.4),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppTheme.spacingMd),
+                SizedBox(
+                  height: 48,
+                  child: OutlinedButton.icon(
+                    onPressed: _isLoading ? null : _signInWithGoogle,
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                      ),
+                      side: BorderSide(
+                        color: colorScheme.outline.withValues(alpha: 0.6),
+                      ),
+                    ),
+                    icon: const Icon(Icons.g_mobiledata_rounded, size: 28),
+                    label: Text(
+                      l10n.authContinueWithGoogle,
+                      style: textTheme.labelLarge?.copyWith(
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
                   ),
                 ),
                 TextButton(

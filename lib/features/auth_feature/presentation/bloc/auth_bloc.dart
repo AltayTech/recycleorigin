@@ -7,7 +7,9 @@ import 'package:recycleorigin/core/models/region.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/notifications/push_notification_controller.dart';
 import 'package:recycleorigin/core/storage/secure_storage.dart';
+import 'package:recycleorigin/core/utils/jwt_utils.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
+import 'package:recycleorigin/features/auth_feature/data/firebase_auth_service.dart';
 import 'package:recycleorigin/features/auth_feature/data/models/TokenResponseModel.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_event.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_state.dart';
@@ -16,10 +18,25 @@ import 'package:recycleorigin/features/waste_feature/business/entities/address_m
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Central auth/application-account bloc for user app.
+///
+/// Authentication flows go through Firebase ([FirebaseAuthService]):
+/// email/password sign-in and registration both end with a Firebase ID
+/// token that is exchanged for a backend access + refresh token pair.
+/// Google sign-in follows the same exchange. Existing legacy flows still
+/// fall back to the WordPress-style `jwt-auth/v1/token` endpoint for
+/// accounts that pre-date the Firebase migration.
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(this._apiClient) : super(AuthState()) {
+  AuthBloc(this._apiClient, {FirebaseAuthService? firebaseAuthService})
+      : _firebase = firebaseAuthService ?? FirebaseAuthService(),
+        super(AuthState()) {
     on<AuthLoginRequested>(_onLoginRequested);
     on<AuthRegisterRequested>(_onRegisterRequested);
+    on<AuthGoogleSignInRequested>(_onGoogleSignInRequested);
+    on<AuthForgotPasswordRequested>(_onForgotPasswordRequested);
+    on<AuthEmailVerificationResendRequested>(
+        _onEmailVerificationResendRequested);
+    on<AuthEmailVerificationCheckRequested>(
+        _onEmailVerificationCheckRequested);
     on<AuthTokenLoadRequested>(_onTokenLoadRequested);
     on<AuthCompletionCheckRequested>(_onCompletionCheckRequested);
     on<AuthTokenRemoved>(_onTokenRemoved);
@@ -36,6 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   final ApiClient _apiClient;
+  final FirebaseAuthService _firebase;
   final Map<String, String> headers = <String, String>{};
 
   bool get isAuth => state.isAuth;
@@ -59,75 +77,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     String password,
     Emitter<AuthState> emitter,
   ) async {
-    final data = <String, String>{
-      'username': email,
-      'password': password,
-    };
-
     try {
-      final result = await _apiClient.post<Map<String, dynamic>>(
-        Urls.loginEndPoint,
-        queryParameters: data,
-        parser: (data) => data as Map<String, dynamic>,
+      final result = await _firebase.signInWithEmail(
+        email: email,
+        password: password,
       );
-
-      if (!result.isSuccess) {
-        emitter(
-          state.copyWith(
-            token: '',
-            isLoggedIn: false,
-            tokenResponseModel: TokenResponseModel(
-              token: '',
-              userDisplayName: '',
-              userEmail: '',
-              userNicename: '',
-            ),
-          ),
-        );
-        AppLogger.warning('Login failed: ${result.errorOrNull}');
-        return false;
-      }
-
-      final responseData = result.valueOrNull!;
-      final token = responseData['token'] as String? ?? '';
-      final tokenModel = TokenResponseModel.fromJson(responseData);
-      final userData = jsonEncode(<String, String>{'token': token});
-
-      await SecureStorage.saveUserData(userData);
-      await SecureStorage.saveToken(token);
-      await SecureStorage.saveLoginStatus(token.isNotEmpty);
-
-      emitter(
-        state.copyWith(
-          token: token,
-          tokenResponseModel: tokenModel,
-          isLoggedIn: token.isNotEmpty,
-          isFirstLogin: true,
-          isFirstLogout: false,
-        ),
+      await _persistResult(result, emitter, isFirstLogin: true);
+      return true;
+    } on AuthException catch (error, stackTrace) {
+      AppLogger.warning(
+        'Firebase login failed: ${error.code}',
+        error,
+        stackTrace,
       );
-      if (token.isNotEmpty) {
-        unawaited(
-          PushNotificationController.instance.syncAfterLogin(_apiClient),
-        );
-      }
-      return token.isNotEmpty;
+      await _emitLoggedOut(emitter);
+      rethrow;
     } catch (error, stackTrace) {
-      await SecureStorage.saveToken('');
-      await SecureStorage.saveLoginStatus(false);
-      emitter(
-        state.copyWith(
-          token: '',
-          isLoggedIn: false,
-          tokenResponseModel: TokenResponseModel(
-            token: '',
-            userDisplayName: '',
-            userEmail: '',
-            userNicename: '',
-          ),
-        ),
-      );
       AppLogger.error('Login error', error: error, stackTrace: stackTrace);
+      await _emitLoggedOut(emitter);
       return false;
     }
   }
@@ -139,27 +106,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     String lastName,
     Emitter<AuthState> emitter,
   ) async {
-    final data = <String, String>{
-      'email': email,
-      'password': password,
-      'first_name': firstName,
-      'last_name': lastName,
-    };
-
+    final displayName = '$firstName $lastName'.trim();
     try {
-      final result = await _apiClient.post<Map<String, dynamic>>(
-        Urls.registerEndPoint,
-        data: data,
-        parser: (data) => data as Map<String, dynamic>,
+      final result = await _firebase.registerWithEmail(
+        email: email,
+        password: password,
+        displayName: displayName.isEmpty ? null : displayName,
       );
-      final success = result.isSuccess;
-      emitter(state.copyWith(isLoggedIn: success));
-      if (!success) {
-        AppLogger.warning('Registration failed: ${result.errorOrNull}');
-      }
-      return success;
+      await _persistResult(result, emitter, isFirstLogin: true);
+      return true;
+    } on AuthException catch (error, stackTrace) {
+      AppLogger.warning(
+        'Firebase register failed: ${error.code}',
+        error,
+        stackTrace,
+      );
+      rethrow;
     } catch (error, stackTrace) {
-      emitter(state.copyWith(isLoggedIn: false));
       AppLogger.error(
         'Registration error',
         error: error,
@@ -167,6 +130,62 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       return false;
     }
+  }
+
+  Future<void> _persistResult(
+    FirebaseAuthResult result,
+    Emitter<AuthState> emitter, {
+    bool isFirstLogin = false,
+  }) async {
+    final user = result.user;
+    final email = (user['email'] as String?) ?? '';
+    final displayName = (user['display_name'] as String?) ??
+        '${(user['first_name'] as String?) ?? ''} ${(user['last_name'] as String?) ?? ''}'
+            .trim();
+    final tokenModel = TokenResponseModel(
+      token: result.accessToken,
+      userEmail: email,
+      userNicename: email,
+      userDisplayName: displayName,
+    );
+    await SecureStorage.saveUserData(jsonEncode(user));
+    emitter(
+      state.copyWith(
+        token: result.accessToken,
+        refreshToken: result.refreshToken,
+        tokenResponseModel: tokenModel,
+        isLoggedIn: true,
+        isFirstLogin: isFirstLogin,
+        isFirstLogout: false,
+        emailVerified: result.emailVerified,
+        provider: result.provider,
+        role: result.role,
+      ),
+    );
+    unawaited(
+      PushNotificationController.instance.syncAfterLogin(_apiClient),
+    );
+  }
+
+  Future<void> _emitLoggedOut(Emitter<AuthState> emitter) async {
+    await SecureStorage.deleteToken();
+    await SecureStorage.saveLoginStatus(false);
+    emitter(
+      state.copyWith(
+        token: '',
+        refreshToken: '',
+        isLoggedIn: false,
+        emailVerified: false,
+        provider: '',
+        role: '',
+        tokenResponseModel: TokenResponseModel(
+          token: '',
+          userDisplayName: '',
+          userEmail: '',
+          userNicename: '',
+        ),
+      ),
+    );
   }
 
   void updateCookie(http.Response response) {
@@ -187,6 +206,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<bool> register(Map<String, String> authData) {
     final completer = Completer<bool>();
     add(AuthRegisterRequested(authData: authData, completer: completer));
+    return completer.future;
+  }
+
+  /// Sign in with Google. Returns true if the user completed the flow and
+  /// is now signed in.
+  Future<bool> signInWithGoogle() {
+    final completer = Completer<bool>();
+    add(AuthGoogleSignInRequested(completer: completer));
+    return completer.future;
+  }
+
+  /// Send a password-reset email via Firebase.
+  Future<void> sendPasswordReset(String email) {
+    final completer = Completer<void>();
+    add(AuthForgotPasswordRequested(email: email, completer: completer));
+    return completer.future;
+  }
+
+  /// Resend the verification email to the currently signed-in Firebase user.
+  Future<void> resendEmailVerification() {
+    final completer = Completer<void>();
+    add(AuthEmailVerificationResendRequested(completer: completer));
+    return completer.future;
+  }
+
+  /// Reload the Firebase user and re-issue backend tokens if the email is
+  /// now verified. Returns true when verification has happened.
+  Future<bool> refreshEmailVerification() {
+    final completer = Completer<bool>();
+    add(AuthEmailVerificationCheckRequested(completer: completer));
     return completer.future;
   }
 
@@ -288,8 +337,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      final token = await SecureStorage.getToken() ?? '';
-      emit(state.copyWith(token: token));
+      final token = await SecureStorage.getAccessToken() ?? '';
+      final refresh = await SecureStorage.getRefreshToken() ?? '';
+      final claims = decodeJwtPayload(token);
+      emit(
+        state.copyWith(
+          token: token,
+          refreshToken: refresh,
+          emailVerified: claims?['email_verified'] == true,
+          role: (claims?['role'] as String?) ?? state.role,
+          provider: (claims?['provider'] as String?) ?? state.provider,
+        ),
+      );
       if (token.isNotEmpty) {
         unawaited(
           PushNotificationController.instance.syncAfterLogin(_apiClient),
@@ -349,13 +408,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     try {
       await PushNotificationController.instance.onLogout(_apiClient);
+      final refresh = await SecureStorage.getRefreshToken();
+      if (refresh != null && refresh.isNotEmpty) {
+        try {
+          await _apiClient.post<dynamic>(
+            Urls.logoutEndPoint,
+            data: {'refresh_token': refresh},
+          );
+        } catch (e) {
+          AppLogger.warning('Backend logout failed (continuing): $e');
+        }
+      }
+      try {
+        await _firebase.signOut();
+      } catch (e) {
+        AppLogger.warning('Firebase signOut failed (continuing): $e');
+      }
       await SecureStorage.deleteToken();
       await SecureStorage.saveLoginStatus(false);
       emit(
         state.copyWith(
           token: '',
+          refreshToken: '',
           isLoggedIn: false,
           isCompleted: false,
+          emailVerified: false,
+          provider: '',
+          role: '',
           addressItems: <Address>[],
           isFirstLogin: false,
         ),
@@ -370,6 +449,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         state.copyWith(
           token: '',
+          refreshToken: '',
           isLoggedIn: false,
           isFirstLogin: false,
         ),
@@ -587,5 +667,70 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) {
     emit(state.copyWith(isLoggedIn: event.value));
+  }
+
+  Future<void> _onGoogleSignInRequested(
+    AuthGoogleSignInRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      final result = await _firebase.signInWithGoogle();
+      await _persistResult(result, emit, isFirstLogin: true);
+      event.completer.complete(true);
+    } on AuthException catch (error, stackTrace) {
+      AppLogger.warning(
+        'Google sign-in failed: ${error.code}',
+        error,
+        stackTrace,
+      );
+      if (error.code == AuthErrorCodes.cancelled) {
+        event.completer.complete(false);
+        return;
+      }
+      event.completer.completeError(error, stackTrace);
+    } catch (error, stackTrace) {
+      event.completer.completeError(error, stackTrace);
+    }
+  }
+
+  Future<void> _onForgotPasswordRequested(
+    AuthForgotPasswordRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      await _firebase.sendPasswordReset(event.email);
+      event.completer.complete();
+    } catch (error, stackTrace) {
+      event.completer.completeError(error, stackTrace);
+    }
+  }
+
+  Future<void> _onEmailVerificationResendRequested(
+    AuthEmailVerificationResendRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      await _firebase.sendEmailVerification();
+      event.completer.complete();
+    } catch (error, stackTrace) {
+      event.completer.completeError(error, stackTrace);
+    }
+  }
+
+  Future<void> _onEmailVerificationCheckRequested(
+    AuthEmailVerificationCheckRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      final result = await _firebase.reloadAndExchangeIfVerified();
+      if (result == null) {
+        event.completer.complete(false);
+        return;
+      }
+      await _persistResult(result, emit);
+      event.completer.complete(true);
+    } catch (error, stackTrace) {
+      event.completer.completeError(error, stackTrace);
+    }
   }
 }

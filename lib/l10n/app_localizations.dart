@@ -2203,6 +2203,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{score} of 5'**
   String ratingScoreOfFive(int score);
+
+  /// No description provided for @authForgotPasswordLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get authForgotPasswordLink;
+
+  /// No description provided for @authContinueWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get authContinueWithGoogle;
+
+  /// No description provided for @authOrDivider.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get authOrDivider;
+
+  /// No description provided for @authForgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset your password'**
+  String get authForgotPasswordTitle;
+
+  /// No description provided for @authForgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the email address linked to your account and we\'ll send you instructions to reset your password.'**
+  String get authForgotPasswordSubtitle;
+
+  /// No description provided for @authForgotPasswordSendButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get authForgotPasswordSendButton;
+
+  /// No description provided for @authForgotPasswordSentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox'**
+  String get authForgotPasswordSentTitle;
+
+  /// No description provided for @authForgotPasswordSentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent password-reset instructions to {email}. Follow the link in the email to choose a new password.'**
+  String authForgotPasswordSentBody(String email);
+
+  /// No description provided for @authBackToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get authBackToLogin;
+
+  /// No description provided for @authVerifyEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get authVerifyEmailTitle;
+
+  /// No description provided for @authVerifyEmailSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent a verification link to {email}. Please open the link to activate your account.'**
+  String authVerifyEmailSubtitle(String email);
+
+  /// No description provided for @authVerifyEmailIveVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve verified'**
+  String get authVerifyEmailIveVerified;
+
+  /// No description provided for @authVerifyEmailResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend email'**
+  String get authVerifyEmailResend;
+
+  /// No description provided for @authVerifyEmailResendIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String authVerifyEmailResendIn(int seconds);
+
+  /// No description provided for @authVerifyEmailNotYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email is still not verified. Please check your inbox.'**
+  String get authVerifyEmailNotYet;
+
+  /// No description provided for @authVerifyEmailResentSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email resent.'**
+  String get authVerifyEmailResentSuccess;
+
+  /// No description provided for @authVerifyEmailLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get authVerifyEmailLogout;
+
+  /// No description provided for @authResetEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset link sent.'**
+  String get authResetEmailSent;
+
+  /// No description provided for @authGoogleSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in failed. Please try again.'**
+  String get authGoogleSignInFailed;
+
+  /// No description provided for @authNetworkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please check your connection.'**
+  String get authNetworkError;
+
+  /// No description provided for @authSessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Please sign in again.'**
+  String get authSessionExpired;
 }
 
 class _AppLocalizationsDelegate

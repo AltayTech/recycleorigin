@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/utils/result.dart';
 
@@ -6,6 +8,12 @@ import 'package:recycleorigin/core/utils/result.dart';
 /// Allows tests to control API responses without making actual network calls.
 /// This is a wrapper that can be used in place of ApiClient for testing.
 class MockApiClient implements ApiClient {
+  @override
+  VoidCallback? get onUnauthorized => null;
+
+  @override
+  Dio get raw => throw UnimplementedError('raw is not available on MockApiClient');
+
   // Store responses for different paths
   final Map<String, Result<dynamic>> _getResponses = {};
   final Map<String, Result<dynamic>> _postResponses = {};
@@ -97,7 +105,10 @@ class MockApiClient implements ApiClient {
   }
 
   @override
-  Future<Result<void>> delete(String path) async {
+  Future<Result<void>> delete(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     if (_deleteResponses.containsKey(path)) {
       return _deleteResponses[path]!;
     }

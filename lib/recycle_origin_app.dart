@@ -13,6 +13,8 @@ import 'package:recycleorigin/features/articles_feature/presentation/bloc/articl
 import 'package:recycleorigin/features/articles_feature/presentation/pages/article_detail_screen.dart';
 import 'package:recycleorigin/features/articles_feature/presentation/pages/article_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/screens/email_verification_screen.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/screens/forgot_password_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
@@ -128,6 +130,10 @@ class RecycleOriginApp extends StatelessWidget {
               ProfileScreen.routeName: (ctx) => ProfileScreen(),
               ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
               LoginScreen.routeName: (ctx) => const LoginScreen(),
+              ForgotPasswordScreen.routeName: (ctx) =>
+                  const ForgotPasswordScreen(),
+              EmailVerificationScreen.routeName: (ctx) =>
+                  const EmailVerificationScreen(),
               ProductsScreen.routeName: (ctx) => ProductsScreen(),
               CartScreen.routeName: (ctx) => CartScreen(),
               OrderProductsSendScreen.routeName: (ctx) =>

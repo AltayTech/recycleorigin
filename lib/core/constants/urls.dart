@@ -35,6 +35,22 @@ class Urls {
 
   static const loginEndPoint = 'jwt-auth/v1/token';
   static const registerEndPoint = 'pasmands/v1/auth/register';
+
+  /// POST { id_token } - exchanges a Firebase ID token for a backend access
+  /// + refresh token pair. Returned by [Urls.firebaseExchangeEndPoint].
+  static const firebaseExchangeEndPoint = 'pasmands/v1/auth/firebase';
+
+  /// POST { refresh_token } - rotates the refresh token and returns a fresh
+  /// access + refresh pair.
+  static const refreshTokenEndPoint = 'pasmands/v1/auth/refresh';
+
+  /// POST { refresh_token, all? } - revokes the refresh token (or all
+  /// sessions for the user when `all=true`). Requires a valid access token.
+  static const logoutEndPoint = 'pasmands/v1/auth/logout';
+
+  /// GET - returns the currently authenticated user record (requires JWT).
+  static const meEndPoint = 'pasmands/v1/auth/me';
+
   static const sendMessageEndPoint = '/customer/send_message';
   static const orderInfoEndPoint = '/order';
   static const payEndPoint = '/pay';

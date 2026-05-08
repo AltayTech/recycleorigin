@@ -130,3 +130,31 @@ class AuthLoggedInFlagChanged extends AuthEvent {
 
   final bool value;
 }
+
+class AuthGoogleSignInRequested extends AuthEvent {
+  const AuthGoogleSignInRequested({required this.completer});
+
+  final Completer<bool> completer;
+}
+
+class AuthForgotPasswordRequested extends AuthEvent {
+  const AuthForgotPasswordRequested({
+    required this.email,
+    required this.completer,
+  });
+
+  final String email;
+  final Completer<void> completer;
+}
+
+class AuthEmailVerificationResendRequested extends AuthEvent {
+  const AuthEmailVerificationResendRequested({required this.completer});
+
+  final Completer<void> completer;
+}
+
+class AuthEmailVerificationCheckRequested extends AuthEvent {
+  const AuthEmailVerificationCheckRequested({required this.completer});
+
+  final Completer<bool> completer;
+}

@@ -1104,4 +1104,77 @@ class AppLocalizationsEn extends AppLocalizations {
   String ratingScoreOfFive(int score) {
     return '$score of 5';
   }
+
+  @override
+  String get authForgotPasswordLink => 'Forgot password?';
+
+  @override
+  String get authContinueWithGoogle => 'Continue with Google';
+
+  @override
+  String get authOrDivider => 'or';
+
+  @override
+  String get authForgotPasswordTitle => 'Reset your password';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Enter the email address linked to your account and we\'ll send you instructions to reset your password.';
+
+  @override
+  String get authForgotPasswordSendButton => 'Send reset link';
+
+  @override
+  String get authForgotPasswordSentTitle => 'Check your inbox';
+
+  @override
+  String authForgotPasswordSentBody(String email) {
+    return 'We\'ve sent password-reset instructions to $email. Follow the link in the email to choose a new password.';
+  }
+
+  @override
+  String get authBackToLogin => 'Back to sign in';
+
+  @override
+  String get authVerifyEmailTitle => 'Verify your email';
+
+  @override
+  String authVerifyEmailSubtitle(String email) {
+    return 'We\'ve sent a verification link to $email. Please open the link to activate your account.';
+  }
+
+  @override
+  String get authVerifyEmailIveVerified => 'I\'ve verified';
+
+  @override
+  String get authVerifyEmailResend => 'Resend email';
+
+  @override
+  String authVerifyEmailResendIn(int seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get authVerifyEmailNotYet =>
+      'Your email is still not verified. Please check your inbox.';
+
+  @override
+  String get authVerifyEmailResentSuccess => 'Verification email resent.';
+
+  @override
+  String get authVerifyEmailLogout => 'Sign out';
+
+  @override
+  String get authResetEmailSent => 'Reset link sent.';
+
+  @override
+  String get authGoogleSignInFailed =>
+      'Google sign-in failed. Please try again.';
+
+  @override
+  String get authNetworkError => 'Network error. Please check your connection.';
+
+  @override
+  String get authSessionExpired =>
+      'Your session has expired. Please sign in again.';
 }
