@@ -824,6 +824,26 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not complete the request. Please try again.';
 
   @override
+  String get authServerExchangeFailed =>
+      'Could not reach the server to finish signing in. Check your connection, or try again in a moment.';
+
+  @override
+  String get authTooManyRequests =>
+      'Too many attempts. Please wait a few minutes and try again.';
+
+  @override
+  String get authOperationNotAllowed =>
+      'This sign-in method is not enabled for this app. Contact support.';
+
+  @override
+  String get authInvalidAppCredential =>
+      'This app build is not authorized with Firebase. On Android, add your debug or release SHA-1 in the Firebase Console and download a fresh google-services.json.';
+
+  @override
+  String get authFirebaseConfigurationNotFound =>
+      'Firebase Android config is incomplete. In Firebase Console: enable Email/Password and Google under Authentication → Sign-in method, confirm SHA-1/256 under Project settings → Your apps, then download a new google-services.json (it must list oauth clients, not an empty list) and replace android/app/google-services.json.';
+
+  @override
   String get authOpenMenuTooltip => 'Open menu';
 
   @override

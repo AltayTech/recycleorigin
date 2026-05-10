@@ -1682,6 +1682,36 @@ abstract class AppLocalizations {
   /// **'Could not complete the request. Please try again.'**
   String get authGenericError;
 
+  /// No description provided for @authServerExchangeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server to finish signing in. Check your connection, or try again in a moment.'**
+  String get authServerExchangeFailed;
+
+  /// No description provided for @authTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait a few minutes and try again.'**
+  String get authTooManyRequests;
+
+  /// No description provided for @authOperationNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'This sign-in method is not enabled for this app. Contact support.'**
+  String get authOperationNotAllowed;
+
+  /// No description provided for @authInvalidAppCredential.
+  ///
+  /// In en, this message translates to:
+  /// **'This app build is not authorized with Firebase. On Android, add your debug or release SHA-1 in the Firebase Console and download a fresh google-services.json.'**
+  String get authInvalidAppCredential;
+
+  /// No description provided for @authFirebaseConfigurationNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Firebase Android config is incomplete. In Firebase Console: enable Email/Password and Google under Authentication → Sign-in method, confirm SHA-1/256 under Project settings → Your apps, then download a new google-services.json (it must list oauth clients, not an empty list) and replace android/app/google-services.json.'**
+  String get authFirebaseConfigurationNotFound;
+
   /// No description provided for @authOpenMenuTooltip.
   ///
   /// In en, this message translates to:

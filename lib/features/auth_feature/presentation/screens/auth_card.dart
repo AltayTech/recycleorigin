@@ -37,26 +37,49 @@ class _AuthCardState extends State<AuthCard> {
     r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
   );
 
-  void _showErrorDialog(String message) {
+  void _showErrorDialog(String message, {String? detail}) {
     final l10n = context.l10n;
+    final trimmed = detail?.trim();
     showDialog<void>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        icon: Icon(
-          Icons.error_outline,
-          color: Theme.of(ctx).colorScheme.error,
-          size: 32,
-        ),
-        title: Text(l10n.authProblemTitle),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: Text(l10n.accept),
+      builder: (ctx) {
+        final scheme = Theme.of(ctx).colorScheme;
+        final bodySmall = Theme.of(ctx).textTheme.bodySmall;
+        return AlertDialog(
+          icon: Icon(
+            Icons.error_outline,
+            color: scheme.error,
+            size: 32,
           ),
-        ],
-      ),
+          title: Text(l10n.authProblemTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(message),
+              if (trimmed != null && trimmed.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                Text(
+                  _truncateAuthDetail(trimmed),
+                  style: bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+                ),
+              ],
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: Text(l10n.accept),
+            ),
+          ],
+        );
+      },
     );
+  }
+
+  static String _truncateAuthDetail(String s) {
+    if (s.length <= 320) return s;
+    return '${s.substring(0, 320)}…';
   }
 
   Future<void> _submit() async {
@@ -82,15 +105,22 @@ class _AuthCardState extends State<AuthCard> {
         }
       } else {
         AppLogger.debug('Registration mode');
-        await authBloc.register(_authData);
+        final ok = await authBloc.register(_authData);
         if (!mounted) return;
+        if (!ok) {
+          _showErrorDialog(l10n.authGenericError);
+          return;
+        }
         Navigator.of(context).pushReplacementNamed(
           EmailVerificationScreen.routeName,
         );
       }
     } on AuthException catch (error) {
       if (!mounted) return;
-      _showErrorDialog(_mapAuthException(error, l10n));
+      _showErrorDialog(
+        _mapAuthException(error, l10n),
+        detail: _authExceptionDetail(error, l10n),
+      );
     } on HttpException catch (error) {
       if (!mounted) return;
       _showErrorDialog(_mapHttpException(error.toString(), l10n));
@@ -119,7 +149,10 @@ class _AuthCardState extends State<AuthCard> {
       _routePostLogin(authBloc.state.emailVerified);
     } on AuthException catch (error) {
       if (!mounted) return;
-      _showErrorDialog(_mapAuthException(error, l10n));
+      _showErrorDialog(
+        _mapAuthException(error, l10n),
+        detail: _authExceptionDetail(error, l10n),
+      );
     } catch (_) {
       if (!mounted) return;
       _showErrorDialog(l10n.authGoogleSignInFailed);
@@ -152,11 +185,38 @@ class _AuthCardState extends State<AuthCard> {
         return l10n.authEmailAlreadyRegistered;
       case AuthErrorCodes.networkRequestFailed:
         return l10n.authNetworkError;
+      case AuthErrorCodes.exchangeFailed:
+        return l10n.authServerExchangeFailed;
       case AuthErrorCodes.cancelled:
         return l10n.authGenericError;
+      case 'too-many-requests':
+        return l10n.authTooManyRequests;
+      case 'operation-not-allowed':
+        return l10n.authOperationNotAllowed;
+      case 'invalid-app-credential':
+      case 'app-not-authorized':
+        return l10n.authInvalidAppCredential;
       default:
+        if (error.message.toUpperCase().contains('CONFIGURATION_NOT_FOUND')) {
+          return l10n.authFirebaseConfigurationNotFound;
+        }
         return l10n.authGenericError;
     }
+  }
+
+  /// Extra line for support (e.g. backend JSON or Firebase message).
+  String? _authExceptionDetail(AuthException error, AppLocalizations l10n) {
+    final m = error.message.trim();
+    if (m.isEmpty || m == error.code) return null;
+    if (error.code == AuthErrorCodes.exchangeFailed ||
+        error.code == AuthErrorCodes.unknown ||
+        error.code == 'internal-error') {
+      return m;
+    }
+    if (_mapAuthException(error, l10n) == l10n.authGenericError) {
+      return m;
+    }
+    return null;
   }
 
   String _mapHttpException(String raw, AppLocalizations l10n) {

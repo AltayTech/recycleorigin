@@ -816,6 +816,26 @@ class AppLocalizationsTr extends AppLocalizations {
   String get authGenericError => 'Islem tamamlanamadi. Lutfen tekrar deneyin.';
 
   @override
+  String get authServerExchangeFailed =>
+      'Sunucuya baglanilamadi. Baglantinizi kontrol edin veya biraz sonra tekrar deneyin.';
+
+  @override
+  String get authTooManyRequests =>
+      'Cok fazla deneme. Bir kac dakika bekleyip tekrar deneyin.';
+
+  @override
+  String get authOperationNotAllowed =>
+      'Bu giris yontemi uygulama icin acik degil. Destek ile iletisime gecin.';
+
+  @override
+  String get authInvalidAppCredential =>
+      'Bu uygulama derlemesi Firebase ile yetkili degil. Android icin SHA-1 ekleyip guncel google-services.json kullanin.';
+
+  @override
+  String get authFirebaseConfigurationNotFound =>
+      'Firebase Android yapilandirmasi eksik. Konsolda Giris yontemlerini acin, SHA parmak izlerini dogrulayin, yeni google-services.json indirin (oauth_client bos olmamali) ve android/app altina koyun.';
+
+  @override
   String get authOpenMenuTooltip => 'Menuyu ac';
 
   @override
