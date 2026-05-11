@@ -200,8 +200,26 @@ class _AuthCardState extends State<AuthCard> {
         if (error.message.toUpperCase().contains('CONFIGURATION_NOT_FOUND')) {
           return l10n.authFirebaseConfigurationNotFound;
         }
+        if (_isGoogleSignInDeveloperError(error.message)) {
+          return l10n.authInvalidAppCredential;
+        }
         return l10n.authGenericError;
     }
+  }
+
+  /// Android [ApiException] status 10 / DEVELOPER_ERROR (SHA-1, oauth_client).
+  static bool _isGoogleSignInDeveloperError(String raw) {
+    final m = raw.toUpperCase();
+    if (m.contains('DEVELOPER_ERROR')) return true;
+    if (m.contains('APIEXCEPTION') && m.contains(': 10')) return true;
+    if (m.contains('COM.GOOGLE.ANDROID.GMS.COMMON.API.APIEXCEPTION: 10')) {
+      return true;
+    }
+    if (m.contains('SIGN_IN_FAILED') &&
+        (m.contains(': 10:') || m.contains(' 10 '))) {
+      return true;
+    }
+    return false;
   }
 
   /// Extra line for support (e.g. backend JSON or Firebase message).
