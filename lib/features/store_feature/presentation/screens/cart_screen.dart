@@ -7,15 +7,18 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
+import '../../../auth_feature/presentation/screens/email_verification_screen.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import '../../business/entities/product_cart.dart';
-import '../providers/Products.dart';
+import '../bloc/products_bloc.dart';
 import '../widgets/card_item.dart';
 import 'order_products_send_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `CartScreen` widget, which displays the shopping cart for the user.
 ///
@@ -73,9 +76,9 @@ class _CartScreenState extends State<CartScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'Login',
-        buttonText: 'Login page ',
-        description: 'Login to continue',
+        title: ctx.l10n.login,
+        buttonText: ctx.l10n.goToLoginScreenButton,
+        description: ctx.l10n.loginToContinueShort,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -85,9 +88,9 @@ class _CartScreenState extends State<CartScreen> {
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'User Info',
-        buttonText: 'Profile page',
-        description: 'Complete your profile to continue',
+        title: ctx.l10n.profileInformationDialogTitle,
+        buttonText: ctx.l10n.goToProfileScreenButton,
+        description: ctx.l10n.completeProfileShort,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -96,26 +99,24 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      await Provider.of<AuthenticationProvider>(context, listen: false)
-          .checkCompleted();
+      await context.read<AuthBloc>().checkCompleted();
 
       await getShopItems();
       customer =
-          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
+          context.read<CustomerInfoBloc>().customer;
       _isLoading = true;
 
 //      await getShopItems();
-      bool isLogin =
-          Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+      bool isLogin = context.read<AuthBloc>().isAuth;
 
       if (isLogin) {
         try {
-          await Provider.of<CustomerInfoProvider>(context, listen: false)
+          await context.read<CustomerInfoBloc>()
               .getCustomer()
               .then(
             (_) {
               customer =
-                  Provider.of<CustomerInfoProvider>(context, listen: false)
+                  context.read<CustomerInfoBloc>()
                       .customer;
             },
           );
@@ -138,7 +139,7 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {
       _isLoading = true;
     });
-    shoppItems = Provider.of<Products>(context, listen: false).cartItems;
+    shoppItems = context.read<ProductsBloc>().cartItems;
     totalPrice = 0;
     transportCost = 10000;
 
@@ -170,18 +171,17 @@ class _CartScreenState extends State<CartScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
-    bool isCompleted =
-        Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
+    bool isLogin = context.read<AuthBloc>().isAuth;
+    bool isCompleted = context.read<AuthBloc>().isCompleted;
 
     getShopItems();
 
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         centerTitle: true,
         title: Text(
-          "Shop Cart",
+          context.l10n.shopCartTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
             color: Colors.white,
@@ -207,19 +207,18 @@ class _CartScreenState extends State<CartScreen> {
                         decoration: BoxDecoration(
                             color: AppTheme.white,
                             borderRadius: BorderRadius.circular(5),
-                            border:
-                                Border.all(color: Colors.grey, width: 0.2)),
+                            border: Border.all(color: Colors.grey, width: 0.2)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Text(
-                                'Number: ' +
-                                    EnArConvertor()
+                                '${context.l10n.cartNumberSummaryPrefix} '
+                                    '${EnArConvertor()
                                         .replaceArNumber(
                                             shoppItems.length.toString())
-                                        .toString(),
+                                        .toString()}',
                                 style: TextStyle(
                                   color: AppTheme.black,
                                   //fontFamily: 'Iransans',
@@ -233,7 +232,7 @@ class _CartScreenState extends State<CartScreen> {
                                 endIndent: 4,
                               ),
                               Text(
-                                'Total: ',
+                                context.l10n.cartTotalSummaryPrefix,
                                 style: TextStyle(
                                   color: AppTheme.grey,
                                   //fontFamily: 'Iransans',
@@ -267,8 +266,7 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  physics:
-                                      const NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: shoppItems.length,
                                   itemBuilder: (ctx, i) => CardItem(
                                     shoppItem: shoppItems[i],
@@ -276,7 +274,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                 ),
                               )
-                            : Center(child: Text('No Items')),
+                            : Center(child: Text(context.l10n.noItemsInCart)),
                       ),
                       SizedBox(
                         height: 50,
@@ -292,7 +290,7 @@ class _CartScreenState extends State<CartScreen> {
                     onTap: () {
                       SnackBar addToCartSnackBar = SnackBar(
                         content: Text(
-                          'Cart is empty',
+                          context.l10n.cartIsEmpty,
                           style: TextStyle(
                             color: Colors.white,
                             //fontFamily: 'Iransans',
@@ -300,7 +298,7 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ),
                         action: SnackBarAction(
-                          label: 'OK',
+                          label: context.l10n.okLabel,
                           onPressed: () {
                             // Some code to undo the change.
                           },
@@ -311,6 +309,13 @@ class _CartScreenState extends State<CartScreen> {
                             .showSnackBar(addToCartSnackBar);
                       } else if (!isLogin) {
                         _showLogindialog();
+                      } else if (!context
+                          .read<AuthBloc>()
+                          .state
+                          .emailVerified) {
+                        Navigator.of(context).pushNamed(
+                          EmailVerificationScreen.routeName,
+                        );
                       } else {
                         if (isCompleted) {
                           Navigator.of(context)
@@ -323,7 +328,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: ButtonBottom(
                       width: deviceWidth * 0.9,
                       height: deviceWidth * 0.14,
-                      text: 'Continue',
+                      text: context.l10n.continueLabel,
                       isActive: shoppItems.isNotEmpty,
                     ),
                   ),
@@ -337,8 +342,7 @@ class _CartScreenState extends State<CartScreen> {
                         alignment: Alignment.center,
                         child: _isLoading
                             ? SpinKitFadingCircle(
-                                itemBuilder:
-                                    (BuildContext context, int index) {
+                                itemBuilder: (BuildContext context, int index) {
                                   return DecoratedBox(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
@@ -355,14 +359,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
         );
       }),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

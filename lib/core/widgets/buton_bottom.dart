@@ -1,61 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 
+/// Reusable call-to-action button used across the waste
+/// collection flow (cart, address, date, confirm screens).
 class ButtonBottom extends StatelessWidget {
   const ButtonBottom({
+    super.key,
     required this.width,
     required this.height,
     required this.text,
     this.isActive = false,
+    this.icon,
   });
 
   final double width;
   final double height;
   final String text;
   final bool isActive;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    const fgColor = Colors.white;
 
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
       width: width,
       height: height,
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 1.0,
-            // has the effect of softening the shadow
-            spreadRadius: 1,
-            // has the effect of extending the shadow
-            offset: Offset(
-              1.0, // horizontal, move right 10
-              1.0, // vertical, move down 10
-            ),
-          )
-        ],
-        color: isActive ? AppTheme.primary : AppTheme.grey,
-        borderRadius: BorderRadius.circular(5),
+        gradient: isActive
+            ? LinearGradient(
+                colors: [
+                  AppTheme.primary,
+                  AppTheme.primary.withOpacity(0.85),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : null,
+        color: isActive ? null : AppTheme.grey.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+        boxShadow: isActive
+            ? [
+                BoxShadow(
+                  color: AppTheme.primary.withOpacity(0.35),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ]
+            : [],
       ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 0),
-          child: Text(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (icon != null) ...[
+            Icon(icon, color: fgColor, size: 20),
+            const SizedBox(width: 8),
+          ],
+          Text(
             text,
             style: TextStyle(
-              color: Colors.white,
-              // //fontFamily: 'Iransans',
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-
+              color: fgColor,
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.3,
             ),
-            textHeightBehavior: TextHeightBehavior(
-              applyHeightToFirstAscent: false,
-            ),
-            // textAlign: TextAlign.center,
           ),
-        ),
+        ],
       ),
     );
   }

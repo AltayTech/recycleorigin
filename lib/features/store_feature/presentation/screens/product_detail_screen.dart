@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../business/entities/product.dart';
-import '../providers/Products.dart';
+import '../bloc/products_bloc.dart';
+import '../bloc/products_state.dart';
 import 'cart_screen.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `ProductDetailScreen` widget, which displays detailed information about a specific product.
 ///
@@ -60,7 +62,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool _isInit = true;
 
   late Product loadedProduct;
-  String _snackBarMessage = '';
 
   @override
   void didChangeDependencies() async {
@@ -76,8 +77,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       _isLoading = true;
     });
     final productId = ModalRoute.of(context)?.settings.arguments as int;
-    await Provider.of<Products>(context, listen: false).retrieveItem(productId);
-    loadedProduct = Provider.of<Products>(context, listen: false).findById();
+    await context.read<ProductsBloc>().retrieveItem(productId);
+    loadedProduct = context.read<ProductsBloc>().findById();
 
     setState(() {
       _isLoading = false;
@@ -91,7 +92,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       _isLoading = true;
     });
 
-    await Provider.of<Products>(context, listen: false)
+    await context
+        .read<ProductsBloc>()
         .addShopCart(loadedProduct, _selectedColor, 1);
 
     setState(() {
@@ -107,7 +109,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     setState(() {
       _isLoading = true;
     });
-    isExist = Provider.of<Products>(context, listen: false)
+    isExist = context
+        .read<ProductsBloc>()
         .cartItems
         .any((prod) => prod.id == loadedProduct.id);
 
@@ -212,44 +215,46 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       child: Scaffold(
         backgroundColor: AppTheme.white,
         appBar: AppBar(
+          leading: const DrawerOrBackLeading(),
           title: Text(
             '',
             style: TextStyle(
-              //fontFamily: 'Iransans',
-            ),
+                //fontFamily: 'Iransans',
+                ),
           ),
           backgroundColor: AppTheme.appBarColor,
           iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
           elevation: 0,
           centerTitle: true,
           actions: <Widget>[
-            Consumer<Products>(
-              builder: (_, products, ch) {
-                if (products.cartItemsCount != 0) {
+            BlocBuilder<ProductsBloc, ProductsState>(
+              buildWhen: (a, b) => a.cartItems.length != b.cartItems.length,
+              builder: (context, state) {
+                final count = state.cartItems.length;
+                final cartIcon = IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(CartScreen.routeName);
+                  },
+                  color: AppTheme.bg,
+                  icon: const Icon(
+                    Icons.shopping_cart,
+                  ),
+                );
+                if (count != 0) {
                   return badges.Badge(
-                    badgeContent: ch,
+                    badgeContent: cartIcon,
                     badgeStyle: badges.BadgeStyle(
                       badgeColor: Color(0xff06623B),
                     ),
-                    child: Text(products.cartItemsCount.toString()),
+                    child: Text(count.toString()),
                   );
-                } else {
-                  return ch!;
                 }
+                return cartIcon;
               },
-              child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(CartScreen.routeName);
-                },
-                color: AppTheme.bg,
-                icon: Icon(
-                  Icons.shopping_cart,
-                ),
-              ),
             ),
           ],
         ),
@@ -376,7 +381,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         fontSize: textScaleFactor * 18,
                                       ),
                                       textAlign: TextAlign.right,
-                                      textDirection: TextDirection.rtl,
+                                      textDirection: Directionality.of(context),
                                     ),
                                   ),
                                   Padding(
@@ -406,14 +411,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     ),
                                   ),
                                   Directionality(
-                                    textDirection: TextDirection.rtl,
+                                    textDirection: Directionality.of(context),
                                     child: HtmlWidget(
                                       loadedProduct.description,
                                       onTapUrl: (url) async {
                                         return await showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
-                                            title: Text('onTapUrl'),
+                                            title:
+                                                Text(context.l10n.onTapUrlDebugTitle),
                                             content: Text(url),
                                           ),
                                         );
@@ -440,10 +446,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         bool isExist = await isExistInCart(loadedProduct);
                         setState(() {});
                         if (loadedProduct.price.isEmpty) {
-                          _snackBarMessage = 'The Price is 0';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
-                              _snackBarMessage,
+                              context.l10n.productPriceZeroSnack,
                               style: TextStyle(
                                 color: Colors.white,
                                 //fontFamily: 'Iransans',
@@ -451,7 +456,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             action: SnackBarAction(
-                              label: 'Ok',
+                              label: context.l10n.okLabel,
                               onPressed: () {
                                 // Some code to undo the change.
                               },
@@ -460,11 +465,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(addToCartSnackBar);
                         } else if (isExist) {
-                          _snackBarMessage =
-                              'This product exist in the Shopping Card';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
-                              _snackBarMessage,
+                              context.l10n.productAlreadyInCartSnack,
                               style: TextStyle(
                                 color: Colors.white,
                                 //fontFamily: 'Iransans',
@@ -472,7 +475,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             action: SnackBarAction(
-                              label: 'OK',
+                              label: context.l10n.okLabel,
                               onPressed: () {
                                 // Some code to undo the change.
                               },
@@ -483,10 +486,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         } else {
                           await addToShoppingCart(loadedProduct, null);
 
-                          _snackBarMessage = 'Added to Shopping Card';
                           SnackBar addToCartSnackBar = SnackBar(
                             content: Text(
-                              _snackBarMessage,
+                              context.l10n.productAddedToCartSnack,
                               style: TextStyle(
                                 color: Colors.white,
                                 //fontFamily: 'Iransans',
@@ -494,7 +496,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             action: SnackBarAction(
-                              label: 'OK',
+                              label: context.l10n.okLabel,
                               onPressed: () {
                                 // Some code to undo the change.
                               },
@@ -507,7 +509,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,
                         height: deviceWidth * 0.14,
-                        text: 'Add to Shopping Card',
+                        text: context.l10n.addToCartLabel,
                         isActive: true,
                       ),
                     );
@@ -515,12 +517,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 )),
           ],
         ),
-        drawer: Theme(
-          data: Theme.of(context).copyWith(
-            canvasColor: Colors.transparent,
-          ),
-          child: MainDrawer(),
-        ),
+        drawer: mainDrawerIfRootRoute(context),
       ),
     );
   }

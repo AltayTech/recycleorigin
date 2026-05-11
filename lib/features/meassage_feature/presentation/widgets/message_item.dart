@@ -38,14 +38,8 @@ class MessageItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          EnArConvertor()
-                              .replaceArNumber('${(
-                            DateTime.parse(message.comment_date)
-                          ).year}/${(
-                            DateTime.parse(message.comment_date)
-                          ).month}/${(
-                            DateTime.parse(message.comment_date)
-                          ).day}'),
+                          EnArConvertor().replaceArNumber(
+                              '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}'),
                           style: TextStyle(
                             color: Colors.white,
                             //fontFamily: 'Iransans',

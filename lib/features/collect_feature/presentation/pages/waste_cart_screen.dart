@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../waste_feature/presentation/address_screen.dart';
-import '../../../waste_feature/presentation/providers/wastes.dart';
+import '../../../waste_feature/presentation/bloc/wastes_bloc.dart';
+import '../../../waste_feature/presentation/bloc/wastes_state.dart';
 import '../../../waste_feature/presentation/wastes_screen.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import '../../../waste_feature/presentation/widgets/waste_cart_item.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WasteCartScreen extends StatefulWidget {
   static const routeName = '/waste_cart_screen';
 
-  const WasteCartScreen({Key? key}) : super(key: key);
+  const WasteCartScreen({super.key});
 
   @override
-  _WasteCartScreenState createState() => _WasteCartScreenState();
+  State<WasteCartScreen> createState() => _WasteCartScreenState();
 }
 
 class _WasteCartScreenState extends State<WasteCartScreen>
@@ -38,11 +40,10 @@ class _WasteCartScreenState extends State<WasteCartScreen>
     super.initState();
     _totalPriceController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 800),
     );
     _totalPriceAnimation = _totalPriceController;
 
-    // Defer initial load to after first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadData();
     });
@@ -59,33 +60,22 @@ class _WasteCartScreenState extends State<WasteCartScreen>
 
     setState(() => _isLoading = true);
 
-    final authProvider =
-        Provider.of<AuthenticationProvider>(context, listen: false);
-    // Check completion status if needed (logic from original code)
+    final authProvider = context.read<AuthBloc>();
     if (_isInit) {
       await authProvider.checkCompleted();
       _isInit = false;
     }
 
-    // Refresh waste items
     await _refreshWasteItems();
 
-    if (mounted) {
-      setState(() => _isLoading = false);
-    }
+    if (mounted) setState(() => _isLoading = false);
   }
 
   Future<void> _refreshWasteItems() async {
-    // In a real app, this might fetch from an API.
-    // Here we are just ensuring the provider state is up to date if needed.
-    // The original code reset local variables here.
+    final wastesProvider = context.read<WastesBloc>();
 
-    // We trigger a rebuild to recalculate totals
-    final wastesProvider = Provider.of<Wastes>(context, listen: false);
-    // If there's an async fetch in provider: await wastesProvider.fetchCart();
-
-    // Calculate total for animation
-    final total = _calculateTotalPrice(wastesProvider.wasteCartItems);
+    final total =
+        _calculateTotalPrice(wastesProvider.wasteCartItems);
     _animatePriceTo(total.toDouble());
 
     if (mounted) setState(() {});
@@ -117,9 +107,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
   int _calculateTotalWeight(List<WasteCart> items) {
     int total = 0;
     for (var item in items) {
-      if (item.prices.isNotEmpty) {
-        total += item.weight;
-      }
+      if (item.prices.isNotEmpty) total += item.weight;
     }
     return total;
   }
@@ -140,24 +128,27 @@ class _WasteCartScreenState extends State<WasteCartScreen>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'Login',
-        buttonText: 'Login page',
-        description: 'Please Login to continue',
+        title: ctx.l10n.login,
+        buttonText: ctx.l10n.goToLoginScreenButton,
+        description: ctx.l10n.pleaseLoginToContinue,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
   }
 
   void _handleContinue() {
-    final wastesProvider = Provider.of<Wastes>(context, listen: false);
-    final isAuth =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    final wastesProvider = context.read<WastesBloc>();
+    final isAuth = context.read<AuthBloc>().isAuth;
 
     if (wastesProvider.wasteCartItems.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please add waste items to your cart'),
+        SnackBar(
+          content: Text(context.l10n.pleaseAddWasteItems),
           backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
       return;
@@ -176,9 +167,13 @@ class _WasteCartScreenState extends State<WasteCartScreen>
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
-          'Waste Cart',
-          style: TextStyle(color: AppTheme.white, fontWeight: FontWeight.bold),
+          context.l10n.wasteCartTitle,
+          style: const TextStyle(
+            color: AppTheme.appBarIconColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -186,18 +181,19 @@ class _WasteCartScreenState extends State<WasteCartScreen>
         elevation: 0,
         actions: [
           IconButton(
-            tooltip: 'Add items',
+            tooltip: context.l10n.addItemsTooltip,
             icon: const Icon(Icons.add_circle_outline),
             onPressed: () async {
-              await Navigator.of(context).pushNamed(WastesScreen.routeName);
+              await Navigator.of(context)
+                  .pushNamed(WastesScreen.routeName);
               await _refreshWasteItems();
             },
           )
         ],
       ),
-      body: Consumer<Wastes>(
-        builder: (context, wastesData, child) {
-          final items = wastesData.wasteCartItems;
+      body: BlocBuilder<WastesBloc, WastesState>(
+        builder: (context, state) {
+          final items = state.wasteCartItems;
           final totalWeight = _calculateTotalWeight(items);
 
           if (_isLoading) {
@@ -212,9 +208,10 @@ class _WasteCartScreenState extends State<WasteCartScreen>
           return SafeArea(
             child: Column(
               children: [
+                _StepProgressBar(currentStep: 0),
                 if (items.isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
                     child: _WasteCartSummary(
                       itemCount: items.length,
                       totalWeight: totalWeight,
@@ -230,11 +227,13 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                         })
                       : ListView.separated(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
                           itemCount: items.length,
-                          separatorBuilder: (ctx, i) =>
+                          separatorBuilder: (_, __) =>
                               const SizedBox(height: 12),
-                          itemBuilder: (ctx, i) => WasteCartItem(
+                          itemBuilder: (_, i) => WasteCartItem(
                             wasteItem: items[i],
                             function: _refreshWasteItems,
                           ),
@@ -250,9 +249,111 @@ class _WasteCartScreenState extends State<WasteCartScreen>
           );
         },
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: MainDrawer(),
+      drawer: mainDrawerIfRootRoute(context),
+    );
+  }
+}
+
+/// Horizontal stepper showing the 4 steps of the waste request flow.
+class _StepProgressBar extends StatelessWidget {
+  const _StepProgressBar({required this.currentStep});
+
+  final int currentStep;
+
+  static const _steps = [
+    Icons.shopping_cart_outlined,
+    Icons.location_on_outlined,
+    Icons.calendar_today_outlined,
+    Icons.check_circle_outline,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final labels = [
+      l10n.stepCartLabel,
+      l10n.stepAddressLabel,
+      l10n.stepDateLabel,
+      l10n.stepConfirmLabel,
+    ];
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: List.generate(_steps.length * 2 - 1, (index) {
+          if (index.isOdd) {
+            final stepBefore = index ~/ 2;
+            return Expanded(
+              child: Container(
+                height: 2,
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  color: stepBefore < currentStep
+                      ? AppTheme.primary
+                      : Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(1),
+                ),
+              ),
+            );
+          }
+
+          final stepIndex = index ~/ 2;
+          final isActive = stepIndex == currentStep;
+          final isCompleted = stepIndex < currentStep;
+
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: isCompleted
+                      ? AppTheme.primary
+                      : isActive
+                          ? AppTheme.primary.withOpacity(0.12)
+                          : Colors.grey.shade100,
+                  shape: BoxShape.circle,
+                  border: isActive
+                      ? Border.all(color: AppTheme.primary, width: 2)
+                      : null,
+                ),
+                child: Icon(
+                  isCompleted ? Icons.check_rounded : _steps[stepIndex],
+                  size: 16,
+                  color: isCompleted
+                      ? Colors.white
+                      : isActive
+                          ? AppTheme.primary
+                          : Colors.grey.shade400,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                labels[stepIndex],
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight:
+                      isActive ? FontWeight.w700 : FontWeight.w500,
+                  color: isActive || isCompleted
+                      ? AppTheme.primary
+                      : Colors.grey.shade400,
+                ),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
@@ -264,89 +365,124 @@ class _WasteCartSummary extends StatelessWidget {
   final Animation<double> priceAnimation;
 
   const _WasteCartSummary({
-    Key? key,
     required this.itemCount,
     required this.totalWeight,
     required this.priceAnimation,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final currencyFormat = intl.NumberFormat.decimalPattern();
+    final converter = EnArConvertor();
+    final l10n = context.l10n;
 
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.white,
+        gradient: LinearGradient(
+          colors: [
+            AppTheme.primary.withOpacity(0.06),
+            AppTheme.primary.withOpacity(0.02),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: Border.all(
+          color: AppTheme.primary.withOpacity(0.12),
+        ),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       child: IntrinsicHeight(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildStatItem(
-              icon: 'assets/images/main_page_request_ic.png',
-              label: 'Items',
-              value: EnArConvertor().replaceArNumber(itemCount.toString()),
+            _SummaryItem(
+              icon: Icons.inventory_2_rounded,
+              iconColor: AppTheme.primary,
+              label: l10n.cartItemsLabel,
+              value: converter.replaceArNumber(itemCount.toString()),
             ),
-            const VerticalDivider(
-                thickness: 1, width: 32, color: Color(0xFFEEEEEE)),
+            VerticalDivider(
+              thickness: 1,
+              width: 24,
+              color: AppTheme.primary.withOpacity(0.12),
+            ),
             AnimatedBuilder(
               animation: priceAnimation,
-              builder: (context, child) => _buildStatItem(
-                icon: 'assets/images/waste_cart_price_ic.png',
-                label: 'Total',
-                value: EnArConvertor().replaceArNumber(
-                  currencyFormat.format(priceAnimation.value.toInt()),
+              builder: (_, __) => _SummaryItem(
+                icon: Icons.monetization_on_rounded,
+                iconColor: const Color(0xFFE5A100),
+                label: l10n.cartTotalLabel,
+                value: converter.replaceArNumber(
+                  currencyFormat
+                      .format(priceAnimation.value.toInt()),
                 ),
                 isHighlight: true,
               ),
             ),
-            const VerticalDivider(
-                thickness: 1, width: 32, color: Color(0xFFEEEEEE)),
-            _buildStatItem(
-              icon: 'assets/images/waste_cart_weight_ic.png',
-              label: 'Weight (kg)',
-              value: EnArConvertor().replaceArNumber(totalWeight.toString()),
+            VerticalDivider(
+              thickness: 1,
+              width: 24,
+              color: AppTheme.primary.withOpacity(0.12),
+            ),
+            _SummaryItem(
+              icon: Icons.scale_rounded,
+              iconColor: const Color(0xFF8B5CF6),
+              label: l10n.weightKgFullLabel,
+              value: converter.replaceArNumber(
+                totalWeight.toString(),
+              ),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildStatItem({
-    required String icon,
-    required String label,
-    required String value,
-    bool isHighlight = false,
-  }) {
+class _SummaryItem extends StatelessWidget {
+  const _SummaryItem({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+    required this.value,
+    this.isHighlight = false,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final String label;
+  final String value;
+  final bool isHighlight;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset(icon, height: 28, width: 28),
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: iconColor.withOpacity(0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, size: 18, color: iconColor),
+        ),
         const SizedBox(height: 8),
         Text(
           value,
           style: TextStyle(
             color: isHighlight ? AppTheme.primary : AppTheme.h1,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+            fontSize: 17,
+            fontWeight: FontWeight.w800,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 2),
         Text(
           label,
           style: TextStyle(
-            color: AppTheme.grey,
-            fontSize: 12,
+            color: AppTheme.grey.withOpacity(0.7),
+            fontSize: 11,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -358,54 +494,77 @@ class _WasteCartSummary extends StatelessWidget {
 class _WasteCartEmptyState extends StatelessWidget {
   final VoidCallback onAddPressed;
 
-  const _WasteCartEmptyState({Key? key, required this.onAddPressed})
-      : super(key: key);
+  const _WasteCartEmptyState({required this.onAddPressed});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final l10n = context.l10n;
+
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Opacity(
-            opacity: 0.8,
-            child: Image.asset(
-              'assets/images/collect_list_header.png',
-              width: size.width * 0.5,
-              fit: BoxFit.contain,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(28),
+              decoration: BoxDecoration(
+                color: AppTheme.primary.withOpacity(0.06),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.recycling_rounded,
+                size: 64,
+                color: AppTheme.primary.withOpacity(0.4),
+              ),
             ),
-          ),
-          const SizedBox(height: 24),
-          const Text(
-            'Your cart is empty',
-            style: TextStyle(
-              color: AppTheme.h1,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 24),
+            Text(
+              l10n.cartIsEmpty,
+              style: const TextStyle(
+                color: AppTheme.h1,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Add waste items to start recycling',
-            style: TextStyle(color: AppTheme.grey, fontSize: 14),
-          ),
-          const SizedBox(height: 32),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              elevation: 2,
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 48),
+              child: Text(
+                l10n.wasteCartEmptySubtitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppTheme.grey.withOpacity(0.7),
+                  fontSize: 14,
+                  height: 1.5,
+                ),
+              ),
             ),
-            onPressed: onAddPressed,
-            icon: const Icon(Icons.add),
-            label:
-                const Text('Add Waste Items', style: TextStyle(fontSize: 16)),
-          ),
-        ],
+            const SizedBox(height: 32),
+            FilledButton.icon(
+              style: FilledButton.styleFrom(
+                backgroundColor: AppTheme.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 14,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                elevation: 0,
+              ),
+              onPressed: onAddPressed,
+              icon: const Icon(Icons.add_rounded, size: 20),
+              label: Text(
+                l10n.addWasteItemsTitle,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -417,30 +576,32 @@ class _WasteCartBottomBar extends StatelessWidget {
   final bool isEnabled;
 
   const _WasteCartBottomBar({
-    Key? key,
     required this.totalPriceAnimation,
     required this.onContinue,
     required this.isEnabled,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final l10n = context.l10n;
 
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.white,
+        color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 16,
             offset: const Offset(0, -4),
           ),
         ],
       ),
-      padding: EdgeInsets.fromLTRB(24, 16, 24,
-          16 + MediaQuery.of(context).padding.bottom // Safe area bottom
-          ),
+      padding: EdgeInsets.fromLTRB(
+        24,
+        14,
+        24,
+        14 + MediaQuery.of(context).padding.bottom,
+      ),
       child: Row(
         children: [
           Expanded(
@@ -449,21 +610,25 @@ class _WasteCartBottomBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Total Amount',
-                  style: TextStyle(color: AppTheme.grey, fontSize: 12),
+                  l10n.cartTotalAmountLabel,
+                  style: TextStyle(
+                    color: AppTheme.grey.withOpacity(0.7),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
                 AnimatedBuilder(
                   animation: totalPriceAnimation,
-                  builder: (context, child) => Text(
-                    EnArConvertor().replaceArNumber(
+                  builder: (_, __) => Text(
+                    '${EnArConvertor().replaceArNumber(
                       intl.NumberFormat.decimalPattern()
                           .format(totalPriceAnimation.value.toInt()),
-                    ),
+                    )} \$',
                     style: const TextStyle(
                       color: AppTheme.h1,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
@@ -471,14 +636,17 @@ class _WasteCartBottomBar extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          InkWell(
-            onTap: onContinue,
-            borderRadius: BorderRadius.circular(12),
-            child: ButtonBottom(
-              width: size.width * 0.45,
-              height: 56, // Fixed standard height
-              text: 'Continue',
-              isActive: isEnabled,
+          Expanded(
+            child: InkWell(
+              onTap: isEnabled ? onContinue : null,
+              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+              child: ButtonBottom(
+                width: double.infinity,
+                height: 52,
+                text: l10n.continueLabel,
+                isActive: isEnabled,
+                icon: Icons.arrow_forward_rounded,
+              ),
             ),
           ),
         ],

@@ -2,112 +2,123 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
 
+/// Success confirmation shown after submitting a request, order, or similar action.
+///
+/// Uses the app primary color, accessible tap targets, and scales text via
+/// [MediaQuery.textScalerOf] instead of multiplying font sizes by a scale factor.
 class CustomDialogSendRequest extends StatelessWidget {
-  final String title, description, buttonText;
-  final Image image;
-
-  CustomDialogSendRequest({
-    required this.title,
+  const CustomDialogSendRequest({
+    super.key,
+    this.title,
     required this.description,
-    required this.buttonText,
-    required this.image,
+    this.buttonText = 'OK',
   });
 
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Consts.padding),
+  /// Optional headline above the message. Omit or pass empty to hide.
+  final String? title;
+
+  final String description;
+  final String buttonText;
+
+  static Future<void> show(
+    BuildContext context, {
+    String? title,
+    required String description,
+    String buttonText = 'OK',
+  }) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.black.withValues(alpha: 0.45),
+      builder: (ctx) => CustomDialogSendRequest(
+        title: title,
+        description: description,
+        buttonText: buttonText,
       ),
-      elevation: 0.0,
-      backgroundColor: Colors.transparent,
-      child: dialogContent(context),
     );
   }
 
-  dialogContent(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height * 0.4,
-          padding: EdgeInsets.only(
-            top: Consts.avatarRadius + Consts.padding,
-            bottom: Consts.padding,
-            left: Consts.padding,
-            right: Consts.padding,
-          ),
-          margin: EdgeInsets.only(top: Consts.avatarRadius),
-          decoration: new BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(Consts.padding),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 10.0,
-                offset: const Offset(0.0, 10.0),
-              ),
-            ],
-          ),
+  bool get _hasTitle => title != null && title!.trim().isNotEmpty;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textScaler = MediaQuery.textScalerOf(context);
+    final scheme = theme.colorScheme;
+
+    return Dialog(
+      clipBehavior: Clip.antiAlias,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      backgroundColor: scheme.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 8,
+      shadowColor: Colors.black.withValues(alpha: 0.2),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 360),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
           child: Column(
-            mainAxisSize: MainAxisSize.min, // To make the card compact
-            children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(
-                  color: Color(0xff0197F6),
-                  fontSize: MediaQuery.of(context).textScaleFactor * 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    child: Image.asset(
-                      'assets/images/send_popup_tick.png',
-                      fit: BoxFit.contain,
-                    ),
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ExcludeSemantics(
+                child: Container(
+                  width: 88,
+                  height: 88,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppTheme.primary.withValues(alpha: 0.12),
+                  ),
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    'assets/images/send_popup_tick.png',
+                    height: 52,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
+              const SizedBox(height: 20),
+              if (_hasTitle) ...[
+                Text(
+                  title!.trim(),
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: AppTheme.primary,
+                    fontWeight: FontWeight.w700,
+                    fontSize: textScaler.scale(17),
+                  ),
+                ),
+                const SizedBox(height: 8),
+              ],
               Text(
                 description,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: theme.textTheme.bodyLarge?.copyWith(
                   color: AppTheme.h1,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 15,
+                  height: 1.45,
+                  fontSize: textScaler.scale(15),
                 ),
               ),
-              SizedBox(height: 24.0),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: InkWell(
-                  onTap: () {
-                    return Navigator.of(context).pop();
-
-//                      Navigator.of(context)
-//                          .pushNamedAndRemoveUntil(NavigationBottomScreen.routeName, (Route<dynamic> route) => false);
-//                      Navigator.of(context)
-//                        .popAndPushNamed(NavigationBottomScreen.routeName);
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    decoration: BoxDecoration(
-                      color: AppTheme.primary,
-                      borderRadius: BorderRadius.circular(5),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppTheme.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Center(
-                      child: Text(
-                        buttonText,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          //fontFamily: 'Iransans',
-                          fontSize: MediaQuery.of(context).textScaleFactor * 20,
-                        ),
-                      ),
+                    elevation: 0,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    buttonText,
+                    style: TextStyle(
+                      fontSize: textScaler.scale(16),
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -115,14 +126,7 @@ class CustomDialogSendRequest extends StatelessWidget {
             ],
           ),
         ),
-      ],
+      ),
     );
   }
-}
-
-class Consts {
-  Consts._();
-
-  static const double padding = 16.0;
-  static const double avatarRadius = 10;
 }

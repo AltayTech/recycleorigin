@@ -3,6 +3,7 @@ import 'package:intl/intl.dart' as intl;
 
 import '../../features/store_feature/business/entities/product.dart';
 import '../theme/app_theme.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class CustomDialogSelectColor extends StatefulWidget {
   final Product product;
@@ -80,7 +81,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'رنگ محصول را انتخاب نمایید',
+                  context.l10n.selectProductColorTitle,
                   style: TextStyle(
                     color: AppTheme.secondary,
                     //fontFamily: 'Iransans',
@@ -204,7 +205,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    'افزودن به سبد خرید',
+                                    context.l10n.addToCartLabel,
                                     style: TextStyle(
                                       color: Colors.white,
                                       //fontFamily: 'Iransans',

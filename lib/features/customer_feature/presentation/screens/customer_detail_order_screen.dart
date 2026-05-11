@@ -5,9 +5,11 @@ import 'package:provider/provider.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/models/order.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../providers/customer_info_provider.dart';
+import '../bloc/customer_info_bloc.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../store_feature/presentation/screens/order_view_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class CustomerDetailOrderScreen extends StatefulWidget {
   final Customer customer;
@@ -32,7 +34,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     List<Order> orderList =
-        Provider.of<CustomerInfoProvider>(context, listen: false).orders;
+        context.read<CustomerInfoBloc>().orders;
 
     return Container(
       child: Padding(
@@ -90,29 +92,27 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                   ),
                 ],
               ),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: orderList.length,
-                  itemBuilder: (ctx, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                            OrderViewScreen.routeName,
-                            arguments: orderList[index].id);
-                      },
-                      child: OrderItem(
-                        number: orderList[index].id.toString(),
-                        date: orderList[index].send_date.toString(),
-                        totalPrice: orderList[index].total_price.toString(),
-                        status: orderList[index].pay_status.toString(),
-                        totalNumber: orderList[index].total_number.toString(),
-                      ),
-                    );
-                  },
-                ),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: orderList.length,
+                itemBuilder: (ctx, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        OrderViewScreen.routeName,
+                        arguments: orderList[index].id,
+                      );
+                    },
+                    child: OrderItem(
+                      number: orderList[index].id.toString(),
+                      date: orderList[index].send_date.toString(),
+                      totalPrice: orderList[index].total_price.toString(),
+                      status: orderList[index].pay_status.toString(),
+                      totalNumber: orderList[index].total_number.toString(),
+                    ),
+                  );
+                },
               ),
               SizedBox(
                 height: deviceHeight * 0.05,
@@ -163,7 +163,7 @@ class OrderItem extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Text(
-                    'Order No.: ' + number,
+                    '${context.l10n.customerOrderNumberPrefix} $number',
                     style: TextStyle(
                       color: AppTheme.h1,
                       //fontFamily: 'Iransans',

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
-import '../providers/messages.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
+import '../bloc/messages_bloc.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class MessageCreateScreen extends StatefulWidget {
   static const routeName = '/messageCreateScreen';
@@ -36,7 +36,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
       contentTextController.text = '';
       subjectTextController.text = '';
 
-      isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
+      isLogin = context.watch<AuthBloc>().isAuth;
     }
     _isInit = false;
 
@@ -61,7 +61,8 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
     debugPrint(' contentTextController.text');
     debugPrint(contentTextController.text);
 
-    await Provider.of<Messages>(context, listen: false)
+    await context
+        .read<MessagesBloc>()
         .createMessage(
       subjectTextController.text,
       contentTextController.text,
@@ -70,8 +71,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
       isLogin,
     )
         .then((value) async {
-      await Provider.of<Messages>(context, listen: false)
-          .getMessages('0', isLogin);
+      await context.read<MessagesBloc>().getMessages('0', isLogin);
       Navigator.of(context).pop();
     });
     setState(() {
@@ -87,8 +87,9 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
-          'New message',
+          context.l10n.newMessageScreenTitle,
           style: TextStyle(
             color: AppTheme.bg,
             //fontFamily: 'Iransans',
@@ -119,7 +120,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                             bottom: 8.0,
                           ),
                           child: Text(
-                            'Please enter your question. Our colleagues will review your question and send the answer to you.',
+                            context.l10n.composeMessageIntroParagraph,
                             style: TextStyle(
                               color: AppTheme.black,
                               //fontFamily: 'Iransans',
@@ -131,7 +132,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                           child: Container(
-        //                                  height: deviceHeight * 0.1,
+                            //                                  height: deviceHeight * 0.1,
                             child: TextField(
                               controller: subjectTextController,
                               style: TextStyle(
@@ -159,7 +160,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
-                                labelText: 'Title',
+                                labelText: context.l10n.composeMessageTitleLabel,
                               ),
                             ),
                           ),
@@ -198,7 +199,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
-                                labelText: 'write your message',
+                                labelText: context.l10n.composeMessageBodyHint,
                               ),
                             ),
                           ),
@@ -221,9 +222,8 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: index.isEven
-                                      ? AppTheme.h1
-                                      : AppTheme.h1,
+                                  color:
+                                      index.isEven ? AppTheme.h1 : AppTheme.h1,
                                 ),
                               );
                             },
@@ -245,14 +245,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
           color: Colors.white,
         ),
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

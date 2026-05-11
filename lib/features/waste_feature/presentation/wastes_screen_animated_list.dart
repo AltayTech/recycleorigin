@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/widgets/waste_cart_item_animated_list.dart';
 
 import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/authentication_provider.dart';
-import 'providers/wastes.dart';
+import '../../auth_feature/presentation/bloc/auth_bloc.dart';
+import 'bloc/wastes_bloc.dart';
+import 'bloc/wastes_state.dart';
 import 'wastes_screen.dart';
 import 'widgets/custom_dialog_enter.dart';
 import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../core/logic/en_to_ar_number_convertor.dart';
-import '../../../core/widgets/main_drawer.dart';
+import '../../../core/widgets/drawer_or_back_leading.dart';
 import 'address_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class WastesScreenAnimatedList extends StatefulWidget {
   static const routeName = '/wastesScreenAnimatedList';
@@ -43,9 +45,9 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogEnter(
-        title: 'Login',
-        buttonText: 'Login Screen',
-        description: 'Please login to continue',
+        title: ctx.l10n.login,
+        buttonText: ctx.l10n.goToLoginScreenButton,
+        description: ctx.l10n.pleaseLoginToContinue,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
@@ -55,28 +57,34 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     showDialog(
       context: context,
       builder: (ctx) => CustomDialogProfile(
-        title: 'Profile Info',
-        buttonText: 'Profile Screen ',
-        description: 'Please complete your profile to continue',
+        title: ctx.l10n.profileInformationDialogTitle,
+        buttonText: ctx.l10n.goToProfileScreenButton,
+        description: ctx.l10n.completeProfileToContinue,
         image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
   }
 
   @override
-  void didChangeDependencies() async {
-    if (_isInit) {
-      await Provider.of<AuthenticationProvider>(context, listen: false)
-          .checkCompleted();
-
-      await getWasteItems();
-
-      setState(() {});
-    }
-    _isInit = false;
-    await getWasteItems();
-
+  void didChangeDependencies() {
     super.didChangeDependencies();
+    if (_isInit) {
+      _isInit = false;
+      _initData();
+    } else {
+      _refreshCart();
+    }
+  }
+
+  Future<void> _initData() async {
+    await context.read<AuthBloc>().checkCompleted();
+    await _refreshCart();
+  }
+
+  Future<void> _refreshCart() async {
+    if (!mounted) return;
+    await getWasteItems();
+    if (mounted) setState(() {});
   }
 
   Future<void> getWasteItems() async {
@@ -84,7 +92,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
       _isLoading = true;
     });
     index = wasteCartItems.length;
-    wasteCartItems = Provider.of<Wastes>(context, listen: false).wasteCartItems;
+    wasteCartItems = context.read<WastesBloc>().wasteCartItems;
 
     totalPrice = 0;
     totalWeight = 0;
@@ -194,7 +202,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Wastes>(context, listen: false).removeWasteCart(
+    await context.read<WastesBloc>().removeWasteCart(
       itemId,
     );
 
@@ -209,14 +217,13 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    bool isLogin =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
-    bool isCompleted =
-        Provider.of<AuthenticationProvider>(context, listen: false).isCompleted;
+    bool isLogin = context.read<AuthBloc>().isAuth;
+    bool isCompleted = context.read<AuthBloc>().isCompleted;
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
-          'Select Waste',
+          context.l10n.selectWasteTitle,
           style: TextStyle(
             color: AppTheme.white,
             //fontFamily: 'Iransans',
@@ -229,7 +236,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
       ),
       body: Builder(builder: (context) {
         return Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
@@ -323,7 +330,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                         },
                                       ),
                                       Text(
-                                         '\$',
+                                        '\$',
                                         style: TextStyle(
                                           color: AppTheme.grey,
                                           //fontFamily: 'Iransans',
@@ -371,21 +378,21 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
-                          child: Consumer<Wastes>(
-                            builder: (_, value, ch) =>
-                                value.wasteCartItems.length != 0
+                          child: BlocBuilder<WastesBloc, WastesState>(
+                            builder: (context, state) => state
+                                        .wasteCartItems.isNotEmpty
                                     ? Container(
                                         height: deviceHeight * 0.7,
                                         child: AnimatedList(
                                           key: _listKey,
                                           initialItemCount:
-                                              value.wasteCartItems.length,
+                                              state.wasteCartItems.length,
                                           itemBuilder: (ctx, i, animation) =>
                                               FadeTransition(
                                             opacity: animation,
                                             child: WasteCartItemAnimatedList(
                                               wasteItem:
-                                                  value.wasteCartItems[i],
+                                                  state.wasteCartItems[i],
                                               function: getWasteItems,
                                               onRemove: () {},
                                               key: Key(''),
@@ -396,7 +403,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                     : Container(
                                         height: deviceHeight * 0.6,
                                         child: Center(
-                                          child: Text('No waste added yet'),
+                                          child: Text(
+                                              context.l10n.noWasteAddedYet),
                                         ),
                                       ),
                           ),
@@ -415,7 +423,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                       onTap: () {
                         SnackBar addToCartSnackBar = SnackBar(
                           content: Text(
-                            'No waste added yet',
+                            context.l10n.noWasteAddedYet,
                             style: TextStyle(
                               color: Colors.white,
                               //fontFamily: 'Iransans',
@@ -423,7 +431,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                             ),
                           ),
                           action: SnackBarAction(
-                            label: 'OK',
+                            label: context.l10n.okLabel,
                             onPressed: () {
                               // Some code to undo the change.
                             },
@@ -446,7 +454,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                       child: ButtonBottom(
                         width: deviceWidth * 0.9,
                         height: deviceWidth * 0.14,
-                        text: 'OK',
+                        text: context.l10n.continueLabel,
                         isActive: wasteCartItems.isNotEmpty,
                       ),
                     ),
@@ -480,14 +488,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
           ),
         );
       }),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: deviceWidth * 0.13 + 10),
         child: FloatingActionButton(

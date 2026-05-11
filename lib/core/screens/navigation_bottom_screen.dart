@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../features/customer_feature/presentation/widgets/profile_view.dart';
 import '../../features/home_feature/presentation/home_screen.dart';
-import '../constants/strings.dart';
+import '../../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../widgets/main_drawer.dart';
 
@@ -11,14 +13,14 @@ import '../widgets/main_drawer.dart';
 ///
 /// The widget includes the following key components:
 ///
-/// - **AppBar**: Displays the app's title "Clean City" with a customizable theme.
+/// - **AppBar**: Displays the app title with a customizable theme.
 /// - **Drawer**: A side navigation menu implemented using the `MainDrawer` widget.
 /// - **Bottom Navigation**: Allows navigation between different sections of the app using a bottom navigation bar.
 /// - **PageView**: Dynamically displays pages based on the selected bottom navigation item.
 ///
 /// Key Features:
 /// - Manages navigation between multiple pages using `_pages` list.
-/// - Handles back button presses with a custom `WillPopScope` implementation.
+/// - Handles back button presses with [PopScope] (double-tap to exit).
 /// - Displays a toast message when the back button is pressed twice within a short interval.
 /// - Supports RTL layout for localization.
 ///
@@ -44,18 +46,16 @@ class NavigationBottomScreen extends StatefulWidget {
 
 class _NavigationBottomScreenState extends State<NavigationBottomScreen>
     with SingleTickerProviderStateMixin {
-  GlobalKey<ScaffoldState> _key = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  late bool isLogin;
   int _selectedPageIndex = 0;
   late DateTime currentBackPressTime;
 
-  void selectBNBItem(int index) {
-    setState(
-      () {
-        _selectedPageIndex = index;
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    // Ensure back handling can compare against a time before the first press.
+    currentBackPressTime = DateTime.now().subtract(const Duration(seconds: 3));
   }
 
   @override
@@ -63,93 +63,27 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
     super.dispose();
   }
 
-  final List<Map<String, Object>> _pages = [
-    {
-      'page': HomeScreen(),
-      'title': Strings.navHome,
-    },
-    {
-      'page': HomeScreen(),
-      'title': Strings.navRequest,
-    },
-    {
-      'page': HomeScreen(),
-      'title': Strings.navShop,
-    },
-    {
-      'page': ProfileView(),
-      'title': Strings.navProfile,
-    }
+  final List<Widget> _pages = <Widget>[
+    HomeScreen(),
+    HomeScreen(),
+    HomeScreen(),
+    ProfileView(),
   ];
 
-  void _selectBNBItem(int index) {
-    setState(
-      () {
-        _selectedPageIndex = index;
-      },
-    );
-  }
-
-  Future<bool?> _onBackPressed() async {
-    if (_key.currentState!.isDrawerOpen) {
-      Navigator.pop(context);
-      return false;
-    } else {
-      return showDialog(
-        context: context,
-        builder: (context) => new AlertDialog(
-          contentTextStyle: TextStyle(
-              color: AppTheme.grey,
-              //fontFamily: 'Iransans',
-              fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
-          title: Text(
-            "Exit from app",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: AppTheme.black,
-                //fontFamily: 'Iransans',
-                fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
-          ),
-          content: Text(
-            "Do you want to exit from the app?",
-            style: TextStyle(
-                color: AppTheme.grey,
-                //fontFamily: 'Iransans',
-                fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
-          ),
-          actionsPadding: EdgeInsets.all(10),
-          actions: <Widget>[
-            GestureDetector(
-              onTap: () => Navigator.of(context).pop(false),
-              child: Text(
-                "No",
-                style: TextStyle(
-                    color: AppTheme.black,
-                    //fontFamily: 'Iransans',
-                    fontSize: MediaQuery.of(context).textScaleFactor * 18.0),
-              ),
-            ),
-            SizedBox(
-              height: 16,
-              width: MediaQuery.of(context).size.width * 0.3,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop(true);
-              },
-              child: Text("Yes"),
-            ),
-          ],
-        ),
-      );
+  Future<void> _completePopIfAllowed() async {
+    final allowPop = await _onWillPop();
+    if (!mounted) return;
+    if (allowPop) {
+      Navigator.of(context).pop();
     }
   }
 
-  Future<bool> onWillPop() async {
-    if (_key.currentState!.isDrawerOpen) {
+  Future<bool> _onWillPop() async {
+    if (_scaffoldKey.currentState?.isDrawerOpen == true) {
       Navigator.pop(context);
       return false;
     } else {
+      final l10n = AppLocalizations.of(context)!;
       DateTime now = DateTime.now();
       if (now.difference(currentBackPressTime) > Duration(seconds: 2)) {
         currentBackPressTime = now;
@@ -162,12 +96,12 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Inorder to exit press exit again",
+                l10n.forexit,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: AppTheme.black,
-                    //fontFamily: 'Iransans',
-                    fontSize: MediaQuery.of(context).textScaleFactor * 13.0),
+                  color: AppTheme.black,
+                  fontSize: MediaQuery.textScalerOf(context).scale(13),
+                ),
               ),
             ),
           ),
@@ -180,42 +114,44 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: onWillPop,
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          key: _key,
-          appBar: AppBar(
+    final l10n = AppLocalizations.of(context)!;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (didPop) return;
+        unawaited(_completePopIfAllowed());
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
 //            bottom: PreferredSize(
 //              child: Container(),
 //              preferredSize: Size.fromHeight(15),
 //            ),
-            title: Text(
-              "Recycle Origin",
-              style: TextStyle(
-                // //fontFamily: 'Iransans',
-                color: Colors.white,
-              ),
+          title: Text(
+            l10n.recycleorigin,
+            style: const TextStyle(
+              // //fontFamily: 'Iransans',
+              color: Colors.white,
             ),
+          ),
 //            shape: RoundedRectangleBorder(
 //              borderRadius: new BorderRadius.vertical(
 //                  bottom: new Radius.elliptical(
 //                      MediaQuery.of(context).size.width * 9, 200.0)),
 //            ),
-            backgroundColor: AppTheme.appBarColor,
-            iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
-            centerTitle: true,
+          backgroundColor: AppTheme.appBarColor,
+          iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
+          centerTitle: true,
+        ),
+        drawer: Theme(
+          data: Theme.of(context).copyWith(
+            // Set the transparency here
+            canvasColor: Colors.transparent,
           ),
-          drawer: Theme(
-            data: Theme.of(context).copyWith(
-              // Set the transparency here
-              canvasColor: Colors
-                  .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-            ),
-            child: MainDrawer(),
-          ),
-          body: _pages[_selectedPageIndex]['page'] as Widget,
+          child: const MainDrawer(),
+        ),
+        body: _pages[_selectedPageIndex],
 
 //          bottomNavigationBar: BottomNavigationBar(
 //            elevation: 8,
@@ -259,8 +195,8 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
 //              ),
 //            ],
 //          ),
-        ),
       ),
     );
   }
 }
+

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
-import '../providers/messages.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
+import '../bloc/messages_bloc.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../widgets/message_reply_item.dart';
 import 'messages_create_reply_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class MessageDetailScreen extends StatefulWidget {
   static const routeName = '/messageDetailScreen';
@@ -32,12 +33,12 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
   @override
   void didChangeDependencies() async {
-    messages = Provider.of<Messages>(context, listen: false).allMessagesDetail;
+    messages = context.read<MessagesBloc>().allMessagesDetail;
 
     if (_isInit) {
       message = ModalRoute.of(context)?.settings.arguments as Message;
       customer =
-          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
+          context.read<CustomerInfoBloc>().customer;
 
       loadMessages();
     }
@@ -51,10 +52,11 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
       _isLoading = true;
     });
 
-    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
-    await Provider.of<Messages>(context, listen: false)
+    bool isLogin = context.watch<AuthBloc>().isAuth;
+    await context
+        .read<MessagesBloc>()
         .getMessages(message.comment_post_ID, isLogin);
-    messages = Provider.of<Messages>(context, listen: false).allMessagesDetail;
+    messages = context.read<MessagesBloc>().allMessagesDetail;
     setState(() {
       _isLoading = false;
       print(_isLoading.toString());
@@ -70,6 +72,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           '',
           style: TextStyle(
@@ -84,7 +87,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Stack(
@@ -98,7 +101,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            'عنوان سوال:',
+                            context.l10n.messageQuestionTitleLabel,
                             style: TextStyle(
                               color: Colors.black54,
                               //fontFamily: 'Iransans',
@@ -120,14 +123,8 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                           Padding(
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Text(
-                              EnArConvertor()
-                                  .replaceArNumber('${(
-                                DateTime.parse(message.comment_date)
-                              ).year}/${(
-                                DateTime.parse(message.comment_date)
-                              ).month}/${(
-                                DateTime.parse(message.comment_date)
-                              ).day}'),
+                              EnArConvertor().replaceArNumber(
+                                  '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}'),
                               style: TextStyle(
                                 color: Colors.black54,
                                 //fontFamily: 'Iransans',
@@ -196,7 +193,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                               child: messages.isEmpty
                                   ? Center(
                                       child: Text(
-                                      'سوالی وجود ندارد',
+                                      context.l10n.messageNoThreadYet,
                                       style: TextStyle(
                                         //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15.0,
@@ -207,14 +204,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
           ),
         ),
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppTheme.primary,
         child: Icon(

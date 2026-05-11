@@ -73,19 +73,13 @@ class MessageReplyItem extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        EnArConvertor().replaceArNumber('${(
-                          DateTime.parse(
-                            message.comment_date,
-                          )
-                        ).year}/${(
-                          DateTime.parse(
-                            message.comment_date,
-                          )
-                        ).month}/${(
-                          DateTime.parse(
-                            message.comment_date,
-                          )
-                        ).day}'),
+                        EnArConvertor().replaceArNumber('${(DateTime.parse(
+                          message.comment_date,
+                        )).year}/${(DateTime.parse(
+                          message.comment_date,
+                        )).month}/${(DateTime.parse(
+                          message.comment_date,
+                        )).day}'),
                         style: TextStyle(
                           color: AppTheme.grey,
                           //fontFamily: 'Iransans',

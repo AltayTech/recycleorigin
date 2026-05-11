@@ -7,9 +7,12 @@ class Feature with ChangeNotifier {
     required this.feature,
   });
 
-  factory Feature.fromJson(Map<String, dynamic> parsedJson) {
+  factory Feature.fromJson(dynamic raw) {
+    if (raw is! Map<String, dynamic>) {
+      return Feature(feature: '');
+    }
     return Feature(
-      feature: parsedJson['feature'],
+      feature: raw['feature'] as String? ?? '',
     );
   }
 

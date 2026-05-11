@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
-import 'app_localizations_fa.dart';
+import 'app_localizations_tr.dart';
 
 // ignore_for_file: type=lint
 
@@ -95,19 +95,19 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('fa')
+    Locale('tr')
   ];
 
   /// No description provided for @cleancity1.
   ///
   /// In en, this message translates to:
-  /// **'Clean City'**
+  /// **'RecycleOrigin'**
   String get cleancity1;
 
   /// No description provided for @recycleorigin.
   ///
   /// In en, this message translates to:
-  /// **'Recycle Origin'**
+  /// **'RecycleOrigin'**
   String get recycleorigin;
 
   /// No description provided for @version.
@@ -143,7 +143,7 @@ abstract class AppLocalizations {
   /// No description provided for @forexit.
   ///
   /// In en, this message translates to:
-  /// **'Inorder to exit press exit again'**
+  /// **'In order to exit, press back again'**
   String get forexit;
 
   /// No description provided for @welcome.
@@ -152,10 +152,22 @@ abstract class AppLocalizations {
   /// **'Welcome'**
   String get welcome;
 
+  /// No description provided for @loginSuccessSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get loginSuccessSnack;
+
+  /// No description provided for @logoutSuccessSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve been signed out'**
+  String get logoutSuccessSnack;
+
   /// No description provided for @accept.
   ///
   /// In en, this message translates to:
-  /// **'accept'**
+  /// **'Accept'**
   String get accept;
 
   /// No description provided for @dearuser.
@@ -167,7 +179,7 @@ abstract class AppLocalizations {
   /// No description provided for @logoutsuccess.
   ///
   /// In en, this message translates to:
-  /// **'You Logout successfully'**
+  /// **'You logged out successfully'**
   String get logoutsuccess;
 
   /// No description provided for @collectrequest.
@@ -224,6 +236,60 @@ abstract class AppLocalizations {
   /// **'Home'**
   String get home;
 
+  /// No description provided for @shoppingCartLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping Cart'**
+  String get shoppingCartLabel;
+
+  /// No description provided for @supportHelpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Support & Help'**
+  String get supportHelpLabel;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @languageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageTitle;
+
+  /// No description provided for @applicationLanguageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Application language'**
+  String get applicationLanguageLabel;
+
+  /// No description provided for @englishLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get englishLabel;
+
+  /// No description provided for @turkishLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish'**
+  String get turkishLabel;
+
+  /// No description provided for @settingsScreenIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Language updates apply immediately and are saved on this device.'**
+  String get settingsScreenIntro;
+
+  /// No description provided for @appInformationSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App information'**
+  String get appInformationSectionTitle;
+
   /// No description provided for @charities.
   ///
   /// In en, this message translates to:
@@ -239,7 +305,7 @@ abstract class AppLocalizations {
   /// No description provided for @cources.
   ///
   /// In en, this message translates to:
-  /// **'Cources'**
+  /// **'Courses'**
   String get cources;
 
   /// No description provided for @supports.
@@ -251,7 +317,7 @@ abstract class AppLocalizations {
   /// No description provided for @guids.
   ///
   /// In en, this message translates to:
-  /// **'Guids'**
+  /// **'Guides'**
   String get guids;
 
   /// No description provided for @contactus.
@@ -275,7 +341,7 @@ abstract class AppLocalizations {
   /// No description provided for @kilogram.
   ///
   /// In en, this message translates to:
-  /// **'Kilogram'**
+  /// **'kg'**
   String get kilogram;
 
   /// No description provided for @price_unit.
@@ -287,8 +353,2012 @@ abstract class AppLocalizations {
   /// No description provided for @youarenotlogin.
   ///
   /// In en, this message translates to:
-  /// **'You are not login!'**
+  /// **'You are not logged in.'**
   String get youarenotlogin;
+
+  /// No description provided for @guideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guide'**
+  String get guideTitle;
+
+  /// No description provided for @sectionReturnPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Return policy'**
+  String get sectionReturnPolicyTitle;
+
+  /// No description provided for @sectionPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get sectionPrivacyTitle;
+
+  /// No description provided for @sectionHowToOrderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to order'**
+  String get sectionHowToOrderTitle;
+
+  /// No description provided for @sectionFaqTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get sectionFaqTitle;
+
+  /// No description provided for @sectionPaymentMethodsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment methods'**
+  String get sectionPaymentMethodsTitle;
+
+  /// No description provided for @supportScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get supportScreenTitle;
+
+  /// No description provided for @supportIntroMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Send us any suggestion or comment you have'**
+  String get supportIntroMessage;
+
+  /// No description provided for @messagesInboxLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get messagesInboxLabel;
+
+  /// No description provided for @noMessagesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get noMessagesYet;
+
+  /// No description provided for @messageQuestionTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Question title:'**
+  String get messageQuestionTitleLabel;
+
+  /// No description provided for @messageNoThreadYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages in this thread yet'**
+  String get messageNoThreadYet;
+
+  /// No description provided for @messageReplyAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get messageReplyAppBarTitle;
+
+  /// No description provided for @messageReplyPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply:'**
+  String get messageReplyPrefix;
+
+  /// No description provided for @messageReplyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your reply here'**
+  String get messageReplyHint;
+
+  /// No description provided for @signOutDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get signOutDialogTitle;
+
+  /// No description provided for @signOutDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get signOutDialogMessage;
+
+  /// No description provided for @cancelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelLabel;
+
+  /// No description provided for @signOutConfirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get signOutConfirmButton;
+
+  /// No description provided for @navigationErrorPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigation error: '**
+  String get navigationErrorPrefix;
+
+  /// No description provided for @signOutErrorPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Error signing out: '**
+  String get signOutErrorPrefix;
+
+  /// No description provided for @guestUserLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest'**
+  String get guestUserLabel;
+
+  /// No description provided for @fieldRequiredValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a value'**
+  String get fieldRequiredValidation;
+
+  /// No description provided for @selectProductColorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a product color'**
+  String get selectProductColorTitle;
+
+  /// No description provided for @addToCartLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to cart'**
+  String get addToCartLabel;
+
+  /// No description provided for @couldNotOpenUrlPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open URL: '**
+  String get couldNotOpenUrlPrefix;
+
+  /// No description provided for @paymentFailedPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment failed: '**
+  String get paymentFailedPrefix;
+
+  /// No description provided for @failedLoadOrderDetailsPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load order details: '**
+  String get failedLoadOrderDetailsPrefix;
+
+  /// No description provided for @invalidOrderId.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid order ID'**
+  String get invalidOrderId;
+
+  /// No description provided for @noWasteAddedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No waste added yet'**
+  String get noWasteAddedYet;
+
+  /// No description provided for @pleaseSelectUserType.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a user type'**
+  String get pleaseSelectUserType;
+
+  /// No description provided for @informationUpdatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Information updated successfully'**
+  String get informationUpdatedSuccess;
+
+  /// No description provided for @retryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryLabel;
+
+  /// No description provided for @editLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get editLabel;
+
+  /// No description provided for @failedToLoadDataRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load data. Please try again.'**
+  String get failedToLoadDataRetry;
+
+  /// No description provided for @pleaseSelectCollectionHour.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a collection hour'**
+  String get pleaseSelectCollectionHour;
+
+  /// No description provided for @invalidTimeSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid time selection'**
+  String get invalidTimeSelection;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// No description provided for @failedToLoadMoreItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load more items. Please try again.'**
+  String get failedToLoadMoreItems;
+
+  /// No description provided for @cartIsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart is empty'**
+  String get cartIsEmpty;
+
+  /// No description provided for @failedSendRequestPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send request: '**
+  String get failedSendRequestPrefix;
+
+  /// No description provided for @pleaseAddWasteItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Please add waste items to your cart'**
+  String get pleaseAddWasteItems;
+
+  /// No description provided for @addWasteItemsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add waste items'**
+  String get addWasteItemsTitle;
+
+  /// No description provided for @noItemsInCart.
+  ///
+  /// In en, this message translates to:
+  /// **'No items'**
+  String get noItemsInCart;
+
+  /// No description provided for @pleaseSelectLocationOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a location on the map'**
+  String get pleaseSelectLocationOnMap;
+
+  /// No description provided for @pleaseSelectCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a country'**
+  String get pleaseSelectCountry;
+
+  /// No description provided for @pleaseSelectProvince.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a province'**
+  String get pleaseSelectProvince;
+
+  /// No description provided for @pleaseSelectCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a city'**
+  String get pleaseSelectCity;
+
+  /// No description provided for @pleaseSelectRegion.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a region'**
+  String get pleaseSelectRegion;
+
+  /// No description provided for @addressSavedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Address saved successfully'**
+  String get addressSavedSuccess;
+
+  /// No description provided for @failedSaveAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save address. Please try again.'**
+  String get failedSaveAddress;
+
+  /// No description provided for @errorRemovingAddressPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Error removing address: '**
+  String get errorRemovingAddressPrefix;
+
+  /// No description provided for @failedLoadAddressesPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load addresses: '**
+  String get failedLoadAddressesPrefix;
+
+  /// No description provided for @pleaseSelectAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an address'**
+  String get pleaseSelectAddress;
+
+  /// No description provided for @authProblemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication problem'**
+  String get authProblemTitle;
+
+  /// No description provided for @addressSingular.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressSingular;
+
+  /// No description provided for @addressesPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'Addresses'**
+  String get addressesPlural;
+
+  /// No description provided for @navMyRequestsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'My requests'**
+  String get navMyRequestsTab;
+
+  /// No description provided for @onTapUrlDebugTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open link'**
+  String get onTapUrlDebugTitle;
+
+  /// No description provided for @wasteCartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Waste cart'**
+  String get wasteCartTitle;
+
+  /// No description provided for @failedLoadCountriesRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load countries. Check your connection and try again.'**
+  String get failedLoadCountriesRetry;
+
+  /// No description provided for @failedLoadProvincesRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load provinces. Check your connection and try again.'**
+  String get failedLoadProvincesRetry;
+
+  /// No description provided for @failedLoadCitiesRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load cities. Check your connection and try again.'**
+  String get failedLoadCitiesRetry;
+
+  /// No description provided for @failedLoadRegionsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load regions. Check your connection and try again.'**
+  String get failedLoadRegionsRetry;
+
+  /// No description provided for @loadingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading…'**
+  String get loadingLabel;
+
+  /// No description provided for @selectCountryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select country'**
+  String get selectCountryHint;
+
+  /// No description provided for @selectProvinceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select province'**
+  String get selectProvinceHint;
+
+  /// No description provided for @selectCityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select city'**
+  String get selectCityHint;
+
+  /// No description provided for @selectRegionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select region'**
+  String get selectRegionHint;
+
+  /// No description provided for @signInRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in required'**
+  String get signInRequiredTitle;
+
+  /// No description provided for @pleaseLoginToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in to continue.'**
+  String get pleaseLoginToContinue;
+
+  /// No description provided for @okLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get okLabel;
+
+  /// No description provided for @confirmLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmLabel;
+
+  /// No description provided for @firstNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'First name'**
+  String get firstNameHint;
+
+  /// No description provided for @lastNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name'**
+  String get lastNameHint;
+
+  /// No description provided for @emailInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailInputHint;
+
+  /// No description provided for @passwordInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordInputHint;
+
+  /// No description provided for @userInformationDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'User information'**
+  String get userInformationDialogTitle;
+
+  /// No description provided for @profileInformationDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile information'**
+  String get profileInformationDialogTitle;
+
+  /// No description provided for @goToLoginScreenButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Login screen'**
+  String get goToLoginScreenButton;
+
+  /// No description provided for @goToProfileScreenButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile screen'**
+  String get goToProfileScreenButton;
+
+  /// No description provided for @completeProfileToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete your profile to continue.'**
+  String get completeProfileToContinue;
+
+  /// No description provided for @personalInformationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal information'**
+  String get personalInformationTitle;
+
+  /// No description provided for @contactInformationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact information'**
+  String get contactInformationTitle;
+
+  /// No description provided for @nameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameLabel;
+
+  /// No description provided for @lastNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name'**
+  String get lastNameLabel;
+
+  /// No description provided for @userTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'User type'**
+  String get userTypeLabel;
+
+  /// No description provided for @emailAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailAddressLabel;
+
+  /// No description provided for @provinceFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Province'**
+  String get provinceFieldLabel;
+
+  /// No description provided for @countryFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get countryFieldLabel;
+
+  /// No description provided for @cityFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get cityFieldLabel;
+
+  /// No description provided for @regionFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Region'**
+  String get regionFieldLabel;
+
+  /// No description provided for @zipCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Zip code'**
+  String get zipCodeLabel;
+
+  /// No description provided for @mapPickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select address location'**
+  String get mapPickerTitle;
+
+  /// No description provided for @newAddressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New address'**
+  String get newAddressTitle;
+
+  /// No description provided for @locationDetailsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Location details'**
+  String get locationDetailsSection;
+
+  /// No description provided for @addressNameFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address name'**
+  String get addressNameFieldLabel;
+
+  /// No description provided for @addressNameHintExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Home, Office'**
+  String get addressNameHintExample;
+
+  /// No description provided for @pleaseEnterAddressName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a name for this address'**
+  String get pleaseEnterAddressName;
+
+  /// No description provided for @fullAddressFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full address'**
+  String get fullAddressFieldLabel;
+
+  /// No description provided for @fullAddressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Street, number, building…'**
+  String get fullAddressHint;
+
+  /// No description provided for @pleaseEnterFullAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the full address'**
+  String get pleaseEnterFullAddress;
+
+  /// No description provided for @saveAddressButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save address'**
+  String get saveAddressButton;
+
+  /// No description provided for @tapToSelectLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to select location'**
+  String get tapToSelectLocation;
+
+  /// No description provided for @tapToChangeLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to change location'**
+  String get tapToChangeLocation;
+
+  /// No description provided for @cartItemsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get cartItemsLabel;
+
+  /// No description provided for @cartTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get cartTotalLabel;
+
+  /// No description provided for @weightKgFullLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight (kg)'**
+  String get weightKgFullLabel;
+
+  /// No description provided for @addItemsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Add items'**
+  String get addItemsTooltip;
+
+  /// No description provided for @numberFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get numberFieldLabel;
+
+  /// No description provided for @totalPriceFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total price'**
+  String get totalPriceFieldLabel;
+
+  /// No description provided for @totalWeightFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total weight'**
+  String get totalWeightFieldLabel;
+
+  /// No description provided for @collectDateFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection date'**
+  String get collectDateFieldLabel;
+
+  /// No description provided for @collectHourFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection time'**
+  String get collectHourFieldLabel;
+
+  /// No description provided for @regionColonPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Region:'**
+  String get regionColonPrefix;
+
+  /// No description provided for @driverInformationSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver information'**
+  String get driverInformationSection;
+
+  /// No description provided for @orderSummarySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Order summary'**
+  String get orderSummarySection;
+
+  /// No description provided for @detailsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get detailsSection;
+
+  /// No description provided for @wasteItemsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Waste items'**
+  String get wasteItemsSection;
+
+  /// No description provided for @summaryWeightKgTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight (kg)'**
+  String get summaryWeightKgTitle;
+
+  /// No description provided for @summaryPriceUsdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Price (\$)'**
+  String get summaryPriceUsdTitle;
+
+  /// No description provided for @statusRequestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Request'**
+  String get statusRequestLabel;
+
+  /// No description provided for @statusDeliveredLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get statusDeliveredLabel;
+
+  /// No description provided for @composeMessageTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get composeMessageTitleLabel;
+
+  /// No description provided for @composeMessageBodyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your message'**
+  String get composeMessageBodyHint;
+
+  /// No description provided for @understandLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get understandLabel;
+
+  /// No description provided for @ordersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get ordersLabel;
+
+  /// No description provided for @personalInfoShortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal info'**
+  String get personalInfoShortLabel;
+
+  /// No description provided for @wasteListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Waste list'**
+  String get wasteListTitle;
+
+  /// No description provided for @addressListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressListTitle;
+
+  /// No description provided for @addNewAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new address'**
+  String get addNewAddressLabel;
+
+  /// No description provided for @requestCollectionHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request collection'**
+  String get requestCollectionHeroTitle;
+
+  /// No description provided for @templatePageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Template'**
+  String get templatePageTitle;
+
+  /// No description provided for @drawerLoginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get drawerLoginTitle;
+
+  /// No description provided for @drawerGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guide'**
+  String get drawerGuideTitle;
+
+  /// No description provided for @drawerLogoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get drawerLogoutTitle;
+
+  /// No description provided for @searchProductsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search products…'**
+  String get searchProductsHint;
+
+  /// No description provided for @homeWelcomeHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to RecycleOrigin'**
+  String get homeWelcomeHeadline;
+
+  /// No description provided for @homeWelcomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Make a difference for our planet'**
+  String get homeWelcomeSubtitle;
+
+  /// No description provided for @selectWasteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select waste'**
+  String get selectWasteTitle;
+
+  /// No description provided for @shopCartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping cart'**
+  String get shopCartTitle;
+
+  /// No description provided for @cartNumberSummaryPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Number:'**
+  String get cartNumberSummaryPrefix;
+
+  /// No description provided for @cartTotalSummaryPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Total:'**
+  String get cartTotalSummaryPrefix;
+
+  /// No description provided for @loginToContinueShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in to continue'**
+  String get loginToContinueShort;
+
+  /// No description provided for @completeProfileShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile to continue'**
+  String get completeProfileShort;
+
+  /// No description provided for @continueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueLabel;
+
+  /// No description provided for @profileRequestsMenuTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get profileRequestsMenuTitle;
+
+  /// No description provided for @newMessageScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get newMessageScreenTitle;
+
+  /// No description provided for @composeMessageIntroParagraph.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your question. Our team will review it and send you an answer.'**
+  String get composeMessageIntroParagraph;
+
+  /// No description provided for @authConfirmationCodeButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation code'**
+  String get authConfirmationCodeButtonLabel;
+
+  /// No description provided for @valueNotAvailableLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'N/A'**
+  String get valueNotAvailableLabel;
+
+  /// No description provided for @requestDetailsSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request details'**
+  String get requestDetailsSectionTitle;
+
+  /// No description provided for @registerWasteRequestAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Register request'**
+  String get registerWasteRequestAppBarTitle;
+
+  /// No description provided for @wasteRequestSentSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your request has been sent successfully.'**
+  String get wasteRequestSentSuccess;
+
+  /// No description provided for @pleaseLoginToViewWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in to view your wallet'**
+  String get pleaseLoginToViewWallet;
+
+  /// No description provided for @walletNoTransactionsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet'**
+  String get walletNoTransactionsYet;
+
+  /// No description provided for @walletWithdrawRequestButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw request'**
+  String get walletWithdrawRequestButton;
+
+  /// No description provided for @clearingPayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay'**
+  String get clearingPayTitle;
+
+  /// No description provided for @clearingRequestRegisteredSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your request was registered successfully.'**
+  String get clearingRequestRegisteredSuccess;
+
+  /// No description provided for @walletCreditUsdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit (\$)'**
+  String get walletCreditUsdLabel;
+
+  /// No description provided for @clearingAccountNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account number'**
+  String get clearingAccountNumberLabel;
+
+  /// No description provided for @clearingRequestAmountUsdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Request amount (\$)'**
+  String get clearingRequestAmountUsdLabel;
+
+  /// No description provided for @clearingPaymentListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment list'**
+  String get clearingPaymentListTitle;
+
+  /// No description provided for @clearingEnterAccountNumberSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an account number'**
+  String get clearingEnterAccountNumberSnack;
+
+  /// No description provided for @clearingAmountExceedsBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Your request amount exceeds your available balance'**
+  String get clearingAmountExceedsBalance;
+
+  /// No description provided for @tableColumnFromLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get tableColumnFromLabel;
+
+  /// No description provided for @tableColumnStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get tableColumnStatusLabel;
+
+  /// No description provided for @tableColumnDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get tableColumnDateLabel;
+
+  /// No description provided for @drawerHeaderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'RecycleOrigin'**
+  String get drawerHeaderSubtitle;
+
+  /// No description provided for @drawerSignedInNoContactHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re signed in.'**
+  String get drawerSignedInNoContactHint;
+
+  /// No description provided for @drawerAccountDisplayFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'My account'**
+  String get drawerAccountDisplayFallback;
+
+  /// No description provided for @parentheticalUsd.
+  ///
+  /// In en, this message translates to:
+  /// **'(\$)'**
+  String get parentheticalUsd;
+
+  /// No description provided for @parentheticalKg.
+  ///
+  /// In en, this message translates to:
+  /// **'(kg)'**
+  String get parentheticalKg;
+
+  /// No description provided for @selectUserTypeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select user type'**
+  String get selectUserTypeHint;
+
+  /// No description provided for @saveChangesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get saveChangesLabel;
+
+  /// No description provided for @savingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving…'**
+  String get savingLabel;
+
+  /// No description provided for @editPersonalInformationAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit personal information'**
+  String get editPersonalInformationAppBarTitle;
+
+  /// No description provided for @failedLoadUserTypesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load user types. Please try again.'**
+  String get failedLoadUserTypesMessage;
+
+  /// No description provided for @failedSaveCustomerInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save information. Please try again.'**
+  String get failedSaveCustomerInfoMessage;
+
+  /// No description provided for @orderNoItemsInCartSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'No items in cart.'**
+  String get orderNoItemsInCartSnack;
+
+  /// No description provided for @orderInsufficientWalletSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Your wallet balance is not enough.'**
+  String get orderInsufficientWalletSnack;
+
+  /// No description provided for @orderSentSuccessDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your order has been sent successfully.'**
+  String get orderSentSuccessDescription;
+
+  /// No description provided for @productPriceZeroSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Price is not set for this product.'**
+  String get productPriceZeroSnack;
+
+  /// No description provided for @productAlreadyInCartSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'This product is already in your cart.'**
+  String get productAlreadyInCartSnack;
+
+  /// No description provided for @productAddedToCartSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to cart.'**
+  String get productAddedToCartSnack;
+
+  /// No description provided for @storeProductsAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get storeProductsAppBarTitle;
+
+  /// No description provided for @filterCategoryAllLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterCategoryAllLabel;
+
+  /// No description provided for @storeNoProductsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No products found'**
+  String get storeNoProductsMessage;
+
+  /// No description provided for @storeNoOrdersYetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet'**
+  String get storeNoOrdersYetMessage;
+
+  /// No description provided for @sortNewestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get sortNewestLabel;
+
+  /// No description provided for @sortHighPriceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'High price'**
+  String get sortHighPriceLabel;
+
+  /// No description provided for @sortLowPriceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Low price'**
+  String get sortLowPriceLabel;
+
+  /// No description provided for @storeBuyButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy'**
+  String get storeBuyButtonLabel;
+
+  /// No description provided for @addressListEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No addresses found'**
+  String get addressListEmptyTitle;
+
+  /// No description provided for @addressListEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a new address to get started'**
+  String get addressListEmptySubtitle;
+
+  /// No description provided for @wasteCartEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add waste items to start recycling'**
+  String get wasteCartEmptySubtitle;
+
+  /// No description provided for @cartTotalAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total amount'**
+  String get cartTotalAmountLabel;
+
+  /// No description provided for @weightUnitKilogram.
+  ///
+  /// In en, this message translates to:
+  /// **'Kilogram'**
+  String get weightUnitKilogram;
+
+  /// No description provided for @collectHourSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect hour'**
+  String get collectHourSectionTitle;
+
+  /// No description provided for @noCollectionHoursForRegion.
+  ///
+  /// In en, this message translates to:
+  /// **'No available hours for this region.'**
+  String get noCollectionHoursForRegion;
+
+  /// No description provided for @orderDetailsAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order details'**
+  String get orderDetailsAppBarTitle;
+
+  /// No description provided for @orderStatusFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order status:'**
+  String get orderStatusFieldLabel;
+
+  /// No description provided for @orderNumberFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order number:'**
+  String get orderNumberFieldLabel;
+
+  /// No description provided for @orderDateFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order date:'**
+  String get orderDateFieldLabel;
+
+  /// No description provided for @authNotRegisteredPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Not registered?'**
+  String get authNotRegisteredPrompt;
+
+  /// No description provided for @authSwitchToLoginPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get authSwitchToLoginPrompt;
+
+  /// No description provided for @authWelcomeBackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get authWelcomeBackTitle;
+
+  /// No description provided for @authCreateAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get authCreateAccountTitle;
+
+  /// No description provided for @authRegisterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get authRegisterButton;
+
+  /// No description provided for @authSubtitleSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to continue recycling'**
+  String get authSubtitleSignIn;
+
+  /// No description provided for @authSubtitleSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Join us and start making an impact'**
+  String get authSubtitleSignUp;
+
+  /// No description provided for @authEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get authEmailRequired;
+
+  /// No description provided for @authEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address'**
+  String get authEmailInvalid;
+
+  /// No description provided for @authPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password'**
+  String get authPasswordRequired;
+
+  /// No description provided for @authPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters'**
+  String get authPasswordTooShort;
+
+  /// No description provided for @authFirstNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your first name'**
+  String get authFirstNameRequired;
+
+  /// No description provided for @authLastNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your last name'**
+  String get authLastNameRequired;
+
+  /// No description provided for @authLoginFailedInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect email or password. Please try again.'**
+  String get authLoginFailedInvalidCredentials;
+
+  /// No description provided for @authEmailAlreadyRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'An account with this email already exists.'**
+  String get authEmailAlreadyRegistered;
+
+  /// No description provided for @authLoginAfterRegisterFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created, but sign-in failed. Please try logging in.'**
+  String get authLoginAfterRegisterFailed;
+
+  /// No description provided for @authGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not complete the request. Please try again.'**
+  String get authGenericError;
+
+  /// No description provided for @authServerExchangeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server to finish signing in. Check your connection, or try again in a moment.'**
+  String get authServerExchangeFailed;
+
+  /// No description provided for @authTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait a few minutes and try again.'**
+  String get authTooManyRequests;
+
+  /// No description provided for @authOperationNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'This sign-in method is not enabled for this app. Contact support.'**
+  String get authOperationNotAllowed;
+
+  /// No description provided for @authInvalidAppCredential.
+  ///
+  /// In en, this message translates to:
+  /// **'This app build is not authorized with Firebase. On Android, add your debug or release SHA-1 in the Firebase Console and download a fresh google-services.json.'**
+  String get authInvalidAppCredential;
+
+  /// No description provided for @authFirebaseConfigurationNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Firebase Android config is incomplete. In Firebase Console: enable Email/Password and Google under Authentication → Sign-in method, confirm SHA-1/256 under Project settings → Your apps, then download a new google-services.json (it must list oauth clients, not an empty list) and replace android/app/google-services.json.'**
+  String get authFirebaseConfigurationNotFound;
+
+  /// No description provided for @authOpenMenuTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Open menu'**
+  String get authOpenMenuTooltip;
+
+  /// No description provided for @authShowPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get authShowPassword;
+
+  /// No description provided for @authHidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get authHidePassword;
+
+  /// No description provided for @customerInfoUnavailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No customer information available'**
+  String get customerInfoUnavailableMessage;
+
+  /// No description provided for @collectDetailNoWasteItemsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No waste items found'**
+  String get collectDetailNoWasteItemsMessage;
+
+  /// No description provided for @collectListNoRequestsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No requests found'**
+  String get collectListNoRequestsMessage;
+
+  /// No description provided for @wasteSearchNoItemsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No items found'**
+  String get wasteSearchNoItemsMessage;
+
+  /// No description provided for @doneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneLabel;
+
+  /// No description provided for @customerOrderNumberPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Order no.:'**
+  String get customerOrderNumberPrefix;
+
+  /// No description provided for @articleNoContentMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No content available'**
+  String get articleNoContentMessage;
+
+  /// No description provided for @collectRequestListAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request list'**
+  String get collectRequestListAppBarTitle;
+
+  /// No description provided for @collectListSortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get collectListSortLabel;
+
+  /// No description provided for @collectListFilterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get collectListFilterLabel;
+
+  /// No description provided for @collectListSortSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort requests'**
+  String get collectListSortSheetTitle;
+
+  /// No description provided for @collectListFilterSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by status'**
+  String get collectListFilterSheetTitle;
+
+  /// No description provided for @collectListSortNewestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get collectListSortNewestFirst;
+
+  /// No description provided for @collectListSortOldestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get collectListSortOldestFirst;
+
+  /// No description provided for @collectListSortIdHighToLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Request ID (highest first)'**
+  String get collectListSortIdHighToLow;
+
+  /// No description provided for @collectListSortIdLowToHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Request ID (lowest first)'**
+  String get collectListSortIdLowToHigh;
+
+  /// No description provided for @collectListFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All statuses'**
+  String get collectListFilterAll;
+
+  /// No description provided for @pleaseLoginToViewRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in to view your requests'**
+  String get pleaseLoginToViewRequests;
+
+  /// No description provided for @listCountSummaryPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Count:'**
+  String get listCountSummaryPrefix;
+
+  /// No description provided for @collectDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request details'**
+  String get collectDetailTitle;
+
+  /// No description provided for @currentStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current status'**
+  String get currentStatusLabel;
+
+  /// No description provided for @statusPendingAssignment.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for driver assignment'**
+  String get statusPendingAssignment;
+
+  /// No description provided for @statusPendingDriverAcceptance.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for driver acceptance'**
+  String get statusPendingDriverAcceptance;
+
+  /// No description provided for @statusDriverAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver accepted'**
+  String get statusDriverAccepted;
+
+  /// No description provided for @statusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get statusInProgress;
+
+  /// No description provided for @statusPickedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Picked up by driver'**
+  String get statusPickedUp;
+
+  /// No description provided for @statusCollected.
+  ///
+  /// In en, this message translates to:
+  /// **'Collected'**
+  String get statusCollected;
+
+  /// No description provided for @statusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get statusCancelled;
+
+  /// No description provided for @submittedWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted'**
+  String get submittedWeightLabel;
+
+  /// No description provided for @finalWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Final'**
+  String get finalWeightLabel;
+
+  /// No description provided for @estimatedTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated total'**
+  String get estimatedTotalLabel;
+
+  /// No description provided for @finalTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Final total'**
+  String get finalTotalLabel;
+
+  /// No description provided for @pricePerKgLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Price/kg'**
+  String get pricePerKgLabel;
+
+  /// No description provided for @requestDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Request date'**
+  String get requestDateLabel;
+
+  /// No description provided for @collectDoneTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect done time'**
+  String get collectDoneTimeLabel;
+
+  /// No description provided for @pendingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pendingLabel;
+
+  /// No description provided for @plateNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Plate number'**
+  String get plateNumberLabel;
+
+  /// No description provided for @carColorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Car color'**
+  String get carColorLabel;
+
+  /// No description provided for @homeServicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get homeServicesTitle;
+
+  /// No description provided for @stepCartLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get stepCartLabel;
+
+  /// No description provided for @stepAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get stepAddressLabel;
+
+  /// No description provided for @stepDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get stepDateLabel;
+
+  /// No description provided for @stepConfirmLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get stepConfirmLabel;
+
+  /// No description provided for @removeItemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove item'**
+  String get removeItemTitle;
+
+  /// No description provided for @removeItemConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove this item from your cart?'**
+  String get removeItemConfirmation;
+
+  /// No description provided for @removeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeLabel;
+
+  /// No description provided for @perKiloLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Per kilo: '**
+  String get perKiloLabel;
+
+  /// No description provided for @totalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total: '**
+  String get totalLabel;
+
+  /// No description provided for @searchWasteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search waste items…'**
+  String get searchWasteHint;
+
+  /// No description provided for @clearSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get clearSearchLabel;
+
+  /// No description provided for @removeAddressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove address'**
+  String get removeAddressTitle;
+
+  /// No description provided for @removeAddressConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove this address?'**
+  String get removeAddressConfirmation;
+
+  /// No description provided for @selectAddressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select pickup address'**
+  String get selectAddressTitle;
+
+  /// No description provided for @selectAddressSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose where you\'d like the driver to collect your waste.'**
+  String get selectAddressSubtitle;
+
+  /// No description provided for @selectedTimeSlotLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Time slot selected'**
+  String get selectedTimeSlotLabel;
+
+  /// No description provided for @confirmRequestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit request?'**
+  String get confirmRequestTitle;
+
+  /// No description provided for @confirmRequestSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your waste collection request will be sent for processing.'**
+  String get confirmRequestSubtitle;
+
+  /// No description provided for @requestSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order summary'**
+  String get requestSummaryTitle;
+
+  /// No description provided for @addressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressLabel;
+
+  /// No description provided for @mapScreenLocationSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin your location'**
+  String get mapScreenLocationSection;
+
+  /// No description provided for @mapScreenLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the map to place the pin at your exact address'**
+  String get mapScreenLocationHint;
+
+  /// No description provided for @mapScreenMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'My location'**
+  String get mapScreenMyLocation;
+
+  /// No description provided for @mapScreenCoordinates.
+  ///
+  /// In en, this message translates to:
+  /// **'Coordinates'**
+  String get mapScreenCoordinates;
+
+  /// No description provided for @mapScreenFormSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Address details'**
+  String get mapScreenFormSection;
+
+  /// No description provided for @mapScreenFormHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the details so we can find you easily'**
+  String get mapScreenFormHint;
+
+  /// No description provided for @mapScreenRequiredFields.
+  ///
+  /// In en, this message translates to:
+  /// **'All fields are required'**
+  String get mapScreenRequiredFields;
+
+  /// No description provided for @mapPreviewSemanticsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Map preview. Tap to choose your exact location on the map.'**
+  String get mapPreviewSemanticsLabel;
+
+  /// No description provided for @locationPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Location pinned'**
+  String get locationPinned;
+
+  /// No description provided for @locationNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Location not set'**
+  String get locationNotSet;
+
+  /// No description provided for @swipeToDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe to delete'**
+  String get swipeToDelete;
+
+  /// No description provided for @addressSavedGoBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Address saved! Going back…'**
+  String get addressSavedGoBack;
+
+  /// No description provided for @locationPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission denied. You can still pick manually.'**
+  String get locationPermissionDenied;
+
+  /// No description provided for @locationServicesDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Location services disabled. Enable them to auto-detect.'**
+  String get locationServicesDisabled;
+
+  /// No description provided for @fieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get fieldRequired;
+
+  /// No description provided for @addressCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No addresses} =1{1 address} other{{count} addresses}}'**
+  String addressCount(int count);
+
+  /// No description provided for @selectedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected'**
+  String get selectedLabel;
+
+  /// No description provided for @defaultAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get defaultAddressLabel;
+
+  /// No description provided for @averageRatingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Average rating'**
+  String get averageRatingLabel;
+
+  /// No description provided for @rateDriverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate your driver'**
+  String get rateDriverTitle;
+
+  /// No description provided for @rateDriverHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How was your pickup experience?'**
+  String get rateDriverHint;
+
+  /// No description provided for @ratingCommentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment (optional)'**
+  String get ratingCommentLabel;
+
+  /// No description provided for @submitRatingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit rating'**
+  String get submitRatingLabel;
+
+  /// No description provided for @yourRatingSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your feedback'**
+  String get yourRatingSubmitted;
+
+  /// No description provided for @ratingScoreOfFive.
+  ///
+  /// In en, this message translates to:
+  /// **'{score} of 5'**
+  String ratingScoreOfFive(int score);
+
+  /// No description provided for @authForgotPasswordLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get authForgotPasswordLink;
+
+  /// No description provided for @authContinueWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get authContinueWithGoogle;
+
+  /// No description provided for @authOrDivider.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get authOrDivider;
+
+  /// No description provided for @authForgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset your password'**
+  String get authForgotPasswordTitle;
+
+  /// No description provided for @authForgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the email address linked to your account and we\'ll send you instructions to reset your password.'**
+  String get authForgotPasswordSubtitle;
+
+  /// No description provided for @authForgotPasswordSendButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get authForgotPasswordSendButton;
+
+  /// No description provided for @authForgotPasswordSentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox'**
+  String get authForgotPasswordSentTitle;
+
+  /// No description provided for @authForgotPasswordSentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent password-reset instructions to {email}. Follow the link in the email to choose a new password.'**
+  String authForgotPasswordSentBody(String email);
+
+  /// No description provided for @authBackToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get authBackToLogin;
+
+  /// No description provided for @authVerifyEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get authVerifyEmailTitle;
+
+  /// No description provided for @authVerifyEmailSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent a verification link to {email}. Please open the link to activate your account.'**
+  String authVerifyEmailSubtitle(String email);
+
+  /// No description provided for @authVerifyEmailIveVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve verified'**
+  String get authVerifyEmailIveVerified;
+
+  /// No description provided for @authVerifyEmailResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend email'**
+  String get authVerifyEmailResend;
+
+  /// No description provided for @authVerifyEmailResendIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String authVerifyEmailResendIn(int seconds);
+
+  /// No description provided for @authVerifyEmailNotYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email is still not verified. Please check your inbox.'**
+  String get authVerifyEmailNotYet;
+
+  /// No description provided for @authVerifyEmailResentSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email resent.'**
+  String get authVerifyEmailResentSuccess;
+
+  /// No description provided for @authVerifyEmailLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get authVerifyEmailLogout;
+
+  /// No description provided for @authResetEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset link sent.'**
+  String get authResetEmailSent;
+
+  /// No description provided for @authGoogleSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in failed. Please try again.'**
+  String get authGoogleSignInFailed;
+
+  /// No description provided for @authNetworkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please check your connection.'**
+  String get authNetworkError;
+
+  /// No description provided for @authSessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Please sign in again.'**
+  String get authSessionExpired;
 }
 
 class _AppLocalizationsDelegate
@@ -302,7 +2372,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'fa'].contains(locale.languageCode);
+      <String>['en', 'tr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -313,8 +2383,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
-    case 'fa':
-      return AppLocalizationsFa();
+    case 'tr':
+      return AppLocalizationsTr();
   }
 
   throw FlutterError(

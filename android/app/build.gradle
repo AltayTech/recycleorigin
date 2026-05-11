@@ -31,9 +31,19 @@ android {
     namespace "com.recycleorigin.recycleorigin"
     compileSdkVersion flutter.compileSdkVersion
     ext.kotlin_version = '2.1.21'
+    ndkVersion = "28.2.13676358"
 
     lintOptions {
         disable 'InvalidPackage'
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
     }
 
     defaultConfig {
@@ -46,23 +56,45 @@ android {
         multiDexEnabled true
 
     }
+    flavorDimensions "environment"
+    productFlavors {
+        dev {
+            dimension "environment"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name", "RecycleOrigin Dev"
+        }
+        staging {
+            dimension "environment"
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+            resValue "string", "app_name", "RecycleOrigin Staging"
+        }
+        prod {
+            dimension "environment"
+            resValue "string", "app_name", "RecycleOrigin"
+        }
+    }
     signingConfigs {
         debug {
 
-
         }
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            if (keystorePropertiesFile.exists()) {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
         }
     }
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.release
+            // Play Store builds: create android/key.properties (see key.properties.example).
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
+            }
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -73,7 +105,13 @@ android {
 flutter {
     source '../..'
 }
+
+if (file("google-services.json").exists()) {
+    apply plugin: "com.google.gms.google-services"
+}
+
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
     implementation "com.android.support:multidex:1.0.3"
     implementation 'com.google.android.play:app-update:2.1.0'
     implementation 'com.google.android.play:app-update-ktx:2.1.0'

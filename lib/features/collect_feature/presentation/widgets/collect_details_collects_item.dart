@@ -1,277 +1,151 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
-import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
-
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
-class CollectDetailsCollectItem extends StatefulWidget {
+class CollectDetailsCollectItem extends StatelessWidget {
   final Collect collectItem;
 
-  CollectDetailsCollectItem({
+  const CollectDetailsCollectItem({
+    Key? key,
     required this.collectItem,
-  });
-
-  @override
-  _CollectDetailsCollectItemState createState() =>
-      _CollectDetailsCollectItemState();
-}
-
-class _CollectDetailsCollectItemState extends State<CollectDetailsCollectItem> {
-  bool _isInit = true;
-
-  var _isLoading = true;
-
-  int productWeight = 0;
-
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      _isLoading = false;
-
-      productWeight = int.parse(widget.collectItem.estimated_weight);
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
-
-  String getPrice(List<PriceWeight> prices, int weight) {
-    String price = '0';
-
-    for (int i = 0; i < prices.length; i++) {
-      if (weight > int.parse(prices[i].weight)) {
-        price = prices[i].price;
-      } else {
-        price = prices[i].price;
-        break;
-      }
-    }
-    return price;
-  }
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var deviceHeight = MediaQuery.of(context).size.height;
-    var deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    final currencyFormat = intl.NumberFormat.decimalPattern();
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Container(
-        height: deviceWidth * 0.5,
-        width: deviceWidth,
-        decoration: AppTheme.listItemBox,
-        child: LayoutBuilder(
-          builder: (_, constraints) => Stack(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            widget.collectItem.pasmand.post_title,
-                            style: TextStyle(
-                              color: AppTheme.black,
-                              fontWeight: FontWeight.w700,
-                              //fontFamily: 'Iransans',
-                              fontSize: 16,
-                            ),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Text(
-                            'Total weight(Kg): ',
-                            style: TextStyle(
-                              color: AppTheme.black.withOpacity(0.7),
-                              fontWeight: FontWeight.w500,
-                              //fontFamily: 'Iransans',
-                              fontSize: 14,
-                            ),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Request: ',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Text(
-                                  EnArConvertor()
-                                      .replaceArNumber(widget
-                                          .collectItem.estimated_weight
-                                          .toString())
-                                      .toString(),
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Delivered: ',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Text(
-                                  EnArConvertor()
-                                      .replaceArNumber(widget
-                                          .collectItem.exact_weight
-                                          .toString())
-                                      .toString(),
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Total Price(\$): ',
-                            style: TextStyle(
-                              color: AppTheme.black.withOpacity(0.7),
-                              fontWeight: FontWeight.w500,
-                              //fontFamily: 'Iransans',
-                              fontSize: 14,
-                            ),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Request: ',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Text(
-                                  EnArConvertor().replaceArNumber(
-                                          currencyFormat.format(double.parse(
-                                              widget.collectItem
-                                                  .estimated_price))),
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Delivered: ',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Text(
-                                  EnArConvertor().replaceArNumber(
-                                          currencyFormat.format(double.parse(
-                                              widget.collectItem.exact_price))),
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    //fontFamily: 'Iransans',
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
-                                  ),
-                                );
-                              },
-                            )
-                          : Container()))
-            ],
+    return Container(
+      decoration: AppTheme.listItemBox.copyWith(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
           ),
-        ),
+        ],
+      ),
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            collectItem.pasmand.post_title,
+            style: const TextStyle(
+              color: AppTheme.h1,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+          const Divider(height: 24),
+          _buildInfoSection(
+            context,
+            title: context.l10n.summaryWeightKgTitle,
+            requested: collectItem.estimated_weight,
+            delivered: collectItem.exact_weight,
+            isCurrency: false,
+          ),
+          const SizedBox(height: 16),
+          _buildInfoSection(
+            context,
+            title: context.l10n.summaryPriceUsdTitle,
+            requested:
+                _formatCurrency(currencyFormat, collectItem.estimated_price),
+            delivered: _formatCurrency(currencyFormat, collectItem.exact_price),
+            isCurrency: true,
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _buildInfoSection(
+    BuildContext context, {
+    required String title,
+    required String requested,
+    required String delivered,
+    required bool isCurrency,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            color: Colors.grey[600],
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: _buildValueBox(
+                label: context.l10n.statusRequestLabel,
+                value: requested,
+                color: Colors.orange,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildValueBox(
+                label: context.l10n.statusDeliveredLabel,
+                value: delivered,
+                color: Colors.green,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildValueBox({
+    required String label,
+    required String value,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withOpacity(0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10,
+              color: color.withOpacity(0.8),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            EnArConvertor().replaceArNumber(value),
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _formatCurrency(intl.NumberFormat formatter, String value) {
+    try {
+      final doubleVal = double.parse(value);
+      return formatter.format(doubleVal);
+    } catch (e) {
+      return value;
+    }
   }
 }

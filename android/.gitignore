@@ -5,3 +5,11 @@ gradle-wrapper.jar
 /gradlew.bat
 /local.properties
 GeneratedPluginRegistrant.java
+
+# Release signing (never commit)
+key.properties
+*.jks
+*.keystore
+
+# CMake / native build output (generated per machine)
+**/.cxx/

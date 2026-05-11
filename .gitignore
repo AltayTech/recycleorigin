@@ -1,8 +1,32 @@
+# Local environment (API keys, secrets)
+.env
+.env.dev
+.env.staging
+.env.prod
+assets/env/.env.local
+assets/env/.env.*.local
+assets/env/.env.dev
+assets/env/.env.staging
+assets/env/.env.prod
+
+# Firebase / Google (obtain from Firebase Console; do not commit)
+**/google-services.json
+**/GoogleService-Info.plist
+
+# Android release signing (local only; use android/key.properties.example)
+**/android/key.properties
+**/*.jks
+**/*.keystore
+**/*.pem
+**/*.key
+**/*service-account*.json
+
 # Miscellaneous
 *.class
 *.log
 *.pyc
 *.swp
+*~
 .DS_Store
 .atom/
 .buildlog/

@@ -2,126 +2,160 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
+/// Compact summary card showing item count, total price, and
+/// total weight for the current waste request.
 class RequestSummaryCard extends StatelessWidget {
   final int itemCount;
   final int totalPrice;
   final int totalWeight;
 
   const RequestSummaryCard({
-    Key? key,
+    super.key,
     required this.itemCount,
     required this.totalPrice,
     required this.totalWeight,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = intl.NumberFormat.decimalPattern();
+    final fmt = intl.NumberFormat.decimalPattern();
+    final converter = EnArConvertor();
+    final l10n = context.l10n;
 
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppTheme.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        gradient: LinearGradient(
+          colors: [
+            AppTheme.primary.withOpacity(0.06),
+            AppTheme.primary.withOpacity(0.02),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppTheme.primary.withOpacity(0.1),
+        ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildRow(
-            context,
-            iconPath: 'assets/images/main_page_request_ic.png',
-            label: 'Number',
-            value: itemCount.toString(),
-            color: AppTheme.primary,
-          ),
-          const Divider(height: 24, thickness: 0.5),
-          _buildRow(
-            context,
-            iconPath: 'assets/images/waste_cart_price_ic.png',
-            label: 'Total Price',
-            value: totalPrice.toString().isNotEmpty
-                ? currencyFormat.format(totalPrice)
-                : '0',
-            suffix: '(\$)',
-            iconColor: Colors.yellow[700],
-          ),
-          const Divider(height: 24, thickness: 0.5),
-          _buildRow(
-            context,
-            iconPath: 'assets/images/waste_cart_weight_ic.png',
-            label: 'Total Weight',
-            value: totalWeight.toString(),
-            suffix: '(Kg)',
-            iconColor: Colors.grey,
-          ),
-        ],
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            Expanded(
+              child: _MetricTile(
+                icon: Icons.inventory_2_rounded,
+                iconColor: AppTheme.primary,
+                label: l10n.numberFieldLabel,
+                value: converter.replaceArNumber(
+                  itemCount.toString(),
+                ),
+              ),
+            ),
+            VerticalDivider(
+              thickness: 1,
+              width: 24,
+              color: AppTheme.primary.withOpacity(0.1),
+            ),
+            Expanded(
+              child: _MetricTile(
+                icon: Icons.monetization_on_rounded,
+                iconColor: const Color(0xFFE5A100),
+                label: l10n.totalPriceFieldLabel,
+                value: converter.replaceArNumber(
+                  fmt.format(totalPrice),
+                ),
+                suffix: '\$',
+              ),
+            ),
+            VerticalDivider(
+              thickness: 1,
+              width: 24,
+              color: AppTheme.primary.withOpacity(0.1),
+            ),
+            Expanded(
+              child: _MetricTile(
+                icon: Icons.scale_rounded,
+                iconColor: const Color(0xFF8B5CF6),
+                label: l10n.totalWeightFieldLabel,
+                value: converter.replaceArNumber(
+                  totalWeight.toString(),
+                ),
+                suffix: 'kg',
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
 
-  Widget _buildRow(
-    BuildContext context, {
-    required String iconPath,
-    required String label,
-    required String value,
-    String? suffix,
-    Color? iconColor,
-    Color? color,
-  }) {
-    return Row(
+class _MetricTile extends StatelessWidget {
+  const _MetricTile({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+    required this.value,
+    this.suffix,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final String label;
+  final String value;
+  final String? suffix;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 36,
-          height: 36,
-          padding: const EdgeInsets.all(6),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: (iconColor ?? color ?? AppTheme.primary).withOpacity(0.1),
+            color: iconColor.withOpacity(0.1),
             shape: BoxShape.circle,
           ),
-          child: Image.asset(
-            iconPath,
-            color: iconColor,
-            fit: BoxFit.contain,
-          ),
+          child: Icon(icon, size: 18, color: iconColor),
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                value,
+                style: const TextStyle(
+                  color: AppTheme.h1,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (suffix != null) ...[
+              const SizedBox(width: 2),
               Text(
-                label,
+                suffix!,
                 style: TextStyle(
-                  color: AppTheme.grey,
-                  fontSize: 14,
+                  color: Colors.grey.shade400,
+                  fontSize: 11,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              if (suffix != null)
-                Text(
-                  suffix,
-                  style: TextStyle(
-                    color: AppTheme.grey.withOpacity(0.7),
-                    fontSize: 10,
-                  ),
-                ),
             ],
-          ),
+          ],
         ),
+        const SizedBox(height: 2),
         Text(
-          EnArConvertor().replaceArNumber(value),
+          label,
           style: TextStyle(
-            color: AppTheme.h1,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+            color: Colors.grey.shade500,
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],

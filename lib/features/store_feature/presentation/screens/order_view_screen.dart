@@ -6,12 +6,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../business/entities/color_code.dart';
 import '../../business/entities/gallery.dart';
 import '../../business/entities/order_details.dart';
 import 'product_detail_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `OrderViewScreen` widget, which displays detailed information about a specific order.
 ///
@@ -71,7 +73,9 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not open URL: $urlString')),
+        SnackBar(
+            content: Text(
+                '${context.l10n.couldNotOpenUrlPrefix}$urlString')),
       );
     }
   }
@@ -82,16 +86,18 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     });
 
     try {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
+      await context.read<CustomerInfoBloc>()
           .payCashOrder(orderId);
 
       final payUrl =
-          await Provider.of<CustomerInfoProvider>(context, listen: false)
+          await context.read<CustomerInfoBloc>()
               .payUrl;
       await _launchURL(payUrl);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Payment failed: ${e.toString()}')),
+        SnackBar(
+            content: Text(
+                '${context.l10n.paymentFailedPrefix}${e.toString()}')),
       );
     } finally {
       setState(() {
@@ -111,12 +117,13 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     });
 
     try {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
+      await context.read<CustomerInfoBloc>()
           .getOrderDetails(orderId);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Failed to load order details: ${e.toString()}')),
+            content: Text(
+                '${context.l10n.failedLoadOrderDetailsPrefix}${e.toString()}')),
       );
     } finally {
       setState(() {
@@ -143,7 +150,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
         cashOrder();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid order ID')),
+          SnackBar(content: Text(context.l10n.invalidOrderId)),
         );
         Navigator.of(context).pop();
       }
@@ -181,7 +188,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                 ),
               ),
               action: SnackBarAction(
-                label: 'OK',
+                label: context.l10n.okLabel,
                 onPressed: () {},
               ),
             ),
@@ -258,16 +265,17 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     orderDetails =
-        Provider.of<CustomerInfoProvider>(context, listen: false).getOrder();
+        context.read<CustomerInfoBloc>().getOrder();
     checkStatus(orderDetails);
 
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
         title: Text(
-          'Order Details',
+          context.l10n.orderDetailsAppBarTitle,
           style: TextStyle(
             color: AppTheme.appBarIconColor,
             //fontFamily: 'Iransans',
@@ -283,7 +291,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
             child: _isLoading
                 ? _buildLoadingIndicator()
                 : Directionality(
-                    textDirection: TextDirection.rtl,
+                    textDirection: Directionality.of(context),
                     child: SingleChildScrollView(
                       child: Wrap(
                         children: <Widget>[
@@ -296,7 +304,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                        'Order Status: ',
+                                        '${context.l10n.orderStatusFieldLabel} ',
                                         style: TextStyle(
                                           color: Colors.grey,
                                           //fontFamily: 'Iransans',
@@ -331,7 +339,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'Order Number: ',
+                                            '${context.l10n.orderNumberFieldLabel} ',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               //fontFamily: 'Iransans',
@@ -355,7 +363,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'Order Date: ',
+                                            '${context.l10n.orderDateFieldLabel} ',
                                             style: TextStyle(
                                               color: Colors.grey,
                                               //fontFamily: 'Iransans',
@@ -558,12 +566,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
           ),
         ),
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.transparent,
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

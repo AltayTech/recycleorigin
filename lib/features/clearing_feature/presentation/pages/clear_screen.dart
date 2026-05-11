@@ -8,17 +8,20 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/core/widgets/currency_input_formatter.dart';
 import 'package:recycleorigin/core/widgets/custom_dialog_send_request.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing.dart';
-import 'package:recycleorigin/features/clearing_feature/presentation/providers/clearings.dart';
+import 'package:recycleorigin/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/widgets/clearing_item_clear_screen.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_state.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/screens/navigation_bottom_screen.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/screens/login_screen.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import '../../../auth_feature/presentation/screens/login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class ClearScreen extends StatefulWidget {
   static const routeName = '/ClearScreen';
@@ -42,15 +45,15 @@ class _ClearScreenState extends State<ClearScreen>
 
   @override
   void initState() {
-    Provider.of<CustomerInfoProvider>(context, listen: false).sPage = 1;
+    context.read<CustomerInfoBloc>().sPage = 1;
 
-    Provider.of<Clearings>(context, listen: false).searchBuilder();
+    context.read<ClearingsBloc>().searchBuilder();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (page < productsDetail.max_page) {
           page = page + 1;
-          Provider.of<Clearings>(context, listen: false).sPage = page;
+          context.read<ClearingsBloc>().sPage = page;
 
           searchItems();
         }
@@ -75,8 +78,7 @@ class _ClearScreenState extends State<ClearScreen>
   void didChangeDependencies() async {
     if (_isInit) {
       getCustomerInfo();
-      customer =
-          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
+      customer = context.read<CustomerInfoBloc>().customer;
       searchItems();
     }
     _isInit = false;
@@ -84,23 +86,17 @@ class _ClearScreenState extends State<ClearScreen>
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isLogin = context.read<AuthBloc>().isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
-          .getCustomer();
+      await context.read<CustomerInfoBloc>().getCustomer();
     }
   }
 
   void _showSenddialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogSendRequest(
-        title: '',
-        buttonText: 'Ok',
-        description: 'Your Request registered Successfully',
-        image: Image.asset('assets/images/main_page_request_ic.png'),
-      ),
+    CustomDialogSendRequest.show(
+      context,
+      description: context.l10n.clearingRequestRegisteredSuccess,
+      buttonText: context.l10n.okLabel,
     );
   }
 
@@ -109,7 +105,8 @@ class _ClearScreenState extends State<ClearScreen>
       _isLoading = true;
     });
 
-    await Provider.of<CustomerInfoProvider>(context, listen: false)
+    await context
+        .read<CustomerInfoBloc>()
         .sendClearingRequest(money.toString(), shaba);
     setState(() {
       _isLoading = false;
@@ -124,14 +121,12 @@ class _ClearScreenState extends State<ClearScreen>
       _isLoading = true;
     });
 
-    Provider.of<Clearings>(context, listen: false).searchBuilder();
-    await Provider.of<Clearings>(context, listen: false).searchCleaingsItems();
-    productsDetail =
-        Provider.of<Clearings>(context, listen: false).searchDetails;
+    context.read<ClearingsBloc>().searchBuilder();
+    await context.read<ClearingsBloc>().searchCleaingsItems();
+    productsDetail = context.read<ClearingsBloc>().searchDetails;
 
     loadedProducts.clear();
-    loadedProducts =
-        await Provider.of<Clearings>(context, listen: false).deliveriesItems;
+    loadedProducts = context.read<ClearingsBloc>().deliveriesItems;
     loadedProductstolist.addAll(loadedProducts);
 
     setState(() {
@@ -152,18 +147,15 @@ class _ClearScreenState extends State<ClearScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
+    bool isLogin = context.watch<AuthBloc>().isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: Text(
-          'Pay',
+          context.l10n.clearingPayTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
             color: Colors.white,
@@ -192,7 +184,7 @@ class _ClearScreenState extends State<ClearScreen>
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('You are not logged in'),
+                              child: Text(context.l10n.youarenotlogin),
                             ),
                             InkWell(
                               onTap: () {
@@ -203,7 +195,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Text(
-                                    'Login',
+                                    context.l10n.login,
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),
@@ -347,7 +339,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         children: <Widget>[
                                           Center(
                                             child: Text(
-                                              'Credit (\$)',
+                                              context.l10n.walletCreditUsdLabel,
                                               style: TextStyle(
                                                 color: AppTheme.grey,
                                                 //fontFamily: 'Iransans',
@@ -357,16 +349,14 @@ class _ClearScreenState extends State<ClearScreen>
                                             ),
                                           ),
                                           Spacer(),
-                                          Consumer<CustomerInfoProvider>(
-                                            builder: (_, data, ch) => Text(
-                                              EnArConvertor()
-                                                      .replaceArNumber(
-                                                          currencyFormat
-                                                              .format(double
-                                                                  .parse(data
-                                                                      .customer
-                                                                      .money))
-                                                              .toString()),
+                                          BlocBuilder<CustomerInfoBloc,
+                                              CustomerInfoState>(
+                                            builder: (_, state) => Text(
+                                              EnArConvertor().replaceArNumber(
+                                                  currencyFormat
+                                                      .format(double.parse(
+                                                          state.customer.money))
+                                                      .toString()),
                                               style: TextStyle(
                                                 color: AppTheme.black,
                                                 //fontFamily: 'Iransans',
@@ -385,7 +375,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   padding:
                                       const EdgeInsets.only(top: 16, bottom: 8),
                                   child: Text(
-                                    'Account Number',
+                                    context.l10n.clearingAccountNumberLabel,
                                     style: TextStyle(
                                       color: AppTheme.h1,
                                       //fontFamily: 'Iransans',
@@ -431,7 +421,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   padding:
                                       const EdgeInsets.only(top: 16, bottom: 8),
                                   child: Text(
-                                    'Request amount(\$)',
+                                    context.l10n.clearingRequestAmountUsdLabel,
                                     style: TextStyle(
                                       color: AppTheme.h1,
                                       //fontFamily: 'Iransans',
@@ -481,7 +471,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   padding:
                                       const EdgeInsets.only(top: 24, bottom: 8),
                                   child: Text(
-                                    'Payment List',
+                                    context.l10n.clearingPaymentListTitle,
                                     style: TextStyle(
                                       color: AppTheme.h1,
                                       //fontFamily: 'Iransans',
@@ -501,7 +491,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text(
-                                        'Payment List',
+                                        context.l10n.clearingPaymentListTitle,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color:
@@ -511,8 +501,9 @@ class _ClearScreenState extends State<ClearScreen>
                                         ),
                                       ),
                                       Spacer(),
-                                      Consumer<CustomerInfoProvider>(
-                                          builder: (_, Wastes, ch) {
+                                      BlocBuilder<CustomerInfoBloc,
+                                              CustomerInfoState>(
+                                          builder: (_, state) {
                                         return Container(
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
@@ -530,7 +521,8 @@ class _ClearScreenState extends State<ClearScreen>
                                                       horizontal: 3,
                                                       vertical: 5),
                                                   child: Text(
-                                                    'Number:',
+                                                    context.l10n
+                                                        .cartNumberSummaryPrefix,
                                                     style: TextStyle(
                                                       //fontFamily: 'Iransans',
                                                       fontSize:
@@ -567,7 +559,8 @@ class _ClearScreenState extends State<ClearScreen>
                                                       horizontal: 3,
                                                       vertical: 5),
                                                   child: Text(
-                                                    'From',
+                                                    context.l10n
+                                                        .tableColumnFromLabel,
                                                     style: TextStyle(
                                                       //fontFamily: 'Iransans',
                                                       fontSize:
@@ -616,7 +609,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            'Status',
+                                            context.l10n.tableColumnStatusLabel,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
@@ -630,7 +623,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            'Date',
+                                            context.l10n.tableColumnDateLabel,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
@@ -644,7 +637,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            'Price (\$)',
+                                            context.l10n.summaryPriceUsdTitle,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: AppTheme.grey,
@@ -682,7 +675,8 @@ class _ClearScreenState extends State<ClearScreen>
                               onTap: () async {
                                 SnackBar addToCartSnackBar = SnackBar(
                                   content: Text(
-                                    'Enter Credit number',
+                                    context
+                                        .l10n.clearingEnterAccountNumberSnack,
                                     style: TextStyle(
                                       color: Colors.white,
                                       //fontFamily: 'Iransans',
@@ -690,7 +684,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     ),
                                   ),
                                   action: SnackBarAction(
-                                    label: 'Understand',
+                                    label: context.l10n.understandLabel,
                                     onPressed: () {
                                       // Some code to undo the change.
                                     },
@@ -704,7 +698,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     double.parse(customer.money)) {
                                   SnackBar addToCartSnackBar = SnackBar(
                                     content: Text(
-                                      'Your Request amount is exceed',
+                                      context.l10n.clearingAmountExceedsBalance,
                                       style: TextStyle(
                                         color: Colors.white,
                                         //fontFamily: 'Iransans',
@@ -712,7 +706,7 @@ class _ClearScreenState extends State<ClearScreen>
                                       ),
                                     ),
                                     action: SnackBarAction(
-                                      label: 'Ok',
+                                      label: context.l10n.okLabel,
                                       onPressed: () {
                                         // Some code to undo the change.
                                       },
@@ -734,7 +728,7 @@ class _ClearScreenState extends State<ClearScreen>
                               child: ButtonBottom(
                                 width: deviceWidth * 0.9,
                                 height: deviceWidth * 0.14,
-                                text: 'Pay',
+                                text: context.l10n.clearingPayTitle,
                                 isActive: true,
                               ),
                             ),
@@ -768,14 +762,7 @@ class _ClearScreenState extends State<ClearScreen>
           },
         ),
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

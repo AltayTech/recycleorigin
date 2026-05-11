@@ -2,17 +2,20 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/category.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../business/entities/product.dart';
-import '../providers/Products.dart';
+import '../bloc/products_bloc.dart';
+import '../bloc/products_state.dart';
 import '../widgets/product_item_product_screeen.dart';
 import 'cart_screen.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `ProductsScreen` widget, which displays a list of products with filtering and sorting options.
 ///
@@ -77,16 +80,16 @@ class _ProductsScreenState extends State<ProductsScreen>
 
   @override
   void initState() {
-    Provider.of<Products>(context, listen: false).sPage = 1;
+    context.read<ProductsBloc>().sPage = 1;
 
-    Provider.of<Products>(context, listen: false).searchBuilder();
+    context.read<ProductsBloc>().searchBuilder();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (page < productsDetail.max_page) {
           page = page + 1;
-          Provider.of<Products>(context, listen: false).sPage = page;
+          context.read<ProductsBloc>().sPage = page;
 
           searchItems();
         }
@@ -106,13 +109,12 @@ class _ProductsScreenState extends State<ProductsScreen>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      Provider.of<Products>(context, listen: false).retrieveCategory();
+      context.read<ProductsBloc>().retrieveCategory();
 
-      categoryList =
-          Provider.of<Products>(context, listen: false).categoryItems;
+      categoryList = context.read<ProductsBloc>().categoryItems;
       print(_isLoading.toString());
 
-      Provider.of<Products>(context, listen: false).searchBuilder();
+      context.read<ProductsBloc>().searchBuilder();
       print(_isLoading.toString());
 
       searchItems();
@@ -126,7 +128,7 @@ class _ProductsScreenState extends State<ProductsScreen>
 
   Future<void> _submit() async {
     loadedProducts.clear();
-    loadedProducts = await Provider.of<Products>(context, listen: false).items;
+    loadedProducts = await context.read<ProductsBloc>().items;
     loadedProductstolist.addAll(loadedProducts);
   }
 
@@ -141,10 +143,9 @@ class _ProductsScreenState extends State<ProductsScreen>
     });
     print(_isLoading.toString());
 
-    Provider.of<Products>(context, listen: false).searchBuilder();
-    await Provider.of<Products>(context, listen: false).searchItem();
-    productsDetail =
-        Provider.of<Products>(context, listen: false).searchDetails;
+    context.read<ProductsBloc>().searchBuilder();
+    await context.read<ProductsBloc>().searchItem();
+    productsDetail = context.read<ProductsBloc>().searchDetails;
 
     _submit();
 
@@ -159,16 +160,15 @@ class _ProductsScreenState extends State<ProductsScreen>
     });
     print(_isLoading.toString());
 
-    Provider.of<Products>(context, listen: false).sPage = 1;
+    context.read<ProductsBloc>().sPage = 1;
 
-    Provider.of<Products>(context, listen: false).searchBuilder();
+    context.read<ProductsBloc>().searchBuilder();
 
     String categoriesEndpoint =
         _selectedCategoryId != 0 ? '$_selectedCategoryId' : '';
-    Provider.of<Products>(context, listen: false).sCategory =
-        categoriesEndpoint;
+    context.read<ProductsBloc>().sCategory = categoriesEndpoint;
 
-    Provider.of<Products>(context, listen: false).searchBuilder();
+    context.read<ProductsBloc>().searchBuilder();
     loadedProductstolist.clear();
 
     await searchItems();
@@ -177,6 +177,19 @@ class _ProductsScreenState extends State<ProductsScreen>
       _isLoading = false;
       print(_isLoading.toString());
     });
+  }
+
+  String _localizedSortLabel(BuildContext context, String value) {
+    switch (value) {
+      case 'Newest':
+        return context.l10n.sortNewestLabel;
+      case 'High Price':
+        return context.l10n.sortHighPriceLabel;
+      case 'Low Price':
+        return context.l10n.sortLowPriceLabel;
+      default:
+        return value;
+    }
   }
 
   String endPointBuilder(List<dynamic> input) {
@@ -200,8 +213,9 @@ class _ProductsScreenState extends State<ProductsScreen>
       key: scaffoldKey,
       backgroundColor: Color(0xffF9F9F9),
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
-          'Products',
+          context.l10n.storeProductsAppBarTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
             color: Colors.white,
@@ -212,29 +226,30 @@ class _ProductsScreenState extends State<ProductsScreen>
         elevation: 0,
         centerTitle: true,
         actions: <Widget>[
-          Consumer<Products>(
-            builder: (_, products, ch) {
-              if (products.cartItemsCount != 0) {
+          BlocBuilder<ProductsBloc, ProductsState>(
+            buildWhen: (a, b) => a.cartItems.length != b.cartItems.length,
+            builder: (context, state) {
+              final count = state.cartItems.length;
+              final cartIcon = IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(CartScreen.routeName);
+                },
+                color: AppTheme.bg,
+                icon: const Icon(
+                  Icons.shopping_cart,
+                ),
+              );
+              if (count != 0) {
                 return badges.Badge(
-                  badgeContent: ch,
+                  badgeContent: cartIcon,
                   badgeStyle: badges.BadgeStyle(
                     badgeColor: Color(0xff06623B),
                   ),
-                  child: Text(products.cartItemsCount.toString()),
+                  child: Text(count.toString()),
                 );
-              } else {
-                return ch!;
               }
+              return cartIcon;
             },
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(CartScreen.routeName);
-              },
-              color: AppTheme.bg,
-              icon: Icon(
-                Icons.shopping_cart,
-              ),
-            ),
           ),
         ],
       ),
@@ -263,8 +278,7 @@ class _ProductsScreenState extends State<ProductsScreen>
 
                               changeCat(context);
 
-                              Provider.of<Products>(context, listen: false)
-                                  .checkFiltered();
+                              context.read<ProductsBloc>().checkFiltered();
                             },
                             child: Container(
                               decoration: _selectedCategoryId == 0
@@ -283,7 +297,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                     horizontal: 15.0),
                                 child: Center(
                                   child: Text(
-                                    'All',
+                                    context.l10n.filterCategoryAllLabel,
                                     style: TextStyle(
                                       color: _selectedCategoryId == 0
                                           ? AppTheme.primary
@@ -403,45 +417,39 @@ class _ProductsScreenState extends State<ProductsScreen>
                                         sortValue = newValue!;
 
                                         if (sortValue == 'High Price') {
-                                          Provider.of<Products>(context,
-                                                  listen: false)
-                                              .sOrder = 'desc';
-                                          Provider.of<Products>(context,
-                                                  listen: false)
+                                          context.read<ProductsBloc>().sOrder =
+                                              'desc';
+                                          context
+                                              .read<ProductsBloc>()
                                               .sOrderBy = 'price';
                                           page = 1;
-                                          Provider.of<Products>(context,
-                                                  listen: false)
-                                              .sPage = page;
+                                          context.read<ProductsBloc>().sPage =
+                                              page;
                                           loadedProductstolist.clear();
 
                                           searchItems();
                                         } else if (sortValue == 'Low Price') {
-                                          Provider.of<Products>(context,
-                                                  listen: false)
-                                              .sOrder = 'asc';
-                                          Provider.of<Products>(context,
-                                                  listen: false)
+                                          context.read<ProductsBloc>().sOrder =
+                                              'asc';
+                                          context
+                                              .read<ProductsBloc>()
                                               .sOrderBy = 'price';
 
                                           page = 1;
-                                          Provider.of<Products>(context,
-                                                  listen: false)
-                                              .sPage = page;
+                                          context.read<ProductsBloc>().sPage =
+                                              page;
                                           loadedProductstolist.clear();
 
                                           searchItems();
                                         } else {
-                                          Provider.of<Products>(context,
-                                                  listen: false)
-                                              .sOrder = 'desc';
-                                          Provider.of<Products>(context,
-                                                  listen: false)
+                                          context.read<ProductsBloc>().sOrder =
+                                              'desc';
+                                          context
+                                              .read<ProductsBloc>()
                                               .sOrderBy = 'date';
                                           page = 1;
-                                          Provider.of<Products>(context,
-                                                  listen: false)
-                                              .sPage = page;
+                                          context.read<ProductsBloc>().sPage =
+                                              page;
                                           loadedProductstolist.clear();
 
                                           searchItems();
@@ -457,7 +465,8 @@ class _ProductsScreenState extends State<ProductsScreen>
                                             padding: const EdgeInsets.only(
                                                 right: 3.0),
                                             child: Text(
-                                              value,
+                                              _localizedSortLabel(
+                                                  context, value),
                                               style: TextStyle(
                                                 color: AppTheme.black,
                                                 //fontFamily: 'Iransans',
@@ -475,75 +484,72 @@ class _ProductsScreenState extends State<ProductsScreen>
                             ),
                           ),
                           Spacer(),
-                          Consumer<Products>(builder: (_, products, ch) {
-                            return Container(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: deviceHeight * 0.0,
-                                    horizontal: 3),
-                                child: Wrap(
-                                  alignment: WrapAlignment.start,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  direction: Axis.horizontal,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 3, vertical: 5),
-                                      child: Text(
-                                        'Number:',
-                                        style: TextStyle(
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12.0,
-                                        ),
+                          Container(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: deviceHeight * 0.0, horizontal: 3),
+                              child: Wrap(
+                                alignment: WrapAlignment.start,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                direction: Axis.horizontal,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3, vertical: 5),
+                                    child: Text(
+                                      'Number:',
+                                      style: TextStyle(
+                                        //fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12.0,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 4.0, left: 6),
-                                      child: Text(
-                                        productsDetail.total != -1
-                                            ? EnArConvertor().replaceArNumber(
-                                                loadedProductstolist.length
-                                                    .toString())
-                                            : EnArConvertor()
-                                                .replaceArNumber('0'),
-                                        style: TextStyle(
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 13.0,
-                                        ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 4.0, left: 6),
+                                    child: Text(
+                                      productsDetail.total != -1
+                                          ? EnArConvertor().replaceArNumber(
+                                              loadedProductstolist.length
+                                                  .toString())
+                                          : EnArConvertor()
+                                              .replaceArNumber('0'),
+                                      style: TextStyle(
+                                        //fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 13.0,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 3, vertical: 5),
-                                      child: Text(
-                                        'From',
-                                        style: TextStyle(
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12.0,
-                                        ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3, vertical: 5),
+                                    child: Text(
+                                      'From',
+                                      style: TextStyle(
+                                        //fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12.0,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 4.0, left: 6),
-                                      child: Text(
-                                        productsDetail.total != -1
-                                            ? EnArConvertor().replaceArNumber(
-                                                productsDetail.total.toString())
-                                            : EnArConvertor()
-                                                .replaceArNumber('0'),
-                                        style: TextStyle(
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 13.0,
-                                        ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 4.0, left: 6),
+                                    child: Text(
+                                      productsDetail.total != -1
+                                          ? EnArConvertor().replaceArNumber(
+                                              productsDetail.total.toString())
+                                          : EnArConvertor()
+                                              .replaceArNumber('0'),
+                                      style: TextStyle(
+                                        //fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 13.0,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            );
-                          }),
+                            ),
+                          ),
                         ],
                       ),
                       Container(
@@ -587,7 +593,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                             child: loadedProductstolist.isEmpty
                                 ? Center(
                                     child: Text(
-                                    'No Product',
+                                    context.l10n.storeNoProductsMessage,
                                     style: TextStyle(
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 15.0,
@@ -744,14 +750,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       //            ),
       //          ],
       //        ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

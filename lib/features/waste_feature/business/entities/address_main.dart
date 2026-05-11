@@ -10,9 +10,11 @@ class AddressMain with ChangeNotifier {
   });
 
   factory AddressMain.fromJson(Map<String, dynamic> parsedJson) {
-    var addressList = parsedJson['address_data'] as List;
-    List<Address> addressRaw = [];
-    addressRaw = addressList.map((i) => Address.fromJson(i)).toList();
+    final raw = parsedJson['address_data'];
+    final addressList = raw is List ? raw : <dynamic>[];
+    final addressRaw = addressList
+        .map((i) => Address.fromJson(i as Map<String, dynamic>))
+        .toList();
     return AddressMain(
       addressData: addressRaw,
     );

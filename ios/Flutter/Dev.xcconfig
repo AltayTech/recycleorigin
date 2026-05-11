@@ -1,0 +1,4 @@
+#include "Generated.xcconfig"
+
+APP_FLAVOR=dev
+PRODUCT_BUNDLE_IDENTIFIER=com.recycleorigin.recycleorigin.dev

@@ -1,11 +1,11 @@
 {
-    "name": "tamizshahr",
-    "short_name": "tamizshahr",
+    "name": "RecycleOrigin",
+    "short_name": "RecycleOrigin",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Appliction of Tamiz Shahr",
+    "description": "RecycleOrigin user application",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

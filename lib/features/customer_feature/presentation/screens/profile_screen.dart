@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import '../../../../l10n/l10n.dart';
 import '../widgets/profile_view.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
-  final Customer customer;
 
-  ProfileScreen({
-    customer,
-  }) : this.customer = Customer();
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
@@ -22,20 +19,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         elevation: 0,
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
-      ),
-
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
+        title: Text(
+          context.l10n.profile,
+          style: TextStyle(
+            color: AppTheme.appBarIconColor,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-        child: MainDrawer(),
-      ), // resizeToAvoidBottomInset: false,
+      ),
+      drawer: mainDrawerIfRootRoute(context),
       body: ProfileView(),
     );
   }

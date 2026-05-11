@@ -1,464 +1,274 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:recycleorigin/features/wallet_feature/presentation/pages/wallet_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../store_feature/presentation/providers/Products.dart';
+import '../../../core/layout/app_breakpoints.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../core/widgets/auth_snackbars.dart';
 import '../../articles_feature/presentation/pages/article_screen.dart';
-import '../../waste_feature/collect_list_screen.dart';
+import '../../auth_feature/presentation/bloc/auth_bloc.dart';
+import '../../auth_feature/presentation/bloc/auth_state.dart';
 import '../../collect_feature/presentation/pages/waste_cart_screen.dart';
-import '../../../core/widgets/custom_dialog.dart';
+import '../../guid_feature/presentation/pages/guide_screen.dart';
+import '../../customer_feature/presentation/screens/profile_screen.dart';
+import '../../store_feature/presentation/bloc/products_bloc.dart';
 import '../../store_feature/presentation/screens/product_screen.dart';
+import '../../support_tickets/presentation/screens/support_tickets_list_screen.dart';
+import '../../wallet_feature/presentation/pages/wallet_screen.dart';
+import '../../waste_feature/collect_list_screen.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
+import 'widgets/home_hero_section.dart';
+import 'widgets/section_header.dart';
+import 'widgets/services_grid.dart';
+
+/// The main dashboard surface of the customer app.
+///
+/// Keeps responsibilities thin: orchestrate child widgets, wire
+/// navigation callbacks, and react to auth-status changes.
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
 
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  bool _isInit = true;
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  static const _entranceDuration = Duration(milliseconds: 700);
+  static const _staggerDelay = Duration(milliseconds: 120);
+
+  late final AnimationController _controller;
+  late final Animation<double> _heroFade;
+  late final Animation<Offset> _heroSlide;
+  late final Animation<double> _gridFade;
+  late final Animation<Offset> _gridSlide;
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      duration: Duration(milliseconds: 800),
+    _initAnimations();
+    _controller.forward();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _loadInitialData();
+    });
+  }
+
+  void _initAnimations() {
+    _controller = AnimationController(
+      duration: _entranceDuration + _staggerDelay,
       vsync: this,
     );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    );
-    _slideAnimation = Tween<Offset>(
-      begin: Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-        parent: _animationController, curve: Curves.easeOutCubic));
 
-    _animationController.forward();
+    final heroCurve = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0, 0.8, curve: Curves.easeOutCubic),
+    );
+    _heroFade = heroCurve;
+    _heroSlide = Tween<Offset>(
+      begin: const Offset(0, 0.15),
+      end: Offset.zero,
+    ).animate(heroCurve);
+
+    final gridCurve = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.25, 1.0, curve: Curves.easeOutCubic),
+    );
+    _gridFade = gridCurve;
+    _gridSlide = Tween<Offset>(
+      begin: const Offset(0, 0.12),
+      end: Offset.zero,
+    ).animate(gridCurve);
+  }
+
+  void _loadInitialData() {
+    context.read<ProductsBloc>().retrieveCategory();
+    context.read<AuthBloc>().getTokenFromDB();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() async {
-    if (_isInit) {
-      _isInit = false;
-      Provider.of<Products>(context, listen: false).retrieveCategory();
+  // ── Navigation ─────────────────────────────────────────────────
 
-      Provider.of<AuthenticationProvider>(context, listen: false)
-          .getTokenFromDB();
+  void _openWasteCart() =>
+      Navigator.of(context).pushNamed(WasteCartScreen.routeName);
 
-      bool _isFirstLogin =
-          Provider.of<AuthenticationProvider>(context, listen: false)
-              .isFirstLogin;
-      if (_isFirstLogin) {
-        _showLoginDialog(context);
-      }
-      bool _isFirstLogout =
-          Provider.of<AuthenticationProvider>(context, listen: false)
-              .isFirstLogout;
-      if (_isFirstLogout) {
-        _showLoginDialogExit(context);
-        Provider.of<AuthenticationProvider>(context, listen: false)
-            .isFirstLogout = false;
-      }
+  void _openCollectList() =>
+      Navigator.of(context).pushNamed(CollectListScreen.routeName);
 
-      Provider.of<AuthenticationProvider>(context, listen: false).isFirstLogin =
-          false;
+  void _openWallet() => Navigator.of(context).pushNamed(WalletScreen.routeName);
+
+  void _openArticles() =>
+      Navigator.of(context).pushNamed(ArticlesScreen.routeName);
+
+  void _openStore() =>
+      Navigator.of(context).pushNamed(ProductsScreen.routeName);
+
+  void _openProfile() =>
+      Navigator.of(context).pushNamed(ProfileScreen.routeName);
+
+  void _openSupport() =>
+      Navigator.of(context).pushNamed(SupportTicketsListScreen.routeName);
+
+  void _openGuide() => Navigator.of(context).pushNamed(GuideScreen.routeName);
+
+  // ── Auth listener ──────────────────────────────────────────────
+
+  void _onAuthStateChanged(
+    BuildContext context,
+    AuthState state,
+  ) {
+    if (state.isFirstLogin) {
+      showLoginSuccessSnackBar(context, context.l10n);
+      context.read<AuthBloc>().isFirstLogin = false;
     }
-    _isInit = false;
 
-    super.didChangeDependencies();
+    if (state.isFirstLogout) {
+      showLogoutSuccessSnackBar(context, context.l10n);
+      context.read<AuthBloc>().isFirstLogout = false;
+    }
   }
 
-  void _showLoginDialog(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await showDialog<String>(
-        context: context,
-        builder: (ctx) => CustomDialog(
-          title: "Welcome",
-          buttonText: "accept",
-          description:
-              "In order to get profile information go to profile section",
-          image: Image.asset('assets/images/main_page_request_ic.png'),
+  // ── Descriptors ────────────────────────────────────────────────
+
+  List<ServiceDescriptor> _buildServiceDescriptors(
+    BuildContext context,
+  ) =>
+      [
+        ServiceDescriptor(
+          title: context.l10n.wallet,
+          assetPath: 'assets/images/main_page_wallet_ic.png',
+          color: const Color(0xFF22C55E),
+          onTap: _openWallet,
         ),
-      );
-    });
-  }
-
-  void _showLoginDialogExit(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await showDialog<String>(
-        context: context,
-        builder: (ctx) => CustomDialog(
-          title: "Dear User",
-          buttonText: "accept",
-          description: "You Logout successfully",
-          image: Image.asset('assets/images/main_page_request_ic.png'),
+        ServiceDescriptor(
+          title: context.l10n.store,
+          assetPath: 'assets/images/main_page_shop_ic.png',
+          color: const Color(0xFF8B5CF6),
+          onTap: _openStore,
         ),
-      );
-    });
-  }
+        ServiceDescriptor(
+          title: context.l10n.articles,
+          assetPath: 'assets/images/main_page_paper_ic.png',
+          color: const Color(0xFFF59E0B),
+          onTap: _openArticles,
+        ),
+        ServiceDescriptor(
+          title: context.l10n.profile,
+          icon: Icons.person_rounded,
+          color: const Color(0xFF6366F1),
+          onTap: _openProfile,
+        ),
+      ];
+
+  List<HeroQuickLink> _buildQuickLinks(BuildContext context) => [
+        HeroQuickLink(
+          label: context.l10n.navMyRequestsTab,
+          icon: Icons.inventory_2_outlined,
+          onTap: _openCollectList,
+        ),
+        HeroQuickLink(
+          label: context.l10n.guideTitle,
+          icon: Icons.menu_book_outlined,
+          onTap: _openGuide,
+        ),
+        HeroQuickLink(
+          label: context.l10n.supportHelpLabel,
+          icon: Icons.support_agent_rounded,
+          onTap: _openSupport,
+        ),
+      ];
+
+  // ── Build ──────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final theme = Theme.of(context);
 
-    // Calculate responsive sizes based on screen dimensions
-    double headerHeight = deviceHeight * 0.25; // 25% of screen height
-    double buttonHeight = deviceHeight * 0.08; // 8% of screen height
-    double gridItemHeight =
-        (deviceHeight * 0.4) / 2; // Ensure grid fits in 40% of screen
-
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            AppTheme.bg,
-            AppTheme.bg.withOpacity(0.95),
-            Colors.white,
-          ],
-        ),
-      ),
-      child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: deviceHeight,
-          ),
-          child: Column(
-            children: <Widget>[
-              // Header Section with responsive sizing
-              FadeTransition(
-                opacity: _fadeAnimation,
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(12, 16, 12, 8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppTheme.primary.withOpacity(0.12),
-                        blurRadius: 15,
-                        spreadRadius: 3,
-                        offset: Offset(0, 6),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                      height: headerHeight,
-                      child: Stack(
-                        children: [
-                          FadeInImage(
-                            placeholder: AssetImage('assets/images/circle.gif'),
-                            image: AssetImage(
-                                'assets/images/main_page_header.png'),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black.withOpacity(0.1),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              // Welcome Text Section with reduced spacing
-              SlideTransition(
-                position: _slideAnimation,
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Welcome to Recycle Origin",
-                          style: TextStyle(
-                            fontSize: textScaleFactor * 20,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.h1,
-                            letterSpacing: 0.3,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "Make a difference for our planet",
-                          style: TextStyle(
-                            fontSize: textScaleFactor * 14,
-                            color: AppTheme.h1.withOpacity(0.7),
-                            fontWeight: FontWeight.w400,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 12),
-
-              // Primary Action Button with responsive sizing
-              SlideTransition(
-                position: _slideAnimation,
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppTheme.primary.withOpacity(0.25),
-                            blurRadius: 12,
-                            spreadRadius: 1,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                              WasteCartScreen.routeName,
-                            );
-                          },
-                          borderRadius: BorderRadius.circular(12),
-                          child: Container(
-                            width: double.infinity,
-                            height: buttonHeight,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [AppTheme.primary, AppTheme.accent],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.recycling,
-                                  color: Colors.white,
-                                  size: 22,
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  "Request Collection",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: textScaleFactor * 16,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.3,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 16),
-
-              // Services Grid with calculated sizing
-              SlideTransition(
-                position: _slideAnimation,
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          child: Text(
-                            "Our Services",
-                            style: TextStyle(
-                              fontSize: textScaleFactor * 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.h1,
-                              letterSpacing: 0.2,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Container(
-                          height: deviceHeight * 0.4, // Fixed height for grid
-                          child: GridView.count(
-                            physics: NeverScrollableScrollPhysics(),
-                            crossAxisCount: 2,
-                            childAspectRatio: 1.15,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                            padding: EdgeInsets.all(4),
-                            children: [
-                              _buildServiceCard(
-                                context,
-                                title: "Request",
-                                icon: Icons.assignment,
-                                imageUrl:
-                                    'assets/images/main_page_request_ic.png',
-                                onTap: () => Navigator.of(context)
-                                    .pushNamed(CollectListScreen.routeName),
-                                color: Colors.blue,
-                              ),
-                              _buildServiceCard(
-                                context,
-                                title: "Wallet",
-                                icon: Icons.account_balance_wallet,
-                                imageUrl:
-                                    'assets/images/main_page_wallet_ic.png',
-                                onTap: () => Navigator.of(context)
-                                    .pushNamed(WalletScreen.routeName),
-                                color: Colors.green,
-                              ),
-                              _buildServiceCard(
-                                context,
-                                title: "Articles",
-                                icon: Icons.article,
-                                imageUrl:
-                                    'assets/images/main_page_paper_ic.png',
-                                onTap: () => Navigator.of(context)
-                                    .pushNamed(ArticlesScreen.routeName),
-                                color: Colors.orange,
-                              ),
-                              _buildServiceCard(
-                                context,
-                                title: "Store",
-                                icon: Icons.store,
-                                imageUrl: 'assets/images/main_page_shop_ic.png',
-                                onTap: () => Navigator.of(context)
-                                    .pushNamed(ProductsScreen.routeName),
-                                color: Colors.purple,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 16),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildServiceCard(
-    BuildContext context, {
-    required String title,
-    required IconData icon,
-    required String imageUrl,
-    required VoidCallback onTap,
-    required Color color,
-  }) {
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.12),
-            blurRadius: 12,
-            spreadRadius: 1,
-            offset: Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: color.withOpacity(0.08),
-                width: 1,
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: color.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Image.asset(
-                      imageUrl,
-                      height: 32,
-                      width: 32,
-                      color: color,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                Flexible(
-                  flex: 2,
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: textScaleFactor * 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.h1,
-                      letterSpacing: 0.2,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+    return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (prev, curr) =>
+          prev.isFirstLogin != curr.isFirstLogin ||
+          prev.isFirstLogout != curr.isFirstLogout,
+      listener: _onAuthStateChanged,
+      child: Scaffold(
+        backgroundColor: theme.scaffoldBackgroundColor,
+        body: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                theme.scaffoldBackgroundColor,
+                theme.scaffoldBackgroundColor.withValues(alpha: 0.96),
+                theme.colorScheme.surface,
               ],
+            ),
+          ),
+          child: SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: AppBreakpoints.contentMaxWidth,
+                ),
+                child: CustomScrollView(
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
+                  slivers: [
+                    // ── Hero ─────────────────────────────────
+                    SliverToBoxAdapter(
+                      child: SlideTransition(
+                        position: _heroSlide,
+                        child: FadeTransition(
+                          opacity: _heroFade,
+                          child: HomeHeroSection(
+                            onPrimaryActionPressed: _openWasteCart,
+                            quickLinks: _buildQuickLinks(context),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // ── Section header ───────────────────────
+                    SliverToBoxAdapter(
+                      child: SlideTransition(
+                        position: _gridSlide,
+                        child: FadeTransition(
+                          opacity: _gridFade,
+                          child: SectionHeader(
+                            title: context.l10n.homeServicesTitle,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // ── Services grid ────────────────────────
+                    SliverToBoxAdapter(
+                      child: SlideTransition(
+                        position: _gridSlide,
+                        child: FadeTransition(
+                          opacity: _gridFade,
+                          child: ServicesGrid(
+                            descriptors: _buildServiceDescriptors(context),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: AppTheme.spacingLg),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

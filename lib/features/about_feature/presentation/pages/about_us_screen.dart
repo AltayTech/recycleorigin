@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../store_feature/business/entities/shop.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AboutUsScreen extends StatefulWidget {
   static const routeName = '/AboutUsScreen';
@@ -35,9 +36,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<CustomerInfoProvider>(context, listen: false)
+    await context.read<CustomerInfoBloc>()
         .fetchShopData();
-    shopData = Provider.of<CustomerInfoProvider>(context, listen: false).shop;
+    shopData = context.read<CustomerInfoBloc>().shop;
 
     setState(() {
       _isLoading = false;
@@ -53,6 +54,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
           'About us',
           style: TextStyle(
@@ -78,7 +80,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               },
             )
           : Directionality(
-              textDirection: TextDirection.rtl,
+              textDirection: Directionality.of(context),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
@@ -174,14 +176,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                 ),
               ),
             ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

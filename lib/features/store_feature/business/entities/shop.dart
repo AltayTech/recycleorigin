@@ -53,35 +53,39 @@ class Shop with ChangeNotifier {
         this.social_media = SocialMedia(telegram: '', instagram: '');
 
   factory Shop.fromJson(Map<String, dynamic> parsedJson) {
-    var galleryList = parsedJson['gallery'] as List;
-    List<FeaturedImage> galleryRaw =
-        galleryList.map((i) => FeaturedImage.fromJson(i)).toList();
+    final galleryList = parsedJson['gallery'];
+    final galleryRaw = galleryList is List
+        ? galleryList
+            .map((dynamic i) => FeaturedImage.fromJson(i))
+            .toList()
+        : <FeaturedImage>[];
 
-    var featureList = parsedJson['features_list'] as List;
-    List<Feature> featureRaw =
-        featureList.map((i) => Feature.fromJson(i)).toList();
+    final featureList = parsedJson['features_list'];
+    final featureRaw = featureList is List
+        ? featureList.map((dynamic i) => Feature.fromJson(i)).toList()
+        : <Feature>[];
 
     return Shop(
-      support_phone: parsedJson['support_phone'],
+      support_phone: parsedJson['support_phone'] as String? ?? '',
       logo: FeaturedImage.fromJson(parsedJson['logo']),
-      return_policy: parsedJson['return_policy'],
-      privacy: parsedJson['privacy'],
-      how_to_order: parsedJson['how_to_order'],
-      faq: parsedJson['faq'],
-      pay_methods_desc: parsedJson['pay_methods_desc'],
-      word_hours: parsedJson['word_hours'],
-      address: parsedJson['address'],
+      return_policy: parsedJson['return_policy'] as String? ?? '',
+      privacy: parsedJson['privacy'] as String? ?? '',
+      how_to_order: parsedJson['how_to_order'] as String? ?? '',
+      faq: parsedJson['faq'] as String? ?? '',
+      pay_methods_desc: parsedJson['pay_methods_desc'] as String? ?? '',
+      word_hours: parsedJson['word_hours'] as String? ?? '',
+      address: parsedJson['address'] as String? ?? '',
       social_media: SocialMedia.fromJson(parsedJson['social_media']),
-      name: parsedJson['name'],
-      subject: parsedJson['subject'],
-      slug: parsedJson['slug'],
-      phone: parsedJson['phone'],
-      mobile: parsedJson['mobile'],
-      about: parsedJson['about'],
+      name: parsedJson['name'] as String? ?? '',
+      subject: parsedJson['subject'] as String? ?? '',
+      slug: parsedJson['slug'] as String? ?? '',
+      phone: parsedJson['phone'] as String? ?? '',
+      mobile: parsedJson['mobile'] as String? ?? '',
+      about: parsedJson['about'] as String? ?? '',
       features_list: featureRaw,
       featured_image: FeaturedImage.fromJson(parsedJson['featured_image']),
       gallery: galleryRaw,
-      policy: parsedJson['policy'],
+      policy: parsedJson['policy'] as String? ?? '',
     );
   }
 }

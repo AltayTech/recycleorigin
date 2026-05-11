@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/waste.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
 import '../../../core/theme/app_theme.dart';
-import '../../../core/widgets/main_drawer.dart';
-import 'providers/wastes.dart';
+import '../../../core/widgets/drawer_or_back_leading.dart';
+import 'bloc/wastes_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 import 'widgets/waste_item_wastes_screen.dart';
 
 class WastesScreen extends StatefulWidget {
   static const routeName = '/wastesScreen';
 
-  const WastesScreen({Key? key}) : super(key: key);
+  const WastesScreen({super.key});
 
   @override
-  _WastesScreenState createState() => _WastesScreenState();
+  State<WastesScreen> createState() => _WastesScreenState();
 }
 
 class _WastesScreenState extends State<WastesScreen> {
@@ -25,6 +26,11 @@ class _WastesScreenState extends State<WastesScreen> {
   List<WasteCart> wasteCartItems = [];
   List<int> wasteCartItemsId = [];
   List<Waste> loadedWastes = [];
+  List<Waste> _filteredWastes = [];
+  String _searchQuery = '';
+
+  final _searchController = TextEditingController();
+  final _searchFocus = FocusNode();
 
   @override
   void didChangeDependencies() {
@@ -35,13 +41,18 @@ class _WastesScreenState extends State<WastesScreen> {
     super.didChangeDependencies();
   }
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocus.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadData() async {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
 
     try {
-      final wastesProvider = Provider.of<Wastes>(context, listen: false);
+      final wastesProvider = context.read<WastesBloc>();
       await wastesProvider.searchWastesItem();
 
       if (mounted) {
@@ -49,28 +60,43 @@ class _WastesScreenState extends State<WastesScreen> {
           loadedWastes = wastesProvider.wasteItems;
           wasteCartItems = wastesProvider.wasteCartItems;
           wasteCartItemsId = wastesProvider.wasteCartItemsId;
+          _applyFilter();
           _isLoading = false;
         });
       }
     } catch (error) {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-        // Consider showing a snackbar here in a real app
-      }
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  void _toggleSelection(Waste waste) {
-    final wastesProvider = Provider.of<Wastes>(context, listen: false);
+  void _applyFilter() {
+    if (_searchQuery.isEmpty) {
+      _filteredWastes = loadedWastes;
+    } else {
+      _filteredWastes = loadedWastes
+          .where((w) =>
+              w.name.toLowerCase().contains(_searchQuery.toLowerCase()))
+          .toList();
+    }
+  }
+
+  void _onSearchChanged(String query) {
+    setState(() {
+      _searchQuery = query;
+      _applyFilter();
+    });
+  }
+
+  Future<void> _toggleSelection(Waste waste) async {
+    final wastesProvider = context.read<WastesBloc>();
 
     if (wasteCartItemsId.contains(waste.id)) {
-      wastesProvider.removeWasteCart(waste.id);
+      await wastesProvider.removeWasteCart(waste.id);
     } else {
-      wastesProvider.addWasteCart(waste, 1);
+      await wastesProvider.addWasteCart(waste, 1);
     }
 
+    if (!mounted) return;
     setState(() {
       wasteCartItemsId = wastesProvider.wasteCartItemsId;
       wasteCartItems = wastesProvider.wasteCartItems;
@@ -79,122 +105,319 @@ class _WastesScreenState extends State<WastesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final screenWidth = MediaQuery.of(context).size.width;
-    // Responsive grid count: 2 for small phones, 3 for large phones/tablets, 4 for tablets
-    final crossAxisCount = screenWidth < 360 ? 2 : (screenWidth > 600 ? 4 : 3);
+    final crossAxisCount =
+        screenWidth < 360 ? 2 : (screenWidth > 600 ? 4 : 3);
+    final selectedCount = wasteCartItemsId.length;
 
     return Scaffold(
       backgroundColor: AppTheme.bg,
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         elevation: 0,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         centerTitle: true,
         title: Text(
-          "Waste List",
-          style: TextStyle(
-            color: AppTheme.white,
+          l10n.wasteListTitle,
+          style: const TextStyle(
+            color: AppTheme.appBarIconColor,
             fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
         ),
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.transparent,
-        ),
-        child: MainDrawer(),
-      ),
-      body: _isLoading
-          ? Center(
-              child: SpinKitFadingCircle(
-                color: AppTheme.primary,
-                size: 50.0,
-              ),
-            )
-          : loadedWastes.isEmpty
-              ? _buildEmptyState()
-              : RefreshIndicator(
-                  onRefresh: _loadData,
-                  color: AppTheme.primary,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: CustomScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      slivers: [
-                        SliverPadding(
-                          padding: const EdgeInsets.only(top: 20, bottom: 100),
-                          sliver: SliverGrid(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: crossAxisCount,
-                              childAspectRatio: 0.85,
-                              crossAxisSpacing: 12,
-                              mainAxisSpacing: 12,
-                            ),
-                            delegate: SliverChildBuilderDelegate(
-                              (ctx, i) {
-                                final waste = loadedWastes[i];
-                                return WasteItemWastesScreen(
-                                  waste: waste,
-                                  isSelected:
-                                      wasteCartItemsId.contains(waste.id),
-                                  onTap: () => _toggleSelection(waste),
-                                );
-                              },
-                              childCount: loadedWastes.length,
-                            ),
+      drawer: mainDrawerIfRootRoute(context),
+      body: Column(
+        children: [
+          _SearchBar(
+            controller: _searchController,
+            focusNode: _searchFocus,
+            onChanged: _onSearchChanged,
+            selectedCount: selectedCount,
+          ),
+          Expanded(
+            child: _isLoading
+                ? Center(
+                    child: SpinKitFadingCircle(
+                      color: AppTheme.primary,
+                      size: 50.0,
+                    ),
+                  )
+                : _filteredWastes.isEmpty
+                    ? _buildEmptyState()
+                    : RefreshIndicator(
+                        onRefresh: _loadData,
+                        color: AppTheme.primary,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                          ),
+                          child: CustomScrollView(
+                            physics:
+                                const AlwaysScrollableScrollPhysics(),
+                            slivers: [
+                              SliverPadding(
+                                padding: const EdgeInsets.only(
+                                  top: 8,
+                                  bottom: 100,
+                                ),
+                                sliver: SliverGrid(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: crossAxisCount,
+                                    childAspectRatio: 0.82,
+                                    crossAxisSpacing: 12,
+                                    mainAxisSpacing: 12,
+                                  ),
+                                  delegate: SliverChildBuilderDelegate(
+                                    (ctx, i) {
+                                      final waste = _filteredWastes[i];
+                                      return WasteItemWastesScreen(
+                                        waste: waste,
+                                        isSelected:
+                                            wasteCartItemsId
+                                                .contains(waste.id),
+                                        onTap: () =>
+                                            _toggleSelection(waste),
+                                      );
+                                    },
+                                    childCount: _filteredWastes.length,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        backgroundColor: AppTheme.primary,
-        icon: Icon(Icons.check, color: AppTheme.white),
-        label: Text(
-          "Done",
-          style: TextStyle(color: AppTheme.white, fontWeight: FontWeight.bold),
-        ),
-        elevation: 4,
+                      ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: _DoneButton(
+        selectedCount: selectedCount,
+        onPressed: () => Navigator.of(context).pop(),
       ),
     );
   }
 
   Widget _buildEmptyState() {
+    final l10n = context.l10n;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.search_off_rounded, size: 80, color: Colors.grey[400]),
-          const SizedBox(height: 16),
-          Text(
-            'No items found',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              _searchQuery.isNotEmpty
+                  ? Icons.search_off_rounded
+                  : Icons.inventory_2_outlined,
+              size: 48,
+              color: Colors.grey[400],
             ),
           ),
-          const SizedBox(height: 24),
-          ElevatedButton.icon(
-            onPressed: _loadData,
-            icon: const Icon(Icons.refresh),
-            label: const Text("Retry"),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+          const SizedBox(height: 20),
+          Text(
+            _searchQuery.isNotEmpty
+                ? l10n.wasteSearchNoItemsMessage
+                : l10n.wasteSearchNoItemsMessage,
+            style: TextStyle(
+              fontSize: 17,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          if (_searchQuery.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            TextButton.icon(
+              onPressed: () {
+                _searchController.clear();
+                _onSearchChanged('');
+              },
+              icon: const Icon(Icons.clear_rounded, size: 18),
+              label: Text(l10n.clearSearchLabel),
+            ),
+          ] else ...[
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: _loadData,
+              icon: const Icon(Icons.refresh_rounded),
+              label: Text(l10n.retryLabel),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _SearchBar extends StatelessWidget {
+  const _SearchBar({
+    required this.controller,
+    required this.focusNode,
+    required this.onChanged,
+    required this.selectedCount,
+  });
+
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final ValueChanged<String> onChanged;
+  final int selectedCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      color: Colors.white,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              height: 44,
+              decoration: BoxDecoration(
+                color: AppTheme.bg,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: TextField(
+                controller: controller,
+                focusNode: focusNode,
+                onChanged: onChanged,
+                textAlignVertical: TextAlignVertical.center,
+                style: const TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  hintText: l10n.searchWasteHint,
+                  hintStyle: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: 14,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search_rounded,
+                    color: Colors.grey.shade400,
+                    size: 20,
+                  ),
+                  suffixIcon: controller.text.isNotEmpty
+                      ? IconButton(
+                          icon: Icon(
+                            Icons.clear_rounded,
+                            color: Colors.grey.shade400,
+                            size: 18,
+                          ),
+                          onPressed: () {
+                            controller.clear();
+                            onChanged('');
+                          },
+                        )
+                      : null,
+                  border: InputBorder.none,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12),
+                ),
               ),
             ),
-          )
+          ),
+          if (selectedCount > 0) ...[
+            const SizedBox(width: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 8,
+              ),
+              decoration: BoxDecoration(
+                color: AppTheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: AppTheme.primary.withOpacity(0.2),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.check_circle_rounded,
+                    size: 16,
+                    color: AppTheme.primary,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    selectedCount.toString(),
+                    style: TextStyle(
+                      color: AppTheme.primary,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _DoneButton extends StatelessWidget {
+  const _DoneButton({
+    required this.selectedCount,
+    required this.onPressed,
+  });
+
+  final int selectedCount;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return FloatingActionButton.extended(
+      onPressed: onPressed,
+      backgroundColor: AppTheme.primary,
+      elevation: 6,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      icon: const Icon(Icons.check_rounded, color: Colors.white),
+      label: Row(
+        children: [
+          Text(
+            l10n.doneLabel,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+          ),
+          if (selectedCount > 0) ...[
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 2,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.25),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                selectedCount.toString(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 13,
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

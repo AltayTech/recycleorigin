@@ -6,6 +6,7 @@ import 'package:recycleorigin/core/models/status.dart';
 
 import 'collect.dart';
 import 'collect_time.dart';
+import 'rating_out.dart';
 
 class RequestWasteItem with ChangeNotifier {
   final int id;
@@ -18,6 +19,12 @@ class RequestWasteItem with ChangeNotifier {
   final Address address_data;
   final List<Collect> collect_list;
   final Driver driver;
+  final String requestStatusKey;
+  final String requestStatusLabel;
+  final RatingOut? customerRating;
+  final RatingOut? driverRating;
+  final bool hasRated;
+  final double? customerAverageRating;
 
   RequestWasteItem({
     required this.id,
@@ -30,6 +37,12 @@ class RequestWasteItem with ChangeNotifier {
     required this.address_data,
     required this.collect_list,
     required this.driver,
+    this.requestStatusKey = '',
+    this.requestStatusLabel = '',
+    this.customerRating,
+    this.driverRating,
+    this.hasRated = false,
+    this.customerAverageRating,
   });
 
   factory RequestWasteItem.fromJson(Map<String, dynamic> parsedJson) {
@@ -37,6 +50,8 @@ class RequestWasteItem with ChangeNotifier {
     List<Collect> collectRaw =
         collectList.map((i) => Collect.fromJson(i)).toList();
 
+    final cr = parsedJson['customer_rating'] as Map<String, dynamic>?;
+    final dr = parsedJson['driver_rating'] as Map<String, dynamic>?;
     return RequestWasteItem(
       id: parsedJson['id'],
       collect_type: parsedJson['collect_type'] != null
@@ -59,7 +74,18 @@ class RequestWasteItem with ChangeNotifier {
           : CollectTime(time: '0', day: '0', collect_done_time: '0'),
       address_data: Address.fromJson(parsedJson['address_data']),
       collect_list: collectRaw,
-      driver: Driver.fromJson(parsedJson['driver']),
+      driver: Driver.fromJson(
+        (parsedJson['driver'] as Map<String, dynamic>?) ?? <String, dynamic>{},
+      ),
+      requestStatusKey:
+          parsedJson['request_status_key'] as String? ?? '',
+      requestStatusLabel:
+          parsedJson['request_status_label'] as String? ?? '',
+      customerRating: cr != null ? RatingOut.fromJson(cr) : null,
+      driverRating: dr != null ? RatingOut.fromJson(dr) : null,
+      hasRated: parsedJson['has_rated'] as bool? ?? false,
+      customerAverageRating:
+          parseAverageRating(parsedJson['customer_average_rating']),
     );
   }
 

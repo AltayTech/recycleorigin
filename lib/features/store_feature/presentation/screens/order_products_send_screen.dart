@@ -9,12 +9,14 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/screens/navigation_bottom_screen.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../business/entities/order_send_details.dart';
 import '../../business/entities/product_cart.dart';
 import '../../business/entities/product_order_send.dart';
-import '../providers/Products.dart';
+import '../bloc/products_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class OrderProductsSendScreen extends StatefulWidget {
   static const routeName = '/orderProductsSendScreen';
@@ -52,7 +54,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
       _isLoading = true;
     });
 
-    shoppItems = Provider.of<Products>(context, listen: false).cartItems;
+    shoppItems = context.read<ProductsBloc>().cartItems;
     totalNumber = 0;
     totalPrice = 0;
 
@@ -102,24 +104,11 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
       _isLoading = true;
     });
 
-    await Provider.of<Products>(context, listen: false)
-        .sendRequest(orderRequest);
+    await context.read<ProductsBloc>().sendRequest(orderRequest);
 
     setState(() {
       _isLoading = false;
     });
-  }
-
-  void _showSendOrderdialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => CustomDialogSendRequest(
-        title: '',
-        buttonText: 'OK',
-        description: 'Your order has been sent successfully.',
-        image: Image.asset('assets/images/main_page_request_ic.png'),
-      ),
-    );
   }
 
   @override
@@ -130,17 +119,18 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     Customer customer =
-        Provider.of<CustomerInfoProvider>(context, listen: false).customer;
+        context.read<CustomerInfoBloc>().customer;
 
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
       body: Builder(
         builder: (context) => Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           child: Stack(
             children: <Widget>[
               Positioned(
@@ -383,10 +373,9 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                 child: InkWell(
                   onTap: () async {
                     if (totalPrice == 0) {
-                      var _snackBarMessage = 'No Item!';
                       final addToCartSnackBar = SnackBar(
                         content: Text(
-                          _snackBarMessage,
+                          context.l10n.orderNoItemsInCartSnack,
                           style: TextStyle(
                             color: Colors.white,
                             //fontFamily: 'Iransans',
@@ -394,7 +383,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           ),
                         ),
                         action: SnackBarAction(
-                          label: 'Ok',
+                          label: context.l10n.okLabel,
                           onPressed: () {
                             // Some code to undo the change.
                           },
@@ -403,11 +392,9 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(addToCartSnackBar);
                     } else if (totalPrice > double.parse(customer.money)) {
-                      var _snackBarMessage =
-                          'The amount in your wallet is not enough.';
                       final addToCartSnackBar = SnackBar(
                         content: Text(
-                          _snackBarMessage,
+                          context.l10n.orderInsufficientWalletSnack,
                           style: TextStyle(
                             color: Colors.white,
                             //fontFamily: 'Iransans',
@@ -415,7 +402,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           ),
                         ),
                         action: SnackBarAction(
-                          label: 'OK',
+                          label: context.l10n.okLabel,
                           onPressed: () {
                             // Some code to undo the change.
                           },
@@ -424,18 +411,19 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(addToCartSnackBar);
                     } else {
-                      await createRequest(context).then(
-                        (value) => sendRequest(context).then(
-                          (value) {
-                            Provider.of<Products>(context, listen: false)
-                                .cartItems = [];
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                NavigationBottomScreen.routeName,
-                                (Route<dynamic> route) => false);
-
-                            _showSendOrderdialog();
-                          },
-                        ),
+                      await createRequest(context);
+                      await sendRequest(context);
+                      if (!context.mounted) return;
+                      context.read<ProductsBloc>().cartItems = [];
+                      await CustomDialogSendRequest.show(
+                        context,
+                        description: context.l10n.orderSentSuccessDescription,
+                        buttonText: context.l10n.okLabel,
+                      );
+                      if (!context.mounted) return;
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        NavigationBottomScreen.routeName,
+                        (Route<dynamic> route) => false,
                       );
                     }
                   },
@@ -444,7 +432,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                     child: ButtonBottom(
                       width: deviceWidth * 0.9,
                       height: deviceWidth * 0.14,
-                      text: 'Buy',
+                      text: context.l10n.storeBuyButtonLabel,
                       isActive: true,
                     ),
                   ),
@@ -473,14 +461,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
           ),
         ),
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

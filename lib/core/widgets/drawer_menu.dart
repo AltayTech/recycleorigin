@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 // import 'package:meditest/features/athentication_feature/presentation/pages/auth_page.dart';
 
 // import '../../features/athentication_feature/presentation/providers/authentication_provider.dart';
@@ -20,32 +21,31 @@ class _DrawerMenuState extends State<DrawerMenu> {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
+          DrawerHeader(
+            decoration: const BoxDecoration(
               color: Colors.transparent,
             ),
-            child: Text(''
-                'Medical test analyse app'),
+            child: Text(context.l10n.recycleorigin),
           ),
           ListTile(
-            title: const Text('Login'),
+            title: Text(context.l10n.drawerLoginTitle),
             onTap: () {
               // Navigator.of(context).pushNamed(AuthPage.routeName);
             },
           ),
           ListTile(
-            title: const Text('Guide'),
+            title: Text(context.l10n.drawerGuideTitle),
             onTap: () {
               // Navigator.of(context).popAndPushNamed(HelpScreen.routeName);
             },
           ),
           ListTile(
-            title: const Text('Log out'),
+            title: Text(context.l10n.drawerLogoutTitle),
             onTap: () async {
-              // await Provider.of<AuthenticationProvider>(context, listen: false)
+              // await context.read<AuthBloc>()
               //     .eitherFailureOrLogout();
               // debugPrint(
-              //     Provider.of<AuthenticationProvider>(context, listen: false)
+              //     context.read<AuthBloc>()
               //         .loginSituation
               //         ?.situation);
               Navigator.of(context).pop();

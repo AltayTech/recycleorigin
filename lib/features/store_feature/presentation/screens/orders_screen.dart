@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/models/order.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/authentication_provider.dart';
-import 'package:recycleorigin/features/customer_feature/presentation/providers/customer_info_provider.dart';
-import 'package:recycleorigin/features/store_feature/presentation/providers/orders.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_state.dart';
+import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_bloc.dart';
 import 'package:recycleorigin/features/store_feature/presentation/widgets/order_item-orders_screen.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/screens/login_screen.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import '../../../auth_feature/presentation/screens/login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `OrdersScreen` widget, which displays a list of orders for the logged-in user.
 ///
@@ -66,14 +68,14 @@ class _OrdersScreenState extends State<OrdersScreen>
 
   @override
   void initState() {
-    Provider.of<Orders>(context, listen: false).sPage = 1;
+    context.read<OrdersBloc>().sPage = 1;
 
-    Provider.of<Orders>(context, listen: false).searchBuilder();
+    context.read<OrdersBloc>().searchBuilder();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         page = page + 1;
-        Provider.of<Orders>(context, listen: false).sPage = page;
+        context.read<OrdersBloc>().sPage = page;
 
         searchItems();
       }
@@ -100,11 +102,9 @@ class _OrdersScreenState extends State<OrdersScreen>
   }
 
   Future<void> getCustomerInfo() async {
-    bool isLogin =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isLogin = context.read<AuthBloc>().isAuth;
     if (isLogin) {
-      await Provider.of<CustomerInfoProvider>(context, listen: false)
-          .getCustomer();
+      await context.read<CustomerInfoBloc>().getCustomer();
     }
   }
 
@@ -116,13 +116,12 @@ class _OrdersScreenState extends State<OrdersScreen>
       _isLoading = true;
     });
 
-    Provider.of<Orders>(context, listen: false).searchBuilder();
-    await Provider.of<Orders>(context, listen: false).searchOrderItems();
-    productsDetail = Provider.of<Orders>(context, listen: false).searchDetails;
+    context.read<OrdersBloc>().searchBuilder();
+    await context.read<OrdersBloc>().searchOrderItems();
+    productsDetail = context.read<OrdersBloc>().searchDetails;
 
     loadedProducts.clear();
-    loadedProducts =
-        await Provider.of<Orders>(context, listen: false).ordersItems;
+    loadedProducts = context.read<OrdersBloc>().ordersItems;
     loadedProductstolist.addAll(loadedProducts);
 
     setState(() {
@@ -135,22 +134,17 @@ class _OrdersScreenState extends State<OrdersScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    bool isLogin = Provider.of<AuthenticationProvider>(context).isAuth;
-
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    bool isLogin = context.watch<AuthBloc>().isAuth;
 
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: const DrawerOrBackLeading(),
         title: Text(
-          'Orders',
+          context.l10n.ordersLabel,
           style: TextStyle(
-            //fontFamily: 'Iransans',
-          ),
+              //fontFamily: 'Iransans',
+              ),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
@@ -159,7 +153,7 @@ class _OrdersScreenState extends State<OrdersScreen>
         actions: <Widget>[],
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -173,7 +167,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('You Are Not Login'),
+                            child: Text(context.l10n.youarenotlogin),
                           ),
                           InkWell(
                             onTap: () {
@@ -184,7 +178,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: Text(
-                                  'Enter to Profile',
+                                  context.l10n.login,
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -217,7 +211,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      'Orders',
+                                      context.l10n.ordersLabel,
                                       style: TextStyle(
                                         color: Colors.blueGrey,
                                         //fontFamily: 'Iransans',
@@ -227,8 +221,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                     ),
                                   ),
                                   Spacer(),
-                                  Consumer<CustomerInfoProvider>(
-                                      builder: (_, Wastes, ch) {
+                                  BlocBuilder<CustomerInfoBloc,
+                                      CustomerInfoState>(builder: (_, state) {
                                     return Wrap(
                                         alignment: WrapAlignment.start,
                                         crossAxisAlignment:
@@ -239,7 +233,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 3, vertical: 5),
                                             child: Text(
-                                              'Number:',
+                                              context
+                                                  .l10n.cartNumberSummaryPrefix,
                                               style: TextStyle(
                                                 //fontFamily: 'Iransans',
                                                 fontSize:
@@ -313,7 +308,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         child: loadedProductstolist.isEmpty
                                             ? Center(
                                                 child: Text(
-                                                'Not Order',
+                                                context.l10n
+                                                    .storeNoOrdersYetMessage,
                                                 style: TextStyle(
                                                   //fontFamily: 'Iransans',
                                                   fontSize:
@@ -327,14 +323,7 @@ class _OrdersScreenState extends State<OrdersScreen>
           ),
         ),
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

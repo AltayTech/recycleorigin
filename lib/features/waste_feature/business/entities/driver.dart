@@ -8,6 +8,7 @@ class Driver with ChangeNotifier {
   final Status car_color;
   final String car_number;
   final DriverData driver_data;
+  final double? averageRating;
 
   Driver({
     required this.status,
@@ -15,6 +16,7 @@ class Driver with ChangeNotifier {
     required this.car_color,
     required this.car_number,
     required this.driver_data,
+    this.averageRating,
   });
 
   factory Driver.fromJson(Map<String, dynamic> parsedJson) {
@@ -33,7 +35,15 @@ class Driver with ChangeNotifier {
       driver_data: parsedJson['driver_data'] != null
           ? DriverData.fromJson(parsedJson['driver_data'])
           : DriverData(),
+      averageRating: _avg(parsedJson['average_rating']),
     );
+  }
+
+  static double? _avg(dynamic v) {
+    if (v == null) return null;
+    if (v is num) return v.toDouble();
+    if (v is String) return double.tryParse(v);
+    return null;
   }
 
   Map<String, dynamic> toJson() {

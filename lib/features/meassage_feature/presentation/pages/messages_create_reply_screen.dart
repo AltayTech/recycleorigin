@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
-import '../../../customer_feature/presentation/providers/customer_info_provider.dart';
-import '../providers/messages.dart';
-import '../../../../core/widgets/main_drawer.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
+import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
+import '../bloc/messages_bloc.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class MessageCreateReplyScreen extends StatefulWidget {
   static const routeName = '/messageCreateReplyScreen';
@@ -41,10 +41,9 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
       contentTextController.text = '';
       message = ModalRoute.of(context)?.settings.arguments as Message;
       customer =
-          Provider.of<CustomerInfoProvider>(context, listen: false).customer;
+          context.read<CustomerInfoBloc>().customer;
 
-      isLogin =
-          Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+      isLogin = context.read<AuthBloc>().isAuth;
     }
     _isInit = false;
 
@@ -63,7 +62,8 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
       _isLoading = true;
     });
 
-    await Provider.of<Messages>(context, listen: false)
+    await context
+        .read<MessagesBloc>()
         .createMessage(
       message.subject,
       contentTextController.text,
@@ -72,7 +72,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
       isLogin,
     )
         .then((value) async {
-      await Provider.of<Messages>(context, listen: false).getMessages(
+      await context.read<MessagesBloc>().getMessages(
         message.comment_post_ID,
         isLogin,
       );
@@ -93,8 +93,9 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
-          'جواب',
+          context.l10n.messageReplyAppBarTitle,
           style: TextStyle(
             color: AppTheme.bg,
             //fontFamily: 'Iransans',
@@ -108,7 +109,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
       ),
       body: Builder(
         builder: (context) => Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           child: Container(
             height: deviceHeight * 0.9,
             color: AppTheme.primary.withOpacity(0.05),
@@ -128,7 +129,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                             child: Container(
                               width: deviceWidth,
                               child: Text(
-                                'پاسخ: ',
+                                context.l10n.messageReplyPrefix,
                                 style: TextStyle(
                                   color: AppTheme.grey,
                                   //fontFamily: 'Iransans',
@@ -172,7 +173,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
-                                labelText: 'جواب خود را در اینجا بنویسید',
+                                labelText: context.l10n.messageReplyHint,
                               ),
                             ),
                           ),
@@ -218,14 +219,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
           color: Colors.white,
         ),
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
     );
   }
 }

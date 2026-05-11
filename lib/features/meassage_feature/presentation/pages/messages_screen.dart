@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_drawer.dart';
-import '../../../customer_feature/presentation/providers/authentication_provider.dart';
+import '../../../../core/widgets/drawer_or_back_leading.dart';
+import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../business/entities/message.dart';
-import '../providers/messages.dart';
+import '../bloc/messages_bloc.dart';
 import '../widgets/message_item.dart';
 import 'message_detail_screen.dart';
 import 'messages_create_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/l10n/l10n.dart';
 
 class MessageScreen extends StatefulWidget {
   static const routeName = '/messageScreen';
@@ -30,7 +30,7 @@ class _MessageScreenState extends State<MessageScreen> {
 
   @override
   void didChangeDependencies() {
-    messages = Provider.of<Messages>(context).allMessages;
+    messages = context.read<MessagesBloc>().allMessages;
 
     if (_isInit) {
       loadMessages();
@@ -45,13 +45,11 @@ class _MessageScreenState extends State<MessageScreen> {
       _isLoading = true;
     });
 
-    bool isLogin =
-        Provider.of<AuthenticationProvider>(context, listen: false).isAuth;
+    bool isLogin = context.read<AuthBloc>().isAuth;
 
-    await Provider.of<Messages>(context, listen: false)
-        .getMessages('0', isLogin);
+    await context.read<MessagesBloc>().getMessages('0', isLogin);
 
-    messages = Provider.of<Messages>(context, listen: false).allMessages;
+    messages = context.read<MessagesBloc>().allMessages;
 
     setState(() {
       _isLoading = false;
@@ -68,8 +66,9 @@ class _MessageScreenState extends State<MessageScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: const DrawerOrBackLeading(),
         title: Text(
-          'ُSupport',
+          context.l10n.supportScreenTitle,
           style: TextStyle(
             color: AppTheme.bg,
             //fontFamily: 'Iransans',
@@ -113,7 +112,7 @@ class _MessageScreenState extends State<MessageScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  'Send us any suggestion or comment you have',
+                                  context.l10n.supportIntroMessage,
                                   maxLines: 3,
                                   style: TextStyle(
                                     color: AppTheme.black,
@@ -134,8 +133,8 @@ class _MessageScreenState extends State<MessageScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10.0, right: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 10.0, right: 10),
                               child: Container(
                                   width: deviceWidth * 0.1,
                                   child: Image.asset(
@@ -144,7 +143,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
-                                'messages',
+                                context.l10n.messagesInboxLabel,
                                 maxLines: 3,
                                 style: TextStyle(
                                   color: AppTheme.black,
@@ -200,8 +199,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             return DecoratedBox(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color:
-                                    index.isEven ? Colors.grey : Colors.grey,
+                                color: index.isEven ? Colors.grey : Colors.grey,
                               ),
                             );
                           },
@@ -211,7 +209,7 @@ class _MessageScreenState extends State<MessageScreen> {
                           child: messages.isEmpty
                               ? Center(
                                   child: Text(
-                                  'No messages',
+                                  context.l10n.noMessagesYet,
                                   style: TextStyle(
                                     //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
@@ -225,14 +223,7 @@ class _MessageScreenState extends State<MessageScreen> {
           ),
         ),
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
-        child: MainDrawer(),
-      ),
+      drawer: mainDrawerIfRootRoute(context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppTheme.primary,
         child: Icon(
