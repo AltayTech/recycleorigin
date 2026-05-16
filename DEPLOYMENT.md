@@ -2,6 +2,32 @@
 
 This guide covers both **dev** and **prod** runs for the customer app.
 
+## Secrets (local development)
+
+Environment files, keystores, Firebase keys, and TLS material are **not**
+committed in this monorepo. They live in the private sibling repository
+`recycle-origin-secrets`, cloned **next to** this workspace (same parent
+folder).
+
+From the monorepo root, after cloning that repo:
+
+```powershell
+pwsh scripts/secrets/sync-secrets.ps1 -Pull
+```
+
+On macOS/Linux:
+
+```bash
+./scripts/secrets/sync-secrets.sh --pull
+```
+
+Override the default path with `RECYCLE_ORIGIN_SECRETS_DIR` if needed.
+**CI** must use platform secrets (for example GitHub Actions encrypted
+secrets), not the sibling repo or these sync scripts.
+
+If the script reports a **blocked** copy (file locked), close editors or
+processes using that path and run it again.
+
 ## 1) Environment mapping
 
 - `dev` entrypoint: `lib/main_dev.dart` -> `assets/env/.env.dev`
