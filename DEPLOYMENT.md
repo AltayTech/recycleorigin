@@ -6,8 +6,8 @@ This guide covers both **dev** and **prod** runs for the customer app.
 
 Environment files, keystores, Firebase keys, and TLS material are **not**
 committed in this monorepo. They live in the private sibling repository
-`recycle-origin-secrets`, cloned **next to** this workspace (same parent
-folder).
+`recycle-origin-secrets/` inside this workspace (private Git repo; not the
+`recycleorigin/` app repo).
 
 From the monorepo root, after cloning that repo:
 
