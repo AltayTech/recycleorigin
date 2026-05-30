@@ -935,8 +935,8 @@ class _WasteItemCard extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                item.pasmand.post_title.isNotEmpty
-                    ? item.pasmand.post_title
+                item.waste.post_title.isNotEmpty
+                    ? item.waste.post_title
                     : '—',
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,

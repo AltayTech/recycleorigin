@@ -77,7 +77,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
 
     final result = await _apiClient.post<Map<String, dynamic>>(
-      'pasmands/v1/auth/register',
+      'recycleorigin/v1/auth/register',
       data: {
         'email': email,
         'password': password,
@@ -98,7 +98,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
 
     final result = await _apiClient.get<Map<String, dynamic>>(
-      'pasmands/v1/customer/completed',
+      'recycleorigin/v1/customer/completed',
       parser: (data) => data as Map<String, dynamic>,
     );
 

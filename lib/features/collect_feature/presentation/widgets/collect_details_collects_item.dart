@@ -32,7 +32,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            collectItem.pasmand.post_title,
+            collectItem.waste.post_title,
             style: const TextStyle(
               color: AppTheme.h1,
               fontWeight: FontWeight.bold,

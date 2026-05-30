@@ -186,7 +186,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     Emitter<WastesState> emit,
   ) async {
     AppLogger.debug('Searching waste items');
-    final url = Urls.rootUrl + Urls.pasmandsEndPoint;
+    final url = Urls.rootUrl + Urls.wastesEndPoint;
     AppLogger.debug('Waste search URL: $url');
     try {
       final response = await get(Uri.parse(url), headers: {

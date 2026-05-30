@@ -1,7 +1,7 @@
-import 'package:recycleorigin/features/waste_feature/business/entities/pasmand.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/waste_ref.dart';
 
 class ProductOrderReceive {
-  final Pasmand product;
+  final WasteRef product;
   final String number;
   final String total_price;
   final String price;
@@ -11,11 +11,11 @@ class ProductOrderReceive {
     this.number = '1',
     this.total_price = '0.0',
     this.price = '0.0',
-  }) : this.product = Pasmand(id: 0, post_title: '');
+  }) : this.product = WasteRef(id: 0, post_title: '');
 
   factory ProductOrderReceive.fromJson(Map<String, dynamic> parsedJson) {
     return ProductOrderReceive(
-      product: Pasmand.fromJson(parsedJson['product']),
+      product: WasteRef.fromJson(parsedJson['product']),
       number: parsedJson['number'],
       total_price: parsedJson['total_price'],
       price: parsedJson['price'],

@@ -24,7 +24,7 @@ void main() {
     testWidgets('home displays core services', (tester) async {
       final mock = MockApiClient();
       mock.setGetResponse(
-        'pasmands/v1/products/category',
+        'recycleorigin/v1/products/category',
         Success<List<dynamic>>(<dynamic>[]),
       );
 
@@ -42,7 +42,7 @@ void main() {
     testWidgets('tapping Wallet navigates toward wallet route', (tester) async {
       final mock = MockApiClient();
       mock.setGetResponse(
-        'pasmands/v1/products/category',
+        'recycleorigin/v1/products/category',
         Success<List<dynamic>>(<dynamic>[]),
       );
 

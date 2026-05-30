@@ -1,4 +1,4 @@
-/// API models for support tickets (`/pasmands/v1/tickets`).
+/// API models for support tickets (`/recycleorigin/v1/tickets`).
 class SupportTicket {
   const SupportTicket({
     required this.id,

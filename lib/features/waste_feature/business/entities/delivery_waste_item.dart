@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_status.dart';
-import 'package:recycleorigin/features/waste_feature/business/entities/pasmand.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/waste_ref.dart';
 
 import '../../../../core/models/status.dart';
 
@@ -11,9 +11,9 @@ class DeliveryWasteItem with ChangeNotifier {
   final CollectStatus total_collects_price;
   final CollectStatus total_collects_weight;
   final CollectStatus total_collects_number;
-  final Pasmand store;
-  final Pasmand driver;
-  final Pasmand operator;
+  final WasteRef store;
+  final WasteRef driver;
+  final WasteRef operator;
 
   final String delivery_date;
   final List<Collect> collect_list;
@@ -52,14 +52,14 @@ class DeliveryWasteItem with ChangeNotifier {
           ? CollectStatus.fromJson(parsedJson['total_collects_number'])
           : CollectStatus(estimated: '0', exact: '0'),
       store: parsedJson['store'] != null
-          ? Pasmand.fromJson(parsedJson['store'])
-          : Pasmand(id: 0, post_title: ''),
+          ? WasteRef.fromJson(parsedJson['store'])
+          : WasteRef(id: 0, post_title: ''),
       driver: parsedJson['driver'] != null
-          ? Pasmand.fromJson(parsedJson['driver'])
-          : Pasmand(id: 0, post_title: ''),
+          ? WasteRef.fromJson(parsedJson['driver'])
+          : WasteRef(id: 0, post_title: ''),
       operator: parsedJson['operator'] != null
-          ? Pasmand.fromJson(parsedJson['operator'])
-          : Pasmand(id: 0, post_title: ''),
+          ? WasteRef.fromJson(parsedJson['operator'])
+          : WasteRef(id: 0, post_title: ''),
       delivery_date: parsedJson['delivery_date'] != null
           ? parsedJson['delivery_date']
           : '',

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_time.dart';
-import 'package:recycleorigin/features/waste_feature/business/entities/pasmand.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/waste_ref.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_address.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste.dart';
@@ -114,7 +114,7 @@ class _WasteRequestSendScreenState
       return Collect(
         estimated_weight: item.weight.toString(),
         estimated_price: _getPrice(item.prices, item.weight),
-        pasmand: Pasmand(id: item.id, post_title: item.name),
+        waste: WasteRef(id: item.id, post_title: item.name),
         exact_weight: '',
         exact_price: '',
       );

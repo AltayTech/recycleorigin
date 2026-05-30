@@ -9,7 +9,7 @@ import 'package:recycleorigin/features/customer_feature/presentation/bloc/custom
 import 'package:recycleorigin/features/store_feature/business/entities/shop.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
-/// In-app guide: policies and FAQ from [GET pasmands/v1/info] (managed in admin under Guide).
+/// In-app guide: policies and FAQ from [GET recycleorigin/v1/info] (managed in admin under Guide).
 class GuideScreen extends StatefulWidget {
   const GuideScreen({super.key});
 

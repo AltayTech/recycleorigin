@@ -1,14 +1,14 @@
-class Pasmand {
+class WasteRef {
   final int id;
   final String post_title;
 
-  Pasmand({
+  WasteRef({
     required this.id,
     required this.post_title,
   });
 
-  factory Pasmand.fromJson(Map<String, dynamic> parsedJson) {
-    return Pasmand(
+  factory WasteRef.fromJson(Map<String, dynamic> parsedJson) {
+    return WasteRef(
       id: parsedJson['ID'],
       post_title: parsedJson['post_title'],
     );

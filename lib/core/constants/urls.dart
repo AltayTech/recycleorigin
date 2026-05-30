@@ -4,9 +4,9 @@ import 'package:recycleorigin/core/config/app_config.dart';
 /// so the app talks to the correct backend (set API_BASE_URL in .env; no /rest suffix).
 class Urls {
   static String get baseUrl => AppConfig.apiBaseUrl;
-  static String get rootUrl => baseUrl + 'pasmands/v1';
+  static String get rootUrl => baseUrl + 'recycleorigin/v1';
 
-  static const pasmandsEndPoint = '/pasmands';
+  static const wastesEndPoint = '/wastes';
   static const productsEndPoint = '/products';
   static const categoriesEndPoint = '/products/category';
   static const addressEndPoint = '/customer/address';
@@ -34,22 +34,22 @@ class Urls {
   static const messageEndPoint = '/messages';
 
   static const loginEndPoint = 'jwt-auth/v1/token';
-  static const registerEndPoint = 'pasmands/v1/auth/register';
+  static const registerEndPoint = 'recycleorigin/v1/auth/register';
 
   /// POST { id_token } - exchanges a Firebase ID token for a backend access
   /// + refresh token pair. Returned by [Urls.firebaseExchangeEndPoint].
-  static const firebaseExchangeEndPoint = 'pasmands/v1/auth/firebase';
+  static const firebaseExchangeEndPoint = 'recycleorigin/v1/auth/firebase';
 
   /// POST { refresh_token } - rotates the refresh token and returns a fresh
   /// access + refresh pair.
-  static const refreshTokenEndPoint = 'pasmands/v1/auth/refresh';
+  static const refreshTokenEndPoint = 'recycleorigin/v1/auth/refresh';
 
   /// POST { refresh_token, all? } - revokes the refresh token (or all
   /// sessions for the user when `all=true`). Requires a valid access token.
-  static const logoutEndPoint = 'pasmands/v1/auth/logout';
+  static const logoutEndPoint = 'recycleorigin/v1/auth/logout';
 
   /// GET - returns the currently authenticated user record (requires JWT).
-  static const meEndPoint = 'pasmands/v1/auth/me';
+  static const meEndPoint = 'recycleorigin/v1/auth/me';
 
   static const sendMessageEndPoint = '/customer/send_message';
   static const orderInfoEndPoint = '/order';

@@ -36,7 +36,7 @@ void main() {
 
     test('getCustomer maps API payload into state', () async {
       mockApi.setGetResponse(
-        'pasmands/v1/customer',
+        'recycleorigin/v1/customer',
         Success<Map<String, dynamic>>(sampleCustomerJson()),
       );
 
@@ -50,7 +50,7 @@ void main() {
 
     test('searchTransactionItems applies empty result', () async {
       mockApi.setGetResponse(
-        'pasmands/v1/transactions?page=1&per_page=10&order=desc&orderby=date',
+        'recycleorigin/v1/transactions?page=1&per_page=10&order=desc&orderby=date',
         Success<Map<String, dynamic>>(<String, dynamic>{
           'data': <dynamic>[],
           'details': <String, dynamic>{
