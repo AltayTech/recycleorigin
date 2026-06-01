@@ -84,6 +84,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get supportHelpLabel => 'Destek ve yardim';
 
   @override
+  String get generalSectionTitle => 'Genel';
+
+  @override
+  String get shopSectionTitle => 'Magaza';
+
+  @override
+  String get supportSectionTitle => 'Destek';
+
+  @override
+  String get accountSectionTitle => 'Hesap';
+
+  @override
   String get settingsTitle => 'Ayarlar';
 
   @override
@@ -1190,4 +1202,21 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get authSessionExpired =>
       'Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın.';
+
+  @override
+  String get mobileLabel => 'Cep telefonu';
+
+  @override
+  String get phoneIsLoginIdentifierHint =>
+      'Giriş için kullandığınız telefon numarası buradan değiştirilemez.';
+
+  @override
+  String get emailIsLoginCredentialHint =>
+      'E-posta adresiniz giriş için kullanılır ve buradan değiştirilemez.';
+
+  @override
+  String get postalCodeHintMessage => 'Posta kodu genellikle 5 hanelidir.';
+
+  @override
+  String get profileNameRequiredMessage => 'Bu alan zorunludur.';
 }

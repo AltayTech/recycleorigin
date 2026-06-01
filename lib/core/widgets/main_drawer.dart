@@ -193,22 +193,27 @@ class _MainDrawerState extends State<MainDrawer> {
             _cleanAuthField(tokenModel.userDisplayName) != null ||
             _cleanAuthField(tokenModel.userNicename) != null);
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[gradientStart, gradientEnd],
-        ),
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(24),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    final profileRoute = isAuthenticated
+        ? ProfileScreen.routeName
+        : LoginScreen.routeName;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => _navigateToRoute(profileRoute),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[gradientStart, gradientEnd],
+            ),
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(24),
+            ),
+          ),
+          child: Row(
             children: [
               Container(
                 height: 56,
@@ -270,33 +275,14 @@ class _MainDrawerState extends State<MainDrawer> {
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _QuickActionChip(
-                icon: Icons.settings_rounded,
-                label: context.l10n.settingsTitle,
-                onTap: () => _navigateToRoute(SettingsScreen.routeName),
-              ),
-              _QuickActionChip(
-                icon: isAuthenticated
-                    ? Icons.person_rounded
-                    : Icons.login_rounded,
-                label:
-                    isAuthenticated ? context.l10n.profile : context.l10n.login,
-                onTap: () => _navigateToRoute(
-                  isAuthenticated
-                      ? ProfileScreen.routeName
-                      : LoginScreen.routeName,
-                ),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: Colors.white.withValues(alpha: 0.7),
+                size: 24,
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -539,7 +525,7 @@ class _MainDrawerState extends State<MainDrawer> {
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    _buildSectionTitle(l10n.home),
+                    _buildSectionTitle(l10n.generalSectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.home_rounded,
@@ -567,7 +553,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       destructive: false,
                       onTap: () => _navigateToRoute(SettingsScreen.routeName),
                     ),
-                    _buildSectionTitle(l10n.store),
+                    _buildSectionTitle(l10n.shopSectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.store_rounded,
@@ -591,7 +577,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       destructive: false,
                       onTap: () => _navigateToRoute(CartScreen.routeName),
                     ),
-                    _buildSectionTitle(l10n.supportHelpLabel),
+                    _buildSectionTitle(l10n.supportSectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.menu_book_rounded,
@@ -605,7 +591,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.support_agent_rounded,
-                        title: l10n.supportHelpLabel,
+                        title: l10n.supportScreenTitle,
                         routeName: SupportTicketsListScreen.routeName,
                       ),
                       selected: currentRouteName ==
@@ -619,8 +605,7 @@ class _MainDrawerState extends State<MainDrawer> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildSectionTitle(
-                                authState.isAuth ? l10n.profile : l10n.login),
+                            _buildSectionTitle(l10n.accountSectionTitle),
                             _buildDestinationTile(
                               destination: _DrawerDestination(
                                 icon: authState.isAuth
@@ -691,48 +676,6 @@ class _MainDrawerState extends State<MainDrawer> {
                       ),
                     ),
                   ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _QuickActionChip extends StatelessWidget {
-  const _QuickActionChip({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white.withValues(alpha: 0.16),
-      borderRadius: BorderRadius.circular(20),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, color: Colors.white, size: 16),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

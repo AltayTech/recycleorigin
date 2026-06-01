@@ -9,6 +9,7 @@ import 'package:recycleorigin/core/models/status.dart';
 import 'package:recycleorigin/core/models/transaction.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
+import 'package:recycleorigin/core/utils/result.dart';
 import 'package:recycleorigin/features/customer_feature/business/entities/city.dart';
 import 'package:recycleorigin/features/customer_feature/business/entities/country.dart';
 import 'package:recycleorigin/features/customer_feature/business/entities/province.dart';
@@ -193,16 +194,42 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     final result = await _apiClient.post<Map<String, dynamic>>(
       path,
       data: {
-        'customer_type': event.customer.customer_type.term_id,
+        'customer_type': event.customer.customer_type.toJson(),
         'customer_data': event.customer.personalData.toJson(),
       },
       parser: (data) => data as Map<String, dynamic>,
     );
 
-    result.onSuccess((_) {
-      event.completer?.complete();
+    switch (result) {
+      case Success<Map<String, dynamic>>():
+        try {
+          await _refreshCustomerAfterSave(emit);
+        } catch (error, stackTrace) {
+          AppLogger.warning(
+            'Profile saved but refresh failed: $error',
+            error,
+            stackTrace,
+          );
+        }
+        event.completer?.complete();
+      case Failure<Map<String, dynamic>>(:final message):
+        event.completer?.completeError(Exception(message));
+    }
+  }
+
+  Future<void> _refreshCustomerAfterSave(
+    Emitter<CustomerInfoState> emit,
+  ) async {
+    final path = 'recycleorigin/v1${Urls.customerEndPoint}';
+    final result = await _apiClient.get<Map<String, dynamic>>(
+      path,
+      parser: (data) => data as Map<String, dynamic>,
+    );
+
+    result.onSuccess((extractedData) {
+      emit(state.copyWith(customer: Customer.fromJson(extractedData)));
     }).onFailure((error) {
-      event.completer?.completeError(Exception(error));
+      throw Exception(error);
     });
   }
 

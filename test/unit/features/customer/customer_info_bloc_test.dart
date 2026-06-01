@@ -1,5 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:recycleorigin/core/models/customer.dart';
+import 'package:recycleorigin/core/models/status.dart';
 import 'package:recycleorigin/core/utils/result.dart';
+import 'package:recycleorigin/features/customer_feature/business/entities/personal_data.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_event.dart';
 
@@ -32,6 +35,36 @@ void main() {
       expect(bloc.searchEndPoint, contains('per_page=10'));
       expect(bloc.searchEndPoint, contains('order=desc'));
       expect(bloc.searchEndPoint, contains('orderby=date'));
+    });
+
+    test('sendCustomer refreshes profile from API after POST', () async {
+      const customerPath = 'recycleorigin/v1/customer';
+      mockApi.setPostResponse(
+        customerPath,
+        Success<Map<String, dynamic>>(<String, dynamic>{}),
+      );
+      mockApi.setGetResponse(
+        customerPath,
+        Success<Map<String, dynamic>>(
+          sampleCustomerJson(firstName: 'Updated', lastName: 'User'),
+        ),
+      );
+
+      final customer = Customer(
+        customer_type: Status(term_id: 2, name: 'individual', slug: 'individual'),
+        personalData: PersonalData(
+          first_name: 'Updated',
+          last_name: 'User',
+          email: 'ada@example.com',
+          mobile: '+905551234567',
+        ),
+      );
+
+      await bloc.sendCustomer(customer);
+      await _tick();
+
+      expect(bloc.state.customer.personalData.first_name, 'Updated');
+      expect(bloc.state.customer.personalData.last_name, 'User');
     });
 
     test('getCustomer maps API payload into state', () async {

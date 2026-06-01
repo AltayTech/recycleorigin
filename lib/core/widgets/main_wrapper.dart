@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // import '../../features/home_screen/presentation/pages/home_screen.dart';
 import 'app_background.dart';
 import 'bottom_nav.dart';
-import 'drawer_menu.dart';
+import 'main_drawer.dart';
 
 /// This file defines the `MainWrapper` widget, which serves as the main container for the app's navigation and layout.
 ///
@@ -50,7 +50,7 @@ class MainWrapper extends StatelessWidget {
         extendBody: true,
         bottomNavigationBar: BottomNav(pageController: pageController),
         appBar: AppBar(),
-        drawer: DrawerMenu(),
+        drawer: const MainDrawer(),
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(

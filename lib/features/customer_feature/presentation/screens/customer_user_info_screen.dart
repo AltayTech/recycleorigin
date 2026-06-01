@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
-import 'customer_detail_info_screen.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
+import 'customer_detail_info_screen.dart';
 
-class CustomerUserInfoScreen extends StatefulWidget {
+/// Shell route for viewing and editing personal customer information.
+class CustomerUserInfoScreen extends StatelessWidget {
   static const routeName = '/customer_user_info_screen';
-  final Customer customer;
 
-  CustomerUserInfoScreen({
-    customer,
-  }) : this.customer = Customer();
+  const CustomerUserInfoScreen({super.key});
 
-  @override
-  _CustomerUserInfoScreenState createState() => _CustomerUserInfoScreenState();
-}
-
-class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,15 +17,13 @@ class _CustomerUserInfoScreenState extends State<CustomerUserInfoScreen> {
         leading: const DrawerOrBackLeading(),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
       ),
-
-      drawer: mainDrawerIfRootRoute(context), // resizeToAvoidBottomInset: false,
+      drawer: mainDrawerIfRootRoute(context),
       body: Directionality(
-          textDirection: Directionality.of(context),
-          child: CustomerDetailInfoScreen(
-            customer: Customer(),
-          )),
+        textDirection: Directionality.of(context),
+        child: const CustomerDetailInfoScreen(),
+      ),
     );
   }
 }

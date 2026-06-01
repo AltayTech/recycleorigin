@@ -25,6 +25,10 @@
   "home": "Ana sayfa",
   "shoppingCartLabel": "Sepet",
   "supportHelpLabel": "Destek ve yardim",
+  "generalSectionTitle": "Genel",
+  "shopSectionTitle": "Magaza",
+  "supportSectionTitle": "Destek",
+  "accountSectionTitle": "Hesap",
   "settingsTitle": "Ayarlar",
   "languageTitle": "Dil",
   "applicationLanguageLabel": "Uygulama dili",
@@ -412,5 +416,10 @@
   "authResetEmailSent": "Sıfırlama bağlantısı gönderildi.",
   "authGoogleSignInFailed": "Google ile giriş başarısız. Lütfen tekrar deneyin.",
   "authNetworkError": "Ağ hatası. Bağlantınızı kontrol edin.",
-  "authSessionExpired": "Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın."
+  "authSessionExpired": "Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın.",
+  "mobileLabel": "Cep telefonu",
+  "phoneIsLoginIdentifierHint": "Giriş için kullandığınız telefon numarası buradan değiştirilemez.",
+  "emailIsLoginCredentialHint": "E-posta adresiniz giriş için kullanılır ve buradan değiştirilemez.",
+  "postalCodeHintMessage": "Posta kodu genellikle 5 hanelidir.",
+  "profileNameRequiredMessage": "Bu alan zorunludur."
 }

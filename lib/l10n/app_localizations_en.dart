@@ -85,6 +85,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supportHelpLabel => 'Support & Help';
 
   @override
+  String get generalSectionTitle => 'General';
+
+  @override
+  String get shopSectionTitle => 'Shop';
+
+  @override
+  String get supportSectionTitle => 'Support';
+
+  @override
+  String get accountSectionTitle => 'Account';
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override
@@ -1197,4 +1209,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get authSessionExpired =>
       'Your session has expired. Please sign in again.';
+
+  @override
+  String get mobileLabel => 'Mobile';
+
+  @override
+  String get phoneIsLoginIdentifierHint =>
+      'Your mobile number is used to sign in and cannot be changed here.';
+
+  @override
+  String get emailIsLoginCredentialHint =>
+      'Your email address is used to sign in and cannot be changed here.';
+
+  @override
+  String get postalCodeHintMessage => 'Postal code is usually 5 digits.';
+
+  @override
+  String get profileNameRequiredMessage => 'This field is required.';
 }

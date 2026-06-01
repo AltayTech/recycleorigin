@@ -25,6 +25,10 @@
   "home": "Home",
   "shoppingCartLabel": "Shopping Cart",
   "supportHelpLabel": "Support & Help",
+  "generalSectionTitle": "General",
+  "shopSectionTitle": "Shop",
+  "supportSectionTitle": "Support",
+  "accountSectionTitle": "Account",
   "settingsTitle": "Settings",
   "languageTitle": "Language",
   "applicationLanguageLabel": "Application language",
@@ -412,5 +416,10 @@
   "authResetEmailSent": "Reset link sent.",
   "authGoogleSignInFailed": "Google sign-in failed. Please try again.",
   "authNetworkError": "Network error. Please check your connection.",
-  "authSessionExpired": "Your session has expired. Please sign in again."
+  "authSessionExpired": "Your session has expired. Please sign in again.",
+  "mobileLabel": "Mobile",
+  "phoneIsLoginIdentifierHint": "Your mobile number is used to sign in and cannot be changed here.",
+  "emailIsLoginCredentialHint": "Your email address is used to sign in and cannot be changed here.",
+  "postalCodeHintMessage": "Postal code is usually 5 digits.",
+  "profileNameRequiredMessage": "This field is required."
 }

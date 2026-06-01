@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../bloc/customer_info_bloc.dart';
+import '../bloc/customer_info_state.dart';
 import 'customer_detail_info_edit_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Screen that displays detailed customer information in a modern, production-grade UI
 class CustomerDetailInfoScreen extends StatefulWidget {
-  final Customer customer;
-
-  const CustomerDetailInfoScreen({
-    Key? key,
-    required this.customer,
-  }) : super(key: key);
+  const CustomerDetailInfoScreen({super.key});
 
   @override
   State<CustomerDetailInfoScreen> createState() =>
@@ -42,7 +36,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
   @override
   void initState() {
     super.initState();
-    _customer = widget.customer;
+    _customer = context.read<CustomerInfoBloc>().customer;
     _loadCustomerData();
   }
 
@@ -89,13 +83,22 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      child: RefreshIndicator(
-        onRefresh: _loadCustomerData,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: _buildContent(context),
+    return BlocListener<CustomerInfoBloc, CustomerInfoState>(
+      listenWhen: (CustomerInfoState previous, CustomerInfoState current) =>
+          previous.customer != current.customer,
+      listener: (BuildContext context, CustomerInfoState state) {
+        if (mounted) {
+          setState(() => _customer = state.customer);
+        }
+      },
+      child: Container(
+        color: Colors.transparent,
+        child: RefreshIndicator(
+          onRefresh: _loadCustomerData,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: _buildContent(context),
+          ),
         ),
       ),
     );

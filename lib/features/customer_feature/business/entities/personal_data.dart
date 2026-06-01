@@ -25,6 +25,30 @@ class PersonalData with ChangeNotifier {
     this.postcode = '',
   });
 
+  PersonalData copyWith({
+    String? phone,
+    String? first_name,
+    String? last_name,
+    String? email,
+    String? ostan,
+    String? city,
+    String? mobile,
+    List<Address>? addresses,
+    String? postcode,
+  }) {
+    return PersonalData(
+      phone: phone ?? this.phone,
+      first_name: first_name ?? this.first_name,
+      last_name: last_name ?? this.last_name,
+      email: email ?? this.email,
+      ostan: ostan ?? this.ostan,
+      city: city ?? this.city,
+      mobile: mobile ?? this.mobile,
+      addresses: addresses ?? this.addresses,
+      postcode: postcode ?? this.postcode,
+    );
+  }
+
   factory PersonalData.fromJson(Map<String, dynamic> parsedJson) {
     List<Address> addressRaw = [];
     if (parsedJson['address_data'] != null) {
@@ -56,6 +80,7 @@ class PersonalData with ChangeNotifier {
       'email': email,
       'ostan': ostan,
       'city': city,
+      'mobile': mobile,
       'address_data': addresses,
       'postcode': postcode,
     };

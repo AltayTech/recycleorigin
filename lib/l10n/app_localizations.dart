@@ -248,6 +248,30 @@ abstract class AppLocalizations {
   /// **'Support & Help'**
   String get supportHelpLabel;
 
+  /// No description provided for @generalSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get generalSectionTitle;
+
+  /// No description provided for @shopSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop'**
+  String get shopSectionTitle;
+
+  /// No description provided for @supportSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get supportSectionTitle;
+
+  /// No description provided for @accountSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountSectionTitle;
+
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
@@ -2359,6 +2383,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your session has expired. Please sign in again.'**
   String get authSessionExpired;
+
+  /// No description provided for @mobileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile'**
+  String get mobileLabel;
+
+  /// No description provided for @phoneIsLoginIdentifierHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your mobile number is used to sign in and cannot be changed here.'**
+  String get phoneIsLoginIdentifierHint;
+
+  /// No description provided for @emailIsLoginCredentialHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email address is used to sign in and cannot be changed here.'**
+  String get emailIsLoginCredentialHint;
+
+  /// No description provided for @postalCodeHintMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Postal code is usually 5 digits.'**
+  String get postalCodeHintMessage;
+
+  /// No description provided for @profileNameRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required.'**
+  String get profileNameRequiredMessage;
 }
 
 class _AppLocalizationsDelegate
