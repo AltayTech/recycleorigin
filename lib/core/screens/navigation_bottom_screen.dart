@@ -67,7 +67,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
     HomeScreen(),
     HomeScreen(),
     HomeScreen(),
-    ProfileView(),
+    const ProfileView(),
   ];
 
   Future<void> _completePopIfAllowed() async {

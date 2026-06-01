@@ -1,99 +1,122 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_theme.dart';
 
+import '../../../../core/theme/app_theme.dart';
 import '../screens/profile_screen.dart';
 
+/// Prompts the user to complete their profile before continuing.
 class CustomDialogProfile extends StatelessWidget {
-  final String title, description, buttonText;
-  final Image image;
-
-  CustomDialogProfile({
+  const CustomDialogProfile({
+    super.key,
     required this.title,
     required this.description,
     required this.buttonText,
     required this.image,
   });
 
+  final String title;
+  final String description;
+  final String buttonText;
+  final Image image;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Consts.padding),
+        borderRadius: BorderRadius.circular(_DialogConsts.padding),
       ),
-      elevation: 0.0,
+      elevation: 0,
       backgroundColor: Colors.transparent,
-      child: dialogContent(context),
+      child: _DialogBody(
+        title: title,
+        description: description,
+        buttonText: buttonText,
+        image: image,
+      ),
     );
   }
+}
 
-  dialogContent(BuildContext context) {
+class _DialogBody extends StatelessWidget {
+  const _DialogBody({
+    required this.title,
+    required this.description,
+    required this.buttonText,
+    required this.image,
+  });
+
+  final String title;
+  final String description;
+  final String buttonText;
+  final Image image;
+
+  @override
+  Widget build(BuildContext context) {
+    final titleSize = MediaQuery.textScalerOf(context).scale(16);
+    final bodySize = MediaQuery.textScalerOf(context).scale(14);
+    final buttonSize = MediaQuery.textScalerOf(context).scale(16);
+
     return Stack(
-      children: <Widget>[
+      clipBehavior: Clip.none,
+      alignment: Alignment.topCenter,
+      children: [
         Container(
-          padding: EdgeInsets.only(
-            top: Consts.avatarRadius + Consts.padding,
-            bottom: Consts.padding,
-            left: Consts.padding,
-            right: Consts.padding,
+          margin: const EdgeInsets.only(top: _DialogConsts.avatarRadius),
+          padding: const EdgeInsets.only(
+            top: _DialogConsts.avatarRadius + _DialogConsts.padding,
+            bottom: _DialogConsts.padding,
+            left: _DialogConsts.padding,
+            right: _DialogConsts.padding,
           ),
-          margin: EdgeInsets.only(top: Consts.avatarRadius),
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(Consts.padding),
-            boxShadow: [
+            borderRadius: BorderRadius.circular(_DialogConsts.padding),
+            boxShadow: const [
               BoxShadow(
                 color: Colors.black26,
-                blurRadius: 10.0,
-                offset: const Offset(0.0, 10.0),
+                blurRadius: 10,
+                offset: Offset(0, 10),
               ),
             ],
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.min, // To make the card compact
-            children: <Widget>[
+            mainAxisSize: MainAxisSize.min,
+            children: [
               Text(
                 title,
                 style: TextStyle(
-                  color: Color(0xff0197F6),
-                  fontSize: MediaQuery.of(context).textScaleFactor * 16,
+                  color: const Color(0xff0197F6),
+                  fontSize: titleSize,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16),
               Text(
                 description,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.blueGrey,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 14,
+                  fontSize: bodySize,
                 ),
               ),
-              SizedBox(height: 24.0),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
+              const SizedBox(height: 24),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Material(
+                  color: AppTheme.primary,
                   child: InkWell(
                     onTap: () {
                       Navigator.of(context)
                           .popAndPushNamed(ProfileScreen.routeName);
                     },
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                        color: AppTheme.primary,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
+                    child: SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.06,
+                      width: MediaQuery.sizeOf(context).width * 0.4,
                       child: Center(
                         child: Text(
                           buttonText,
                           style: TextStyle(
                             color: Colors.white,
-                            //fontFamily: 'Iransans',
-                            fontSize:
-                                MediaQuery.of(context).textScaleFactor * 16,
+                            fontSize: buttonSize,
                           ),
                         ),
                       ),
@@ -104,14 +127,22 @@ class CustomDialogProfile extends StatelessWidget {
             ],
           ),
         ),
+        Positioned(
+          top: 0,
+          child: CircleAvatar(
+            radius: _DialogConsts.avatarRadius + 8,
+            backgroundColor: Colors.white,
+            child: ClipOval(child: image),
+          ),
+        ),
       ],
     );
   }
 }
 
-class Consts {
-  Consts._();
+class _DialogConsts {
+  _DialogConsts._();
 
-  static const double padding = 16.0;
-  static const double avatarRadius = 10;
+  static const double padding = 16;
+  static const double avatarRadius = 36;
 }

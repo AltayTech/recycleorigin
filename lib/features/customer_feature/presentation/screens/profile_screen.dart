@@ -1,39 +1,24 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../../l10n/l10n.dart';
 import '../widgets/profile_view.dart';
 
-class ProfileScreen extends StatefulWidget {
+/// Full-screen profile route with app bar and drawer on root navigation.
+class ProfileScreen extends StatelessWidget {
   static const routeName = '/profile';
 
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
-        title: Text(
-          context.l10n.profile,
-          style: TextStyle(
-            color: AppTheme.appBarIconColor,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        title: Text(context.l10n.profile),
       ),
       drawer: mainDrawerIfRootRoute(context),
-      body: ProfileView(),
+      body: const ProfileView(),
     );
   }
 }

@@ -12,6 +12,7 @@ class AppTheme {
 
   // ── Brand colours ──────────────────────────────────────────────
   static const Color primary = Color(0xFF77C243);
+  static const Color primaryDark = Color(0xFF1F8B61);
   static const Color accent = Color(0xFFB2C243);
   static const Color secondary = Color(0xFFE5E5E5);
 
@@ -110,7 +111,7 @@ class AppTheme {
       extensions: const <ThemeExtension<dynamic>>[
         AppColorsExtension(
           heroGradientStart: primary,
-          heroGradientEnd: Color(0xFF1F8B61),
+          heroGradientEnd: primaryDark,
           cardBackground: Colors.white,
           subtitleColor: Color(0xFF6B7280),
         ),
