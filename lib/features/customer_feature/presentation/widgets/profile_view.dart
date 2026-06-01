@@ -12,6 +12,7 @@ import 'package:recycleorigin/features/customer_feature/presentation/screens/cus
 import 'package:recycleorigin/features/store_feature/presentation/screens/orders_screen.dart';
 import 'package:recycleorigin/features/support_tickets/presentation/screens/support_tickets_list_screen.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/address.dart';
+import 'package:recycleorigin/features/impact_feature/presentation/screens/impact_screen.dart';
 import 'package:recycleorigin/features/waste_feature/collect_list_screen.dart';
 
 import '../../../../core/theme/app_theme.dart';
@@ -538,6 +539,13 @@ class _MenuGrid extends StatelessWidget {
         crossAxisSpacing: AppTheme.spacingMd,
         childAspectRatio: 1.05,
         children: [
+          _MenuItem(
+            title: l10n.impactTitle,
+            icon: Icons.insights_rounded,
+            onTap: () {
+              Navigator.of(context).pushNamed(ImpactScreen.routeName);
+            },
+          ),
           _MenuItem(
             title: l10n.ordersLabel,
             icon: Icons.shopping_bag_outlined,

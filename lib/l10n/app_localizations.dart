@@ -2413,6 +2413,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This field is required.'**
   String get profileNameRequiredMessage;
+
+  /// No description provided for @impactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Impact'**
+  String get impactTitle;
+
+  /// No description provided for @impactHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your recycling impact'**
+  String get impactHeroTitle;
+
+  /// No description provided for @impactWeightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Recycled'**
+  String get impactWeightLabel;
+
+  /// No description provided for @impactCo2Label.
+  ///
+  /// In en, this message translates to:
+  /// **'CO₂ saved'**
+  String get impactCo2Label;
+
+  /// No description provided for @impactPickupsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickups'**
+  String get impactPickupsLabel;
+
+  /// No description provided for @impactEarningsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rewards'**
+  String get impactEarningsLabel;
+
+  /// No description provided for @impactXpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} XP · {toNext} to next level'**
+  String impactXpLabel(int current, int toNext);
+
+  /// No description provided for @impactNextTier.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {name}'**
+  String impactNextTier(String name);
+
+  /// No description provided for @impactTreesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Trees'**
+  String get impactTreesLabel;
+
+  /// No description provided for @impactWaterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Liters water'**
+  String get impactWaterLabel;
+
+  /// No description provided for @impactEnergyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'kWh saved'**
+  String get impactEnergyLabel;
+
+  /// No description provided for @impactStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak'**
+  String get impactStreakTitle;
+
+  /// No description provided for @impactStreakValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} wk · best {longest}'**
+  String impactStreakValue(int current, int longest);
+
+  /// No description provided for @impactGoalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly goal'**
+  String get impactGoalTitle;
+
+  /// No description provided for @impactTrendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recycling trend'**
+  String get impactTrendTitle;
+
+  /// No description provided for @impactBadgesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get impactBadgesTitle;
+
+  /// No description provided for @impactLeaderboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get impactLeaderboardTitle;
+
+  /// No description provided for @impactLeaderboardEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No rankings yet for this period.'**
+  String get impactLeaderboardEmpty;
+
+  /// No description provided for @impactRankSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank #{position} of {total} · top {percentile}%'**
+  String impactRankSummary(int position, int total, double percentile);
+
+  /// No description provided for @impactRange7d.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get impactRange7d;
+
+  /// No description provided for @impactRange30d.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get impactRange30d;
+
+  /// No description provided for @impactRange90d.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 90 days'**
+  String get impactRange90d;
+
+  /// No description provided for @impactLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load impact data.'**
+  String get impactLoadError;
 }
 
 class _AppLocalizationsDelegate

@@ -8,6 +8,7 @@ import 'package:recycleorigin/features/support_tickets/presentation/screens/supp
 import '../../features/auth_feature/data/models/TokenResponseModel.dart';
 import '../../features/auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../features/guid_feature/presentation/pages/guide_screen.dart';
+import '../../features/impact_feature/presentation/screens/impact_screen.dart';
 import '../../features/auth_feature/presentation/bloc/auth_state.dart';
 import '../../features/auth_feature/presentation/screens/login_screen.dart';
 import '../../features/customer_feature/presentation/screens/profile_screen.dart';
@@ -542,6 +543,16 @@ class _MainDrawerState extends State<MainDrawer> {
                           (Route<dynamic> route) => false,
                         );
                       },
+                    ),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.insights_rounded,
+                        title: l10n.impactTitle,
+                        routeName: ImpactScreen.routeName,
+                      ),
+                      selected: currentRouteName == ImpactScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(ImpactScreen.routeName),
                     ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(

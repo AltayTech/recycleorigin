@@ -1226,4 +1226,81 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileNameRequiredMessage => 'This field is required.';
+
+  @override
+  String get impactTitle => 'My Impact';
+
+  @override
+  String get impactHeroTitle => 'Your recycling impact';
+
+  @override
+  String get impactWeightLabel => 'Recycled';
+
+  @override
+  String get impactCo2Label => 'CO₂ saved';
+
+  @override
+  String get impactPickupsLabel => 'Pickups';
+
+  @override
+  String get impactEarningsLabel => 'Rewards';
+
+  @override
+  String impactXpLabel(int current, int toNext) {
+    return '$current XP · $toNext to next level';
+  }
+
+  @override
+  String impactNextTier(String name) {
+    return 'Next: $name';
+  }
+
+  @override
+  String get impactTreesLabel => 'Trees';
+
+  @override
+  String get impactWaterLabel => 'Liters water';
+
+  @override
+  String get impactEnergyLabel => 'kWh saved';
+
+  @override
+  String get impactStreakTitle => 'Streak';
+
+  @override
+  String impactStreakValue(int current, int longest) {
+    return '$current wk · best $longest';
+  }
+
+  @override
+  String get impactGoalTitle => 'Monthly goal';
+
+  @override
+  String get impactTrendTitle => 'Recycling trend';
+
+  @override
+  String get impactBadgesTitle => 'Achievements';
+
+  @override
+  String get impactLeaderboardTitle => 'Leaderboard';
+
+  @override
+  String get impactLeaderboardEmpty => 'No rankings yet for this period.';
+
+  @override
+  String impactRankSummary(int position, int total, double percentile) {
+    return 'Rank #$position of $total · top $percentile%';
+  }
+
+  @override
+  String get impactRange7d => 'Last 7 days';
+
+  @override
+  String get impactRange30d => 'Last 30 days';
+
+  @override
+  String get impactRange90d => 'Last 90 days';
+
+  @override
+  String get impactLoadError => 'Could not load impact data.';
 }

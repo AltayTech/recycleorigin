@@ -13,6 +13,7 @@ import '../../customer_feature/presentation/screens/profile_screen.dart';
 import '../../store_feature/presentation/bloc/products_bloc.dart';
 import '../../store_feature/presentation/screens/product_screen.dart';
 import '../../support_tickets/presentation/screens/support_tickets_list_screen.dart';
+import '../../impact_feature/presentation/screens/impact_screen.dart';
 import '../../wallet_feature/presentation/pages/wallet_screen.dart';
 import '../../waste_feature/collect_list_screen.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
@@ -119,6 +120,9 @@ class _HomeScreenState extends State<HomeScreen>
 
   void _openGuide() => Navigator.of(context).pushNamed(GuideScreen.routeName);
 
+  void _openImpact() =>
+      Navigator.of(context).pushNamed(ImpactScreen.routeName);
+
   // ── Auth listener ──────────────────────────────────────────────
 
   void _onAuthStateChanged(
@@ -142,6 +146,12 @@ class _HomeScreenState extends State<HomeScreen>
     BuildContext context,
   ) =>
       [
+        ServiceDescriptor(
+          title: context.l10n.impactTitle,
+          icon: Icons.eco_rounded,
+          color: const Color(0xFF0D9488),
+          onTap: _openImpact,
+        ),
         ServiceDescriptor(
           title: context.l10n.wallet,
           assetPath: 'assets/images/main_page_wallet_ic.png',
@@ -169,6 +179,11 @@ class _HomeScreenState extends State<HomeScreen>
       ];
 
   List<HeroQuickLink> _buildQuickLinks(BuildContext context) => [
+        HeroQuickLink(
+          label: context.l10n.impactTitle,
+          icon: Icons.insights_rounded,
+          onTap: _openImpact,
+        ),
         HeroQuickLink(
           label: context.l10n.navMyRequestsTab,
           icon: Icons.inventory_2_outlined,

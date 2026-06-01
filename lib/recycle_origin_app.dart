@@ -29,6 +29,7 @@ import 'package:recycleorigin/features/customer_feature/presentation/screens/cus
 import 'package:recycleorigin/features/customer_feature/presentation/screens/profile_screen.dart';
 import 'package:recycleorigin/features/guid_feature/presentation/pages/guide_screen.dart';
 import 'package:recycleorigin/features/home_feature/presentation/home_screen.dart';
+import 'package:recycleorigin/features/impact_feature/presentation/screens/impact_screen.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/bloc/messages_bloc.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/pages/message_detail_screen.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/pages/messages_create_reply_screen.dart';
@@ -178,6 +179,7 @@ class RecycleOriginApp extends StatelessWidget {
               WastesScreenAnimatedList.routeName: (ctx) =>
                   WastesScreenAnimatedList(),
               ClearScreen.routeName: (ctx) => ClearScreen(),
+              ImpactScreen.routeName: (ctx) => const ImpactScreen(),
             },
           );
         },

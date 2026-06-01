@@ -421,5 +421,52 @@
   "phoneIsLoginIdentifierHint": "Your mobile number is used to sign in and cannot be changed here.",
   "emailIsLoginCredentialHint": "Your email address is used to sign in and cannot be changed here.",
   "postalCodeHintMessage": "Postal code is usually 5 digits.",
-  "profileNameRequiredMessage": "This field is required."
+  "profileNameRequiredMessage": "This field is required.",
+  "impactTitle": "My Impact",
+  "impactHeroTitle": "Your recycling impact",
+  "impactWeightLabel": "Recycled",
+  "impactCo2Label": "CO₂ saved",
+  "impactPickupsLabel": "Pickups",
+  "impactEarningsLabel": "Rewards",
+  "impactXpLabel": "{current} XP · {toNext} to next level",
+  "@impactXpLabel": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "toNext": { "type": "int" }
+    }
+  },
+  "impactNextTier": "Next: {name}",
+  "@impactNextTier": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "impactTreesLabel": "Trees",
+  "impactWaterLabel": "Liters water",
+  "impactEnergyLabel": "kWh saved",
+  "impactStreakTitle": "Streak",
+  "impactStreakValue": "{current} wk · best {longest}",
+  "@impactStreakValue": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "longest": { "type": "int" }
+    }
+  },
+  "impactGoalTitle": "Monthly goal",
+  "impactTrendTitle": "Recycling trend",
+  "impactBadgesTitle": "Achievements",
+  "impactLeaderboardTitle": "Leaderboard",
+  "impactLeaderboardEmpty": "No rankings yet for this period.",
+  "impactRankSummary": "Rank #{position} of {total} · top {percentile}%",
+  "@impactRankSummary": {
+    "placeholders": {
+      "position": { "type": "int" },
+      "total": { "type": "int" },
+      "percentile": { "type": "double" }
+    }
+  },
+  "impactRange7d": "Last 7 days",
+  "impactRange30d": "Last 30 days",
+  "impactRange90d": "Last 90 days",
+  "impactLoadError": "Could not load impact data."
 }
