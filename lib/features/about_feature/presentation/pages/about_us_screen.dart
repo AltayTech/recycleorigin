@@ -75,7 +75,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                 return DecoratedBox(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: index.isEven ? Colors.grey : Colors.grey,
+                    color: context.appColors.subtitleColor,
                   ),
                 );
               },

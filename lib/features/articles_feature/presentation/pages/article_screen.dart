@@ -191,7 +191,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         leading: const DrawerOrBackLeading(),
         title: Text(
           'Articles',
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: AppTheme.appBarIconColor),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
@@ -422,7 +422,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
               label: Text(ArticlesConstants.retryButton),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appColors.onHeroForeground,
               ),
             ),
           ],

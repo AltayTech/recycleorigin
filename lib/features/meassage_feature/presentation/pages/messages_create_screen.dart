@@ -137,12 +137,12 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                             child: TextField(
                               controller: subjectTextController,
                               style: TextStyle(
-                                color: Colors.black87,
+                                color: context.colors.onSurface,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
                               decoration: InputDecoration(
-                                fillColor: Colors.white,
+                                fillColor: context.appColors.cardBackground,
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -157,7 +157,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                   ),
                                 ),
                                 labelStyle: TextStyle(
-                                  color: Colors.grey,
+                                  color: context.appColors.subtitleColor,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
@@ -174,13 +174,13 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                               maxLines: 10,
                               controller: contentTextController,
                               style: TextStyle(
-                                color: Colors.black87,
+                                color: context.colors.onSurface,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
                               textAlign: TextAlign.start,
                               decoration: InputDecoration(
-                                fillColor: Colors.white,
+                                fillColor: context.appColors.cardBackground,
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -196,7 +196,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                 ),
                                 alignLabelWithHint: true,
                                 labelStyle: TextStyle(
-                                  color: Colors.grey,
+                                  color: context.appColors.subtitleColor,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
@@ -243,7 +243,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
         backgroundColor: AppTheme.primary,
         child: Icon(
           Icons.check,
-          color: Colors.white,
+          color: context.appColors.cardBackground,
         ),
       ),
       drawer: mainDrawerIfRootRoute(context),

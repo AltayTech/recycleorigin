@@ -42,12 +42,12 @@ class _AddressItemState extends State<AddressItem>
         icon: Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.red.shade50,
+            color: context.appColors.danger.withValues(alpha: 0.12),
             shape: BoxShape.circle,
           ),
           child: Icon(
             Icons.delete_outline_rounded,
-            color: Colors.red.shade400,
+            color: context.appColors.danger,
             size: 28,
           ),
         ),
@@ -59,7 +59,7 @@ class _AddressItemState extends State<AddressItem>
           ctx.l10n.removeAddressConfirmation,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.grey.shade600,
+            color: context.appColors.subtitleColor,
             height: 1.4,
           ),
         ),
@@ -79,7 +79,7 @@ class _AddressItemState extends State<AddressItem>
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
             style: FilledButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: context.colors.error,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -112,6 +112,7 @@ class _AddressItemState extends State<AddressItem>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('${context.l10n.errorRemovingAddressPrefix}$e'),
+            backgroundColor: context.appColors.danger,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -137,18 +138,21 @@ class _AddressItemState extends State<AddressItem>
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 24),
         decoration: BoxDecoration(
-          color: Colors.red.shade400,
+          color: context.appColors.danger,
           borderRadius: BorderRadius.circular(18),
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Icon(Icons.delete_rounded, color: Colors.white),
-            SizedBox(width: 6),
+            Icon(
+              Icons.delete_rounded,
+              color: context.appColors.onHeroForeground,
+            ),
+            const SizedBox(width: 6),
             Text(
               'Delete',
               style: TextStyle(
-                color: Colors.white,
+                color: context.appColors.onHeroForeground,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -161,10 +165,10 @@ class _AddressItemState extends State<AddressItem>
         decoration: BoxDecoration(
           color: widget.isSelected
               ? AppTheme.primary.withOpacity(0.05)
-              : Colors.white,
+              : context.appColors.cardBackground,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: widget.isSelected ? AppTheme.primary : Colors.grey.shade200,
+            color: widget.isSelected ? AppTheme.primary : context.colors.outline,
             width: widget.isSelected ? 2 : 1,
           ),
           boxShadow: [
@@ -176,7 +180,7 @@ class _AddressItemState extends State<AddressItem>
               )
             else
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: context.colors.shadow.withValues(alpha: 0.04),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -231,7 +235,7 @@ class _AddressItemState extends State<AddressItem>
                             Icon(
                               Icons.location_on_outlined,
                               size: 14,
-                              color: Colors.grey.shade400,
+                              color: context.colors.onSurfaceVariant,
                             ),
                             const SizedBox(width: 4),
                             Expanded(
@@ -239,7 +243,7 @@ class _AddressItemState extends State<AddressItem>
                                 widget.addressItem.address,
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: Colors.grey.shade500,
+                                  color: context.appColors.subtitleColor,
                                   height: 1.4,
                                 ),
                                 maxLines: 2,
@@ -255,14 +259,14 @@ class _AddressItemState extends State<AddressItem>
                               Icon(
                                 Icons.gps_fixed_rounded,
                                 size: 12,
-                                color: Colors.grey.shade300,
+                                color: context.colors.outline,
                               ),
                               const SizedBox(width: 4),
                               Text(
                                 _formattedCoords,
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: Colors.grey.shade400,
+                                  color: context.colors.onSurfaceVariant,
                                   fontFamily: 'monospace',
                                 ),
                               ),
@@ -284,7 +288,7 @@ class _AddressItemState extends State<AddressItem>
                           icon: Icon(
                             Icons.delete_outline_rounded,
                             size: 20,
-                            color: Colors.grey.shade400,
+                            color: context.colors.onSurfaceVariant,
                           ),
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(
@@ -332,7 +336,7 @@ class _RadioIndicator extends StatelessWidget {
             ? AppTheme.primary.withOpacity(0.12)
             : Colors.transparent,
         border: Border.all(
-          color: isSelected ? AppTheme.primary : Colors.grey.shade300,
+          color: isSelected ? AppTheme.primary : context.colors.outline,
           width: isSelected ? 6 : 2,
         ),
       ),
@@ -359,7 +363,7 @@ class _SelectionPill extends StatelessWidget {
         style: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w700,
-          color: Colors.white,
+          color: context.appColors.cardBackground,
         ),
       ),
     );

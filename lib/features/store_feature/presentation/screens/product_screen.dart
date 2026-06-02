@@ -212,14 +212,14 @@ class _ProductsScreenState extends State<ProductsScreen>
 
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color(0xffF9F9F9),
+      backgroundColor: context.appColors.scaffoldBackground,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.storeProductsAppBarTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
-            color: Colors.white,
+            color: context.appColors.cardBackground,
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -244,7 +244,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                 return badges.Badge(
                   badgeContent: cartIcon,
                   badgeStyle: badges.BadgeStyle(
-                    badgeColor: Color(0xff06623B),
+                    badgeColor: AppTheme.primary,
                   ),
                   child: Text(count.toString()),
                 );
@@ -584,8 +584,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
+                                  color: context.appColors.subtitleColor,
                                 ),
                               );
                             },
@@ -627,7 +626,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       //                              width: MediaQuery.of(context).size.width * 0.9,
       //                              height: AppBar().preferredSize.height,
       //                              decoration: BoxDecoration(
-      //                                color: Colors.white,
+      //                                color: context.appColors.cardBackground,
       //                                borderRadius: BorderRadius.circular(8),
       //                                border: Border.all(
       //                                  color: context.appColors.divider,

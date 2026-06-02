@@ -64,7 +64,10 @@ class _SupportTicketCreateScreenState extends State<SupportTicketCreateScreen> {
         Navigator.of(context).pop();
       case Failure(:final message):
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
+          SnackBar(
+            content: Text(message),
+            backgroundColor: context.appColors.danger,
+          ),
         );
     }
   }
@@ -76,7 +79,7 @@ class _SupportTicketCreateScreenState extends State<SupportTicketCreateScreen> {
       appBar: AppBar(
         title: Text(
           l10n.newMessageScreenTitle,
-          style: TextStyle(color: context.appColors.scaffoldBackground),
+          style: const TextStyle(color: AppTheme.appBarIconColor),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -155,10 +158,13 @@ class _SupportTicketCreateScreenState extends State<SupportTicketCreateScreen> {
             FilledButton(
               onPressed: _saving ? null : _submit,
               child: _saving
-                  ? const SizedBox(
+                  ? SizedBox(
                       height: 22,
                       width: 22,
-                      child: CircularProgressIndicator(strokeWidth: 2),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: context.appColors.subtitleColor,
+                      ),
                     )
                   : Text(l10n.newMessageScreenTitle),
             ),

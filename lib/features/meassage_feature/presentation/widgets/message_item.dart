@@ -42,7 +42,7 @@ class MessageItem extends StatelessWidget {
                           EnArConvertor().replaceArNumber(
                               '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}'),
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 15.0,
                           ),
@@ -52,7 +52,7 @@ class MessageItem extends StatelessWidget {
                           EnArConvertor().replaceArNumber(
                               '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}:${(DateTime.parse(message.comment_date)).second}'),
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 15.0,
                           ),

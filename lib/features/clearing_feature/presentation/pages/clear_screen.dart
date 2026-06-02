@@ -159,7 +159,7 @@ class _ClearScreenState extends State<ClearScreen>
           context.l10n.clearingPayTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
-            color: Colors.white,
+            color: context.appColors.cardBackground,
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -197,7 +197,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   padding: const EdgeInsets.all(15.0),
                                   child: Text(
                                     context.l10n.login,
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: AppTheme.appBarIconColor),
                                   ),
                                 ),
                                 decoration: BoxDecoration(
@@ -311,7 +311,7 @@ class _ClearScreenState extends State<ClearScreen>
                                       const EdgeInsets.only(top: 10, bottom: 8),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: context.appColors.cardBackground,
                                         boxShadow: [
                                           BoxShadow(
                                             color: AppTheme.primary
@@ -398,7 +398,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   controller: shabaController,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Colors.white,
+                                    fillColor: context.appColors.cardBackground,
                                     contentPadding: const EdgeInsets.only(
                                         left: 20.0,
                                         right: 20,
@@ -408,11 +408,11 @@ class _ClearScreenState extends State<ClearScreen>
                                       gapPadding: 10,
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: new BorderSide(
-                                        color: Colors.white,
+                                        color: context.appColors.cardBackground,
                                       ),
                                     ),
                                     labelStyle: TextStyle(
-                                      color: Colors.blue,
+                                      color: AppTheme.iconAccentBlue,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 10.0,
                                     ),
@@ -444,7 +444,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   controller: donationController,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Colors.white,
+                                    fillColor: context.appColors.cardBackground,
                                     contentPadding: const EdgeInsets.only(
                                         left: 20.0,
                                         right: 20,
@@ -454,11 +454,11 @@ class _ClearScreenState extends State<ClearScreen>
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: BorderSide(
                                         width: 0,
-                                        color: Colors.white,
+                                        color: context.appColors.cardBackground,
                                       ),
                                     ),
                                     labelStyle: TextStyle(
-                                      color: Colors.blue,
+                                      color: AppTheme.iconAccentBlue,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 10.0,
                                     ),
@@ -679,7 +679,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     context
                                         .l10n.clearingEnterAccountNumberSnack,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: context.appColors.cardBackground,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
@@ -701,7 +701,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     content: Text(
                                       context.l10n.clearingAmountExceedsBalance,
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: context.appColors.cardBackground,
                                         //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
@@ -748,9 +748,7 @@ class _ClearScreenState extends State<ClearScreen>
                                             return DecoratedBox(
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
-                                                color: index.isEven
-                                                    ? Colors.grey
-                                                    : Colors.grey,
+                                                color: context.appColors.subtitleColor,
                                               ),
                                             );
                                           },

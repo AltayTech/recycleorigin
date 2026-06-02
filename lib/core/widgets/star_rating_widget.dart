@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 
 /// Read-only row of stars (1–5), supports half-star display from [value].
 class StarRatingDisplay extends StatelessWidget {
@@ -54,7 +55,7 @@ class StarRatingInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final filled = color ?? Theme.of(context).colorScheme.primary;
-    final empty = emptyColor ?? Colors.grey.shade400;
+    final empty = emptyColor ?? context.colors.onSurfaceVariant;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List<Widget>.generate(5, (int i) {

@@ -275,7 +275,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                       Text(
                                         'per kilo: ',
                                         style: TextStyle(
-                                          color: Colors.grey,
+                                          color: context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -302,7 +302,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                       Text(
                                         '  \$ ',
                                         style: TextStyle(
-                                          color: Colors.grey,
+                                          color: context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -316,7 +316,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                       Text(
                                         'Total: ',
                                         style: TextStyle(
-                                          color: Colors.grey,
+                                          color: context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -350,7 +350,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                       Text(
                                         '  \$ ',
                                         style: TextStyle(
-                                          color: Colors.grey,
+                                          color: context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -380,7 +380,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                     child: Icon(
                       Icons.close,
                       size: 20,
-                      color: Colors.black54,
+                      color: context.appColors.subtitleColor,
                     ),
                   ),
                 ),
@@ -398,9 +398,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                 return DecoratedBox(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
+                                    color: context.appColors.subtitleColor,
                                   ),
                                 );
                               },

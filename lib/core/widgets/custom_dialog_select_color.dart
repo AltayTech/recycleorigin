@@ -56,7 +56,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.black26,
+              color: context.colors.shadow.withValues(alpha: 0.26),
               blurRadius: 5.0,
               offset: const Offset(0.0, 10.0),
             ),
@@ -110,7 +110,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
 //                        decoration: _selectedColorIndex == index
 //                            ? BoxDecoration(
 //                                border:
-//                                    Border.all(color: Colors.black, width: 0.2),
+//                                    Border.all(color: context.colors.onSurface, width: 0.2),
 //                                borderRadius: BorderRadius.circular(5),
 //                                color: context.appColors.divider.withOpacity(0.15),
 //                              )
@@ -165,7 +165,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
 //                                decoration: BoxDecoration(
 //                                  shape: BoxShape.circle,
 //                                  border: Border.all(
-//                                      color: Colors.black, width: 0.2),
+//                                      color: context.colors.onSurface, width: 0.2),
 //                                  color: Color(
 //                                    int.parse(
 //                                      '0xff' +
@@ -199,7 +199,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                               decoration: BoxDecoration(
                                 color: _selectedColorIndex != null
                                     ? AppTheme.primary
-                                    : Colors.grey,
+                                    : context.appColors.subtitleColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Center(
@@ -208,7 +208,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                                   child: Text(
                                     context.l10n.addToCartLabel,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: context.appColors.cardBackground,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 16,
                                     ),

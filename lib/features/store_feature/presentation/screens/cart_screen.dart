@@ -185,7 +185,7 @@ class _CartScreenState extends State<CartScreen> {
           context.l10n.shopCartTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
-            color: Colors.white,
+            color: context.appColors.cardBackground,
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -208,7 +208,7 @@ class _CartScreenState extends State<CartScreen> {
                         decoration: BoxDecoration(
                             color: context.appColors.cardBackground,
                             borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.grey, width: 0.2)),
+                            border: Border.all(color: context.appColors.subtitleColor, width: 0.2)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -293,7 +293,7 @@ class _CartScreenState extends State<CartScreen> {
                         content: Text(
                           context.l10n.cartIsEmpty,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -347,9 +347,7 @@ class _CartScreenState extends State<CartScreen> {
                                   return DecoratedBox(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? Colors.grey
-                                          : Colors.grey,
+                                      color: context.appColors.subtitleColor,
                                     ),
                                   );
                                 },

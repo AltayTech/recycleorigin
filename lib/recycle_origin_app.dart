@@ -9,6 +9,7 @@ import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/core/screens/settings_screen.dart';
 import 'package:recycleorigin/core/screens/splash_Screen.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/features/about_feature/presentation/pages/about_us_screen.dart';
 import 'package:recycleorigin/features/articles_feature/presentation/bloc/articles_bloc.dart';
 import 'package:recycleorigin/features/articles_feature/presentation/pages/article_detail_screen.dart';
@@ -127,6 +128,9 @@ class RecycleOriginApp extends StatelessWidget {
                 theme: AppTheme.lightTheme(),
                 darkTheme: AppTheme.darkTheme(),
                 themeMode: themeMode,
+                builder: (context, child) => ThemedSystemUi(
+                  child: child ?? const SizedBox.shrink(),
+                ),
                 home: home ?? const SplashScreens(),
                 routes: {
               NavigationBottomScreen.routeName: (ctx) =>

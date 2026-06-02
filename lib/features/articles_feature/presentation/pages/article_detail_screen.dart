@@ -75,7 +75,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
         leading: const DrawerOrBackLeading(),
         title: Text(
           'Article',
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: AppTheme.appBarIconColor),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
@@ -130,7 +130,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
               label: Text(ArticlesConstants.retryButton),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appColors.onHeroForeground,
               ),
             ),
           ],

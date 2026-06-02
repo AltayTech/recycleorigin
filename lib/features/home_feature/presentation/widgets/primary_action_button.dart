@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Full-width CTA that navigates to the waste-collection request
@@ -24,10 +25,11 @@ class PrimaryActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fg = useLightSurface ? AppTheme.primary : Colors.white;
+    final onHero = context.appColors.onHeroForeground;
+    final fg = useLightSurface ? AppTheme.primary : onHero;
     final secondaryBg = useLightSurface
         ? AppTheme.primary.withValues(alpha: 0.1)
-        : Colors.white.withValues(alpha: 0.16);
+        : onHero.withValues(alpha: 0.16);
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -39,12 +41,12 @@ class PrimaryActionButton extends StatelessWidget {
         label: context.l10n.requestCollectionHeroTitle,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: useLightSurface ? Colors.white : null,
+            color: useLightSurface ? context.colors.surface : null,
             borderRadius: BorderRadius.circular(AppTheme.radiusSm + 6),
             boxShadow: [
               BoxShadow(
                 color: useLightSurface
-                    ? Colors.black.withValues(alpha: 0.12)
+                    ? context.colors.shadow.withValues(alpha: 0.12)
                     : AppTheme.primary.withValues(alpha: 0.3),
                 blurRadius: useLightSurface ? 20 : 16,
                 spreadRadius: useLightSurface ? 0 : 2,

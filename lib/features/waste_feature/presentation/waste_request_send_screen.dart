@@ -151,7 +151,7 @@ class _WasteRequestSendScreenState
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.cartIsEmpty),
-          backgroundColor: Colors.red,
+          backgroundColor: context.colors.error,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -210,7 +210,7 @@ class _WasteRequestSendScreenState
             content: Text(
               '${l10n.failedSendRequestPrefix}$e',
             ),
-            backgroundColor: Colors.red,
+            backgroundColor: context.colors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -239,7 +239,7 @@ class _WasteRequestSendScreenState
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: context.colors.outline,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -271,7 +271,7 @@ class _WasteRequestSendScreenState
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey.shade500,
+                color: context.appColors.subtitleColor,
                 height: 1.4,
               ),
             ),
@@ -288,13 +288,13 @@ class _WasteRequestSendScreenState
                         borderRadius: BorderRadius.circular(12),
                       ),
                       side: BorderSide(
-                        color: Colors.grey.shade300,
+                        color: context.colors.outline,
                       ),
                     ),
                     child: Text(
                       l10n.cancelLabel,
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: context.appColors.subtitleColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -437,10 +437,10 @@ class _WasteRequestSendScreenState
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: context.colors.shadow.withValues(alpha: 0.06),
             blurRadius: 16,
             offset: const Offset(0, -4),
           ),
@@ -517,11 +517,11 @@ class _OrderSummaryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: context.colors.shadow.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -535,20 +535,20 @@ class _OrderSummaryCard extends StatelessWidget {
             label: l10n.numberFieldLabel,
             value: converter.replaceArNumber(count.toString()),
           ),
-          Divider(height: 20, color: Colors.grey.shade100),
+          Divider(height: 20, color: context.appColors.divider),
           _SummaryRow(
             icon: Icons.monetization_on_rounded,
-            iconColor: const Color(0xFFE5A100),
+            iconColor: AppTheme.iconAccentGold,
             label: l10n.totalPriceFieldLabel,
             value: converter.replaceArNumber(
               fmt.format(totalPrice),
             ),
             suffix: l10n.parentheticalUsd,
           ),
-          Divider(height: 20, color: Colors.grey.shade100),
+          Divider(height: 20, color: context.appColors.divider),
           _SummaryRow(
             icon: Icons.scale_rounded,
-            iconColor: const Color(0xFF8B5CF6),
+            iconColor: AppTheme.iconAccentPurple,
             label: l10n.totalWeightFieldLabel,
             value: converter.replaceArNumber(
               totalWeight.toString(),
@@ -596,7 +596,7 @@ class _SummaryRow extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
-                  color: Colors.grey.shade500,
+                  color: context.appColors.subtitleColor,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
@@ -605,7 +605,7 @@ class _SummaryRow extends StatelessWidget {
                 Text(
                   suffix!,
                   style: TextStyle(
-                    color: Colors.grey.shade400,
+                    color: context.colors.onSurfaceVariant,
                     fontSize: 10,
                   ),
                 ),
@@ -653,11 +653,11 @@ class _DetailsReviewCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: context.colors.shadow.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -667,30 +667,30 @@ class _DetailsReviewCard extends StatelessWidget {
         children: [
           _DetailRow(
             icon: Icons.calendar_month_rounded,
-            iconColor: const Color(0xFF3B82F6),
+            iconColor: AppTheme.iconAccentBlue,
             label: l10n.collectDateFieldLabel,
             value:
                 '$dateHeading  ${converter.replaceArNumber(dateRest)}',
           ),
-          Divider(height: 20, color: Colors.grey.shade100),
+          Divider(height: 20, color: context.appColors.divider),
           _DetailRow(
             icon: Icons.schedule_rounded,
-            iconColor: const Color(0xFF8B5CF6),
+            iconColor: AppTheme.iconAccentPurple,
             label: l10n.collectHourFieldLabel,
             value: hours,
           ),
-          Divider(height: 20, color: Colors.grey.shade100),
+          Divider(height: 20, color: context.appColors.divider),
           _DetailRow(
             icon: Icons.location_on_rounded,
-            iconColor: const Color(0xFFEF4444),
+            iconColor: AppTheme.iconAccentRed,
             label: l10n.regionColonPrefix,
             value: regionName,
           ),
           if (addressName.isNotEmpty) ...[
-            Divider(height: 20, color: Colors.grey.shade100),
+            Divider(height: 20, color: context.appColors.divider),
             _DetailRow(
               icon: Icons.home_rounded,
-              iconColor: const Color(0xFF10B981),
+              iconColor: AppTheme.iconAccentGreen,
               label: l10n.addressLabel,
               value: addressName,
               subtitle: addressFull,
@@ -738,7 +738,7 @@ class _DetailRow extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
-                  color: Colors.grey.shade400,
+                  color: context.colors.onSurfaceVariant,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
@@ -757,7 +757,7 @@ class _DetailRow extends StatelessWidget {
                 Text(
                   subtitle!,
                   style: TextStyle(
-                    color: Colors.grey.shade500,
+                    color: context.appColors.subtitleColor,
                     fontSize: 12,
                   ),
                   maxLines: 2,
@@ -792,11 +792,11 @@ class _WasteItemReviewTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: context.colors.shadow.withValues(alpha: 0.03),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -846,7 +846,7 @@ class _WasteItemReviewTile extends StatelessWidget {
                 Text(
                   '${converter.replaceArNumber(item.weight.toString())} kg',
                   style: TextStyle(
-                    color: Colors.grey.shade500,
+                    color: context.appColors.subtitleColor,
                     fontSize: 12,
                   ),
                 ),
@@ -895,10 +895,10 @@ class _StepProgressBar extends StatelessWidget {
         vertical: 14,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: context.colors.shadow.withValues(alpha: 0.03),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -918,7 +918,7 @@ class _StepProgressBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: stepBefore < currentStep
                       ? AppTheme.primary
-                      : Colors.grey.shade300,
+                      : context.colors.outline,
                   borderRadius: BorderRadius.circular(1),
                 ),
               ),
@@ -941,7 +941,7 @@ class _StepProgressBar extends StatelessWidget {
                       ? AppTheme.primary
                       : isActive
                           ? AppTheme.primary.withOpacity(0.12)
-                          : Colors.grey.shade100,
+                          : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
                       ? Border.all(
@@ -956,10 +956,10 @@ class _StepProgressBar extends StatelessWidget {
                       : _steps[stepIndex],
                   size: 16,
                   color: isCompleted
-                      ? Colors.white
+                      ? context.appColors.onHeroForeground
                       : isActive
                           ? AppTheme.primary
-                          : Colors.grey.shade400,
+                          : context.colors.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 4),
@@ -972,7 +972,7 @@ class _StepProgressBar extends StatelessWidget {
                       : FontWeight.w500,
                   color: isActive || isCompleted
                       ? AppTheme.primary
-                      : Colors.grey.shade400,
+                      : context.colors.onSurfaceVariant,
                 ),
               ),
             ],

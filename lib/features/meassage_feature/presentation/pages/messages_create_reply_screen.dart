@@ -154,7 +154,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                               maxLines: 10,
                               controller: contentTextController,
                               decoration: InputDecoration(
-                                fillColor: Colors.white,
+                                fillColor: context.appColors.cardBackground,
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -170,7 +170,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                                   ),
                                 ),
                                 labelStyle: TextStyle(
-                                  color: Colors.grey,
+                                  color: context.appColors.subtitleColor,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
@@ -217,7 +217,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
         backgroundColor: AppTheme.primary,
         child: Icon(
           Icons.check,
-          color: Colors.white,
+          color: context.appColors.cardBackground,
         ),
       ),
       drawer: mainDrawerIfRootRoute(context),

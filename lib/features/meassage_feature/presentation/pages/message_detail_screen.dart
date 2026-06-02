@@ -104,7 +104,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                           Text(
                             context.l10n.messageQuestionTitleLabel,
                             style: TextStyle(
-                              color: Colors.black54,
+                              color: context.appColors.subtitleColor,
                               //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
@@ -115,7 +115,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                             EnArConvertor().replaceArNumber(
                                 '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}:${(DateTime.parse(message.comment_date)).second}'),
                             style: TextStyle(
-                              color: Colors.black54,
+                              color: context.appColors.subtitleColor,
                               //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
@@ -127,7 +127,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                               EnArConvertor().replaceArNumber(
                                   '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}'),
                               style: TextStyle(
-                                color: Colors.black54,
+                                color: context.appColors.subtitleColor,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
@@ -144,7 +144,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                         child: Text(
                           message.subject,
                           style: TextStyle(
-                            color: Colors.black,
+                            color: context.colors.onSurface,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 15.0,
                           ),
@@ -183,9 +183,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                                 return DecoratedBox(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
+                                    color: context.appColors.subtitleColor,
                                   ),
                                 );
                               },

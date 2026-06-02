@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../screens/profile_screen.dart';
@@ -68,13 +69,13 @@ class _DialogBody extends StatelessWidget {
             right: _DialogConsts.padding,
           ),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.appColors.cardBackground,
             borderRadius: BorderRadius.circular(_DialogConsts.padding),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Colors.black26,
+                color: context.colors.shadow.withValues(alpha: 0.26),
                 blurRadius: 10,
-                offset: Offset(0, 10),
+                offset: const Offset(0, 10),
               ),
             ],
           ),
@@ -84,7 +85,7 @@ class _DialogBody extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: const Color(0xff0197F6),
+                  color: context.appColors.info,
                   fontSize: titleSize,
                   fontWeight: FontWeight.w700,
                 ),
@@ -94,7 +95,7 @@ class _DialogBody extends StatelessWidget {
                 description,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.blueGrey,
+                  color: context.appColors.subtitleColor,
                   fontSize: bodySize,
                 ),
               ),
@@ -115,7 +116,7 @@ class _DialogBody extends StatelessWidget {
                         child: Text(
                           buttonText,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.onHeroForeground,
                             fontSize: buttonSize,
                           ),
                         ),
@@ -131,7 +132,7 @@ class _DialogBody extends StatelessWidget {
           top: 0,
           child: CircleAvatar(
             radius: _DialogConsts.avatarRadius + 8,
-            backgroundColor: Colors.white,
+            backgroundColor: context.appColors.cardBackground,
             child: ClipOval(child: image),
           ),
         ),

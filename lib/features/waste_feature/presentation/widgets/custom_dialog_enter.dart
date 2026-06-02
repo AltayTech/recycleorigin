@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
@@ -38,12 +39,12 @@ class CustomDialogEnter extends StatelessWidget {
           ),
           margin: EdgeInsets.only(top: Consts.avatarRadius),
           decoration: new BoxDecoration(
-            color: Colors.white,
+            color: context.appColors.cardBackground,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(Consts.padding),
             boxShadow: [
               BoxShadow(
-                color: Colors.black26,
+                color: context.colors.shadow.withValues(alpha: 0.26),
                 blurRadius: 10.0,
                 offset: const Offset(0.0, 10.0),
               ),
@@ -55,7 +56,7 @@ class CustomDialogEnter extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: Color(0xff0197F6),
+                  color: context.appColors.info,
                   fontSize: MediaQuery.of(context).textScaleFactor * 16,
                   fontWeight: FontWeight.w700,
                 ),
@@ -65,7 +66,7 @@ class CustomDialogEnter extends StatelessWidget {
                 description,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.blueGrey,
+                  color: context.appColors.subtitleColor,
                   fontSize: MediaQuery.of(context).textScaleFactor * 14,
                 ),
               ),
@@ -90,7 +91,7 @@ class CustomDialogEnter extends StatelessWidget {
                         child: Text(
                           buttonText,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize:
                                 MediaQuery.of(context).textScaleFactor * 16,

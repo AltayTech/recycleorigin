@@ -259,7 +259,7 @@ class _CardItemState extends State<CardItem> {
                                             Text(
                                               '  \$ ',
                                               style: TextStyle(
-                                                color: Colors.grey,
+                                                color: context.appColors.subtitleColor,
                                                 //fontFamily: 'Iransans',
                                                 fontSize: textScaleFactor * 12,
                                               ),
@@ -291,7 +291,7 @@ class _CardItemState extends State<CardItem> {
                       child: Icon(
                         Icons.close,
                         size: 20,
-                        color: Colors.black54,
+                        color: context.appColors.subtitleColor,
                       ),
                     ),
                   ),
@@ -309,9 +309,7 @@ class _CardItemState extends State<CardItem> {
                                   return DecoratedBox(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? Colors.grey
-                                          : Colors.grey,
+                                      color: context.appColors.subtitleColor,
                                     ),
                                   );
                                 },

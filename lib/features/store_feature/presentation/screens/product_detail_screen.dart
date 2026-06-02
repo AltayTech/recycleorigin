@@ -249,7 +249,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   return badges.Badge(
                     badgeContent: cartIcon,
                     badgeStyle: badges.BadgeStyle(
-                      badgeColor: Color(0xff06623B),
+                      badgeColor: AppTheme.primary,
                     ),
                     child: Text(count.toString()),
                   );
@@ -271,7 +271,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           return DecoratedBox(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: index.isEven ? Colors.grey : Colors.grey,
+                              color: context.appColors.subtitleColor,
                             ),
                           );
                         },
@@ -398,7 +398,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             '\$',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: context.appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,
                                             ),
@@ -455,7 +455,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             content: Text(
                               context.l10n.productPriceZeroSnack,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: context.appColors.cardBackground,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),
@@ -474,7 +474,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             content: Text(
                               context.l10n.productAlreadyInCartSnack,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: context.appColors.cardBackground,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),
@@ -495,7 +495,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             content: Text(
                               context.l10n.productAddedToCartSnack,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: context.appColors.cardBackground,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),

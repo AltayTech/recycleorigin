@@ -38,12 +38,12 @@ class DateSelector extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF3B82F6).withOpacity(0.1),
+                  color: AppTheme.iconAccentBlue.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   Icons.calendar_today_rounded,
-                  color: Color(0xFF3B82F6),
+                  color: AppTheme.iconAccentBlue,
                   size: 18,
                 ),
               ),
@@ -97,12 +97,12 @@ class DateSelector extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: isSelected
                         ? AppTheme.primary
-                        : Colors.white,
+                        : context.appColors.cardBackground,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: isSelected
                           ? AppTheme.primary
-                          : Colors.grey.shade200,
+                          : context.colors.outline,
                       width: isSelected ? 2 : 1,
                     ),
                     boxShadow: isSelected
@@ -117,7 +117,7 @@ class DateSelector extends StatelessWidget {
                         : [
                             BoxShadow(
                               color:
-                                  Colors.black.withOpacity(0.03),
+                                  context.colors.shadow.withValues(alpha: 0.03),
                               blurRadius: 6,
                               offset: const Offset(0, 2),
                             ),
@@ -130,8 +130,8 @@ class DateSelector extends StatelessWidget {
                         converter.replaceArNumber(dayName),
                         style: TextStyle(
                           color: isSelected
-                              ? Colors.white.withOpacity(0.85)
-                              : Colors.grey.shade500,
+                              ? context.appColors.onHeroForeground.withValues(alpha: 0.85)
+                              : context.appColors.subtitleColor,
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                         ),
@@ -141,7 +141,7 @@ class DateSelector extends StatelessWidget {
                         converter.replaceArNumber(dayNum),
                         style: TextStyle(
                           color: isSelected
-                              ? Colors.white
+                              ? context.appColors.onHeroForeground
                               : context.colors.onSurface,
                           fontSize: 22,
                           fontWeight: FontWeight.w800,
@@ -152,8 +152,8 @@ class DateSelector extends StatelessWidget {
                         converter.replaceArNumber(monthName),
                         style: TextStyle(
                           color: isSelected
-                              ? Colors.white.withOpacity(0.8)
-                              : Colors.grey.shade400,
+                              ? context.appColors.onHeroForeground.withValues(alpha: 0.8)
+                              : context.colors.onSurfaceVariant,
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                         ),

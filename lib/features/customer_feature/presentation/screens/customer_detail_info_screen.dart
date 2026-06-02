@@ -146,7 +146,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             Icon(
               Icons.error_outline,
               size: 64,
-              color: AppTheme.colorOne,
+              color: context.appColors.danger,
             ),
             const SizedBox(height: 16),
             Text(
@@ -282,7 +282,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
     return _buildInfoCard(
       title: l10n.personalInformationTitle,
       icon: Icons.person,
-      iconColor: const Color(0xffA67FEC),
+      iconColor: AppTheme.iconAccentPurple,
       children: [
         _InfoItem(
           title: l10n.nameLabel,
@@ -332,7 +332,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
     return _buildInfoCard(
       title: l10n.contactInformationTitle,
       icon: Icons.contact_mail,
-      iconColor: const Color(0xff4392F1),
+      iconColor: AppTheme.iconAccentBlue,
       children: [
         _InfoItem(
           title: l10n.emailAddressLabel,

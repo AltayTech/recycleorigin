@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/core/utils/app_info_service.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigin/features/support_tickets/presentation/screens/support_tickets_list_screen.dart';
@@ -170,8 +171,10 @@ class _MainDrawerState extends State<MainDrawer> {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final extension = theme.extension<AppColorsExtension>();
+    final appColors = context.appColors;
+    final onHero = appColors.onHeroForeground;
     final gradientStart = extension?.heroGradientStart ?? colors.primary;
-    final gradientEnd = extension?.heroGradientEnd ?? AppTheme.primary;
+    final gradientEnd = extension?.heroGradientEnd ?? AppTheme.primaryDark;
 
     final firstName = customer?.personalData.first_name ?? '';
     final lastName = customer?.personalData.last_name ?? '';
@@ -221,9 +224,9 @@ class _MainDrawerState extends State<MainDrawer> {
                 width: 56,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.18),
+                  color: onHero.withValues(alpha: 0.18),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.28),
+                    color: onHero.withValues(alpha: 0.28),
                     width: 1.2,
                   ),
                 ),
@@ -231,16 +234,16 @@ class _MainDrawerState extends State<MainDrawer> {
                     ? Center(
                         child: Text(
                           _nameInitials(displayName),
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: onHero,
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       )
-                    : const Icon(
+                    : Icon(
                         Icons.person_rounded,
-                        color: Colors.white,
+                        color: onHero,
                         size: 28,
                       ),
               ),
@@ -253,8 +256,8 @@ class _MainDrawerState extends State<MainDrawer> {
                       isAuthenticated
                           ? displayName
                           : context.l10n.recycleorigin,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: onHero,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.2,
@@ -266,7 +269,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     Text(
                       subtitle,
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.86),
+                        color: onHero.withValues(alpha: 0.86),
                         fontSize: 12,
                         height: 1.35,
                       ),
@@ -278,7 +281,7 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               Icon(
                 Icons.chevron_right_rounded,
-                color: Colors.white.withValues(alpha: 0.7),
+                color: onHero.withValues(alpha: 0.7),
                 size: 24,
               ),
             ],
@@ -296,12 +299,13 @@ class _MainDrawerState extends State<MainDrawer> {
 
   Widget _buildSectionTitle(String text) {
     final textStyle = Theme.of(context).textTheme.labelLarge;
+    final onHero = context.appColors.onHeroForeground;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
       child: Text(
         text,
         style: textStyle?.copyWith(
-          color: Colors.white.withValues(alpha: 0.84),
+          color: onHero.withValues(alpha: 0.84),
           fontWeight: FontWeight.w600,
           letterSpacing: 0.3,
         ),
@@ -319,7 +323,7 @@ class _MainDrawerState extends State<MainDrawer> {
     final selectedColor = Theme.of(context).brightness == Brightness.dark
         ? colors.surfaceContainerHighest.withValues(alpha: 0.92)
         : colors.surface.withValues(alpha: 0.92);
-    final defaultFg = Colors.white.withValues(alpha: 0.94);
+    final defaultFg = context.appColors.onHeroForeground.withValues(alpha: 0.94);
     final destructiveFg = colors.errorContainer;
     final foreground = destructive ? destructiveFg : defaultFg;
 
@@ -386,7 +390,7 @@ class _MainDrawerState extends State<MainDrawer> {
           SnackBar(
             content:
                 Text('${context.l10n.navigationErrorPrefix}${e.toString()}'),
-            backgroundColor: Colors.red,
+            backgroundColor: context.colors.error,
             duration: const Duration(seconds: 3),
           ),
         );
@@ -423,7 +427,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       content: Text(
                         '${parentContext.l10n.signOutErrorPrefix}$e',
                       ),
-                      backgroundColor: Colors.red,
+                      backgroundColor: context.colors.error,
                       duration: const Duration(seconds: 3),
                     ),
                   );
@@ -460,7 +464,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 TextButton(
                   onPressed: busy ? null : onConfirm,
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.red,
+                    foregroundColor: Theme.of(ctx).colorScheme.error,
                   ),
                   child: busy
                       ? SizedBox(
@@ -497,16 +501,22 @@ class _MainDrawerState extends State<MainDrawer> {
     final currentRouteName = ModalRoute.of(context)?.settings.name ?? '';
     final l10n = context.l10n;
 
+    final appColors = context.appColors;
     return Drawer(
       elevation: 0,
+      backgroundColor: appColors.drawerSurface,
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: <Color>[
-              AppTheme.primary,
-              AppTheme.primary.withValues(alpha: 0.92),
+              appColors.drawerSurface,
+              Color.lerp(
+                appColors.drawerSurface,
+                appColors.heroGradientEnd,
+                0.35,
+              )!,
             ],
           ),
         ),
@@ -665,7 +675,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.22),
+                      color: appColors.onHeroForeground.withValues(alpha: 0.22),
                       width: 1,
                     ),
                   ),
@@ -675,14 +685,14 @@ class _MainDrawerState extends State<MainDrawer> {
                   children: [
                     Icon(
                       Icons.info_outline_rounded,
-                      color: Colors.white.withValues(alpha: 0.66),
+                      color: appColors.onHeroForeground.withValues(alpha: 0.66),
                       size: 16,
                     ),
                     const SizedBox(width: 6),
                     Text(
                       _appVersion,
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.66),
+                        color: appColors.onHeroForeground.withValues(alpha: 0.66),
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.3,

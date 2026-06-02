@@ -22,7 +22,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
       decoration: AppTheme.listItemBoxFor(context).copyWith(
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: context.appColors.subtitleColor.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -75,7 +75,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: Colors.grey[600],
+            color: context.appColors.subtitleColor,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
@@ -87,7 +87,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
               child: _buildValueBox(
                 label: context.l10n.statusRequestLabel,
                 value: requested,
-                color: Colors.orange,
+                color: context.appColors.warning,
               ),
             ),
             const SizedBox(width: 12),
@@ -95,7 +95,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
               child: _buildValueBox(
                 label: context.l10n.statusDeliveredLabel,
                 value: delivered,
-                color: Colors.green,
+                color: context.appColors.success,
               ),
             ),
           ],

@@ -254,7 +254,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                               color: context.appColors.cardBackground,
                               borderRadius: BorderRadius.circular(5),
                               border:
-                                  Border.all(color: Colors.grey, width: 0.2)),
+                                  Border.all(color: context.appColors.subtitleColor, width: 0.2)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -266,7 +266,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                       Expanded(
                                         child: Icon(
                                           Icons.restore_from_trash,
-                                          color: Colors.red,
+                                          color: context.colors.error,
                                           size: 40,
                                         ),
                                       ),
@@ -347,7 +347,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                       Expanded(
                                         child: Icon(
                                           Icons.av_timer,
-                                          color: Colors.blue,
+                                          color: AppTheme.iconAccentBlue,
                                           size: 40,
                                         ),
                                       ),
@@ -426,7 +426,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                           content: Text(
                             context.l10n.noWasteAddedYet,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: context.appColors.cardBackground,
                               //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 14.0,
                             ),
@@ -473,9 +473,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                 return DecoratedBox(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
+                                    color: context.appColors.subtitleColor,
                                   ),
                                 );
                               },

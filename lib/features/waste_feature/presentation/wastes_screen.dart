@@ -213,7 +213,7 @@ class _WastesScreenState extends State<WastesScreen> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: context.appColors.divider,
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -221,7 +221,7 @@ class _WastesScreenState extends State<WastesScreen> {
                   ? Icons.search_off_rounded
                   : Icons.inventory_2_outlined,
               size: 48,
-              color: Colors.grey[400],
+              color: context.colors.onSurfaceVariant,
             ),
           ),
           const SizedBox(height: 20),
@@ -231,7 +231,7 @@ class _WastesScreenState extends State<WastesScreen> {
                 : l10n.wasteSearchNoItemsMessage,
             style: TextStyle(
               fontSize: 17,
-              color: Colors.grey[600],
+              color: context.appColors.subtitleColor,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -278,7 +278,7 @@ class _SearchBar extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-      color: Colors.white,
+      color: context.appColors.cardBackground,
       child: Row(
         children: [
           Expanded(
@@ -297,19 +297,19 @@ class _SearchBar extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: l10n.searchWasteHint,
                   hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
+                    color: context.colors.onSurfaceVariant,
                     fontSize: 14,
                   ),
                   prefixIcon: Icon(
                     Icons.search_rounded,
-                    color: Colors.grey.shade400,
+                    color: context.colors.onSurfaceVariant,
                     size: 20,
                   ),
                   suffixIcon: controller.text.isNotEmpty
                       ? IconButton(
                           icon: Icon(
                             Icons.clear_rounded,
-                            color: Colors.grey.shade400,
+                            color: context.colors.onSurfaceVariant,
                             size: 18,
                           ),
                           onPressed: () {
@@ -386,13 +386,16 @@ class _DoneButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      icon: Icon(Icons.check_rounded, color: Colors.white),
+      icon: Icon(
+        Icons.check_rounded,
+        color: context.appColors.onHeroForeground,
+      ),
       label: Row(
         children: [
           Text(
             l10n.doneLabel,
             style: TextStyle(
-              color: Colors.white,
+              color: context.appColors.onHeroForeground,
               fontWeight: FontWeight.bold,
               fontSize: 15,
             ),
@@ -405,13 +408,13 @@ class _DoneButton extends StatelessWidget {
                 vertical: 2,
               ),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.25),
+                color: context.appColors.onHeroForeground.withValues(alpha: 0.25),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
                 selectedCount.toString(),
                 style: TextStyle(
-                  color: Colors.white,
+                  color: context.appColors.onHeroForeground,
                   fontWeight: FontWeight.w800,
                   fontSize: 13,
                 ),

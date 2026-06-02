@@ -149,31 +149,31 @@ class _HomeScreenState extends State<HomeScreen>
         ServiceDescriptor(
           title: context.l10n.impactTitle,
           icon: Icons.eco_rounded,
-          color: const Color(0xFF0D9488),
+          color: AppTheme.serviceImpact,
           onTap: _openImpact,
         ),
         ServiceDescriptor(
           title: context.l10n.wallet,
           assetPath: 'assets/images/main_page_wallet_ic.png',
-          color: const Color(0xFF22C55E),
+          color: AppTheme.serviceWallet,
           onTap: _openWallet,
         ),
         ServiceDescriptor(
           title: context.l10n.store,
           assetPath: 'assets/images/main_page_shop_ic.png',
-          color: const Color(0xFF8B5CF6),
+          color: AppTheme.serviceStore,
           onTap: _openStore,
         ),
         ServiceDescriptor(
           title: context.l10n.articles,
           assetPath: 'assets/images/main_page_paper_ic.png',
-          color: const Color(0xFFF59E0B),
+          color: AppTheme.serviceArticles,
           onTap: _openArticles,
         ),
         ServiceDescriptor(
           title: context.l10n.profile,
           icon: Icons.person_rounded,
-          color: const Color(0xFF6366F1),
+          color: AppTheme.serviceProfile,
           onTap: _openProfile,
         ),
       ];

@@ -107,7 +107,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                 return DecoratedBox(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: index.isEven ? Colors.grey : Colors.grey,
+                    color: context.appColors.subtitleColor,
                   ),
                 );
               },
@@ -157,7 +157,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Icon(
                                         Icons.location_on,
-                                        color: Colors.indigoAccent,
+                                        color: AppTheme.iconAccentPurple,
                                       ),
                                     ),
                                     Expanded(
@@ -165,7 +165,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                       child: Text(
                                         shopData.address,
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: context.colors.onSurface,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
@@ -186,7 +186,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Icon(
                                         Icons.call,
-                                        color: Colors.indigoAccent,
+                                        color: AppTheme.iconAccentPurple,
                                       ),
                                     ),
                                     Expanded(
@@ -196,7 +196,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                           shopData.support_phone,
                                         ),
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: context.colors.onSurface,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
@@ -217,7 +217,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Icon(
                                         Icons.smartphone,
-                                        color: Colors.indigoAccent,
+                                        color: AppTheme.iconAccentPurple,
                                       ),
                                     ),
                                     Expanded(
@@ -226,7 +226,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                         EnArConvertor()
                                             .replaceArNumber(shopData.mobile),
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: context.colors.onSurface,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),

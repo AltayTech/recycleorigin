@@ -378,7 +378,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                         content: Text(
                           context.l10n.orderNoItemsInCartSnack,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -397,7 +397,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                         content: Text(
                           context.l10n.orderInsufficientWalletSnack,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -450,8 +450,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
+                                  color: context.appColors.subtitleColor,
                                 ),
                               );
                             },

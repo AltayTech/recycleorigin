@@ -52,7 +52,7 @@ class MessageReplyItem extends StatelessWidget {
                       Text(
                         message.comment_author,
                         style: TextStyle(
-                          color: Colors.black54,
+                          color: context.appColors.subtitleColor,
                           //fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 15.0,
                         ),
@@ -66,7 +66,7 @@ class MessageReplyItem extends StatelessWidget {
                             '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}',
                           ),
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: context.appColors.subtitleColor,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),

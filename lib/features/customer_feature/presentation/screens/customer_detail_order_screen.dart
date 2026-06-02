@@ -55,7 +55,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                           EnArConvertor()
                               .replaceArNumber((orderList.length.toString())),
                           style: TextStyle(
-                            color: Color(0xffA67FEC),
+                            color: AppTheme.iconAccentPurple,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -63,7 +63,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                         Text(
                           'Number ',
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: context.appColors.subtitleColor,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -77,7 +77,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                     child: Text(
                       'Orders',
                       style: TextStyle(
-                        color: Colors.blueGrey,
+                        color: context.appColors.subtitleColor,
                         //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
                       ),
@@ -153,7 +153,7 @@ class OrderItem extends StatelessWidget {
       child: Container(
         height: deviceHeight * 0.250,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.appColors.cardBackground,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: AppTheme.accent, width: 0.4)),
         child: Column(
@@ -239,7 +239,7 @@ class OrderItem extends StatelessWidget {
                         Text(
                           'Number: ',
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: context.appColors.subtitleColor,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 12.0,
                           ),

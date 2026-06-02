@@ -30,7 +30,7 @@ class CustomDialogSendRequest extends StatelessWidget {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.black.withValues(alpha: 0.45),
+      barrierColor: context.colors.shadow.withValues(alpha: 0.45),
       builder: (ctx) => CustomDialogSendRequest(
         title: title,
         description: description,
@@ -55,7 +55,7 @@ class CustomDialogSendRequest extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       elevation: 8,
-      shadowColor: Colors.black.withValues(alpha: 0.2),
+      shadowColor: context.colors.shadow.withValues(alpha: 0.2),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 360),
         child: Padding(
@@ -107,7 +107,7 @@ class CustomDialogSendRequest extends StatelessWidget {
                 child: FilledButton(
                   style: FilledButton.styleFrom(
                     backgroundColor: AppTheme.primary,
-                    foregroundColor: Colors.white,
+                    foregroundColor: context.appColors.onHeroForeground,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

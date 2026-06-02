@@ -132,9 +132,8 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
 //            ),
           title: Text(
             l10n.recycleorigin,
-            style: TextStyle(
-              // //fontFamily: 'Iransans',
-              color: Colors.white,
+            style: const TextStyle(
+              color: AppTheme.appBarIconColor,
             ),
           ),
 //            shape: RoundedRectangleBorder(

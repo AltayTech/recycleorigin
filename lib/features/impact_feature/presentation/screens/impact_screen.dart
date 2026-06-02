@@ -207,13 +207,13 @@ class _HeroStat extends StatelessWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: Colors.white70,
+                  color: context.appColors.onHeroForeground.withValues(alpha: 0.7),
                 ),
           ),
           Text(
             value,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.white,
+                  color: context.appColors.onHeroForeground,
                   fontWeight: FontWeight.bold,
                 ),
           ),
@@ -221,7 +221,7 @@ class _HeroStat extends StatelessWidget {
             Text(
               trend!,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: Colors.white60,
+                    color: context.appColors.onHeroForeground.withValues(alpha: 0.6),
                   ),
             ),
         ],
@@ -387,7 +387,9 @@ class _StreakCard extends StatelessWidget {
           children: [
             Icon(
               Icons.local_fire_department_rounded,
-              color: streak.active ? Colors.orange : Colors.grey,
+              color: streak.active
+                  ? context.appColors.warning
+                  : context.appColors.subtitleColor,
             ),
             const SizedBox(height: AppTheme.spacingSm),
             Text(
@@ -569,13 +571,13 @@ class _BadgeTile extends StatelessWidget {
             color: badge.earned ? AppTheme.primary : context.appColors.divider,
             width: badge.earned ? 2 : 1,
           ),
-          boxShadow: AppTheme.cardShadow(Colors.black),
+          boxShadow: AppTheme.cardShadow(context.colors.shadow),
         ),
         child: Column(
           children: [
             Icon(
               _iconFor(badge.icon),
-              color: badge.earned ? AppTheme.primaryDark : Colors.grey,
+              color: badge.earned ? AppTheme.primaryDark : context.appColors.subtitleColor,
             ),
             const SizedBox(height: 4),
             Text(

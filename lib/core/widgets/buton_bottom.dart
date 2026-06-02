@@ -22,7 +22,7 @@ class ButtonBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const fgColor = Colors.white;
+    final fgColor = context.appColors.onHeroForeground;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),

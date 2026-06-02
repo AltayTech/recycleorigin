@@ -65,7 +65,7 @@ class InfoEditItem extends StatelessWidget {
                 ),
               ),
               Container(
-                color: Colors.white,
+                color: context.appColors.cardBackground,
                 height: fieldHeight,
                 child: TextFormField(
                   maxLines: maxLine,
@@ -97,16 +97,16 @@ class InfoEditItem extends StatelessWidget {
                     filled: true,
                     fillColor: readOnly
                         ? context.appColors.scaffoldBackground
-                        : Colors.white,
+                        : context.appColors.cardBackground,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                         width: 0,
-                        color: Colors.white,
+                        color: context.appColors.cardBackground,
                       ),
                     ),
                     labelStyle: TextStyle(
-                      color: Colors.blue,
+                      color: context.appColors.info,
                       fontSize: textScaleFactor * 10.0,
                     ),
                   ),

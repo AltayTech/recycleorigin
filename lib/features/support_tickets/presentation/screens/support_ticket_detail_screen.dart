@@ -89,7 +89,10 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
         setState(() => _messages = <SupportTicketMessage>[..._messages, value]);
       case Failure(:final message):
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
+          SnackBar(
+            content: Text(message),
+            backgroundColor: context.appColors.danger,
+          ),
         );
     }
   }
@@ -107,7 +110,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
       appBar: AppBar(
         title: Text(
           l10n.messageReplyAppBarTitle,
-          style: TextStyle(color: context.appColors.scaffoldBackground),
+          style: const TextStyle(color: AppTheme.appBarIconColor),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -121,7 +124,11 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
         ],
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(
+              child: CircularProgressIndicator(
+                color: context.appColors.subtitleColor,
+              ),
+            )
           : _error != null
               ? Center(child: Text(_error!))
               : Column(
@@ -158,11 +165,12 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
                               IconButton.filled(
                                 onPressed: _sending ? null : _send,
                                 icon: _sending
-                                    ? const SizedBox(
+                                    ? SizedBox(
                                         width: 22,
                                         height: 22,
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
+                                          color: context.appColors.subtitleColor,
                                         ),
                                       )
                                     : Icon(Icons.send),

@@ -237,7 +237,7 @@ class _AvatarCircle extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppTheme.primary.withValues(alpha: 0.15),
-        border: Border.all(color: Colors.white, width: 4),
+        border: Border.all(color: context.appColors.cardBackground, width: 4),
         boxShadow: AppTheme.cardShadow(AppTheme.primary),
       ),
       alignment: Alignment.center,
@@ -478,12 +478,12 @@ class _WalletCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(AppTheme.spacingSm),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: context.appColors.onHeroForeground.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.account_balance_wallet_outlined,
-                color: Colors.white,
+                color: context.appColors.onHeroForeground,
                 size: 28,
               ),
             ),
@@ -495,14 +495,15 @@ class _WalletCard extends StatelessWidget {
                   Text(
                     l10n.wallet,
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.9),
+                          color: context.appColors.onHeroForeground
+                              .withValues(alpha: 0.9),
                         ),
                   ),
                   const SizedBox(height: AppTheme.spacingXs),
                   Text(
                     '${money} ${l10n.price_unit}',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: Colors.white,
+                          color: context.appColors.onHeroForeground,
                           fontWeight: FontWeight.w800,
                         ),
                   ),
@@ -665,7 +666,7 @@ class _SignOutButton extends StatelessWidget {
                   ScaffoldMessenger.of(rootContext).showSnackBar(
                     SnackBar(
                       content: Text('${l10n.signOutErrorPrefix}$e'),
-                      backgroundColor: Colors.red,
+                      backgroundColor: context.colors.error,
                     ),
                   );
                 }
@@ -694,7 +695,7 @@ class _SignOutButton extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: busy ? null : onConfirm,
-                  style: TextButton.styleFrom(foregroundColor: Colors.red),
+                  style: TextButton.styleFrom(foregroundColor: context.colors.error),
                   child: busy
                       ? SizedBox(
                           width: 22,
@@ -729,8 +730,10 @@ class _SignOutButton extends StatelessWidget {
       child: OutlinedButton.icon(
         onPressed: () => _confirmSignOut(context),
         style: OutlinedButton.styleFrom(
-          foregroundColor: Colors.red.shade700,
-          side: BorderSide(color: Colors.red.shade300),
+          foregroundColor: context.appColors.danger,
+          side: BorderSide(
+            color: context.appColors.danger.withValues(alpha: 0.5),
+          ),
           padding: const EdgeInsets.symmetric(vertical: AppTheme.spacingMd),
         ),
         icon: Icon(Icons.logout_rounded),
@@ -784,7 +787,8 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isActive = label.toLowerCase() == 'active';
-    final color = isActive ? AppTheme.primary : Colors.red;
+    final color =
+        isActive ? AppTheme.primary : context.appColors.danger;
 
     return Container(
       padding: const EdgeInsets.symmetric(

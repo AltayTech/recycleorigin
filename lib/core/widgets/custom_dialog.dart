@@ -54,7 +54,7 @@ class CustomDialog extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: Color(0xff0197F6),
+                  color: context.appColors.info,
                   fontSize: MediaQuery.of(context).textScaleFactor * 16,
                   fontWeight: FontWeight.w700,
                 ),
@@ -64,7 +64,7 @@ class CustomDialog extends StatelessWidget {
                 description,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.blueGrey,
+                  color: context.appColors.subtitleColor,
                   fontSize: MediaQuery.of(context).textScaleFactor * 14,
                 ),
               ),
@@ -81,14 +81,14 @@ class CustomDialog extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.06,
                       width: MediaQuery.of(context).size.width * 0.4,
                       decoration: BoxDecoration(
-                        color: Color(0xffFF6D6B),
+                        color: context.appColors.danger,
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Center(
                         child: Text(
                           buttonText,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.onHeroForeground,
                             //fontFamily: 'Iransans',
                             fontSize:
                                 MediaQuery.of(context).textScaleFactor * 16,

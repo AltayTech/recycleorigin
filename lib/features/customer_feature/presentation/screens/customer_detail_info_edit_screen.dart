@@ -129,7 +129,7 @@ class _CustomerDetailInfoEditScreenState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(context.l10n.failedSaveCustomerInfoMessage),
-            backgroundColor: AppTheme.colorOne,
+            backgroundColor: context.appColors.danger,
             duration: const Duration(seconds: 3),
           ),
         );
@@ -215,19 +215,19 @@ class _CustomerDetailInfoEditScreenState
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: AppTheme.colorOne.withValues(alpha: 0.1),
+        color: context.appColors.danger.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppTheme.colorOne),
+        border: Border.all(color: context.appColors.danger),
       ),
       child: Row(
         children: [
-          Icon(Icons.error_outline, color: AppTheme.colorOne, size: 20),
+          Icon(Icons.error_outline, color: context.appColors.danger, size: 20),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               _errorMessage!,
               style: TextStyle(
-                color: AppTheme.colorOne,
+                color: context.appColors.danger,
                 fontSize: 14,
               ),
             ),
@@ -255,14 +255,14 @@ class _CustomerDetailInfoEditScreenState
             _buildSectionHeader(
               l10n.personalInformationTitle,
               Icons.person,
-              const Color(0xffA67FEC),
+              AppTheme.iconAccentPurple,
             ),
             const SizedBox(height: 16),
             InfoEditItem(
               title: l10n.nameLabel,
               controller: _nameController,
               bgColor: context.appColors.cardBackground,
-              iconColor: const Color(0xffA67FEC),
+              iconColor: AppTheme.iconAccentPurple,
               keybordType: TextInputType.name,
               fieldHeight: deviceHeight * 0.06,
               thisFocusNode: _nameFocusNode,
@@ -278,7 +278,7 @@ class _CustomerDetailInfoEditScreenState
               title: l10n.lastNameLabel,
               controller: _familyController,
               bgColor: context.appColors.cardBackground,
-              iconColor: const Color(0xffA67FEC),
+              iconColor: AppTheme.iconAccentPurple,
               keybordType: TextInputType.name,
               fieldHeight: deviceHeight * 0.06,
               thisFocusNode: _familyFocusNode,
@@ -314,14 +314,14 @@ class _CustomerDetailInfoEditScreenState
             _buildSectionHeader(
               l10n.contactInformationTitle,
               Icons.contact_mail,
-              const Color(0xff4392F1),
+              AppTheme.iconAccentBlue,
             ),
             const SizedBox(height: 16),
             InfoEditItem(
               title: l10n.emailAddressLabel,
               controller: _emailDisplayController,
               bgColor: context.appColors.cardBackground,
-              iconColor: const Color(0xff4392F1),
+              iconColor: AppTheme.iconAccentBlue,
               keybordType: TextInputType.emailAddress,
               fieldHeight: deviceHeight * 0.06,
               thisFocusNode: _emailFocusNode,
@@ -334,7 +334,7 @@ class _CustomerDetailInfoEditScreenState
               title: l10n.mobileLabel,
               controller: _phoneDisplayController,
               bgColor: context.appColors.cardBackground,
-              iconColor: const Color(0xff4392F1),
+              iconColor: AppTheme.iconAccentBlue,
               keybordType: TextInputType.phone,
               fieldHeight: deviceHeight * 0.06,
               thisFocusNode: _phoneFocusNode,
@@ -347,7 +347,7 @@ class _CustomerDetailInfoEditScreenState
               title: l10n.provinceFieldLabel,
               controller: _ostanController,
               bgColor: context.appColors.cardBackground,
-              iconColor: const Color(0xff4392F1),
+              iconColor: AppTheme.iconAccentBlue,
               keybordType: TextInputType.text,
               fieldHeight: deviceHeight * 0.06,
               thisFocusNode: _ostanFocusNode,
@@ -358,7 +358,7 @@ class _CustomerDetailInfoEditScreenState
               title: l10n.cityFieldLabel,
               controller: _cityController,
               bgColor: context.appColors.cardBackground,
-              iconColor: const Color(0xff4392F1),
+              iconColor: AppTheme.iconAccentBlue,
               keybordType: TextInputType.text,
               fieldHeight: deviceHeight * 0.06,
               thisFocusNode: _cityFocusNode,
@@ -369,7 +369,7 @@ class _CustomerDetailInfoEditScreenState
               title: l10n.zipCodeLabel,
               controller: _postCodeController,
               bgColor: context.appColors.cardBackground,
-              iconColor: const Color(0xff4392F1),
+              iconColor: AppTheme.iconAccentBlue,
               keybordType: TextInputType.number,
               fieldHeight: deviceHeight * 0.06,
               thisFocusNode: _postCodeFocusNode,
@@ -424,12 +424,14 @@ class _CustomerDetailInfoEditScreenState
       backgroundColor: AppTheme.primary,
       foregroundColor: context.appColors.cardBackground,
       icon: _isSaving
-          ? const SizedBox(
+          ? SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  context.appColors.onHeroForeground,
+                ),
               ),
             )
           : Icon(Icons.check),

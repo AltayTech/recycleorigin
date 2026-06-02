@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../config/app_theme_controller.dart';
+import 'package:flutter/services.dart';
 
 /// Central design-token palette used across the app.
 ///
@@ -20,19 +19,24 @@ class AppTheme {
 
   // ── Neutrals ───────────────────────────────────────────────────
   static const Color bgLight = Color(0xFFF6F6F6);
-  static const Color bgDark = Color(0xFF121212);
+  static const Color bgDark = Color(0xFF0F0F0F);
   static const Color h1 = Color(0xFF272727);
   static const Color surfaceWhite = Colors.white;
 
-  // ── Legacy aliases (kept for backward compatibility) ─────────
-  static Color get white => _isDark ? const Color(0xFF1E1E1E) : Colors.white;
-  static Color get black => _isDark ? Colors.white : Colors.black;
-  static Color get grey =>
-      _isDark ? const Color(0xFFB0B6BF) : const Color(0xFF6B7280);
-  static Color get bg => _isDark ? bgDark : bgLight;
-  static Color colorOne = Colors.red;
-  static Color? colorTwo = Colors.red[300];
-  static Color? colorThree = Colors.red[100];
+  // ── Service tile accent palette (theme-independent brand accents)
+  static const Color serviceImpact = Color(0xFF0D9488);
+  static const Color serviceWallet = Color(0xFF22C55E);
+  static const Color serviceStore = Color(0xFF8B5CF6);
+  static const Color serviceArticles = Color(0xFFF59E0B);
+  static const Color serviceProfile = Color(0xFF6366F1);
+
+  // ── Semantic icon accents for detail rows
+  static const Color iconAccentGold = Color(0xFFE5A100);
+  static const Color iconAccentPurple = Color(0xFF8B5CF6);
+  static const Color iconAccentBlue = Color(0xFF3B82F6);
+  static const Color iconAccentRed = Color(0xFFEF4444);
+  static const Color iconAccentGreen = Color(0xFF10B981);
+
   static BoxDecoration listItemBoxFor(BuildContext context) => BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
@@ -41,19 +45,9 @@ class AppTheme {
         color: Theme.of(context).extension<AppColorsExtension>()!.cardBackground,
       );
 
-  @Deprecated('Use listItemBoxFor(context)')
-  static BoxDecoration listItemBox = BoxDecoration(
-    borderRadius: BorderRadius.circular(5),
-    border: Border.all(color: Colors.white),
-    color: Colors.white,
-  );
-
   // ── Semantic ───────────────────────────────────────────────────
   static Color get appBarColor => primary;
   static const Color appBarIconColor = Colors.white;
-  static bool get _isDark =>
-      AppThemeController.instance.themeModeNotifier.value == ThemeMode.dark;
-
 
   // ── Spacing scale (4-pt grid) ──────────────────────────────────
   static const double spacingXs = 4;
@@ -85,6 +79,19 @@ class AppTheme {
         ),
       ];
 
+  /// Status bar / navigation bar overlay for the given brightness.
+  static SystemUiOverlayStyle systemUiOverlay(Brightness brightness) {
+    final isDark = brightness == Brightness.dark;
+    return SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+      statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+      systemNavigationBarColor: isDark ? bgDark : bgLight,
+      systemNavigationBarIconBrightness:
+          isDark ? Brightness.light : Brightness.dark,
+    );
+  }
+
   // ── Theme builders ─────────────────────────────────────────────
 
   static ThemeData lightTheme() {
@@ -103,7 +110,7 @@ class AppTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: primary,
       brightness: Brightness.dark,
-      surface: const Color(0xFF1E1E1E),
+      surface: const Color(0xFF1A1A1A),
       surfaceContainerHighest: const Color(0xFF2A2A2A),
       outlineVariant: const Color(0xFF3A3A3A),
       onSurfaceVariant: const Color(0xFFB0B6BF),
@@ -119,13 +126,16 @@ class AppTheme {
     final ext = isDark ? AppColorsExtension.dark : AppColorsExtension.light;
     return ThemeData(
       useMaterial3: true,
+      brightness: brightness,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: ext.scaffoldBackground,
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: primary,
         foregroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        systemOverlayStyle: systemUiOverlay(brightness),
       ),
       textTheme: _buildTextTheme(brightness, colorScheme),
       cardTheme: CardThemeData(
@@ -141,7 +151,7 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.35),
+        fillColor: ext.inputBackground,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusSm),
           borderSide: BorderSide(color: ext.divider),
@@ -153,6 +163,10 @@ class AppTheme {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusSm),
           borderSide: BorderSide(color: colorScheme.primary, width: 1.4),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusSm),
+          borderSide: BorderSide(color: ext.danger),
         ),
       ),
       dialogTheme: DialogThemeData(
@@ -170,7 +184,7 @@ class AppTheme {
         contentTextStyle: TextStyle(color: colorScheme.onInverseSurface),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: colorScheme.surfaceContainerHighest,
+        backgroundColor: ext.tagBackground,
         selectedColor: colorScheme.primaryContainer,
         disabledColor: colorScheme.surfaceContainerHighest.withValues(
           alpha: 0.4,
@@ -193,6 +207,22 @@ class AppTheme {
             vertical: spacingMd,
           ),
         ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: primary,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusSm),
+          ),
+        ),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: primary,
+        foregroundColor: Colors.white,
+      ),
+      drawerTheme: DrawerThemeData(
+        backgroundColor: ext.drawerSurface,
       ),
       extensions: <ThemeExtension<dynamic>>[ext],
     );
@@ -256,6 +286,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.warning,
     required this.info,
     required this.danger,
+    required this.inputBackground,
+    required this.tagBackground,
+    required this.onTagBackground,
+    required this.drawerSurface,
+    required this.onHeroForeground,
   });
 
   static const AppColorsExtension light = AppColorsExtension(
@@ -269,12 +304,17 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     warning: Color(0xFFF57C00),
     info: Color(0xFF1976D2),
     danger: Color(0xFFD32F2F),
+    inputBackground: Color(0xFFF5F5F5),
+    tagBackground: Color(0xFFEFF6EF),
+    onTagBackground: AppTheme.primaryDark,
+    drawerSurface: AppTheme.primary,
+    onHeroForeground: Colors.white,
   );
 
   static const AppColorsExtension dark = AppColorsExtension(
     heroGradientStart: Color(0xFF2F8F57),
     heroGradientEnd: Color(0xFF1D6A4B),
-    cardBackground: Color(0xFF1E1E1E),
+    cardBackground: Color(0xFF1A1A1A),
     subtitleColor: Color(0xFFB0B6BF),
     scaffoldBackground: AppTheme.bgDark,
     divider: Color(0xFF3A3A3A),
@@ -282,6 +322,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     warning: Color(0xFFFFB74D),
     info: Color(0xFF64B5F6),
     danger: Color(0xFFEF9A9A),
+    inputBackground: Color(0xFF2A2A2A),
+    tagBackground: Color(0xFF1A2E1A),
+    onTagBackground: Color(0xFF4ADE80),
+    drawerSurface: Color(0xFF1B2B1B),
+    onHeroForeground: Colors.white,
   );
 
   final Color heroGradientStart;
@@ -294,6 +339,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color warning;
   final Color info;
   final Color danger;
+  final Color inputBackground;
+  final Color tagBackground;
+  final Color onTagBackground;
+  final Color drawerSurface;
+  final Color onHeroForeground;
 
   @override
   ThemeExtension<AppColorsExtension> copyWith({
@@ -307,6 +357,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? warning,
     Color? info,
     Color? danger,
+    Color? inputBackground,
+    Color? tagBackground,
+    Color? onTagBackground,
+    Color? drawerSurface,
+    Color? onHeroForeground,
   }) {
     return AppColorsExtension(
       heroGradientStart: heroGradientStart ?? this.heroGradientStart,
@@ -319,6 +374,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       warning: warning ?? this.warning,
       info: info ?? this.info,
       danger: danger ?? this.danger,
+      inputBackground: inputBackground ?? this.inputBackground,
+      tagBackground: tagBackground ?? this.tagBackground,
+      onTagBackground: onTagBackground ?? this.onTagBackground,
+      drawerSurface: drawerSurface ?? this.drawerSurface,
+      onHeroForeground: onHeroForeground ?? this.onHeroForeground,
     );
   }
 
@@ -341,6 +401,12 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       warning: Color.lerp(warning, other.warning, t)!,
       info: Color.lerp(info, other.info, t)!,
       danger: Color.lerp(danger, other.danger, t)!,
+      inputBackground: Color.lerp(inputBackground, other.inputBackground, t)!,
+      tagBackground: Color.lerp(tagBackground, other.tagBackground, t)!,
+      onTagBackground: Color.lerp(onTagBackground, other.onTagBackground, t)!,
+      drawerSurface: Color.lerp(drawerSurface, other.drawerSurface, t)!,
+      onHeroForeground:
+          Color.lerp(onHeroForeground, other.onHeroForeground, t)!,
     );
   }
 }

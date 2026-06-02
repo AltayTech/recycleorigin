@@ -200,7 +200,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             return DecoratedBox(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: index.isEven ? Colors.grey : Colors.grey,
+                                color: context.appColors.subtitleColor,
                               ),
                             );
                           },

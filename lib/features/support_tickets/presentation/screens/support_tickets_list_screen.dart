@@ -46,7 +46,7 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
         leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.supportScreenTitle,
-          style: TextStyle(color: context.appColors.scaffoldBackground),
+          style: const TextStyle(color: AppTheme.appBarIconColor),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -72,7 +72,7 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
                 }
               },
               backgroundColor: AppTheme.primary,
-              child: Icon(Icons.add, color: Colors.white),
+              child: Icon(Icons.add, color: context.appColors.cardBackground),
             )
           : null,
       body: !auth.isAuth
@@ -84,10 +84,16 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
           : BlocBuilder<SupportTicketsListCubit, SupportTicketsListState>(
               builder: (context, state) {
                 return switch (state) {
-                  SupportTicketsListInitial() =>
-                    const Center(child: CircularProgressIndicator()),
-                  SupportTicketsListLoading() =>
-                    const Center(child: CircularProgressIndicator()),
+                  SupportTicketsListInitial() => Center(
+                      child: CircularProgressIndicator(
+                        color: context.appColors.subtitleColor,
+                      ),
+                    ),
+                  SupportTicketsListLoading() => Center(
+                      child: CircularProgressIndicator(
+                        color: context.appColors.subtitleColor,
+                      ),
+                    ),
                   SupportTicketsListFailed(message: final message) =>
                     _ErrorBody(
                       message: message,
@@ -258,11 +264,11 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = switch (status) {
-      'open' => Colors.blue.shade700,
-      'in_progress' => Colors.orange.shade800,
-      'waiting_for_user' => Colors.purple.shade700,
-      'resolved' => Colors.green.shade800,
-      'closed' => Colors.grey.shade700,
+      'open' => context.appColors.info,
+      'in_progress' => context.appColors.warning,
+      'waiting_for_user' => AppTheme.iconAccentPurple,
+      'resolved' => context.appColors.success,
+      'closed' => context.appColors.subtitleColor,
       _ => context.appColors.subtitleColor,
     };
     return Container(

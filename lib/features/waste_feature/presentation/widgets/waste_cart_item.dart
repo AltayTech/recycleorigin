@@ -73,7 +73,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            style: TextButton.styleFrom(foregroundColor: context.colors.error),
             child: Text(ctx.l10n.removeLabel),
           ),
         ],
@@ -109,21 +109,21 @@ class _WasteCartItemState extends State<WasteCartItem> {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 24),
         decoration: BoxDecoration(
-          color: Colors.red.shade400,
+          color: context.appColors.danger,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Icon(Icons.delete_outline, color: Colors.white, size: 28),
+        child: Icon(Icons.delete_outline, color: context.appColors.cardBackground, size: 28),
       ),
       child: AnimatedOpacity(
         opacity: _isRemoving ? 0.4 : 1.0,
         duration: const Duration(milliseconds: 200),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.appColors.cardBackground,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: context.colors.shadow.withValues(alpha: 0.04),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -349,7 +349,7 @@ class _StepperButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: isDecrease
-          ? Colors.red.shade50
+          ? context.appColors.danger.withValues(alpha: 0.12)
           : AppTheme.primary.withOpacity(0.12),
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
@@ -360,7 +360,7 @@ class _StepperButton extends StatelessWidget {
           child: Icon(
             icon,
             size: 18,
-            color: isDecrease ? Colors.red.shade400 : AppTheme.primary,
+            color: isDecrease ? context.appColors.danger : AppTheme.primary,
           ),
         ),
       ),

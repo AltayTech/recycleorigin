@@ -34,12 +34,12 @@ class WasteItemWastesScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: isSelected
                 ? AppTheme.primary.withOpacity(0.06)
-                : Colors.white,
+                : context.appColors.cardBackground,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isSelected
                   ? AppTheme.primary
-                  : Colors.grey.shade200,
+                  : context.colors.outline,
               width: isSelected ? 2.0 : 1.0,
             ),
             boxShadow: [
@@ -51,7 +51,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                 )
               else
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
+                  color: context.colors.shadow.withValues(alpha: 0.04),
                   blurRadius: 8,
                   offset: const Offset(0, 3),
                 ),
@@ -135,7 +135,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                       child: Icon(
                         Icons.check_rounded,
                         size: 14,
-                        color: Colors.white,
+                        color: context.appColors.cardBackground,
                       ),
                     ),
                   ),

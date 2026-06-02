@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/layout/app_breakpoints.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 import 'primary_action_button.dart';
@@ -145,16 +146,17 @@ class _HeroCopy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final onHero = context.appColors.onHeroForeground;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _WelcomeBadge(),
+        _WelcomeBadge(onHero: onHero),
         const SizedBox(height: AppTheme.spacingMd),
         Text(
           context.l10n.homeWelcomeHeadline,
           style: textTheme.headlineMedium?.copyWith(
-            color: Colors.white,
+            color: onHero,
             height: 1.1,
             fontWeight: FontWeight.w800,
           ),
@@ -167,7 +169,7 @@ class _HeroCopy extends StatelessWidget {
           child: Text(
             context.l10n.homeWelcomeSubtitle,
             style: textTheme.titleMedium?.copyWith(
-              color: Colors.white.withValues(alpha: 0.9),
+              color: onHero.withValues(alpha: 0.9),
               height: 1.35,
             ),
             maxLines: 6,
@@ -187,7 +189,9 @@ class _HeroCopy extends StatelessWidget {
           spacing: AppTheme.spacingSm + 4,
           runSpacing: AppTheme.spacingSm + 4,
           children:
-              quickLinks.map((item) => _HeroQuickLinkChip(item: item)).toList(),
+              quickLinks
+                  .map((item) => _HeroQuickLinkChip(item: item, onHero: onHero))
+                  .toList(),
         ),
       ],
     );
@@ -195,6 +199,10 @@ class _HeroCopy extends StatelessWidget {
 }
 
 class _WelcomeBadge extends StatelessWidget {
+  const _WelcomeBadge({required this.onHero});
+
+  final Color onHero;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -203,16 +211,16 @@ class _WelcomeBadge extends StatelessWidget {
         vertical: 6,
       ),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.18),
+        color: onHero.withValues(alpha: 0.18),
         borderRadius: BorderRadius.circular(AppTheme.radiusFull),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.28),
+          color: onHero.withValues(alpha: 0.28),
         ),
       ),
       child: Text(
         context.l10n.welcome,
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: Colors.white,
+              color: onHero,
               fontWeight: FontWeight.w700,
               letterSpacing: 0.3,
             ),
@@ -222,9 +230,10 @@ class _WelcomeBadge extends StatelessWidget {
 }
 
 class _HeroQuickLinkChip extends StatelessWidget {
-  const _HeroQuickLinkChip({required this.item});
+  const _HeroQuickLinkChip({required this.item, required this.onHero});
 
   final HeroQuickLink item;
+  final Color onHero;
 
   @override
   Widget build(BuildContext context) {
@@ -242,21 +251,21 @@ class _HeroQuickLinkChip extends StatelessWidget {
               vertical: 10,
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.14),
+              color: onHero.withValues(alpha: 0.14),
               borderRadius: BorderRadius.circular(AppTheme.radiusFull),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.18),
+                color: onHero.withValues(alpha: 0.18),
               ),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(item.icon, color: Colors.white, size: 18),
+                Icon(item.icon, color: onHero, size: 18),
                 const SizedBox(width: AppTheme.spacingSm),
                 Text(
                   item.label,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: Colors.white,
+                        color: onHero,
                         fontWeight: FontWeight.w600,
                       ),
                 ),
@@ -274,14 +283,15 @@ class _HeroVisual extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final onHero = context.appColors.onHeroForeground;
     return AspectRatio(
       aspectRatio: 1.06,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.12),
+          color: onHero.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(AppTheme.spacingLg),
           border: Border.all(
-            color: Colors.white.withValues(alpha: 0.18),
+            color: onHero.withValues(alpha: 0.18),
           ),
         ),
         child: Padding(
@@ -307,7 +317,7 @@ class _HeroVisual extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.white.withValues(alpha: 0.02),
+                        onHero.withValues(alpha: 0.02),
                         Colors.black.withValues(alpha: 0.18),
                       ],
                     ),
@@ -319,7 +329,7 @@ class _HeroVisual extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.92),
+                    color: context.colors.surface.withValues(alpha: 0.92),
                     borderRadius: BorderRadius.circular(
                       AppTheme.radiusSm + 6,
                     ),
@@ -352,7 +362,7 @@ class _GlowOrb extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.white.withValues(alpha: 0.08),
+          color: context.appColors.onHeroForeground.withValues(alpha: 0.08),
         ),
       ),
     );
