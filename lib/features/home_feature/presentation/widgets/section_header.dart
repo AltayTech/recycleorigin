@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 
 /// A consistent heading row used to introduce content sections on
 /// the home screen.
@@ -41,7 +42,7 @@ class SectionHeader extends StatelessWidget {
               title,
               style: textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w800,
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
                 letterSpacing: -0.2,
               ),
             ),

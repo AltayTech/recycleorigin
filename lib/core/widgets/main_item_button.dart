@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 
 class MainItemButton extends StatelessWidget {
   const MainItemButton({
@@ -27,7 +28,7 @@ class MainItemButton extends StatelessWidget {
         padding: EdgeInsets.all(deviceWidth * itemPaddingF),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.appColors.cardBackground,
             boxShadow: [
               BoxShadow(
                 color: AppTheme.primary.withValues(alpha: 0.08),
@@ -69,7 +70,7 @@ class MainItemButton extends StatelessWidget {
                         title,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: AppTheme.h1,
+                          color: context.colors.onSurface,
                           fontSize: labelSize,
                         ),
                       ),

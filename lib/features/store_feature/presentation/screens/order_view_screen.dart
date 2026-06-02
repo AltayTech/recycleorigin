@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../business/entities/color_code.dart';
@@ -351,7 +352,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             orderDetails.shenaseh.toString(),
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -376,7 +377,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             orderDetails.order_register_date
                                                 .toString(),
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -407,7 +408,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                                     .toString() +
                                                 ' \$',
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -431,7 +432,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             orderDetails.pay_type.toString(),
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -455,7 +456,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             orderDetails.pay_status.toString(),
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -482,7 +483,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                                     orderDetails.pish)
                                                 : '-',
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -618,7 +619,7 @@ class OrderProductItem extends StatelessWidget {
                     style: TextStyle(
                         //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
-                        color: AppTheme.black),
+                        color: context.colors.onSurface),
                   ),
                 ),
                 Expanded(
@@ -652,7 +653,7 @@ class OrderProductItem extends StatelessWidget {
                                   child: Text(
                                     color.title,
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: context.colors.onSurface,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 12,
                                     ),

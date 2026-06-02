@@ -8,6 +8,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../waste_feature/presentation/address_screen.dart';
@@ -165,12 +166,11 @@ class _WasteCartScreenState extends State<WasteCartScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.bg,
-      appBar: AppBar(
+            appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.wasteCartTitle,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppTheme.appBarIconColor,
             fontWeight: FontWeight.bold,
           ),
@@ -182,7 +182,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
         actions: [
           IconButton(
             tooltip: context.l10n.addItemsTooltip,
-            icon: const Icon(Icons.add_circle_outline),
+            icon: Icon(Icons.add_circle_outline),
             onPressed: () async {
               await Navigator.of(context)
                   .pushNamed(WastesScreen.routeName);
@@ -472,7 +472,7 @@ class _SummaryItem extends StatelessWidget {
         Text(
           value,
           style: TextStyle(
-            color: isHighlight ? AppTheme.primary : AppTheme.h1,
+            color: isHighlight ? AppTheme.primary : context.colors.onSurface,
             fontSize: 17,
             fontWeight: FontWeight.w800,
           ),
@@ -481,7 +481,7 @@ class _SummaryItem extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: AppTheme.grey.withOpacity(0.7),
+            color: context.appColors.subtitleColor.withOpacity(0.7),
             fontSize: 11,
             fontWeight: FontWeight.w500,
           ),
@@ -520,8 +520,8 @@ class _WasteCartEmptyState extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               l10n.cartIsEmpty,
-              style: const TextStyle(
-                color: AppTheme.h1,
+              style: TextStyle(
+                color: context.colors.onSurface,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -533,7 +533,7 @@ class _WasteCartEmptyState extends StatelessWidget {
                 l10n.wasteCartEmptySubtitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppTheme.grey.withOpacity(0.7),
+                  color: context.appColors.subtitleColor.withOpacity(0.7),
                   fontSize: 14,
                   height: 1.5,
                 ),
@@ -554,10 +554,10 @@ class _WasteCartEmptyState extends StatelessWidget {
                 elevation: 0,
               ),
               onPressed: onAddPressed,
-              icon: const Icon(Icons.add_rounded, size: 20),
+              icon: Icon(Icons.add_rounded, size: 20),
               label: Text(
                 l10n.addWasteItemsTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                 ),
@@ -612,7 +612,7 @@ class _WasteCartBottomBar extends StatelessWidget {
                 Text(
                   l10n.cartTotalAmountLabel,
                   style: TextStyle(
-                    color: AppTheme.grey.withOpacity(0.7),
+                    color: context.appColors.subtitleColor.withOpacity(0.7),
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
@@ -625,8 +625,8 @@ class _WasteCartBottomBar extends StatelessWidget {
                       intl.NumberFormat.decimalPattern()
                           .format(totalPriceAnimation.value.toInt()),
                     )} \$',
-                    style: const TextStyle(
-                      color: AppTheme.h1,
+                    style: TextStyle(
+                      color: context.colors.onSurface,
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
                     ),

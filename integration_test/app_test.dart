@@ -15,7 +15,7 @@ void main() {
 
   group('Customer app bootstrap', () {
     setUpAll(() async {
-      await AppConfig.initialize();
+      await AppConfig.initialize(envFile: 'assets/env/.env.dev');
     });
 
     setUp(() async {

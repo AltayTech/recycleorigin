@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/theme_context_extensions.dart';
+
 class CustomDialog extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
@@ -34,13 +36,13 @@ class CustomDialog extends StatelessWidget {
             right: Consts.padding,
           ),
           margin: EdgeInsets.only(top: Consts.avatarRadius),
-          decoration: new BoxDecoration(
-            color: Colors.white,
+          decoration: BoxDecoration(
+            color: context.appColors.cardBackground,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(Consts.padding),
             boxShadow: [
               BoxShadow(
-                color: Colors.black26,
+                color: context.colors.shadow.withValues(alpha: 0.26),
                 blurRadius: 10.0,
                 offset: const Offset(0.0, 10.0),
               ),

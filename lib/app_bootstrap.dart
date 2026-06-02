@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'package:recycleorigin/core/config/app_config.dart';
 import 'package:recycleorigin/core/config/app_locale_controller.dart';
+import 'package:recycleorigin/core/config/app_theme_controller.dart';
 import 'package:recycleorigin/core/notifications/fcm_background.dart';
 import 'package:recycleorigin/core/notifications/firebase_bootstrap.dart';
 import 'package:recycleorigin/core/utils/app_info_service.dart';
@@ -19,6 +20,7 @@ Future<void> bootstrapApp(String envFile) async {
   await AppConfig.initialize(envFile: envFile);
   await AppInfoService.instance.initialize();
   await AppLocaleController.instance.load();
+  await AppThemeController.instance.load();
   await FirebaseBootstrap.initialize();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 

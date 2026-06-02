@@ -99,6 +99,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsTitle => 'Ayarlar';
 
   @override
+  String get appearanceTitle => 'Gorunum';
+
+  @override
+  String get appearanceLabel => 'Tema';
+
+  @override
+  String get themeSystemLabel => 'Sistem ayarini kullan';
+
+  @override
+  String get themeLightLabel => 'Acik';
+
+  @override
+  String get themeDarkLabel => 'Koyu';
+
+  @override
   String get languageTitle => 'Dil';
 
   @override
@@ -112,7 +127,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsScreenIntro =>
-      'Dil degisiklikleri hemen uygulanir ve bu cihazda saklanir.';
+      'Gorunum ve dil degisiklikleri hemen uygulanir ve bu cihazda saklanir.';
 
   @override
   String get appInformationSectionTitle => 'Uygulama bilgisi';

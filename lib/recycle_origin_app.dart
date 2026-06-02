@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigin/core/config/app_locale_controller.dart';
+import 'package:recycleorigin/core/config/app_theme_controller.dart';
 import 'package:recycleorigin/core/navigation/app_navigator.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
@@ -113,16 +114,21 @@ class RecycleOriginApp extends StatelessWidget {
       child: ValueListenableBuilder<Locale>(
         valueListenable: AppLocaleController.instance.localeNotifier,
         builder: (context, locale, _) {
-          return MaterialApp(
-            navigatorKey: appNavigatorKey,
-            onGenerateTitle: (context) => context.l10n.recycleorigin,
-            debugShowCheckedModeBanner: false,
-            locale: locale,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            theme: AppTheme.lightTheme(),
-            home: home ?? const SplashScreens(),
-            routes: {
+          return ValueListenableBuilder<ThemeMode>(
+            valueListenable: AppThemeController.instance.themeModeNotifier,
+            builder: (context, themeMode, __) {
+              return MaterialApp(
+                navigatorKey: appNavigatorKey,
+                onGenerateTitle: (context) => context.l10n.recycleorigin,
+                debugShowCheckedModeBanner: false,
+                locale: locale,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                theme: AppTheme.lightTheme(),
+                darkTheme: AppTheme.darkTheme(),
+                themeMode: themeMode,
+                home: home ?? const SplashScreens(),
+                routes: {
               NavigationBottomScreen.routeName: (ctx) =>
                   NavigationBottomScreen(),
               HomeScreen.routeName: (ctx) => HomeScreen(),
@@ -180,6 +186,8 @@ class RecycleOriginApp extends StatelessWidget {
                   WastesScreenAnimatedList(),
               ClearScreen.routeName: (ctx) => ClearScreen(),
               ImpactScreen.routeName: (ctx) => const ImpactScreen(),
+                },
+              );
             },
           );
         },

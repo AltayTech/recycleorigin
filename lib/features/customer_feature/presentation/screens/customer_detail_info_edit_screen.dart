@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../../core/widgets/info_edit_item.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -173,7 +174,7 @@ class _CustomerDetailInfoEditScreenState
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         title: Text(
           l10n.editPersonalInformationAppBarTitle,
-          style: const TextStyle(color: AppTheme.appBarIconColor),
+          style: TextStyle(color: AppTheme.appBarIconColor),
         ),
       ),
       drawer: mainDrawerIfRootRoute(context),
@@ -187,7 +188,7 @@ class _CustomerDetailInfoEditScreenState
     final deviceHeight = MediaQuery.sizeOf(context).height;
 
     return Container(
-      color: AppTheme.bg,
+      color: context.appColors.scaffoldBackground,
       child: Form(
         key: _formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -260,7 +261,7 @@ class _CustomerDetailInfoEditScreenState
             InfoEditItem(
               title: l10n.nameLabel,
               controller: _nameController,
-              bgColor: AppTheme.white,
+              bgColor: context.appColors.cardBackground,
               iconColor: const Color(0xffA67FEC),
               keybordType: TextInputType.name,
               fieldHeight: deviceHeight * 0.06,
@@ -276,7 +277,7 @@ class _CustomerDetailInfoEditScreenState
             InfoEditItem(
               title: l10n.lastNameLabel,
               controller: _familyController,
-              bgColor: AppTheme.white,
+              bgColor: context.appColors.cardBackground,
               iconColor: const Color(0xffA67FEC),
               keybordType: TextInputType.name,
               fieldHeight: deviceHeight * 0.06,
@@ -319,7 +320,7 @@ class _CustomerDetailInfoEditScreenState
             InfoEditItem(
               title: l10n.emailAddressLabel,
               controller: _emailDisplayController,
-              bgColor: AppTheme.white,
+              bgColor: context.appColors.cardBackground,
               iconColor: const Color(0xff4392F1),
               keybordType: TextInputType.emailAddress,
               fieldHeight: deviceHeight * 0.06,
@@ -332,7 +333,7 @@ class _CustomerDetailInfoEditScreenState
             InfoEditItem(
               title: l10n.mobileLabel,
               controller: _phoneDisplayController,
-              bgColor: AppTheme.white,
+              bgColor: context.appColors.cardBackground,
               iconColor: const Color(0xff4392F1),
               keybordType: TextInputType.phone,
               fieldHeight: deviceHeight * 0.06,
@@ -345,7 +346,7 @@ class _CustomerDetailInfoEditScreenState
             InfoEditItem(
               title: l10n.provinceFieldLabel,
               controller: _ostanController,
-              bgColor: AppTheme.white,
+              bgColor: context.appColors.cardBackground,
               iconColor: const Color(0xff4392F1),
               keybordType: TextInputType.text,
               fieldHeight: deviceHeight * 0.06,
@@ -356,7 +357,7 @@ class _CustomerDetailInfoEditScreenState
             InfoEditItem(
               title: l10n.cityFieldLabel,
               controller: _cityController,
-              bgColor: AppTheme.white,
+              bgColor: context.appColors.cardBackground,
               iconColor: const Color(0xff4392F1),
               keybordType: TextInputType.text,
               fieldHeight: deviceHeight * 0.06,
@@ -367,7 +368,7 @@ class _CustomerDetailInfoEditScreenState
             InfoEditItem(
               title: l10n.zipCodeLabel,
               controller: _postCodeController,
-              bgColor: AppTheme.white,
+              bgColor: context.appColors.cardBackground,
               iconColor: const Color(0xff4392F1),
               keybordType: TextInputType.number,
               fieldHeight: deviceHeight * 0.06,
@@ -406,7 +407,7 @@ class _CustomerDetailInfoEditScreenState
         Text(
           title,
           style: TextStyle(
-            color: AppTheme.h1,
+            color: context.colors.onSurface,
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -421,7 +422,7 @@ class _CustomerDetailInfoEditScreenState
     return FloatingActionButton.extended(
       onPressed: _isSaving ? null : _handleSave,
       backgroundColor: AppTheme.primary,
-      foregroundColor: AppTheme.white,
+      foregroundColor: context.appColors.cardBackground,
       icon: _isSaving
           ? const SizedBox(
               width: 20,
@@ -431,7 +432,7 @@ class _CustomerDetailInfoEditScreenState
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),
             )
-          : const Icon(Icons.check),
+          : Icon(Icons.check),
       label: Text(
         _isSaving ? l10n.savingLabel : l10n.saveChangesLabel,
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Compact summary card showing item count, total price, and
@@ -128,8 +129,8 @@ class _MetricTile extends StatelessWidget {
             Flexible(
               child: Text(
                 value,
-                style: const TextStyle(
-                  color: AppTheme.h1,
+                style: TextStyle(
+                  color: context.colors.onSurface,
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
                 ),

@@ -5,6 +5,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/waste.dar
 import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart.dart';
 
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/theme_context_extensions.dart';
 import '../../../core/widgets/drawer_or_back_leading.dart';
 import 'bloc/wastes_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
@@ -112,8 +113,7 @@ class _WastesScreenState extends State<WastesScreen> {
     final selectedCount = wasteCartItemsId.length;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
-      appBar: AppBar(
+            appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         elevation: 0,
         backgroundColor: AppTheme.appBarColor,
@@ -121,7 +121,7 @@ class _WastesScreenState extends State<WastesScreen> {
         centerTitle: true,
         title: Text(
           l10n.wasteListTitle,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppTheme.appBarIconColor,
             fontWeight: FontWeight.bold,
             fontSize: 18,
@@ -242,14 +242,14 @@ class _WastesScreenState extends State<WastesScreen> {
                 _searchController.clear();
                 _onSearchChanged('');
               },
-              icon: const Icon(Icons.clear_rounded, size: 18),
+              icon: Icon(Icons.clear_rounded, size: 18),
               label: Text(l10n.clearSearchLabel),
             ),
           ] else ...[
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _loadData,
-              icon: const Icon(Icons.refresh_rounded),
+              icon: Icon(Icons.refresh_rounded),
               label: Text(l10n.retryLabel),
             ),
           ],
@@ -285,7 +285,7 @@ class _SearchBar extends StatelessWidget {
             child: Container(
               height: 44,
               decoration: BoxDecoration(
-                color: AppTheme.bg,
+                color: context.appColors.scaffoldBackground,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: TextField(
@@ -293,7 +293,7 @@ class _SearchBar extends StatelessWidget {
                 focusNode: focusNode,
                 onChanged: onChanged,
                 textAlignVertical: TextAlignVertical.center,
-                style: const TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 14),
                 decoration: InputDecoration(
                   hintText: l10n.searchWasteHint,
                   hintStyle: TextStyle(
@@ -386,12 +386,12 @@ class _DoneButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      icon: const Icon(Icons.check_rounded, color: Colors.white),
+      icon: Icon(Icons.check_rounded, color: Colors.white),
       label: Row(
         children: [
           Text(
             l10n.doneLabel,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 15,
@@ -410,7 +410,7 @@ class _DoneButton extends StatelessWidget {
               ),
               child: Text(
                 selectedCount.toString(),
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w800,
                   fontSize: 13,

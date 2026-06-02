@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../config/app_locale_controller.dart';
-import '../theme/app_theme.dart';
+import '../config/app_theme_controller.dart';
+import '../theme/theme_context_extensions.dart';
 import '../utils/app_info_service.dart';
 import '../widgets/drawer_or_back_leading.dart';
 import '../../l10n/app_localizations.dart';
@@ -16,103 +17,144 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colors = context.colors;
+    final appColors = context.appColors;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         elevation: 0,
         centerTitle: true,
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         title: Text(
           l10n.settingsTitle,
-          style: const TextStyle(
-            color: AppTheme.appBarIconColor,
-            fontWeight: FontWeight.w600,
-          ),
+          style: TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
       drawer: mainDrawerIfRootRoute(context),
       body: ValueListenableBuilder<Locale>(
         valueListenable: AppLocaleController.instance.localeNotifier,
         builder: (context, locale, _) {
-          final bottomInset = MediaQuery.paddingOf(context).bottom;
-          return SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, 24 + bottomInset),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  l10n.settingsScreenIntro,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.grey,
+          return ValueListenableBuilder<ThemeMode>(
+            valueListenable: AppThemeController.instance.themeModeNotifier,
+            builder: (context, themeMode, __) {
+              final bottomInset = MediaQuery.paddingOf(context).bottom;
+              return SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 24 + bottomInset),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      l10n.settingsScreenIntro,
+                      style: context.texts.bodyMedium?.copyWith(
+                        color: appColors.subtitleColor,
                         height: 1.45,
                       ),
-                ),
-                const SizedBox(height: 20),
-                _SettingsSectionCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _SectionHeader(
-                        title: l10n.languageTitle,
-                        icon: Icons.translate_rounded,
-                        iconColor: AppTheme.primary,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        l10n.applicationLanguageLabel,
-                        style: TextStyle(
-                          color: AppTheme.h1,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Semantics(
-                        label: l10n.applicationLanguageLabel,
-                        child: Column(
-                          children: [
-                            _LanguageOptionTile(
-                              selected: locale.languageCode == 'en',
-                              title: l10n.englishLabel,
-                              onTap: () => AppLocaleController.instance
-                                  .setLocaleCode('en'),
+                    ),
+                    const SizedBox(height: 20),
+                    _SettingsSectionCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _SectionHeader(
+                            title: l10n.appearanceTitle,
+                            icon: Icons.palette_outlined,
+                            iconColor: colors.primary,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            l10n.appearanceLabel,
+                            style: context.texts.labelLarge?.copyWith(
+                              color: colors.onSurface,
                             ),
-                            Divider(
-                              height: 1,
-                              color: AppTheme.secondary,
-                            ),
-                            _LanguageOptionTile(
-                              selected: locale.languageCode == 'tr',
-                              title: l10n.turkishLabel,
-                              onTap: () => AppLocaleController.instance
-                                  .setLocaleCode('tr'),
-                            ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 4),
+                          Column(
+                            children: [
+                              _OptionTile(
+                                selected: themeMode == ThemeMode.system,
+                                title: l10n.themeSystemLabel,
+                                onTap: () => AppThemeController.instance
+                                    .setThemeMode(ThemeMode.system),
+                              ),
+                              Divider(height: 1, color: appColors.divider),
+                              _OptionTile(
+                                selected: themeMode == ThemeMode.light,
+                                title: l10n.themeLightLabel,
+                                onTap: () => AppThemeController.instance
+                                    .setThemeMode(ThemeMode.light),
+                              ),
+                              Divider(height: 1, color: appColors.divider),
+                              _OptionTile(
+                                selected: themeMode == ThemeMode.dark,
+                                title: l10n.themeDarkLabel,
+                                onTap: () => AppThemeController.instance
+                                    .setThemeMode(ThemeMode.dark),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                _SettingsSectionCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _SectionHeader(
-                        title: l10n.appInformationSectionTitle,
-                        icon: Icons.info_outline_rounded,
-                        iconColor: AppTheme.primary,
+                    ),
+                    const SizedBox(height: 16),
+                    _SettingsSectionCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _SectionHeader(
+                            title: l10n.languageTitle,
+                            icon: Icons.translate_rounded,
+                            iconColor: colors.primary,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            l10n.applicationLanguageLabel,
+                            style: context.texts.labelLarge?.copyWith(
+                              color: colors.onSurface,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Semantics(
+                            label: l10n.applicationLanguageLabel,
+                            child: Column(
+                              children: [
+                                _OptionTile(
+                                  selected: locale.languageCode == 'en',
+                                  title: l10n.englishLabel,
+                                  onTap: () => AppLocaleController.instance
+                                      .setLocaleCode('en'),
+                                ),
+                                Divider(height: 1, color: appColors.divider),
+                                _OptionTile(
+                                  selected: locale.languageCode == 'tr',
+                                  title: l10n.turkishLabel,
+                                  onTap: () => AppLocaleController.instance
+                                      .setLocaleCode('tr'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      _AppMetaBlock(l10n: l10n),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 16),
+                    _SettingsSectionCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _SectionHeader(
+                            title: l10n.appInformationSectionTitle,
+                            icon: Icons.info_outline_rounded,
+                            iconColor: colors.primary,
+                          ),
+                          const SizedBox(height: 16),
+                          _AppMetaBlock(l10n: l10n),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           );
         },
       ),
@@ -129,11 +171,11 @@ class _SettingsSectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      shadowColor: Colors.black26,
+      shadowColor: Theme.of(context).shadowColor.withValues(alpha: 0.24),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      color: AppTheme.white,
+      color: context.appColors.cardBackground,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: child,
@@ -170,7 +212,7 @@ class _SectionHeader extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              color: AppTheme.h1,
+              color: context.colors.onSurface,
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
@@ -181,8 +223,8 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-class _LanguageOptionTile extends StatelessWidget {
-  const _LanguageOptionTile({
+class _OptionTile extends StatelessWidget {
+  const _OptionTile({
     required this.selected,
     required this.title,
     required this.onTap,
@@ -211,7 +253,9 @@ class _LanguageOptionTile extends StatelessWidget {
                   selected
                       ? Icons.radio_button_checked_rounded
                       : Icons.radio_button_off_rounded,
-                  color: selected ? AppTheme.primary : AppTheme.grey,
+                  color: selected
+                      ? context.colors.primary
+                      : context.appColors.subtitleColor,
                   size: 24,
                 ),
                 const SizedBox(width: 12),
@@ -219,7 +263,7 @@ class _LanguageOptionTile extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                      color: AppTheme.h1,
+                      color: context.colors.onSurface,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -250,7 +294,7 @@ class _AppMetaBlock extends StatelessWidget {
         Text(
           name,
           style: TextStyle(
-            color: AppTheme.h1,
+            color: context.colors.onSurface,
             fontSize: 17,
             fontWeight: FontWeight.w600,
           ),
@@ -258,9 +302,9 @@ class _AppMetaBlock extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           versionLine,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppTheme.grey,
-              ),
+          style: context.texts.bodySmall?.copyWith(
+            color: context.appColors.subtitleColor,
+          ),
         ),
       ],
     );

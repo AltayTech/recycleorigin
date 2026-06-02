@@ -14,7 +14,7 @@ void main() {
 
   group('User flows (integration)', () {
     setUpAll(() async {
-      await AppConfig.initialize();
+      await AppConfig.initialize(envFile: 'assets/env/.env.dev');
     });
 
     setUp(() async {

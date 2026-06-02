@@ -3,6 +3,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 class CollectDetailsCollectItem extends StatelessWidget {
@@ -18,7 +19,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
     final currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Container(
-      decoration: AppTheme.listItemBox.copyWith(
+      decoration: AppTheme.listItemBoxFor(context).copyWith(
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
@@ -33,8 +34,8 @@ class CollectDetailsCollectItem extends StatelessWidget {
         children: [
           Text(
             collectItem.waste.post_title,
-            style: const TextStyle(
-              color: AppTheme.h1,
+            style: TextStyle(
+              color: context.colors.onSurface,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),

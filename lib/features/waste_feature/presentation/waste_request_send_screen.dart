@@ -14,6 +14,7 @@ import '../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../core/models/region.dart';
 import '../../../core/screens/navigation_bottom_screen.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/theme_context_extensions.dart';
 import '../../../core/widgets/custom_dialog_send_request.dart';
 import '../../../core/widgets/drawer_or_back_leading.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
@@ -258,10 +259,10 @@ class _WasteRequestSendScreenState
             const SizedBox(height: 16),
             Text(
               l10n.confirmRequestTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
               ),
             ),
             const SizedBox(height: 8),
@@ -314,7 +315,7 @@ class _WasteRequestSendScreenState
                     ),
                     child: Text(
                       l10n.confirmLabel,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -340,12 +341,11 @@ class _WasteRequestSendScreenState
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
-      appBar: AppBar(
+            appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.registerWasteRequestAppBarTitle,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppTheme.appBarIconColor,
             fontWeight: FontWeight.bold,
           ),
@@ -486,10 +486,10 @@ class _SectionTitle extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 15,
-            color: AppTheme.h1,
+            color: context.colors.onSurface,
           ),
         ),
       ],
@@ -614,8 +614,8 @@ class _SummaryRow extends StatelessWidget {
         ),
         Text(
           value,
-          style: const TextStyle(
-            color: AppTheme.h1,
+          style: TextStyle(
+            color: context.colors.onSurface,
             fontSize: 18,
             fontWeight: FontWeight.w800,
           ),
@@ -746,8 +746,8 @@ class _DetailRow extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 value,
-                style: const TextStyle(
-                  color: AppTheme.h1,
+                style: TextStyle(
+                  color: context.colors.onSurface,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                 ),
@@ -834,8 +834,8 @@ class _WasteItemReviewTile extends StatelessWidget {
               children: [
                 Text(
                   item.name,
-                  style: const TextStyle(
-                    color: AppTheme.h1,
+                  style: TextStyle(
+                    color: context.colors.onSurface,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -855,8 +855,8 @@ class _WasteItemReviewTile extends StatelessWidget {
           ),
           Text(
             '${converter.replaceArNumber(fmt.format(total))} \$',
-            style: const TextStyle(
-              color: AppTheme.h1,
+            style: TextStyle(
+              color: context.colors.onSurface,
               fontSize: 15,
               fontWeight: FontWeight.w700,
             ),

@@ -7,6 +7,7 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/category.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../business/entities/article.dart';
 import '../constants/articles_constants.dart';
@@ -186,10 +187,9 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.bg,
-      appBar: AppBar(
+            appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        title: const Text(
+        title: Text(
           'Articles',
           style: TextStyle(color: Colors.white),
         ),
@@ -260,7 +260,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
 
   Widget _buildCategoryFilter(BuildContext context) {
     return Container(
-      color: AppTheme.white,
+      color: context.appColors.cardBackground,
       height: ArticlesConstants.categoryTabHeight,
       margin: const EdgeInsets.only(
         top: ArticlesConstants.itemSpacing,
@@ -311,7 +311,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.bg : Colors.transparent,
+          color: isSelected ? context.appColors.scaffoldBackground : Colors.transparent,
           border: isSelected
               ? Border(
                   bottom: BorderSide(
@@ -328,7 +328,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           child: Text(
             label,
             style: TextStyle(
-              color: isSelected ? AppTheme.primary : AppTheme.h1,
+              color: isSelected ? AppTheme.primary : context.colors.onSurface,
               fontSize: ArticlesConstants.categoryFontSize,
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
             ),
@@ -354,14 +354,14 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
             '${ArticlesConstants.articlesCountLabel}: ',
             style: TextStyle(
               fontSize: ArticlesConstants.captionFontSize,
-              color: AppTheme.h1.withOpacity(0.7),
+              color: context.colors.onSurface.withOpacity(0.7),
             ),
           ),
           Text(
             EnArConvertor().replaceArNumber(_searchDetails.total.toString()),
             style: TextStyle(
               fontSize: ArticlesConstants.bodyFontSize,
-              color: AppTheme.h1,
+              color: context.colors.onSurface,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -401,14 +401,14 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
             Icon(
               Icons.error_outline,
               size: 64,
-              color: AppTheme.grey,
+              color: context.appColors.subtitleColor,
             ),
             const SizedBox(height: ArticlesConstants.verticalPadding),
             Text(
               _errorMessage ?? ArticlesConstants.errorMessage,
               style: TextStyle(
                 fontSize: ArticlesConstants.bodyFontSize,
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
               ),
               textAlign: TextAlign.center,
             ),
@@ -418,8 +418,8 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                 _currentPage = 1;
                 _loadArticles();
               },
-              icon: const Icon(Icons.refresh),
-              label: const Text(ArticlesConstants.retryButton),
+              icon: Icon(Icons.refresh),
+              label: Text(ArticlesConstants.retryButton),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
                 foregroundColor: Colors.white,
@@ -441,14 +441,14 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
             Icon(
               Icons.article_outlined,
               size: 64,
-              color: AppTheme.grey.withOpacity(0.5),
+              color: context.appColors.subtitleColor.withOpacity(0.5),
             ),
             const SizedBox(height: ArticlesConstants.verticalPadding),
             Text(
               ArticlesConstants.noArticlesMessage,
               style: TextStyle(
                 fontSize: ArticlesConstants.bodyFontSize,
-                color: AppTheme.h1.withOpacity(0.7),
+                color: context.colors.onSurface.withOpacity(0.7),
               ),
               textAlign: TextAlign.center,
             ),

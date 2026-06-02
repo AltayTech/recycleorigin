@@ -10,6 +10,7 @@ import 'package:recycleorigin/l10n/app_localizations.dart';
 
 import '../../../../core/models/region.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../../customer_feature/business/entities/city.dart';
@@ -316,7 +317,7 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              const Icon(Icons.error_outline, color: Colors.white, size: 20),
+              Icon(Icons.error_outline, color: Colors.white, size: 20),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
@@ -337,7 +338,7 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              const Icon(Icons.info_outline, color: Colors.white, size: 20),
+              Icon(Icons.info_outline, color: Colors.white, size: 20),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
@@ -358,7 +359,7 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              const Icon(Icons.check_circle, color: Colors.white, size: 20),
+              Icon(Icons.check_circle, color: Colors.white, size: 20),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
@@ -378,8 +379,7 @@ class _MapScreenState extends State<MapScreen>
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
-      body: CustomScrollView(
+            body: CustomScrollView(
         controller: _scrollController,
         slivers: [
           _buildSliverAppBar(l10n),
@@ -416,10 +416,10 @@ class _MapScreenState extends State<MapScreen>
       centerTitle: true,
       title: Text(
         l10n.newAddressTitle,
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+        icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20),
         onPressed: () => Navigator.of(context).pop(),
       ),
     );
@@ -536,7 +536,7 @@ class _MapScreenState extends State<MapScreen>
       textInputAction: textInputAction,
       onFieldSubmitted: onFieldSubmitted,
       validator: validator,
-      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
@@ -614,11 +614,11 @@ class _MapScreenState extends State<MapScreen>
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.save_rounded, size: 20),
+                      Icon(Icons.save_rounded, size: 20),
                       const SizedBox(width: 10),
                       Text(
                         l10n.saveAddressButton,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.3,
@@ -823,7 +823,7 @@ class _LocationBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.check_circle_rounded,
             color: Colors.white,
             size: 14,
@@ -831,7 +831,7 @@ class _LocationBadge extends StatelessWidget {
           const SizedBox(width: 5),
           Text(
             context.l10n.locationPinned,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -914,7 +914,7 @@ class _MapActionChip extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
-                    color: isPrimary ? Colors.white : AppTheme.h1,
+                    color: isPrimary ? Colors.white : context.colors.onSurface,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -1009,10 +1009,10 @@ class _SectionHeader extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
-                      color: AppTheme.h1,
+                      color: context.colors.onSurface,
                     ),
                   ),
                   if (subtitle != null) ...[
@@ -1213,7 +1213,7 @@ class _StyledDropdown<T> extends StatelessWidget {
               ],
               if (selectedValue != null) ...[
                 const SizedBox(width: 8),
-                const Icon(
+                Icon(
                   Icons.check_circle_rounded,
                   color: Colors.green,
                   size: 16,
@@ -1227,10 +1227,10 @@ class _StyledDropdown<T> extends StatelessWidget {
           dropdownColor: Colors.white,
           menuMaxHeight: 300,
           isExpanded: true,
-          icon: const Icon(Icons.keyboard_arrow_down_rounded),
-          style: const TextStyle(
+          icon: Icon(Icons.keyboard_arrow_down_rounded),
+          style: TextStyle(
             fontFamily: 'Iransans',
-            color: AppTheme.h1,
+            color: context.colors.onSurface,
             fontSize: 14,
           ),
           items: items.map((item) {
@@ -1238,7 +1238,7 @@ class _StyledDropdown<T> extends StatelessWidget {
               value: item,
               child: Text(
                 itemLabel(item),
-                style: const TextStyle(fontWeight: FontWeight.w500),
+                style: TextStyle(fontWeight: FontWeight.w500),
               ),
             );
           }).toList(),

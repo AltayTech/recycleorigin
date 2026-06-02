@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../business/entities/article.dart';
 import '../constants/articles_constants.dart';
 import '../pages/article_detail_screen.dart';
@@ -21,7 +22,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: ArticlesConstants.itemSpacing),
       decoration: BoxDecoration(
-        color: AppTheme.white,
+        color: context.appColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -47,11 +48,15 @@ class ArticleItemArticlesScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Article Image
-                _buildArticleImage(article, screenWidth),
+                _buildArticleImage(context, article, screenWidth),
                 const SizedBox(width: ArticlesConstants.itemSpacing),
                 // Article Content
                 Expanded(
-                  child: _buildArticleContent(article, textScaleFactor),
+                  child: _buildArticleContent(
+                    context,
+                    article,
+                    textScaleFactor,
+                  ),
                 ),
               ],
             ),
@@ -61,7 +66,11 @@ class ArticleItemArticlesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildArticleImage(Article article, double screenWidth) {
+  Widget _buildArticleImage(
+    BuildContext context,
+    Article article,
+    double screenWidth,
+  ) {
     final imageSize = screenWidth * ArticlesConstants.articleItemHeightRatio;
 
     return ClipRRect(
@@ -69,7 +78,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
       child: Container(
         width: imageSize,
         height: imageSize,
-        color: AppTheme.bg,
+        color: context.appColors.scaffoldBackground,
         child: article.featured_image.isNotEmpty
             ? Image.network(
                 article.featured_image,
@@ -88,26 +97,30 @@ class ArticleItemArticlesScreen extends StatelessWidget {
                   );
                 },
                 errorBuilder: (context, error, stackTrace) {
-                  return _buildImagePlaceholder();
+                  return _buildImagePlaceholder(context);
                 },
               )
-            : _buildImagePlaceholder(),
+            : _buildImagePlaceholder(context),
       ),
     );
   }
 
-  Widget _buildImagePlaceholder() {
+  Widget _buildImagePlaceholder(BuildContext context) {
     return Container(
-      color: AppTheme.bg,
+      color: context.appColors.scaffoldBackground,
       child: Icon(
         Icons.article_outlined,
-        color: AppTheme.grey,
+        color: context.appColors.subtitleColor,
         size: 32,
       ),
     );
   }
 
-  Widget _buildArticleContent(Article article, double textScaleFactor) {
+  Widget _buildArticleContent(
+    BuildContext context,
+    Article article,
+    double textScaleFactor,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,7 +131,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            color: AppTheme.h1,
+            color: context.colors.onSurface,
             fontSize: textScaleFactor * ArticlesConstants.titleFontSize,
             fontWeight: FontWeight.w600,
             height: 1.4,
@@ -131,7 +144,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Date
-            _buildDateInfo(article, textScaleFactor),
+            _buildDateInfo(context, article, textScaleFactor),
             // Category
             if (article.category.isNotEmpty)
               _buildCategoryChip(article.category.first.name, textScaleFactor),
@@ -141,7 +154,11 @@ class ArticleItemArticlesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDateInfo(Article article, double textScaleFactor) {
+  Widget _buildDateInfo(
+    BuildContext context,
+    Article article,
+    double textScaleFactor,
+  ) {
     try {
       final date = DateTime.parse(article.post_date_gmt);
       final formattedDate =
@@ -153,13 +170,13 @@ class ArticleItemArticlesScreen extends StatelessWidget {
           Icon(
             Icons.calendar_today,
             size: 14,
-            color: AppTheme.grey,
+            color: context.appColors.subtitleColor,
           ),
           const SizedBox(width: 4),
           Text(
             EnArConvertor().replaceArNumber(formattedDate),
             style: TextStyle(
-              color: AppTheme.grey,
+              color: context.appColors.subtitleColor,
               fontSize: textScaleFactor * ArticlesConstants.captionFontSize,
             ),
           ),

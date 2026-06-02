@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../features/customer_feature/presentation/widgets/profile_view.dart';
 import '../../features/home_feature/presentation/home_screen.dart';
 import '../../l10n/app_localizations.dart';
+import '../theme/theme_context_extensions.dart';
 import '../theme/app_theme.dart';
 import '../widgets/main_drawer.dart';
 
@@ -90,7 +91,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
         FToast().showToast(
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.black26,
+              color: context.colors.inverseSurface.withValues(alpha: 0.84),
               borderRadius: BorderRadius.circular(30),
             ),
             child: Padding(
@@ -99,7 +100,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
                 l10n.forexit,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppTheme.black,
+                  color: context.colors.onInverseSurface,
                   fontSize: MediaQuery.textScalerOf(context).scale(13),
                 ),
               ),
@@ -115,6 +116,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final appColors = context.appColors;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, Object? result) {
@@ -130,7 +132,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
 //            ),
           title: Text(
             l10n.recycleorigin,
-            style: const TextStyle(
+            style: TextStyle(
               // //fontFamily: 'Iransans',
               color: Colors.white,
             ),
@@ -147,7 +149,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
         drawer: Theme(
           data: Theme.of(context).copyWith(
             // Set the transparency here
-            canvasColor: Colors.transparent,
+            canvasColor: appColors.scaffoldBackground.withValues(alpha: 0.96),
           ),
           child: const MainDrawer(),
         ),
@@ -156,38 +158,37 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen>
 //          bottomNavigationBar: BottomNavigationBar(
 //            elevation: 8,
 //            selectedLabelStyle: TextStyle(
-//                color: AppTheme.secondary,
+//                color: context.appColors.divider,
 //                //fontFamily: 'Iransans',
 //                fontSize: MediaQuery.of(context).textScaleFactor * 10.0),
 //            onTap: _selectBNBItem,
-//            backgroundColor: AppTheme.bg,
-//            unselectedItemColor: Colors.grey,
+//            //            unselectedItemColor: Colors.grey,
 //            selectedItemColor: AppTheme.primary,
 //            currentIndex: _selectedPageIndex,
 //            items: [
 //              BottomNavigationBarItem(
-//                backgroundColor: AppTheme.white,
+//                backgroundColor: context.appColors.cardBackground,
 //                icon: Icon(Icons.home),
 //                title: Text(
 //                  Strings.navHome,
 //                ),
 //              ),
 //              BottomNavigationBarItem(
-//                backgroundColor: AppTheme.white,
+//                backgroundColor: context.appColors.cardBackground,
 //                icon: Icon(Icons.directions_car),
 //                title: Text(
 //                  Strings.navRequest,
 //                ),
 //              ),
 //              BottomNavigationBarItem(
-//                backgroundColor: AppTheme.white,
+//                backgroundColor: context.appColors.cardBackground,
 //                icon: Icon(Icons.add_shopping_cart),
 //                title: Text(
 //                  Strings.navShop,
 //                ),
 //              ),
 //              BottomNavigationBarItem(
-//                backgroundColor: AppTheme.white,
+//                backgroundColor: context.appColors.cardBackground,
 //                icon: Icon(Icons.account_circle),
 //                title: Text(
 //                  Strings.navProfile,

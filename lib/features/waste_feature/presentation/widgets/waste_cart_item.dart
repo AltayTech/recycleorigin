@@ -7,6 +7,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../bloc/wastes_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -111,7 +112,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
           color: Colors.red.shade400,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Icon(Icons.delete_outline, color: Colors.white, size: 28),
+        child: Icon(Icons.delete_outline, color: Colors.white, size: 28),
       ),
       child: AnimatedOpacity(
         opacity: _isRemoving ? 0.4 : 1.0,
@@ -143,8 +144,8 @@ class _WasteCartItemState extends State<WasteCartItem> {
                     children: [
                       Text(
                         widget.wasteItem.name,
-                        style: const TextStyle(
-                          color: AppTheme.h1,
+                        style: TextStyle(
+                          color: context.colors.onSurface,
                           fontWeight: FontWeight.w700,
                           fontSize: 15,
                           height: 1.3,
@@ -165,7 +166,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
                           Text(
                             '\$',
                             style: TextStyle(
-                              color: AppTheme.grey.withOpacity(0.6),
+                              color: context.appColors.subtitleColor.withOpacity(0.6),
                               fontSize: 11,
                             ),
                           ),
@@ -177,7 +178,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
                           Text(
                             l10n.totalLabel,
                             style: TextStyle(
-                              color: AppTheme.grey,
+                              color: context.appColors.subtitleColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),
@@ -232,7 +233,7 @@ class _ItemImage extends StatelessWidget {
       width: 72,
       height: 72,
       decoration: BoxDecoration(
-        color: AppTheme.bg,
+        color: context.appColors.scaffoldBackground,
         borderRadius: BorderRadius.circular(14),
       ),
       clipBehavior: Clip.antiAlias,
@@ -265,7 +266,7 @@ class _PriceLabel extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: AppTheme.grey,
+            color: context.appColors.subtitleColor,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
@@ -273,8 +274,8 @@ class _PriceLabel extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           value,
-          style: const TextStyle(
-            color: AppTheme.h1,
+          style: TextStyle(
+            color: context.colors.onSurface,
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -299,7 +300,7 @@ class _QuantityStepper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.bg,
+        color: context.appColors.scaffoldBackground,
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
@@ -315,8 +316,8 @@ class _QuantityStepper extends StatelessWidget {
             child: Text(
               EnArConvertor()
                   .replaceArNumber(quantity.toString()),
-              style: const TextStyle(
-                color: AppTheme.h1,
+              style: TextStyle(
+                color: context.colors.onSurface,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
               ),

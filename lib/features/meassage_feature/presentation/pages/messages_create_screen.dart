@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../bloc/messages_bloc.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
@@ -91,7 +92,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
         title: Text(
           context.l10n.newMessageScreenTitle,
           style: TextStyle(
-            color: AppTheme.bg,
+            color: context.appColors.scaffoldBackground,
             //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
@@ -122,7 +123,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                           child: Text(
                             context.l10n.composeMessageIntroParagraph,
                             style: TextStyle(
-                              color: AppTheme.black,
+                              color: context.colors.onSurface,
                               //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
@@ -146,13 +147,13 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 labelStyle: TextStyle(
@@ -184,13 +185,13 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 alignLabelWithHint: true,
@@ -223,7 +224,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color:
-                                      index.isEven ? AppTheme.h1 : AppTheme.h1,
+                                      index.isEven ? context.colors.onSurface : context.colors.onSurface,
                                 ),
                               );
                             },

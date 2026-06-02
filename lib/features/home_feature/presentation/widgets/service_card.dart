@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 
 /// A single tappable card representing one home-screen service.
 ///
@@ -66,7 +67,7 @@ class ServiceCard extends StatelessWidget {
                       Icon(
                         Icons.arrow_forward_ios_rounded,
                         size: 16,
-                        color: AppTheme.h1.withValues(alpha: 0.35),
+                        color: context.colors.onSurface.withValues(alpha: 0.35),
                       ),
                     ],
                   ),
@@ -75,7 +76,7 @@ class ServiceCard extends StatelessWidget {
                     title,
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w700,
-                      color: AppTheme.h1,
+                      color: context.colors.onSurface,
                       height: 1.2,
                     ),
                     maxLines: 2,

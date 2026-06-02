@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/screens/login_screen.dart';
@@ -45,7 +46,7 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
         leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.supportScreenTitle,
-          style: TextStyle(color: AppTheme.bg),
+          style: TextStyle(color: context.appColors.scaffoldBackground),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -71,7 +72,7 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
                 }
               },
               backgroundColor: AppTheme.primary,
-              child: const Icon(Icons.add, color: Colors.white),
+              child: Icon(Icons.add, color: Colors.white),
             )
           : null,
       body: !auth.isAuth
@@ -180,7 +181,7 @@ class _ErrorBody extends StatelessWidget {
           children: [
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 16),
-            FilledButton(onPressed: onRetry, child: const Text('Retry')),
+            FilledButton(onPressed: onRetry, child: Text('Retry')),
           ],
         ),
       ),
@@ -198,7 +199,7 @@ class _TicketTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Material(
-      color: AppTheme.white,
+      color: context.appColors.cardBackground,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
@@ -228,7 +229,7 @@ class _TicketTile extends StatelessWidget {
               Text(
                 ticket.ticketNumber,
                 style: theme.textTheme.labelMedium?.copyWith(
-                  color: AppTheme.grey,
+                  color: context.appColors.subtitleColor,
                 ),
               ),
               if (ticket.lastMessagePreview != null &&
@@ -262,7 +263,7 @@ class _StatusChip extends StatelessWidget {
       'waiting_for_user' => Colors.purple.shade700,
       'resolved' => Colors.green.shade800,
       'closed' => Colors.grey.shade700,
-      _ => AppTheme.grey,
+      _ => context.appColors.subtitleColor,
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

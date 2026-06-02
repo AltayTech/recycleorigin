@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/l10n.dart';
 import '../theme/app_theme.dart';
+import '../theme/theme_context_extensions.dart';
 
 class InfoEditItem extends StatelessWidget {
   const InfoEditItem({
@@ -58,7 +59,7 @@ class InfoEditItem extends StatelessWidget {
                 child: Text(
                   '$title : ',
                   style: TextStyle(
-                    color: AppTheme.h1,
+                    color: context.colors.onSurface,
                     fontSize: textScaleFactor * 14.0,
                   ),
                 ),
@@ -79,7 +80,7 @@ class InfoEditItem extends StatelessWidget {
                         return null;
                       },
                   style: TextStyle(
-                    color: readOnly ? AppTheme.grey : AppTheme.h1,
+                    color: readOnly ? context.appColors.subtitleColor : context.colors.onSurface,
                     fontSize: textScaleFactor * 14.0,
                   ),
                   onFieldSubmitted: readOnly
@@ -95,7 +96,7 @@ class InfoEditItem extends StatelessWidget {
                     helperText: helperText,
                     filled: true,
                     fillColor: readOnly
-                        ? AppTheme.bg
+                        ? context.appColors.scaffoldBackground
                         : Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),

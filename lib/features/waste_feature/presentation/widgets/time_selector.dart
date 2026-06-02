@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../business/entities/collect_hour.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Horizontal scrollable time-slot picker.
@@ -39,7 +40,7 @@ class TimeSelector extends StatelessWidget {
                   color: const Color(0xFF8B5CF6).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.access_time_rounded,
                   color: Color(0xFF8B5CF6),
                   size: 18,
@@ -48,8 +49,8 @@ class TimeSelector extends StatelessWidget {
               const SizedBox(width: 10),
               Text(
                 l10n.collectHourSectionTitle,
-                style: const TextStyle(
-                  color: AppTheme.h1,
+                style: TextStyle(
+                  color: context.colors.onSurface,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
@@ -169,7 +170,7 @@ class TimeSelector extends StatelessWidget {
                           style: TextStyle(
                             color: isSelected
                                 ? Colors.white
-                                : AppTheme.h1,
+                                : context.colors.onSurface,
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                           ),

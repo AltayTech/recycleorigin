@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/core/utils/result.dart';
 import 'package:recycleorigin/features/support_tickets/data/support_ticket_repository.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
@@ -75,7 +76,7 @@ class _SupportTicketCreateScreenState extends State<SupportTicketCreateScreen> {
       appBar: AppBar(
         title: Text(
           l10n.newMessageScreenTitle,
-          style: TextStyle(color: AppTheme.bg),
+          style: TextStyle(color: context.appColors.scaffoldBackground),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,

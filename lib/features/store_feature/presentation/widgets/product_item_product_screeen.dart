@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../business/entities/product.dart';
 import '../bloc/products_bloc.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../screens/product_detail_screen.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
@@ -26,7 +27,7 @@ class ProductItemProductScreen extends StatelessWidget {
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
             //fontFamily: 'Iransans',
-            color: AppTheme.black,
+            color: context.colors.onSurface,
             fontWeight: FontWeight.w500,
             fontSize: textScaleFactor * 17.0,
           ),
@@ -39,7 +40,7 @@ class ProductItemProductScreen extends StatelessWidget {
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
             //fontFamily: 'Iransans',
-            color: AppTheme.black,
+            color: context.colors.onSurface,
             fontWeight: FontWeight.w500,
             fontSize: textScaleFactor * 17.0,
           ),
@@ -52,7 +53,7 @@ class ProductItemProductScreen extends StatelessWidget {
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
             //fontFamily: 'Iransans',
-            color: AppTheme.black,
+            color: context.colors.onSurface,
             fontWeight: FontWeight.w500,
             fontSize: textScaleFactor * 17.0,
           ),
@@ -70,7 +71,7 @@ class ProductItemProductScreen extends StatelessWidget {
               style: TextStyle(
                 decoration: TextDecoration.lineThrough,
                 //fontFamily: 'Iransans',
-                color: AppTheme.grey,
+                color: context.appColors.subtitleColor,
                 fontSize: textScaleFactor * 15.0,
               ),
             ),
@@ -83,7 +84,7 @@ class ProductItemProductScreen extends StatelessWidget {
               style: TextStyle(
                 //fontFamily: 'Iransans',
                 fontWeight: FontWeight.w500,
-                color: AppTheme.black,
+                color: context.colors.onSurface,
                 fontSize: textScaleFactor * 17.0,
               ),
             )
@@ -146,7 +147,7 @@ class ProductItemProductScreen extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                color: AppTheme.black,
+                                color: context.colors.onSurface,
                                 //fontFamily: 'Iransans',
 //                                fontWeight: FontWeight.w500,
                                 fontSize: textScaleFactor * 15.0,
@@ -170,7 +171,7 @@ class ProductItemProductScreen extends StatelessWidget {
                                       '\$',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: AppTheme.grey,
+                                        color: context.appColors.subtitleColor,
                                         //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 9.0,
                                       ),

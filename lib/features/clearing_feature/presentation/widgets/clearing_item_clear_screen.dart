@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
 class ClearingItemClearScreen extends StatelessWidget {
@@ -29,7 +30,7 @@ class ClearingItemClearScreen extends StatelessWidget {
         height: widthDevice * 0.1,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: AppTheme.white,
+          color: context.appColors.cardBackground,
         ),
         child: LayoutBuilder(
           builder: (ctx, constraints) {
@@ -50,7 +51,7 @@ class ClearingItemClearScreen extends StatelessWidget {
                       transaction.status.name,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: AppTheme.black,
+                        color: context.colors.onSurface,
                         //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
                       ),
@@ -61,7 +62,7 @@ class ClearingItemClearScreen extends StatelessWidget {
                       transaction.paid_date,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: AppTheme.black,
+                        color: context.colors.onSurface,
                         //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
                       ),
@@ -75,7 +76,7 @@ class ClearingItemClearScreen extends StatelessWidget {
                           .toString()),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: AppTheme.black,
+                        color: context.colors.onSurface,
                         //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 15.0,
                       ),

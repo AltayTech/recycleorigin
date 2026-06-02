@@ -100,6 +100,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsTitle => 'Settings';
 
   @override
+  String get appearanceTitle => 'Appearance';
+
+  @override
+  String get appearanceLabel => 'Theme';
+
+  @override
+  String get themeSystemLabel => 'Use system setting';
+
+  @override
+  String get themeLightLabel => 'Light';
+
+  @override
+  String get themeDarkLabel => 'Dark';
+
+  @override
   String get languageTitle => 'Language';
 
   @override
@@ -113,7 +128,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsScreenIntro =>
-      'Language updates apply immediately and are saved on this device.';
+      'Appearance and language updates apply immediately and are saved on this device.';
 
   @override
   String get appInformationSectionTitle => 'App information';

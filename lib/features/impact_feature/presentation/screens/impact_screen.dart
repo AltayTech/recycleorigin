@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/features/impact_feature/data/impact_models.dart';
 import 'package:recycleorigin/features/impact_feature/data/impact_repository.dart';
 import 'package:recycleorigin/features/impact_feature/presentation/bloc/impact_cubit.dart';
@@ -31,15 +32,14 @@ class _ImpactView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return Scaffold(
-      backgroundColor: AppTheme.bg,
-      appBar: AppBar(
+            appBar: AppBar(
         title: Text(l10n.impactTitle),
         actions: [
           BlocBuilder<ImpactCubit, ImpactState>(
             buildWhen: (a, b) => a.range != b.range,
             builder: (context, state) {
               return PopupMenuButton<String>(
-                icon: const Icon(Icons.date_range_outlined),
+                icon: Icon(Icons.date_range_outlined),
                 initialValue: state.range,
                 onSelected: context.read<ImpactCubit>().setRange,
                 itemBuilder: (_) => [
@@ -51,7 +51,7 @@ class _ImpactView extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.refresh_rounded),
+            icon: Icon(Icons.refresh_rounded),
             onPressed: () => context.read<ImpactCubit>().load(),
           ),
         ],
@@ -252,7 +252,7 @@ class _LevelCard extends StatelessWidget {
                   CircularProgressIndicator(
                     value: level.progress.clamp(0, 1),
                     strokeWidth: 6,
-                    backgroundColor: AppTheme.secondary,
+                    backgroundColor: context.appColors.divider,
                     color: AppTheme.primary,
                   ),
                   Text(
@@ -440,7 +440,7 @@ class _GoalCard extends StatelessWidget {
                 value: goal.progress.clamp(0, 1),
                 minHeight: 6,
                 color: AppTheme.primary,
-                backgroundColor: AppTheme.secondary,
+                backgroundColor: context.appColors.divider,
               ),
             ),
           ],
@@ -566,7 +566,7 @@ class _BadgeTile extends StatelessWidget {
           color: AppTheme.surfaceWhite,
           borderRadius: BorderRadius.circular(AppTheme.radiusSm),
           border: Border.all(
-            color: badge.earned ? AppTheme.primary : AppTheme.secondary,
+            color: badge.earned ? AppTheme.primary : context.appColors.divider,
             width: badge.earned ? 2 : 1,
           ),
           boxShadow: AppTheme.cardShadow(Colors.black),
@@ -668,7 +668,7 @@ class _LeaderboardSection extends StatelessWidget {
                   leading: CircleAvatar(
                     backgroundColor: e.isSelf
                         ? AppTheme.primary
-                        : AppTheme.secondary,
+                        : context.appColors.divider,
                     child: Text('${e.rank}'),
                   ),
                   title: Text(e.displayName),

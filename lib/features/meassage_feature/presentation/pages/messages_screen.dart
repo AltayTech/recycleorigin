@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../business/entities/message.dart';
@@ -70,7 +71,7 @@ class _MessageScreenState extends State<MessageScreen> {
         title: Text(
           context.l10n.supportScreenTitle,
           style: TextStyle(
-            color: AppTheme.bg,
+            color: context.appColors.scaffoldBackground,
             //fontFamily: 'Iransans',
           ),
           textAlign: TextAlign.center,
@@ -93,10 +94,10 @@ class _MessageScreenState extends State<MessageScreen> {
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                            color: AppTheme.white,
+                            color: context.appColors.cardBackground,
                             borderRadius: BorderRadius.circular(5),
                             border:
-                                Border.all(color: AppTheme.grey, width: 0.3)),
+                                Border.all(color: context.appColors.subtitleColor, width: 0.3)),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -115,7 +116,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                   context.l10n.supportIntroMessage,
                                   maxLines: 3,
                                   style: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.colors.onSurface,
                                     //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 16.0,
                                   ),
@@ -146,7 +147,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                 context.l10n.messagesInboxLabel,
                                 maxLines: 3,
                                 style: TextStyle(
-                                  color: AppTheme.black,
+                                  color: context.colors.onSurface,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 16.0,
                                 ),
@@ -176,7 +177,7 @@ class _MessageScreenState extends State<MessageScreen> {
                               },
                               child: MessageItem(
                                 message: messages[index],
-                                bgColor: AppTheme.bg,
+                                bgColor: context.appColors.scaffoldBackground,
                               ),
                             );
                           },
@@ -228,7 +229,7 @@ class _MessageScreenState extends State<MessageScreen> {
         backgroundColor: AppTheme.primary,
         child: Icon(
           Icons.add,
-          color: AppTheme.bg,
+          color: context.appColors.scaffoldBackground,
         ),
         onPressed: () {
           Navigator.pushNamed(context, MessageCreateScreen.routeName);

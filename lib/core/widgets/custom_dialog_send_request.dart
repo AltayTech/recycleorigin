@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
+import '../theme/theme_context_extensions.dart';
 
 /// Success confirmation shown after submitting a request, order, or similar action.
 ///
@@ -95,7 +96,7 @@ class CustomDialogSendRequest extends StatelessWidget {
                 description,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyLarge?.copyWith(
-                  color: AppTheme.h1,
+                  color: context.colors.onSurface,
                   height: 1.45,
                   fontSize: textScaler.scale(15),
                 ),

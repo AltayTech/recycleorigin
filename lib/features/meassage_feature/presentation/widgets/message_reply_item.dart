@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
 class MessageReplyItem extends StatelessWidget {
@@ -34,8 +35,8 @@ class MessageReplyItem extends StatelessWidget {
             border: Border(
                 right: BorderSide(
                     width: 4,
-                    color: isReply ? AppTheme.primary : AppTheme.grey)),
-            color: AppTheme.white,
+                    color: isReply ? AppTheme.primary : context.appColors.subtitleColor)),
+            color: context.appColors.cardBackground,
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -81,7 +82,7 @@ class MessageReplyItem extends StatelessWidget {
                           message.comment_date,
                         )).day}'),
                         style: TextStyle(
-                          color: AppTheme.grey,
+                          color: context.appColors.subtitleColor,
                           //fontFamily: 'Iransans',
                           fontSize: textScaleFactor * 14.0,
                         ),
@@ -96,7 +97,7 @@ class MessageReplyItem extends StatelessWidget {
                     message.comment_content,
                     overflow: TextOverflow.fade,
                     style: TextStyle(
-                      color: AppTheme.grey,
+                      color: context.appColors.subtitleColor,
                       //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 12.0,
                     ),

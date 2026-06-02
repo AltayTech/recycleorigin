@@ -7,6 +7,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../auth_feature/presentation/screens/email_verification_screen.dart';
@@ -192,7 +193,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
       body: Builder(builder: (context) {
         return Container(
-          color: AppTheme.bg,
+          color: context.appColors.scaffoldBackground,
           height: double.infinity,
           width: double.infinity,
           child: Padding(
@@ -205,7 +206,7 @@ class _CartScreenState extends State<CartScreen> {
                       Container(
                         height: deviceHeight * 0.07,
                         decoration: BoxDecoration(
-                            color: AppTheme.white,
+                            color: context.appColors.cardBackground,
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(color: Colors.grey, width: 0.2)),
                         child: Padding(
@@ -220,13 +221,13 @@ class _CartScreenState extends State<CartScreen> {
                                             shoppItems.length.toString())
                                         .toString()}',
                                 style: TextStyle(
-                                  color: AppTheme.black,
+                                  color: context.colors.onSurface,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 14,
                                 ),
                               ),
                               VerticalDivider(
-                                color: AppTheme.grey,
+                                color: context.appColors.subtitleColor,
                                 thickness: 1,
                                 indent: 4,
                                 endIndent: 4,
@@ -234,7 +235,7 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 context.l10n.cartTotalSummaryPrefix,
                                 style: TextStyle(
-                                  color: AppTheme.grey,
+                                  color: context.appColors.subtitleColor,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 12,
                                 ),
@@ -247,7 +248,7 @@ class _CartScreenState extends State<CartScreen> {
                                             .toString())
                                     : EnArConvertor().replaceArNumber('0'),
                                 style: TextStyle(
-                                  color: AppTheme.black,
+                                  color: context.colors.onSurface,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 18,
                                 ),
@@ -261,7 +262,7 @@ class _CartScreenState extends State<CartScreen> {
                         child: shoppItems.length != 0
                             ? Container(
                                 decoration: BoxDecoration(
-                                  color: AppTheme.bg,
+                                  color: context.appColors.scaffoldBackground,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: ListView.builder(

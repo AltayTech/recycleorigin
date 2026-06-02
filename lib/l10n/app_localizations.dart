@@ -278,6 +278,36 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settingsTitle;
 
+  /// No description provided for @appearanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearanceTitle;
+
+  /// No description provided for @appearanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get appearanceLabel;
+
+  /// No description provided for @themeSystemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Use system setting'**
+  String get themeSystemLabel;
+
+  /// No description provided for @themeLightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLightLabel;
+
+  /// No description provided for @themeDarkLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDarkLabel;
+
   /// No description provided for @languageTitle.
   ///
   /// In en, this message translates to:
@@ -305,7 +335,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsScreenIntro.
   ///
   /// In en, this message translates to:
-  /// **'Language updates apply immediately and are saved on this device.'**
+  /// **'Appearance and language updates apply immediately and are saved on this device.'**
   String get settingsScreenIntro;
 
   /// No description provided for @appInformationSectionTitle.

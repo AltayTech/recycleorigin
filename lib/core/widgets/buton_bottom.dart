@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 
 /// Reusable call-to-action button used across the waste
 /// collection flow (cart, address, date, confirm screens).
@@ -39,7 +40,7 @@ class ButtonBottom extends StatelessWidget {
                 end: Alignment.bottomRight,
               )
             : null,
-        color: isActive ? null : AppTheme.grey.withOpacity(0.4),
+        color: isActive ? null : context.appColors.subtitleColor.withOpacity(0.4),
         borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         boxShadow: isActive
             ? [

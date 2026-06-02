@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/theme_context_extensions.dart';
 import '../../../core/widgets/buton_bottom.dart';
 import '../../../core/widgets/drawer_or_back_leading.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
@@ -59,7 +60,7 @@ class _AddressScreenState extends State<AddressScreen>
           SnackBar(
             content: Row(
               children: [
-                const Icon(Icons.error_outline, color: Colors.white, size: 20),
+                Icon(Icons.error_outline, color: Colors.white, size: 20),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -109,7 +110,7 @@ class _AddressScreenState extends State<AddressScreen>
           SnackBar(
             content: Row(
               children: [
-                const Icon(Icons.warning_amber_rounded,
+                Icon(Icons.warning_amber_rounded,
                     color: Colors.white, size: 20),
                 const SizedBox(width: 10),
                 Expanded(child: Text(context.l10n.pleaseSelectAddress)),
@@ -148,12 +149,11 @@ class _AddressScreenState extends State<AddressScreen>
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
-      appBar: AppBar(
+            appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.addressListTitle,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppTheme.appBarIconColor,
             fontWeight: FontWeight.bold,
           ),
@@ -252,13 +252,13 @@ class _AddressScreenState extends State<AddressScreen>
               onPressed: _navigateToMap,
               backgroundColor: AppTheme.primary,
               elevation: 6,
-              icon: const Icon(
+              icon: Icon(
                 Icons.add_location_alt_rounded,
                 color: Colors.white,
               ),
               label: Text(
                 l10n.addNewAddressLabel,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),
@@ -297,10 +297,10 @@ class _AddressHeader extends StatelessWidget {
                   children: [
                     Text(
                       l10n.selectAddressTitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
-                        color: AppTheme.h1,
+                        color: context.colors.onSurface,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -394,10 +394,10 @@ class _EmptyAddressState extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               l10n.addressListEmptyTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w800,
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
               ),
             ),
             const SizedBox(height: 8),
@@ -413,7 +413,7 @@ class _EmptyAddressState extends StatelessWidget {
             const SizedBox(height: 28),
             FilledButton.icon(
               onPressed: onAddTap,
-              icon: const Icon(Icons.add_rounded),
+              icon: Icon(Icons.add_rounded),
               label: Text(l10n.addNewAddressLabel),
               style: FilledButton.styleFrom(
                 backgroundColor: AppTheme.primary,
@@ -424,7 +424,7 @@ class _EmptyAddressState extends StatelessWidget {
                   horizontal: 28,
                   vertical: 14,
                 ),
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),

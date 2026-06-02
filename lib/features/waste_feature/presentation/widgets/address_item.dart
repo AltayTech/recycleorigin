@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../business/entities/address.dart';
 
@@ -52,7 +53,7 @@ class _AddressItemState extends State<AddressItem>
         ),
         title: Text(
           ctx.l10n.removeAddressTitle,
-          style: const TextStyle(fontWeight: FontWeight.w700),
+          style: TextStyle(fontWeight: FontWeight.w700),
         ),
         content: Text(
           ctx.l10n.removeAddressConfirmation,
@@ -210,7 +211,7 @@ class _AddressItemState extends State<AddressItem>
                                   fontWeight: FontWeight.w700,
                                   color: widget.isSelected
                                       ? AppTheme.primary
-                                      : AppTheme.h1,
+                                      : context.colors.onSurface,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -355,7 +356,7 @@ class _SelectionPill extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w700,
           color: Colors.white,

@@ -16,6 +16,7 @@ import 'package:recycleorigin/features/impact_feature/presentation/screens/impac
 import 'package:recycleorigin/features/waste_feature/collect_list_screen.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../l10n/l10n.dart';
 
 /// Profile tab / screen body: customer summary, shortcuts, and sign-out.
@@ -129,7 +130,7 @@ class _GuestView extends StatelessWidget {
                   l10n.youarenotlogin,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: AppTheme.h1,
+                        color: context.colors.onSurface,
                       ),
                 ),
                 const SizedBox(height: AppTheme.spacingXl),
@@ -286,7 +287,7 @@ class _ProfileInfoCard extends StatelessWidget {
                     child: Text(
                       displayName,
                       style: theme.textTheme.titleLarge?.copyWith(
-                        color: AppTheme.h1,
+                        color: context.colors.onSurface,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -373,7 +374,7 @@ class _ProfileLocationCard extends StatelessWidget {
                       l10n.locationDetailsSection,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: AppTheme.h1,
+                            color: context.colors.onSurface,
                           ),
                     ),
                   ],
@@ -405,7 +406,7 @@ class _ProfileLocationCard extends StatelessWidget {
                         l10n.addressCount(personalData.addresses.length),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: AppTheme.h1,
+                              color: context.colors.onSurface,
                             ),
                       ),
                     ),
@@ -480,7 +481,7 @@ class _WalletCard extends StatelessWidget {
                 color: Colors.white.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.account_balance_wallet_outlined,
                 color: Colors.white,
                 size: 28,
@@ -622,7 +623,7 @@ class _MenuItem extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: AppTheme.h1,
+                      color: context.colors.onSurface,
                     ),
               ),
             ],
@@ -732,7 +733,7 @@ class _SignOutButton extends StatelessWidget {
           side: BorderSide(color: Colors.red.shade300),
           padding: const EdgeInsets.symmetric(vertical: AppTheme.spacingMd),
         ),
-        icon: const Icon(Icons.logout_rounded),
+        icon: Icon(Icons.logout_rounded),
         label: Text(l10n.logout),
       ),
     );
@@ -754,7 +755,7 @@ class _ContactRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final subtitle =
         Theme.of(context).extension<AppColorsExtension>()?.subtitleColor ??
-            AppTheme.grey;
+            context.appColors.subtitleColor;
 
     return Row(
       children: [
@@ -862,7 +863,7 @@ class _LabelValueRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final subtitle =
         Theme.of(context).extension<AppColorsExtension>()?.subtitleColor ??
-            AppTheme.grey;
+            context.appColors.subtitleColor;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: AppTheme.spacingXs),
@@ -883,7 +884,7 @@ class _LabelValueRow extends StatelessWidget {
             child: Text(
               value,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.h1,
+                    color: context.colors.onSurface,
                   ),
             ),
           ),
@@ -902,13 +903,13 @@ class _AddressTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final subtitle =
         Theme.of(context).extension<AppColorsExtension>()?.subtitleColor ??
-            AppTheme.grey;
+            context.appColors.subtitleColor;
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppTheme.spacingMd),
       decoration: BoxDecoration(
-        color: AppTheme.bg,
+        color: context.appColors.scaffoldBackground,
         borderRadius: BorderRadius.circular(AppTheme.spacingSm),
         border: Border.all(
           color: AppTheme.primary.withValues(alpha: 0.2),
@@ -922,7 +923,7 @@ class _AddressTile extends StatelessWidget {
               address.name,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppTheme.h1,
+                    color: context.colors.onSurface,
                   ),
             ),
           if (address.address.isNotEmpty) ...[

@@ -4,10 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/order.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
 class OrderItemOrdersScreen extends StatelessWidget {
-  Widget getStatusIcon(String statusSlug) {
+  Widget getStatusIcon(BuildContext context, String statusSlug) {
     Widget icon = Icon(
       Icons.timer,
       color: AppTheme.accent,
@@ -23,7 +24,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
     } else if (statusSlug == 'cancel') {
       icon = Icon(
         Icons.cancel,
-        color: AppTheme.grey,
+        color: context.appColors.subtitleColor,
 //        size: 35,
       );
     } else if (statusSlug == 'review') {
@@ -64,7 +65,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Container(
-              decoration: AppTheme.listItemBox,
+              decoration: AppTheme.listItemBoxFor(context),
               height: constraints.maxHeight,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -91,7 +92,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: context.colors.onSurface,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
@@ -118,7 +119,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: context.colors.onSurface,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
@@ -127,7 +128,9 @@ class OrderItemOrdersScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Expanded(child: getStatusIcon(order.status.slug)),
+                          Expanded(
+                            child: getStatusIcon(context, order.status.slug),
+                          ),
                         ],
                       ),
                     ),
@@ -144,7 +147,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                    color: AppTheme.grey,
+                                    color: context.appColors.subtitleColor,
                                     //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 11.0,
                                   ),
@@ -156,7 +159,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.colors.onSurface,
                                     //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
                                   ),
@@ -175,7 +178,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                   maxLines: 1,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.colors.onSurface,
                                     //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15.0,
                                   ),
@@ -186,7 +189,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                    color: AppTheme.grey,
+                                    color: context.appColors.subtitleColor,
                                     //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 11.0,
                                   ),
@@ -201,7 +204,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: AppTheme.black,
+                                color: context.colors.onSurface,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),

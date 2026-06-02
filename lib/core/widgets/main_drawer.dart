@@ -316,7 +316,9 @@ class _MainDrawerState extends State<MainDrawer> {
     required VoidCallback onTap,
   }) {
     final colors = Theme.of(context).colorScheme;
-    final selectedColor = colors.surface.withValues(alpha: 0.92);
+    final selectedColor = Theme.of(context).brightness == Brightness.dark
+        ? colors.surfaceContainerHighest.withValues(alpha: 0.92)
+        : colors.surface.withValues(alpha: 0.92);
     final defaultFg = Colors.white.withValues(alpha: 0.94);
     final destructiveFg = colors.errorContainer;
     final foreground = destructive ? destructiveFg : defaultFg;

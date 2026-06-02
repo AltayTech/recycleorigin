@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet.dart';
@@ -156,10 +157,10 @@ class _WalletScreenState extends State<WalletScreen> {
       backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text(
+        title: Text(
           'Wallet',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
@@ -193,7 +194,7 @@ class _WalletScreenState extends State<WalletScreen> {
                               Text(
                                 'Recent Transactions',
                                 style: TextStyle(
-                                  color: AppTheme.h1,
+                                  color: context.colors.onSurface,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -202,7 +203,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                 Text(
                                   '${_transactions.length} items',
                                   style: TextStyle(
-                                    color: AppTheme.grey,
+                                    color: context.appColors.subtitleColor,
                                     fontSize: 14,
                                   ),
                                 ),
@@ -269,11 +270,11 @@ class _WalletScreenState extends State<WalletScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.attach_money, color: Colors.white),
+                  Icon(Icons.attach_money, color: Colors.white),
                   const SizedBox(width: 8),
                   Text(
                     context.l10n.walletWithdrawRequestButton,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -304,7 +305,7 @@ class _WalletScreenState extends State<WalletScreen> {
           Text(
             context.l10n.walletNoTransactionsYet,
             style: TextStyle(
-              color: AppTheme.grey,
+              color: context.appColors.subtitleColor,
               fontSize: 16,
             ),
           ),
@@ -328,7 +329,7 @@ class _WalletScreenState extends State<WalletScreen> {
             const SizedBox(height: 24),
             Text(
               context.l10n.pleaseLoginToViewWallet,
-              style: const TextStyle(fontSize: 18, color: Colors.grey),
+              style: TextStyle(fontSize: 18, color: Colors.grey),
             ),
             const SizedBox(height: 24),
             ElevatedButton(
@@ -347,7 +348,7 @@ class _WalletScreenState extends State<WalletScreen> {
               ),
               child: Text(
                 context.l10n.login,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
           ],

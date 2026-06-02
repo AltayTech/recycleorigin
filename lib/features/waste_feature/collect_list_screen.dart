@@ -7,6 +7,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/request_w
 import '../../core/logic/en_to_ar_number_convertor.dart';
 import '../../core/models/search_detail.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/theme_context_extensions.dart';
 import '../../core/widgets/drawer_or_back_leading.dart';
 import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 import '../auth_feature/presentation/screens/login_screen.dart';
@@ -174,7 +175,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.collectRequestListAppBarTitle,
-          style: TextStyle(color: AppTheme.white),
+          style: TextStyle(color: context.appColors.cardBackground),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
@@ -193,7 +194,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         children: <Widget>[
           Text(
             context.l10n.pleaseLoginToViewRequests,
-            style: const TextStyle(fontSize: 16, color: Colors.grey),
+            style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
@@ -206,7 +207,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
                   borderRadius: BorderRadius.circular(8)),
             ),
             child: Text(context.l10n.login,
-                style: const TextStyle(color: Colors.white)),
+                style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -219,18 +220,18 @@ class _CollectListScreenState extends State<CollectListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.redAccent),
+            Icon(Icons.error_outline, size: 64, color: Colors.redAccent),
             const SizedBox(height: 16),
             Text(
               context.l10n.somethingWentWrong,
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _loadInitialData,
-              icon: const Icon(Icons.refresh, color: Colors.white),
+              icon: Icon(Icons.refresh, color: Colors.white),
               label: Text(context.l10n.retryLabel,
-                  style: const TextStyle(color: Colors.white)),
+                  style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
                 padding:
@@ -578,11 +579,11 @@ class _CollectListScreenState extends State<CollectListScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.inbox_outlined, size: 64, color: Colors.grey),
+              Icon(Icons.inbox_outlined, size: 64, color: Colors.grey),
               const SizedBox(height: 16),
               Text(
                 context.l10n.collectListNoRequestsMessage,
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
             ],
           ),

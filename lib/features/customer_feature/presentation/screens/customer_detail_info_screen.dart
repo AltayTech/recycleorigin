@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../bloc/customer_info_bloc.dart';
 import '../bloc/customer_info_state.dart';
 import 'customer_detail_info_edit_screen.dart';
@@ -151,7 +152,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             Text(
               _errorMessage ?? 'An error occurred',
               style: TextStyle(
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
                 fontSize: 16,
               ),
               textAlign: TextAlign.center,
@@ -159,11 +160,11 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _loadCustomerData,
-              icon: const Icon(Icons.refresh),
+              icon: Icon(Icons.refresh),
               label: Text(context.l10n.retryLabel),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
-                foregroundColor: AppTheme.white,
+                foregroundColor: context.appColors.cardBackground,
               ),
             ),
           ],
@@ -183,13 +184,13 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             Icon(
               Icons.person_outline,
               size: 64,
-              color: AppTheme.grey,
+              color: context.appColors.subtitleColor,
             ),
             const SizedBox(height: 16),
             Text(
               context.l10n.customerInfoUnavailableMessage,
               style: TextStyle(
-                color: AppTheme.grey,
+                color: context.appColors.subtitleColor,
                 fontSize: 16,
               ),
               textAlign: TextAlign.center,
@@ -250,7 +251,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             Text(
               'Personal Info',
               style: TextStyle(
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
                 fontSize: textScaleFactor * 20.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -259,11 +260,11 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
         ),
         ElevatedButton.icon(
           onPressed: _navigateToEditScreen,
-          icon: const Icon(Icons.edit, size: 18),
+          icon: Icon(Icons.edit, size: 18),
           label: Text(context.l10n.editLabel),
           style: ElevatedButton.styleFrom(
             backgroundColor: AppTheme.primary,
-            foregroundColor: AppTheme.white,
+            foregroundColor: context.appColors.cardBackground,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
@@ -392,7 +393,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                 Text(
                   title,
                   style: TextStyle(
-                    color: AppTheme.h1,
+                    color: context.colors.onSurface,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -435,14 +436,14 @@ class _InfoItem extends StatelessWidget {
                 Icon(
                   icon,
                   size: 16,
-                  color: AppTheme.grey,
+                  color: context.appColors.subtitleColor,
                 ),
                 const SizedBox(width: 8),
               ],
               Text(
                 '$title:',
                 style: TextStyle(
-                  color: AppTheme.grey,
+                  color: context.appColors.subtitleColor,
                   fontSize: textScaleFactor * 13.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -454,17 +455,17 @@ class _InfoItem extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: AppTheme.white,
+              color: context.appColors.cardBackground,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: AppTheme.secondary,
+                color: context.appColors.divider,
                 width: 1,
               ),
             ),
             child: Text(
               value.isEmpty ? context.l10n.valueNotAvailableLabel : value,
               style: TextStyle(
-                color: AppTheme.black,
+                color: context.colors.onSurface,
                 fontSize: textScaleFactor * 14.0,
                 fontWeight: FontWeight.w400,
               ),

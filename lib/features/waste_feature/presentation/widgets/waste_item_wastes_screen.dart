@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/waste.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 
 /// Grid tile representing a single waste category that can
 /// be toggled on/off to add to / remove from the cart.
@@ -77,7 +78,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                           imageErrorBuilder: (_, __, ___) => Icon(
                             Icons.recycling_rounded,
                             size: 36,
-                            color: AppTheme.grey.withOpacity(0.3),
+                            color: context.appColors.subtitleColor.withOpacity(0.3),
                           ),
                         ),
                       ),
@@ -98,7 +99,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                         style: TextStyle(
                           color: isSelected
                               ? AppTheme.primary
-                              : AppTheme.h1,
+                              : context.colors.onSurface,
                           fontSize: 13,
                           fontWeight: isSelected
                               ? FontWeight.w700
@@ -131,7 +132,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.check_rounded,
                         size: 14,
                         color: Colors.white,

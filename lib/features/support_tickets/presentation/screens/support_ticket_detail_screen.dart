@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/core/utils/result.dart';
 import 'package:recycleorigin/features/support_tickets/data/support_ticket_models.dart';
 import 'package:recycleorigin/features/support_tickets/data/support_ticket_repository.dart';
@@ -106,7 +107,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
       appBar: AppBar(
         title: Text(
           l10n.messageReplyAppBarTitle,
-          style: TextStyle(color: AppTheme.bg),
+          style: TextStyle(color: context.appColors.scaffoldBackground),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -164,7 +165,7 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
                                           strokeWidth: 2,
                                         ),
                                       )
-                                    : const Icon(Icons.send),
+                                    : Icon(Icons.send),
                               ),
                             ],
                           ),
@@ -187,7 +188,7 @@ class _HeaderCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
       child: Material(
-        color: AppTheme.white,
+        color: context.appColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(14),
@@ -203,7 +204,7 @@ class _HeaderCard extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 '${ticket.ticketNumber} · ${ticket.status}',
-                style: theme.textTheme.bodySmall?.copyWith(color: AppTheme.grey),
+                style: theme.textTheme.bodySmall?.copyWith(color: context.appColors.subtitleColor),
               ),
             ],
           ),
@@ -224,7 +225,7 @@ class _Bubble extends StatelessWidget {
     final align = fromUser ? Alignment.centerRight : Alignment.centerLeft;
     final color = fromUser
         ? AppTheme.primary.withValues(alpha: 0.15)
-        : AppTheme.grey.withValues(alpha: 0.12);
+        : context.appColors.subtitleColor.withValues(alpha: 0.12);
     return Align(
       alignment: align,
       child: Container(
@@ -248,7 +249,7 @@ class _Bubble extends StatelessWidget {
             Text(
               _formatTime(message.createdAt),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: AppTheme.grey,
+                    color: context.appColors.subtitleColor,
                   ),
             ),
           ],

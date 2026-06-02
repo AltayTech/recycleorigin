@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../bloc/messages_bloc.dart';
@@ -97,7 +98,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
         title: Text(
           context.l10n.messageReplyAppBarTitle,
           style: TextStyle(
-            color: AppTheme.bg,
+            color: context.appColors.scaffoldBackground,
             //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
@@ -131,7 +132,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                               child: Text(
                                 context.l10n.messageReplyPrefix,
                                 style: TextStyle(
-                                  color: AppTheme.grey,
+                                  color: context.appColors.subtitleColor,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 18.0,
                                 ),
@@ -158,14 +159,14 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 alignLabelWithHint: true,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 labelStyle: TextStyle(
@@ -196,8 +197,8 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: index.isEven
-                                        ? AppTheme.h1
-                                        : AppTheme.h1,
+                                        ? context.colors.onSurface
+                                        : context.colors.onSurface,
                                   ),
                                 );
                               },

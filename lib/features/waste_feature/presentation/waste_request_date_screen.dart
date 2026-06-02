@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/models/region.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/theme_context_extensions.dart';
 import '../../../core/widgets/buton_bottom.dart';
 import '../../../core/widgets/drawer_or_back_leading.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
@@ -224,8 +225,7 @@ class _WasteRequestDateScreenState
     final hasTimeSelected = _selectedStartHour != null;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
-      appBar: AppBar(
+            appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.collectDateFieldLabel,

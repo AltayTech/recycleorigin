@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/core/widgets/drawer_or_back_leading.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigin/features/store_feature/business/entities/shop.dart';
@@ -80,13 +81,13 @@ class _GuideScreenState extends State<GuideScreen> {
     final shop = context.watch<CustomerInfoBloc>().shop;
 
     return Scaffold(
-      backgroundColor: AppTheme.white,
+      backgroundColor: context.appColors.cardBackground,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.guideTitle,
           style: TextStyle(
-            color: AppTheme.bg,
+            color: context.appColors.scaffoldBackground,
             fontSize: textScale * 18,
           ),
         ),
@@ -110,7 +111,7 @@ class _GuideScreenState extends State<GuideScreen> {
     if (_loading) {
       return Center(
         child: SpinKitFadingCircle(
-          color: AppTheme.bg,
+          color: context.appColors.scaffoldBackground,
           size: 48,
         ),
       );
@@ -122,7 +123,7 @@ class _GuideScreenState extends State<GuideScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(Icons.wifi_off_rounded, size: 48, color: AppTheme.grey),
+              Icon(Icons.wifi_off_rounded, size: 48, color: context.appColors.subtitleColor),
               const SizedBox(height: 16),
               Text(
                 context.l10n.guideTitle,
@@ -132,14 +133,14 @@ class _GuideScreenState extends State<GuideScreen> {
               const SizedBox(height: 8),
               Text(
                 _errorMessage!,
-                style: TextStyle(color: AppTheme.grey, fontSize: textScale * 13),
+                style: TextStyle(color: context.appColors.subtitleColor, fontSize: textScale * 13),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
               FilledButton.icon(
                 onPressed: _load,
-                icon: const Icon(Icons.refresh_rounded),
-                label: const Text('Retry'),
+                icon: Icon(Icons.refresh_rounded),
+                label: Text('Retry'),
               ),
             ],
           ),
@@ -152,7 +153,7 @@ class _GuideScreenState extends State<GuideScreen> {
 
     return RefreshIndicator(
       onRefresh: _load,
-      color: AppTheme.bg,
+      color: context.appColors.scaffoldBackground,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
@@ -171,18 +172,18 @@ class _GuideScreenState extends State<GuideScreen> {
                     errorBuilder: (_, __, ___) => Icon(
                       Icons.storefront_rounded,
                       size: 64,
-                      color: AppTheme.grey,
+                      color: context.appColors.subtitleColor,
                     ),
                   ),
                 ),
               )
             else
-              Icon(Icons.recycling_rounded, size: 64, color: AppTheme.bg),
+              Icon(Icons.recycling_rounded, size: 64, color: context.appColors.scaffoldBackground),
             const SizedBox(height: 16),
             Text(
               shop.name.isNotEmpty ? shop.name : context.l10n.guideTitle,
               style: TextStyle(
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
                 fontFamily: 'BFarnaz',
                 fontSize: textScale * 22,
               ),
@@ -193,7 +194,7 @@ class _GuideScreenState extends State<GuideScreen> {
               Text(
                 shop.subject,
                 style: TextStyle(
-                  color: AppTheme.grey,
+                  color: context.appColors.subtitleColor,
                   fontSize: textScale * 15,
                 ),
                 textAlign: TextAlign.center,
@@ -209,7 +210,7 @@ class _GuideScreenState extends State<GuideScreen> {
                     title: Text(
                       s.title,
                       style: TextStyle(
-                        color: AppTheme.black,
+                        color: context.colors.onSurface,
                         fontSize: textScale * 15,
                       ),
                     ),
@@ -221,12 +222,12 @@ class _GuideScreenState extends State<GuideScreen> {
                           child: s.html.trim().isEmpty
                               ? Text(
                                   '—',
-                                  style: TextStyle(color: AppTheme.grey),
+                                  style: TextStyle(color: context.appColors.subtitleColor),
                                 )
                               : HtmlWidget(
                                   s.html,
                                   textStyle: TextStyle(
-                                    color: AppTheme.black,
+                                    color: context.colors.onSurface,
                                     fontSize: textScale * 14,
                                     height: 1.45,
                                   ),
