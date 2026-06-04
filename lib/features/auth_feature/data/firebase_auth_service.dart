@@ -54,7 +54,7 @@ class AuthException implements Exception {
 }
 
 /// Wraps Firebase Auth + Google Sign-In and the backend
-/// `POST /pasmands/v1/auth/firebase` exchange.
+/// `POST /recycleorigin/v1/auth/firebase` exchange.
 ///
 /// This is the ONLY place in the app that interacts with Firebase Auth
 /// directly. The Bloc layer should call these methods and persist the

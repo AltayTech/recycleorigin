@@ -5,6 +5,7 @@ import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../bloc/messages_bloc.dart';
@@ -37,8 +38,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
     if (_isInit) {
       message = ModalRoute.of(context)?.settings.arguments as Message;
-      customer =
-          context.read<CustomerInfoBloc>().customer;
+      customer = context.read<CustomerInfoBloc>().customer;
 
       loadMessages();
     }
@@ -76,7 +76,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
         title: Text(
           '',
           style: TextStyle(
-            color: AppTheme.bg,
+            color: context.appColors.scaffoldBackground,
             //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
@@ -103,7 +103,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                           Text(
                             context.l10n.messageQuestionTitleLabel,
                             style: TextStyle(
-                              color: Colors.black54,
+                              color: context.appColors.subtitleColor,
                               //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
@@ -114,7 +114,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                             EnArConvertor().replaceArNumber(
                                 '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}:${(DateTime.parse(message.comment_date)).second}'),
                             style: TextStyle(
-                              color: Colors.black54,
+                              color: context.appColors.subtitleColor,
                               //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
@@ -126,7 +126,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                               EnArConvertor().replaceArNumber(
                                   '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}'),
                               style: TextStyle(
-                                color: Colors.black54,
+                                color: context.appColors.subtitleColor,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
@@ -143,7 +143,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                         child: Text(
                           message.subject,
                           style: TextStyle(
-                            color: Colors.black,
+                            color: context.colors.onSurface,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 15.0,
                           ),
@@ -182,9 +182,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                                 return DecoratedBox(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
+                                    color: context.appColors.subtitleColor,
                                   ),
                                 );
                               },
@@ -209,7 +207,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
         backgroundColor: AppTheme.primary,
         child: Icon(
           Icons.reply,
-          color: AppTheme.bg,
+          color: context.appColors.scaffoldBackground,
         ),
         onPressed: () {
           Navigator.pushNamed(context, MessageCreateReplyScreen.routeName,

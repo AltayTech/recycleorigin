@@ -84,7 +84,34 @@ class AppLocalizationsTr extends AppLocalizations {
   String get supportHelpLabel => 'Destek ve yardim';
 
   @override
+  String get generalSectionTitle => 'Genel';
+
+  @override
+  String get shopSectionTitle => 'Magaza';
+
+  @override
+  String get supportSectionTitle => 'Destek';
+
+  @override
+  String get accountSectionTitle => 'Hesap';
+
+  @override
   String get settingsTitle => 'Ayarlar';
+
+  @override
+  String get appearanceTitle => 'Gorunum';
+
+  @override
+  String get appearanceLabel => 'Tema';
+
+  @override
+  String get themeSystemLabel => 'Sistem ayarini kullan';
+
+  @override
+  String get themeLightLabel => 'Acik';
+
+  @override
+  String get themeDarkLabel => 'Koyu';
 
   @override
   String get languageTitle => 'Dil';
@@ -100,7 +127,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsScreenIntro =>
-      'Dil degisiklikleri hemen uygulanir ve bu cihazda saklanir.';
+      'Gorunum ve dil degisiklikleri hemen uygulanir ve bu cihazda saklanir.';
 
   @override
   String get appInformationSectionTitle => 'Uygulama bilgisi';
@@ -1190,4 +1217,139 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get authSessionExpired =>
       'Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın.';
+
+  @override
+  String get mobileLabel => 'Cep telefonu';
+
+  @override
+  String get phoneIsLoginIdentifierHint =>
+      'Giriş için kullandığınız telefon numarası buradan değiştirilemez.';
+
+  @override
+  String get emailIsLoginCredentialHint =>
+      'E-posta adresiniz giriş için kullanılır ve buradan değiştirilemez.';
+
+  @override
+  String get postalCodeHintMessage => 'Posta kodu genellikle 5 hanelidir.';
+
+  @override
+  String get profileNameRequiredMessage => 'Bu alan zorunludur.';
+
+  @override
+  String get impactTitle => 'Etkim';
+
+  @override
+  String get impactHeroTitle => 'Geri dönüşüm etkiniz';
+
+  @override
+  String get impactWeightLabel => 'Geri dönüştürülen';
+
+  @override
+  String get impactCo2Label => 'CO₂ tasarrufu';
+
+  @override
+  String get impactPickupsLabel => 'Toplama';
+
+  @override
+  String get impactEarningsLabel => 'Ödüller';
+
+  @override
+  String impactXpLabel(int current, int toNext) {
+    return '$current XP · sonraki için $toNext';
+  }
+
+  @override
+  String impactNextTier(String name) {
+    return 'Sonraki: $name';
+  }
+
+  @override
+  String get impactTreesLabel => 'Ağaç';
+
+  @override
+  String get impactWaterLabel => 'Litre su';
+
+  @override
+  String get impactEnergyLabel => 'kWh';
+
+  @override
+  String get impactStreakTitle => 'Seri';
+
+  @override
+  String impactStreakValue(int current, int longest) {
+    return '$current hf · en iyi $longest';
+  }
+
+  @override
+  String get impactGoalTitle => 'Aylık hedef';
+
+  @override
+  String get impactTrendTitle => 'Geri dönüşüm trendi';
+
+  @override
+  String get impactBadgesTitle => 'Başarılar';
+
+  @override
+  String get impactLeaderboardTitle => 'Sıralama';
+
+  @override
+  String get impactLeaderboardEmpty => 'Bu dönem için sıralama yok.';
+
+  @override
+  String impactRankSummary(int position, int total, double percentile) {
+    return '#$position / $total · üst %$percentile';
+  }
+
+  @override
+  String get impactRange7d => 'Son 7 gün';
+
+  @override
+  String get impactRange30d => 'Son 30 gün';
+
+  @override
+  String get impactRange90d => 'Son 90 gün';
+
+  @override
+  String get impactLoadError => 'Etki verileri yüklenemedi.';
+
+  @override
+  String get homeGreetingMorning => 'Günaydın';
+
+  @override
+  String get homeGreetingAfternoon => 'İyi günler';
+
+  @override
+  String get homeGreetingEvening => 'İyi akşamlar';
+
+  @override
+  String get homeDashboardImpactTitle => 'Etkiniz';
+
+  @override
+  String get homeDashboardWalletTitle => 'Cüzdan';
+
+  @override
+  String get homeDashboardActiveRequestTitle => 'Son talep';
+
+  @override
+  String get homeExploreTitle => 'Keşfet';
+
+  @override
+  String get homeActiveRequestEmpty =>
+      'Henüz talep yok. İlk toplamanızı başlatın.';
+
+  @override
+  String get homeViewAllRequests => 'Tümünü gör';
+
+  @override
+  String get homeLoginForDashboard =>
+      'Etkinizi, cüzdanınızı ve taleplerinizi görmek için giriş yapın.';
+
+  @override
+  String get homeImpactTapHint => 'Tam etki panosunu aç';
+
+  @override
+  String get homeWalletTapHint => 'Cüzdanı aç';
+
+  @override
+  String get homeRequestTapHint => 'Talep ayrıntılarını gör';
 }

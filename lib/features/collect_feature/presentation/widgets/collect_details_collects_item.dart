@@ -3,6 +3,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 class CollectDetailsCollectItem extends StatelessWidget {
@@ -18,10 +19,10 @@ class CollectDetailsCollectItem extends StatelessWidget {
     final currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Container(
-      decoration: AppTheme.listItemBox.copyWith(
+      decoration: AppTheme.listItemBoxFor(context).copyWith(
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: context.appColors.subtitleColor.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -32,9 +33,9 @@ class CollectDetailsCollectItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            collectItem.pasmand.post_title,
-            style: const TextStyle(
-              color: AppTheme.h1,
+            collectItem.waste.post_title,
+            style: TextStyle(
+              color: context.colors.onSurface,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
@@ -74,7 +75,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: Colors.grey[600],
+            color: context.appColors.subtitleColor,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
@@ -86,7 +87,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
               child: _buildValueBox(
                 label: context.l10n.statusRequestLabel,
                 value: requested,
-                color: Colors.orange,
+                color: context.appColors.warning,
               ),
             ),
             const SizedBox(width: 12),
@@ -94,7 +95,7 @@ class CollectDetailsCollectItem extends StatelessWidget {
               child: _buildValueBox(
                 label: context.l10n.statusDeliveredLabel,
                 value: delivered,
-                color: Colors.green,
+                color: context.appColors.success,
               ),
             ),
           ],

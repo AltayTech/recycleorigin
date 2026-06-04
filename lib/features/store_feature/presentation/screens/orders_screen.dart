@@ -8,6 +8,7 @@ import 'package:recycleorigin/features/customer_feature/presentation/bloc/custom
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_state.dart';
 import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_bloc.dart';
 import 'package:recycleorigin/features/store_feature/presentation/widgets/order_item-orders_screen.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/search_detail.dart';
@@ -137,7 +138,7 @@ class _OrdersScreenState extends State<OrdersScreen>
     bool isLogin = context.watch<AuthBloc>().isAuth;
 
     return Scaffold(
-      backgroundColor: Color(0xffF9F9F9),
+      backgroundColor: context.appColors.scaffoldBackground,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
@@ -179,7 +180,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                 padding: const EdgeInsets.all(15.0),
                                 child: Text(
                                   context.l10n.login,
-                                  style: TextStyle(color: Colors.white),
+                                  style: const TextStyle(
+                                      color: AppTheme.appBarIconColor),
                                 ),
                               ),
                               decoration: BoxDecoration(
@@ -213,7 +215,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                     child: Text(
                                       context.l10n.ordersLabel,
                                       style: TextStyle(
-                                        color: Colors.blueGrey,
+                                        color: context.appColors.subtitleColor,
                                         //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
@@ -297,9 +299,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                           return DecoratedBox(
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: index.isEven
-                                                  ? Colors.grey
-                                                  : Colors.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                             ),
                                           );
                                         },

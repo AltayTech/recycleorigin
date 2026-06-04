@@ -24,8 +24,7 @@ class ProductsState {
         cartItems = cartItems ?? const [],
         categoryItems = categoryItems ?? const [],
         filterTitle = filterTitle ?? const [],
-        searchDetails =
-            searchDetails ?? SearchDetail(max_page: 1, total: 10),
+        searchDetails = searchDetails ?? SearchDetail(max_page: 1, total: 10),
         item = item ?? Product();
 
   final List<Product> items;
@@ -71,8 +70,7 @@ class ProductsState {
       sPerPage: sPerPage ?? this.sPerPage,
       sOrder: sOrder ?? this.sOrder,
       sOrderBy: sOrderBy ?? this.sOrderBy,
-      sCategory:
-          clearSCategory ? null : (sCategory ?? this.sCategory),
+      sCategory: clearSCategory ? null : (sCategory ?? this.sCategory),
       isFiltered: isFiltered ?? this.isFiltered,
       searchDetails: searchDetails ?? this.searchDetails,
       item: item ?? this.item,

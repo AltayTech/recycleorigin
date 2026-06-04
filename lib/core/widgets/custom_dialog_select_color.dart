@@ -3,6 +3,7 @@ import 'package:intl/intl.dart' as intl;
 
 import '../../features/store_feature/business/entities/product.dart';
 import '../theme/app_theme.dart';
+import '../theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 class CustomDialogSelectColor extends StatefulWidget {
@@ -50,12 +51,12 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
       ),
       child: Container(
         decoration: new BoxDecoration(
-          color: AppTheme.bg,
+          color: context.appColors.scaffoldBackground,
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.black26,
+              color: context.colors.shadow.withValues(alpha: 0.26),
               blurRadius: 5.0,
               offset: const Offset(0.0, 10.0),
             ),
@@ -83,7 +84,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                 child: Text(
                   context.l10n.selectProductColorTitle,
                   style: TextStyle(
-                    color: AppTheme.secondary,
+                    color: context.appColors.divider,
                     //fontFamily: 'Iransans',
                     fontSize: textScaleFactor * 14,
                     fontWeight: FontWeight.w400,
@@ -109,12 +110,12 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
 //                        decoration: _selectedColorIndex == index
 //                            ? BoxDecoration(
 //                                border:
-//                                    Border.all(color: Colors.black, width: 0.2),
+//                                    Border.all(color: context.colors.onSurface, width: 0.2),
 //                                borderRadius: BorderRadius.circular(5),
-//                                color: AppTheme.secondary.withOpacity(0.15),
+//                                color: context.appColors.divider.withOpacity(0.15),
 //                              )
 //                            : BoxDecoration(
-//                                color: AppTheme.bg,
+//                                color: context.appColors.scaffoldBackground,
 //                              ),
 //                        child: Row(
 //                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -137,7 +138,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
 //                                style: TextStyle(
 //                                  color: widget.product.color[index].available
 //                                      ? AppTheme.primary
-//                                      : AppTheme.grey,
+//                                      : context.appColors.subtitleColor,
 //                                  //fontFamily: 'Iransans',
 //                                  fontSize: textScaleFactor * 20.0,
 //                                ),
@@ -150,7 +151,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
 //                                style: TextStyle(
 //                                  color: widget.product.color[index].available
 //                                      ? AppTheme.primary
-//                                      : AppTheme.grey,
+//                                      : context.appColors.subtitleColor,
 //                                  //fontFamily: 'Iransans',
 //                                  fontSize: textScaleFactor * 16,
 //                                ),
@@ -164,7 +165,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
 //                                decoration: BoxDecoration(
 //                                  shape: BoxShape.circle,
 //                                  border: Border.all(
-//                                      color: Colors.black, width: 0.2),
+//                                      color: context.colors.onSurface, width: 0.2),
 //                                  color: Color(
 //                                    int.parse(
 //                                      '0xff' +
@@ -198,7 +199,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                               decoration: BoxDecoration(
                                 color: _selectedColorIndex != null
                                     ? AppTheme.primary
-                                    : Colors.grey,
+                                    : context.appColors.subtitleColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Center(
@@ -207,7 +208,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                                   child: Text(
                                     context.l10n.addToCartLabel,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: context.appColors.cardBackground,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 16,
                                     ),

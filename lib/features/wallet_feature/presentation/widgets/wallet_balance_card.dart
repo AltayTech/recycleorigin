@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 
 class WalletBalanceCard extends StatelessWidget {
   final String balance;
@@ -69,22 +70,24 @@ class WalletBalanceCard extends StatelessWidget {
               Text(
                 'Total Balance',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.9),
+                  color:
+                      context.appColors.onHeroForeground.withValues(alpha: 0.9),
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Icon(
                 Icons.account_balance_wallet_outlined,
-                color: Colors.white.withOpacity(0.9),
+                color:
+                    context.appColors.onHeroForeground.withValues(alpha: 0.9),
               ),
             ],
           ),
           const SizedBox(height: 12),
           Text(
             '$formattedBalance $_currencySymbol',
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: context.appColors.onHeroForeground,
               fontSize: 32,
               fontWeight: FontWeight.bold,
             ),

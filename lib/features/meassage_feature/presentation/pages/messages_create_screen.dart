@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../bloc/messages_bloc.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
@@ -64,12 +65,12 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
     await context
         .read<MessagesBloc>()
         .createMessage(
-      subjectTextController.text,
-      contentTextController.text,
-      '0',
-      '0',
-      isLogin,
-    )
+          subjectTextController.text,
+          contentTextController.text,
+          '0',
+          '0',
+          isLogin,
+        )
         .then((value) async {
       await context.read<MessagesBloc>().getMessages('0', isLogin);
       Navigator.of(context).pop();
@@ -91,7 +92,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
         title: Text(
           context.l10n.newMessageScreenTitle,
           style: TextStyle(
-            color: AppTheme.bg,
+            color: context.appColors.scaffoldBackground,
             //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
@@ -122,7 +123,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                           child: Text(
                             context.l10n.composeMessageIntroParagraph,
                             style: TextStyle(
-                              color: AppTheme.black,
+                              color: context.colors.onSurface,
                               //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
@@ -136,31 +137,32 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                             child: TextField(
                               controller: subjectTextController,
                               style: TextStyle(
-                                color: Colors.black87,
+                                color: context.colors.onSurface,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
                               decoration: InputDecoration(
-                                fillColor: Colors.white,
+                                fillColor: context.appColors.cardBackground,
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 labelStyle: TextStyle(
-                                  color: Colors.grey,
+                                  color: context.appColors.subtitleColor,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
-                                labelText: context.l10n.composeMessageTitleLabel,
+                                labelText:
+                                    context.l10n.composeMessageTitleLabel,
                               ),
                             ),
                           ),
@@ -173,29 +175,29 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                               maxLines: 10,
                               controller: contentTextController,
                               style: TextStyle(
-                                color: Colors.black87,
+                                color: context.colors.onSurface,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
                               textAlign: TextAlign.start,
                               decoration: InputDecoration(
-                                fillColor: Colors.white,
+                                fillColor: context.appColors.cardBackground,
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 alignLabelWithHint: true,
                                 labelStyle: TextStyle(
-                                  color: Colors.grey,
+                                  color: context.appColors.subtitleColor,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
@@ -222,8 +224,9 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? AppTheme.h1 : AppTheme.h1,
+                                  color: index.isEven
+                                      ? context.colors.onSurface
+                                      : context.colors.onSurface,
                                 ),
                               );
                             },
@@ -242,7 +245,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
         backgroundColor: AppTheme.primary,
         child: Icon(
           Icons.check,
-          color: Colors.white,
+          color: context.appColors.cardBackground,
         ),
       ),
       drawer: mainDrawerIfRootRoute(context),

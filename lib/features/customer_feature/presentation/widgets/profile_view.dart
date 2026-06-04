@@ -1,133 +1,514 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:recycleorigin/core/models/customer.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_state.dart';
+import 'package:recycleorigin/features/auth_feature/presentation/screens/login_screen.dart';
+import 'package:recycleorigin/features/customer_feature/business/entities/personal_data.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_state.dart';
+import 'package:recycleorigin/features/customer_feature/presentation/screens/customer_user_info_screen.dart';
 import 'package:recycleorigin/features/store_feature/presentation/screens/orders_screen.dart';
+import 'package:recycleorigin/features/support_tickets/presentation/screens/support_tickets_list_screen.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/address.dart';
+import 'package:recycleorigin/features/impact_feature/presentation/screens/impact_screen.dart';
 import 'package:recycleorigin/features/waste_feature/collect_list_screen.dart';
 
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/main_item_button.dart';
-import '../../../../core/widgets/top_bar.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../support_tickets/presentation/screens/support_tickets_list_screen.dart';
-import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
-import '../../../auth_feature/presentation/bloc/auth_state.dart';
-import '../bloc/customer_info_bloc.dart';
-import '../bloc/customer_info_state.dart';
-import '../screens/customer_user_info_screen.dart';
-import '../../../auth_feature/presentation/screens/login_screen.dart';
 
-/// Profile view widget that displays user profile information and navigation options
+/// Profile tab / screen body: customer summary, shortcuts, and sign-out.
 class ProfileView extends StatefulWidget {
-  ProfileView({Key? key}) : super(key: key);
+  const ProfileView({super.key});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  bool _isLoading = false;
-  bool _isInitialized = false;
-
-  /// Constants for layout calculations
-  static const double _horizontalPadding = 20.0;
-  static const double _gridSpacing = 12.0;
-  static const int _crossAxisCount = 2;
-  static const double _childAspectRatio = 1.0;
+  bool _initialized = false;
 
   @override
   void initState() {
     super.initState();
-    _loadCustomerData();
+    _loadCustomer();
   }
 
-  /// Loads customer data from the provider
-  Future<void> _loadCustomerData() async {
-    if (_isLoading) return;
-
-    setState(() {
-      _isLoading = true;
-    });
-
+  Future<void> _loadCustomer() async {
     try {
       await context.read<CustomerInfoBloc>().getCustomer();
     } catch (error) {
-      // Error handling - could be extended to show error message to user
       debugPrint('Error loading customer data: $error');
     } finally {
       if (mounted) {
-        setState(() {
-          _isLoading = false;
-          _isInitialized = true;
-        });
+        setState(() => _initialized = true);
       }
     }
   }
 
-  /// Handles pull-to-refresh action
   Future<void> _handleRefresh() async {
-    await _loadCustomerData();
+    await _loadCustomer();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        if (!state.isAuth) {
-          return _buildNotLoggedInView(context);
+      builder: (context, authState) {
+        if (!authState.isAuth) {
+          return const _GuestView();
         }
-
-        return _buildProfileContent(context);
+        if (!_initialized) {
+          return const _LoadingView();
+        }
+        return BlocBuilder<CustomerInfoBloc, CustomerInfoState>(
+          builder: (context, customerState) {
+            final customer = customerState.customer;
+            return RefreshIndicator(
+              onRefresh: _handleRefresh,
+              color: AppTheme.primary,
+              child: CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _ProfileHero(personalData: customer.personalData),
+                        const SizedBox(height: AppTheme.spacingSm),
+                        _ProfileInfoCard(customer: customer),
+                        _ProfileLocationCard(
+                          personalData: customer.personalData,
+                        ),
+                        _WalletCard(money: customer.money),
+                        const _MenuGrid(),
+                        const _SignOutButton(),
+                        const SizedBox(height: AppTheme.spacingLg),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
       },
     );
   }
+}
 
-  /// Builds the view shown when user is not logged in
-  Widget _buildNotLoggedInView(BuildContext context) {
+// ── Guest / loading ───────────────────────────────────────────────
+
+class _GuestView extends StatelessWidget {
+  const _GuestView();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final colors = Theme.of(context).extension<AppColorsExtension>();
+
+    return Column(
+      children: [
+        _GradientBanner(
+          height: 160,
+          colors: colors,
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(AppTheme.spacingLg),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.account_circle_outlined,
+                  size: 88,
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                const SizedBox(height: AppTheme.spacingLg),
+                Text(
+                  l10n.youarenotlogin,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: context.colors.onSurface,
+                      ),
+                ),
+                const SizedBox(height: AppTheme.spacingXl),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(LoginScreen.routeName);
+                    },
+                    child: Text(l10n.login),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _LoadingView extends StatelessWidget {
+  const _LoadingView();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SpinKitFadingCircle(
+        color: AppTheme.primary,
+        size: 48,
+      ),
+    );
+  }
+}
+
+// ── Hero & avatar ─────────────────────────────────────────────────
+
+class _ProfileHero extends StatelessWidget {
+  const _ProfileHero({required this.personalData});
+
+  final PersonalData personalData;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>();
+
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.bottomCenter,
+      children: [
+        _GradientBanner(
+          height: 130,
+          colors: colors,
+        ),
+        Positioned(
+          bottom: -44,
+          child: _AvatarCircle(initials: _profileInitials(personalData)),
+        ),
+      ],
+    );
+  }
+}
+
+class _GradientBanner extends StatelessWidget {
+  const _GradientBanner({
+    required this.height,
+    this.colors,
+  });
+
+  final double height;
+  final AppColorsExtension? colors;
+
+  @override
+  Widget build(BuildContext context) {
+    final start = colors?.heroGradientStart ?? AppTheme.primary;
+    final end = colors?.heroGradientEnd ?? AppTheme.primaryDark;
+
+    return Container(
+      height: height,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [start, end],
+        ),
+      ),
+    );
+  }
+}
+
+class _AvatarCircle extends StatelessWidget {
+  const _AvatarCircle({required this.initials});
+
+  final String initials;
+
+  static const double _size = 88;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: _size,
+      height: _size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppTheme.primary.withValues(alpha: 0.15),
+        border: Border.all(color: context.appColors.cardBackground, width: 4),
+        boxShadow: AppTheme.cardShadow(AppTheme.primary),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        initials,
+        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              color: AppTheme.primaryDark,
+              fontWeight: FontWeight.w800,
+            ),
+      ),
+    );
+  }
+}
+
+// ── Info cards ────────────────────────────────────────────────────
+
+class _ProfileInfoCard extends StatelessWidget {
+  const _ProfileInfoCard({required this.customer});
+
+  final Customer customer;
+
+  @override
+  Widget build(BuildContext context) {
+    final personalData = customer.personalData;
+    final displayName = _profileDisplayName(personalData);
+    final email = _profileEmail(personalData);
+    final phone = _profilePhone(personalData);
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppTheme.spacingMd,
+        52,
+        AppTheme.spacingMd,
+        AppTheme.spacingSm,
+      ),
+      child: Card(
+        elevation: 0,
+        child: Padding(
+          padding: const EdgeInsets.all(AppTheme.spacingMd),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      displayName,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: context.colors.onSurface,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  if (customer.status.name.isNotEmpty)
+                    _StatusChip(label: customer.status.name),
+                ],
+              ),
+              if (email.isNotEmpty) ...[
+                const SizedBox(height: AppTheme.spacingSm),
+                _ContactRow(
+                  icon: Icons.email_outlined,
+                  value: email,
+                ),
+              ],
+              if (phone.isNotEmpty) ...[
+                const SizedBox(height: AppTheme.spacingXs),
+                _ContactRow(
+                  icon: Icons.phone_outlined,
+                  value: phone,
+                ),
+              ],
+              if (customer.customer_type.name.isNotEmpty) ...[
+                const SizedBox(height: AppTheme.spacingMd),
+                Wrap(
+                  spacing: AppTheme.spacingSm,
+                  runSpacing: AppTheme.spacingSm,
+                  children: [
+                    _InfoChip(
+                      icon: Icons.category_outlined,
+                      label: customer.customer_type.name,
+                      color: AppTheme.primaryDark,
+                    ),
+                  ],
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfileLocationCard extends StatelessWidget {
+  const _ProfileLocationCard({required this.personalData});
+
+  final PersonalData personalData;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final hasLocation =
+        personalData.ostan.isNotEmpty || personalData.city.isNotEmpty;
+    final hasAddresses = personalData.addresses.isNotEmpty;
+
+    if (!hasLocation && !hasAddresses) {
+      return const SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.spacingMd,
+        vertical: AppTheme.spacingSm,
+      ),
+      child: Card(
+        elevation: 0,
+        child: Padding(
+          padding: const EdgeInsets.all(AppTheme.spacingMd),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (hasLocation) ...[
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_city_outlined,
+                      size: 20,
+                      color: AppTheme.primary,
+                    ),
+                    const SizedBox(width: AppTheme.spacingSm),
+                    Text(
+                      l10n.locationDetailsSection,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: context.colors.onSurface,
+                          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppTheme.spacingSm),
+                if (personalData.ostan.isNotEmpty)
+                  _LabelValueRow(
+                    label: l10n.provinceFieldLabel,
+                    value: personalData.ostan,
+                  ),
+                if (personalData.city.isNotEmpty)
+                  _LabelValueRow(
+                    label: l10n.cityFieldLabel,
+                    value: personalData.city,
+                  ),
+              ],
+              if (hasAddresses) ...[
+                if (hasLocation) const SizedBox(height: AppTheme.spacingMd),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.home_outlined,
+                      size: 20,
+                      color: AppTheme.primary,
+                    ),
+                    const SizedBox(width: AppTheme.spacingSm),
+                    Expanded(
+                      child: Text(
+                        l10n.addressCount(personalData.addresses.length),
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: context.colors.onSurface,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppTheme.spacingSm),
+                ...personalData.addresses.take(2).map(
+                      (address) => Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: AppTheme.spacingSm,
+                        ),
+                        child: _AddressTile(address: address),
+                      ),
+                    ),
+                if (personalData.addresses.length > 2)
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          CustomerUserInfoScreen.routeName,
+                        );
+                      },
+                      child: Text(l10n.personalInfoShortLabel),
+                    ),
+                  ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WalletCard extends StatelessWidget {
+  const _WalletCard({required this.money});
+
+  final String money;
+
+  @override
+  Widget build(BuildContext context) {
+    final balance = double.tryParse(money);
+    if (balance == null || balance <= 0) {
+      return const SizedBox.shrink();
+    }
+
     final l10n = context.l10n;
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.spacingMd,
+        vertical: AppTheme.spacingSm,
+      ),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(AppTheme.spacingMd),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppTheme.primary, AppTheme.primaryDark],
+          ),
+          boxShadow: AppTheme.heroShadow(AppTheme.primary),
+        ),
+        child: Row(
           children: [
-            Icon(
-              Icons.account_circle_outlined,
-              size: 80,
-              color: AppTheme.grey,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              l10n.youarenotlogin,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: AppTheme.h1,
+            Container(
+              padding: const EdgeInsets.all(AppTheme.spacingSm),
+              decoration: BoxDecoration(
+                color:
+                    context.appColors.onHeroForeground.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.account_balance_wallet_outlined,
+                color: context.appColors.onHeroForeground,
+                size: 28,
               ),
             ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(LoginScreen.routeName);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primary,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 16,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: Text(
-                l10n.login,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+            const SizedBox(width: AppTheme.spacingMd),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.wallet,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: context.appColors.onHeroForeground
+                              .withValues(alpha: 0.9),
+                        ),
+                  ),
+                  const SizedBox(height: AppTheme.spacingXs),
+                  Text(
+                    '${money} ${l10n.price_unit}',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          color: context.appColors.onHeroForeground,
+                          fontWeight: FontWeight.w800,
+                        ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -135,280 +516,331 @@ class _ProfileViewState extends State<ProfileView> {
       ),
     );
   }
+}
 
-  /// Builds the main profile content when user is logged in
-  Widget _buildProfileContent(BuildContext context) {
-    if (_isLoading && !_isInitialized) {
-      return _buildLoadingView();
-    }
+// ── Menu grid ─────────────────────────────────────────────────────
 
-    return RefreshIndicator(
-      onRefresh: _handleRefresh,
-      color: AppTheme.primary,
-      child: CustomScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        slivers: [
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                TopBar(),
-                _buildProfileHeader(context),
-                _buildInfoSection(context),
-                _buildProfileGrid(context),
-                const SizedBox(height: 20),
-              ],
-            ),
+class _MenuGrid extends StatelessWidget {
+  const _MenuGrid();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppTheme.spacingMd,
+        AppTheme.spacingMd,
+        AppTheme.spacingMd,
+        AppTheme.spacingSm,
+      ),
+      child: GridView.count(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: 2,
+        mainAxisSpacing: AppTheme.spacingMd,
+        crossAxisSpacing: AppTheme.spacingMd,
+        childAspectRatio: 1.05,
+        children: [
+          _MenuItem(
+            title: l10n.impactTitle,
+            icon: Icons.insights_rounded,
+            onTap: () {
+              Navigator.of(context).pushNamed(ImpactScreen.routeName);
+            },
+          ),
+          _MenuItem(
+            title: l10n.ordersLabel,
+            icon: Icons.shopping_bag_outlined,
+            onTap: () {
+              Navigator.of(context).pushNamed(OrdersScreen.routeName);
+            },
+          ),
+          _MenuItem(
+            title: l10n.personalInfoShortLabel,
+            icon: Icons.person_outline,
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                CustomerUserInfoScreen.routeName,
+              );
+            },
+          ),
+          _MenuItem(
+            title: l10n.messagesInboxLabel,
+            icon: Icons.mail_outline,
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                SupportTicketsListScreen.routeName,
+              );
+            },
+          ),
+          _MenuItem(
+            title: l10n.profileRequestsMenuTitle,
+            icon: Icons.recycling_outlined,
+            onTap: () {
+              Navigator.of(context).pushNamed(CollectListScreen.routeName);
+            },
           ),
         ],
       ),
     );
   }
+}
 
-  /// Builds the loading indicator view
-  Widget _buildLoadingView() {
-    return Center(
-      child: SpinKitFadingCircle(
-        color: AppTheme.primary,
-        size: 50,
+class _MenuItem extends StatelessWidget {
+  const _MenuItem({
+    required this.title,
+    required this.icon,
+    required this.onTap,
+  });
+
+  final String title;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 0,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(AppTheme.spacingMd),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppTheme.spacingMd),
+                decoration: BoxDecoration(
+                  color: AppTheme.primary.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: AppTheme.primary, size: 32),
+              ),
+              const SizedBox(height: AppTheme.spacingMd),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: context.colors.onSurface,
+                    ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
+}
 
-  /// Builds the profile header with user information
-  Widget _buildProfileHeader(BuildContext context) {
-    return BlocBuilder<CustomerInfoBloc, CustomerInfoState>(
-      builder: (context, state) {
-        final customer = state.customer;
-        final personalData = customer.personalData;
-        final fullName =
-            '${personalData.first_name} ${personalData.last_name}'.trim();
-        final displayName = fullName.isEmpty
-            ? (personalData.phone.isNotEmpty
-                ? personalData.phone
-                : personalData.mobile.isNotEmpty
-                    ? personalData.mobile
-                    : 'User')
-            : fullName;
+// ── Sign out ──────────────────────────────────────────────────────
 
-        // Determine email - check email field first, then mobile (as it might contain email)
-        final email = personalData.email.isNotEmpty
-            ? personalData.email
-            : (personalData.mobile.contains('@') ? personalData.mobile : '');
+class _SignOutButton extends StatelessWidget {
+  const _SignOutButton();
 
-        // Determine phone - prefer phone field, fallback to mobile if it's not an email
-        final phone = personalData.phone.isNotEmpty
-            ? personalData.phone
-            : (personalData.mobile.contains('@') ? '' : personalData.mobile);
+  Future<void> _confirmSignOut(BuildContext context) async {
+    final l10n = context.l10n;
+    final rootContext = context;
 
-        return Container(
-          margin: const EdgeInsets.fromLTRB(
-            _horizontalPadding,
-            20,
-            _horizontalPadding,
-            16,
-          ),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: AppTheme.primary.withValues(alpha: 0.1),
-                blurRadius: 10,
-                spreadRadius: 2,
-                offset: const Offset(0, 4),
+    final confirmed = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        var busy = false;
+        return StatefulBuilder(
+          builder: (ctx, setLocalState) {
+            Future<void> onConfirm() async {
+              setLocalState(() => busy = true);
+              try {
+                rootContext.read<CustomerInfoBloc>().customer =
+                    rootContext.read<CustomerInfoBloc>().customer_zero;
+                await rootContext.read<AuthBloc>().removeToken();
+                rootContext.read<AuthBloc>().isFirstLogout = true;
+                if (ctx.mounted) {
+                  Navigator.of(ctx).pop(true);
+                }
+              } catch (e) {
+                if (rootContext.mounted) {
+                  ScaffoldMessenger.of(rootContext).showSnackBar(
+                    SnackBar(
+                      content: Text('${l10n.signOutErrorPrefix}$e'),
+                      backgroundColor: context.colors.error,
+                    ),
+                  );
+                }
+                if (ctx.mounted) {
+                  Navigator.of(ctx).pop(false);
+                }
+              } finally {
+                if (ctx.mounted) {
+                  setLocalState(() => busy = false);
+                }
+              }
+            }
+
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppTheme.radiusSm),
               ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppTheme.primary.withValues(alpha: 0.1),
-                      border: Border.all(
-                        color: AppTheme.primary,
-                        width: 2,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.person,
-                      size: 40,
-                      color: AppTheme.primary,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                displayName,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.h1,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            if (customer.status.name.isNotEmpty)
-                              _buildStatusBadge(customer.status.name),
-                          ],
-                        ),
-                        if (email.isNotEmpty) ...[
-                          const SizedBox(height: 6),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.email_outlined,
-                                size: 14,
-                                color: AppTheme.grey,
-                              ),
-                              const SizedBox(width: 4),
-                              Expanded(
-                                child: Text(
-                                  email,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: AppTheme.grey,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
+              title: Text(l10n.signOutDialogTitle),
+              content: Text(l10n.signOutDialogMessage),
+              actions: [
+                TextButton(
+                  onPressed: busy
+                      ? null
+                      : () => Navigator.of(dialogContext).pop(false),
+                  child: Text(l10n.cancelLabel),
+                ),
+                TextButton(
+                  onPressed: busy ? null : onConfirm,
+                  style: TextButton.styleFrom(
+                      foregroundColor: context.colors.error),
+                  child: busy
+                      ? SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Theme.of(ctx).colorScheme.error,
                           ),
-                        ],
-                        if (phone.isNotEmpty) ...[
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.phone_outlined,
-                                size: 14,
-                                color: AppTheme.grey,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                phone,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: AppTheme.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              _buildInfoRow(context, customer, personalData),
-            ],
-          ),
+                        )
+                      : Text(l10n.signOutConfirmButton),
+                ),
+              ],
+            );
+          },
         );
       },
     );
+
+    if (confirmed == true && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.logoutSuccessSnack)),
+      );
+    }
   }
 
-  /// Builds a status badge widget
-  Widget _buildStatusBadge(String status) {
-    final isActive = status.toLowerCase() == 'active';
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: isActive
-            ? AppTheme.primary.withValues(alpha: 0.1)
-            : Colors.red.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isActive ? AppTheme.primary : Colors.red,
-          width: 1,
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMd),
+      child: OutlinedButton.icon(
+        onPressed: () => _confirmSignOut(context),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: context.appColors.danger,
+          side: BorderSide(
+            color: context.appColors.danger.withValues(alpha: 0.5),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: AppTheme.spacingMd),
         ),
-      ),
-      child: Text(
-        status,
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: isActive ? AppTheme.primary : Colors.red,
-        ),
+        icon: Icon(Icons.logout_rounded),
+        label: Text(l10n.logout),
       ),
     );
   }
+}
 
-  /// Builds information row with wallet and other details
-  Widget _buildInfoRow(
-    BuildContext context,
-    dynamic customer,
-    dynamic personalData,
-  ) {
-    final l10n = context.l10n;
-    final priceUnit = l10n.price_unit;
-    final hasMoney = customer.money.isNotEmpty &&
-        double.tryParse(customer.money) != null &&
-        double.parse(customer.money) > 0;
+// ── Small shared widgets ──────────────────────────────────────────
 
-    return Wrap(
-      spacing: 12,
-      runSpacing: 8,
+class _ContactRow extends StatelessWidget {
+  const _ContactRow({
+    required this.icon,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final subtitle =
+        Theme.of(context).extension<AppColorsExtension>()?.subtitleColor ??
+            context.appColors.subtitleColor;
+
+    return Row(
       children: [
-        if (hasMoney)
-          _buildInfoChip(
-            icon: Icons.account_balance_wallet,
-            label: '${customer.money} $priceUnit',
-            color: AppTheme.primary,
+        Icon(icon, size: 16, color: subtitle),
+        const SizedBox(width: AppTheme.spacingXs),
+        Expanded(
+          child: Text(
+            value,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: subtitle,
+                ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-        if (personalData.addresses.isNotEmpty)
-          _buildInfoChip(
-            icon: Icons.location_on,
-            label:
-                '${personalData.addresses.length} ${personalData.addresses.length == 1 ? l10n.addressSingular : l10n.addressesPlural}',
-            color: Colors.blue,
-          ),
-        if (customer.customer_type.name.isNotEmpty)
-          _buildInfoChip(
-            icon: Icons.category,
-            label: customer.customer_type.name,
-            color: Colors.purple,
-          ),
+        ),
       ],
     );
   }
+}
 
-  /// Builds an info chip widget
-  Widget _buildInfoChip({
-    required IconData icon,
-    required String label,
-    required Color color,
-  }) {
+class _StatusChip extends StatelessWidget {
+  const _StatusChip({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final isActive = label.toLowerCase() == 'active';
+    final color = isActive ? AppTheme.primary : context.appColors.danger;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.spacingSm,
+        vertical: AppTheme.spacingXs,
+      ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: color.withValues(alpha: 0.3),
-          width: 1,
+        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+        border: Border.all(color: color),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: color,
         ),
+      ),
+    );
+  }
+}
+
+class _InfoChip extends StatelessWidget {
+  const _InfoChip({
+    required this.icon,
+    required this.label,
+    required this.color,
+  });
+
+  final IconData icon;
+  final String label;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 6,
+      ),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(AppTheme.spacingSm),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 14, color: color),
-          const SizedBox(width: 4),
+          const SizedBox(width: AppTheme.spacingXs),
           Text(
             label,
             style: TextStyle(
@@ -421,156 +853,71 @@ class _ProfileViewState extends State<ProfileView> {
       ),
     );
   }
+}
 
-  /// Builds the information section with addresses and location
-  Widget _buildInfoSection(BuildContext context) {
-    return BlocBuilder<CustomerInfoBloc, CustomerInfoState>(
-      builder: (context, state) {
-        final customer = state.customer;
-        final personalData = customer.personalData;
-        final hasAddresses = personalData.addresses.isNotEmpty;
-        final hasLocation =
-            personalData.ostan.isNotEmpty || personalData.city.isNotEmpty;
+class _LabelValueRow extends StatelessWidget {
+  const _LabelValueRow({
+    required this.label,
+    required this.value,
+  });
 
-        if (!hasAddresses && !hasLocation) {
-          return const SizedBox.shrink();
-        }
+  final String label;
+  final String value;
 
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: AppTheme.primary.withValues(alpha: 0.08),
-                blurRadius: 8,
-                spreadRadius: 1,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (hasLocation) ...[
-                Row(
-                  children: [
-                    Icon(
-                      Icons.location_city,
-                      size: 18,
-                      color: AppTheme.primary,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Location',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.h1,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                if (personalData.ostan.isNotEmpty)
-                  _buildInfoItem('Province', personalData.ostan),
-                if (personalData.city.isNotEmpty)
-                  _buildInfoItem('City', personalData.city),
-                if (hasAddresses) const SizedBox(height: 16),
-              ],
-              if (hasAddresses) ...[
-                Row(
-                  children: [
-                    Icon(
-                      Icons.home,
-                      size: 18,
-                      color: AppTheme.primary,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Addresses (${personalData.addresses.length})',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.h1,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                ...personalData.addresses.take(2).map((address) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: _buildAddressCard(address),
-                  );
-                }),
-                if (personalData.addresses.length > 2)
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(CustomerUserInfoScreen.routeName);
-                    },
-                    child: Text(
-                      'View all ${personalData.addresses.length} addresses',
-                      style: TextStyle(
-                        color: AppTheme.primary,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-              ],
-            ],
-          ),
-        );
-      },
-    );
-  }
+  @override
+  Widget build(BuildContext context) {
+    final subtitle =
+        Theme.of(context).extension<AppColorsExtension>()?.subtitleColor ??
+            context.appColors.subtitleColor;
 
-  /// Builds an info item row
-  Widget _buildInfoItem(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.only(bottom: AppTheme.spacingXs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 80,
+            width: 88,
             child: Text(
               '$label:',
-              style: TextStyle(
-                fontSize: 13,
-                color: AppTheme.grey,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: subtitle,
+                    fontWeight: FontWeight.w500,
+                  ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: TextStyle(
-                fontSize: 13,
-                color: AppTheme.h1,
-                fontWeight: FontWeight.w400,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: context.colors.onSurface,
+                  ),
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  /// Builds an address card
-  Widget _buildAddressCard(dynamic address) {
+class _AddressTile extends StatelessWidget {
+  const _AddressTile({required this.address});
+
+  final Address address;
+
+  @override
+  Widget build(BuildContext context) {
+    final subtitle =
+        Theme.of(context).extension<AppColorsExtension>()?.subtitleColor ??
+            context.appColors.subtitleColor;
+
     return Container(
-      padding: const EdgeInsets.all(12),
+      width: double.infinity,
+      padding: const EdgeInsets.all(AppTheme.spacingMd),
       decoration: BoxDecoration(
-        color: AppTheme.bg,
-        borderRadius: BorderRadius.circular(8),
+        color: context.appColors.scaffoldBackground,
+        borderRadius: BorderRadius.circular(AppTheme.spacingSm),
         border: Border.all(
           color: AppTheme.primary.withValues(alpha: 0.2),
-          width: 1,
         ),
       ),
       child: Column(
@@ -579,38 +926,38 @@ class _ProfileViewState extends State<ProfileView> {
           if (address.name.isNotEmpty)
             Text(
               address.name,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: AppTheme.h1,
-              ),
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: context.colors.onSurface,
+                  ),
             ),
           if (address.address.isNotEmpty) ...[
-            if (address.name.isNotEmpty) const SizedBox(height: 4),
+            if (address.name.isNotEmpty)
+              const SizedBox(height: AppTheme.spacingXs),
             Text(
               address.address,
-              style: TextStyle(
-                fontSize: 12,
-                color: AppTheme.grey,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: subtitle,
+                  ),
             ),
           ],
           if (address.region.name.isNotEmpty) ...[
-            const SizedBox(height: 4),
+            const SizedBox(height: AppTheme.spacingXs),
             Row(
               children: [
                 Icon(
                   Icons.map_outlined,
-                  size: 12,
+                  size: 14,
                   color: AppTheme.primary,
                 ),
-                const SizedBox(width: 4),
-                Text(
-                  address.region.name,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppTheme.primary,
-                    fontWeight: FontWeight.w500,
+                const SizedBox(width: AppTheme.spacingXs),
+                Expanded(
+                  child: Text(
+                    address.region.name,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppTheme.primary,
+                          fontWeight: FontWeight.w500,
+                        ),
                   ),
                 ),
               ],
@@ -620,95 +967,56 @@ class _ProfileViewState extends State<ProfileView> {
       ),
     );
   }
+}
 
-  /// Builds the grid of profile action buttons
-  Widget _buildProfileGrid(BuildContext context) {
-    final itemPaddingF = 0.03;
+// ── Display helpers ───────────────────────────────────────────────
 
-    return Container(
-      margin: const EdgeInsets.fromLTRB(
-        _horizontalPadding,
-        16,
-        _horizontalPadding,
-        0,
-      ),
-      child: GridView.count(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: _crossAxisCount,
-        childAspectRatio: _childAspectRatio,
-        crossAxisSpacing: _gridSpacing,
-        mainAxisSpacing: _gridSpacing,
-        padding: const EdgeInsets.all(8),
-        children: [
-          _buildProfileMenuItem(
-            context: context,
-            title: context.l10n.ordersLabel,
-            iconPath: 'assets/images/orders_list.png',
-            onTap: () {
-              Navigator.of(context).pushNamed(OrdersScreen.routeName);
-            },
-            itemPaddingF: itemPaddingF,
-            imageSizeFactor: 0.25,
-          ),
-          _buildProfileMenuItem(
-            context: context,
-            title: context.l10n.personalInfoShortLabel,
-            iconPath: 'assets/images/user_Icon.png',
-            onTap: () {
-              Navigator.of(context).pushNamed(CustomerUserInfoScreen.routeName);
-            },
-            itemPaddingF: itemPaddingF,
-            imageSizeFactor: 0.30,
-          ),
-          _buildProfileMenuItem(
-            context: context,
-            title: context.l10n.messagesInboxLabel,
-            iconPath: 'assets/images/message_icon.png',
-            onTap: () {
-              Navigator.of(context)
-                  .pushNamed(SupportTicketsListScreen.routeName);
-            },
-            itemPaddingF: itemPaddingF,
-            imageSizeFactor: 0.25,
-          ),
-          _buildProfileMenuItem(
-            context: context,
-            title: context.l10n.profileRequestsMenuTitle,
-            iconPath: 'assets/images/main_page_request_ic.png',
-            onTap: () {
-              Navigator.of(context).pushNamed(CollectListScreen.routeName);
-            },
-            itemPaddingF: itemPaddingF,
-            imageSizeFactor: 0.35,
-          ),
-        ],
-      ),
-    );
+String _profileInitials(PersonalData data) {
+  final first = data.first_name.trim();
+  final last = data.last_name.trim();
+  if (first.isEmpty && last.isEmpty) {
+    return '?';
   }
-
-  /// Builds a single profile menu item button
-  Widget _buildProfileMenuItem({
-    required BuildContext context,
-    required String title,
-    required String iconPath,
-    required VoidCallback onTap,
-    required double itemPaddingF,
-    required double imageSizeFactor,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(10),
-        child: MainItemButton(
-          title: title,
-          itemPaddingF: itemPaddingF,
-          imageUrl: iconPath,
-          isMonoColor: false,
-          imageSizeFactor: imageSizeFactor,
-        ),
-      ),
-    );
+  final buffer = StringBuffer();
+  if (first.isNotEmpty) {
+    buffer.write(first[0].toUpperCase());
   }
+  if (last.isNotEmpty) {
+    buffer.write(last[0].toUpperCase());
+  }
+  return buffer.toString();
+}
+
+String _profileDisplayName(PersonalData data) {
+  final fullName = '${data.first_name} ${data.last_name}'.trim();
+  if (fullName.isNotEmpty) {
+    return fullName;
+  }
+  if (data.phone.isNotEmpty) {
+    return data.phone;
+  }
+  if (data.mobile.isNotEmpty) {
+    return data.mobile;
+  }
+  return 'User';
+}
+
+String _profileEmail(PersonalData data) {
+  if (data.email.isNotEmpty) {
+    return data.email;
+  }
+  if (data.mobile.contains('@')) {
+    return data.mobile;
+  }
+  return '';
+}
+
+String _profilePhone(PersonalData data) {
+  if (data.phone.isNotEmpty) {
+    return data.phone;
+  }
+  if (data.mobile.contains('@')) {
+    return '';
+  }
+  return data.mobile;
 }

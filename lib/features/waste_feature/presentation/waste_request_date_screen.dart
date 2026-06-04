@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/models/region.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/theme_context_extensions.dart';
 import '../../../core/widgets/buton_bottom.dart';
 import '../../../core/widgets/drawer_or_back_leading.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
@@ -24,12 +25,10 @@ class WasteRequestDateScreen extends StatefulWidget {
   const WasteRequestDateScreen({super.key});
 
   @override
-  State<WasteRequestDateScreen> createState() =>
-      _WasteRequestDateScreenState();
+  State<WasteRequestDateScreen> createState() => _WasteRequestDateScreenState();
 }
 
-class _WasteRequestDateScreenState
-    extends State<WasteRequestDateScreen> {
+class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
   bool _isLoading = true;
   bool _isInit = true;
 
@@ -58,8 +57,7 @@ class _WasteRequestDateScreenState
       final authProvider = context.read<AuthBloc>();
       selectedAddress = authProvider.selectedAddress;
 
-      await authProvider
-          .retrieveRegion(selectedAddress.region.term_id);
+      await authProvider.retrieveRegion(selectedAddress.region.term_id);
 
       if (!mounted) return;
 
@@ -81,6 +79,7 @@ class _WasteRequestDateScreenState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(context.l10n.failedToLoadDataRetry),
+            backgroundColor: context.appColors.danger,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -94,8 +93,7 @@ class _WasteRequestDateScreenState
 
     for (var item in wasteCartItems) {
       if (item.prices.isNotEmpty) {
-        final priceStr =
-            _getPriceForWeight(item.prices, item.weight);
+        final priceStr = _getPriceForWeight(item.prices, item.weight);
         final itemPrice = int.tryParse(priceStr) ?? 0;
         totalPrice += itemPrice * item.weight;
         totalWeight += item.weight;
@@ -152,8 +150,7 @@ class _WasteRequestDateScreenState
     return (selectedRegion?.collect_hour ?? <CollectHour>[])
         .where((h) => h.collect_hour_status)
         .where(
-          (h) =>
-              CollectHourSchedule.appliesOnDay(h, _selectedDay),
+          (h) => CollectHourSchedule.appliesOnDay(h, _selectedDay),
         )
         .toList();
   }
@@ -172,8 +169,7 @@ class _WasteRequestDateScreenState
         title: ctx.l10n.login,
         buttonText: ctx.l10n.goToLoginScreenButton,
         description: ctx.l10n.pleaseLoginToContinue,
-        image:
-            Image.asset('assets/images/main_page_request_ic.png'),
+        image: Image.asset('assets/images/main_page_request_ic.png'),
       ),
     );
   }
@@ -186,6 +182,7 @@ class _WasteRequestDateScreenState
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.pleaseSelectCollectionHour),
+          backgroundColor: context.appColors.warning,
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 2),
         ),
@@ -205,6 +202,7 @@ class _WasteRequestDateScreenState
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.invalidTimeSelection),
+          backgroundColor: context.appColors.warning,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -214,8 +212,7 @@ class _WasteRequestDateScreenState
     wasteProvider.selectedHours = '$startKey-$endKey';
     wasteProvider.selectedDay = _selectedDay;
 
-    Navigator.of(context)
-        .pushNamed(WasteRequestSendScreen.routeName);
+    Navigator.of(context).pushNamed(WasteRequestSendScreen.routeName);
   }
 
   @override
@@ -224,7 +221,6 @@ class _WasteRequestDateScreenState
     final hasTimeSelected = _selectedStartHour != null;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
@@ -253,8 +249,7 @@ class _WasteRequestDateScreenState
                       padding: const EdgeInsets.all(16),
                       physics: const BouncingScrollPhysics(),
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           RequestSummaryCard(
                             itemCount: wasteCartItems.length,
@@ -265,16 +260,13 @@ class _WasteRequestDateScreenState
                           DateSelector(
                             dateList: dateList,
                             selectedDate: _selectedDay,
-                            onDateSelected:
-                                _handleDateSelection,
+                            onDateSelected: _handleDateSelection,
                           ),
                           const SizedBox(height: 24),
                           TimeSelector(
                             hours: _hoursForSelectedDay(),
-                            selectedStartHour:
-                                _selectedStartHour,
-                            onHourSelected:
-                                _handleHourSelection,
+                            selectedStartHour: _selectedStartHour,
+                            onHourSelected: _handleHourSelection,
                             isLoading: false,
                           ),
                           if (hasTimeSelected) ...[
@@ -302,10 +294,10 @@ class _WasteRequestDateScreenState
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: context.colors.shadow.withValues(alpha: 0.06),
             blurRadius: 16,
             offset: const Offset(0, -4),
           ),
@@ -398,18 +390,17 @@ class _StepProgressBar extends StatelessWidget {
         vertical: 14,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: context.colors.shadow.withValues(alpha: 0.03),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Row(
-        children:
-            List.generate(_steps.length * 2 - 1, (index) {
+        children: List.generate(_steps.length * 2 - 1, (index) {
           if (index.isOdd) {
             final stepBefore = index ~/ 2;
             return Expanded(
@@ -421,7 +412,7 @@ class _StepProgressBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: stepBefore < currentStep
                       ? AppTheme.primary
-                      : Colors.grey.shade300,
+                      : context.colors.outline,
                   borderRadius: BorderRadius.circular(1),
                 ),
               ),
@@ -444,7 +435,7 @@ class _StepProgressBar extends StatelessWidget {
                       ? AppTheme.primary
                       : isActive
                           ? AppTheme.primary.withOpacity(0.12)
-                          : Colors.grey.shade100,
+                          : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
                       ? Border.all(
@@ -454,15 +445,13 @@ class _StepProgressBar extends StatelessWidget {
                       : null,
                 ),
                 child: Icon(
-                  isCompleted
-                      ? Icons.check_rounded
-                      : _steps[stepIndex],
+                  isCompleted ? Icons.check_rounded : _steps[stepIndex],
                   size: 16,
                   color: isCompleted
-                      ? Colors.white
+                      ? context.appColors.onHeroForeground
                       : isActive
                           ? AppTheme.primary
-                          : Colors.grey.shade400,
+                          : context.colors.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 4),
@@ -470,12 +459,10 @@ class _StepProgressBar extends StatelessWidget {
                 labels[stepIndex],
                 style: TextStyle(
                   fontSize: 10,
-                  fontWeight: isActive
-                      ? FontWeight.w700
-                      : FontWeight.w500,
+                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
                   color: isActive || isCompleted
                       ? AppTheme.primary
-                      : Colors.grey.shade400,
+                      : context.colors.onSurfaceVariant,
                 ),
               ),
             ],

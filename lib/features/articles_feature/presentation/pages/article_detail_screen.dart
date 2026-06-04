@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../business/entities/article.dart';
 import '../constants/articles_constants.dart';
@@ -70,12 +71,11 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        title: const Text(
+        title: Text(
           'Article',
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: AppTheme.appBarIconColor),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
@@ -112,25 +112,25 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
             Icon(
               Icons.error_outline,
               size: 64,
-              color: AppTheme.grey,
+              color: context.appColors.subtitleColor,
             ),
             const SizedBox(height: ArticlesConstants.verticalPadding),
             Text(
               _errorMessage ?? 'Failed to load article',
               style: TextStyle(
                 fontSize: ArticlesConstants.bodyFontSize,
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: ArticlesConstants.verticalPadding),
             ElevatedButton.icon(
               onPressed: _loadArticle,
-              icon: const Icon(Icons.refresh),
-              label: const Text(ArticlesConstants.retryButton),
+              icon: Icon(Icons.refresh),
+              label: Text(ArticlesConstants.retryButton),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appColors.onHeroForeground,
               ),
             ),
           ],
@@ -149,14 +149,14 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
             Icon(
               Icons.article_outlined,
               size: 64,
-              color: AppTheme.grey.withOpacity(0.5),
+              color: context.appColors.subtitleColor.withOpacity(0.5),
             ),
             const SizedBox(height: ArticlesConstants.verticalPadding),
             Text(
               'Article not found',
               style: TextStyle(
                 fontSize: ArticlesConstants.bodyFontSize,
-                color: AppTheme.h1.withOpacity(0.7),
+                color: context.colors.onSurface.withOpacity(0.7),
               ),
               textAlign: TextAlign.center,
             ),
@@ -206,11 +206,11 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
       return Container(
         width: double.infinity,
         height: screenWidth * 0.6,
-        color: AppTheme.bg,
+        color: context.appColors.scaffoldBackground,
         child: Icon(
           Icons.article_outlined,
           size: 64,
-          color: AppTheme.grey,
+          color: context.appColors.subtitleColor,
         ),
       );
     }
@@ -218,7 +218,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
     return Container(
       width: double.infinity,
       height: screenWidth * 0.6,
-      color: AppTheme.bg,
+      color: context.appColors.scaffoldBackground,
       child: Image.network(
         article.featured_image,
         fit: BoxFit.cover,
@@ -236,11 +236,11 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
         },
         errorBuilder: (context, error, stackTrace) {
           return Container(
-            color: AppTheme.bg,
+            color: context.appColors.scaffoldBackground,
             child: Icon(
               Icons.broken_image_outlined,
               size: 64,
-              color: AppTheme.grey,
+              color: context.appColors.subtitleColor,
             ),
           );
         },
@@ -295,13 +295,13 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
           Icon(
             Icons.calendar_today,
             size: 16,
-            color: AppTheme.grey,
+            color: context.appColors.subtitleColor,
           ),
           const SizedBox(width: 6),
           Text(
             EnArConvertor().replaceArNumber(formattedDate),
             style: TextStyle(
-              color: AppTheme.grey,
+              color: context.appColors.subtitleColor,
               fontSize: textScaleFactor * ArticlesConstants.bodyFontSize,
             ),
           ),
@@ -316,7 +316,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
     return Text(
       article.title,
       style: TextStyle(
-        color: AppTheme.h1,
+        color: context.colors.onSurface,
         fontSize: textScaleFactor * 20.0,
         fontWeight: FontWeight.bold,
         height: 1.4,
@@ -332,7 +332,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
         child: Text(
           context.l10n.articleNoContentMessage,
           style: TextStyle(
-            color: AppTheme.grey,
+            color: context.appColors.subtitleColor,
             fontSize: ArticlesConstants.bodyFontSize,
           ),
         ),
@@ -343,7 +343,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
       article.content,
       textStyle: TextStyle(
         fontSize: ArticlesConstants.bodyFontSize,
-        color: AppTheme.h1,
+        color: context.colors.onSurface,
         height: 1.6,
       ),
       onTapUrl: (url) async {

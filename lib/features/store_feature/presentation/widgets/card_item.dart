@@ -4,6 +4,7 @@ import 'package:intl/intl.dart' as intl;
 import '../../business/entities/product_cart.dart';
 import '../bloc/products_bloc.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../screens/product_detail_screen.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
@@ -66,7 +67,7 @@ class _CardItemState extends State<CardItem> {
       padding: const EdgeInsets.only(top: 10),
       child: LayoutBuilder(
         builder: (_, constraints) => Container(
-          decoration: AppTheme.listItemBox,
+          decoration: AppTheme.listItemBoxFor(context),
           height: deviceWidth * 0.35,
           child: InkWell(
             onTap: () {
@@ -116,7 +117,7 @@ class _CardItemState extends State<CardItem> {
                                     child: Text(
                                       widget.shoppItem.title,
                                       style: TextStyle(
-                                        color: AppTheme.black,
+                                        color: context.colors.onSurface,
                                         fontWeight: FontWeight.w600,
                                         //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 15,
@@ -172,7 +173,8 @@ class _CardItemState extends State<CardItem> {
                                                   ),
                                                   child: Icon(
                                                     Icons.add,
-                                                    color: AppTheme.bg,
+                                                    color: context.appColors
+                                                        .scaffoldBackground,
                                                   )),
                                             )),
                                             Expanded(
@@ -183,7 +185,8 @@ class _CardItemState extends State<CardItem> {
                                                         .toString())
                                                     .toString(),
                                                 style: TextStyle(
-                                                  color: AppTheme.black,
+                                                  color:
+                                                      context.colors.onSurface,
                                                   //fontFamily: 'Iransans',
                                                   fontSize:
                                                       textScaleFactor * 14,
@@ -223,7 +226,8 @@ class _CardItemState extends State<CardItem> {
                                                   ),
                                                   child: Icon(
                                                     Icons.remove,
-                                                    color: AppTheme.bg,
+                                                    color: context.appColors
+                                                        .scaffoldBackground,
                                                   )),
                                             )),
                                           ],
@@ -250,7 +254,7 @@ class _CardItemState extends State<CardItem> {
                                                   : EnArConvertor()
                                                       .replaceArNumber('0'),
                                               style: TextStyle(
-                                                color: AppTheme.black,
+                                                color: context.colors.onSurface,
                                                 //fontFamily: 'Iransans',
                                                 fontSize: textScaleFactor * 17,
                                               ),
@@ -258,7 +262,8 @@ class _CardItemState extends State<CardItem> {
                                             Text(
                                               '  \$ ',
                                               style: TextStyle(
-                                                color: Colors.grey,
+                                                color: context
+                                                    .appColors.subtitleColor,
                                                 //fontFamily: 'Iransans',
                                                 fontSize: textScaleFactor * 12,
                                               ),
@@ -290,7 +295,7 @@ class _CardItemState extends State<CardItem> {
                       child: Icon(
                         Icons.close,
                         size: 20,
-                        color: Colors.black54,
+                        color: context.appColors.subtitleColor,
                       ),
                     ),
                   ),
@@ -308,9 +313,7 @@ class _CardItemState extends State<CardItem> {
                                   return DecoratedBox(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? Colors.grey
-                                          : Colors.grey,
+                                      color: context.appColors.subtitleColor,
                                     ),
                                   );
                                 },

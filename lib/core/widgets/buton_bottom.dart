@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 
 /// Reusable call-to-action button used across the waste
 /// collection flow (cart, address, date, confirm screens).
@@ -21,7 +22,7 @@ class ButtonBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const fgColor = Colors.white;
+    final fgColor = context.appColors.onHeroForeground;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
@@ -39,7 +40,8 @@ class ButtonBottom extends StatelessWidget {
                 end: Alignment.bottomRight,
               )
             : null,
-        color: isActive ? null : AppTheme.grey.withOpacity(0.4),
+        color:
+            isActive ? null : context.appColors.subtitleColor.withOpacity(0.4),
         borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         boxShadow: isActive
             ? [

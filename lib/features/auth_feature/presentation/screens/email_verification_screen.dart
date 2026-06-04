@@ -114,8 +114,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final email = context
-            .select<AuthBloc, String?>((b) => b.state.tokenResponseModel.userEmail) ??
+    final email = context.select<AuthBloc, String?>(
+            (b) => b.state.tokenResponseModel.userEmail) ??
         '';
 
     return Scaffold(

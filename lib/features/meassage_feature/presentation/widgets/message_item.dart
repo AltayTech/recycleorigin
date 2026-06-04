@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
 class MessageItem extends StatelessWidget {
@@ -23,7 +24,7 @@ class MessageItem extends StatelessWidget {
       child: Card(
         child: Container(
           height: deviceHeight * 0.25,
-          color: AppTheme.white,
+          color: context.appColors.cardBackground,
           child: LayoutBuilder(
             builder: (ctx, constraints) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +42,7 @@ class MessageItem extends StatelessWidget {
                           EnArConvertor().replaceArNumber(
                               '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}'),
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 15.0,
                           ),
@@ -51,7 +52,7 @@ class MessageItem extends StatelessWidget {
                           EnArConvertor().replaceArNumber(
                               '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}:${(DateTime.parse(message.comment_date)).second}'),
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 15.0,
                           ),
@@ -77,7 +78,7 @@ class MessageItem extends StatelessWidget {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: AppTheme.black,
+                                color: context.colors.onSurface,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 16.0,
                               ),
@@ -97,7 +98,7 @@ class MessageItem extends StatelessWidget {
                               message.comment_content,
                               overflow: TextOverflow.fade,
                               style: TextStyle(
-                                color: AppTheme.grey,
+                                color: context.appColors.subtitleColor,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 13.0,
                               ),

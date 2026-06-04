@@ -7,7 +7,7 @@ void main() {
 
   setUp(() async {
     // Initialize AppConfig for tests
-    await AppConfig.initialize();
+    await AppConfig.initialize(envFile: 'assets/env/.env.dev');
 
     apiClient = ApiClient();
     // Note: In a real scenario, you'd need to mock Dio or use a test Dio instance

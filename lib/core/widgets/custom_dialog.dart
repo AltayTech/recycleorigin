@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/theme_context_extensions.dart';
+
 class CustomDialog extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
@@ -34,13 +36,13 @@ class CustomDialog extends StatelessWidget {
             right: Consts.padding,
           ),
           margin: EdgeInsets.only(top: Consts.avatarRadius),
-          decoration: new BoxDecoration(
-            color: Colors.white,
+          decoration: BoxDecoration(
+            color: context.appColors.cardBackground,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(Consts.padding),
             boxShadow: [
               BoxShadow(
-                color: Colors.black26,
+                color: context.colors.shadow.withValues(alpha: 0.26),
                 blurRadius: 10.0,
                 offset: const Offset(0.0, 10.0),
               ),
@@ -52,7 +54,7 @@ class CustomDialog extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: Color(0xff0197F6),
+                  color: context.appColors.info,
                   fontSize: MediaQuery.of(context).textScaleFactor * 16,
                   fontWeight: FontWeight.w700,
                 ),
@@ -62,7 +64,7 @@ class CustomDialog extends StatelessWidget {
                 description,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.blueGrey,
+                  color: context.appColors.subtitleColor,
                   fontSize: MediaQuery.of(context).textScaleFactor * 14,
                 ),
               ),
@@ -79,14 +81,14 @@ class CustomDialog extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.06,
                       width: MediaQuery.of(context).size.width * 0.4,
                       decoration: BoxDecoration(
-                        color: Color(0xffFF6D6B),
+                        color: context.appColors.danger,
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Center(
                         child: Text(
                           buttonText,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.onHeroForeground,
                             //fontFamily: 'Iransans',
                             fontSize:
                                 MediaQuery.of(context).textScaleFactor * 16,

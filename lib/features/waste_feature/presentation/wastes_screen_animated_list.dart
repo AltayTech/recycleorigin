@@ -7,6 +7,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/widgets/waste_cart_item_animated_list.dart';
 
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/theme_context_extensions.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import 'bloc/wastes_bloc.dart';
 import 'bloc/wastes_state.dart';
@@ -203,8 +204,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
       _isLoading = true;
     });
     await context.read<WastesBloc>().removeWasteCart(
-      itemId,
-    );
+          itemId,
+        );
 
     setState(() {
       _isLoading = false;
@@ -225,7 +226,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
         title: Text(
           context.l10n.selectWasteTitle,
           style: TextStyle(
-            color: AppTheme.white,
+            color: context.appColors.cardBackground,
             //fontFamily: 'Iransans',
 //            fontSize: textScaleFactor * 14,
           ),
@@ -250,10 +251,11 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                         Container(
                           height: deviceHeight * 0.15,
                           decoration: BoxDecoration(
-                              color: AppTheme.white,
+                              color: context.appColors.cardBackground,
                               borderRadius: BorderRadius.circular(5),
-                              border:
-                                  Border.all(color: Colors.grey, width: 0.2)),
+                              border: Border.all(
+                                  color: context.appColors.subtitleColor,
+                                  width: 0.2)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -265,7 +267,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                       Expanded(
                                         child: Icon(
                                           Icons.restore_from_trash,
-                                          color: Colors.red,
+                                          color: context.colors.error,
                                           size: 40,
                                         ),
                                       ),
@@ -276,7 +278,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                                 .toString())
                                             .toString(),
                                         style: TextStyle(
-                                          color: AppTheme.h1,
+                                          color: context.colors.onSurface,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
@@ -284,7 +286,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                       Text(
                                         'Number',
                                         style: TextStyle(
-                                          color: AppTheme.grey,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -322,7 +325,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                                 : EnArConvertor()
                                                     .replaceArNumber('0'),
                                             style: TextStyle(
-                                              color: AppTheme.h1,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 18,
                                             ),
@@ -332,7 +335,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                       Text(
                                         '\$',
                                         style: TextStyle(
-                                          color: AppTheme.grey,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -346,7 +350,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                       Expanded(
                                         child: Icon(
                                           Icons.av_timer,
-                                          color: Colors.blue,
+                                          color: AppTheme.iconAccentBlue,
                                           size: 40,
                                         ),
                                       ),
@@ -356,7 +360,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                                 totalWeight.toString())
                                             .toString(),
                                         style: TextStyle(
-                                          color: AppTheme.h1,
+                                          color: context.colors.onSurface,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 18,
                                         ),
@@ -364,7 +368,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                       Text(
                                         'Kilogram ',
                                         style: TextStyle(
-                                          color: AppTheme.grey,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -380,33 +385,31 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                           padding: const EdgeInsets.only(top: 10.0),
                           child: BlocBuilder<WastesBloc, WastesState>(
                             builder: (context, state) => state
-                                        .wasteCartItems.isNotEmpty
-                                    ? Container(
-                                        height: deviceHeight * 0.7,
-                                        child: AnimatedList(
-                                          key: _listKey,
-                                          initialItemCount:
-                                              state.wasteCartItems.length,
-                                          itemBuilder: (ctx, i, animation) =>
-                                              FadeTransition(
-                                            opacity: animation,
-                                            child: WasteCartItemAnimatedList(
-                                              wasteItem:
-                                                  state.wasteCartItems[i],
-                                              function: getWasteItems,
-                                              onRemove: () {},
-                                              key: Key(''),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : Container(
-                                        height: deviceHeight * 0.6,
-                                        child: Center(
-                                          child: Text(
-                                              context.l10n.noWasteAddedYet),
+                                    .wasteCartItems.isNotEmpty
+                                ? Container(
+                                    height: deviceHeight * 0.7,
+                                    child: AnimatedList(
+                                      key: _listKey,
+                                      initialItemCount:
+                                          state.wasteCartItems.length,
+                                      itemBuilder: (ctx, i, animation) =>
+                                          FadeTransition(
+                                        opacity: animation,
+                                        child: WasteCartItemAnimatedList(
+                                          wasteItem: state.wasteCartItems[i],
+                                          function: getWasteItems,
+                                          onRemove: () {},
+                                          key: Key(''),
                                         ),
                                       ),
+                                    ),
+                                  )
+                                : Container(
+                                    height: deviceHeight * 0.6,
+                                    child: Center(
+                                      child: Text(context.l10n.noWasteAddedYet),
+                                    ),
+                                  ),
                           ),
                         ),
                         SizedBox(
@@ -425,7 +428,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                           content: Text(
                             context.l10n.noWasteAddedYet,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: context.appColors.cardBackground,
                               //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 14.0,
                             ),
@@ -472,9 +475,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                 return DecoratedBox(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? Colors.grey
-                                        : Colors.grey,
+                                    color: context.appColors.subtitleColor,
                                   ),
                                 );
                               },
@@ -500,7 +501,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
           backgroundColor: AppTheme.primary,
           child: Icon(
             Icons.add,
-            color: AppTheme.white,
+            color: context.appColors.cardBackground,
           ),
         ),
       ),

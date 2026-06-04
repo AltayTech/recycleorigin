@@ -102,7 +102,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           padding: const EdgeInsets.all(AppTheme.spacingLg),
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),
-            child: _sent ? _buildSentBody(theme, l10n) : _buildForm(theme, l10n, colorScheme),
+            child: _sent
+                ? _buildSentBody(theme, l10n)
+                : _buildForm(theme, l10n, colorScheme),
           ),
         ),
       ),

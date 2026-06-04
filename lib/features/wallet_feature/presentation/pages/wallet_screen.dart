@@ -6,10 +6,14 @@ import 'package:http/http.dart' as http;
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/utils/result.dart';
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet.dart';
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet_transaction.dart';
+import 'package:recycleorigin/features/wallet_feature/data/wallet_repository.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/transaction_item.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/wallet_balance_card.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
@@ -72,23 +76,9 @@ class _WalletScreenState extends State<WalletScreen> {
 
     try {
       final headers = await _authHeaders();
-      final walletUrl = Uri.parse(
-        Urls.rootUrl + Urls.walletEndPoint,
-      );
-      final walletResp = await http.get(walletUrl, headers: headers);
-
-      if (walletResp.statusCode == 200 && mounted) {
-        final data = jsonDecode(walletResp.body) as Map<String, dynamic>;
-        final walletJson = data['wallet'] as Map<String, dynamic>?;
-        if (walletJson != null) {
-          _wallet = Wallet.fromJson(walletJson);
-        }
-        final recentJson = data['recent_transactions'] as List<dynamic>?;
-        if (recentJson != null) {
-          _transactions = recentJson
-              .map((e) => WalletTransaction.fromJson(e as Map<String, dynamic>))
-              .toList();
-        }
+      final walletResult = await WalletRepository(ApiClient()).fetchWallet();
+      if (walletResult case Success(:final value) when mounted) {
+        _wallet = value;
       }
 
       // Load full transaction history.
@@ -153,15 +143,18 @@ class _WalletScreenState extends State<WalletScreen> {
     final isLogin = authProvider.isAuth;
 
     return Scaffold(
-      backgroundColor: const Color(0xffF9F9F9),
+      backgroundColor: context.appColors.scaffoldBackground,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.appBarIconColor),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text(
+        title: Text(
           'Wallet',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            color: AppTheme.appBarIconColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: AppTheme.appBarColor,
         elevation: 0,
@@ -193,7 +186,7 @@ class _WalletScreenState extends State<WalletScreen> {
                               Text(
                                 'Recent Transactions',
                                 style: TextStyle(
-                                  color: AppTheme.h1,
+                                  color: context.colors.onSurface,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -202,7 +195,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                 Text(
                                   '${_transactions.length} items',
                                   style: TextStyle(
-                                    color: AppTheme.grey,
+                                    color: context.appColors.subtitleColor,
                                     fontSize: 14,
                                   ),
                                 ),
@@ -256,11 +249,11 @@ class _WalletScreenState extends State<WalletScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 16),
               decoration: BoxDecoration(
-                color: const Color(0xffFF595E),
+                color: context.appColors.danger,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xffFF595E).withOpacity(0.3),
+                    color: context.appColors.danger.withValues(alpha: 0.3),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -269,12 +262,15 @@ class _WalletScreenState extends State<WalletScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.attach_money, color: Colors.white),
+                  Icon(
+                    Icons.attach_money,
+                    color: context.appColors.onHeroForeground,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     context.l10n.walletWithdrawRequestButton,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: context.appColors.onHeroForeground,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -298,13 +294,13 @@ class _WalletScreenState extends State<WalletScreen> {
           Icon(
             Icons.receipt_long_outlined,
             size: 64,
-            color: Colors.grey[300],
+            color: context.colors.outline,
           ),
           const SizedBox(height: 16),
           Text(
             context.l10n.walletNoTransactionsYet,
             style: TextStyle(
-              color: AppTheme.grey,
+              color: context.appColors.subtitleColor,
               fontSize: 16,
             ),
           ),
@@ -323,12 +319,15 @@ class _WalletScreenState extends State<WalletScreen> {
             Icon(
               Icons.account_balance_wallet_outlined,
               size: 80,
-              color: Colors.grey[300],
+              color: context.colors.outline,
             ),
             const SizedBox(height: 24),
             Text(
               context.l10n.pleaseLoginToViewWallet,
-              style: const TextStyle(fontSize: 18, color: Colors.grey),
+              style: TextStyle(
+                fontSize: 18,
+                color: context.appColors.subtitleColor,
+              ),
             ),
             const SizedBox(height: 24),
             ElevatedButton(
@@ -347,7 +346,10 @@ class _WalletScreenState extends State<WalletScreen> {
               ),
               child: Text(
                 context.l10n.login,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(
+                  color: context.appColors.onHeroForeground,
+                  fontSize: 16,
+                ),
               ),
             ),
           ],

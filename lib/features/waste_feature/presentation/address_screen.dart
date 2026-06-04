@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/theme_context_extensions.dart';
 import '../../../core/widgets/buton_bottom.dart';
 import '../../../core/widgets/drawer_or_back_leading.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
@@ -59,7 +60,8 @@ class _AddressScreenState extends State<AddressScreen>
           SnackBar(
             content: Row(
               children: [
-                const Icon(Icons.error_outline, color: Colors.white, size: 20),
+                Icon(Icons.error_outline,
+                    color: context.appColors.cardBackground, size: 20),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -68,6 +70,7 @@ class _AddressScreenState extends State<AddressScreen>
                 ),
               ],
             ),
+            backgroundColor: context.appColors.danger,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -109,13 +112,13 @@ class _AddressScreenState extends State<AddressScreen>
           SnackBar(
             content: Row(
               children: [
-                const Icon(Icons.warning_amber_rounded,
-                    color: Colors.white, size: 20),
+                Icon(Icons.warning_amber_rounded,
+                    color: context.appColors.cardBackground, size: 20),
                 const SizedBox(width: 10),
                 Expanded(child: Text(context.l10n.pleaseSelectAddress)),
               ],
             ),
-            backgroundColor: Colors.orange.shade700,
+            backgroundColor: context.appColors.warning,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -148,12 +151,11 @@ class _AddressScreenState extends State<AddressScreen>
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.addressListTitle,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppTheme.appBarIconColor,
             fontWeight: FontWeight.bold,
           ),
@@ -252,14 +254,14 @@ class _AddressScreenState extends State<AddressScreen>
               onPressed: _navigateToMap,
               backgroundColor: AppTheme.primary,
               elevation: 6,
-              icon: const Icon(
+              icon: Icon(
                 Icons.add_location_alt_rounded,
-                color: Colors.white,
+                color: context.appColors.cardBackground,
               ),
               label: Text(
                 l10n.addNewAddressLabel,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: context.appColors.cardBackground,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -297,10 +299,10 @@ class _AddressHeader extends StatelessWidget {
                   children: [
                     Text(
                       l10n.selectAddressTitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
-                        color: AppTheme.h1,
+                        color: context.colors.onSurface,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -308,7 +310,7 @@ class _AddressHeader extends StatelessWidget {
                       l10n.selectAddressSubtitle,
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey.shade500,
+                        color: context.appColors.subtitleColor,
                         height: 1.4,
                       ),
                     ),
@@ -343,14 +345,14 @@ class _AddressHeader extends StatelessWidget {
                 Icon(
                   Icons.swipe_left_rounded,
                   size: 14,
-                  color: Colors.grey.shade400,
+                  color: context.colors.onSurfaceVariant,
                 ),
                 const SizedBox(width: 6),
                 Text(
                   l10n.swipeToDelete,
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey.shade400,
+                    color: context.colors.onSurfaceVariant,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
@@ -394,10 +396,10 @@ class _EmptyAddressState extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               l10n.addressListEmptyTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w800,
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
               ),
             ),
             const SizedBox(height: 8),
@@ -405,7 +407,7 @@ class _EmptyAddressState extends StatelessWidget {
               l10n.addressListEmptySubtitle,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.grey.shade500,
+                color: context.appColors.subtitleColor,
                 fontSize: 14,
                 height: 1.5,
               ),
@@ -413,7 +415,7 @@ class _EmptyAddressState extends StatelessWidget {
             const SizedBox(height: 28),
             FilledButton.icon(
               onPressed: onAddTap,
-              icon: const Icon(Icons.add_rounded),
+              icon: Icon(Icons.add_rounded),
               label: Text(l10n.addNewAddressLabel),
               style: FilledButton.styleFrom(
                 backgroundColor: AppTheme.primary,
@@ -424,7 +426,7 @@ class _EmptyAddressState extends StatelessWidget {
                   horizontal: 28,
                   vertical: 14,
                 ),
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),
@@ -454,10 +456,10 @@ class _BottomActionBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: context.colors.shadow.withValues(alpha: 0.06),
             blurRadius: 20,
             offset: const Offset(0, -6),
           ),
@@ -507,10 +509,10 @@ class _StepProgressBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: context.colors.shadow.withValues(alpha: 0.03),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -533,7 +535,8 @@ class _StepProgressBar extends StatelessWidget {
                           ],
                         )
                       : null,
-                  color: stepBefore < currentStep ? null : Colors.grey.shade200,
+                  color:
+                      stepBefore < currentStep ? null : context.colors.outline,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -556,7 +559,7 @@ class _StepProgressBar extends StatelessWidget {
                       ? AppTheme.primary
                       : isActive
                           ? AppTheme.primary.withOpacity(0.12)
-                          : Colors.grey.shade100,
+                          : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
                       ? Border.all(color: AppTheme.primary, width: 2.5)
@@ -575,10 +578,10 @@ class _StepProgressBar extends StatelessWidget {
                   isCompleted ? Icons.check_rounded : _steps[stepIndex],
                   size: isActive ? 18 : 16,
                   color: isCompleted
-                      ? Colors.white
+                      ? context.appColors.onHeroForeground
                       : isActive
                           ? AppTheme.primary
-                          : Colors.grey.shade400,
+                          : context.colors.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 5),
@@ -589,7 +592,7 @@ class _StepProgressBar extends StatelessWidget {
                   fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
                   color: isActive || isCompleted
                       ? AppTheme.primary
-                      : Colors.grey.shade400,
+                      : context.colors.onSurfaceVariant,
                 ),
               ),
             ],

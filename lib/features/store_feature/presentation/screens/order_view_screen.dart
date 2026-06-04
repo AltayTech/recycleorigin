@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../business/entities/color_code.dart';
@@ -74,8 +75,11 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(
-                '${context.l10n.couldNotOpenUrlPrefix}$urlString')),
+          content: Text(
+            '${context.l10n.couldNotOpenUrlPrefix}$urlString',
+          ),
+          backgroundColor: context.appColors.danger,
+        ),
       );
     }
   }
@@ -86,18 +90,18 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     });
 
     try {
-      await context.read<CustomerInfoBloc>()
-          .payCashOrder(orderId);
+      await context.read<CustomerInfoBloc>().payCashOrder(orderId);
 
-      final payUrl =
-          await context.read<CustomerInfoBloc>()
-              .payUrl;
+      final payUrl = await context.read<CustomerInfoBloc>().payUrl;
       await _launchURL(payUrl);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(
-                '${context.l10n.paymentFailedPrefix}${e.toString()}')),
+          content: Text(
+            '${context.l10n.paymentFailedPrefix}${e.toString()}',
+          ),
+          backgroundColor: context.appColors.danger,
+        ),
       );
     } finally {
       setState(() {
@@ -117,13 +121,15 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     });
 
     try {
-      await context.read<CustomerInfoBloc>()
-          .getOrderDetails(orderId);
+      await context.read<CustomerInfoBloc>().getOrderDetails(orderId);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(
-                '${context.l10n.failedLoadOrderDetailsPrefix}${e.toString()}')),
+          content: Text(
+            '${context.l10n.failedLoadOrderDetailsPrefix}${e.toString()}',
+          ),
+          backgroundColor: context.appColors.danger,
+        ),
       );
     } finally {
       setState(() {
@@ -150,7 +156,10 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
         cashOrder();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l10n.invalidOrderId)),
+          SnackBar(
+            content: Text(context.l10n.invalidOrderId),
+            backgroundColor: context.appColors.danger,
+          ),
         );
         Navigator.of(context).pop();
       }
@@ -165,7 +174,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
         return DecoratedBox(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: index.isEven ? Colors.grey : Colors.grey,
+            color: context.appColors.subtitleColor,
           ),
         );
       },
@@ -183,10 +192,11 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
               content: Text(
                 'This payment option is not available',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: context.appColors.cardBackground,
                   //fontFamily: 'Iransans',
                 ),
               ),
+              backgroundColor: context.appColors.warning,
               action: SnackBarAction(
                 label: context.l10n.okLabel,
                 onPressed: () {},
@@ -200,11 +210,13 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
         child: Container(
           height: deviceHeight * 0.08,
           decoration: BoxDecoration(
-            color: _payIsActive ? AppTheme.primary : Colors.grey,
+            color: _payIsActive
+                ? AppTheme.primary
+                : context.appColors.subtitleColor,
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey,
+                color: context.appColors.subtitleColor,
                 blurRadius: 2.0,
                 spreadRadius: 1.50,
                 offset: Offset(1.0, 1.0),
@@ -218,7 +230,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Icon(
                   Icons.monetization_on,
-                  color: Colors.white,
+                  color: context.appColors.cardBackground,
                 ),
               ),
               Center(
@@ -227,7 +239,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                   child: Text(
                     'Payment',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: context.appColors.cardBackground,
                       //fontFamily: 'Iransans',
                       fontSize: MediaQuery.of(context).textScaleFactor * 16.0,
                     ),
@@ -264,8 +276,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
-    orderDetails =
-        context.read<CustomerInfoBloc>().getOrder();
+    orderDetails = context.read<CustomerInfoBloc>().getOrder();
     checkStatus(orderDetails);
 
     return Scaffold(
@@ -306,7 +317,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                       child: Text(
                                         '${context.l10n.orderStatusFieldLabel} ',
                                         style: TextStyle(
-                                          color: Colors.grey,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14,
                                         ),
@@ -341,7 +353,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             '${context.l10n.orderNumberFieldLabel} ',
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -351,7 +364,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             orderDetails.shenaseh.toString(),
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -365,7 +378,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             '${context.l10n.orderDateFieldLabel} ',
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -376,7 +390,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             orderDetails.order_register_date
                                                 .toString(),
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -390,7 +404,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             'Total Price: ',
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -407,7 +422,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                                     .toString() +
                                                 ' \$',
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -421,7 +436,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             'Payment Type: ',
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -431,7 +447,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             orderDetails.pay_type.toString(),
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -445,7 +461,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             'Payment Status: ',
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -455,7 +472,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             orderDetails.pay_status.toString(),
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -469,7 +486,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             'Prepay: ',
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -482,7 +500,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                                     orderDetails.pish)
                                                 : '-',
                                             style: TextStyle(
-                                              color: AppTheme.black,
+                                              color: context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -500,7 +518,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                             child: Text(
                               'Product List',
                               style: TextStyle(
-                                color: Colors.black,
+                                color: context.colors.onSurface,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14,
                               ),
@@ -618,7 +636,7 @@ class OrderProductItem extends StatelessWidget {
                     style: TextStyle(
                         //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
-                        color: AppTheme.black),
+                        color: context.colors.onSurface),
                   ),
                 ),
                 Expanded(
@@ -652,7 +670,7 @@ class OrderProductItem extends StatelessWidget {
                                   child: Text(
                                     color.title,
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: context.colors.onSurface,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 12,
                                     ),
@@ -666,7 +684,8 @@ class OrderProductItem extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                        color: Colors.black, width: 0.2),
+                                        color: context.colors.onSurface,
+                                        width: 0.2),
                                     color: Color(
                                       int.parse(
                                         '0xff' +

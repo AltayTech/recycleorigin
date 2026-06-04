@@ -85,7 +85,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supportHelpLabel => 'Support & Help';
 
   @override
+  String get generalSectionTitle => 'General';
+
+  @override
+  String get shopSectionTitle => 'Shop';
+
+  @override
+  String get supportSectionTitle => 'Support';
+
+  @override
+  String get accountSectionTitle => 'Account';
+
+  @override
   String get settingsTitle => 'Settings';
+
+  @override
+  String get appearanceTitle => 'Appearance';
+
+  @override
+  String get appearanceLabel => 'Theme';
+
+  @override
+  String get themeSystemLabel => 'Use system setting';
+
+  @override
+  String get themeLightLabel => 'Light';
+
+  @override
+  String get themeDarkLabel => 'Dark';
 
   @override
   String get languageTitle => 'Language';
@@ -101,7 +128,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsScreenIntro =>
-      'Language updates apply immediately and are saved on this device.';
+      'Appearance and language updates apply immediately and are saved on this device.';
 
   @override
   String get appInformationSectionTitle => 'App information';
@@ -1197,4 +1224,139 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get authSessionExpired =>
       'Your session has expired. Please sign in again.';
+
+  @override
+  String get mobileLabel => 'Mobile';
+
+  @override
+  String get phoneIsLoginIdentifierHint =>
+      'Your mobile number is used to sign in and cannot be changed here.';
+
+  @override
+  String get emailIsLoginCredentialHint =>
+      'Your email address is used to sign in and cannot be changed here.';
+
+  @override
+  String get postalCodeHintMessage => 'Postal code is usually 5 digits.';
+
+  @override
+  String get profileNameRequiredMessage => 'This field is required.';
+
+  @override
+  String get impactTitle => 'My Impact';
+
+  @override
+  String get impactHeroTitle => 'Your recycling impact';
+
+  @override
+  String get impactWeightLabel => 'Recycled';
+
+  @override
+  String get impactCo2Label => 'CO₂ saved';
+
+  @override
+  String get impactPickupsLabel => 'Pickups';
+
+  @override
+  String get impactEarningsLabel => 'Rewards';
+
+  @override
+  String impactXpLabel(int current, int toNext) {
+    return '$current XP · $toNext to next level';
+  }
+
+  @override
+  String impactNextTier(String name) {
+    return 'Next: $name';
+  }
+
+  @override
+  String get impactTreesLabel => 'Trees';
+
+  @override
+  String get impactWaterLabel => 'Liters water';
+
+  @override
+  String get impactEnergyLabel => 'kWh saved';
+
+  @override
+  String get impactStreakTitle => 'Streak';
+
+  @override
+  String impactStreakValue(int current, int longest) {
+    return '$current wk · best $longest';
+  }
+
+  @override
+  String get impactGoalTitle => 'Monthly goal';
+
+  @override
+  String get impactTrendTitle => 'Recycling trend';
+
+  @override
+  String get impactBadgesTitle => 'Achievements';
+
+  @override
+  String get impactLeaderboardTitle => 'Leaderboard';
+
+  @override
+  String get impactLeaderboardEmpty => 'No rankings yet for this period.';
+
+  @override
+  String impactRankSummary(int position, int total, double percentile) {
+    return 'Rank #$position of $total · top $percentile%';
+  }
+
+  @override
+  String get impactRange7d => 'Last 7 days';
+
+  @override
+  String get impactRange30d => 'Last 30 days';
+
+  @override
+  String get impactRange90d => 'Last 90 days';
+
+  @override
+  String get impactLoadError => 'Could not load impact data.';
+
+  @override
+  String get homeGreetingMorning => 'Good morning';
+
+  @override
+  String get homeGreetingAfternoon => 'Good afternoon';
+
+  @override
+  String get homeGreetingEvening => 'Good evening';
+
+  @override
+  String get homeDashboardImpactTitle => 'Your impact';
+
+  @override
+  String get homeDashboardWalletTitle => 'Wallet';
+
+  @override
+  String get homeDashboardActiveRequestTitle => 'Latest request';
+
+  @override
+  String get homeExploreTitle => 'Explore';
+
+  @override
+  String get homeActiveRequestEmpty =>
+      'No requests yet. Start your first collection.';
+
+  @override
+  String get homeViewAllRequests => 'View all';
+
+  @override
+  String get homeLoginForDashboard =>
+      'Sign in to see your impact, wallet, and requests.';
+
+  @override
+  String get homeImpactTapHint => 'View full impact dashboard';
+
+  @override
+  String get homeWalletTapHint => 'Open wallet';
+
+  @override
+  String get homeRequestTapHint => 'View request details';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../business/entities/collect_hour.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Horizontal scrollable time-slot picker.
@@ -36,20 +37,20 @@ class TimeSelector extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF8B5CF6).withOpacity(0.1),
+                  color: AppTheme.iconAccentPurple.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.access_time_rounded,
-                  color: Color(0xFF8B5CF6),
+                  color: AppTheme.iconAccentPurple,
                   size: 18,
                 ),
               ),
               const SizedBox(width: 10),
               Text(
                 l10n.collectHourSectionTitle,
-                style: const TextStyle(
-                  color: AppTheme.h1,
+                style: TextStyle(
+                  color: context.colors.onSurface,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
@@ -59,25 +60,29 @@ class TimeSelector extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         if (isLoading)
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: Center(child: CircularProgressIndicator()),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: CircularProgressIndicator(
+                color: context.appColors.subtitleColor,
+              ),
+            ),
           )
         else if (hours.isEmpty)
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.orange.shade50,
+              color: context.appColors.warning.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: Colors.orange.shade200,
+                color: context.appColors.warning.withValues(alpha: 0.35),
               ),
             ),
             child: Row(
               children: [
                 Icon(
                   Icons.info_outline_rounded,
-                  color: Colors.orange.shade400,
+                  color: context.appColors.warning,
                   size: 20,
                 ),
                 const SizedBox(width: 10),
@@ -85,7 +90,7 @@ class TimeSelector extends StatelessWidget {
                   child: Text(
                     l10n.noCollectionHoursForRegion,
                     style: TextStyle(
-                      color: Colors.orange.shade700,
+                      color: context.appColors.warning,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),
@@ -104,8 +109,7 @@ class TimeSelector extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 2),
               itemBuilder: (context, index) {
                 final hour = hours[index];
-                final isSelected =
-                    selectedStartHour == hour.start;
+                final isSelected = selectedStartHour == hour.start;
 
                 return GestureDetector(
                   onTap: () {
@@ -124,27 +128,26 @@ class TimeSelector extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: isSelected
                           ? AppTheme.primary
-                          : Colors.white,
+                          : context.appColors.cardBackground,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: isSelected
                             ? AppTheme.primary
-                            : Colors.grey.shade200,
+                            : context.colors.outline,
                         width: isSelected ? 2 : 1,
                       ),
                       boxShadow: isSelected
                           ? [
                               BoxShadow(
-                                color: AppTheme.primary
-                                    .withOpacity(0.3),
+                                color: AppTheme.primary.withOpacity(0.3),
                                 blurRadius: 12,
                                 offset: const Offset(0, 4),
                               ),
                             ]
                           : [
                               BoxShadow(
-                                color: Colors.black
-                                    .withOpacity(0.03),
+                                color: context.colors.shadow
+                                    .withValues(alpha: 0.03),
                                 blurRadius: 6,
                                 offset: const Offset(0, 2),
                               ),
@@ -157,8 +160,9 @@ class TimeSelector extends StatelessWidget {
                           Icons.schedule_rounded,
                           size: 18,
                           color: isSelected
-                              ? Colors.white.withOpacity(0.8)
-                              : Colors.grey.shade400,
+                              ? context.appColors.onHeroForeground
+                                  .withValues(alpha: 0.8)
+                              : context.colors.onSurfaceVariant,
                         ),
                         const SizedBox(height: 6),
                         Text(
@@ -168,8 +172,8 @@ class TimeSelector extends StatelessWidget {
                           ),
                           style: TextStyle(
                             color: isSelected
-                                ? Colors.white
-                                : AppTheme.h1,
+                                ? context.appColors.onHeroForeground
+                                : context.colors.onSurface,
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                           ),
@@ -195,8 +199,7 @@ class TimeSelector extends StatelessWidget {
           '${de.hour.toString().padLeft(2, '0')}:${de.minute.toString().padLeft(2, '0')}';
       return '$a–$b';
     }
-    final s =
-        start.length >= 5 ? start.substring(0, 5) : start;
+    final s = start.length >= 5 ? start.substring(0, 5) : start;
     final e = end.length >= 5 ? end.substring(0, 5) : end;
     if (s.length >= 2 && e.length >= 2) {
       return '${s.substring(0, 2)}-${e.substring(0, 2)}';

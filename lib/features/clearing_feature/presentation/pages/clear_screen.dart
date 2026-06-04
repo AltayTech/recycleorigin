@@ -18,6 +18,7 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/screens/navigation_bottom_screen.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -158,7 +159,7 @@ class _ClearScreenState extends State<ClearScreen>
           context.l10n.clearingPayTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
-            color: Colors.white,
+            color: context.appColors.cardBackground,
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -196,7 +197,8 @@ class _ClearScreenState extends State<ClearScreen>
                                   padding: const EdgeInsets.all(15.0),
                                   child: Text(
                                     context.l10n.login,
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(
+                                        color: AppTheme.appBarIconColor),
                                   ),
                                 ),
                                 decoration: BoxDecoration(
@@ -209,7 +211,7 @@ class _ClearScreenState extends State<ClearScreen>
                       ),
                     )
                   : Container(
-                      color: AppTheme.bg,
+                      color: context.appColors.scaffoldBackground,
                       height: deviceHeight * 0.9,
                       child: Stack(
                         children: <Widget>[
@@ -219,10 +221,10 @@ class _ClearScreenState extends State<ClearScreen>
                               children: <Widget>[
                                 //                                    Container(
                                 //                                      decoration: BoxDecoration(
-                                //                                          color: AppTheme.white,
+                                //                                          color: context.appColors.cardBackground,
                                 //                                          border: Border.all(
                                 //                                            width: 5,
-                                //                                            color: AppTheme.white,
+                                //                                            color: context.appColors.cardBackground,
                                 //                                          )),
                                 //                                      height: deviceWidth * 0.5,
                                 //                                      child: Padding(
@@ -232,7 +234,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 //                                            Container(
                                 //                                              height: deviceWidth * 0.9,
                                 //                                              width: deviceWidth,
-                                //                                              color: AppTheme.white,
+                                //                                              color: context.appColors.cardBackground,
                                 //                                              child: FadeInImage(
                                 //                                                placeholder: AssetImage(
                                 //                                                    'assets/images/circle.gif'),
@@ -249,7 +251,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 //                                                  Text(
                                 //                                                    'امتیاز',
                                 //                                                    style: TextStyle(
-                                //                                                      color: AppTheme.grey,
+                                //                                                      color: context.appColors.subtitleColor,
                                 //                                                      //fontFamily: 'Iransans',
                                 //                                                      fontSize:
                                 //                                                          textScaleFactor *
@@ -275,7 +277,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 //                                                                          .parse(
                                 //                                                                              '0'))),
                                 //                                                      style: TextStyle(
-                                //                                                        color: AppTheme.black,
+                                //                                                        color: context.colors.onSurface,
                                 //                                                        //fontFamily: 'Iransans',
                                 //                                                        fontWeight:
                                 //                                                            FontWeight.w700,
@@ -290,7 +292,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 //                                                  Text(
                                 //                                                    'تومان',
                                 //                                                    style: TextStyle(
-                                //                                                      color: AppTheme.grey,
+                                //                                                      color: context.appColors.subtitleColor,
                                 //                                                      //fontFamily: 'Iransans',
                                 //                                                      fontSize:
                                 //                                                          textScaleFactor *
@@ -310,7 +312,7 @@ class _ClearScreenState extends State<ClearScreen>
                                       const EdgeInsets.only(top: 10, bottom: 8),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: context.appColors.cardBackground,
                                         boxShadow: [
                                           BoxShadow(
                                             color: AppTheme.primary
@@ -341,7 +343,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             child: Text(
                                               context.l10n.walletCreditUsdLabel,
                                               style: TextStyle(
-                                                color: AppTheme.grey,
+                                                color: context
+                                                    .appColors.subtitleColor,
                                                 //fontFamily: 'Iransans',
                                                 fontSize: 13.0,
                                               ),
@@ -358,7 +361,7 @@ class _ClearScreenState extends State<ClearScreen>
                                                           state.customer.money))
                                                       .toString()),
                                               style: TextStyle(
-                                                color: AppTheme.black,
+                                                color: context.colors.onSurface,
                                                 //fontFamily: 'Iransans',
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 18.0,
@@ -377,7 +380,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: Text(
                                     context.l10n.clearingAccountNumberLabel,
                                     style: TextStyle(
-                                      color: AppTheme.h1,
+                                      color: context.colors.onSurface,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
@@ -386,7 +389,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 TextFormField(
                                   maxLines: 1,
                                   style: TextStyle(
-                                    color: AppTheme.h1,
+                                    color: context.colors.onSurface,
                                     //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 16.0,
                                   ),
@@ -397,7 +400,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   controller: shabaController,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Colors.white,
+                                    fillColor: context.appColors.cardBackground,
                                     contentPadding: const EdgeInsets.only(
                                         left: 20.0,
                                         right: 20,
@@ -407,11 +410,11 @@ class _ClearScreenState extends State<ClearScreen>
                                       gapPadding: 10,
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: new BorderSide(
-                                        color: Colors.white,
+                                        color: context.appColors.cardBackground,
                                       ),
                                     ),
                                     labelStyle: TextStyle(
-                                      color: Colors.blue,
+                                      color: AppTheme.iconAccentBlue,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 10.0,
                                     ),
@@ -423,7 +426,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: Text(
                                     context.l10n.clearingRequestAmountUsdLabel,
                                     style: TextStyle(
-                                      color: AppTheme.h1,
+                                      color: context.colors.onSurface,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
@@ -432,7 +435,7 @@ class _ClearScreenState extends State<ClearScreen>
                                 TextFormField(
                                   maxLines: 1,
                                   style: TextStyle(
-                                    color: AppTheme.h1,
+                                    color: context.colors.onSurface,
                                     //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 16.0,
                                   ),
@@ -443,7 +446,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   controller: donationController,
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Colors.white,
+                                    fillColor: context.appColors.cardBackground,
                                     contentPadding: const EdgeInsets.only(
                                         left: 20.0,
                                         right: 20,
@@ -453,11 +456,11 @@ class _ClearScreenState extends State<ClearScreen>
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: BorderSide(
                                         width: 0,
-                                        color: Colors.white,
+                                        color: context.appColors.cardBackground,
                                       ),
                                     ),
                                     labelStyle: TextStyle(
-                                      color: Colors.blue,
+                                      color: AppTheme.iconAccentBlue,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 10.0,
                                     ),
@@ -473,7 +476,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: Text(
                                     context.l10n.clearingPaymentListTitle,
                                     style: TextStyle(
-                                      color: AppTheme.h1,
+                                      color: context.colors.onSurface,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
@@ -494,8 +497,8 @@ class _ClearScreenState extends State<ClearScreen>
                                         context.l10n.clearingPaymentListTitle,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          color:
-                                              AppTheme.black.withOpacity(0.5),
+                                          color: context.colors.onSurface
+                                              .withOpacity(0.5),
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),
@@ -612,7 +615,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             context.l10n.tableColumnStatusLabel,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: AppTheme.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
@@ -626,7 +630,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             context.l10n.tableColumnDateLabel,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: AppTheme.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
@@ -640,7 +645,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             context.l10n.summaryPriceUsdTitle,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: AppTheme.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
@@ -678,7 +684,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     context
                                         .l10n.clearingEnterAccountNumberSnack,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: context.appColors.cardBackground,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
@@ -700,7 +706,7 @@ class _ClearScreenState extends State<ClearScreen>
                                     content: Text(
                                       context.l10n.clearingAmountExceedsBalance,
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: context.appColors.cardBackground,
                                         //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
@@ -747,9 +753,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             return DecoratedBox(
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
-                                                color: index.isEven
-                                                    ? Colors.grey
-                                                    : Colors.grey,
+                                                color: context
+                                                    .appColors.subtitleColor,
                                               ),
                                             );
                                           },

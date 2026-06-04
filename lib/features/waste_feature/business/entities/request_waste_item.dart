@@ -77,10 +77,8 @@ class RequestWasteItem with ChangeNotifier {
       driver: Driver.fromJson(
         (parsedJson['driver'] as Map<String, dynamic>?) ?? <String, dynamic>{},
       ),
-      requestStatusKey:
-          parsedJson['request_status_key'] as String? ?? '',
-      requestStatusLabel:
-          parsedJson['request_status_label'] as String? ?? '',
+      requestStatusKey: parsedJson['request_status_key'] as String? ?? '',
+      requestStatusLabel: parsedJson['request_status_label'] as String? ?? '',
       customerRating: cr != null ? RatingOut.fromJson(cr) : null,
       driverRating: dr != null ? RatingOut.fromJson(dr) : null,
       hasRated: parsedJson['has_rated'] as bool? ?? false,

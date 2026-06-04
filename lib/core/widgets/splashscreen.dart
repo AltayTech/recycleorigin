@@ -1,42 +1,45 @@
 import 'dart:async';
-import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../theme/app_theme.dart';
+import '../theme/theme_context_extensions.dart';
+
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({
+    super.key,
+    this.loaderColor,
+    required this.seconds,
+    this.photoSize = 100,
+    this.onClick,
+    this.navigateAfterSeconds,
+    this.title = const Text(''),
+    this.backgroundColor,
+    this.styleTextUnderTheLoader,
+    required this.image,
+    this.loadingText = const Text(''),
+    this.imageBackground = const AssetImage(
+      'assets/images/main_page_request_ic.png',
+    ),
+    this.gradientBackground,
+  });
+
+  final Color? loaderColor;
   final int seconds;
-  final Text title;
-  final Color backgroundColor;
-  final TextStyle styleTextUnderTheLoader;
-  final dynamic navigateAfterSeconds;
   final double photoSize;
-  final dynamic onClick;
-  final Color loaderColor;
+  final VoidCallback? onClick;
+  final dynamic navigateAfterSeconds;
+  final Text title;
+  final Color? backgroundColor;
+  final TextStyle? styleTextUnderTheLoader;
   final Image image;
   final Text loadingText;
   final ImageProvider imageBackground;
-  final Gradient gradientBackground;
-
-  SplashScreen(
-      {this.loaderColor = Colors.grey,
-      required this.seconds,
-      this.photoSize = 100,
-      this.onClick,
-      this.navigateAfterSeconds,
-      this.title = const Text(''),
-      this.backgroundColor = Colors.white,
-      this.styleTextUnderTheLoader = const TextStyle(
-          fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
-      required this.image,
-      this.loadingText = const Text(""),
-      this.imageBackground =
-          const AssetImage('assets/images/main_page_request_ic.png'),
-      this.gradientBackground =
-          const LinearGradient(colors: [Colors.white, Colors.grey])});
+  final Gradient? gradientBackground;
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
@@ -47,52 +50,75 @@ class _SplashScreenState extends State<SplashScreen> {
       if (widget.navigateAfterSeconds is String) {
         Navigator.of(context).pushReplacementNamed(widget.navigateAfterSeconds);
       } else if (widget.navigateAfterSeconds is Widget) {
-        Navigator.of(context).pushReplacement(new MaterialPageRoute(
-            builder: (BuildContext context) => widget.navigateAfterSeconds));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => widget.navigateAfterSeconds,
+          ),
+        );
       } else {
-        throw new ArgumentError(
-            'widget.navigateAfterSeconds must either be a String or Widget');
+        throw ArgumentError(
+          'widget.navigateAfterSeconds must either be a String or Widget',
+        );
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final appColors = context.appColors;
+    final loaderColor = widget.loaderColor ?? colors.primary;
+    final backgroundColor =
+        widget.backgroundColor ?? appColors.scaffoldBackground;
+    final gradientBackground = widget.gradientBackground ??
+        LinearGradient(
+          colors: [
+            appColors.scaffoldBackground,
+            appColors.scaffoldBackground.withValues(alpha: 0.92),
+          ],
+        );
+    final textStyle = widget.styleTextUnderTheLoader ??
+        TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: colors.onSurface,
+        );
+
     return Scaffold(
-      body: new InkWell(
+      body: InkWell(
         onTap: widget.onClick,
-        child: new Stack(
+        child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            new Container(
+            Container(
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: widget.imageBackground,
                 ),
-                gradient: widget.gradientBackground,
-                color: widget.backgroundColor,
+                gradient: gradientBackground,
+                color: backgroundColor,
               ),
             ),
-            new Stack(
+            Stack(
               alignment: Alignment.center,
               children: <Widget>[
                 Positioned(
                   top: MediaQuery.of(context).size.height * 0.2,
-                  child: new Container(
-                      child: new Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      new Container(
-                          height: MediaQuery.of(context).size.width * 0.8,
-                          child: widget.image),
-                      new Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.8,
+                        child: widget.image,
                       ),
-                      widget.title
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10),
+                      ),
+                      widget.title,
                     ],
-                  )),
+                  ),
                 ),
                 Positioned(
                   bottom: MediaQuery.of(context).size.height * 0.04,
@@ -101,22 +127,23 @@ class _SplashScreenState extends State<SplashScreen> {
                     children: <Widget>[
                       SpinKitThreeBounce(
                         size: 25,
-                        duration: Duration(milliseconds: 2000),
+                        duration: const Duration(milliseconds: 2000),
                         itemBuilder: (BuildContext context, int index) {
                           return DecoratedBox(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: index.isEven
-                                  ? Color(0xff06623B)
-                                  : Color(0xff06623B),
+                              color: loaderColor,
                             ),
                           );
                         },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 20),
                       ),
-                      widget.loadingText
+                      DefaultTextStyle(
+                        style: textStyle,
+                        child: widget.loadingText,
+                      ),
                     ],
                   ),
                 ),

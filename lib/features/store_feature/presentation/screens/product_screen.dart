@@ -9,6 +9,8 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/category.dart';
 import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
+import '../../../../core/navigation/navigation_shell_scope.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../business/entities/product.dart';
 import '../bloc/products_bloc.dart';
@@ -209,57 +211,57 @@ class _ProductsScreenState extends State<ProductsScreen>
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
+    final inShell = NavigationShellScope.isActive(context);
+
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color(0xffF9F9F9),
-      appBar: AppBar(
-        leading: const DrawerOrBackLeading(),
-        title: Text(
-          context.l10n.storeProductsAppBarTitle,
-          style: TextStyle(
-            //fontFamily: 'Iransans',
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
-        elevation: 0,
-        centerTitle: true,
-        actions: <Widget>[
-          BlocBuilder<ProductsBloc, ProductsState>(
-            buildWhen: (a, b) => a.cartItems.length != b.cartItems.length,
-            builder: (context, state) {
-              final count = state.cartItems.length;
-              final cartIcon = IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(CartScreen.routeName);
-                },
-                color: AppTheme.bg,
-                icon: const Icon(
-                  Icons.shopping_cart,
+      backgroundColor: context.appColors.scaffoldBackground,
+      appBar: inShell
+          ? null
+          : AppBar(
+              leading: const DrawerOrBackLeading(),
+              title: Text(context.l10n.storeProductsAppBarTitle),
+              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+              foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+              iconTheme: Theme.of(context).appBarTheme.iconTheme,
+              actionsIconTheme:
+                  Theme.of(context).appBarTheme.actionsIconTheme,
+              elevation: 0,
+              centerTitle: true,
+              systemOverlayStyle:
+                  Theme.of(context).appBarTheme.systemOverlayStyle,
+              actions: <Widget>[
+                BlocBuilder<ProductsBloc, ProductsState>(
+                  buildWhen: (a, b) => a.cartItems.length != b.cartItems.length,
+                  builder: (context, state) {
+                    final count = state.cartItems.length;
+                    final cartIcon = IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(CartScreen.routeName);
+                      },
+                      icon: const Icon(Icons.shopping_cart_outlined),
+                    );
+                    if (count != 0) {
+                      return badges.Badge(
+                        badgeContent: cartIcon,
+                        badgeStyle: badges.BadgeStyle(
+                          badgeColor: AppTheme.primary,
+                        ),
+                        child: Text(count.toString()),
+                      );
+                    }
+                    return cartIcon;
+                  },
                 ),
-              );
-              if (count != 0) {
-                return badges.Badge(
-                  badgeContent: cartIcon,
-                  badgeStyle: badges.BadgeStyle(
-                    badgeColor: Color(0xff06623B),
-                  ),
-                  child: Text(count.toString()),
-                );
-              }
-              return cartIcon;
-            },
-          ),
-        ],
-      ),
+              ],
+            ),
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
             Column(
               children: <Widget>[
                 Container(
-                  color: AppTheme.white,
+                  color: context.appColors.cardBackground,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                     child: Container(
@@ -283,7 +285,8 @@ class _ProductsScreenState extends State<ProductsScreen>
                             child: Container(
                               decoration: _selectedCategoryId == 0
                                   ? BoxDecoration(
-                                      color: AppTheme.bg,
+                                      color:
+                                          context.appColors.scaffoldBackground,
                                       border: Border(
                                         bottom: BorderSide(
                                             color: AppTheme.primary, width: 3),
@@ -301,7 +304,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                     style: TextStyle(
                                       color: _selectedCategoryId == 0
                                           ? AppTheme.primary
-                                          : AppTheme.h1,
+                                          : context.colors.onSurface,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
                                     ),
@@ -335,7 +338,8 @@ class _ProductsScreenState extends State<ProductsScreen>
                                       decoration: _selectedCategoryIndexs
                                               .contains(index)
                                           ? BoxDecoration(
-                                              color: AppTheme.bg,
+                                              color: context
+                                                  .appColors.scaffoldBackground,
                                               border: Border(
                                                 bottom: BorderSide(
                                                     color: AppTheme.primary,
@@ -352,11 +356,11 @@ class _ProductsScreenState extends State<ProductsScreen>
                                           child: Text(
                                             categoryList[index].name,
                                             style: TextStyle(
-                                              color:
-                                                  categoryList[index].term_id ==
-                                                          _selectedCategoryId
-                                                      ? AppTheme.primary
-                                                      : AppTheme.h1,
+                                              color: categoryList[index]
+                                                          .term_id ==
+                                                      _selectedCategoryId
+                                                  ? AppTheme.primary
+                                                  : context.colors.onSurface,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
@@ -389,9 +393,10 @@ class _ProductsScreenState extends State<ProductsScreen>
                               child: Container(
                                 alignment: Alignment.centerRight,
                                 decoration: BoxDecoration(
-                                    color: AppTheme.white,
+                                    color: context.appColors.cardBackground,
                                     border: Border.all(
-                                        color: AppTheme.h1, width: 0.2)),
+                                        color: context.colors.onSurface,
+                                        width: 0.2)),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       right: 8.0, left: 8, top: 6),
@@ -402,12 +407,12 @@ class _ProductsScreenState extends State<ProductsScreen>
                                           const EdgeInsets.only(bottom: 10.0),
                                       child: Icon(
                                         Icons.arrow_drop_down,
-                                        color: AppTheme.black,
+                                        color: context.colors.onSurface,
                                         size: 20,
                                       ),
                                     ),
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: context.colors.onSurface,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 13.0,
                                     ),
@@ -468,7 +473,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                                               _localizedSortLabel(
                                                   context, value),
                                               style: TextStyle(
-                                                color: AppTheme.black,
+                                                color: context.colors.onSurface,
                                                 //fontFamily: 'Iransans',
                                                 fontSize:
                                                     textScaleFactor * 13.0,
@@ -583,8 +588,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
+                                  color: context.appColors.subtitleColor,
                                 ),
                               );
                             },
@@ -626,10 +630,10 @@ class _ProductsScreenState extends State<ProductsScreen>
       //                              width: MediaQuery.of(context).size.width * 0.9,
       //                              height: AppBar().preferredSize.height,
       //                              decoration: BoxDecoration(
-      //                                color: Colors.white,
+      //                                color: context.appColors.cardBackground,
       //                                borderRadius: BorderRadius.circular(8),
       //                                border: Border.all(
-      //                                  color: AppTheme.secondary,
+      //                                  color: context.appColors.divider,
       //                                  width: 0.6,
       //                                ),
       //                              ),
@@ -711,7 +715,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       //                                      decoration: InputDecoration(
       //                                        border: InputBorder.none,
       //                                        hintStyle: TextStyle(
-      //                                          color: AppTheme.secondary,
+      //                                          color: context.appColors.divider,
       //                                          //fontFamily: 'Iransans',
       //                                          fontSize: MediaQuery.of(context)
       //                                              .textScaleFactor *
@@ -719,7 +723,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       //                                        ),
       //                                        hintText: 'جستجوی محصولات ...',
       //                                        labelStyle: TextStyle(
-      //                                          color: AppTheme.secondary,
+      //                                          color: context.appColors.divider,
       //                                          //fontFamily: 'Iransans',
       //                                          fontSize: MediaQuery.of(context)
       //                                              .textScaleFactor *
@@ -750,7 +754,7 @@ class _ProductsScreenState extends State<ProductsScreen>
       //            ),
       //          ],
       //        ),
-      drawer: mainDrawerIfRootRoute(context),
+      drawer: inShell ? null : mainDrawerIfRootRoute(context),
     );
   }
 }

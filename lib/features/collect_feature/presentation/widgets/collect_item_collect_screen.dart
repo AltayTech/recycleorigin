@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -12,11 +13,10 @@ class CollectItemCollectsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final collect =
-        Provider.of<RequestWasteItem>(context, listen: false);
+    final collect = Provider.of<RequestWasteItem>(context, listen: false);
     final l10n = context.l10n;
     final (statusColor, statusIcon) =
-        _statusVisuals(collect.requestStatusKey);
+        _statusVisuals(context, collect.requestStatusKey);
     final statusText = _statusText(l10n, collect);
 
     final estWeight =
@@ -32,11 +32,11 @@ class CollectItemCollectsScreen extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.appColors.cardBackground,
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: context.colors.shadow.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -69,7 +69,8 @@ class CollectItemCollectsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Icon(Icons.chevron_right, color: Colors.grey.shade400),
+                Icon(Icons.chevron_right,
+                    color: context.colors.onSurfaceVariant),
               ],
             ),
             const Divider(height: 18),
@@ -77,8 +78,8 @@ class CollectItemCollectsScreen extends StatelessWidget {
               children: [
                 _InfoChip(
                   icon: Icons.calendar_today_outlined,
-                  text: EnArConvertor()
-                      .replaceArNumber(collect.collect_date.day),
+                  text:
+                      EnArConvertor().replaceArNumber(collect.collect_date.day),
                 ),
                 const SizedBox(width: 12),
                 _InfoChip(
@@ -103,9 +104,8 @@ class CollectItemCollectsScreen extends StatelessWidget {
                 Expanded(
                   child: _StatBadge(
                     label: l10n.totalPriceFieldLabel,
-                    value: EnArConvertor()
-                        .replaceArNumber(_fmtPrice(estPrice)),
-                    color: Colors.green.shade700,
+                    value: EnArConvertor().replaceArNumber(_fmtPrice(estPrice)),
+                    color: context.appColors.success,
                   ),
                 ),
               ],
@@ -115,7 +115,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.location_on_outlined,
-                      size: 16, color: Colors.grey.shade500),
+                      size: 16, color: context.appColors.subtitleColor),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
@@ -124,7 +124,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.grey.shade600,
+                        color: context.appColors.subtitleColor,
                       ),
                     ),
                   ),
@@ -165,17 +165,16 @@ class CollectItemCollectsScreen extends StatelessWidget {
     }
   }
 
-  (Color, IconData) _statusVisuals(String key) {
+  (Color, IconData) _statusVisuals(BuildContext context, String key) {
+    final ext = context.appColors;
     return switch (key) {
-      'pending_assignment' => (Colors.grey, Icons.person_search_rounded),
-      'pending_driver_acceptance' =>
-        (Colors.orange, Icons.hourglass_top),
-      'driver_accepted' || 'in_progress' =>
-        (Colors.blue, Icons.local_shipping),
-      'picked_up' => (Colors.indigo, Icons.inventory_2_rounded),
-      'collected' => (Colors.green, Icons.check_circle_rounded),
-      'cancelled' => (Colors.red.shade400, Icons.cancel_rounded),
-      _ => (Colors.grey, Icons.info_outline),
+      'pending_assignment' => (ext.warning, Icons.person_search_rounded),
+      'pending_driver_acceptance' => (ext.warning, Icons.hourglass_top),
+      'driver_accepted' || 'in_progress' => (ext.info, Icons.local_shipping),
+      'picked_up' => (AppTheme.iconAccentPurple, Icons.inventory_2_rounded),
+      'collected' => (ext.success, Icons.check_circle_rounded),
+      'cancelled' => (ext.danger, Icons.cancel_rounded),
+      _ => (ext.subtitleColor, Icons.info_outline),
     };
   }
 }
@@ -194,7 +193,8 @@ class _InfoChip extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           text,
-          style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+          style:
+              TextStyle(fontSize: 12, color: context.appColors.subtitleColor),
         ),
       ],
     );

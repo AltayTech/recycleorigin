@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/models/order.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../bloc/customer_info_bloc.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../store_feature/presentation/screens/order_view_screen.dart';
@@ -33,8 +34,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    List<Order> orderList =
-        context.read<CustomerInfoBloc>().orders;
+    List<Order> orderList = context.read<CustomerInfoBloc>().orders;
 
     return Container(
       child: Padding(
@@ -54,7 +54,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                           EnArConvertor()
                               .replaceArNumber((orderList.length.toString())),
                           style: TextStyle(
-                            color: Color(0xffA67FEC),
+                            color: AppTheme.iconAccentPurple,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -62,7 +62,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                         Text(
                           'Number ',
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: context.appColors.subtitleColor,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -76,7 +76,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                     child: Text(
                       'Orders',
                       style: TextStyle(
-                        color: Colors.blueGrey,
+                        color: context.appColors.subtitleColor,
                         //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 14.0,
                       ),
@@ -152,7 +152,7 @@ class OrderItem extends StatelessWidget {
       child: Container(
         height: deviceHeight * 0.250,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.appColors.cardBackground,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: AppTheme.accent, width: 0.4)),
         child: Column(
@@ -165,7 +165,7 @@ class OrderItem extends StatelessWidget {
                   Text(
                     '${context.l10n.customerOrderNumberPrefix} $number',
                     style: TextStyle(
-                      color: AppTheme.h1,
+                      color: context.colors.onSurface,
                       //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 12.0,
                     ),
@@ -183,7 +183,7 @@ class OrderItem extends StatelessWidget {
               ),
             ),
             Divider(
-              color: AppTheme.secondary,
+              color: context.appColors.divider,
               thickness: 2,
             ),
             Padding(
@@ -199,7 +199,7 @@ class OrderItem extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 4.0),
                           child: Icon(
                             Icons.calendar_today,
-                            color: AppTheme.h1,
+                            color: context.colors.onSurface,
                           ),
                         ),
                         Text(
@@ -238,7 +238,7 @@ class OrderItem extends StatelessWidget {
                         Text(
                           'Number: ',
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: context.appColors.subtitleColor,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 12.0,
                           ),
@@ -248,7 +248,7 @@ class OrderItem extends StatelessWidget {
                             totalNumber,
                           ),
                           style: TextStyle(
-                            color: AppTheme.h1,
+                            color: context.colors.onSurface,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -257,7 +257,7 @@ class OrderItem extends StatelessWidget {
                         Text(
                           'Details',
                           style: TextStyle(
-                            color: AppTheme.secondary,
+                            color: context.appColors.divider,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 11.0,
                           ),

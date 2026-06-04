@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recycleorigin/core/navigation/navigation_shell_scope.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 
 import 'package:recycleorigin/core/widgets/main_drawer.dart';
 
@@ -28,12 +30,13 @@ class DrawerOrBackLeading extends StatelessWidget {
         },
       );
     }
+    final shellKey = scaffoldKey ?? NavigationShellScope.scaffoldKeyOf(context);
     return IconButton(
       icon: const Icon(Icons.menu_rounded),
       color: color,
       tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
       onPressed: () {
-        final state = scaffoldKey?.currentState ?? Scaffold.maybeOf(context);
+        final state = shellKey?.currentState ?? Scaffold.maybeOf(context);
         state?.openDrawer();
       },
     );
@@ -44,6 +47,7 @@ class DrawerOrBackLeading extends StatelessWidget {
 ///
 /// Avoids pairing a global drawer with a back affordance on pushed routes.
 Widget? mainDrawerIfRootRoute(BuildContext context) {
+  if (NavigationShellScope.maybeOf(context) != null) return null;
   if (Navigator.of(context).canPop()) return null;
   return Theme(
     data: Theme.of(context).copyWith(canvasColor: Colors.transparent),

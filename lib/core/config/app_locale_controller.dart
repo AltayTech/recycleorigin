@@ -17,11 +17,13 @@ class AppLocaleController {
 
   AppLocaleController._();
 
-  final ValueNotifier<Locale> localeNotifier = ValueNotifier<Locale>(_defaultLocale);
+  final ValueNotifier<Locale> localeNotifier =
+      ValueNotifier<Locale>(_defaultLocale);
 
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
-    final code = prefs.getString(_prefsKeyLocaleCode) ?? _defaultLocale.languageCode;
+    final code =
+        prefs.getString(_prefsKeyLocaleCode) ?? _defaultLocale.languageCode;
     localeNotifier.value = _resolveLocale(code);
   }
 
@@ -41,4 +43,3 @@ class AppLocaleController {
     return code == 'tr' ? const Locale('tr') : const Locale('en');
   }
 }
-

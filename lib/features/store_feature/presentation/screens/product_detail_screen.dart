@@ -9,6 +9,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../business/entities/product.dart';
 import '../bloc/products_bloc.dart';
@@ -134,7 +135,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 .toString())
             : EnArConvertor().replaceArNumber('0'),
         style: TextStyle(
-          color: AppTheme.black,
+          color: context.colors.onSurface,
           //fontFamily: 'Iransans',
           fontWeight: FontWeight.bold,
           fontSize: textScaleFactor * 20,
@@ -150,7 +151,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 .toString())
             : EnArConvertor().replaceArNumber('0'),
         style: TextStyle(
-          color: AppTheme.black,
+          color: context.colors.onSurface,
           //fontFamily: 'Iransans',
           fontWeight: FontWeight.bold,
           fontSize: textScaleFactor * 20,
@@ -164,7 +165,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 .toString())
             : EnArConvertor().replaceArNumber('0'),
         style: TextStyle(
-          color: AppTheme.black,
+          color: context.colors.onSurface,
           //fontFamily: 'Iransans',
           fontWeight: FontWeight.bold,
           fontSize: textScaleFactor * 20,
@@ -183,7 +184,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             style: TextStyle(
               decoration: TextDecoration.lineThrough,
               decorationThickness: 2,
-              color: AppTheme.grey,
+              color: context.appColors.subtitleColor,
               //fontFamily: 'Iransans',
               fontSize: textScaleFactor * 16,
             ),
@@ -195,7 +196,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     .toString())
                 : EnArConvertor().replaceArNumber('0'),
             style: TextStyle(
-              color: AppTheme.black,
+              color: context.colors.onSurface,
               //fontFamily: 'Iransans',
               fontWeight: FontWeight.bold,
               fontSize: textScaleFactor * 20,
@@ -217,7 +218,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return Directionality(
       textDirection: Directionality.of(context),
       child: Scaffold(
-        backgroundColor: AppTheme.white,
+        backgroundColor: context.appColors.cardBackground,
         appBar: AppBar(
           leading: const DrawerOrBackLeading(),
           title: Text(
@@ -239,8 +240,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   onPressed: () {
                     Navigator.of(context).pushNamed(CartScreen.routeName);
                   },
-                  color: AppTheme.bg,
-                  icon: const Icon(
+                  color: context.appColors.scaffoldBackground,
+                  icon: Icon(
                     Icons.shopping_cart,
                   ),
                 );
@@ -248,7 +249,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   return badges.Badge(
                     badgeContent: cartIcon,
                     badgeStyle: badges.BadgeStyle(
-                      badgeColor: Color(0xff06623B),
+                      badgeColor: AppTheme.primary,
                     ),
                     child: Text(count.toString()),
                   );
@@ -270,7 +271,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           return DecoratedBox(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: index.isEven ? Colors.grey : Colors.grey,
+                              color: context.appColors.subtitleColor,
                             ),
                           );
                         },
@@ -283,7 +284,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             width: double.infinity,
                             height: deviceHeight * 0.4,
                             decoration: BoxDecoration(
-                                color: AppTheme.white,
+                                color: context.appColors.cardBackground,
                                 borderRadius: BorderRadius.circular(5)),
                             child: Stack(
                               children: [
@@ -345,13 +346,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               border: Border.all(
-                                                  color: AppTheme.h1,
+                                                  color:
+                                                      context.colors.onSurface,
                                                   width: 0.4),
                                               color: _current ==
                                                       loadedProduct.gallery
                                                           .indexOf(index)
-                                                  ? AppTheme.secondary
-                                                  : AppTheme.bg),
+                                                  ? context.appColors.divider
+                                                  : context.appColors
+                                                      .scaffoldBackground),
                                         );
                                       },
                                     ).toList(),
@@ -362,7 +365,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                           Container(
                             width: double.infinity,
-                            color: AppTheme.white,
+                            color: context.appColors.cardBackground,
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Column(
@@ -376,7 +379,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         height: 2,
-                                        color: AppTheme.black,
+                                        color: context.colors.onSurface,
                                         //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 18,
                                       ),
@@ -397,7 +400,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             '\$',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,
                                             ),
@@ -414,12 +418,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     textDirection: Directionality.of(context),
                                     child: HtmlWidget(
                                       loadedProduct.description,
+                                      textStyle: TextStyle(
+                                        color: context.colors.onSurface,
+                                        height: 1.5,
+                                      ),
                                       onTapUrl: (url) async {
                                         return await showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
-                                            title:
-                                                Text(context.l10n.onTapUrlDebugTitle),
+                                            title: Text(context
+                                                .l10n.onTapUrlDebugTitle),
                                             content: Text(url),
                                           ),
                                         );
@@ -450,7 +458,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             content: Text(
                               context.l10n.productPriceZeroSnack,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: context.appColors.cardBackground,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),
@@ -469,7 +477,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             content: Text(
                               context.l10n.productAlreadyInCartSnack,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: context.appColors.cardBackground,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),
@@ -490,7 +498,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             content: Text(
                               context.l10n.productAddedToCartSnack,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: context.appColors.cardBackground,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 14.0,
                               ),

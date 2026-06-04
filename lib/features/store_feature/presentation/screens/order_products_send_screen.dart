@@ -9,6 +9,7 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/screens/navigation_bottom_screen.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../business/entities/order_send_details.dart';
@@ -118,8 +119,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
-    Customer customer =
-        context.read<CustomerInfoBloc>().customer;
+    Customer customer = context.read<CustomerInfoBloc>().customer;
 
     return Scaffold(
       appBar: AppBar(
@@ -148,7 +148,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                 child: Text(
                   'Pay ',
                   style: TextStyle(
-                      color: AppTheme.bg,
+                      color: context.appColors.scaffoldBackground,
                       //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 22,
                       fontWeight: FontWeight.bold),
@@ -181,7 +181,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                 child: Text(
                                   'Information',
                                   style: TextStyle(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                     //fontFamily: 'Iransans',
                                     fontSize: textScaleFactor * 15,
                                   ),
@@ -192,9 +192,10 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: AppTheme.h1, width: 0.3),
-                                color: AppTheme.bg),
+                                border: Border.all(
+                                    color: context.colors.onSurface,
+                                    width: 0.3),
+                                color: context.appColors.scaffoldBackground),
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Column(
@@ -207,7 +208,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           'Name and Latname:    ',
                                           style: TextStyle(
-                                            color: AppTheme.grey,
+                                            color:
+                                                context.appColors.subtitleColor,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -217,7 +219,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                               ' ' +
                                               customer.personalData.last_name,
                                           style: TextStyle(
-                                            color: AppTheme.black,
+                                            color: context.colors.onSurface,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -232,7 +234,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           'Province:    ',
                                           style: TextStyle(
-                                            color: AppTheme.grey,
+                                            color:
+                                                context.appColors.subtitleColor,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -240,7 +243,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           customer.personalData.ostan,
                                           style: TextStyle(
-                                            color: AppTheme.black,
+                                            color: context.colors.onSurface,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -255,7 +258,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           'City:   ',
                                           style: TextStyle(
-                                            color: AppTheme.grey,
+                                            color:
+                                                context.appColors.subtitleColor,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -263,7 +267,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           customer.personalData.city,
                                           style: TextStyle(
-                                            color: AppTheme.black,
+                                            color: context.colors.onSurface,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -278,7 +282,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           'Zipcode:    ',
                                           style: TextStyle(
-                                            color: AppTheme.grey,
+                                            color:
+                                                context.appColors.subtitleColor,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -287,7 +292,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                           EnArConvertor().replaceArNumber(
                                               customer.personalData.postcode),
                                           style: TextStyle(
-                                            color: AppTheme.black,
+                                            color: context.colors.onSurface,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -302,7 +307,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           'Mobile:    ',
                                           style: TextStyle(
-                                            color: AppTheme.grey,
+                                            color:
+                                                context.appColors.subtitleColor,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -313,7 +319,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                                       .toString())
                                                   .toString()),
                                           style: TextStyle(
-                                            color: AppTheme.black,
+                                            color: context.colors.onSurface,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -336,7 +342,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                   child: Text(
                                     'Total Price: ',
                                     style: TextStyle(
-                                      color: AppTheme.grey,
+                                      color: context.appColors.subtitleColor,
                                       //fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14,
                                     ),
@@ -350,7 +356,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                             .format(totalPrice)
                                             .toString()),
                                     style: TextStyle(
-                                      color: AppTheme.black,
+                                      color: context.colors.onSurface,
                                       //fontFamily: 'Iransans',
                                       fontWeight: FontWeight.w700,
                                       fontSize: textScaleFactor * 22,
@@ -377,7 +383,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                         content: Text(
                           context.l10n.orderNoItemsInCartSnack,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -396,7 +402,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                         content: Text(
                           context.l10n.orderInsufficientWalletSnack,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -449,8 +455,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
+                                  color: context.appColors.subtitleColor,
                                 ),
                               );
                             },

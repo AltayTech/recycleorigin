@@ -15,7 +15,7 @@ void main() {
 
   group('Customer app bootstrap', () {
     setUpAll(() async {
-      await AppConfig.initialize();
+      await AppConfig.initialize(envFile: 'assets/env/.env.dev');
     });
 
     setUp(() async {
@@ -25,7 +25,7 @@ void main() {
     testWidgets('RecycleOriginApp shows home content', (tester) async {
       final mock = MockApiClient();
       mock.setGetResponse(
-        'pasmands/v1/products/category',
+        'recycleorigin/v1/products/category',
         Success<List<dynamic>>(<dynamic>[]),
       );
 

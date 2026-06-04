@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Compact summary card showing item count, total price, and
@@ -61,7 +62,7 @@ class RequestSummaryCard extends StatelessWidget {
             Expanded(
               child: _MetricTile(
                 icon: Icons.monetization_on_rounded,
-                iconColor: const Color(0xFFE5A100),
+                iconColor: AppTheme.iconAccentGold,
                 label: l10n.totalPriceFieldLabel,
                 value: converter.replaceArNumber(
                   fmt.format(totalPrice),
@@ -77,7 +78,7 @@ class RequestSummaryCard extends StatelessWidget {
             Expanded(
               child: _MetricTile(
                 icon: Icons.scale_rounded,
-                iconColor: const Color(0xFF8B5CF6),
+                iconColor: AppTheme.iconAccentPurple,
                 label: l10n.totalWeightFieldLabel,
                 value: converter.replaceArNumber(
                   totalWeight.toString(),
@@ -128,8 +129,8 @@ class _MetricTile extends StatelessWidget {
             Flexible(
               child: Text(
                 value,
-                style: const TextStyle(
-                  color: AppTheme.h1,
+                style: TextStyle(
+                  color: context.colors.onSurface,
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
                 ),
@@ -141,7 +142,7 @@ class _MetricTile extends StatelessWidget {
               Text(
                 suffix!,
                 style: TextStyle(
-                  color: Colors.grey.shade400,
+                  color: context.colors.onSurfaceVariant,
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                 ),
@@ -153,7 +154,7 @@ class _MetricTile extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: Colors.grey.shade500,
+            color: context.appColors.subtitleColor,
             fontSize: 11,
             fontWeight: FontWeight.w500,
           ),

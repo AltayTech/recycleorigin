@@ -8,7 +8,7 @@ class SupportTicketRepository {
 
   final ApiClient _client;
 
-  static const String _base = 'pasmands/v1/tickets';
+  static const String _base = 'recycleorigin/v1/tickets';
 
   Future<Result<PagedTickets>> listTickets({int page = 1, int perPage = 20}) {
     return _client.get<PagedTickets>(

@@ -135,8 +135,7 @@ class ApiClient {
     if (inflight != null) {
       return inflight;
     }
-    final future = _refreshTokens()
-      ..whenComplete(() => _refreshFuture = null);
+    final future = _refreshTokens()..whenComplete(() => _refreshFuture = null);
     _refreshFuture = future;
     return future;
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
+import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/core/utils/app_info_service.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:recycleorigin/features/support_tickets/presentation/screens/support_tickets_list_screen.dart';
@@ -8,11 +9,12 @@ import 'package:recycleorigin/features/support_tickets/presentation/screens/supp
 import '../../features/auth_feature/data/models/TokenResponseModel.dart';
 import '../../features/auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../features/guid_feature/presentation/pages/guide_screen.dart';
+import '../../features/impact_feature/presentation/screens/impact_screen.dart';
 import '../../features/auth_feature/presentation/bloc/auth_state.dart';
 import '../../features/auth_feature/presentation/screens/login_screen.dart';
 import '../../features/customer_feature/presentation/screens/profile_screen.dart';
 import '../../features/store_feature/presentation/screens/cart_screen.dart';
-import '../../features/store_feature/presentation/screens/product_screen.dart';
+import '../../features/wallet_feature/presentation/pages/wallet_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
 import '../screens/settings_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -169,8 +171,10 @@ class _MainDrawerState extends State<MainDrawer> {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final extension = theme.extension<AppColorsExtension>();
+    final appColors = context.appColors;
+    final onHero = appColors.onHeroForeground;
     final gradientStart = extension?.heroGradientStart ?? colors.primary;
-    final gradientEnd = extension?.heroGradientEnd ?? AppTheme.primary;
+    final gradientEnd = extension?.heroGradientEnd ?? AppTheme.primaryDark;
 
     final firstName = customer?.personalData.first_name ?? '';
     final lastName = customer?.personalData.last_name ?? '';
@@ -193,31 +197,35 @@ class _MainDrawerState extends State<MainDrawer> {
             _cleanAuthField(tokenModel.userDisplayName) != null ||
             _cleanAuthField(tokenModel.userNicename) != null);
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[gradientStart, gradientEnd],
-        ),
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(24),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    final profileRoute =
+        isAuthenticated ? ProfileScreen.routeName : LoginScreen.routeName;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => _navigateToRoute(profileRoute),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[gradientStart, gradientEnd],
+            ),
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(24),
+            ),
+          ),
+          child: Row(
             children: [
               Container(
                 height: 56,
                 width: 56,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.18),
+                  color: onHero.withValues(alpha: 0.18),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.28),
+                    color: onHero.withValues(alpha: 0.28),
                     width: 1.2,
                   ),
                 ),
@@ -225,16 +233,16 @@ class _MainDrawerState extends State<MainDrawer> {
                     ? Center(
                         child: Text(
                           _nameInitials(displayName),
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: onHero,
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       )
-                    : const Icon(
+                    : Icon(
                         Icons.person_rounded,
-                        color: Colors.white,
+                        color: onHero,
                         size: 28,
                       ),
               ),
@@ -247,8 +255,8 @@ class _MainDrawerState extends State<MainDrawer> {
                       isAuthenticated
                           ? displayName
                           : context.l10n.recycleorigin,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: onHero,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.2,
@@ -260,7 +268,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     Text(
                       subtitle,
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.86),
+                        color: onHero.withValues(alpha: 0.86),
                         fontSize: 12,
                         height: 1.35,
                       ),
@@ -270,33 +278,14 @@ class _MainDrawerState extends State<MainDrawer> {
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _QuickActionChip(
-                icon: Icons.settings_rounded,
-                label: context.l10n.settingsTitle,
-                onTap: () => _navigateToRoute(SettingsScreen.routeName),
-              ),
-              _QuickActionChip(
-                icon: isAuthenticated
-                    ? Icons.person_rounded
-                    : Icons.login_rounded,
-                label:
-                    isAuthenticated ? context.l10n.profile : context.l10n.login,
-                onTap: () => _navigateToRoute(
-                  isAuthenticated
-                      ? ProfileScreen.routeName
-                      : LoginScreen.routeName,
-                ),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: onHero.withValues(alpha: 0.7),
+                size: 24,
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -309,12 +298,13 @@ class _MainDrawerState extends State<MainDrawer> {
 
   Widget _buildSectionTitle(String text) {
     final textStyle = Theme.of(context).textTheme.labelLarge;
+    final onHero = context.appColors.onHeroForeground;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
       child: Text(
         text,
         style: textStyle?.copyWith(
-          color: Colors.white.withValues(alpha: 0.84),
+          color: onHero.withValues(alpha: 0.84),
           fontWeight: FontWeight.w600,
           letterSpacing: 0.3,
         ),
@@ -329,8 +319,11 @@ class _MainDrawerState extends State<MainDrawer> {
     required VoidCallback onTap,
   }) {
     final colors = Theme.of(context).colorScheme;
-    final selectedColor = colors.surface.withValues(alpha: 0.92);
-    final defaultFg = Colors.white.withValues(alpha: 0.94);
+    final selectedColor = Theme.of(context).brightness == Brightness.dark
+        ? colors.surfaceContainerHighest.withValues(alpha: 0.92)
+        : colors.surface.withValues(alpha: 0.92);
+    final defaultFg =
+        context.appColors.onHeroForeground.withValues(alpha: 0.94);
     final destructiveFg = colors.errorContainer;
     final foreground = destructive ? destructiveFg : defaultFg;
 
@@ -397,7 +390,7 @@ class _MainDrawerState extends State<MainDrawer> {
           SnackBar(
             content:
                 Text('${context.l10n.navigationErrorPrefix}${e.toString()}'),
-            backgroundColor: Colors.red,
+            backgroundColor: context.colors.error,
             duration: const Duration(seconds: 3),
           ),
         );
@@ -419,9 +412,8 @@ class _MainDrawerState extends State<MainDrawer> {
             Future<void> onConfirm() async {
               setD(() => busy = true);
               try {
-                parentContext.read<CustomerInfoBloc>().customer = parentContext
-                    .read<CustomerInfoBloc>()
-                    .customer_zero;
+                parentContext.read<CustomerInfoBloc>().customer =
+                    parentContext.read<CustomerInfoBloc>().customer_zero;
                 await parentContext.read<AuthBloc>().removeToken();
                 parentContext.read<AuthBloc>().isFirstLogout = true;
                 if (ctx.mounted) {
@@ -434,7 +426,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       content: Text(
                         '${parentContext.l10n.signOutErrorPrefix}$e',
                       ),
-                      backgroundColor: Colors.red,
+                      backgroundColor: context.colors.error,
                       duration: const Duration(seconds: 3),
                     ),
                   );
@@ -471,7 +463,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 TextButton(
                   onPressed: busy ? null : onConfirm,
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.red,
+                    foregroundColor: Theme.of(ctx).colorScheme.error,
                   ),
                   child: busy
                       ? SizedBox(
@@ -508,16 +500,22 @@ class _MainDrawerState extends State<MainDrawer> {
     final currentRouteName = ModalRoute.of(context)?.settings.name ?? '';
     final l10n = context.l10n;
 
+    final appColors = context.appColors;
     return Drawer(
       elevation: 0,
+      backgroundColor: appColors.drawerSurface,
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: <Color>[
-              AppTheme.primary,
-              AppTheme.primary.withValues(alpha: 0.92),
+              appColors.drawerSurface,
+              Color.lerp(
+                appColors.drawerSurface,
+                appColors.heroGradientEnd,
+                0.35,
+              )!,
             ],
           ),
         ),
@@ -539,23 +537,26 @@ class _MainDrawerState extends State<MainDrawer> {
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    _buildSectionTitle(l10n.home),
+                    _buildSectionTitle(l10n.generalSectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
-                        icon: Icons.home_rounded,
-                        title: l10n.home,
-                        routeName: NavigationBottomScreen.routeName,
+                        icon: Icons.insights_rounded,
+                        title: l10n.impactTitle,
+                        routeName: ImpactScreen.routeName,
                       ),
-                      selected:
-                          currentRouteName == NavigationBottomScreen.routeName,
+                      selected: currentRouteName == ImpactScreen.routeName,
                       destructive: false,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          NavigationBottomScreen.routeName,
-                          (Route<dynamic> route) => false,
-                        );
-                      },
+                      onTap: () => _navigateToRoute(ImpactScreen.routeName),
+                    ),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.account_balance_wallet_rounded,
+                        title: l10n.wallet,
+                        routeName: WalletScreen.routeName,
+                      ),
+                      selected: currentRouteName == WalletScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(WalletScreen.routeName),
                     ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
@@ -567,20 +568,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       destructive: false,
                       onTap: () => _navigateToRoute(SettingsScreen.routeName),
                     ),
-                    _buildSectionTitle(l10n.store),
-                    _buildDestinationTile(
-                      destination: _DrawerDestination(
-                        icon: Icons.store_rounded,
-                        title: l10n.store,
-                        routeName: ProductsScreen.routeName,
-                      ),
-                      selected: currentRouteName == ProductsScreen.routeName,
-                      destructive: false,
-                      onTap: () => _navigateToRoute(
-                        ProductsScreen.routeName,
-                        arguments: 0,
-                      ),
-                    ),
+                    _buildSectionTitle(l10n.shopSectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.shopping_cart_rounded,
@@ -591,7 +579,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       destructive: false,
                       onTap: () => _navigateToRoute(CartScreen.routeName),
                     ),
-                    _buildSectionTitle(l10n.supportHelpLabel),
+                    _buildSectionTitle(l10n.supportSectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.menu_book_rounded,
@@ -605,7 +593,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.support_agent_rounded,
-                        title: l10n.supportHelpLabel,
+                        title: l10n.supportScreenTitle,
                         routeName: SupportTicketsListScreen.routeName,
                       ),
                       selected: currentRouteName ==
@@ -616,45 +604,41 @@ class _MainDrawerState extends State<MainDrawer> {
                     ),
                     BlocBuilder<AuthBloc, AuthState>(
                       builder: (context, authState) {
+                        if (!authState.isAuth) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildSectionTitle(l10n.accountSectionTitle),
+                              _buildDestinationTile(
+                                destination: _DrawerDestination(
+                                  icon: Icons.login_rounded,
+                                  title: l10n.login,
+                                  routeName: LoginScreen.routeName,
+                                ),
+                                selected:
+                                    currentRouteName == LoginScreen.routeName,
+                                destructive: false,
+                                onTap: () => _navigateToRoute(
+                                  LoginScreen.routeName,
+                                ),
+                              ),
+                            ],
+                          );
+                        }
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildSectionTitle(
-                                authState.isAuth ? l10n.profile : l10n.login),
+                            _buildSectionTitle(l10n.accountSectionTitle),
                             _buildDestinationTile(
                               destination: _DrawerDestination(
-                                icon: authState.isAuth
-                                    ? Icons.person_rounded
-                                    : Icons.login_rounded,
-                                title: authState.isAuth
-                                    ? l10n.profile
-                                    : l10n.login,
-                                routeName: authState.isAuth
-                                    ? ProfileScreen.routeName
-                                    : LoginScreen.routeName,
+                                icon: Icons.logout_rounded,
+                                title: l10n.logout,
+                                routeName: '',
                               ),
-                              selected: currentRouteName ==
-                                  (authState.isAuth
-                                      ? ProfileScreen.routeName
-                                      : LoginScreen.routeName),
-                              destructive: false,
-                              onTap: () => _navigateToRoute(
-                                authState.isAuth
-                                    ? ProfileScreen.routeName
-                                    : LoginScreen.routeName,
-                              ),
+                              selected: false,
+                              destructive: true,
+                              onTap: _handleLogout,
                             ),
-                            if (authState.isAuth)
-                              _buildDestinationTile(
-                                destination: _DrawerDestination(
-                                  icon: Icons.logout_rounded,
-                                  title: l10n.logout,
-                                  routeName: '',
-                                ),
-                                selected: false,
-                                destructive: true,
-                                onTap: _handleLogout,
-                              ),
                           ],
                         );
                       },
@@ -667,7 +651,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.22),
+                      color: appColors.onHeroForeground.withValues(alpha: 0.22),
                       width: 1,
                     ),
                   ),
@@ -677,62 +661,21 @@ class _MainDrawerState extends State<MainDrawer> {
                   children: [
                     Icon(
                       Icons.info_outline_rounded,
-                      color: Colors.white.withValues(alpha: 0.66),
+                      color: appColors.onHeroForeground.withValues(alpha: 0.66),
                       size: 16,
                     ),
                     const SizedBox(width: 6),
                     Text(
                       _appVersion,
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.66),
+                        color:
+                            appColors.onHeroForeground.withValues(alpha: 0.66),
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.3,
                       ),
                     ),
                   ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _QuickActionChip extends StatelessWidget {
-  const _QuickActionChip({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white.withValues(alpha: 0.16),
-      borderRadius: BorderRadius.circular(20),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, color: Colors.white, size: 16),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

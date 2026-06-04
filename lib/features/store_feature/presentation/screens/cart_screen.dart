@@ -7,6 +7,7 @@ import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../auth_feature/presentation/screens/email_verification_screen.dart';
@@ -102,8 +103,7 @@ class _CartScreenState extends State<CartScreen> {
       await context.read<AuthBloc>().checkCompleted();
 
       await getShopItems();
-      customer =
-          context.read<CustomerInfoBloc>().customer;
+      customer = context.read<CustomerInfoBloc>().customer;
       _isLoading = true;
 
 //      await getShopItems();
@@ -111,13 +111,9 @@ class _CartScreenState extends State<CartScreen> {
 
       if (isLogin) {
         try {
-          await context.read<CustomerInfoBloc>()
-              .getCustomer()
-              .then(
+          await context.read<CustomerInfoBloc>().getCustomer().then(
             (_) {
-              customer =
-                  context.read<CustomerInfoBloc>()
-                      .customer;
+              customer = context.read<CustomerInfoBloc>().customer;
             },
           );
         } catch (error) {
@@ -184,7 +180,7 @@ class _CartScreenState extends State<CartScreen> {
           context.l10n.shopCartTitle,
           style: TextStyle(
             //fontFamily: 'Iransans',
-            color: Colors.white,
+            color: context.appColors.cardBackground,
           ),
         ),
         backgroundColor: AppTheme.appBarColor,
@@ -192,7 +188,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
       body: Builder(builder: (context) {
         return Container(
-          color: AppTheme.bg,
+          color: context.appColors.scaffoldBackground,
           height: double.infinity,
           width: double.infinity,
           child: Padding(
@@ -205,9 +201,11 @@ class _CartScreenState extends State<CartScreen> {
                       Container(
                         height: deviceHeight * 0.07,
                         decoration: BoxDecoration(
-                            color: AppTheme.white,
+                            color: context.appColors.cardBackground,
                             borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.grey, width: 0.2)),
+                            border: Border.all(
+                                color: context.appColors.subtitleColor,
+                                width: 0.2)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -215,18 +213,15 @@ class _CartScreenState extends State<CartScreen> {
                             children: <Widget>[
                               Text(
                                 '${context.l10n.cartNumberSummaryPrefix} '
-                                    '${EnArConvertor()
-                                        .replaceArNumber(
-                                            shoppItems.length.toString())
-                                        .toString()}',
+                                '${EnArConvertor().replaceArNumber(shoppItems.length.toString()).toString()}',
                                 style: TextStyle(
-                                  color: AppTheme.black,
+                                  color: context.colors.onSurface,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 14,
                                 ),
                               ),
                               VerticalDivider(
-                                color: AppTheme.grey,
+                                color: context.appColors.subtitleColor,
                                 thickness: 1,
                                 indent: 4,
                                 endIndent: 4,
@@ -234,7 +229,7 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 context.l10n.cartTotalSummaryPrefix,
                                 style: TextStyle(
-                                  color: AppTheme.grey,
+                                  color: context.appColors.subtitleColor,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 12,
                                 ),
@@ -247,7 +242,7 @@ class _CartScreenState extends State<CartScreen> {
                                             .toString())
                                     : EnArConvertor().replaceArNumber('0'),
                                 style: TextStyle(
-                                  color: AppTheme.black,
+                                  color: context.colors.onSurface,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 18,
                                 ),
@@ -261,7 +256,7 @@ class _CartScreenState extends State<CartScreen> {
                         child: shoppItems.length != 0
                             ? Container(
                                 decoration: BoxDecoration(
-                                  color: AppTheme.bg,
+                                  color: context.appColors.scaffoldBackground,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: ListView.builder(
@@ -292,7 +287,7 @@ class _CartScreenState extends State<CartScreen> {
                         content: Text(
                           context.l10n.cartIsEmpty,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize: textScaleFactor * 14.0,
                           ),
@@ -346,9 +341,7 @@ class _CartScreenState extends State<CartScreen> {
                                   return DecoratedBox(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? Colors.grey
-                                          : Colors.grey,
+                                      color: context.appColors.subtitleColor,
                                     ),
                                   );
                                 },

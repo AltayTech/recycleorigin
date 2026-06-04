@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
+import '../../../../core/theme/theme_context_extensions.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../business/entities/color_code.dart';
@@ -103,7 +104,12 @@ class CashPaymentProductItem extends StatelessWidget {
     return Container(
       height: deviceHeight * 0.16,
       decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(width: 0.3, color: Colors.grey))),
+          border: Border(
+        bottom: BorderSide(
+          width: 0.3,
+          color: context.appColors.divider,
+        ),
+      )),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -113,7 +119,7 @@ class CashPaymentProductItem extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: Colors.blue,
+                  color: AppTheme.iconAccentBlue,
                   //fontFamily: 'Iransans',
                   fontSize: textScaleFactor * 12,
                 ),
@@ -129,7 +135,7 @@ class CashPaymentProductItem extends StatelessWidget {
                     child: Text(
                       'Number: ' + EnArConvertor().replaceArNumber('1'),
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: context.appColors.subtitleColor,
                         //fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 12,
                       ),
@@ -146,7 +152,7 @@ class CashPaymentProductItem extends StatelessWidget {
                           Text(
                             color_selected.title,
                             style: TextStyle(
-                              color: Colors.blue,
+                              color: AppTheme.iconAccentBlue,
                               //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 12,
                             ),
@@ -158,8 +164,8 @@ class CashPaymentProductItem extends StatelessWidget {
                             height: 15.0,
                             decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
-                              border:
-                                  Border.all(color: Colors.black, width: 0.2),
+                              border: Border.all(
+                                  color: context.colors.onSurface, width: 0.2),
                               color: Color(
                                 int.parse(
                                   '0xff' +
@@ -178,7 +184,7 @@ class CashPaymentProductItem extends StatelessWidget {
                   Text(
                     ' \$ ',
                     style: TextStyle(
-                      color: Colors.redAccent,
+                      color: context.colors.error,
                       //fontFamily: 'Iransans',
                       fontSize: textScaleFactor * 15,
                     ),

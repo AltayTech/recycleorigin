@@ -14,7 +14,7 @@ void main() {
       build: () {
         final mock = MockApiClient();
         mock.setGetResponse(
-          'pasmands/v1/tickets?page=1&per_page=20',
+          'recycleorigin/v1/tickets?page=1&per_page=20',
           Success<Map<String, dynamic>>(<String, dynamic>{
             'items': <dynamic>[],
             'total': 0,
@@ -40,7 +40,7 @@ void main() {
       build: () {
         final mock = MockApiClient();
         mock.setGetResponse(
-          'pasmands/v1/tickets?page=1&per_page=20',
+          'recycleorigin/v1/tickets?page=1&per_page=20',
           const Failure<PagedTickets>('offline'),
         );
         return SupportTicketsListCubit(SupportTicketRepository(mock));

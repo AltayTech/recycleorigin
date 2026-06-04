@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../bloc/customer_info_bloc.dart';
+import '../bloc/customer_info_state.dart';
 import 'customer_detail_info_edit_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Screen that displays detailed customer information in a modern, production-grade UI
 class CustomerDetailInfoScreen extends StatefulWidget {
-  final Customer customer;
-
-  const CustomerDetailInfoScreen({
-    Key? key,
-    required this.customer,
-  }) : super(key: key);
+  const CustomerDetailInfoScreen({super.key});
 
   @override
   State<CustomerDetailInfoScreen> createState() =>
@@ -42,7 +37,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
   @override
   void initState() {
     super.initState();
-    _customer = widget.customer;
+    _customer = context.read<CustomerInfoBloc>().customer;
     _loadCustomerData();
   }
 
@@ -89,13 +84,22 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      child: RefreshIndicator(
-        onRefresh: _loadCustomerData,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: _buildContent(context),
+    return BlocListener<CustomerInfoBloc, CustomerInfoState>(
+      listenWhen: (CustomerInfoState previous, CustomerInfoState current) =>
+          previous.customer != current.customer,
+      listener: (BuildContext context, CustomerInfoState state) {
+        if (mounted) {
+          setState(() => _customer = state.customer);
+        }
+      },
+      child: Container(
+        color: Colors.transparent,
+        child: RefreshIndicator(
+          onRefresh: _loadCustomerData,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: _buildContent(context),
+          ),
         ),
       ),
     );
@@ -142,13 +146,13 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             Icon(
               Icons.error_outline,
               size: 64,
-              color: AppTheme.colorOne,
+              color: context.appColors.danger,
             ),
             const SizedBox(height: 16),
             Text(
               _errorMessage ?? 'An error occurred',
               style: TextStyle(
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
                 fontSize: 16,
               ),
               textAlign: TextAlign.center,
@@ -156,11 +160,11 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _loadCustomerData,
-              icon: const Icon(Icons.refresh),
+              icon: Icon(Icons.refresh),
               label: Text(context.l10n.retryLabel),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
-                foregroundColor: AppTheme.white,
+                foregroundColor: context.appColors.cardBackground,
               ),
             ),
           ],
@@ -180,13 +184,13 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             Icon(
               Icons.person_outline,
               size: 64,
-              color: AppTheme.grey,
+              color: context.appColors.subtitleColor,
             ),
             const SizedBox(height: 16),
             Text(
               context.l10n.customerInfoUnavailableMessage,
               style: TextStyle(
-                color: AppTheme.grey,
+                color: context.appColors.subtitleColor,
                 fontSize: 16,
               ),
               textAlign: TextAlign.center,
@@ -247,7 +251,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             Text(
               'Personal Info',
               style: TextStyle(
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
                 fontSize: textScaleFactor * 20.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -256,11 +260,11 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
         ),
         ElevatedButton.icon(
           onPressed: _navigateToEditScreen,
-          icon: const Icon(Icons.edit, size: 18),
+          icon: Icon(Icons.edit, size: 18),
           label: Text(context.l10n.editLabel),
           style: ElevatedButton.styleFrom(
             backgroundColor: AppTheme.primary,
-            foregroundColor: AppTheme.white,
+            foregroundColor: context.appColors.cardBackground,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
@@ -278,7 +282,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
     return _buildInfoCard(
       title: l10n.personalInformationTitle,
       icon: Icons.person,
-      iconColor: const Color(0xffA67FEC),
+      iconColor: AppTheme.iconAccentPurple,
       children: [
         _InfoItem(
           title: l10n.nameLabel,
@@ -328,7 +332,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
     return _buildInfoCard(
       title: l10n.contactInformationTitle,
       icon: Icons.contact_mail,
-      iconColor: const Color(0xff4392F1),
+      iconColor: AppTheme.iconAccentBlue,
       children: [
         _InfoItem(
           title: l10n.emailAddressLabel,
@@ -389,7 +393,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                 Text(
                   title,
                   style: TextStyle(
-                    color: AppTheme.h1,
+                    color: context.colors.onSurface,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -432,14 +436,14 @@ class _InfoItem extends StatelessWidget {
                 Icon(
                   icon,
                   size: 16,
-                  color: AppTheme.grey,
+                  color: context.appColors.subtitleColor,
                 ),
                 const SizedBox(width: 8),
               ],
               Text(
                 '$title:',
                 style: TextStyle(
-                  color: AppTheme.grey,
+                  color: context.appColors.subtitleColor,
                   fontSize: textScaleFactor * 13.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -451,17 +455,17 @@ class _InfoItem extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: AppTheme.white,
+              color: context.appColors.cardBackground,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: AppTheme.secondary,
+                color: context.appColors.divider,
                 width: 1,
               ),
             ),
             child: Text(
               value.isEmpty ? context.l10n.valueNotAvailableLabel : value,
               style: TextStyle(
-                color: AppTheme.black,
+                color: context.colors.onSurface,
                 fontSize: textScaleFactor * 14.0,
                 fontWeight: FontWeight.w400,
               ),

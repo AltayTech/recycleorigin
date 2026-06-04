@@ -8,6 +8,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../waste_feature/presentation/address_screen.dart';
@@ -74,8 +75,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
   Future<void> _refreshWasteItems() async {
     final wastesProvider = context.read<WastesBloc>();
 
-    final total =
-        _calculateTotalPrice(wastesProvider.wasteCartItems);
+    final total = _calculateTotalPrice(wastesProvider.wasteCartItems);
     _animatePriceTo(total.toDouble());
 
     if (mounted) setState(() {});
@@ -144,7 +144,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(context.l10n.pleaseAddWasteItems),
-          backgroundColor: Colors.redAccent,
+          backgroundColor: context.colors.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -165,12 +165,11 @@ class _WasteCartScreenState extends State<WasteCartScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.wasteCartTitle,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppTheme.appBarIconColor,
             fontWeight: FontWeight.bold,
           ),
@@ -182,10 +181,9 @@ class _WasteCartScreenState extends State<WasteCartScreen>
         actions: [
           IconButton(
             tooltip: context.l10n.addItemsTooltip,
-            icon: const Icon(Icons.add_circle_outline),
+            icon: Icon(Icons.add_circle_outline),
             onPressed: () async {
-              await Navigator.of(context)
-                  .pushNamed(WastesScreen.routeName);
+              await Navigator.of(context).pushNamed(WastesScreen.routeName);
               await _refreshWasteItems();
             },
           )
@@ -280,10 +278,10 @@ class _StepProgressBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: context.colors.shadow.withValues(alpha: 0.03),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -300,7 +298,7 @@ class _StepProgressBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: stepBefore < currentStep
                       ? AppTheme.primary
-                      : Colors.grey.shade300,
+                      : context.colors.outline,
                   borderRadius: BorderRadius.circular(1),
                 ),
               ),
@@ -323,7 +321,7 @@ class _StepProgressBar extends StatelessWidget {
                       ? AppTheme.primary
                       : isActive
                           ? AppTheme.primary.withOpacity(0.12)
-                          : Colors.grey.shade100,
+                          : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
                       ? Border.all(color: AppTheme.primary, width: 2)
@@ -333,10 +331,10 @@ class _StepProgressBar extends StatelessWidget {
                   isCompleted ? Icons.check_rounded : _steps[stepIndex],
                   size: 16,
                   color: isCompleted
-                      ? Colors.white
+                      ? context.appColors.onHeroForeground
                       : isActive
                           ? AppTheme.primary
-                          : Colors.grey.shade400,
+                          : context.colors.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 4),
@@ -344,11 +342,10 @@ class _StepProgressBar extends StatelessWidget {
                 labels[stepIndex],
                 style: TextStyle(
                   fontSize: 10,
-                  fontWeight:
-                      isActive ? FontWeight.w700 : FontWeight.w500,
+                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
                   color: isActive || isCompleted
                       ? AppTheme.primary
-                      : Colors.grey.shade400,
+                      : context.colors.onSurfaceVariant,
                 ),
               ),
             ],
@@ -411,11 +408,10 @@ class _WasteCartSummary extends StatelessWidget {
               animation: priceAnimation,
               builder: (_, __) => _SummaryItem(
                 icon: Icons.monetization_on_rounded,
-                iconColor: const Color(0xFFE5A100),
+                iconColor: AppTheme.iconAccentGold,
                 label: l10n.cartTotalLabel,
                 value: converter.replaceArNumber(
-                  currencyFormat
-                      .format(priceAnimation.value.toInt()),
+                  currencyFormat.format(priceAnimation.value.toInt()),
                 ),
                 isHighlight: true,
               ),
@@ -427,7 +423,7 @@ class _WasteCartSummary extends StatelessWidget {
             ),
             _SummaryItem(
               icon: Icons.scale_rounded,
-              iconColor: const Color(0xFF8B5CF6),
+              iconColor: AppTheme.iconAccentPurple,
               label: l10n.weightKgFullLabel,
               value: converter.replaceArNumber(
                 totalWeight.toString(),
@@ -472,7 +468,7 @@ class _SummaryItem extends StatelessWidget {
         Text(
           value,
           style: TextStyle(
-            color: isHighlight ? AppTheme.primary : AppTheme.h1,
+            color: isHighlight ? AppTheme.primary : context.colors.onSurface,
             fontSize: 17,
             fontWeight: FontWeight.w800,
           ),
@@ -481,7 +477,7 @@ class _SummaryItem extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: AppTheme.grey.withOpacity(0.7),
+            color: context.appColors.subtitleColor.withOpacity(0.7),
             fontSize: 11,
             fontWeight: FontWeight.w500,
           ),
@@ -520,8 +516,8 @@ class _WasteCartEmptyState extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               l10n.cartIsEmpty,
-              style: const TextStyle(
-                color: AppTheme.h1,
+              style: TextStyle(
+                color: context.colors.onSurface,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -533,7 +529,7 @@ class _WasteCartEmptyState extends StatelessWidget {
                 l10n.wasteCartEmptySubtitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppTheme.grey.withOpacity(0.7),
+                  color: context.appColors.subtitleColor.withOpacity(0.7),
                   fontSize: 14,
                   height: 1.5,
                 ),
@@ -543,7 +539,7 @@ class _WasteCartEmptyState extends StatelessWidget {
             FilledButton.icon(
               style: FilledButton.styleFrom(
                 backgroundColor: AppTheme.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appColors.onHeroForeground,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 32,
                   vertical: 14,
@@ -554,10 +550,10 @@ class _WasteCartEmptyState extends StatelessWidget {
                 elevation: 0,
               ),
               onPressed: onAddPressed,
-              icon: const Icon(Icons.add_rounded, size: 20),
+              icon: Icon(Icons.add_rounded, size: 20),
               label: Text(
                 l10n.addWasteItemsTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                 ),
@@ -587,10 +583,10 @@ class _WasteCartBottomBar extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: context.colors.shadow.withValues(alpha: 0.06),
             blurRadius: 16,
             offset: const Offset(0, -4),
           ),
@@ -612,7 +608,7 @@ class _WasteCartBottomBar extends StatelessWidget {
                 Text(
                   l10n.cartTotalAmountLabel,
                   style: TextStyle(
-                    color: AppTheme.grey.withOpacity(0.7),
+                    color: context.appColors.subtitleColor.withOpacity(0.7),
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
@@ -625,8 +621,8 @@ class _WasteCartBottomBar extends StatelessWidget {
                       intl.NumberFormat.decimalPattern()
                           .format(totalPriceAnimation.value.toInt()),
                     )} \$',
-                    style: const TextStyle(
-                      color: AppTheme.h1,
+                    style: TextStyle(
+                      color: context.colors.onSurface,
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
                     ),

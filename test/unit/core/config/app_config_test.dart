@@ -5,7 +5,7 @@ void main() {
   group('AppConfig', () {
     setUp(() async {
       try {
-        await AppConfig.initialize();
+        await AppConfig.initialize(envFile: 'assets/env/.env.dev');
       } catch (_) {
         // Idempotent or asset missing in some environments.
       }
@@ -46,7 +46,10 @@ void main() {
 
     group('initialize', () {
       test('does not throw when invoked repeatedly', () async {
-        await expectLater(AppConfig.initialize(), completes);
+        await expectLater(
+          AppConfig.initialize(envFile: 'assets/env/.env.dev'),
+          completes,
+        );
       });
     });
   });

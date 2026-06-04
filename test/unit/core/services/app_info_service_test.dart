@@ -67,4 +67,3 @@ void main() {
 /// 2. Testing initialize() method with real PackageInfo
 /// 3. Testing error handling during initialization
 /// 4. Testing concurrent access (singleton thread safety)
-

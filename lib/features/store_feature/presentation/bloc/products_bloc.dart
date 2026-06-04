@@ -163,8 +163,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     var searchEndPoint = '';
     if (s.searchKey != '') {
       searchEndPoint = '?search=${s.searchKey}';
-      searchEndPoint =
-          '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
+      searchEndPoint = '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
     } else {
       searchEndPoint = '?page=${s.sPage}&per_page=${s.sPerPage}';
     }
@@ -213,7 +212,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       emit(state.copyWith(cartItems: next));
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to add product to cart', error: e, stackTrace: st);
+      AppLogger.error('Failed to add product to cart',
+          error: e, stackTrace: st);
       event.completer?.completeError(e, st);
       rethrow;
     }
@@ -269,7 +269,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     Emitter<ProductsState> emit,
   ) async {
     AppLogger.debug('Fetching categories');
-    final path = 'pasmands/v1${Urls.categoriesEndPoint}';
+    final path = 'recycleorigin/v1${Urls.categoriesEndPoint}';
     AppLogger.debug('Categories path: $path');
 
     final result = await _apiClient.get<List<dynamic>>(
@@ -294,7 +294,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     Emitter<ProductsState> emit,
   ) async {
     AppLogger.debug('Searching products');
-    final path = 'pasmands/v1${Urls.productsEndPoint}${state.searchEndPoint}';
+    final path =
+        'recycleorigin/v1${Urls.productsEndPoint}${state.searchEndPoint}';
     AppLogger.debug('Products search path: $path');
 
     final result = await _apiClient.get<Map<String, dynamic>>(
@@ -323,7 +324,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     Emitter<ProductsState> emit,
   ) async {
     AppLogger.debug('Retrieving product: ${event.productId}');
-    final path = 'pasmands/v1${Urls.productsEndPoint}/${event.productId}';
+    final path = 'recycleorigin/v1${Urls.productsEndPoint}/${event.productId}';
     AppLogger.debug('Product path: $path');
 
     final result = await _apiClient.get<Map<String, dynamic>>(
@@ -348,7 +349,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     Emitter<ProductsState> emit,
   ) async {
     AppLogger.debug('Sending order request');
-    final path = 'pasmands/v1${Urls.orderEndPoint}';
+    final path = 'recycleorigin/v1${Urls.orderEndPoint}';
     AppLogger.debug('Order path: $path');
 
     final result = await _apiClient.post<Map<String, dynamic>>(

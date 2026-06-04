@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../core/models/customer.dart';
 import '../../business/entities/message.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../bloc/messages_bloc.dart';
@@ -40,8 +41,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
     if (_isInit) {
       contentTextController.text = '';
       message = ModalRoute.of(context)?.settings.arguments as Message;
-      customer =
-          context.read<CustomerInfoBloc>().customer;
+      customer = context.read<CustomerInfoBloc>().customer;
 
       isLogin = context.read<AuthBloc>().isAuth;
     }
@@ -65,17 +65,17 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
     await context
         .read<MessagesBloc>()
         .createMessage(
-      message.subject,
-      contentTextController.text,
-      message.comment_post_ID,
-      message.comment_ID,
-      isLogin,
-    )
+          message.subject,
+          contentTextController.text,
+          message.comment_post_ID,
+          message.comment_ID,
+          isLogin,
+        )
         .then((value) async {
       await context.read<MessagesBloc>().getMessages(
-        message.comment_post_ID,
-        isLogin,
-      );
+            message.comment_post_ID,
+            isLogin,
+          );
       Navigator.of(context).pop();
     });
     setState(() {
@@ -97,7 +97,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
         title: Text(
           context.l10n.messageReplyAppBarTitle,
           style: TextStyle(
-            color: AppTheme.bg,
+            color: context.appColors.scaffoldBackground,
             //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
@@ -131,7 +131,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                               child: Text(
                                 context.l10n.messageReplyPrefix,
                                 style: TextStyle(
-                                  color: AppTheme.grey,
+                                  color: context.appColors.subtitleColor,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 18.0,
                                 ),
@@ -153,23 +153,23 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                               maxLines: 10,
                               controller: contentTextController,
                               decoration: InputDecoration(
-                                fillColor: Colors.white,
+                                fillColor: context.appColors.cardBackground,
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 alignLabelWithHint: true,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
-                                    color: AppTheme.bg,
+                                    color: context.appColors.scaffoldBackground,
                                   ),
                                 ),
                                 labelStyle: TextStyle(
-                                  color: Colors.grey,
+                                  color: context.appColors.subtitleColor,
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
@@ -196,8 +196,8 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: index.isEven
-                                        ? AppTheme.h1
-                                        : AppTheme.h1,
+                                        ? context.colors.onSurface
+                                        : context.colors.onSurface,
                                   ),
                                 );
                               },
@@ -216,7 +216,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
         backgroundColor: AppTheme.primary,
         child: Icon(
           Icons.check,
-          color: Colors.white,
+          color: context.appColors.cardBackground,
         ),
       ),
       drawer: mainDrawerIfRootRoute(context),

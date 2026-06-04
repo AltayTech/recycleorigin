@@ -5,6 +5,7 @@ import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,8 +37,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     setState(() {
       _isLoading = true;
     });
-    await context.read<CustomerInfoBloc>()
-        .fetchShopData();
+    await context.read<CustomerInfoBloc>().fetchShopData();
     shopData = context.read<CustomerInfoBloc>().shop;
 
     setState(() {
@@ -52,13 +52,13 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
-      backgroundColor: AppTheme.white,
+      backgroundColor: context.appColors.cardBackground,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           'About us',
           style: TextStyle(
-            color: AppTheme.bg,
+            color: context.appColors.scaffoldBackground,
             //fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
@@ -74,7 +74,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                 return DecoratedBox(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: index.isEven ? Colors.grey : Colors.grey,
+                    color: context.appColors.subtitleColor,
                   ),
                 );
               },
@@ -91,7 +91,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                         Container(
                             width: deviceWidth * 0.3,
                             height: deviceWidth * 0.3,
-                            color: AppTheme.bg,
+                            color: context.appColors.scaffoldBackground,
                             child: FadeInImage(
                               placeholder:
                                   AssetImage('assets/images/circle.gif'),
@@ -104,7 +104,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                           child: Text(
                             shopData.name,
                             style: TextStyle(
-                              color: AppTheme.h1,
+                              color: context.colors.onSurface,
                               fontFamily: 'BFarnaz',
                               fontSize: textScaleFactor * 24.0,
                             ),
@@ -116,7 +116,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                           child: Text(
                             shopData.subject,
                             style: TextStyle(
-                              color: AppTheme.grey,
+                              color: context.appColors.subtitleColor,
                               //fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 15.0,
                             ),
@@ -130,7 +130,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                             child: Text(
                               shopData.about,
                               style: TextStyle(
-                                color: AppTheme.black,
+                                color: context.colors.onSurface,
                                 //fontFamily: 'Iransans',
                                 fontSize: textScaleFactor * 15.0,
                               ),
@@ -152,12 +152,12 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                   children: <Widget>[
                                     Icon(
                                       Icons.arrow_right,
-                                      color: AppTheme.secondary,
+                                      color: context.appColors.divider,
                                     ),
                                     Text(
                                       shopData.features_list[index].feature,
                                       style: TextStyle(
-                                        color: AppTheme.h1,
+                                        color: context.colors.onSurface,
                                         //fontFamily: 'Iransans',
                                         fontStyle: FontStyle.italic,
                                         fontSize: textScaleFactor * 15.0,

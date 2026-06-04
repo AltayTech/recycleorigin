@@ -8,7 +8,8 @@ import '../../../helpers/mock_api_client.dart';
 
 void main() {
   group('Product List Widget Tests', () {
-    testWidgets('should display empty state when no products', (WidgetTester tester) async {
+    testWidgets('should display empty state when no products',
+        (WidgetTester tester) async {
       final mockApiClient = MockApiClient();
       final productsBloc = ProductsBloc(mockApiClient);
 
@@ -65,7 +66,8 @@ void main() {
         ),
       );
 
-      expect(find.byType(BlocBuilder<ProductsBloc, ProductsState>), findsOneWidget);
+      expect(find.byType(BlocBuilder<ProductsBloc, ProductsState>),
+          findsOneWidget);
     });
   });
 }

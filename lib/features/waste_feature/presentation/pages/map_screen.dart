@@ -10,6 +10,7 @@ import 'package:recycleorigin/l10n/app_localizations.dart';
 
 import '../../../../core/models/region.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../../customer_feature/presentation/bloc/customer_info_bloc.dart';
 import '../../../customer_feature/business/entities/city.dart';
@@ -316,12 +317,13 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              const Icon(Icons.error_outline, color: Colors.white, size: 20),
+              Icon(Icons.error_outline,
+                  color: context.appColors.cardBackground, size: 20),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
           ),
-          backgroundColor: Colors.red.shade600,
+          backgroundColor: context.appColors.danger,
           behavior: SnackBarBehavior.floating,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -337,12 +339,13 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              const Icon(Icons.info_outline, color: Colors.white, size: 20),
+              Icon(Icons.info_outline,
+                  color: context.appColors.cardBackground, size: 20),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
           ),
-          backgroundColor: Colors.blueGrey.shade600,
+          backgroundColor: context.appColors.info,
           behavior: SnackBarBehavior.floating,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -358,7 +361,8 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              const Icon(Icons.check_circle, color: Colors.white, size: 20),
+              Icon(Icons.check_circle,
+                  color: context.appColors.cardBackground, size: 20),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
@@ -378,7 +382,6 @@ class _MapScreenState extends State<MapScreen>
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
@@ -412,14 +415,14 @@ class _MapScreenState extends State<MapScreen>
     return SliverAppBar(
       pinned: true,
       backgroundColor: AppTheme.appBarColor,
-      foregroundColor: Colors.white,
+      foregroundColor: context.appColors.onHeroForeground,
       centerTitle: true,
       title: Text(
         l10n.newAddressTitle,
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+        icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20),
         onPressed: () => Navigator.of(context).pop(),
       ),
     );
@@ -536,26 +539,26 @@ class _MapScreenState extends State<MapScreen>
       textInputAction: textInputAction,
       onFieldSubmitted: onFieldSubmitted,
       validator: validator,
-      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
         hintStyle: TextStyle(
-          color: Colors.grey.shade400,
+          color: context.colors.onSurfaceVariant,
           fontSize: 13,
         ),
         prefixIcon: Icon(icon, color: AppTheme.primary.withOpacity(0.7)),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: context.appColors.cardBackground,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide(color: context.colors.outline),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide(color: context.colors.outline),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -563,11 +566,11 @@ class _MapScreenState extends State<MapScreen>
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Colors.red, width: 1),
+          borderSide: BorderSide(color: context.colors.error, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Colors.red, width: 1.5),
+          borderSide: BorderSide(color: context.colors.error, width: 1.5),
         ),
       ),
     );
@@ -577,10 +580,10 @@ class _MapScreenState extends State<MapScreen>
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: context.colors.shadow.withValues(alpha: 0.06),
             blurRadius: 20,
             offset: const Offset(0, -6),
           ),
@@ -595,7 +598,7 @@ class _MapScreenState extends State<MapScreen>
             onPressed: _isSaving ? null : _saveAddress,
             style: FilledButton.styleFrom(
               backgroundColor: AppTheme.primary,
-              disabledBackgroundColor: Colors.grey.shade300,
+              disabledBackgroundColor: context.colors.outline,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -603,22 +606,22 @@ class _MapScreenState extends State<MapScreen>
               shadowColor: AppTheme.primary.withOpacity(0.4),
             ),
             child: _isSaving
-                ? const SizedBox(
+                ? SizedBox(
                     width: 22,
                     height: 22,
                     child: CircularProgressIndicator(
                       strokeWidth: 2.5,
-                      color: Colors.white,
+                      color: context.appColors.onHeroForeground,
                     ),
                   )
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.save_rounded, size: 20),
+                      Icon(Icons.save_rounded, size: 20),
                       const SizedBox(width: 10),
                       Text(
                         l10n.saveAddressButton,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.3,
@@ -679,7 +682,7 @@ class _MapSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
+                  color: context.colors.shadow.withValues(alpha: 0.08),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),
@@ -720,8 +723,8 @@ class _MapSection extends StatelessWidget {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                                Colors.black.withOpacity(0.02),
-                                Colors.black.withOpacity(0.12),
+                                context.colors.shadow.withValues(alpha: 0.02),
+                                context.colors.shadow.withValues(alpha: 0.12),
                               ],
                             ),
                           ),
@@ -738,12 +741,13 @@ class _MapSection extends StatelessWidget {
                           size: 46,
                           color: hasLocation
                               ? AppTheme.primary
-                              : Colors.grey.shade500,
-                          shadows: const [
+                              : context.appColors.subtitleColor,
+                          shadows: [
                             Shadow(
                               blurRadius: 6,
-                              color: Colors.black26,
-                              offset: Offset(0, 2),
+                              color:
+                                  context.colors.shadow.withValues(alpha: 0.26),
+                              offset: const Offset(0, 2),
                             ),
                           ],
                         ),
@@ -823,16 +827,16 @@ class _LocationBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.check_circle_rounded,
-            color: Colors.white,
+            color: context.appColors.cardBackground,
             size: 14,
           ),
           const SizedBox(width: 5),
           Text(
             context.l10n.locationPinned,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: context.appColors.cardBackground,
               fontSize: 11,
               fontWeight: FontWeight.w700,
             ),
@@ -855,14 +859,15 @@ class _CoordinatesRow extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8),
       child: Row(
         children: [
-          Icon(Icons.gps_fixed_rounded, size: 14, color: Colors.grey.shade500),
+          Icon(Icons.gps_fixed_rounded,
+              size: 14, color: context.appColors.subtitleColor),
           const SizedBox(width: 6),
           Text(
             '${location.latitude.toStringAsFixed(5)}, '
             '${location.longitude.toStringAsFixed(5)}',
             style: TextStyle(
               fontSize: 12,
-              color: Colors.grey.shade500,
+              color: context.appColors.subtitleColor,
               fontFamily: 'monospace',
               fontWeight: FontWeight.w500,
             ),
@@ -890,10 +895,10 @@ class _MapActionChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isPrimary ? AppTheme.primary : Colors.white,
+      color: isPrimary ? AppTheme.primary : context.appColors.cardBackground,
       borderRadius: BorderRadius.circular(24),
       elevation: 4,
-      shadowColor: Colors.black26,
+      shadowColor: context.colors.shadow.withValues(alpha: 0.26),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(24),
@@ -905,7 +910,9 @@ class _MapActionChip extends StatelessWidget {
               Icon(
                 icon,
                 size: 18,
-                color: isPrimary ? Colors.white : AppTheme.primary,
+                color: isPrimary
+                    ? context.appColors.onHeroForeground
+                    : AppTheme.primary,
               ),
               const SizedBox(width: 8),
               Flexible(
@@ -914,7 +921,9 @@ class _MapActionChip extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
-                    color: isPrimary ? Colors.white : AppTheme.h1,
+                    color: isPrimary
+                        ? context.appColors.onHeroForeground
+                        : context.colors.onSurface,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -944,10 +953,10 @@ class _MapIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: context.appColors.cardBackground,
       shape: const CircleBorder(),
       elevation: 4,
-      shadowColor: Colors.black26,
+      shadowColor: context.colors.shadow.withValues(alpha: 0.26),
       child: InkWell(
         onTap: isLoading ? null : onTap,
         customBorder: const CircleBorder(),
@@ -1009,10 +1018,10 @@ class _SectionHeader extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
-                      color: AppTheme.h1,
+                      color: context.colors.onSurface,
                     ),
                   ),
                   if (subtitle != null) ...[
@@ -1021,7 +1030,7 @@ class _SectionHeader extends StatelessWidget {
                       subtitle!,
                       style: TextStyle(
                         fontSize: 13,
-                        color: Colors.grey.shade500,
+                        color: context.appColors.subtitleColor,
                         height: 1.3,
                       ),
                     ),
@@ -1213,9 +1222,9 @@ class _StyledDropdown<T> extends StatelessWidget {
               ],
               if (selectedValue != null) ...[
                 const SizedBox(width: 8),
-                const Icon(
+                Icon(
                   Icons.check_circle_rounded,
-                  color: Colors.green,
+                  color: context.appColors.success,
                   size: 16,
                 ),
               ],
@@ -1224,13 +1233,13 @@ class _StyledDropdown<T> extends StatelessWidget {
         ),
         DropdownButtonFormField<T>(
           value: selectedValue,
-          dropdownColor: Colors.white,
+          dropdownColor: context.appColors.cardBackground,
           menuMaxHeight: 300,
           isExpanded: true,
-          icon: const Icon(Icons.keyboard_arrow_down_rounded),
-          style: const TextStyle(
+          icon: Icon(Icons.keyboard_arrow_down_rounded),
+          style: TextStyle(
             fontFamily: 'Iransans',
-            color: AppTheme.h1,
+            color: context.colors.onSurface,
             fontSize: 14,
           ),
           items: items.map((item) {
@@ -1238,7 +1247,7 @@ class _StyledDropdown<T> extends StatelessWidget {
               value: item,
               child: Text(
                 itemLabel(item),
-                style: const TextStyle(fontWeight: FontWeight.w500),
+                style: TextStyle(fontWeight: FontWeight.w500),
               ),
             );
           }).toList(),
@@ -1247,7 +1256,7 @@ class _StyledDropdown<T> extends StatelessWidget {
           hint: Text(
             hint,
             style: TextStyle(
-              color: Colors.grey.shade400,
+              color: context.colors.onSurfaceVariant,
               fontFamily: 'Iransans',
               fontSize: 13,
             ),
@@ -1255,16 +1264,18 @@ class _StyledDropdown<T> extends StatelessWidget {
           decoration: InputDecoration(
             prefixIcon: Icon(icon, color: AppTheme.primary.withOpacity(0.6)),
             filled: true,
-            fillColor: isEnabled ? Colors.white : Colors.grey.shade50,
+            fillColor: isEnabled
+                ? context.appColors.cardBackground
+                : context.colors.surfaceContainerHighest,
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(color: Colors.grey.shade200),
+              borderSide: BorderSide(color: context.colors.outline),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(color: Colors.grey.shade200),
+              borderSide: BorderSide(color: context.colors.outline),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
@@ -1272,11 +1283,11 @@ class _StyledDropdown<T> extends StatelessWidget {
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Colors.red, width: 1),
+              borderSide: BorderSide(color: context.colors.error, width: 1),
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(color: Colors.grey.shade100),
+              borderSide: BorderSide(color: context.appColors.divider),
             ),
           ),
         ),

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/core/widgets/buton_bottom.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_time.dart';
-import 'package:recycleorigin/features/waste_feature/business/entities/pasmand.dart';
+import 'package:recycleorigin/features/waste_feature/business/entities/waste_ref.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_address.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste.dart';
@@ -14,6 +14,7 @@ import '../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../core/models/region.dart';
 import '../../../core/screens/navigation_bottom_screen.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/theme_context_extensions.dart';
 import '../../../core/widgets/custom_dialog_send_request.dart';
 import '../../../core/widgets/drawer_or_back_leading.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
@@ -30,12 +31,10 @@ class WasteRequestSendScreen extends StatefulWidget {
   const WasteRequestSendScreen({super.key});
 
   @override
-  State<WasteRequestSendScreen> createState() =>
-      _WasteRequestSendScreenState();
+  State<WasteRequestSendScreen> createState() => _WasteRequestSendScreenState();
 }
 
-class _WasteRequestSendScreenState
-    extends State<WasteRequestSendScreen> {
+class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
   List<WasteCart> _wasteCartItems = [];
   bool _isLoading = true;
   bool _isSending = false;
@@ -114,7 +113,7 @@ class _WasteRequestSendScreenState
       return Collect(
         estimated_weight: item.weight.toString(),
         estimated_price: _getPrice(item.prices, item.weight),
-        pasmand: Pasmand(id: item.id, post_title: item.name),
+        waste: WasteRef(id: item.id, post_title: item.name),
         exact_weight: '',
         exact_price: '',
       );
@@ -150,7 +149,7 @@ class _WasteRequestSendScreenState
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.cartIsEmpty),
-          backgroundColor: Colors.red,
+          backgroundColor: context.colors.error,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -209,7 +208,7 @@ class _WasteRequestSendScreenState
             content: Text(
               '${l10n.failedSendRequestPrefix}$e',
             ),
-            backgroundColor: Colors.red,
+            backgroundColor: context.colors.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -238,7 +237,7 @@ class _WasteRequestSendScreenState
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: context.colors.outline,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -258,10 +257,10 @@ class _WasteRequestSendScreenState
             const SizedBox(height: 16),
             Text(
               l10n.confirmRequestTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
-                color: AppTheme.h1,
+                color: context.colors.onSurface,
               ),
             ),
             const SizedBox(height: 8),
@@ -270,7 +269,7 @@ class _WasteRequestSendScreenState
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey.shade500,
+                color: context.appColors.subtitleColor,
                 height: 1.4,
               ),
             ),
@@ -281,19 +280,18 @@ class _WasteRequestSendScreenState
                   child: OutlinedButton(
                     onPressed: () => Navigator.of(ctx).pop(false),
                     style: OutlinedButton.styleFrom(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       side: BorderSide(
-                        color: Colors.grey.shade300,
+                        color: context.colors.outline,
                       ),
                     ),
                     child: Text(
                       l10n.cancelLabel,
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: context.appColors.subtitleColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -314,7 +312,7 @@ class _WasteRequestSendScreenState
                     ),
                     child: Text(
                       l10n.confirmLabel,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -340,12 +338,11 @@ class _WasteRequestSendScreenState
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppTheme.bg,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.registerWasteRequestAppBarTitle,
-          style: const TextStyle(
+          style: TextStyle(
             color: AppTheme.appBarIconColor,
             fontWeight: FontWeight.bold,
           ),
@@ -373,8 +370,7 @@ class _WasteRequestSendScreenState
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.all(16),
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _SectionTitle(
                             icon: Icons.summarize_rounded,
@@ -389,18 +385,15 @@ class _WasteRequestSendScreenState
                           const SizedBox(height: 20),
                           _SectionTitle(
                             icon: Icons.event_note_rounded,
-                            label:
-                                l10n.requestDetailsSectionTitle,
+                            label: l10n.requestDetailsSectionTitle,
                           ),
                           const SizedBox(height: 12),
                           _DetailsReviewCard(
                             date: _selectedDay,
                             hours: _selectedHours,
                             regionName: _selectedRegion.name,
-                            addressName:
-                                _selectedAddress.name,
-                            addressFull:
-                                _selectedAddress.address,
+                            addressName: _selectedAddress.name,
+                            addressFull: _selectedAddress.address,
                           ),
                           const SizedBox(height: 20),
                           _SectionTitle(
@@ -437,10 +430,10 @@ class _WasteRequestSendScreenState
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: context.colors.shadow.withValues(alpha: 0.06),
             blurRadius: 16,
             offset: const Offset(0, -4),
           ),
@@ -455,8 +448,7 @@ class _WasteRequestSendScreenState
             )
           : InkWell(
               onTap: _handleConfirm,
-              borderRadius:
-                  BorderRadius.circular(AppTheme.radiusSm),
+              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
               child: ButtonBottom(
                 width: double.infinity,
                 height: 52,
@@ -486,10 +478,10 @@ class _SectionTitle extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 15,
-            color: AppTheme.h1,
+            color: context.colors.onSurface,
           ),
         ),
       ],
@@ -517,11 +509,11 @@ class _OrderSummaryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: context.colors.shadow.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -535,20 +527,20 @@ class _OrderSummaryCard extends StatelessWidget {
             label: l10n.numberFieldLabel,
             value: converter.replaceArNumber(count.toString()),
           ),
-          Divider(height: 20, color: Colors.grey.shade100),
+          Divider(height: 20, color: context.appColors.divider),
           _SummaryRow(
             icon: Icons.monetization_on_rounded,
-            iconColor: const Color(0xFFE5A100),
+            iconColor: AppTheme.iconAccentGold,
             label: l10n.totalPriceFieldLabel,
             value: converter.replaceArNumber(
               fmt.format(totalPrice),
             ),
             suffix: l10n.parentheticalUsd,
           ),
-          Divider(height: 20, color: Colors.grey.shade100),
+          Divider(height: 20, color: context.appColors.divider),
           _SummaryRow(
             icon: Icons.scale_rounded,
-            iconColor: const Color(0xFF8B5CF6),
+            iconColor: AppTheme.iconAccentPurple,
             label: l10n.totalWeightFieldLabel,
             value: converter.replaceArNumber(
               totalWeight.toString(),
@@ -596,7 +588,7 @@ class _SummaryRow extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
-                  color: Colors.grey.shade500,
+                  color: context.appColors.subtitleColor,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
@@ -605,7 +597,7 @@ class _SummaryRow extends StatelessWidget {
                 Text(
                   suffix!,
                   style: TextStyle(
-                    color: Colors.grey.shade400,
+                    color: context.colors.onSurfaceVariant,
                     fontSize: 10,
                   ),
                 ),
@@ -614,8 +606,8 @@ class _SummaryRow extends StatelessWidget {
         ),
         Text(
           value,
-          style: const TextStyle(
-            color: AppTheme.h1,
+          style: TextStyle(
+            color: context.colors.onSurface,
             fontSize: 18,
             fontWeight: FontWeight.w800,
           ),
@@ -644,20 +636,18 @@ class _DetailsReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final converter = EnArConvertor();
     final locale = Localizations.localeOf(context).toString();
-    final dateHeading =
-        intl.DateFormat('EEEE', locale).format(date);
-    final dateRest =
-        intl.DateFormat('d MMMM', locale).format(date);
+    final dateHeading = intl.DateFormat('EEEE', locale).format(date);
+    final dateRest = intl.DateFormat('d MMMM', locale).format(date);
     final l10n = context.l10n;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: context.colors.shadow.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -667,30 +657,29 @@ class _DetailsReviewCard extends StatelessWidget {
         children: [
           _DetailRow(
             icon: Icons.calendar_month_rounded,
-            iconColor: const Color(0xFF3B82F6),
+            iconColor: AppTheme.iconAccentBlue,
             label: l10n.collectDateFieldLabel,
-            value:
-                '$dateHeading  ${converter.replaceArNumber(dateRest)}',
+            value: '$dateHeading  ${converter.replaceArNumber(dateRest)}',
           ),
-          Divider(height: 20, color: Colors.grey.shade100),
+          Divider(height: 20, color: context.appColors.divider),
           _DetailRow(
             icon: Icons.schedule_rounded,
-            iconColor: const Color(0xFF8B5CF6),
+            iconColor: AppTheme.iconAccentPurple,
             label: l10n.collectHourFieldLabel,
             value: hours,
           ),
-          Divider(height: 20, color: Colors.grey.shade100),
+          Divider(height: 20, color: context.appColors.divider),
           _DetailRow(
             icon: Icons.location_on_rounded,
-            iconColor: const Color(0xFFEF4444),
+            iconColor: AppTheme.iconAccentRed,
             label: l10n.regionColonPrefix,
             value: regionName,
           ),
           if (addressName.isNotEmpty) ...[
-            Divider(height: 20, color: Colors.grey.shade100),
+            Divider(height: 20, color: context.appColors.divider),
             _DetailRow(
               icon: Icons.home_rounded,
-              iconColor: const Color(0xFF10B981),
+              iconColor: AppTheme.iconAccentGreen,
               label: l10n.addressLabel,
               value: addressName,
               subtitle: addressFull,
@@ -738,7 +727,7 @@ class _DetailRow extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
-                  color: Colors.grey.shade400,
+                  color: context.colors.onSurfaceVariant,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
@@ -746,8 +735,8 @@ class _DetailRow extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 value,
-                style: const TextStyle(
-                  color: AppTheme.h1,
+                style: TextStyle(
+                  color: context.colors.onSurface,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                 ),
@@ -757,7 +746,7 @@ class _DetailRow extends StatelessWidget {
                 Text(
                   subtitle!,
                   style: TextStyle(
-                    color: Colors.grey.shade500,
+                    color: context.appColors.subtitleColor,
                     fontSize: 12,
                   ),
                   maxLines: 2,
@@ -785,18 +774,17 @@ class _WasteItemReviewTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final converter = EnArConvertor();
     final fmt = intl.NumberFormat.decimalPattern();
-    final unitPrice =
-        int.tryParse(getPrice(item.prices, item.weight)) ?? 0;
+    final unitPrice = int.tryParse(getPrice(item.prices, item.weight)) ?? 0;
     final total = unitPrice * item.weight;
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: context.colors.shadow.withValues(alpha: 0.03),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -834,8 +822,8 @@ class _WasteItemReviewTile extends StatelessWidget {
               children: [
                 Text(
                   item.name,
-                  style: const TextStyle(
-                    color: AppTheme.h1,
+                  style: TextStyle(
+                    color: context.colors.onSurface,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -846,7 +834,7 @@ class _WasteItemReviewTile extends StatelessWidget {
                 Text(
                   '${converter.replaceArNumber(item.weight.toString())} kg',
                   style: TextStyle(
-                    color: Colors.grey.shade500,
+                    color: context.appColors.subtitleColor,
                     fontSize: 12,
                   ),
                 ),
@@ -855,8 +843,8 @@ class _WasteItemReviewTile extends StatelessWidget {
           ),
           Text(
             '${converter.replaceArNumber(fmt.format(total))} \$',
-            style: const TextStyle(
-              color: AppTheme.h1,
+            style: TextStyle(
+              color: context.colors.onSurface,
               fontSize: 15,
               fontWeight: FontWeight.w700,
             ),
@@ -895,18 +883,17 @@ class _StepProgressBar extends StatelessWidget {
         vertical: 14,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: context.colors.shadow.withValues(alpha: 0.03),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Row(
-        children:
-            List.generate(_steps.length * 2 - 1, (index) {
+        children: List.generate(_steps.length * 2 - 1, (index) {
           if (index.isOdd) {
             final stepBefore = index ~/ 2;
             return Expanded(
@@ -918,7 +905,7 @@ class _StepProgressBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: stepBefore < currentStep
                       ? AppTheme.primary
-                      : Colors.grey.shade300,
+                      : context.colors.outline,
                   borderRadius: BorderRadius.circular(1),
                 ),
               ),
@@ -941,7 +928,7 @@ class _StepProgressBar extends StatelessWidget {
                       ? AppTheme.primary
                       : isActive
                           ? AppTheme.primary.withOpacity(0.12)
-                          : Colors.grey.shade100,
+                          : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
                       ? Border.all(
@@ -951,15 +938,13 @@ class _StepProgressBar extends StatelessWidget {
                       : null,
                 ),
                 child: Icon(
-                  isCompleted
-                      ? Icons.check_rounded
-                      : _steps[stepIndex],
+                  isCompleted ? Icons.check_rounded : _steps[stepIndex],
                   size: 16,
                   color: isCompleted
-                      ? Colors.white
+                      ? context.appColors.onHeroForeground
                       : isActive
                           ? AppTheme.primary
-                          : Colors.grey.shade400,
+                          : context.colors.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 4),
@@ -967,12 +952,10 @@ class _StepProgressBar extends StatelessWidget {
                 labels[stepIndex],
                 style: TextStyle(
                   fontSize: 10,
-                  fontWeight: isActive
-                      ? FontWeight.w700
-                      : FontWeight.w500,
+                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
                   color: isActive || isCompleted
                       ? AppTheme.primary
-                      : Colors.grey.shade400,
+                      : context.colors.onSurfaceVariant,
                 ),
               ),
             ],

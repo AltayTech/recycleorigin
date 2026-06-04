@@ -7,6 +7,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/request_w
 import 'package:recycleorigin/features/waste_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 class CollectDetailScreen extends StatefulWidget {
@@ -55,7 +56,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F4F7),
+      backgroundColor: context.appColors.scaffoldBackground,
       appBar: _buildAppBar(l10n),
       body: _buildBody(),
     );
@@ -66,7 +67,7 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
       title: Text(
         l10n.collectDetailTitle,
         style: const TextStyle(
-          color: Colors.white,
+          color: AppTheme.appBarIconColor,
           fontWeight: FontWeight.w600,
           fontSize: 18,
         ),
@@ -78,7 +79,10 @@ class _CollectDetailScreenState extends State<CollectDetailScreen> {
       actions: <Widget>[
         if (_collect != null && !_loading)
           IconButton(
-            icon: const Icon(Icons.refresh_rounded, color: Colors.white),
+            icon: const Icon(
+              Icons.refresh_rounded,
+              color: AppTheme.appBarIconColor,
+            ),
             tooltip: 'Refresh',
             onPressed: _loadData,
           ),
@@ -188,50 +192,51 @@ String _resolveStatusText(BuildContext context, RequestWasteItem c) {
     'cancelled' => l10n.statusCancelled,
     _ => c.requestStatusLabel.isNotEmpty
         ? c.requestStatusLabel
-        : (c.status.name.trim().isNotEmpty &&
-                  c.status.name.trim() != '0'
-              ? c.status.name.trim()
-              : '—'),
+        : (c.status.name.trim().isNotEmpty && c.status.name.trim() != '0'
+            ? c.status.name.trim()
+            : '—'),
   };
 }
 
-(Color, Color, IconData) _statusVisuals(String key) {
+(Color, Color, IconData) _statusVisuals(BuildContext context, String key) {
+  final ext = context.appColors;
+  Color bg(Color c) => c.withValues(alpha: 0.12);
   return switch (key) {
     'pending_assignment' => (
-      const Color(0xFFF59E0B),
-      const Color(0xFFFEF3C7),
-      Icons.person_search_rounded,
-    ),
+        ext.warning,
+        bg(ext.warning),
+        Icons.person_search_rounded,
+      ),
     'pending_driver_acceptance' => (
-      const Color(0xFFF97316),
-      const Color(0xFFFFF7ED),
-      Icons.hourglass_top_rounded,
-    ),
+        ext.warning,
+        bg(ext.warning),
+        Icons.hourglass_top_rounded,
+      ),
     'driver_accepted' || 'in_progress' => (
-      const Color(0xFF3B82F6),
-      const Color(0xFFEFF6FF),
-      Icons.local_shipping_rounded,
-    ),
+        ext.info,
+        bg(ext.info),
+        Icons.local_shipping_rounded,
+      ),
     'picked_up' => (
-      const Color(0xFF8B5CF6),
-      const Color(0xFFF5F3FF),
-      Icons.inventory_2_rounded,
-    ),
+        AppTheme.iconAccentPurple,
+        bg(AppTheme.iconAccentPurple),
+        Icons.inventory_2_rounded,
+      ),
     'collected' => (
-      const Color(0xFF10B981),
-      const Color(0xFFECFDF5),
-      Icons.check_circle_rounded,
-    ),
+        ext.success,
+        bg(ext.success),
+        Icons.check_circle_rounded,
+      ),
     'cancelled' => (
-      const Color(0xFFEF4444),
-      const Color(0xFFFEF2F2),
-      Icons.cancel_rounded,
-    ),
+        ext.danger,
+        bg(ext.danger),
+        Icons.cancel_rounded,
+      ),
     _ => (
-      const Color(0xFF6B7280),
-      const Color(0xFFF9FAFB),
-      Icons.info_outline_rounded,
-    ),
+        ext.subtitleColor,
+        bg(ext.subtitleColor),
+        Icons.info_outline_rounded,
+      ),
   };
 }
 
@@ -245,7 +250,7 @@ class _StatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = _resolveStatusText(context, collect);
-    final (color, bg, icon) = _statusVisuals(collect.requestStatusKey);
+    final (color, bg, icon) = _statusVisuals(context, collect.requestStatusKey);
 
     return Container(
       padding: const EdgeInsets.all(18),
@@ -334,7 +339,7 @@ class _SectionHeader extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 14,
-            color: Colors.grey.shade700,
+            color: context.appColors.subtitleColor,
             letterSpacing: 0.3,
           ),
         ),
@@ -354,11 +359,11 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.appColors.cardBackground,
         borderRadius: BorderRadius.circular(16),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: context.colors.shadow.withValues(alpha: 0.05),
             blurRadius: 12,
             offset: const Offset(0, 3),
           ),
@@ -390,7 +395,7 @@ class _DetailRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = iconColor ?? Colors.grey.shade500;
+    final color = iconColor ?? context.appColors.subtitleColor;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -413,16 +418,16 @@ class _DetailRow extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 11,
-                    color: Colors.grey.shade500,
+                    color: context.appColors.subtitleColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   value,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
-                    color: Color(0xFF1A1A2E),
+                    color: context.colors.onSurface,
                     height: 1.35,
                     fontWeight: FontWeight.w500,
                   ),
@@ -453,21 +458,20 @@ class _RequestInfoCard extends StatelessWidget {
           icon: Icons.location_on_rounded,
           label: l10n.fullAddressFieldLabel,
           value: collect.address_data.address,
-          iconColor: const Color(0xFFEF4444),
+          iconColor: AppTheme.iconAccentRed,
         ),
         _DetailRow(
           icon: Icons.calendar_month_rounded,
           label: l10n.requestDateLabel,
           value: '${_loc(date.day)}  —  ${_loc(date.time)}',
-          iconColor: const Color(0xFF3B82F6),
+          iconColor: AppTheme.iconAccentBlue,
         ),
-        if (date.collect_done_time.isNotEmpty &&
-            date.collect_done_time != '0')
+        if (date.collect_done_time.isNotEmpty && date.collect_done_time != '0')
           _DetailRow(
             icon: Icons.task_alt_rounded,
             label: l10n.collectDoneTimeLabel,
             value: _loc(date.collect_done_time),
-            iconColor: const Color(0xFF10B981),
+            iconColor: AppTheme.iconAccentGreen,
           ),
       ],
     );
@@ -510,8 +514,8 @@ class _DriverInfoCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   dd.fname.isNotEmpty ? dd.fname[0].toUpperCase() : '?',
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: context.appColors.onHeroForeground,
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                   ),
@@ -523,14 +527,14 @@ class _DriverInfoCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                Text(
-                  '${dd.fname} ${dd.lname}'.trim(),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Color(0xFF1A1A2E),
+                  Text(
+                    '${dd.fname} ${dd.lname}'.trim(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: context.colors.onSurface,
+                    ),
                   ),
-                ),
                   if (d.averageRating != null) ...<Widget>[
                     const SizedBox(height: 6),
                     Row(
@@ -543,7 +547,7 @@ class _DriverInfoCard extends StatelessWidget {
                             '${d.averageRating!.toStringAsFixed(1)}',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.grey.shade600,
+                              color: context.appColors.subtitleColor,
                             ),
                           ),
                         ),
@@ -555,7 +559,7 @@ class _DriverInfoCard extends StatelessWidget {
                     Text(
                       d.car.name,
                       style: TextStyle(
-                        color: Colors.grey.shade500,
+                        color: context.appColors.subtitleColor,
                         fontSize: 13,
                       ),
                     ),
@@ -570,7 +574,7 @@ class _DriverInfoCard extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 14),
-        Divider(color: Colors.grey.shade100),
+        Divider(color: context.appColors.divider),
         const SizedBox(height: 10),
         Row(
           children: <Widget>[
@@ -584,7 +588,7 @@ class _DriverInfoCard extends StatelessWidget {
             Container(
               width: 1,
               height: 36,
-              color: Colors.grey.shade100,
+              color: context.appColors.divider,
             ),
             Expanded(
               child: _MiniStat(
@@ -609,12 +613,14 @@ class _CallButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.green.shade50,
+        color: context.appColors.success.withValues(alpha: 0.12),
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.green.shade200),
+        border: Border.all(
+          color: context.appColors.success.withValues(alpha: 0.35),
+        ),
       ),
       child: IconButton(
-        icon: Icon(Icons.phone_rounded, color: Colors.green.shade600),
+        icon: Icon(Icons.phone_rounded, color: context.appColors.success),
         onPressed: () async {
           final uri = Uri(scheme: 'tel', path: number);
           if (await canLaunchUrl(uri)) await launchUrl(uri);
@@ -645,21 +651,24 @@ class _MiniStat extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Icon(icon, size: 13, color: Colors.grey.shade400),
+              Icon(icon, size: 13, color: context.colors.onSurfaceVariant),
               const SizedBox(width: 4),
               Text(
                 label,
-                style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
+                style: TextStyle(
+                  fontSize: 11,
+                  color: context.appColors.subtitleColor,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 3),
           Text(
             value.isNotEmpty ? value : '—',
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 14,
-              color: Color(0xFF1A1A2E),
+              color: context.colors.onSurface,
             ),
           ),
         ],
@@ -687,16 +696,16 @@ class _TotalsCard extends StatelessWidget {
       children: <Widget>[
         _TotalRow(
           icon: Icons.scale_rounded,
-          iconColor: const Color(0xFF8B5CF6),
+          iconColor: AppTheme.iconAccentPurple,
           title: l10n.summaryWeightKgTitle,
           estimated: '${_fmt(w.estimated)} kg',
           exact: hasExact ? '${_fmt(w.exact)} kg' : null,
           l10n: l10n,
         ),
-        Divider(height: 24, color: Colors.grey.shade100),
+        Divider(height: 24, color: context.appColors.divider),
         _TotalRow(
           icon: Icons.monetization_on_rounded,
-          iconColor: const Color(0xFF10B981),
+          iconColor: AppTheme.iconAccentGreen,
           title: l10n.summaryPriceUsdTitle,
           estimated: _fmt(p.estimated),
           exact: _isNonZero(p.exact) && p.exact != p.estimated
@@ -704,10 +713,10 @@ class _TotalsCard extends StatelessWidget {
               : null,
           l10n: l10n,
         ),
-        Divider(height: 24, color: Colors.grey.shade100),
+        Divider(height: 24, color: context.appColors.divider),
         _TotalRow(
           icon: Icons.inventory_2_rounded,
-          iconColor: const Color(0xFF3B82F6),
+          iconColor: AppTheme.iconAccentBlue,
           title: l10n.cartItemsLabel,
           estimated: n.estimated,
           exact: null,
@@ -763,10 +772,10 @@ class _TotalRow extends StatelessWidget {
             children: <Widget>[
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
-                  color: Color(0xFF374151),
+                  color: context.colors.onSurface,
                 ),
               ),
               const SizedBox(height: 6),
@@ -777,18 +786,18 @@ class _TotalRow extends StatelessWidget {
                   _Badge(
                     label: l10n.submittedWeightLabel,
                     value: EnArConvertor().replaceArNumber(estimated),
-                    color: const Color(0xFFF59E0B),
+                    color: context.appColors.warning,
                   ),
                   if (exact != null) ...<Widget>[
-                    const Icon(
+                    Icon(
                       Icons.arrow_forward_rounded,
                       size: 13,
-                      color: Color(0xFF9CA3AF),
+                      color: context.appColors.subtitleColor,
                     ),
                     _Badge(
                       label: l10n.finalWeightLabel,
                       value: EnArConvertor().replaceArNumber(exact!),
-                      color: const Color(0xFF10B981),
+                      color: context.appColors.success,
                     ),
                   ],
                 ],
@@ -857,7 +866,8 @@ class _WasteItemsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        for (final (int i, Collect item) in collect.collect_list.indexed) ...<Widget>[
+        for (final (int i, Collect item)
+            in collect.collect_list.indexed) ...<Widget>[
           if (i > 0) const SizedBox(height: 10),
           _WasteItemCard(item: item),
         ],
@@ -879,13 +889,13 @@ class _EmptyWasteItemsCard extends StatelessWidget {
                 Icon(
                   Icons.inventory_2_outlined,
                   size: 40,
-                  color: Colors.grey.shade300,
+                  color: context.colors.outline,
                 ),
                 const SizedBox(height: 10),
                 Text(
                   context.l10n.collectDetailNoWasteItemsMessage,
                   style: TextStyle(
-                    color: Colors.grey.shade500,
+                    color: context.appColors.subtitleColor,
                     fontSize: 14,
                   ),
                 ),
@@ -912,8 +922,7 @@ class _WasteItemCard extends StatelessWidget {
     final extP = double.tryParse(item.exact_price) ?? 0;
     final hasExactWeight = extW > 0 && extW != estW;
     final estTotal = estW * estP;
-    final extTotal =
-        hasExactWeight ? extW * (extP > 0 ? extP : estP) : 0.0;
+    final extTotal = hasExactWeight ? extW * (extP > 0 ? extP : estP) : 0.0;
 
     return _Card(
       children: <Widget>[
@@ -935,20 +944,18 @@ class _WasteItemCard extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                item.pasmand.post_title.isNotEmpty
-                    ? item.pasmand.post_title
-                    : '—',
-                style: const TextStyle(
+                item.waste.post_title.isNotEmpty ? item.waste.post_title : '—',
+                style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 15,
-                  color: Color(0xFF1A1A2E),
+                  color: context.colors.onSurface,
                 ),
               ),
             ),
           ],
         ),
         const SizedBox(height: 14),
-        Divider(color: Colors.grey.shade100),
+        Divider(color: context.appColors.divider),
         const SizedBox(height: 10),
         Row(
           children: <Widget>[
@@ -956,9 +963,8 @@ class _WasteItemCard extends StatelessWidget {
               child: _ItemMetricCell(
                 label: l10n.summaryWeightKgTitle,
                 estimatedValue: '${estW.toStringAsFixed(1)} kg',
-                finalValue: hasExactWeight
-                    ? '${extW.toStringAsFixed(1)} kg'
-                    : null,
+                finalValue:
+                    hasExactWeight ? '${extW.toStringAsFixed(1)} kg' : null,
                 l10n: l10n,
               ),
             ),
@@ -967,8 +973,7 @@ class _WasteItemCard extends StatelessWidget {
               child: _ItemMetricCell(
                 label: l10n.pricePerKgLabel,
                 estimatedValue: _fmtPrice(estP),
-                finalValue:
-                    (extP > 0 && extP != estP) ? _fmtPrice(extP) : null,
+                finalValue: (extP > 0 && extP != estP) ? _fmtPrice(extP) : null,
                 l10n: l10n,
               ),
             ),
@@ -978,42 +983,41 @@ class _WasteItemCard extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
           decoration: BoxDecoration(
-            color: const Color(0xFFF9FAFB),
+            color: context.colors.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color(0xFFE5E7EB)),
+            border: Border.all(color: context.appColors.divider),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
                 l10n.totalPriceFieldLabel,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF374151),
+                  color: context.colors.onSurface,
                 ),
               ),
               Row(
                 children: <Widget>[
                   _Badge(
                     label: l10n.submittedWeightLabel,
-                    value: EnArConvertor()
-                        .replaceArNumber(_fmtPrice(estTotal)),
-                    color: const Color(0xFFF59E0B),
+                    value: EnArConvertor().replaceArNumber(_fmtPrice(estTotal)),
+                    color: context.appColors.warning,
                   ),
                   if (extTotal > 0) ...<Widget>[
                     const SizedBox(width: 6),
-                    const Icon(
+                    Icon(
                       Icons.arrow_forward_rounded,
                       size: 12,
-                      color: Color(0xFF9CA3AF),
+                      color: context.appColors.subtitleColor,
                     ),
                     const SizedBox(width: 6),
                     _Badge(
                       label: l10n.finalWeightLabel,
-                      value: EnArConvertor()
-                          .replaceArNumber(_fmtPrice(extTotal)),
-                      color: const Color(0xFF10B981),
+                      value:
+                          EnArConvertor().replaceArNumber(_fmtPrice(extTotal)),
+                      color: context.appColors.success,
                     ),
                   ],
                 ],
@@ -1049,18 +1053,18 @@ class _ItemMetricCell extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB),
+        color: context.colors.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appColors.divider),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 10,
-              color: Color(0xFF9CA3AF),
+              color: context.appColors.subtitleColor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -1068,14 +1072,14 @@ class _ItemMetricCell extends StatelessWidget {
           _Badge(
             label: l10n.submittedWeightLabel,
             value: EnArConvertor().replaceArNumber(estimatedValue),
-            color: const Color(0xFFF59E0B),
+            color: context.appColors.warning,
           ),
           if (finalValue != null) ...<Widget>[
             const SizedBox(height: 4),
             _Badge(
               label: l10n.finalWeightLabel,
               value: EnArConvertor().replaceArNumber(finalValue!),
-              color: const Color(0xFF10B981),
+              color: context.appColors.success,
             ),
           ],
         ],
@@ -1118,8 +1122,7 @@ class _RateDriverPanelState extends State<_RateDriverPanel> {
 
   bool get _alreadyRated {
     final c = widget.collect.customerRating;
-    return widget.collect.hasRated ||
-        (c != null && c.score > 0);
+    return widget.collect.hasRated || (c != null && c.score > 0);
   }
 
   Future<void> _submit() async {
@@ -1136,7 +1139,10 @@ class _RateDriverPanelState extends State<_RateDriverPanel> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$e')),
+        SnackBar(
+          content: Text('$e'),
+          backgroundColor: context.appColors.danger,
+        ),
       );
     } finally {
       if (mounted) setState(() => _submitting = false);
@@ -1152,10 +1158,10 @@ class _RateDriverPanelState extends State<_RateDriverPanel> {
         children: <Widget>[
           Text(
             l10n.yourRatingSubmitted,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 15,
-              color: Color(0xFF1A1A2E),
+              color: context.colors.onSurface,
             ),
           ),
           if (r != null && r.score > 0) ...<Widget>[
@@ -1165,7 +1171,10 @@ class _RateDriverPanelState extends State<_RateDriverPanel> {
               const SizedBox(height: 10),
               Text(
                 r.comment,
-                style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: context.appColors.subtitleColor,
+                ),
               ),
             ],
           ],
@@ -1176,7 +1185,10 @@ class _RateDriverPanelState extends State<_RateDriverPanel> {
       children: <Widget>[
         Text(
           l10n.rateDriverHint,
-          style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
+          style: TextStyle(
+            fontSize: 13,
+            color: context.appColors.subtitleColor,
+          ),
         ),
         const SizedBox(height: 12),
         StarRatingInput(
@@ -1202,7 +1214,7 @@ class _RateDriverPanelState extends State<_RateDriverPanel> {
             onPressed: _submitting || _stars < 1 ? null : _submit,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.primary,
-              foregroundColor: Colors.white,
+              foregroundColor: context.appColors.onHeroForeground,
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -1252,7 +1264,7 @@ class _SkeletonBox extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: context.colors.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
       ),
     );
@@ -1276,13 +1288,13 @@ class _ErrorView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.red.shade50,
+                color: context.appColors.danger.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.wifi_off_rounded,
                 size: 40,
-                color: Colors.red.shade400,
+                color: context.appColors.danger,
               ),
             ),
             const SizedBox(height: 20),
@@ -1291,14 +1303,17 @@ class _ErrorView extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                color: Colors.grey.shade800,
+                color: context.colors.onSurface,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               error,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
+              style: TextStyle(
+                color: context.appColors.subtitleColor,
+                fontSize: 13,
+              ),
             ),
             const SizedBox(height: 28),
             ElevatedButton.icon(
@@ -1307,7 +1322,7 @@ class _ErrorView extends StatelessWidget {
               label: Text(context.l10n.retryLabel),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: context.appColors.onHeroForeground,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 28,
                   vertical: 14,

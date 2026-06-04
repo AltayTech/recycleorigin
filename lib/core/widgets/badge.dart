@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/theme_context_extensions.dart';
+
 /// A badge widget that displays a value on top of a child widget
 ///
 /// Commonly used to show notification counts, cart items, etc.
@@ -9,8 +11,8 @@ class Badge extends StatelessWidget {
     super.key,
     required this.child,
     required this.value,
-    this.color = Colors.black12,
-    this.textColor = Colors.black54,
+    this.color,
+    this.textColor,
     this.badgeSize = 16.0,
     this.fontSize = 10.0,
   });
@@ -22,10 +24,10 @@ class Badge extends StatelessWidget {
   final String value;
 
   /// Background color of the badge
-  final Color color;
+  final Color? color;
 
   /// Text color of the badge
-  final Color textColor;
+  final Color? textColor;
 
   /// Minimum size of the badge
   final double badgeSize;
@@ -35,6 +37,8 @@ class Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final badgeColor = color ?? context.colors.surfaceContainerHighest;
+    final badgeTextColor = textColor ?? context.appColors.subtitleColor;
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
@@ -50,10 +54,10 @@ class Badge extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(badgeSize / 2),
                 border: Border.all(
-                  color: Colors.grey.withOpacity(0.3),
+                  color: context.colors.outline.withValues(alpha: 0.3),
                   width: 0.5,
                 ),
-                color: color,
+                color: badgeColor,
               ),
               constraints: BoxConstraints(
                 minWidth: badgeSize,
@@ -64,7 +68,7 @@ class Badge extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: fontSize,
-                  color: textColor,
+                  color: badgeTextColor,
                   fontWeight: FontWeight.w600,
                 ),
                 maxLines: 1,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/layout/app_breakpoints.dart';
+import '../../../core/network/api_client.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/auth_snackbars.dart';
 import '../../articles_feature/presentation/pages/article_screen.dart';
@@ -9,93 +10,116 @@ import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../auth_feature/presentation/bloc/auth_state.dart';
 import '../../collect_feature/presentation/pages/waste_cart_screen.dart';
 import '../../guid_feature/presentation/pages/guide_screen.dart';
-import '../../customer_feature/presentation/screens/profile_screen.dart';
+import '../../impact_feature/data/impact_repository.dart';
+import '../../impact_feature/presentation/bloc/impact_cubit.dart';
+import '../../impact_feature/presentation/screens/impact_screen.dart';
 import '../../store_feature/presentation/bloc/products_bloc.dart';
-import '../../store_feature/presentation/screens/product_screen.dart';
-import '../../support_tickets/presentation/screens/support_tickets_list_screen.dart';
+import '../../wallet_feature/data/wallet_repository.dart';
+import '../../wallet_feature/presentation/bloc/wallet_summary_cubit.dart';
 import '../../wallet_feature/presentation/pages/wallet_screen.dart';
+import '../../waste_feature/business/entities/request_waste_item.dart';
 import '../../waste_feature/collect_list_screen.dart';
+import '../../waste_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
-import 'widgets/home_hero_section.dart';
-import 'widgets/section_header.dart';
-import 'widgets/services_grid.dart';
+import 'widgets/home_active_request_card.dart';
+import 'widgets/home_explore_row.dart';
+import 'widgets/home_greeting_header.dart';
+import 'widgets/home_impact_snapshot.dart';
+import 'widgets/home_section_title.dart';
+import 'widgets/home_wallet_preview_card.dart';
+import 'widgets/primary_action_button.dart';
 
-/// The main dashboard surface of the customer app.
-///
-/// Keeps responsibilities thin: orchestrate child widgets, wire
-/// navigation callbacks, and react to auth-status changes.
-class HomeScreen extends StatefulWidget {
+/// Customer home dashboard: greeting, CTA, and glanceable data cards.
+class HomeScreen extends StatelessWidget {
   static const routeName = '/home';
 
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  Widget build(BuildContext context) {
+    final apiClient = ApiClient();
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => ImpactCubit(ImpactRepository(apiClient)),
+        ),
+        BlocProvider(
+          create: (_) => WalletSummaryCubit(WalletRepository(apiClient)),
+        ),
+      ],
+      child: const _HomeDashboardView(),
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  static const _entranceDuration = Duration(milliseconds: 700);
-  static const _staggerDelay = Duration(milliseconds: 120);
+class _HomeDashboardView extends StatefulWidget {
+  const _HomeDashboardView();
 
-  late final AnimationController _controller;
-  late final Animation<double> _heroFade;
-  late final Animation<Offset> _heroSlide;
-  late final Animation<double> _gridFade;
-  late final Animation<Offset> _gridSlide;
+  @override
+  State<_HomeDashboardView> createState() => _HomeDashboardViewState();
+}
+
+class _HomeDashboardViewState extends State<_HomeDashboardView> {
+  RequestWasteItem? _latestRequest;
+  bool _requestLoading = false;
+  bool _requestError = false;
 
   @override
   void initState() {
     super.initState();
-    _initAnimations();
-    _controller.forward();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      _loadInitialData();
+      context.read<ProductsBloc>().retrieveCategory();
+      context.read<AuthBloc>().getTokenFromDB();
+      _refreshDashboardData();
     });
   }
 
-  void _initAnimations() {
-    _controller = AnimationController(
-      duration: _entranceDuration + _staggerDelay,
-      vsync: this,
-    );
-
-    final heroCurve = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0, 0.8, curve: Curves.easeOutCubic),
-    );
-    _heroFade = heroCurve;
-    _heroSlide = Tween<Offset>(
-      begin: const Offset(0, 0.15),
-      end: Offset.zero,
-    ).animate(heroCurve);
-
-    final gridCurve = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.25, 1.0, curve: Curves.easeOutCubic),
-    );
-    _gridFade = gridCurve;
-    _gridSlide = Tween<Offset>(
-      begin: const Offset(0, 0.12),
-      end: Offset.zero,
-    ).animate(gridCurve);
+  Future<void> _refreshDashboardData() async {
+    final isAuth = context.read<AuthBloc>().state.isAuth;
+    context.read<ImpactCubit>().load();
+    await context.read<WalletSummaryCubit>().load(isAuthenticated: isAuth);
+    if (isAuth) {
+      await _loadLatestRequest();
+    } else if (mounted) {
+      setState(() {
+        _latestRequest = null;
+        _requestLoading = false;
+        _requestError = false;
+      });
+    }
   }
 
-  void _loadInitialData() {
-    context.read<ProductsBloc>().retrieveCategory();
-    context.read<AuthBloc>().getTokenFromDB();
+  Future<void> _loadLatestRequest() async {
+    if (!mounted) return;
+    setState(() {
+      _requestLoading = true;
+      _requestError = false;
+    });
+    try {
+      final bloc = context.read<WastesBloc>();
+      bloc.sPage = 1;
+      bloc.sOrder = 'desc';
+      bloc.sOrderBy = 'date';
+      bloc.sCategory = '';
+      bloc.searchBuilder();
+      await bloc.searchCollectItems();
+      if (!mounted) return;
+      setState(() {
+        _latestRequest =
+            bloc.CollectItems.isNotEmpty ? bloc.CollectItems.first : null;
+        _requestLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _requestError = true;
+        _requestLoading = false;
+      });
+    }
   }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  // ── Navigation ─────────────────────────────────────────────────
 
   void _openWasteCart() =>
       Navigator.of(context).pushNamed(WasteCartScreen.routeName);
@@ -108,23 +132,11 @@ class _HomeScreenState extends State<HomeScreen>
   void _openArticles() =>
       Navigator.of(context).pushNamed(ArticlesScreen.routeName);
 
-  void _openStore() =>
-      Navigator.of(context).pushNamed(ProductsScreen.routeName);
-
-  void _openProfile() =>
-      Navigator.of(context).pushNamed(ProfileScreen.routeName);
-
-  void _openSupport() =>
-      Navigator.of(context).pushNamed(SupportTicketsListScreen.routeName);
-
   void _openGuide() => Navigator.of(context).pushNamed(GuideScreen.routeName);
 
-  // ── Auth listener ──────────────────────────────────────────────
+  void _openImpact() => Navigator.of(context).pushNamed(ImpactScreen.routeName);
 
-  void _onAuthStateChanged(
-    BuildContext context,
-    AuthState state,
-  ) {
+  void _onAuthStateChanged(BuildContext context, AuthState state) {
     if (state.isFirstLogin) {
       showLoginSuccessSnackBar(context, context.l10n);
       context.read<AuthBloc>().isFirstLogin = false;
@@ -136,82 +148,23 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  // ── Descriptors ────────────────────────────────────────────────
-
-  List<ServiceDescriptor> _buildServiceDescriptors(
-    BuildContext context,
-  ) =>
-      [
-        ServiceDescriptor(
-          title: context.l10n.wallet,
-          assetPath: 'assets/images/main_page_wallet_ic.png',
-          color: const Color(0xFF22C55E),
-          onTap: _openWallet,
-        ),
-        ServiceDescriptor(
-          title: context.l10n.store,
-          assetPath: 'assets/images/main_page_shop_ic.png',
-          color: const Color(0xFF8B5CF6),
-          onTap: _openStore,
-        ),
-        ServiceDescriptor(
-          title: context.l10n.articles,
-          assetPath: 'assets/images/main_page_paper_ic.png',
-          color: const Color(0xFFF59E0B),
-          onTap: _openArticles,
-        ),
-        ServiceDescriptor(
-          title: context.l10n.profile,
-          icon: Icons.person_rounded,
-          color: const Color(0xFF6366F1),
-          onTap: _openProfile,
-        ),
-      ];
-
-  List<HeroQuickLink> _buildQuickLinks(BuildContext context) => [
-        HeroQuickLink(
-          label: context.l10n.navMyRequestsTab,
-          icon: Icons.inventory_2_outlined,
-          onTap: _openCollectList,
-        ),
-        HeroQuickLink(
-          label: context.l10n.guideTitle,
-          icon: Icons.menu_book_outlined,
-          onTap: _openGuide,
-        ),
-        HeroQuickLink(
-          label: context.l10n.supportHelpLabel,
-          icon: Icons.support_agent_rounded,
-          onTap: _openSupport,
-        ),
-      ];
-
-  // ── Build ──────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return BlocListener<AuthBloc, AuthState>(
       listenWhen: (prev, curr) =>
           prev.isFirstLogin != curr.isFirstLogin ||
-          prev.isFirstLogout != curr.isFirstLogout,
-      listener: _onAuthStateChanged,
+          prev.isFirstLogout != curr.isFirstLogout ||
+          prev.isAuth != curr.isAuth,
+      listener: (context, state) {
+        _onAuthStateChanged(context, state);
+        _refreshDashboardData();
+      },
       child: Scaffold(
-        backgroundColor: theme.scaffoldBackgroundColor,
-        body: DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                theme.scaffoldBackgroundColor,
-                theme.scaffoldBackgroundColor.withValues(alpha: 0.96),
-                theme.colorScheme.surface,
-              ],
-            ),
-          ),
-          child: SafeArea(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: SafeArea(
+          bottom: false,
+          child: RefreshIndicator(
+            onRefresh: _refreshDashboardData,
             child: Align(
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
@@ -219,52 +172,65 @@ class _HomeScreenState extends State<HomeScreen>
                   maxWidth: AppBreakpoints.contentMaxWidth,
                 ),
                 child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics(),
                   ),
                   slivers: [
-                    // ── Hero ─────────────────────────────────
+                    const SliverToBoxAdapter(child: HomeGreetingHeader()),
                     SliverToBoxAdapter(
-                      child: SlideTransition(
-                        position: _heroSlide,
-                        child: FadeTransition(
-                          opacity: _heroFade,
-                          child: HomeHeroSection(
-                            onPrimaryActionPressed: _openWasteCart,
-                            quickLinks: _buildQuickLinks(context),
-                          ),
+                      child: PrimaryActionButton(
+                        onPressed: _openWasteCart,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: AppTheme.spacingMd),
+                    ),
+                    SliverToBoxAdapter(
+                      child: HomeImpactSnapshot(onTap: _openImpact),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: AppTheme.spacingMd),
+                    ),
+                    SliverToBoxAdapter(
+                      child: HomeWalletPreviewCard(onTap: _openWallet),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: AppTheme.spacingMd),
+                    ),
+                    SliverToBoxAdapter(
+                      child: HomeSectionTitle(
+                        title: context.l10n.homeDashboardActiveRequestTitle,
+                        trailing: TextButton(
+                          onPressed: _openCollectList,
+                          child: Text(context.l10n.homeViewAllRequests),
                         ),
                       ),
                     ),
-
-                    // ── Section header ───────────────────────
                     SliverToBoxAdapter(
-                      child: SlideTransition(
-                        position: _gridSlide,
-                        child: FadeTransition(
-                          opacity: _gridFade,
-                          child: SectionHeader(
-                            title: context.l10n.homeServicesTitle,
-                          ),
-                        ),
+                      child: HomeActiveRequestCard(
+                        request: _latestRequest,
+                        isLoading: _requestLoading,
+                        hasError: _requestError,
+                        onTap: _openCollectList,
+                        onRetry: _loadLatestRequest,
                       ),
                     ),
-
-                    // ── Services grid ────────────────────────
-                    SliverToBoxAdapter(
-                      child: SlideTransition(
-                        position: _gridSlide,
-                        child: FadeTransition(
-                          opacity: _gridFade,
-                          child: ServicesGrid(
-                            descriptors: _buildServiceDescriptors(context),
-                          ),
-                        ),
-                      ),
-                    ),
-
                     const SliverToBoxAdapter(
                       child: SizedBox(height: AppTheme.spacingLg),
+                    ),
+                    SliverToBoxAdapter(
+                      child: HomeSectionTitle(
+                        title: context.l10n.homeExploreTitle,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: HomeExploreRow(
+                        onArticlesTap: _openArticles,
+                        onGuideTap: _openGuide,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: AppTheme.spacingXl),
                     ),
                   ],
                 ),

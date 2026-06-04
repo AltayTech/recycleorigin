@@ -7,6 +7,8 @@ import 'package:recycleorigin/features/waste_feature/business/entities/request_w
 import '../../core/logic/en_to_ar_number_convertor.dart';
 import '../../core/models/search_detail.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/theme_context_extensions.dart';
+import '../../core/navigation/navigation_shell_scope.dart';
 import '../../core/widgets/drawer_or_back_leading.dart';
 import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 import '../auth_feature/presentation/screens/login_screen.dart';
@@ -145,6 +147,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(context.l10n.failedToLoadMoreItems),
+            backgroundColor: context.appColors.danger,
             action: SnackBarAction(
               label: context.l10n.retryLabel,
               onPressed: _loadMoreItems,
@@ -167,22 +170,32 @@ class _CollectListScreenState extends State<CollectListScreen> {
   @override
   Widget build(BuildContext context) {
     final isLogin = context.watch<AuthBloc>().isAuth;
+    final inShell = NavigationShellScope.isActive(context);
+    final body = !isLogin ? _buildNotLoggedInView() : _buildContent();
+
+    if (inShell) {
+      return Scaffold(
+        backgroundColor: context.appColors.scaffoldBackground,
+        body: body,
+      );
+    }
+
+    final appBarTheme = Theme.of(context).appBarTheme;
 
     return Scaffold(
-      backgroundColor: const Color(0xffF9F9F9),
+      backgroundColor: context.appColors.scaffoldBackground,
       appBar: AppBar(
         leading: const DrawerOrBackLeading(),
-        title: Text(
-          context.l10n.collectRequestListAppBarTitle,
-          style: TextStyle(color: AppTheme.white),
-        ),
-        backgroundColor: AppTheme.appBarColor,
-        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
-        elevation: 0,
-        centerTitle: true,
+        title: Text(context.l10n.collectRequestListAppBarTitle),
+        backgroundColor: appBarTheme.backgroundColor,
+        foregroundColor: appBarTheme.foregroundColor,
+        iconTheme: appBarTheme.iconTheme,
+        elevation: appBarTheme.elevation,
+        centerTitle: appBarTheme.centerTitle,
+        systemOverlayStyle: appBarTheme.systemOverlayStyle,
       ),
       drawer: mainDrawerIfRootRoute(context),
-      body: !isLogin ? _buildNotLoggedInView() : _buildContent(),
+      body: body,
     );
   }
 
@@ -193,7 +206,10 @@ class _CollectListScreenState extends State<CollectListScreen> {
         children: <Widget>[
           Text(
             context.l10n.pleaseLoginToViewRequests,
-            style: const TextStyle(fontSize: 16, color: Colors.grey),
+            style: TextStyle(
+              fontSize: 16,
+              color: context.appColors.subtitleColor,
+            ),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
@@ -206,7 +222,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
                   borderRadius: BorderRadius.circular(8)),
             ),
             child: Text(context.l10n.login,
-                style: const TextStyle(color: Colors.white)),
+                style: TextStyle(
+                  color: context.appColors.onHeroForeground,
+                )),
           ),
         ],
       ),
@@ -219,18 +237,30 @@ class _CollectListScreenState extends State<CollectListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.redAccent),
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: context.colors.error,
+            ),
             const SizedBox(height: 16),
             Text(
               context.l10n.somethingWentWrong,
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(
+                fontSize: 16,
+                color: context.appColors.subtitleColor,
+              ),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _loadInitialData,
-              icon: const Icon(Icons.refresh, color: Colors.white),
+              icon: Icon(
+                Icons.refresh,
+                color: context.appColors.onHeroForeground,
+              ),
               label: Text(context.l10n.retryLabel,
-                  style: const TextStyle(color: Colors.white)),
+                  style: TextStyle(
+                    color: context.appColors.onHeroForeground,
+                  )),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
                 padding:
@@ -279,11 +309,14 @@ class _CollectListScreenState extends State<CollectListScreen> {
         height: 150,
         fit: BoxFit.contain,
         errorBuilder: (context, error, stackTrace) {
-          return const SizedBox(
+          return SizedBox(
             height: 100,
             child: Center(
-              child:
-                  Icon(Icons.image_not_supported, size: 50, color: Colors.grey),
+              child: Icon(
+                Icons.image_not_supported,
+                size: 50,
+                color: context.appColors.subtitleColor,
+              ),
             ),
           );
         },
@@ -388,8 +421,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
   Widget _buildToolbarSummary(BuildContext context, ThemeData theme) {
     final l10n = context.l10n;
     final colorScheme = theme.colorScheme;
-    final loaded = EnArConvertor()
-        .replaceArNumber(_loadedRequests.length.toString());
+    final loaded =
+        EnArConvertor().replaceArNumber(_loadedRequests.length.toString());
     final total = EnArConvertor().replaceArNumber(
       _searchDetail.total.toString(),
     );
@@ -578,11 +611,18 @@ class _CollectListScreenState extends State<CollectListScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.inbox_outlined, size: 64, color: Colors.grey),
+              Icon(
+                Icons.inbox_outlined,
+                size: 64,
+                color: context.appColors.subtitleColor,
+              ),
               const SizedBox(height: 16),
               Text(
                 context.l10n.collectListNoRequestsMessage,
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: context.appColors.subtitleColor,
+                ),
               ),
             ],
           ),

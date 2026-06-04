@@ -17,7 +17,7 @@ void main() {
     testWidgets('renders localized Wallet service card', (tester) async {
       final mock = MockApiClient();
       mock.setGetResponse(
-        'pasmands/v1/products/category',
+        'recycleorigin/v1/products/category',
         Success<List<dynamic>>(<dynamic>[]),
       );
 

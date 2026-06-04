@@ -7,6 +7,7 @@ import 'package:recycleorigin/features/waste_feature/business/entities/wasteCart
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_context_extensions.dart';
 import '../bloc/wastes_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -72,7 +73,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            style: TextButton.styleFrom(foregroundColor: context.colors.error),
             child: Text(ctx.l10n.removeLabel),
           ),
         ],
@@ -108,21 +109,22 @@ class _WasteCartItemState extends State<WasteCartItem> {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 24),
         decoration: BoxDecoration(
-          color: Colors.red.shade400,
+          color: context.appColors.danger,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Icon(Icons.delete_outline, color: Colors.white, size: 28),
+        child: Icon(Icons.delete_outline,
+            color: context.appColors.cardBackground, size: 28),
       ),
       child: AnimatedOpacity(
         opacity: _isRemoving ? 0.4 : 1.0,
         duration: const Duration(milliseconds: 200),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.appColors.cardBackground,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: context.colors.shadow.withValues(alpha: 0.04),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -133,8 +135,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
             child: Row(
               children: [
                 _ItemImage(
-                  imageUrl:
-                      widget.wasteItem.featured_image.sizes.medium,
+                  imageUrl: widget.wasteItem.featured_image.sizes.medium,
                 ),
                 const SizedBox(width: 14),
                 Expanded(
@@ -143,8 +144,8 @@ class _WasteCartItemState extends State<WasteCartItem> {
                     children: [
                       Text(
                         widget.wasteItem.name,
-                        style: const TextStyle(
-                          color: AppTheme.h1,
+                        style: TextStyle(
+                          color: context.colors.onSurface,
                           fontWeight: FontWeight.w700,
                           fontSize: 15,
                           height: 1.3,
@@ -165,7 +166,8 @@ class _WasteCartItemState extends State<WasteCartItem> {
                           Text(
                             '\$',
                             style: TextStyle(
-                              color: AppTheme.grey.withOpacity(0.6),
+                              color: context.appColors.subtitleColor
+                                  .withOpacity(0.6),
                               fontSize: 11,
                             ),
                           ),
@@ -177,7 +179,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
                           Text(
                             l10n.totalLabel,
                             style: TextStyle(
-                              color: AppTheme.grey,
+                              color: context.appColors.subtitleColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),
@@ -232,13 +234,12 @@ class _ItemImage extends StatelessWidget {
       width: 72,
       height: 72,
       decoration: BoxDecoration(
-        color: AppTheme.bg,
+        color: context.appColors.scaffoldBackground,
         borderRadius: BorderRadius.circular(14),
       ),
       clipBehavior: Clip.antiAlias,
       child: FadeInImage(
-        placeholder:
-            const AssetImage('assets/images/main_page_request_ic.png'),
+        placeholder: const AssetImage('assets/images/main_page_request_ic.png'),
         image: NetworkImage(imageUrl),
         fit: BoxFit.cover,
         imageErrorBuilder: (_, __, ___) => Icon(
@@ -265,7 +266,7 @@ class _PriceLabel extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: AppTheme.grey,
+            color: context.appColors.subtitleColor,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
@@ -273,8 +274,8 @@ class _PriceLabel extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           value,
-          style: const TextStyle(
-            color: AppTheme.h1,
+          style: TextStyle(
+            color: context.colors.onSurface,
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -299,7 +300,7 @@ class _QuantityStepper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.bg,
+        color: context.appColors.scaffoldBackground,
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
@@ -313,10 +314,9 @@ class _QuantityStepper extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6),
             child: Text(
-              EnArConvertor()
-                  .replaceArNumber(quantity.toString()),
-              style: const TextStyle(
-                color: AppTheme.h1,
+              EnArConvertor().replaceArNumber(quantity.toString()),
+              style: TextStyle(
+                color: context.colors.onSurface,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
               ),
@@ -348,7 +348,7 @@ class _StepperButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: isDecrease
-          ? Colors.red.shade50
+          ? context.appColors.danger.withValues(alpha: 0.12)
           : AppTheme.primary.withOpacity(0.12),
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
@@ -359,7 +359,7 @@ class _StepperButton extends StatelessWidget {
           child: Icon(
             icon,
             size: 18,
-            color: isDecrease ? Colors.red.shade400 : AppTheme.primary,
+            color: isDecrease ? context.appColors.danger : AppTheme.primary,
           ),
         ),
       ),
