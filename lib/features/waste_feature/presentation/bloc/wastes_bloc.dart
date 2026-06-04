@@ -45,7 +45,8 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
   String get searchEndPoint => state.searchEndPoint;
   String get searchKey => state.searchKey;
   Object? get sCategory => state.sCategory;
-  set sCategory(Object? value) => add(WastesSearchParamsChanged(sCategory: value));
+  set sCategory(Object? value) =>
+      add(WastesSearchParamsChanged(sCategory: value));
   int get sPage => state.sPage;
   set sPage(int value) => add(WastesSearchParamsChanged(sPage: value));
   int get sPerPage => state.sPerPage;
@@ -163,8 +164,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     var searchEndPoint = '';
     if (s.searchKey != '') {
       searchEndPoint = '?search=${s.searchKey}';
-      searchEndPoint =
-          '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
+      searchEndPoint = '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
     } else {
       searchEndPoint = '?page=${s.sPage}&per_page=${s.sPerPage}';
     }
@@ -197,8 +197,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List<dynamic>;
         AppLogger.debug('Loaded ${extractedData.length} waste items');
-        final wastes =
-            extractedData.map((i) => Waste.fromJson(i)).toList();
+        final wastes = extractedData.map((i) => Waste.fromJson(i)).toList();
         emit(state.copyWith(wasteItems: wastes));
       } else {
         emit(state.copyWith(wasteItems: []));
@@ -366,7 +365,8 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
       }
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to search collect items', error: e, stackTrace: st);
+      AppLogger.error('Failed to search collect items',
+          error: e, stackTrace: st);
       event.completer?.complete();
     }
   }
@@ -412,8 +412,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     WastesSubmitDriverRatingRequested event,
     Emitter<WastesState> emit,
   ) async {
-    final url =
-        Urls.rootUrl + Urls.collectRatePath(event.collectId);
+    final url = Urls.rootUrl + Urls.collectRatePath(event.collectId);
     try {
       final token = await SecureStorage.getToken() ?? '';
       if (token.isEmpty) {

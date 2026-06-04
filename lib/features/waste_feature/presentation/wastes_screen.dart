@@ -75,8 +75,8 @@ class _WastesScreenState extends State<WastesScreen> {
       _filteredWastes = loadedWastes;
     } else {
       _filteredWastes = loadedWastes
-          .where((w) =>
-              w.name.toLowerCase().contains(_searchQuery.toLowerCase()))
+          .where(
+              (w) => w.name.toLowerCase().contains(_searchQuery.toLowerCase()))
           .toList();
     }
   }
@@ -108,12 +108,11 @@ class _WastesScreenState extends State<WastesScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final screenWidth = MediaQuery.of(context).size.width;
-    final crossAxisCount =
-        screenWidth < 360 ? 2 : (screenWidth > 600 ? 4 : 3);
+    final crossAxisCount = screenWidth < 360 ? 2 : (screenWidth > 600 ? 4 : 3);
     final selectedCount = wasteCartItemsId.length;
 
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         elevation: 0,
         backgroundColor: AppTheme.appBarColor,
@@ -155,8 +154,7 @@ class _WastesScreenState extends State<WastesScreen> {
                             horizontal: 16.0,
                           ),
                           child: CustomScrollView(
-                            physics:
-                                const AlwaysScrollableScrollPhysics(),
+                            physics: const AlwaysScrollableScrollPhysics(),
                             slivers: [
                               SliverPadding(
                                 padding: const EdgeInsets.only(
@@ -177,10 +175,8 @@ class _WastesScreenState extends State<WastesScreen> {
                                       return WasteItemWastesScreen(
                                         waste: waste,
                                         isSelected:
-                                            wasteCartItemsId
-                                                .contains(waste.id),
-                                        onTap: () =>
-                                            _toggleSelection(waste),
+                                            wasteCartItemsId.contains(waste.id),
+                                        onTap: () => _toggleSelection(waste),
                                       );
                                     },
                                     childCount: _filteredWastes.length,
@@ -194,8 +190,7 @@ class _WastesScreenState extends State<WastesScreen> {
           ),
         ],
       ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: _DoneButton(
         selectedCount: selectedCount,
         onPressed: () => Navigator.of(context).pop(),
@@ -319,8 +314,7 @@ class _SearchBar extends StatelessWidget {
                         )
                       : null,
                   border: InputBorder.none,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 ),
               ),
             ),
@@ -408,7 +402,8 @@ class _DoneButton extends StatelessWidget {
                 vertical: 2,
               ),
               decoration: BoxDecoration(
-                color: context.appColors.onHeroForeground.withValues(alpha: 0.25),
+                color:
+                    context.appColors.onHeroForeground.withValues(alpha: 0.25),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(

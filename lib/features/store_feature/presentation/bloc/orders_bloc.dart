@@ -30,8 +30,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   String get sOrder => state.sOrder;
   set sOrder(String value) => add(OrdersSearchParamsChanged(sOrder: value));
   String get sOrderBy => state.sOrderBy;
-  set sOrderBy(String value) =>
-      add(OrdersSearchParamsChanged(sOrderBy: value));
+  set sOrderBy(String value) => add(OrdersSearchParamsChanged(sOrderBy: value));
   SearchDetail get searchDetails => state.searchDetails;
   List<Order> get ordersItems => state.ordersItems;
   Order? get orderItem => state.orderItem;
@@ -73,8 +72,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     var searchEndPoint = '';
     if (s.searchKey != '') {
       searchEndPoint = '?search=${s.searchKey}';
-      searchEndPoint =
-          '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
+      searchEndPoint = '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
     } else {
       searchEndPoint = '?page=${s.sPage}&per_page=${s.sPerPage}';
     }
@@ -143,7 +141,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       emit(state.copyWith(orderItem: order));
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to retrieve order item', error: e, stackTrace: st);
+      AppLogger.error('Failed to retrieve order item',
+          error: e, stackTrace: st);
       event.completer?.completeError(e, st);
       rethrow;
     }

@@ -9,8 +9,11 @@ import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
+import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/utils/result.dart';
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet.dart';
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet_transaction.dart';
+import 'package:recycleorigin/features/wallet_feature/data/wallet_repository.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/transaction_item.dart';
 import 'package:recycleorigin/features/wallet_feature/presentation/widgets/wallet_balance_card.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
@@ -73,23 +76,9 @@ class _WalletScreenState extends State<WalletScreen> {
 
     try {
       final headers = await _authHeaders();
-      final walletUrl = Uri.parse(
-        Urls.rootUrl + Urls.walletEndPoint,
-      );
-      final walletResp = await http.get(walletUrl, headers: headers);
-
-      if (walletResp.statusCode == 200 && mounted) {
-        final data = jsonDecode(walletResp.body) as Map<String, dynamic>;
-        final walletJson = data['wallet'] as Map<String, dynamic>?;
-        if (walletJson != null) {
-          _wallet = Wallet.fromJson(walletJson);
-        }
-        final recentJson = data['recent_transactions'] as List<dynamic>?;
-        if (recentJson != null) {
-          _transactions = recentJson
-              .map((e) => WalletTransaction.fromJson(e as Map<String, dynamic>))
-              .toList();
-        }
+      final walletResult = await WalletRepository(ApiClient()).fetchWallet();
+      if (walletResult case Success(:final value) when mounted) {
+        _wallet = value;
       }
 
       // Load full transaction history.

@@ -180,7 +180,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                 padding: const EdgeInsets.all(15.0),
                                 child: Text(
                                   context.l10n.login,
-                                  style: const TextStyle(color: AppTheme.appBarIconColor),
+                                  style: const TextStyle(
+                                      color: AppTheme.appBarIconColor),
                                 ),
                               ),
                               decoration: BoxDecoration(
@@ -298,7 +299,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                           return DecoratedBox(
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: context.appColors.subtitleColor,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                             ),
                                           );
                                         },

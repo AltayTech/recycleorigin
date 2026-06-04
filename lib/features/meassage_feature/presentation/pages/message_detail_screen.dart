@@ -38,8 +38,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
     if (_isInit) {
       message = ModalRoute.of(context)?.settings.arguments as Message;
-      customer =
-          context.read<CustomerInfoBloc>().customer;
+      customer = context.read<CustomerInfoBloc>().customer;
 
       loadMessages();
     }

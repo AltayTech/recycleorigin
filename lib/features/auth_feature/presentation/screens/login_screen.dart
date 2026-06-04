@@ -58,10 +58,9 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 LayoutBuilder(
                   builder: (context, constraints) {
-                    final minChildHeight =
-                        constraints.maxHeight.isFinite
-                            ? constraints.maxHeight
-                            : 0.0;
+                    final minChildHeight = constraints.maxHeight.isFinite
+                        ? constraints.maxHeight
+                        : 0.0;
                     return SingleChildScrollView(
                       padding: EdgeInsets.only(
                         left: AppTheme.spacingMd,
@@ -137,8 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                         if (nav.canPop()) {
                           return IconButton(
-                            tooltip: MaterialLocalizations.of(ctx)
-                                .backButtonTooltip,
+                            tooltip:
+                                MaterialLocalizations.of(ctx).backButtonTooltip,
                             onPressed: () => nav.maybePop(),
                             icon: const Icon(Icons.arrow_back_rounded),
                             color: onHero,

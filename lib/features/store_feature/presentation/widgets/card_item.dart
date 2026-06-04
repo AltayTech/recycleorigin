@@ -173,7 +173,8 @@ class _CardItemState extends State<CardItem> {
                                                   ),
                                                   child: Icon(
                                                     Icons.add,
-                                                    color: context.appColors.scaffoldBackground,
+                                                    color: context.appColors
+                                                        .scaffoldBackground,
                                                   )),
                                             )),
                                             Expanded(
@@ -184,7 +185,8 @@ class _CardItemState extends State<CardItem> {
                                                         .toString())
                                                     .toString(),
                                                 style: TextStyle(
-                                                  color: context.colors.onSurface,
+                                                  color:
+                                                      context.colors.onSurface,
                                                   //fontFamily: 'Iransans',
                                                   fontSize:
                                                       textScaleFactor * 14,
@@ -224,7 +226,8 @@ class _CardItemState extends State<CardItem> {
                                                   ),
                                                   child: Icon(
                                                     Icons.remove,
-                                                    color: context.appColors.scaffoldBackground,
+                                                    color: context.appColors
+                                                        .scaffoldBackground,
                                                   )),
                                             )),
                                           ],
@@ -259,7 +262,8 @@ class _CardItemState extends State<CardItem> {
                                             Text(
                                               '  \$ ',
                                               style: TextStyle(
-                                                color: context.appColors.subtitleColor,
+                                                color: context
+                                                    .appColors.subtitleColor,
                                                 //fontFamily: 'Iransans',
                                                 fontSize: textScaleFactor * 12,
                                               ),

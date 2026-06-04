@@ -14,7 +14,7 @@ import '../../features/auth_feature/presentation/bloc/auth_state.dart';
 import '../../features/auth_feature/presentation/screens/login_screen.dart';
 import '../../features/customer_feature/presentation/screens/profile_screen.dart';
 import '../../features/store_feature/presentation/screens/cart_screen.dart';
-import '../../features/store_feature/presentation/screens/product_screen.dart';
+import '../../features/wallet_feature/presentation/pages/wallet_screen.dart';
 import '../screens/navigation_bottom_screen.dart';
 import '../screens/settings_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -197,9 +197,8 @@ class _MainDrawerState extends State<MainDrawer> {
             _cleanAuthField(tokenModel.userDisplayName) != null ||
             _cleanAuthField(tokenModel.userNicename) != null);
 
-    final profileRoute = isAuthenticated
-        ? ProfileScreen.routeName
-        : LoginScreen.routeName;
+    final profileRoute =
+        isAuthenticated ? ProfileScreen.routeName : LoginScreen.routeName;
 
     return Material(
       color: Colors.transparent,
@@ -323,7 +322,8 @@ class _MainDrawerState extends State<MainDrawer> {
     final selectedColor = Theme.of(context).brightness == Brightness.dark
         ? colors.surfaceContainerHighest.withValues(alpha: 0.92)
         : colors.surface.withValues(alpha: 0.92);
-    final defaultFg = context.appColors.onHeroForeground.withValues(alpha: 0.94);
+    final defaultFg =
+        context.appColors.onHeroForeground.withValues(alpha: 0.94);
     final destructiveFg = colors.errorContainer;
     final foreground = destructive ? destructiveFg : defaultFg;
 
@@ -412,9 +412,8 @@ class _MainDrawerState extends State<MainDrawer> {
             Future<void> onConfirm() async {
               setD(() => busy = true);
               try {
-                parentContext.read<CustomerInfoBloc>().customer = parentContext
-                    .read<CustomerInfoBloc>()
-                    .customer_zero;
+                parentContext.read<CustomerInfoBloc>().customer =
+                    parentContext.read<CustomerInfoBloc>().customer_zero;
                 await parentContext.read<AuthBloc>().removeToken();
                 parentContext.read<AuthBloc>().isFirstLogout = true;
                 if (ctx.mounted) {
@@ -541,23 +540,6 @@ class _MainDrawerState extends State<MainDrawer> {
                     _buildSectionTitle(l10n.generalSectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
-                        icon: Icons.home_rounded,
-                        title: l10n.home,
-                        routeName: NavigationBottomScreen.routeName,
-                      ),
-                      selected:
-                          currentRouteName == NavigationBottomScreen.routeName,
-                      destructive: false,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          NavigationBottomScreen.routeName,
-                          (Route<dynamic> route) => false,
-                        );
-                      },
-                    ),
-                    _buildDestinationTile(
-                      destination: _DrawerDestination(
                         icon: Icons.insights_rounded,
                         title: l10n.impactTitle,
                         routeName: ImpactScreen.routeName,
@@ -565,6 +547,16 @@ class _MainDrawerState extends State<MainDrawer> {
                       selected: currentRouteName == ImpactScreen.routeName,
                       destructive: false,
                       onTap: () => _navigateToRoute(ImpactScreen.routeName),
+                    ),
+                    _buildDestinationTile(
+                      destination: _DrawerDestination(
+                        icon: Icons.account_balance_wallet_rounded,
+                        title: l10n.wallet,
+                        routeName: WalletScreen.routeName,
+                      ),
+                      selected: currentRouteName == WalletScreen.routeName,
+                      destructive: false,
+                      onTap: () => _navigateToRoute(WalletScreen.routeName),
                     ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
@@ -577,19 +569,6 @@ class _MainDrawerState extends State<MainDrawer> {
                       onTap: () => _navigateToRoute(SettingsScreen.routeName),
                     ),
                     _buildSectionTitle(l10n.shopSectionTitle),
-                    _buildDestinationTile(
-                      destination: _DrawerDestination(
-                        icon: Icons.store_rounded,
-                        title: l10n.store,
-                        routeName: ProductsScreen.routeName,
-                      ),
-                      selected: currentRouteName == ProductsScreen.routeName,
-                      destructive: false,
-                      onTap: () => _navigateToRoute(
-                        ProductsScreen.routeName,
-                        arguments: 0,
-                      ),
-                    ),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
                         icon: Icons.shopping_cart_rounded,
@@ -625,44 +604,41 @@ class _MainDrawerState extends State<MainDrawer> {
                     ),
                     BlocBuilder<AuthBloc, AuthState>(
                       builder: (context, authState) {
+                        if (!authState.isAuth) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildSectionTitle(l10n.accountSectionTitle),
+                              _buildDestinationTile(
+                                destination: _DrawerDestination(
+                                  icon: Icons.login_rounded,
+                                  title: l10n.login,
+                                  routeName: LoginScreen.routeName,
+                                ),
+                                selected:
+                                    currentRouteName == LoginScreen.routeName,
+                                destructive: false,
+                                onTap: () => _navigateToRoute(
+                                  LoginScreen.routeName,
+                                ),
+                              ),
+                            ],
+                          );
+                        }
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _buildSectionTitle(l10n.accountSectionTitle),
                             _buildDestinationTile(
                               destination: _DrawerDestination(
-                                icon: authState.isAuth
-                                    ? Icons.person_rounded
-                                    : Icons.login_rounded,
-                                title: authState.isAuth
-                                    ? l10n.profile
-                                    : l10n.login,
-                                routeName: authState.isAuth
-                                    ? ProfileScreen.routeName
-                                    : LoginScreen.routeName,
+                                icon: Icons.logout_rounded,
+                                title: l10n.logout,
+                                routeName: '',
                               ),
-                              selected: currentRouteName ==
-                                  (authState.isAuth
-                                      ? ProfileScreen.routeName
-                                      : LoginScreen.routeName),
-                              destructive: false,
-                              onTap: () => _navigateToRoute(
-                                authState.isAuth
-                                    ? ProfileScreen.routeName
-                                    : LoginScreen.routeName,
-                              ),
+                              selected: false,
+                              destructive: true,
+                              onTap: _handleLogout,
                             ),
-                            if (authState.isAuth)
-                              _buildDestinationTile(
-                                destination: _DrawerDestination(
-                                  icon: Icons.logout_rounded,
-                                  title: l10n.logout,
-                                  routeName: '',
-                                ),
-                                selected: false,
-                                destructive: true,
-                                onTap: _handleLogout,
-                              ),
                           ],
                         );
                       },
@@ -692,7 +668,8 @@ class _MainDrawerState extends State<MainDrawer> {
                     Text(
                       _appVersion,
                       style: TextStyle(
-                        color: appColors.onHeroForeground.withValues(alpha: 0.66),
+                        color:
+                            appColors.onHeroForeground.withValues(alpha: 0.66),
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.3,

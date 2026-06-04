@@ -82,7 +82,8 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
     MessagesLoadRequested event,
     Emitter<MessagesState> emit,
   ) async {
-    AppLogger.debug('Getting messages for comment post ID: ${event.commentPostId}');
+    AppLogger.debug(
+        'Getting messages for comment post ID: ${event.commentPostId}');
     try {
       if (event.isLogin) {
         final prefs = await SharedPreferences.getInstance();

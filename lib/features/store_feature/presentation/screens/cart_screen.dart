@@ -103,8 +103,7 @@ class _CartScreenState extends State<CartScreen> {
       await context.read<AuthBloc>().checkCompleted();
 
       await getShopItems();
-      customer =
-          context.read<CustomerInfoBloc>().customer;
+      customer = context.read<CustomerInfoBloc>().customer;
       _isLoading = true;
 
 //      await getShopItems();
@@ -112,13 +111,9 @@ class _CartScreenState extends State<CartScreen> {
 
       if (isLogin) {
         try {
-          await context.read<CustomerInfoBloc>()
-              .getCustomer()
-              .then(
+          await context.read<CustomerInfoBloc>().getCustomer().then(
             (_) {
-              customer =
-                  context.read<CustomerInfoBloc>()
-                      .customer;
+              customer = context.read<CustomerInfoBloc>().customer;
             },
           );
         } catch (error) {
@@ -208,7 +203,9 @@ class _CartScreenState extends State<CartScreen> {
                         decoration: BoxDecoration(
                             color: context.appColors.cardBackground,
                             borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: context.appColors.subtitleColor, width: 0.2)),
+                            border: Border.all(
+                                color: context.appColors.subtitleColor,
+                                width: 0.2)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -216,10 +213,7 @@ class _CartScreenState extends State<CartScreen> {
                             children: <Widget>[
                               Text(
                                 '${context.l10n.cartNumberSummaryPrefix} '
-                                    '${EnArConvertor()
-                                        .replaceArNumber(
-                                            shoppItems.length.toString())
-                                        .toString()}',
+                                '${EnArConvertor().replaceArNumber(shoppItems.length.toString()).toString()}',
                                 style: TextStyle(
                                   color: context.colors.onSurface,
                                   //fontFamily: 'Iransans',

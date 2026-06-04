@@ -346,13 +346,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               border: Border.all(
-                                                  color: context.colors.onSurface,
+                                                  color:
+                                                      context.colors.onSurface,
                                                   width: 0.4),
                                               color: _current ==
                                                       loadedProduct.gallery
                                                           .indexOf(index)
                                                   ? context.appColors.divider
-                                                  : context.appColors.scaffoldBackground),
+                                                  : context.appColors
+                                                      .scaffoldBackground),
                                         );
                                       },
                                     ).toList(),
@@ -398,7 +400,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             '\$',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: context.appColors.subtitleColor,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,
                                             ),
@@ -423,8 +426,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         return await showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
-                                            title:
-                                                Text(context.l10n.onTapUrlDebugTitle),
+                                            title: Text(context
+                                                .l10n.onTapUrlDebugTitle),
                                             content: Text(url),
                                           ),
                                         );

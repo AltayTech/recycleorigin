@@ -62,9 +62,8 @@ class _CustomerDetailInfoEditScreenState
     _ostanController.text = data.ostan;
     _cityController.text = data.city;
     _postCodeController.text = data.postcode;
-    final phoneDisplay = data.mobile.trim().isNotEmpty
-        ? data.mobile.trim()
-        : data.phone.trim();
+    final phoneDisplay =
+        data.mobile.trim().isNotEmpty ? data.mobile.trim() : data.phone.trim();
     _phoneDisplayController.text = phoneDisplay;
   }
 

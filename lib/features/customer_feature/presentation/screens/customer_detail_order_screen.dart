@@ -34,8 +34,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    List<Order> orderList =
-        context.read<CustomerInfoBloc>().orders;
+    List<Order> orderList = context.read<CustomerInfoBloc>().orders;
 
     return Container(
       child: Padding(

@@ -112,7 +112,8 @@ class _WasteCartItemState extends State<WasteCartItem> {
           color: context.appColors.danger,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Icon(Icons.delete_outline, color: context.appColors.cardBackground, size: 28),
+        child: Icon(Icons.delete_outline,
+            color: context.appColors.cardBackground, size: 28),
       ),
       child: AnimatedOpacity(
         opacity: _isRemoving ? 0.4 : 1.0,
@@ -134,8 +135,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
             child: Row(
               children: [
                 _ItemImage(
-                  imageUrl:
-                      widget.wasteItem.featured_image.sizes.medium,
+                  imageUrl: widget.wasteItem.featured_image.sizes.medium,
                 ),
                 const SizedBox(width: 14),
                 Expanded(
@@ -166,7 +166,8 @@ class _WasteCartItemState extends State<WasteCartItem> {
                           Text(
                             '\$',
                             style: TextStyle(
-                              color: context.appColors.subtitleColor.withOpacity(0.6),
+                              color: context.appColors.subtitleColor
+                                  .withOpacity(0.6),
                               fontSize: 11,
                             ),
                           ),
@@ -238,8 +239,7 @@ class _ItemImage extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: FadeInImage(
-        placeholder:
-            const AssetImage('assets/images/main_page_request_ic.png'),
+        placeholder: const AssetImage('assets/images/main_page_request_ic.png'),
         image: NetworkImage(imageUrl),
         fit: BoxFit.cover,
         imageErrorBuilder: (_, __, ___) => Icon(
@@ -314,8 +314,7 @@ class _QuantityStepper extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6),
             child: Text(
-              EnArConvertor()
-                  .replaceArNumber(quantity.toString()),
+              EnArConvertor().replaceArNumber(quantity.toString()),
               style: TextStyle(
                 color: context.colors.onSurface,
                 fontSize: 16,

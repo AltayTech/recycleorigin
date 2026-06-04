@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
 
-/// A consistent heading row used to introduce content sections on
-/// the home screen.
-class SectionHeader extends StatelessWidget {
-  const SectionHeader({
+/// Section heading for dashboard blocks.
+class HomeSectionTitle extends StatelessWidget {
+  const HomeSectionTitle({
     super.key,
     required this.title,
     this.trailing,
@@ -17,8 +16,6 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppTheme.spacingMd + 4,
@@ -28,23 +25,13 @@ class SectionHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            width: 4,
-            height: 22,
-            decoration: BoxDecoration(
-              color: AppTheme.primary,
-              borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-            ),
-          ),
-          const SizedBox(width: AppTheme.spacingSm + 2),
           Expanded(
             child: Text(
               title,
-              style: textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w800,
-                color: context.colors.onSurface,
-                letterSpacing: -0.2,
-              ),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: context.colors.onSurface,
+                  ),
             ),
           ),
           if (trailing != null) trailing!,

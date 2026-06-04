@@ -1318,4 +1318,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get impactLoadError => 'Could not load impact data.';
+
+  @override
+  String get homeGreetingMorning => 'Good morning';
+
+  @override
+  String get homeGreetingAfternoon => 'Good afternoon';
+
+  @override
+  String get homeGreetingEvening => 'Good evening';
+
+  @override
+  String get homeDashboardImpactTitle => 'Your impact';
+
+  @override
+  String get homeDashboardWalletTitle => 'Wallet';
+
+  @override
+  String get homeDashboardActiveRequestTitle => 'Latest request';
+
+  @override
+  String get homeExploreTitle => 'Explore';
+
+  @override
+  String get homeActiveRequestEmpty =>
+      'No requests yet. Start your first collection.';
+
+  @override
+  String get homeViewAllRequests => 'View all';
+
+  @override
+  String get homeLoginForDashboard =>
+      'Sign in to see your impact, wallet, and requests.';
+
+  @override
+  String get homeImpactTapHint => 'View full impact dashboard';
+
+  @override
+  String get homeWalletTapHint => 'Open wallet';
+
+  @override
+  String get homeRequestTapHint => 'View request details';
 }

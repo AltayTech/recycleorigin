@@ -109,8 +109,7 @@ class TimeSelector extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 2),
               itemBuilder: (context, index) {
                 final hour = hours[index];
-                final isSelected =
-                    selectedStartHour == hour.start;
+                final isSelected = selectedStartHour == hour.start;
 
                 return GestureDetector(
                   onTap: () {
@@ -140,8 +139,7 @@ class TimeSelector extends StatelessWidget {
                       boxShadow: isSelected
                           ? [
                               BoxShadow(
-                                color: AppTheme.primary
-                                    .withOpacity(0.3),
+                                color: AppTheme.primary.withOpacity(0.3),
                                 blurRadius: 12,
                                 offset: const Offset(0, 4),
                               ),
@@ -162,7 +160,8 @@ class TimeSelector extends StatelessWidget {
                           Icons.schedule_rounded,
                           size: 18,
                           color: isSelected
-                              ? context.appColors.onHeroForeground.withValues(alpha: 0.8)
+                              ? context.appColors.onHeroForeground
+                                  .withValues(alpha: 0.8)
                               : context.colors.onSurfaceVariant,
                         ),
                         const SizedBox(height: 6),
@@ -200,8 +199,7 @@ class TimeSelector extends StatelessWidget {
           '${de.hour.toString().padLeft(2, '0')}:${de.minute.toString().padLeft(2, '0')}';
       return '$a–$b';
     }
-    final s =
-        start.length >= 5 ? start.substring(0, 5) : start;
+    final s = start.length >= 5 ? start.substring(0, 5) : start;
     final e = end.length >= 5 ? end.substring(0, 5) : end;
     if (s.length >= 2 && e.length >= 2) {
       return '${s.substring(0, 2)}-${e.substring(0, 2)}';

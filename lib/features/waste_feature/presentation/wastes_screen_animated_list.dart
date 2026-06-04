@@ -204,8 +204,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
       _isLoading = true;
     });
     await context.read<WastesBloc>().removeWasteCart(
-      itemId,
-    );
+          itemId,
+        );
 
     setState(() {
       _isLoading = false;
@@ -253,8 +253,9 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                           decoration: BoxDecoration(
                               color: context.appColors.cardBackground,
                               borderRadius: BorderRadius.circular(5),
-                              border:
-                                  Border.all(color: context.appColors.subtitleColor, width: 0.2)),
+                              border: Border.all(
+                                  color: context.appColors.subtitleColor,
+                                  width: 0.2)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -285,7 +286,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                       Text(
                                         'Number',
                                         style: TextStyle(
-                                          color: context.appColors.subtitleColor,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -333,7 +335,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                       Text(
                                         '\$',
                                         style: TextStyle(
-                                          color: context.appColors.subtitleColor,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -365,7 +368,8 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                                       Text(
                                         'Kilogram ',
                                         style: TextStyle(
-                                          color: context.appColors.subtitleColor,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -381,33 +385,31 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                           padding: const EdgeInsets.only(top: 10.0),
                           child: BlocBuilder<WastesBloc, WastesState>(
                             builder: (context, state) => state
-                                        .wasteCartItems.isNotEmpty
-                                    ? Container(
-                                        height: deviceHeight * 0.7,
-                                        child: AnimatedList(
-                                          key: _listKey,
-                                          initialItemCount:
-                                              state.wasteCartItems.length,
-                                          itemBuilder: (ctx, i, animation) =>
-                                              FadeTransition(
-                                            opacity: animation,
-                                            child: WasteCartItemAnimatedList(
-                                              wasteItem:
-                                                  state.wasteCartItems[i],
-                                              function: getWasteItems,
-                                              onRemove: () {},
-                                              key: Key(''),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : Container(
-                                        height: deviceHeight * 0.6,
-                                        child: Center(
-                                          child: Text(
-                                              context.l10n.noWasteAddedYet),
+                                    .wasteCartItems.isNotEmpty
+                                ? Container(
+                                    height: deviceHeight * 0.7,
+                                    child: AnimatedList(
+                                      key: _listKey,
+                                      initialItemCount:
+                                          state.wasteCartItems.length,
+                                      itemBuilder: (ctx, i, animation) =>
+                                          FadeTransition(
+                                        opacity: animation,
+                                        child: WasteCartItemAnimatedList(
+                                          wasteItem: state.wasteCartItems[i],
+                                          function: getWasteItems,
+                                          onRemove: () {},
+                                          key: Key(''),
                                         ),
                                       ),
+                                    ),
+                                  )
+                                : Container(
+                                    height: deviceHeight * 0.6,
+                                    child: Center(
+                                      child: Text(context.l10n.noWasteAddedYet),
+                                    ),
+                                  ),
                           ),
                         ),
                         SizedBox(

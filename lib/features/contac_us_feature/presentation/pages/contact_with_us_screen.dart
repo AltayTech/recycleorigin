@@ -68,8 +68,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
     setState(() {
       _isLoading = true;
     });
-    await context.read<CustomerInfoBloc>()
-        .fetchShopData();
+    await context.read<CustomerInfoBloc>().fetchShopData();
     shopData = context.read<CustomerInfoBloc>().shop;
 
     setState(() {

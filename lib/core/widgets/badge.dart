@@ -37,10 +37,8 @@ class Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final badgeColor =
-        color ?? context.colors.surfaceContainerHighest;
-    final badgeTextColor =
-        textColor ?? context.appColors.subtitleColor;
+    final badgeColor = color ?? context.colors.surfaceContainerHighest;
+    final badgeTextColor = textColor ?? context.appColors.subtitleColor;
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,

@@ -133,63 +133,64 @@ class RecycleOriginApp extends StatelessWidget {
                 ),
                 home: home ?? const SplashScreens(),
                 routes: {
-              NavigationBottomScreen.routeName: (ctx) =>
-                  NavigationBottomScreen(),
-              HomeScreen.routeName: (ctx) => HomeScreen(),
-              WasteCartScreen.routeName: (ctx) => WasteCartScreen(),
-              WastesScreen.routeName: (ctx) => WastesScreen(),
-              ProfileScreen.routeName: (ctx) => ProfileScreen(),
-              ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-              LoginScreen.routeName: (ctx) => const LoginScreen(),
-              ForgotPasswordScreen.routeName: (ctx) =>
-                  const ForgotPasswordScreen(),
-              EmailVerificationScreen.routeName: (ctx) =>
-                  const EmailVerificationScreen(),
-              ProductsScreen.routeName: (ctx) => ProductsScreen(),
-              CartScreen.routeName: (ctx) => CartScreen(),
-              OrderProductsSendScreen.routeName: (ctx) =>
-                  OrderProductsSendScreen(),
-              OrderViewScreen.routeName: (ctx) => OrderViewScreen(),
-              AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
-              ContactWithUs.routeName: (ctx) => ContactWithUs(),
-              SettingsScreen.routeName: (ctx) => const SettingsScreen(),
-              CustomerDetailInfoEditScreen.routeName: (ctx) =>
-                  CustomerDetailInfoEditScreen(),
-              CustomerOrdersScreen.routeName: (ctx) => CustomerOrdersScreen(),
-              CustomerUserInfoScreen.routeName: (ctx) =>
-                  CustomerUserInfoScreen(),
-              CustomerNotificationScreen.routeName: (ctx) =>
-                  const CustomerNotificationScreen(),
-              NotificationPreferencesScreen.routeName: (ctx) =>
-                  const NotificationPreferencesScreen(),
-              GuideScreen.routeName: (ctx) => const GuideScreen(),
-              MessageScreen.routeName: (ctx) => MessageScreen(),
-              SupportTicketsListScreen.routeName: (ctx) =>
-                  const SupportTicketsListScreen(),
-              SupportTicketCreateScreen.routeName: (ctx) =>
-                  const SupportTicketCreateScreen(),
-              SupportTicketDetailScreen.routeName: (ctx) =>
-                  const SupportTicketDetailScreen(),
-              MessageCreateScreen.routeName: (ctx) => MessageCreateScreen(),
-              MessageCreateReplyScreen.routeName: (ctx) =>
-                  MessageCreateReplyScreen(),
-              MessageDetailScreen.routeName: (ctx) => MessageDetailScreen(),
-              MapScreen.routeName: (ctx) => MapScreen(),
-              AddressScreen.routeName: (ctx) => AddressScreen(),
-              ArticlesScreen.routeName: (ctx) => ArticlesScreen(),
-              ArticleDetailScreen.routeName: (ctx) => ArticleDetailScreen(),
-              WasteRequestDateScreen.routeName: (ctx) =>
-                  WasteRequestDateScreen(),
-              WasteRequestSendScreen.routeName: (ctx) =>
-                  WasteRequestSendScreen(),
-              CollectListScreen.routeName: (ctx) => CollectListScreen(),
-              WalletScreen.routeName: (ctx) => WalletScreen(),
-              OrdersScreen.routeName: (ctx) => OrdersScreen(),
-              CollectDetailScreen.routeName: (ctx) => CollectDetailScreen(),
-              WastesScreenAnimatedList.routeName: (ctx) =>
-                  WastesScreenAnimatedList(),
-              ClearScreen.routeName: (ctx) => ClearScreen(),
-              ImpactScreen.routeName: (ctx) => const ImpactScreen(),
+                  NavigationBottomScreen.routeName: (ctx) =>
+                      NavigationBottomScreen(),
+                  HomeScreen.routeName: (ctx) => HomeScreen(),
+                  WasteCartScreen.routeName: (ctx) => WasteCartScreen(),
+                  WastesScreen.routeName: (ctx) => WastesScreen(),
+                  ProfileScreen.routeName: (ctx) => ProfileScreen(),
+                  ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+                  LoginScreen.routeName: (ctx) => const LoginScreen(),
+                  ForgotPasswordScreen.routeName: (ctx) =>
+                      const ForgotPasswordScreen(),
+                  EmailVerificationScreen.routeName: (ctx) =>
+                      const EmailVerificationScreen(),
+                  ProductsScreen.routeName: (ctx) => ProductsScreen(),
+                  CartScreen.routeName: (ctx) => CartScreen(),
+                  OrderProductsSendScreen.routeName: (ctx) =>
+                      OrderProductsSendScreen(),
+                  OrderViewScreen.routeName: (ctx) => OrderViewScreen(),
+                  AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
+                  ContactWithUs.routeName: (ctx) => ContactWithUs(),
+                  SettingsScreen.routeName: (ctx) => const SettingsScreen(),
+                  CustomerDetailInfoEditScreen.routeName: (ctx) =>
+                      CustomerDetailInfoEditScreen(),
+                  CustomerOrdersScreen.routeName: (ctx) =>
+                      CustomerOrdersScreen(),
+                  CustomerUserInfoScreen.routeName: (ctx) =>
+                      CustomerUserInfoScreen(),
+                  CustomerNotificationScreen.routeName: (ctx) =>
+                      const CustomerNotificationScreen(),
+                  NotificationPreferencesScreen.routeName: (ctx) =>
+                      const NotificationPreferencesScreen(),
+                  GuideScreen.routeName: (ctx) => const GuideScreen(),
+                  MessageScreen.routeName: (ctx) => MessageScreen(),
+                  SupportTicketsListScreen.routeName: (ctx) =>
+                      const SupportTicketsListScreen(),
+                  SupportTicketCreateScreen.routeName: (ctx) =>
+                      const SupportTicketCreateScreen(),
+                  SupportTicketDetailScreen.routeName: (ctx) =>
+                      const SupportTicketDetailScreen(),
+                  MessageCreateScreen.routeName: (ctx) => MessageCreateScreen(),
+                  MessageCreateReplyScreen.routeName: (ctx) =>
+                      MessageCreateReplyScreen(),
+                  MessageDetailScreen.routeName: (ctx) => MessageDetailScreen(),
+                  MapScreen.routeName: (ctx) => MapScreen(),
+                  AddressScreen.routeName: (ctx) => AddressScreen(),
+                  ArticlesScreen.routeName: (ctx) => ArticlesScreen(),
+                  ArticleDetailScreen.routeName: (ctx) => ArticleDetailScreen(),
+                  WasteRequestDateScreen.routeName: (ctx) =>
+                      WasteRequestDateScreen(),
+                  WasteRequestSendScreen.routeName: (ctx) =>
+                      WasteRequestSendScreen(),
+                  CollectListScreen.routeName: (ctx) => CollectListScreen(),
+                  WalletScreen.routeName: (ctx) => WalletScreen(),
+                  OrdersScreen.routeName: (ctx) => OrdersScreen(),
+                  CollectDetailScreen.routeName: (ctx) => CollectDetailScreen(),
+                  WastesScreenAnimatedList.routeName: (ctx) =>
+                      WastesScreenAnimatedList(),
+                  ClearScreen.routeName: (ctx) => ClearScreen(),
+                  ImpactScreen.routeName: (ctx) => const ImpactScreen(),
                 },
               );
             },

@@ -55,9 +55,7 @@ class Shop with ChangeNotifier {
   factory Shop.fromJson(Map<String, dynamic> parsedJson) {
     final galleryList = parsedJson['gallery'];
     final galleryRaw = galleryList is List
-        ? galleryList
-            .map((dynamic i) => FeaturedImage.fromJson(i))
-            .toList()
+        ? galleryList.map((dynamic i) => FeaturedImage.fromJson(i)).toList()
         : <FeaturedImage>[];
 
     final featureList = parsedJson['features_list'];

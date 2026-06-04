@@ -317,7 +317,8 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.error_outline, color: context.appColors.cardBackground, size: 20),
+              Icon(Icons.error_outline,
+                  color: context.appColors.cardBackground, size: 20),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
@@ -338,7 +339,8 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.info_outline, color: context.appColors.cardBackground, size: 20),
+              Icon(Icons.info_outline,
+                  color: context.appColors.cardBackground, size: 20),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
@@ -359,7 +361,8 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.check_circle, color: context.appColors.cardBackground, size: 20),
+              Icon(Icons.check_circle,
+                  color: context.appColors.cardBackground, size: 20),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
@@ -379,7 +382,7 @@ class _MapScreenState extends State<MapScreen>
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-            body: CustomScrollView(
+      body: CustomScrollView(
         controller: _scrollController,
         slivers: [
           _buildSliverAppBar(l10n),
@@ -742,8 +745,8 @@ class _MapSection extends StatelessWidget {
                           shadows: [
                             Shadow(
                               blurRadius: 6,
-                              color: context.colors.shadow
-                                  .withValues(alpha: 0.26),
+                              color:
+                                  context.colors.shadow.withValues(alpha: 0.26),
                               offset: const Offset(0, 2),
                             ),
                           ],
@@ -856,7 +859,8 @@ class _CoordinatesRow extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8),
       child: Row(
         children: [
-          Icon(Icons.gps_fixed_rounded, size: 14, color: context.appColors.subtitleColor),
+          Icon(Icons.gps_fixed_rounded,
+              size: 14, color: context.appColors.subtitleColor),
           const SizedBox(width: 6),
           Text(
             '${location.latitude.toStringAsFixed(5)}, '
@@ -906,7 +910,9 @@ class _MapActionChip extends StatelessWidget {
               Icon(
                 icon,
                 size: 18,
-                color: isPrimary ? context.appColors.onHeroForeground : AppTheme.primary,
+                color: isPrimary
+                    ? context.appColors.onHeroForeground
+                    : AppTheme.primary,
               ),
               const SizedBox(width: 8),
               Flexible(
@@ -915,7 +921,9 @@ class _MapActionChip extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
-                    color: isPrimary ? context.appColors.onHeroForeground : context.colors.onSurface,
+                    color: isPrimary
+                        ? context.appColors.onHeroForeground
+                        : context.colors.onSurface,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),

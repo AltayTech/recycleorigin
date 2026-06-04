@@ -1311,4 +1311,45 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get impactLoadError => 'Etki verileri yüklenemedi.';
+
+  @override
+  String get homeGreetingMorning => 'Günaydın';
+
+  @override
+  String get homeGreetingAfternoon => 'İyi günler';
+
+  @override
+  String get homeGreetingEvening => 'İyi akşamlar';
+
+  @override
+  String get homeDashboardImpactTitle => 'Etkiniz';
+
+  @override
+  String get homeDashboardWalletTitle => 'Cüzdan';
+
+  @override
+  String get homeDashboardActiveRequestTitle => 'Son talep';
+
+  @override
+  String get homeExploreTitle => 'Keşfet';
+
+  @override
+  String get homeActiveRequestEmpty =>
+      'Henüz talep yok. İlk toplamanızı başlatın.';
+
+  @override
+  String get homeViewAllRequests => 'Tümünü gör';
+
+  @override
+  String get homeLoginForDashboard =>
+      'Etkinizi, cüzdanınızı ve taleplerinizi görmek için giriş yapın.';
+
+  @override
+  String get homeImpactTapHint => 'Tam etki panosunu aç';
+
+  @override
+  String get homeWalletTapHint => 'Cüzdanı aç';
+
+  @override
+  String get homeRequestTapHint => 'Talep ayrıntılarını gör';
 }

@@ -96,8 +96,9 @@ class _MessageScreenState extends State<MessageScreen> {
                         decoration: BoxDecoration(
                             color: context.appColors.cardBackground,
                             borderRadius: BorderRadius.circular(5),
-                            border:
-                                Border.all(color: context.appColors.subtitleColor, width: 0.3)),
+                            border: Border.all(
+                                color: context.appColors.subtitleColor,
+                                width: 0.3)),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[

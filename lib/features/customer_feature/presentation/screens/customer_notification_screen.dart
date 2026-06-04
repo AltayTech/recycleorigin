@@ -18,7 +18,8 @@ class CustomerNotificationScreen extends StatefulWidget {
       _CustomerNotificationScreenState();
 }
 
-class _CustomerNotificationScreenState extends State<CustomerNotificationScreen> {
+class _CustomerNotificationScreenState
+    extends State<CustomerNotificationScreen> {
   final ApiClient _api = ApiClient();
   final List<UserNotificationItem> _items = [];
   bool _loading = false;
@@ -72,7 +73,8 @@ class _CustomerNotificationScreenState extends State<CustomerNotificationScreen>
       return;
     }
     final path = '${Urls.rootUrl}/notifications/${it.id}/read';
-    await _api.post<Map<String, dynamic>>(path, parser: (d) => d as Map<String, dynamic>);
+    await _api.post<Map<String, dynamic>>(path,
+        parser: (d) => d as Map<String, dynamic>);
     setState(() {
       final i = _items.indexWhere((x) => x.id == it.id);
       if (i >= 0) {

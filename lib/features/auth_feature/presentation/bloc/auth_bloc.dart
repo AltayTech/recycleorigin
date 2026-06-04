@@ -35,8 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthForgotPasswordRequested>(_onForgotPasswordRequested);
     on<AuthEmailVerificationResendRequested>(
         _onEmailVerificationResendRequested);
-    on<AuthEmailVerificationCheckRequested>(
-        _onEmailVerificationCheckRequested);
+    on<AuthEmailVerificationCheckRequested>(_onEmailVerificationCheckRequested);
     on<AuthTokenLoadRequested>(_onTokenLoadRequested);
     on<AuthCompletionCheckRequested>(_onCompletionCheckRequested);
     on<AuthTokenRemoved>(_onTokenRemoved);

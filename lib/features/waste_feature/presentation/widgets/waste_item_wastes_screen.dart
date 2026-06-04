@@ -37,9 +37,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                 : context.appColors.cardBackground,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: isSelected
-                  ? AppTheme.primary
-                  : context.colors.outline,
+              color: isSelected ? AppTheme.primary : context.colors.outline,
               width: isSelected ? 2.0 : 1.0,
             ),
             boxShadow: [
@@ -78,7 +76,8 @@ class WasteItemWastesScreen extends StatelessWidget {
                           imageErrorBuilder: (_, __, ___) => Icon(
                             Icons.recycling_rounded,
                             size: 36,
-                            color: context.appColors.subtitleColor.withOpacity(0.3),
+                            color: context.appColors.subtitleColor
+                                .withOpacity(0.3),
                           ),
                         ),
                       ),
@@ -101,9 +100,8 @@ class WasteItemWastesScreen extends StatelessWidget {
                               ? AppTheme.primary
                               : context.colors.onSurface,
                           fontSize: 13,
-                          fontWeight: isSelected
-                              ? FontWeight.w700
-                              : FontWeight.w600,
+                          fontWeight:
+                              isSelected ? FontWeight.w700 : FontWeight.w600,
                           height: 1.2,
                         ),
                       ),
@@ -125,8 +123,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color:
-                                AppTheme.primary.withOpacity(0.4),
+                            color: AppTheme.primary.withOpacity(0.4),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),

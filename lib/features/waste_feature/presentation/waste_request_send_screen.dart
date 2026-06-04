@@ -31,12 +31,10 @@ class WasteRequestSendScreen extends StatefulWidget {
   const WasteRequestSendScreen({super.key});
 
   @override
-  State<WasteRequestSendScreen> createState() =>
-      _WasteRequestSendScreenState();
+  State<WasteRequestSendScreen> createState() => _WasteRequestSendScreenState();
 }
 
-class _WasteRequestSendScreenState
-    extends State<WasteRequestSendScreen> {
+class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
   List<WasteCart> _wasteCartItems = [];
   bool _isLoading = true;
   bool _isSending = false;
@@ -282,8 +280,7 @@ class _WasteRequestSendScreenState
                   child: OutlinedButton(
                     onPressed: () => Navigator.of(ctx).pop(false),
                     style: OutlinedButton.styleFrom(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -341,7 +338,7 @@ class _WasteRequestSendScreenState
     final l10n = context.l10n;
 
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.registerWasteRequestAppBarTitle,
@@ -373,8 +370,7 @@ class _WasteRequestSendScreenState
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.all(16),
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _SectionTitle(
                             icon: Icons.summarize_rounded,
@@ -389,18 +385,15 @@ class _WasteRequestSendScreenState
                           const SizedBox(height: 20),
                           _SectionTitle(
                             icon: Icons.event_note_rounded,
-                            label:
-                                l10n.requestDetailsSectionTitle,
+                            label: l10n.requestDetailsSectionTitle,
                           ),
                           const SizedBox(height: 12),
                           _DetailsReviewCard(
                             date: _selectedDay,
                             hours: _selectedHours,
                             regionName: _selectedRegion.name,
-                            addressName:
-                                _selectedAddress.name,
-                            addressFull:
-                                _selectedAddress.address,
+                            addressName: _selectedAddress.name,
+                            addressFull: _selectedAddress.address,
                           ),
                           const SizedBox(height: 20),
                           _SectionTitle(
@@ -455,8 +448,7 @@ class _WasteRequestSendScreenState
             )
           : InkWell(
               onTap: _handleConfirm,
-              borderRadius:
-                  BorderRadius.circular(AppTheme.radiusSm),
+              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
               child: ButtonBottom(
                 width: double.infinity,
                 height: 52,
@@ -644,10 +636,8 @@ class _DetailsReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final converter = EnArConvertor();
     final locale = Localizations.localeOf(context).toString();
-    final dateHeading =
-        intl.DateFormat('EEEE', locale).format(date);
-    final dateRest =
-        intl.DateFormat('d MMMM', locale).format(date);
+    final dateHeading = intl.DateFormat('EEEE', locale).format(date);
+    final dateRest = intl.DateFormat('d MMMM', locale).format(date);
     final l10n = context.l10n;
 
     return Container(
@@ -669,8 +659,7 @@ class _DetailsReviewCard extends StatelessWidget {
             icon: Icons.calendar_month_rounded,
             iconColor: AppTheme.iconAccentBlue,
             label: l10n.collectDateFieldLabel,
-            value:
-                '$dateHeading  ${converter.replaceArNumber(dateRest)}',
+            value: '$dateHeading  ${converter.replaceArNumber(dateRest)}',
           ),
           Divider(height: 20, color: context.appColors.divider),
           _DetailRow(
@@ -785,8 +774,7 @@ class _WasteItemReviewTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final converter = EnArConvertor();
     final fmt = intl.NumberFormat.decimalPattern();
-    final unitPrice =
-        int.tryParse(getPrice(item.prices, item.weight)) ?? 0;
+    final unitPrice = int.tryParse(getPrice(item.prices, item.weight)) ?? 0;
     final total = unitPrice * item.weight;
 
     return Container(
@@ -905,8 +893,7 @@ class _StepProgressBar extends StatelessWidget {
         ],
       ),
       child: Row(
-        children:
-            List.generate(_steps.length * 2 - 1, (index) {
+        children: List.generate(_steps.length * 2 - 1, (index) {
           if (index.isOdd) {
             final stepBefore = index ~/ 2;
             return Expanded(
@@ -951,9 +938,7 @@ class _StepProgressBar extends StatelessWidget {
                       : null,
                 ),
                 child: Icon(
-                  isCompleted
-                      ? Icons.check_rounded
-                      : _steps[stepIndex],
+                  isCompleted ? Icons.check_rounded : _steps[stepIndex],
                   size: 16,
                   color: isCompleted
                       ? context.appColors.onHeroForeground
@@ -967,9 +952,7 @@ class _StepProgressBar extends StatelessWidget {
                 labels[stepIndex],
                 style: TextStyle(
                   fontSize: 10,
-                  fontWeight: isActive
-                      ? FontWeight.w700
-                      : FontWeight.w500,
+                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
                   color: isActive || isCompleted
                       ? AppTheme.primary
                       : context.colors.onSurfaceVariant,

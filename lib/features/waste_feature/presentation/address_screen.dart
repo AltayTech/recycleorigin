@@ -60,7 +60,8 @@ class _AddressScreenState extends State<AddressScreen>
           SnackBar(
             content: Row(
               children: [
-                Icon(Icons.error_outline, color: context.appColors.cardBackground, size: 20),
+                Icon(Icons.error_outline,
+                    color: context.appColors.cardBackground, size: 20),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -150,7 +151,7 @@ class _AddressScreenState extends State<AddressScreen>
     final l10n = context.l10n;
 
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           l10n.addressListTitle,
@@ -534,7 +535,8 @@ class _StepProgressBar extends StatelessWidget {
                           ],
                         )
                       : null,
-                  color: stepBefore < currentStep ? null : context.colors.outline,
+                  color:
+                      stepBefore < currentStep ? null : context.colors.outline,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),

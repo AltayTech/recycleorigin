@@ -197,7 +197,8 @@ class _ClearScreenState extends State<ClearScreen>
                                   padding: const EdgeInsets.all(15.0),
                                   child: Text(
                                     context.l10n.login,
-                                    style: const TextStyle(color: AppTheme.appBarIconColor),
+                                    style: const TextStyle(
+                                        color: AppTheme.appBarIconColor),
                                   ),
                                 ),
                                 decoration: BoxDecoration(
@@ -342,7 +343,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             child: Text(
                                               context.l10n.walletCreditUsdLabel,
                                               style: TextStyle(
-                                                color: context.appColors.subtitleColor,
+                                                color: context
+                                                    .appColors.subtitleColor,
                                                 //fontFamily: 'Iransans',
                                                 fontSize: 13.0,
                                               ),
@@ -495,8 +497,8 @@ class _ClearScreenState extends State<ClearScreen>
                                         context.l10n.clearingPaymentListTitle,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          color:
-                                              context.colors.onSurface.withOpacity(0.5),
+                                          color: context.colors.onSurface
+                                              .withOpacity(0.5),
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),
@@ -613,7 +615,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             context.l10n.tableColumnStatusLabel,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: context.appColors.subtitleColor,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
@@ -627,7 +630,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             context.l10n.tableColumnDateLabel,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: context.appColors.subtitleColor,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
@@ -641,7 +645,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             context.l10n.summaryPriceUsdTitle,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: context.appColors.subtitleColor,
+                                              color: context
+                                                  .appColors.subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
@@ -748,7 +753,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             return DecoratedBox(
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
-                                                color: context.appColors.subtitleColor,
+                                                color: context
+                                                    .appColors.subtitleColor,
                                               ),
                                             );
                                           },

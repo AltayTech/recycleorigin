@@ -75,8 +75,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
   Future<void> _refreshWasteItems() async {
     final wastesProvider = context.read<WastesBloc>();
 
-    final total =
-        _calculateTotalPrice(wastesProvider.wasteCartItems);
+    final total = _calculateTotalPrice(wastesProvider.wasteCartItems);
     _animatePriceTo(total.toDouble());
 
     if (mounted) setState(() {});
@@ -166,7 +165,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           context.l10n.wasteCartTitle,
@@ -184,8 +183,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
             tooltip: context.l10n.addItemsTooltip,
             icon: Icon(Icons.add_circle_outline),
             onPressed: () async {
-              await Navigator.of(context)
-                  .pushNamed(WastesScreen.routeName);
+              await Navigator.of(context).pushNamed(WastesScreen.routeName);
               await _refreshWasteItems();
             },
           )
@@ -344,8 +342,7 @@ class _StepProgressBar extends StatelessWidget {
                 labels[stepIndex],
                 style: TextStyle(
                   fontSize: 10,
-                  fontWeight:
-                      isActive ? FontWeight.w700 : FontWeight.w500,
+                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
                   color: isActive || isCompleted
                       ? AppTheme.primary
                       : context.colors.onSurfaceVariant,
@@ -414,8 +411,7 @@ class _WasteCartSummary extends StatelessWidget {
                 iconColor: AppTheme.iconAccentGold,
                 label: l10n.cartTotalLabel,
                 value: converter.replaceArNumber(
-                  currencyFormat
-                      .format(priceAnimation.value.toInt()),
+                  currencyFormat.format(priceAnimation.value.toInt()),
                 ),
                 isHighlight: true,
               ),

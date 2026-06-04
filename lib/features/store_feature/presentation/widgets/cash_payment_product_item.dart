@@ -105,11 +105,11 @@ class CashPaymentProductItem extends StatelessWidget {
       height: deviceHeight * 0.16,
       decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(
-              width: 0.3,
-              color: context.appColors.divider,
-            ),
-          )),
+        bottom: BorderSide(
+          width: 0.3,
+          color: context.appColors.divider,
+        ),
+      )),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -164,8 +164,8 @@ class CashPaymentProductItem extends StatelessWidget {
                             height: 15.0,
                             decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
-                              border:
-                                  Border.all(color: context.colors.onSurface, width: 0.2),
+                              border: Border.all(
+                                  color: context.colors.onSurface, width: 0.2),
                               color: Color(
                                 int.parse(
                                   '0xff' +

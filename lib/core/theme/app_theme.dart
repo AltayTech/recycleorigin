@@ -42,7 +42,8 @@ class AppTheme {
         border: Border.all(
           color: Theme.of(context).extension<AppColorsExtension>()!.divider,
         ),
-        color: Theme.of(context).extension<AppColorsExtension>()!.cardBackground,
+        color:
+            Theme.of(context).extension<AppColorsExtension>()!.cardBackground,
       );
 
   // ── Semantic ───────────────────────────────────────────────────
@@ -130,12 +131,55 @@ class AppTheme {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: ext.scaffoldBackground,
       appBarTheme: AppBarTheme(
-        backgroundColor: primary,
-        foregroundColor: Colors.white,
+        backgroundColor: ext.heroGradientEnd,
+        foregroundColor: ext.onHeroForeground,
+        iconTheme: IconThemeData(color: ext.onHeroForeground),
+        actionsIconTheme: IconThemeData(color: ext.onHeroForeground),
+        titleTextStyle: TextStyle(
+          color: ext.onHeroForeground,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.2,
+        ),
         centerTitle: true,
         elevation: 0,
+        scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
         systemOverlayStyle: systemUiOverlay(brightness),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        height: 72,
+        backgroundColor: ext.cardBackground,
+        surfaceTintColor: Colors.transparent,
+        indicatorColor: colorScheme.primary.withValues(
+          alpha: isDark ? 0.28 : 0.14,
+        ),
+        iconTheme: WidgetStateProperty.resolveWith<IconThemeData>(
+          (Set<WidgetState> states) {
+            final selected = states.contains(WidgetState.selected);
+            return IconThemeData(
+              color: selected
+                  ? colorScheme.primary
+                  : colorScheme.onSurfaceVariant,
+            );
+          },
+        ),
+        labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.selected)) {
+              return TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: colorScheme.primary,
+              );
+            }
+            return TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: colorScheme.onSurfaceVariant,
+            );
+          },
+        ),
       ),
       textTheme: _buildTextTheme(brightness, colorScheme),
       cardTheme: CardThemeData(

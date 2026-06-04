@@ -178,9 +178,9 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                             await context
                                                 .read<WastesBloc>()
                                                 .updateWasteCart(
-                                              widget.wasteItem,
-                                              productWeight,
-                                            );
+                                                  widget.wasteItem,
+                                                  productWeight,
+                                                );
                                             changeNumberAnimation(double.parse(
                                                     getPrice(
                                                         widget.wasteItem.prices,
@@ -196,7 +196,8 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                               ),
                                               child: Icon(
                                                 Icons.add,
-                                                color: context.appColors.scaffoldBackground,
+                                                color: context.appColors
+                                                    .scaffoldBackground,
                                               )),
                                         )),
                                         Expanded(
@@ -230,9 +231,9 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                                 context
                                                     .read<WastesBloc>()
                                                     .updateWasteCart(
-                                                  widget.wasteItem,
-                                                  productWeight,
-                                                );
+                                                      widget.wasteItem,
+                                                      productWeight,
+                                                    );
                                                 changeNumberAnimation(
                                                     double.parse(getPrice(
                                                             widget.wasteItem
@@ -251,7 +252,8 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                               ),
                                               child: Icon(
                                                 Icons.remove,
-                                                color: context.appColors.scaffoldBackground,
+                                                color: context.appColors
+                                                    .scaffoldBackground,
                                               ),
                                             ),
                                           ),
@@ -275,7 +277,8 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                       Text(
                                         'per kilo: ',
                                         style: TextStyle(
-                                          color: context.appColors.subtitleColor,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -302,7 +305,8 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                       Text(
                                         '  \$ ',
                                         style: TextStyle(
-                                          color: context.appColors.subtitleColor,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -316,7 +320,8 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                       Text(
                                         'Total: ',
                                         style: TextStyle(
-                                          color: context.appColors.subtitleColor,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),
@@ -350,7 +355,8 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                       Text(
                                         '  \$ ',
                                         style: TextStyle(
-                                          color: context.appColors.subtitleColor,
+                                          color:
+                                              context.appColors.subtitleColor,
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 12,
                                         ),

@@ -36,8 +36,7 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
   int get sPage => state.sPage;
   set sPage(int value) => add(ClearingsSearchParamsChanged(sPage: value));
   int get sPerPage => state.sPerPage;
-  set sPerPage(int value) =>
-      add(ClearingsSearchParamsChanged(sPerPage: value));
+  set sPerPage(int value) => add(ClearingsSearchParamsChanged(sPerPage: value));
   String get sOrder => state.sOrder;
   set sOrder(String value) => add(ClearingsSearchParamsChanged(sOrder: value));
   String get sOrderBy => state.sOrderBy;
@@ -92,8 +91,7 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     var searchEndPoint = '';
     if (s.searchKey != '') {
       searchEndPoint = '?search=${s.searchKey}';
-      searchEndPoint =
-          '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
+      searchEndPoint = '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
     } else {
       searchEndPoint = '?page=${s.sPage}&per_page=${s.sPerPage}';
     }

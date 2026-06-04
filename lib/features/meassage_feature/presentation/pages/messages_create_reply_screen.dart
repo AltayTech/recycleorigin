@@ -41,8 +41,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
     if (_isInit) {
       contentTextController.text = '';
       message = ModalRoute.of(context)?.settings.arguments as Message;
-      customer =
-          context.read<CustomerInfoBloc>().customer;
+      customer = context.read<CustomerInfoBloc>().customer;
 
       isLogin = context.read<AuthBloc>().isAuth;
     }
@@ -66,17 +65,17 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
     await context
         .read<MessagesBloc>()
         .createMessage(
-      message.subject,
-      contentTextController.text,
-      message.comment_post_ID,
-      message.comment_ID,
-      isLogin,
-    )
+          message.subject,
+          contentTextController.text,
+          message.comment_post_ID,
+          message.comment_ID,
+          isLogin,
+        )
         .then((value) async {
       await context.read<MessagesBloc>().getMessages(
-        message.comment_post_ID,
-        isLogin,
-      );
+            message.comment_post_ID,
+            isLogin,
+          );
       Navigator.of(context).pop();
     });
     setState(() {

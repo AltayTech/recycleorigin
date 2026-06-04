@@ -26,7 +26,8 @@ class UserNotificationItem {
       title: j['Title'] as String? ?? j['title'] as String? ?? '',
       body: j['Body'] as String? ?? j['body'] as String? ?? '',
       category: j['Category'] as String? ?? j['category'] as String? ?? '',
-      createdAt: j['CreatedAt']?.toString() ?? j['created_at']?.toString() ?? '',
+      createdAt:
+          j['CreatedAt']?.toString() ?? j['created_at']?.toString() ?? '',
       readAt: j['ReadAt']?.toString() ?? j['read_at']?.toString(),
       deepLink: j['DeepLink'] as String? ?? j['deep_link'] as String?,
       dataJson: j['DataJSON'] as String? ?? j['data_json'] as String?,

@@ -187,7 +187,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           'Articles',
@@ -311,7 +311,9 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? context.appColors.scaffoldBackground : Colors.transparent,
+          color: isSelected
+              ? context.appColors.scaffoldBackground
+              : Colors.transparent,
           border: isSelected
               ? Border(
                   bottom: BorderSide(

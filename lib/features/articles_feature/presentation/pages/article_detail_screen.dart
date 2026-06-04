@@ -71,7 +71,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         leading: const DrawerOrBackLeading(),
         title: Text(
           'Article',

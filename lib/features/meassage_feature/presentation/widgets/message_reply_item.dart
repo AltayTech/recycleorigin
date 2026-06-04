@@ -35,7 +35,9 @@ class MessageReplyItem extends StatelessWidget {
             border: Border(
                 right: BorderSide(
                     width: 4,
-                    color: isReply ? AppTheme.primary : context.appColors.subtitleColor)),
+                    color: isReply
+                        ? AppTheme.primary
+                        : context.appColors.subtitleColor)),
             color: context.appColors.cardBackground,
           ),
           child: Padding(

@@ -27,8 +27,7 @@ class ArticlesState {
     Article? item,
   })  : articleItems = articleItems ?? const [],
         wasteCartItemsId = wasteCartItemsId ?? const [],
-        searchDetails =
-            searchDetails ?? SearchDetail(max_page: 1, total: 10),
+        searchDetails = searchDetails ?? SearchDetail(max_page: 1, total: 10),
         categoryItems = categoryItems ?? const [],
         item = item ?? buildEmptyArticle();
 

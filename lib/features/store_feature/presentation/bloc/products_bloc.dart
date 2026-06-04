@@ -163,8 +163,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     var searchEndPoint = '';
     if (s.searchKey != '') {
       searchEndPoint = '?search=${s.searchKey}';
-      searchEndPoint =
-          '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
+      searchEndPoint = '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
     } else {
       searchEndPoint = '?page=${s.sPage}&per_page=${s.sPerPage}';
     }
@@ -213,7 +212,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       emit(state.copyWith(cartItems: next));
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to add product to cart', error: e, stackTrace: st);
+      AppLogger.error('Failed to add product to cart',
+          error: e, stackTrace: st);
       event.completer?.completeError(e, st);
       rethrow;
     }
@@ -294,7 +294,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     Emitter<ProductsState> emit,
   ) async {
     AppLogger.debug('Searching products');
-    final path = 'recycleorigin/v1${Urls.productsEndPoint}${state.searchEndPoint}';
+    final path =
+        'recycleorigin/v1${Urls.productsEndPoint}${state.searchEndPoint}';
     AppLogger.debug('Products search path: $path');
 
     final result = await _apiClient.get<Map<String, dynamic>>(

@@ -29,9 +29,7 @@ class WalletTransactionItem extends StatelessWidget {
       case 'deposit':
         return Icons.add_circle_outline;
       default:
-        return transaction.isCredit
-            ? Icons.arrow_downward
-            : Icons.arrow_upward;
+        return transaction.isCredit ? Icons.arrow_downward : Icons.arrow_upward;
     }
   }
 
@@ -85,7 +83,8 @@ class WalletTransactionItem extends StatelessWidget {
             if (transaction.description.isNotEmpty)
               Text(
                 transaction.description,
-                style: TextStyle(color: context.appColors.subtitleColor, fontSize: 13),
+                style: TextStyle(
+                    color: context.appColors.subtitleColor, fontSize: 13),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

@@ -40,7 +40,8 @@ class ButtonBottom extends StatelessWidget {
                 end: Alignment.bottomRight,
               )
             : null,
-        color: isActive ? null : context.appColors.subtitleColor.withOpacity(0.4),
+        color:
+            isActive ? null : context.appColors.subtitleColor.withOpacity(0.4),
         borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         boxShadow: isActive
             ? [

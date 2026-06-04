@@ -70,16 +70,16 @@ class WalletBalanceCard extends StatelessWidget {
               Text(
                 'Total Balance',
                 style: TextStyle(
-                  color: context.appColors.onHeroForeground
-                      .withValues(alpha: 0.9),
+                  color:
+                      context.appColors.onHeroForeground.withValues(alpha: 0.9),
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Icon(
                 Icons.account_balance_wallet_outlined,
-                color: context.appColors.onHeroForeground
-                    .withValues(alpha: 0.9),
+                color:
+                    context.appColors.onHeroForeground.withValues(alpha: 0.9),
               ),
             ],
           ),

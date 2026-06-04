@@ -68,18 +68,15 @@ class ImpactMetrics {
 
   factory ImpactMetrics.fromJson(Map<String, dynamic> json) {
     return ImpactMetrics(
-      recycledWeightKg:
-          (json['recycled_weight_kg'] as num?)?.toDouble() ?? 0,
-      completedPickups:
-          (json['completed_pickups'] as num?)?.toInt() ?? 0,
+      recycledWeightKg: (json['recycled_weight_kg'] as num?)?.toDouble() ?? 0,
+      completedPickups: (json['completed_pickups'] as num?)?.toInt() ?? 0,
       totalValue: json['total_value'] as String? ?? '0',
       earnings: json['earnings'] as String? ?? '0',
       walletBalance: json['wallet_balance'] as String? ?? '0',
       currency: json['currency'] as String? ?? 'USD',
       averageRating: (json['average_rating'] as num?)?.toDouble(),
       co2SavedKg: (json['co2_saved_kg'] as num?)?.toDouble() ?? 0,
-      treesEquivalent:
-          (json['trees_equivalent'] as num?)?.toDouble() ?? 0,
+      treesEquivalent: (json['trees_equivalent'] as num?)?.toDouble() ?? 0,
       waterLiters: (json['water_liters'] as num?)?.toDouble() ?? 0,
       energyKwh: (json['energy_kwh'] as num?)?.toDouble() ?? 0,
       periodWeightKg: (json['period_weight_kg'] as num?)?.toDouble() ?? 0,
@@ -281,8 +278,7 @@ class RankSummary {
   factory RankSummary.fromJson(Map<String, dynamic> json) {
     return RankSummary(
       position: (json['position'] as num?)?.toInt() ?? 0,
-      totalParticipants:
-          (json['total_participants'] as num?)?.toInt() ?? 0,
+      totalParticipants: (json['total_participants'] as num?)?.toInt() ?? 0,
       percentile: (json['percentile'] as num?)?.toDouble() ?? 0,
     );
   }

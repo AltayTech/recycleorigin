@@ -27,7 +27,8 @@ final class SupportTicketsListFailed extends SupportTicketsListState {
 
 /// Loads the signed-in user’s support tickets.
 class SupportTicketsListCubit extends Cubit<SupportTicketsListState> {
-  SupportTicketsListCubit(this._repo) : super(const SupportTicketsListInitial());
+  SupportTicketsListCubit(this._repo)
+      : super(const SupportTicketsListInitial());
 
   final SupportTicketRepository _repo;
 

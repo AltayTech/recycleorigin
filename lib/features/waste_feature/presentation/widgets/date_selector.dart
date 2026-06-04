@@ -71,13 +71,10 @@ class DateSelector extends StatelessWidget {
               final date = dateList[index];
               final isSelected = _isSameDay(date, selectedDate);
 
-              final locale =
-                  Localizations.localeOf(context).toString();
-              final dayName =
-                  intl.DateFormat('EEE', locale).format(date);
+              final locale = Localizations.localeOf(context).toString();
+              final dayName = intl.DateFormat('EEE', locale).format(date);
               final dayNum = date.day.toString();
-              final monthName =
-                  intl.DateFormat('MMM', locale).format(date);
+              final monthName = intl.DateFormat('MMM', locale).format(date);
               final converter = EnArConvertor();
 
               return GestureDetector(
@@ -108,8 +105,7 @@ class DateSelector extends StatelessWidget {
                     boxShadow: isSelected
                         ? [
                             BoxShadow(
-                              color: AppTheme.primary
-                                  .withOpacity(0.3),
+                              color: AppTheme.primary.withOpacity(0.3),
                               blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),
@@ -130,7 +126,8 @@ class DateSelector extends StatelessWidget {
                         converter.replaceArNumber(dayName),
                         style: TextStyle(
                           color: isSelected
-                              ? context.appColors.onHeroForeground.withValues(alpha: 0.85)
+                              ? context.appColors.onHeroForeground
+                                  .withValues(alpha: 0.85)
                               : context.appColors.subtitleColor,
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
@@ -152,7 +149,8 @@ class DateSelector extends StatelessWidget {
                         converter.replaceArNumber(monthName),
                         style: TextStyle(
                           color: isSelected
-                              ? context.appColors.onHeroForeground.withValues(alpha: 0.8)
+                              ? context.appColors.onHeroForeground
+                                  .withValues(alpha: 0.8)
                               : context.colors.onSurfaceVariant,
                           fontSize: 11,
                           fontWeight: FontWeight.w500,

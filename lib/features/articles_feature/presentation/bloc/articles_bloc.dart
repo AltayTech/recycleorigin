@@ -23,7 +23,8 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   }
 
   Object? get sCategory => state.sCategory;
-  set sCategory(Object? value) => add(ArticlesSearchParamsChanged(sCategory: value));
+  set sCategory(Object? value) =>
+      add(ArticlesSearchParamsChanged(sCategory: value));
   int get sPage => state.sPage;
   set sPage(int value) => add(ArticlesSearchParamsChanged(sPage: value));
   int get sPerPage => state.sPerPage;
@@ -80,8 +81,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     var searchEndPoint = '';
     if (s.searchKey != '') {
       searchEndPoint = '?search=${s.searchKey}';
-      searchEndPoint =
-          '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
+      searchEndPoint = '$searchEndPoint&page=${s.sPage}&per_page=${s.sPerPage}';
     } else {
       searchEndPoint = '?page=${s.sPage}&per_page=${s.sPerPage}';
     }

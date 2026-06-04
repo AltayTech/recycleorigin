@@ -449,5 +449,18 @@
   "impactRange7d": "Son 7 gün",
   "impactRange30d": "Son 30 gün",
   "impactRange90d": "Son 90 gün",
-  "impactLoadError": "Etki verileri yüklenemedi."
+  "impactLoadError": "Etki verileri yüklenemedi.",
+  "homeGreetingMorning": "Günaydın",
+  "homeGreetingAfternoon": "İyi günler",
+  "homeGreetingEvening": "İyi akşamlar",
+  "homeDashboardImpactTitle": "Etkiniz",
+  "homeDashboardWalletTitle": "Cüzdan",
+  "homeDashboardActiveRequestTitle": "Son talep",
+  "homeExploreTitle": "Keşfet",
+  "homeActiveRequestEmpty": "Henüz talep yok. İlk toplamanızı başlatın.",
+  "homeViewAllRequests": "Tümünü gör",
+  "homeLoginForDashboard": "Etkinizi, cüzdanınızı ve taleplerinizi görmek için giriş yapın.",
+  "homeImpactTapHint": "Tam etki panosunu aç",
+  "homeWalletTapHint": "Cüzdanı aç",
+  "homeRequestTapHint": "Talep ayrıntılarını gör"
 }

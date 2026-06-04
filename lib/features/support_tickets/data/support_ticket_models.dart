@@ -103,8 +103,7 @@ class SupportTicketMessage {
     );
   }
 
-  bool get isFromUser =>
-      senderRole == 'user' || senderRole == 'driver';
+  bool get isFromUser => senderRole == 'user' || senderRole == 'driver';
   bool get isFromStaff => senderRole == 'admin';
 }
 

@@ -2581,6 +2581,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not load impact data.'**
   String get impactLoadError;
+
+  /// No description provided for @homeGreetingMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get homeGreetingMorning;
+
+  /// No description provided for @homeGreetingAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get homeGreetingAfternoon;
+
+  /// No description provided for @homeGreetingEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get homeGreetingEvening;
+
+  /// No description provided for @homeDashboardImpactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your impact'**
+  String get homeDashboardImpactTitle;
+
+  /// No description provided for @homeDashboardWalletTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet'**
+  String get homeDashboardWalletTitle;
+
+  /// No description provided for @homeDashboardActiveRequestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest request'**
+  String get homeDashboardActiveRequestTitle;
+
+  /// No description provided for @homeExploreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get homeExploreTitle;
+
+  /// No description provided for @homeActiveRequestEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No requests yet. Start your first collection.'**
+  String get homeActiveRequestEmpty;
+
+  /// No description provided for @homeViewAllRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'View all'**
+  String get homeViewAllRequests;
+
+  /// No description provided for @homeLoginForDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to see your impact, wallet, and requests.'**
+  String get homeLoginForDashboard;
+
+  /// No description provided for @homeImpactTapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'View full impact dashboard'**
+  String get homeImpactTapHint;
+
+  /// No description provided for @homeWalletTapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Open wallet'**
+  String get homeWalletTapHint;
+
+  /// No description provided for @homeRequestTapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'View request details'**
+  String get homeRequestTapHint;
 }
 
 class _AppLocalizationsDelegate

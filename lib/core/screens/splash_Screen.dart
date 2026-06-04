@@ -67,9 +67,8 @@ class _SplashScreensState extends State<SplashScreens> {
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final side = MediaQuery.sizeOf(context).width * _logoFactor;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final systemUiStyle = isDark
-        ? SystemUiOverlayStyle.light
-        : SystemUiOverlayStyle.dark;
+    final systemUiStyle =
+        isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
     final colors = context.colors;
     final appColors = context.appColors;
     final brand = colors.primary;

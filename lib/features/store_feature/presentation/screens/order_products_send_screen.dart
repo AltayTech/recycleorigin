@@ -119,8 +119,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
-    Customer customer =
-        context.read<CustomerInfoBloc>().customer;
+    Customer customer = context.read<CustomerInfoBloc>().customer;
 
     return Scaffold(
       appBar: AppBar(
@@ -193,8 +192,9 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: context.colors.onSurface, width: 0.3),
+                                border: Border.all(
+                                    color: context.colors.onSurface,
+                                    width: 0.3),
                                 color: context.appColors.scaffoldBackground),
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
@@ -208,7 +208,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           'Name and Latname:    ',
                                           style: TextStyle(
-                                            color: context.appColors.subtitleColor,
+                                            color:
+                                                context.appColors.subtitleColor,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -233,7 +234,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           'Province:    ',
                                           style: TextStyle(
-                                            color: context.appColors.subtitleColor,
+                                            color:
+                                                context.appColors.subtitleColor,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -256,7 +258,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           'City:   ',
                                           style: TextStyle(
-                                            color: context.appColors.subtitleColor,
+                                            color:
+                                                context.appColors.subtitleColor,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -279,7 +282,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           'Zipcode:    ',
                                           style: TextStyle(
-                                            color: context.appColors.subtitleColor,
+                                            color:
+                                                context.appColors.subtitleColor,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),
@@ -303,7 +307,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         Text(
                                           'Mobile:    ',
                                           style: TextStyle(
-                                            color: context.appColors.subtitleColor,
+                                            color:
+                                                context.appColors.subtitleColor,
                                             //fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14,
                                           ),

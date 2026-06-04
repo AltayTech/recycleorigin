@@ -12,7 +12,8 @@ class MockApiClient implements ApiClient {
   VoidCallback? get onUnauthorized => null;
 
   @override
-  Dio get raw => throw UnimplementedError('raw is not available on MockApiClient');
+  Dio get raw =>
+      throw UnimplementedError('raw is not available on MockApiClient');
 
   // Store responses for different paths
   final Map<String, Result<dynamic>> _getResponses = {};

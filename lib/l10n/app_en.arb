@@ -473,5 +473,18 @@
   "impactRange7d": "Last 7 days",
   "impactRange30d": "Last 30 days",
   "impactRange90d": "Last 90 days",
-  "impactLoadError": "Could not load impact data."
+  "impactLoadError": "Could not load impact data.",
+  "homeGreetingMorning": "Good morning",
+  "homeGreetingAfternoon": "Good afternoon",
+  "homeGreetingEvening": "Good evening",
+  "homeDashboardImpactTitle": "Your impact",
+  "homeDashboardWalletTitle": "Wallet",
+  "homeDashboardActiveRequestTitle": "Latest request",
+  "homeExploreTitle": "Explore",
+  "homeActiveRequestEmpty": "No requests yet. Start your first collection.",
+  "homeViewAllRequests": "View all",
+  "homeLoginForDashboard": "Sign in to see your impact, wallet, and requests.",
+  "homeImpactTapHint": "View full impact dashboard",
+  "homeWalletTapHint": "Open wallet",
+  "homeRequestTapHint": "View request details"
 }

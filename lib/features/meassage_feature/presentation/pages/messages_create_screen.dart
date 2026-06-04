@@ -65,12 +65,12 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
     await context
         .read<MessagesBloc>()
         .createMessage(
-      subjectTextController.text,
-      contentTextController.text,
-      '0',
-      '0',
-      isLogin,
-    )
+          subjectTextController.text,
+          contentTextController.text,
+          '0',
+          '0',
+          isLogin,
+        )
         .then((value) async {
       await context.read<MessagesBloc>().getMessages('0', isLogin);
       Navigator.of(context).pop();
@@ -161,7 +161,8 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                                   //fontFamily: 'Iransans',
                                   fontSize: textScaleFactor * 15.0,
                                 ),
-                                labelText: context.l10n.composeMessageTitleLabel,
+                                labelText:
+                                    context.l10n.composeMessageTitleLabel,
                               ),
                             ),
                           ),
@@ -223,8 +224,9 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                               return DecoratedBox(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? context.colors.onSurface : context.colors.onSurface,
+                                  color: index.isEven
+                                      ? context.colors.onSurface
+                                      : context.colors.onSurface,
                                 ),
                               );
                             },

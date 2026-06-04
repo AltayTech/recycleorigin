@@ -274,7 +274,8 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     CustomerPayCashOrderRequested event,
     Emitter<CustomerInfoState> emit,
   ) async {
-    final path = 'recycleorigin/v1${Urls.payEndPoint}?order_id=${event.orderId}';
+    final path =
+        'recycleorigin/v1${Urls.payEndPoint}?order_id=${event.orderId}';
     final result = await _apiClient.get<dynamic>(
       path,
       parser: (data) => data,

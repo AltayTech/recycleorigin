@@ -80,7 +80,9 @@ class InfoEditItem extends StatelessWidget {
                         return null;
                       },
                   style: TextStyle(
-                    color: readOnly ? context.appColors.subtitleColor : context.colors.onSurface,
+                    color: readOnly
+                        ? context.appColors.subtitleColor
+                        : context.colors.onSurface,
                     fontSize: textScaleFactor * 14.0,
                   ),
                   onFieldSubmitted: readOnly
@@ -89,8 +91,7 @@ class InfoEditItem extends StatelessWidget {
                             newFocusNode,
                           ),
                   focusNode: thisFocusNode,
-                  textInputAction:
-                      textInputAction ?? TextInputAction.next,
+                  textInputAction: textInputAction ?? TextInputAction.next,
                   controller: controller,
                   decoration: InputDecoration(
                     helperText: helperText,

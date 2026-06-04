@@ -28,7 +28,8 @@ class _CustomerOrdersScreenState extends State<CustomerOrdersScreen> {
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
 
-      drawer: mainDrawerIfRootRoute(context), // resizeToAvoidBottomInset: false,
+      drawer:
+          mainDrawerIfRootRoute(context), // resizeToAvoidBottomInset: false,
       body: CustomerDetailOrderScreen(
         customer: Customer(),
       ),

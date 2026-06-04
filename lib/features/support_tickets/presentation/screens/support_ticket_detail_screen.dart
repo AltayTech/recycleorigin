@@ -170,7 +170,8 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
                                         height: 22,
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
-                                          color: context.appColors.subtitleColor,
+                                          color:
+                                              context.appColors.subtitleColor,
                                         ),
                                       )
                                     : Icon(Icons.send),
@@ -212,7 +213,8 @@ class _HeaderCard extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 '${ticket.ticketNumber} · ${ticket.status}',
-                style: theme.textTheme.bodySmall?.copyWith(color: context.appColors.subtitleColor),
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: context.appColors.subtitleColor),
               ),
             ],
           ),

@@ -192,10 +192,9 @@ String _resolveStatusText(BuildContext context, RequestWasteItem c) {
     'cancelled' => l10n.statusCancelled,
     _ => c.requestStatusLabel.isNotEmpty
         ? c.requestStatusLabel
-        : (c.status.name.trim().isNotEmpty &&
-                  c.status.name.trim() != '0'
-              ? c.status.name.trim()
-              : '—'),
+        : (c.status.name.trim().isNotEmpty && c.status.name.trim() != '0'
+            ? c.status.name.trim()
+            : '—'),
   };
 }
 
@@ -204,40 +203,40 @@ String _resolveStatusText(BuildContext context, RequestWasteItem c) {
   Color bg(Color c) => c.withValues(alpha: 0.12);
   return switch (key) {
     'pending_assignment' => (
-      ext.warning,
-      bg(ext.warning),
-      Icons.person_search_rounded,
-    ),
+        ext.warning,
+        bg(ext.warning),
+        Icons.person_search_rounded,
+      ),
     'pending_driver_acceptance' => (
-      ext.warning,
-      bg(ext.warning),
-      Icons.hourglass_top_rounded,
-    ),
+        ext.warning,
+        bg(ext.warning),
+        Icons.hourglass_top_rounded,
+      ),
     'driver_accepted' || 'in_progress' => (
-      ext.info,
-      bg(ext.info),
-      Icons.local_shipping_rounded,
-    ),
+        ext.info,
+        bg(ext.info),
+        Icons.local_shipping_rounded,
+      ),
     'picked_up' => (
-      AppTheme.iconAccentPurple,
-      bg(AppTheme.iconAccentPurple),
-      Icons.inventory_2_rounded,
-    ),
+        AppTheme.iconAccentPurple,
+        bg(AppTheme.iconAccentPurple),
+        Icons.inventory_2_rounded,
+      ),
     'collected' => (
-      ext.success,
-      bg(ext.success),
-      Icons.check_circle_rounded,
-    ),
+        ext.success,
+        bg(ext.success),
+        Icons.check_circle_rounded,
+      ),
     'cancelled' => (
-      ext.danger,
-      bg(ext.danger),
-      Icons.cancel_rounded,
-    ),
+        ext.danger,
+        bg(ext.danger),
+        Icons.cancel_rounded,
+      ),
     _ => (
-      ext.subtitleColor,
-      bg(ext.subtitleColor),
-      Icons.info_outline_rounded,
-    ),
+        ext.subtitleColor,
+        bg(ext.subtitleColor),
+        Icons.info_outline_rounded,
+      ),
   };
 }
 
@@ -251,8 +250,7 @@ class _StatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = _resolveStatusText(context, collect);
-    final (color, bg, icon) =
-        _statusVisuals(context, collect.requestStatusKey);
+    final (color, bg, icon) = _statusVisuals(context, collect.requestStatusKey);
 
     return Container(
       padding: const EdgeInsets.all(18),
@@ -468,8 +466,7 @@ class _RequestInfoCard extends StatelessWidget {
           value: '${_loc(date.day)}  —  ${_loc(date.time)}',
           iconColor: AppTheme.iconAccentBlue,
         ),
-        if (date.collect_done_time.isNotEmpty &&
-            date.collect_done_time != '0')
+        if (date.collect_done_time.isNotEmpty && date.collect_done_time != '0')
           _DetailRow(
             icon: Icons.task_alt_rounded,
             label: l10n.collectDoneTimeLabel,
@@ -530,14 +527,14 @@ class _DriverInfoCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                Text(
-                  '${dd.fname} ${dd.lname}'.trim(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: context.colors.onSurface,
+                  Text(
+                    '${dd.fname} ${dd.lname}'.trim(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: context.colors.onSurface,
+                    ),
                   ),
-                ),
                   if (d.averageRating != null) ...<Widget>[
                     const SizedBox(height: 6),
                     Row(
@@ -869,7 +866,8 @@ class _WasteItemsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        for (final (int i, Collect item) in collect.collect_list.indexed) ...<Widget>[
+        for (final (int i, Collect item)
+            in collect.collect_list.indexed) ...<Widget>[
           if (i > 0) const SizedBox(height: 10),
           _WasteItemCard(item: item),
         ],
@@ -924,8 +922,7 @@ class _WasteItemCard extends StatelessWidget {
     final extP = double.tryParse(item.exact_price) ?? 0;
     final hasExactWeight = extW > 0 && extW != estW;
     final estTotal = estW * estP;
-    final extTotal =
-        hasExactWeight ? extW * (extP > 0 ? extP : estP) : 0.0;
+    final extTotal = hasExactWeight ? extW * (extP > 0 ? extP : estP) : 0.0;
 
     return _Card(
       children: <Widget>[
@@ -947,9 +944,7 @@ class _WasteItemCard extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                item.waste.post_title.isNotEmpty
-                    ? item.waste.post_title
-                    : '—',
+                item.waste.post_title.isNotEmpty ? item.waste.post_title : '—',
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 15,
@@ -968,9 +963,8 @@ class _WasteItemCard extends StatelessWidget {
               child: _ItemMetricCell(
                 label: l10n.summaryWeightKgTitle,
                 estimatedValue: '${estW.toStringAsFixed(1)} kg',
-                finalValue: hasExactWeight
-                    ? '${extW.toStringAsFixed(1)} kg'
-                    : null,
+                finalValue:
+                    hasExactWeight ? '${extW.toStringAsFixed(1)} kg' : null,
                 l10n: l10n,
               ),
             ),
@@ -979,8 +973,7 @@ class _WasteItemCard extends StatelessWidget {
               child: _ItemMetricCell(
                 label: l10n.pricePerKgLabel,
                 estimatedValue: _fmtPrice(estP),
-                finalValue:
-                    (extP > 0 && extP != estP) ? _fmtPrice(extP) : null,
+                finalValue: (extP > 0 && extP != estP) ? _fmtPrice(extP) : null,
                 l10n: l10n,
               ),
             ),
@@ -1009,8 +1002,7 @@ class _WasteItemCard extends StatelessWidget {
                 children: <Widget>[
                   _Badge(
                     label: l10n.submittedWeightLabel,
-                    value: EnArConvertor()
-                        .replaceArNumber(_fmtPrice(estTotal)),
+                    value: EnArConvertor().replaceArNumber(_fmtPrice(estTotal)),
                     color: context.appColors.warning,
                   ),
                   if (extTotal > 0) ...<Widget>[
@@ -1023,8 +1015,8 @@ class _WasteItemCard extends StatelessWidget {
                     const SizedBox(width: 6),
                     _Badge(
                       label: l10n.finalWeightLabel,
-                      value: EnArConvertor()
-                          .replaceArNumber(_fmtPrice(extTotal)),
+                      value:
+                          EnArConvertor().replaceArNumber(_fmtPrice(extTotal)),
                       color: context.appColors.success,
                     ),
                   ],
@@ -1130,8 +1122,7 @@ class _RateDriverPanelState extends State<_RateDriverPanel> {
 
   bool get _alreadyRated {
     final c = widget.collect.customerRating;
-    return widget.collect.hasRated ||
-        (c != null && c.score > 0);
+    return widget.collect.hasRated || (c != null && c.score > 0);
   }
 
   Future<void> _submit() async {

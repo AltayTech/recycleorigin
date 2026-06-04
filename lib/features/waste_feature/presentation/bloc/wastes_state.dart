@@ -76,8 +76,9 @@ class WastesState {
       collectItems: collectItems ?? this.collectItems,
       requestsListDirty: requestsListDirty ?? this.requestsListDirty,
       searchDetails: searchDetails ?? this.searchDetails,
-      requestWasteItem:
-          clearRequestWasteItem ? null : (requestWasteItem ?? this.requestWasteItem),
+      requestWasteItem: clearRequestWasteItem
+          ? null
+          : (requestWasteItem ?? this.requestWasteItem),
       selectedHours: selectedHours ?? this.selectedHours,
       selectedDay: selectedDay ?? this.selectedDay,
       searchEndPoint: searchEndPoint ?? this.searchEndPoint,

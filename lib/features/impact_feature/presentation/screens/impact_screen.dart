@@ -32,7 +32,7 @@ class _ImpactView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         title: Text(l10n.impactTitle),
         actions: [
           BlocBuilder<ImpactCubit, ImpactState>(
@@ -176,8 +176,7 @@ class _ImpactHeroCard extends StatelessWidget {
               const SizedBox(width: AppTheme.spacingMd),
               _HeroStat(
                 label: l10n.impactEarningsLabel,
-                value:
-                    '${metrics.earnings} ${metrics.currency}',
+                value: '${metrics.earnings} ${metrics.currency}',
               ),
             ],
           ),
@@ -207,7 +206,8 @@ class _HeroStat extends StatelessWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: context.appColors.onHeroForeground.withValues(alpha: 0.7),
+                  color:
+                      context.appColors.onHeroForeground.withValues(alpha: 0.7),
                 ),
           ),
           Text(
@@ -221,7 +221,8 @@ class _HeroStat extends StatelessWidget {
             Text(
               trend!,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: context.appColors.onHeroForeground.withValues(alpha: 0.6),
+                    color: context.appColors.onHeroForeground
+                        .withValues(alpha: 0.6),
                   ),
             ),
         ],
@@ -486,11 +487,13 @@ class _TrendChartCard extends StatelessWidget {
               height: 200,
               child: LineChart(
                 LineChartData(
-                  gridData: const FlGridData(show: true, drawVerticalLine: false),
+                  gridData:
+                      const FlGridData(show: true, drawVerticalLine: false),
                   borderData: FlBorderData(show: false),
                   titlesData: const FlTitlesData(
                     leftTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: true, reservedSize: 36),
+                      sideTitles:
+                          SideTitles(showTitles: true, reservedSize: 36),
                     ),
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
@@ -577,7 +580,9 @@ class _BadgeTile extends StatelessWidget {
           children: [
             Icon(
               _iconFor(badge.icon),
-              color: badge.earned ? AppTheme.primaryDark : context.appColors.subtitleColor,
+              color: badge.earned
+                  ? AppTheme.primaryDark
+                  : context.appColors.subtitleColor,
             ),
             const SizedBox(height: 4),
             Text(
@@ -668,9 +673,8 @@ class _LeaderboardSection extends StatelessWidget {
                 (e) => ListTile(
                   dense: true,
                   leading: CircleAvatar(
-                    backgroundColor: e.isSelf
-                        ? AppTheme.primary
-                        : context.appColors.divider,
+                    backgroundColor:
+                        e.isSelf ? AppTheme.primary : context.appColors.divider,
                     child: Text('${e.rank}'),
                   ),
                   title: Text(e.displayName),

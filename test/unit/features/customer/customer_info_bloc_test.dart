@@ -51,7 +51,8 @@ void main() {
       );
 
       final customer = Customer(
-        customer_type: Status(term_id: 2, name: 'individual', slug: 'individual'),
+        customer_type:
+            Status(term_id: 2, name: 'individual', slug: 'individual'),
         personalData: PersonalData(
           first_name: 'Updated',
           last_name: 'User',

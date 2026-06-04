@@ -168,7 +168,8 @@ class _AddressItemState extends State<AddressItem>
               : context.appColors.cardBackground,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: widget.isSelected ? AppTheme.primary : context.colors.outline,
+            color:
+                widget.isSelected ? AppTheme.primary : context.colors.outline,
             width: widget.isSelected ? 2 : 1,
           ),
           boxShadow: [

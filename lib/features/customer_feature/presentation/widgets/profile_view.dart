@@ -478,7 +478,8 @@ class _WalletCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(AppTheme.spacingSm),
               decoration: BoxDecoration(
-                color: context.appColors.onHeroForeground.withValues(alpha: 0.2),
+                color:
+                    context.appColors.onHeroForeground.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -695,7 +696,8 @@ class _SignOutButton extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: busy ? null : onConfirm,
-                  style: TextButton.styleFrom(foregroundColor: context.colors.error),
+                  style: TextButton.styleFrom(
+                      foregroundColor: context.colors.error),
                   child: busy
                       ? SizedBox(
                           width: 22,
@@ -787,8 +789,7 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isActive = label.toLowerCase() == 'active';
-    final color =
-        isActive ? AppTheme.primary : context.appColors.danger;
+    final color = isActive ? AppTheme.primary : context.appColors.danger;
 
     return Container(
       padding: const EdgeInsets.symmetric(

@@ -130,8 +130,7 @@ class PushNotificationController {
       _deferSyncUntil = null;
     } catch (e, st) {
       var msg = 'Push init failed';
-      if (Platform.isAndroid &&
-          _looksLikeTransientFcmInstallationsError(e)) {
+      if (Platform.isAndroid && _looksLikeTransientFcmInstallationsError(e)) {
         _deferSyncUntil = DateTime.now().add(const Duration(minutes: 2));
         msg = '$msg (Android: FCM needs Google Play services and network '
             'access; use a "Google Play" system image on emulators, update '

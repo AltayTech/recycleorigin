@@ -13,8 +13,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final collect =
-        Provider.of<RequestWasteItem>(context, listen: false);
+    final collect = Provider.of<RequestWasteItem>(context, listen: false);
     final l10n = context.l10n;
     final (statusColor, statusIcon) =
         _statusVisuals(context, collect.requestStatusKey);
@@ -70,7 +69,8 @@ class CollectItemCollectsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Icon(Icons.chevron_right, color: context.colors.onSurfaceVariant),
+                Icon(Icons.chevron_right,
+                    color: context.colors.onSurfaceVariant),
               ],
             ),
             const Divider(height: 18),
@@ -78,8 +78,8 @@ class CollectItemCollectsScreen extends StatelessWidget {
               children: [
                 _InfoChip(
                   icon: Icons.calendar_today_outlined,
-                  text: EnArConvertor()
-                      .replaceArNumber(collect.collect_date.day),
+                  text:
+                      EnArConvertor().replaceArNumber(collect.collect_date.day),
                 ),
                 const SizedBox(width: 12),
                 _InfoChip(
@@ -104,8 +104,7 @@ class CollectItemCollectsScreen extends StatelessWidget {
                 Expanded(
                   child: _StatBadge(
                     label: l10n.totalPriceFieldLabel,
-                    value: EnArConvertor()
-                        .replaceArNumber(_fmtPrice(estPrice)),
+                    value: EnArConvertor().replaceArNumber(_fmtPrice(estPrice)),
                     color: context.appColors.success,
                   ),
                 ),
@@ -194,7 +193,8 @@ class _InfoChip extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           text,
-          style: TextStyle(fontSize: 12, color: context.appColors.subtitleColor),
+          style:
+              TextStyle(fontSize: 12, color: context.appColors.subtitleColor),
         ),
       ],
     );
