@@ -64,13 +64,36 @@ class FirebaseAuthService {
     fb.FirebaseAuth? auth,
     GoogleSignIn? googleSignIn,
     Dio? exchangeClient,
-  })  : _auth = auth ?? fb.FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn(),
+  })  : _authOverride = auth,
+        _googleSignInOverride = googleSignIn,
         _exchangeClient = exchangeClient ?? _buildExchangeClient();
 
-  final fb.FirebaseAuth _auth;
-  final GoogleSignIn _googleSignIn;
+  final fb.FirebaseAuth? _authOverride;
+  final GoogleSignIn? _googleSignInOverride;
   final Dio _exchangeClient;
+
+  fb.FirebaseAuth? _auth;
+  GoogleSignIn? _googleSignIn;
+
+  /// Lazily resolves Firebase Auth so [AuthBloc] can be constructed even when
+  /// native Firebase init failed during bootstrap (release ProGuard misconfig,
+  /// missing google-services.json, etc.).
+  fb.FirebaseAuth get _firebaseAuth =>
+      _auth ??= _authOverride ?? _resolveFirebaseAuth();
+
+  GoogleSignIn get _google =>
+      _googleSignIn ??= _googleSignInOverride ?? GoogleSignIn();
+
+  fb.FirebaseAuth _resolveFirebaseAuth() {
+    try {
+      return fb.FirebaseAuth.instance;
+    } catch (e) {
+      throw AuthException(
+        AuthErrorCodes.unknown,
+        'Firebase is not initialized: $e',
+      );
+    }
+  }
 
   static Dio _buildExchangeClient() {
     return Dio(
@@ -86,8 +109,8 @@ class FirebaseAuthService {
     );
   }
 
-  bool get hasFirebaseUser => _auth.currentUser != null;
-  fb.User? get currentUser => _auth.currentUser;
+  bool get hasFirebaseUser => _firebaseAuth.currentUser != null;
+  fb.User? get currentUser => _firebaseAuth.currentUser;
 
   /// Sign in with email and password.
   Future<FirebaseAuthResult> signInWithEmail({
@@ -95,7 +118,7 @@ class FirebaseAuthService {
     required String password,
   }) async {
     try {
-      final cred = await _auth.signInWithEmailAndPassword(
+      final cred = await _firebaseAuth.signInWithEmailAndPassword(
         email: email.trim(),
         password: password,
       );
@@ -116,7 +139,7 @@ class FirebaseAuthService {
     String? displayName,
   }) async {
     try {
-      final cred = await _auth.createUserWithEmailAndPassword(
+      final cred = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email.trim(),
         password: password,
       );
@@ -150,7 +173,7 @@ class FirebaseAuthService {
   /// `code = AuthErrorCodes.cancelled`.
   Future<FirebaseAuthResult> signInWithGoogle() async {
     try {
-      final googleUser = await _googleSignIn.signIn();
+      final googleUser = await _google.signIn();
       if (googleUser == null) {
         throw const AuthException(
           AuthErrorCodes.cancelled,
@@ -162,7 +185,7 @@ class FirebaseAuthService {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      final cred = await _auth.signInWithCredential(credential);
+      final cred = await _firebaseAuth.signInWithCredential(credential);
       return _exchangeWithBackend(cred.user!);
     } on fb.FirebaseAuthException catch (e) {
       throw _fromFirebase(e);
@@ -177,7 +200,7 @@ class FirebaseAuthService {
   /// Send a password reset email via Firebase.
   Future<void> sendPasswordReset(String email) async {
     try {
-      await _auth.sendPasswordResetEmail(email: email.trim());
+      await _firebaseAuth.sendPasswordResetEmail(email: email.trim());
     } on fb.FirebaseAuthException catch (e) {
       throw _fromFirebase(e);
     } on Object catch (e) {
@@ -187,7 +210,7 @@ class FirebaseAuthService {
 
   /// Resend the verification email to the current user.
   Future<void> sendEmailVerification() async {
-    final user = _auth.currentUser;
+    final user = _firebaseAuth.currentUser;
     if (user == null) {
       throw const AuthException(
         AuthErrorCodes.noCurrentUser,
@@ -210,12 +233,12 @@ class FirebaseAuthService {
   /// reflecting the new `email_verified` claim. Returns null when the user
   /// is not yet verified or no Firebase session exists.
   Future<FirebaseAuthResult?> reloadAndExchangeIfVerified() async {
-    final user = _auth.currentUser;
+    final user = _firebaseAuth.currentUser;
     if (user == null) {
       return null;
     }
     await user.reload();
-    final refreshed = _auth.currentUser;
+    final refreshed = _firebaseAuth.currentUser;
     if (refreshed == null || !refreshed.emailVerified) {
       return null;
     }
@@ -225,10 +248,10 @@ class FirebaseAuthService {
   /// Sign out from Firebase and (best-effort) Google.
   Future<void> signOut() async {
     try {
-      await _auth.signOut();
+      await _firebaseAuth.signOut();
     } catch (_) {}
     try {
-      await _googleSignIn.signOut();
+      await _google.signOut();
     } catch (_) {}
   }
 

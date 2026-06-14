@@ -29,23 +29,33 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
 
   int _selectedIndex = 0;
   late DateTime _lastBackPress;
-  late final List<Widget> _tabs;
+
+  /// Lazily built so hidden tabs do not run network/plugin init at startup.
+  final List<Widget Function()> _tabBuilders = <Widget Function()>[
+    () => const HomeScreen(),
+    () => const CollectListScreen(),
+    () => ProductsScreen(),
+    () => const ProfileScreen(),
+  ];
+  final List<Widget?> _tabs = List<Widget?>.filled(4, null);
+
+  Widget _tabChild(int index) {
+    return _tabs[index] ??= _tabBuilders[index]();
+  }
 
   @override
   void initState() {
     super.initState();
     _lastBackPress = DateTime.now().subtract(const Duration(seconds: 3));
-    _tabs = <Widget>[
-      const HomeScreen(),
-      const CollectListScreen(),
-      ProductsScreen(),
-      const ProfileScreen(),
-    ];
+    _tabChild(0);
   }
 
   void _onDestinationSelected(int index) {
     if (index == _selectedIndex) return;
-    setState(() => _selectedIndex = index);
+    setState(() {
+      _selectedIndex = index;
+      _tabChild(index);
+    });
   }
 
   Future<void> _completePopIfAllowed() async {
@@ -140,7 +150,15 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
           ),
           body: IndexedStack(
             index: _selectedIndex,
-            children: _tabs,
+            children: List<Widget>.generate(
+              _tabBuilders.length,
+              (index) {
+                if (index != _selectedIndex && _tabs[index] == null) {
+                  return const SizedBox.shrink();
+                }
+                return _tabChild(index);
+              },
+            ),
           ),
           bottomNavigationBar: NavigationBar(
             selectedIndex: _selectedIndex,

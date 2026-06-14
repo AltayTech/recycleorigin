@@ -82,10 +82,7 @@ class _ProductsScreenState extends State<ProductsScreen>
 
   @override
   void initState() {
-    context.read<ProductsBloc>().sPage = 1;
-
-    context.read<ProductsBloc>().searchBuilder();
-
+    super.initState();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -97,8 +94,6 @@ class _ProductsScreenState extends State<ProductsScreen>
         }
       }
     });
-
-    super.initState();
   }
 
   @override
@@ -111,6 +106,7 @@ class _ProductsScreenState extends State<ProductsScreen>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
+      context.read<ProductsBloc>().sPage = 1;
       context.read<ProductsBloc>().retrieveCategory();
 
       categoryList = context.read<ProductsBloc>().categoryItems;
