@@ -8,6 +8,11 @@ import 'package:flutter/foundation.dart';
 class FirebaseBootstrap {
   FirebaseBootstrap._();
 
+  static bool _initialized = false;
+
+  /// Whether [Firebase.initializeApp] completed successfully.
+  static bool get isInitialized => _initialized;
+
   /// No-op on web. Catches missing native config so local dev still runs.
   ///
   /// Logs in all modes: [assert] bodies are stripped in release, so errors
@@ -18,7 +23,9 @@ class FirebaseBootstrap {
     }
     try {
       await Firebase.initializeApp();
+      _initialized = true;
     } catch (e, st) {
+      _initialized = false;
       developer.log(
         'Firebase init failed',
         name: 'recycleorigin.firebase',
