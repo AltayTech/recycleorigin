@@ -29,9 +29,9 @@ if (keystorePropertiesFile.exists()) {
 }
 android {
     namespace "com.recycleorigin.recycleorigin"
-    // Google Play requires targetSdk 36 (Android 16) from Aug 31, 2026.
-    compileSdk 36
-    ext.kotlin_version = '2.4.0'
+    // Plugins such as flutter_secure_storage 11 compile against API 37.
+    // targetSdk stays 36 (Play requirement from Aug 31, 2026).
+    compileSdk 37
     ndkVersion = "28.2.13676358"
 
     lintOptions {

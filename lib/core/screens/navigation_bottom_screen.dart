@@ -26,6 +26,7 @@ class NavigationBottomScreen extends StatefulWidget {
 
 class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final FToast _fToast = FToast();
 
   int _selectedIndex = 0;
   late DateTime _lastBackPress;
@@ -48,6 +49,10 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
     super.initState();
     _lastBackPress = DateTime.now().subtract(const Duration(seconds: 3));
     _tabChild(0);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _fToast.init(context);
+    });
   }
 
   void _onDestinationSelected(int index) {
@@ -79,7 +84,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
     final now = DateTime.now();
     if (now.difference(_lastBackPress) > const Duration(seconds: 2)) {
       _lastBackPress = now;
-      FToast().showToast(
+      _fToast.showToast(
         child: Container(
           decoration: BoxDecoration(
             color: context.colors.inverseSurface.withValues(alpha: 0.84),
