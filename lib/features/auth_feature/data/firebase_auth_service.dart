@@ -82,7 +82,9 @@ class FirebaseAuthService {
       _auth ??= _authOverride ?? _resolveFirebaseAuth();
 
   GoogleSignIn get _google =>
-      _googleSignIn ??= _googleSignInOverride ?? GoogleSignIn();
+      _googleSignIn ??= _googleSignInOverride ?? GoogleSignIn.instance;
+
+  Future<void>? _googleInit;
 
   fb.FirebaseAuth _resolveFirebaseAuth() {
     try {
@@ -122,7 +124,7 @@ class FirebaseAuthService {
         email: email.trim(),
         password: password,
       );
-      return _exchangeWithBackend(cred.user!);
+      return await _exchangeWithBackend(cred.user!);
     } on fb.FirebaseAuthException catch (e) {
       throw _fromFirebase(e);
     } on Object catch (e, st) {
@@ -160,7 +162,7 @@ class FirebaseAuthService {
       } catch (e, st) {
         AppLogger.warning('Failed to send verification email: $e', e, st);
       }
-      return _exchangeWithBackend(user);
+      return await _exchangeWithBackend(user);
     } on fb.FirebaseAuthException catch (e) {
       throw _fromFirebase(e);
     } on Object catch (e, st) {
@@ -173,20 +175,35 @@ class FirebaseAuthService {
   /// `code = AuthErrorCodes.cancelled`.
   Future<FirebaseAuthResult> signInWithGoogle() async {
     try {
-      final googleUser = await _google.signIn();
-      if (googleUser == null) {
-        throw const AuthException(
-          AuthErrorCodes.cancelled,
-          'Google sign-in was cancelled',
+      await _ensureGoogleInitialized();
+      final GoogleSignInAccount googleUser;
+      try {
+        googleUser = await _google.authenticate();
+      } on GoogleSignInException catch (e) {
+        if (e.code == GoogleSignInExceptionCode.canceled) {
+          throw const AuthException(
+            AuthErrorCodes.cancelled,
+            'Google sign-in was cancelled',
+          );
+        }
+        final detail = e.description ?? e.toString();
+        throw AuthException(
+          AuthErrorCodes.unknown,
+          e.code == GoogleSignInExceptionCode.clientConfigurationError
+              ? 'DEVELOPER_ERROR: $detail'
+              : detail,
         );
       }
-      final googleAuth = await googleUser.authentication;
-      final credential = fb.GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+      final idToken = googleUser.authentication.idToken;
+      if (idToken == null || idToken.isEmpty) {
+        throw const AuthException(
+          AuthErrorCodes.unknown,
+          'Google sign-in did not return an ID token',
+        );
+      }
+      final credential = fb.GoogleAuthProvider.credential(idToken: idToken);
       final cred = await _firebaseAuth.signInWithCredential(credential);
-      return _exchangeWithBackend(cred.user!);
+      return await _exchangeWithBackend(cred.user!);
     } on fb.FirebaseAuthException catch (e) {
       throw _fromFirebase(e);
     } on AuthException {
@@ -194,6 +211,21 @@ class FirebaseAuthService {
     } on Object catch (e, st) {
       AppLogger.error('Google sign-in failed', error: e, stackTrace: st);
       throw _wrap(e);
+    }
+  }
+
+  Future<void> _ensureGoogleInitialized() async {
+    if (_googleInit != null) {
+      await _googleInit;
+      return;
+    }
+    final pending = _google.initialize();
+    _googleInit = pending;
+    try {
+      await pending;
+    } catch (_) {
+      _googleInit = null;
+      rethrow;
     }
   }
 
