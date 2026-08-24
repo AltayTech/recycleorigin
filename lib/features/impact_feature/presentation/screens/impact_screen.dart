@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/features/impact_feature/data/impact_models.dart';
@@ -19,7 +19,7 @@ class ImpactScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ImpactCubit(ImpactRepository(ApiClient()))..load(),
+      create: (_) => ImpactCubit(ImpactRepository(ApiProvider.client))..load(),
       child: const _ImpactView(),
     );
   }

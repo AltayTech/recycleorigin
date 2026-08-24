@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/notifications/push_notification_controller.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/widgets/drawer_or_back_leading.dart';
@@ -18,7 +19,7 @@ class NotificationPreferencesScreen extends StatefulWidget {
 
 class _NotificationPreferencesScreenState
     extends State<NotificationPreferencesScreen> {
-  final ApiClient _api = ApiClient();
+  final ApiClient _api = ApiProvider.client;
   bool _loading = true;
   String? _error;
   final Map<String, Map<String, bool>> _prefs = {

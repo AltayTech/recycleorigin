@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/core/utils/result.dart';
@@ -47,7 +47,7 @@ class _SupportTicketCreateScreenState extends State<SupportTicketCreateScreen> {
       return;
     }
     setState(() => _saving = true);
-    final repo = SupportTicketRepository(ApiClient());
+    final repo = SupportTicketRepository(ApiProvider.client);
     final trip = _trip.text.trim();
     final r = await repo.createTicket(
       subject: _subject.text.trim(),

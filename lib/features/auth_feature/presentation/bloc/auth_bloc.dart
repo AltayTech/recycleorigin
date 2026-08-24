@@ -49,11 +49,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthFirstLoginFlagChanged>(_onFirstLoginFlagChanged);
     on<AuthFirstLogoutFlagChanged>(_onFirstLogoutFlagChanged);
     on<AuthLoggedInFlagChanged>(_onLoggedInFlagChanged);
+    on<AuthSessionInvalidated>(_onSessionInvalidated);
   }
 
   final ApiClient _apiClient;
   final FirebaseAuthService _firebase;
   final Map<String, String> headers = <String, String>{};
+
+  /// Called by [ApiClient] when refresh fails; routes user to login.
+  void invalidateSession() {
+    add(const AuthSessionInvalidated());
+  }
 
   bool get isAuth => state.isAuth;
   bool get isLoggedin => state.isLoggedIn;
@@ -365,6 +371,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
+  Future<void> _onSessionInvalidated(
+    AuthSessionInvalidated event,
+    Emitter<AuthState> emit,
+  ) async {
+    if (!state.isLoggedIn && state.token.isEmpty) {
+      return;
+    }
+    try {
+      await _firebase.signOut();
+    } catch (_) {}
+    await SecureStorage.deleteToken();
+    await SecureStorage.saveLoginStatus(false);
+    emit(
+      state.copyWith(
+        token: '',
+        refreshToken: '',
+        isLoggedIn: false,
+        isCompleted: false,
+        emailVerified: false,
+        provider: '',
+        role: '',
+        addressItems: <Address>[],
+      ),
+    );
+  }
+
   Future<void> _onCompletionCheckRequested(
     AuthCompletionCheckRequested event,
     Emitter<AuthState> emit,
@@ -377,17 +409,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
-      final response = await http.get(
-        Uri.parse(Urls.rootUrl + Urls.checkCompletedEndPoint),
-        headers: <String, String>{
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+      final result = await _apiClient.get<Map<String, dynamic>>(
+        'recycleorigin/v1${Urls.checkCompletedEndPoint}',
+        parser: (data) => data as Map<String, dynamic>,
       );
-
-      final extractedData = json.decode(response.body) as dynamic;
-      final isCompleted = extractedData['complete'] as bool? ?? false;
+      final isCompleted = result.valueOrNull?['complete'] as bool? ?? false;
 
       emit(state.copyWith(token: token, isCompleted: isCompleted));
       event.completer?.complete();
@@ -469,16 +495,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
-      final response = await http.get(
-        Uri.parse(Urls.rootUrl + Urls.addressEndPoint),
-        headers: <String, String>{
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+      final result = await _apiClient.get<Map<String, dynamic>>(
+        'recycleorigin/v1${Urls.addressEndPoint}',
+        parser: (data) => data as Map<String, dynamic>,
       );
-
-      final extractedData = json.decode(response.body);
+      final extractedData = result.valueOrNull;
+      if (extractedData == null) {
+        throw Exception(result.errorOrNull ?? 'Failed to load addresses');
+      }
       final addresses = AddressMain.fromJson(extractedData).addressData;
       emit(state.copyWith(token: token, addressItems: addresses));
       event.completer?.complete();
@@ -504,25 +528,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
-      final response = await http.post(
-        Uri.parse(Urls.rootUrl + Urls.addressEndPoint),
-        headers: <String, String>{
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: jsonEncode(AddressMain(addressData: event.addresses).toJson()),
+      final result = await _apiClient.post<Map<String, dynamic>>(
+        'recycleorigin/v1${Urls.addressEndPoint}',
+        data: AddressMain(addressData: event.addresses).toJson(),
+        parser: (data) => data as Map<String, dynamic>,
       );
-
-      if (response.statusCode < 200 || response.statusCode >= 300) {
-        final body = json.decode(response.body);
-        final message = body is Map && body['error'] != null
-            ? body['error'].toString()
-            : 'Failed to save address (${response.statusCode})';
-        throw Exception(message);
+      final extractedData = result.valueOrNull;
+      if (extractedData == null) {
+        throw Exception(result.errorOrNull ?? 'Failed to save address');
       }
-
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final addresses = AddressMain.fromJson(extractedData).addressData;
       emit(state.copyWith(token: token, addressItems: addresses));
       event.completer?.complete();
@@ -543,14 +557,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final token = await SecureStorage.getToken() ?? '';
       if (token.isNotEmpty) {
-        await http.post(
-          Uri.parse(Urls.rootUrl + Urls.addressEndPoint),
-          headers: <String, String>{
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          body: json.encode(AddressMain(addressData: event.addresses)),
+        await _apiClient.post<dynamic>(
+          'recycleorigin/v1${Urls.addressEndPoint}',
+          data: AddressMain(addressData: event.addresses).toJson(),
         );
       }
       emit(state.copyWith(token: token, addressItems: event.addresses));

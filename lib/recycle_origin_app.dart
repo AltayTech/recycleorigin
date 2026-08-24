@@ -5,6 +5,7 @@ import 'package:recycleorigin/core/config/app_locale_controller.dart';
 import 'package:recycleorigin/core/config/app_theme_controller.dart';
 import 'package:recycleorigin/core/navigation/app_navigator.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/core/screens/settings_screen.dart';
 import 'package:recycleorigin/core/screens/splash_Screen.dart';
@@ -72,31 +73,41 @@ class RecycleOriginApp extends StatelessWidget {
     super.key,
     ApiClient? apiClient,
     this.home,
-  }) : _apiClient = apiClient ?? ApiClient();
+  }) : _apiClientOverride = apiClient;
 
-  final ApiClient _apiClient;
+  final ApiClient? _apiClientOverride;
   final Widget? home;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<AuthBloc>(
+          create: (_) {
+            late AuthBloc authBloc;
+            final api = _apiClientOverride ??
+                ApiClient(onUnauthorized: () => authBloc.invalidateSession());
+            authBloc = AuthBloc(api);
+            if (_apiClientOverride == null) {
+              ApiProvider.register(api);
+            }
+            return authBloc;
+          },
+        ),
         BlocProvider<ProductsBloc>(
-          create: (_) => ProductsBloc(_apiClient),
+          create: (_) => ProductsBloc(_apiClientOverride ?? ApiProvider.client),
           lazy: false,
         ),
-        BlocProvider<AuthBloc>(
-          create: (_) => AuthBloc(_apiClient),
-        ),
         BlocProvider<CustomerInfoBloc>(
-          create: (_) => CustomerInfoBloc(_apiClient),
+          create: (context) =>
+              CustomerInfoBloc(_apiClientOverride ?? ApiProvider.client),
         ),
         BlocProvider<MessagesBloc>(
-          create: (_) => MessagesBloc(),
+          create: (_) => MessagesBloc(_apiClientOverride ?? ApiProvider.client),
         ),
         BlocProvider<SupportTicketsListCubit>(
           create: (_) => SupportTicketsListCubit(
-            SupportTicketRepository(_apiClient),
+            SupportTicketRepository(_apiClientOverride ?? ApiProvider.client),
           ),
         ),
         BlocProvider<WastesBloc>(
@@ -106,10 +117,11 @@ class RecycleOriginApp extends StatelessWidget {
           create: (_) => ArticlesBloc(),
         ),
         BlocProvider<OrdersBloc>(
-          create: (_) => OrdersBloc(),
+          create: (_) => OrdersBloc(_apiClientOverride ?? ApiProvider.client),
         ),
         BlocProvider<ClearingsBloc>(
-          create: (_) => ClearingsBloc(),
+          create: (_) =>
+              ClearingsBloc(_apiClientOverride ?? ApiProvider.client),
         ),
       ],
       child: ValueListenableBuilder<Locale>(

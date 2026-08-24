@@ -42,7 +42,7 @@ class TestHelpers {
           create: (_) => customerInfoBloc ?? CustomerInfoBloc(testApiClient),
         ),
         BlocProvider<MessagesBloc>(
-          create: (_) => messagesBloc ?? MessagesBloc(),
+          create: (_) => messagesBloc ?? MessagesBloc(testApiClient),
         ),
         BlocProvider<WastesBloc>(
           create: (_) => wastesBloc ?? WastesBloc(),
@@ -51,10 +51,10 @@ class TestHelpers {
           create: (_) => articlesBloc ?? ArticlesBloc(),
         ),
         BlocProvider<OrdersBloc>(
-          create: (_) => ordersBloc ?? OrdersBloc(),
+          create: (_) => ordersBloc ?? OrdersBloc(testApiClient),
         ),
         BlocProvider<ClearingsBloc>(
-          create: (_) => clearingsBloc ?? ClearingsBloc(),
+          create: (_) => clearingsBloc ?? ClearingsBloc(testApiClient),
         ),
       ],
       child: MaterialApp(

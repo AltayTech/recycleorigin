@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
+import '../../../helpers/mock_api_client.dart';
 
 Future<void> _flushBlocEvents() => Future<void>.delayed(Duration.zero);
 
@@ -8,7 +9,7 @@ void main() {
     late ClearingsBloc clearingsBloc;
 
     setUp(() {
-      clearingsBloc = ClearingsBloc();
+      clearingsBloc = ClearingsBloc(MockApiClient());
     });
 
     group('Initial state', () {

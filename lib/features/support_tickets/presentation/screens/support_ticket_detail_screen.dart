@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/core/utils/result.dart';
@@ -19,7 +19,8 @@ class SupportTicketDetailScreen extends StatefulWidget {
 }
 
 class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
-  final SupportTicketRepository _repo = SupportTicketRepository(ApiClient());
+  final SupportTicketRepository _repo =
+      SupportTicketRepository(ApiProvider.client);
   String? _ticketId;
   SupportTicket? _ticket;
   List<SupportTicketMessage> _messages = <SupportTicketMessage>[];

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/layout/app_breakpoints.dart';
-import '../../../core/network/api_client.dart';
+import '../../../core/network/api_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/auth_snackbars.dart';
 import '../../articles_feature/presentation/pages/article_screen.dart';
@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final apiClient = ApiClient();
+    final apiClient = ApiProvider.client;
 
     return MultiBlocProvider(
       providers: [
