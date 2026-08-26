@@ -72,7 +72,6 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
   Order findById(int id) => state.orders.firstWhere((prod) => prod.id == id);
 
   set customer(Customer value) => add(CustomerSetRequested(value));
-  set order(OrderDetails value) => emit(state.copyWith(order: value));
   set sPage(value) => add(CustomerSearchParamsChanged(sPage: value as int));
   set sPerPage(value) =>
       add(CustomerSearchParamsChanged(sPerPage: value as int));
@@ -163,8 +162,13 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
 
   Future<void> sendClearingRequest(String money, String shaba) {
     final completer = Completer<void>();
-    add(CustomerClearingRequestSent(
-        money: money, shaba: shaba, completer: completer));
+    add(
+      CustomerClearingRequestSent(
+        money: money,
+        shaba: shaba,
+        completer: completer,
+      ),
+    );
     return completer.future;
   }
 
@@ -178,12 +182,14 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       parser: (data) => data as Map<String, dynamic>,
     );
 
-    result.onSuccess((extractedData) {
-      emit(state.copyWith(customer: Customer.fromJson(extractedData)));
-      event.completer?.complete();
-    }).onFailure((error) {
-      event.completer?.completeError(Exception(error));
-    });
+    result
+        .onSuccess((extractedData) {
+          emit(state.copyWith(customer: Customer.fromJson(extractedData)));
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          event.completer?.completeError(Exception(error));
+        });
   }
 
   Future<void> _onCustomerSendRequested(
@@ -226,11 +232,13 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       parser: (data) => data as Map<String, dynamic>,
     );
 
-    result.onSuccess((extractedData) {
-      emit(state.copyWith(customer: Customer.fromJson(extractedData)));
-    }).onFailure((error) {
-      throw Exception(error);
-    });
+    result
+        .onSuccess((extractedData) {
+          emit(state.copyWith(customer: Customer.fromJson(extractedData)));
+        })
+        .onFailure((error) {
+          throw Exception(error);
+        });
   }
 
   void _onCustomerSetRequested(
@@ -257,17 +265,19 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       path,
       parser: (data) => data as Map<String, dynamic>,
     );
-    result.onSuccess((extractedData) {
-      emit(
-        state.copyWith(
-          currentOrderId: event.orderId,
-          order: OrderDetails.fromJson(extractedData),
-        ),
-      );
-      event.completer?.complete();
-    }).onFailure((error) {
-      event.completer?.completeError(Exception(error));
-    });
+    result
+        .onSuccess((extractedData) {
+          emit(
+            state.copyWith(
+              currentOrderId: event.orderId,
+              order: OrderDetails.fromJson(extractedData),
+            ),
+          );
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          event.completer?.completeError(Exception(error));
+        });
   }
 
   Future<void> _onCustomerPayCashOrderRequested(
@@ -276,21 +286,20 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
   ) async {
     final path =
         'recycleorigin/v1${Urls.payEndPoint}?order_id=${event.orderId}';
-    final result = await _apiClient.get<dynamic>(
-      path,
-      parser: (data) => data,
-    );
-    result.onSuccess((extractedData) {
-      final url = extractedData is String
-          ? extractedData
-          : extractedData is Map && extractedData.containsKey('url')
+    final result = await _apiClient.get<dynamic>(path, parser: (data) => data);
+    result
+        .onSuccess((extractedData) {
+          final url = extractedData is String
+              ? extractedData
+              : extractedData is Map && extractedData.containsKey('url')
               ? extractedData['url'] as String
               : extractedData.toString();
-      emit(state.copyWith(payUrl: url));
-      event.completer?.complete();
-    }).onFailure((error) {
-      event.completer?.completeError(Exception(error));
-    });
+          emit(state.copyWith(payUrl: url));
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          event.completer?.completeError(Exception(error));
+        });
   }
 
   Future<void> _onCustomerSendNaghdOrderRequested(
@@ -302,12 +311,16 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       path,
       parser: (data) => data as Map<String, dynamic>,
     );
-    result.onSuccess((extractedData) {
-      emit(state.copyWith(currentOrderId: extractedData['order_id'] as int));
-      event.completer?.complete();
-    }).onFailure((error) {
-      event.completer?.completeError(Exception(error));
-    });
+    result
+        .onSuccess((extractedData) {
+          emit(
+            state.copyWith(currentOrderId: extractedData['order_id'] as int),
+          );
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          event.completer?.completeError(Exception(error));
+        });
   }
 
   Future<void> _onCustomerShopDataRequested(
@@ -319,12 +332,14 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       path,
       parser: (data) => data as Map<String, dynamic>,
     );
-    result.onSuccess((extractedData) {
-      emit(state.copyWith(shop: Shop.fromJson(extractedData)));
-      event.completer?.complete();
-    }).onFailure((error) {
-      event.completer?.completeError(Exception(error));
-    });
+    result
+        .onSuccess((extractedData) {
+          emit(state.copyWith(shop: Shop.fromJson(extractedData)));
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          event.completer?.completeError(Exception(error));
+        });
   }
 
   void _onCustomerSearchParamsChanged(
@@ -373,20 +388,22 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       path,
       parser: (data) => data as Map<String, dynamic>,
     );
-    result.onSuccess((extractedData) {
-      final main = TransactionMain.fromJson(extractedData);
-      emit(
-        state.copyWith(
-          transactionItems: main.transactions,
-          searchDetails: main.searchDetail,
-        ),
-      );
-      event.completer?.complete();
-    }).onFailure((error) {
-      AppLogger.error('Failed to search transaction items: $error');
-      emit(state.copyWith(transactionItems: <Transaction>[]));
-      event.completer?.complete();
-    });
+    result
+        .onSuccess((extractedData) {
+          final main = TransactionMain.fromJson(extractedData);
+          emit(
+            state.copyWith(
+              transactionItems: main.transactions,
+              searchDetails: main.searchDetail,
+            ),
+          );
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          AppLogger.error('Failed to search transaction items: $error');
+          emit(state.copyWith(transactionItems: <Transaction>[]));
+          event.completer?.complete();
+        });
   }
 
   Future<void> _onCustomerTransactionItemRequested(
@@ -398,13 +415,18 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       path,
       parser: (data) => data as Map<String, dynamic>,
     );
-    result.onSuccess((extractedData) {
-      emit(
-          state.copyWith(transactionItem: Transaction.fromJson(extractedData)));
-      event.completer?.complete();
-    }).onFailure((error) {
-      event.completer?.completeError(Exception(error));
-    });
+    result
+        .onSuccess((extractedData) {
+          emit(
+            state.copyWith(
+              transactionItem: Transaction.fromJson(extractedData),
+            ),
+          );
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          event.completer?.completeError(Exception(error));
+        });
   }
 
   Future<void> _onCustomerProvincesRequested(
@@ -415,17 +437,19 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       'recycleorigin/v1${Urls.provincesEndPoint}',
       parser: (data) => data as List<dynamic>,
     );
-    result.onSuccess((data) {
-      emit(
-        state.copyWith(
-          provincesItems: data.map((i) => Province.fromJson(i)).toList(),
-        ),
-      );
-      event.completer?.complete();
-    }).onFailure((error) {
-      emit(state.copyWith(provincesItems: <Province>[]));
-      event.completer?.complete();
-    });
+    result
+        .onSuccess((data) {
+          emit(
+            state.copyWith(
+              provincesItems: data.map((i) => Province.fromJson(i)).toList(),
+            ),
+          );
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          emit(state.copyWith(provincesItems: <Province>[]));
+          event.completer?.complete();
+        });
   }
 
   Future<void> _onCustomerCountriesRequested(
@@ -436,17 +460,19 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       'recycleorigin/v1${Urls.countriesEndPoint}',
       parser: (data) => data as List<dynamic>,
     );
-    result.onSuccess((data) {
-      emit(
-        state.copyWith(
-          countriesItems: data.map((i) => Country.fromJson(i)).toList(),
-        ),
-      );
-      event.completer?.complete();
-    }).onFailure((error) {
-      emit(state.copyWith(countriesItems: <Country>[]));
-      event.completer?.complete();
-    });
+    result
+        .onSuccess((data) {
+          emit(
+            state.copyWith(
+              countriesItems: data.map((i) => Country.fromJson(i)).toList(),
+            ),
+          );
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          emit(state.copyWith(countriesItems: <Country>[]));
+          event.completer?.complete();
+        });
   }
 
   Future<void> _onCustomerProvincesByCountryRequested(
@@ -458,17 +484,19 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       queryParameters: <String, dynamic>{'country_id': event.countryId},
       parser: (data) => data as List<dynamic>,
     );
-    result.onSuccess((data) {
-      emit(
-        state.copyWith(
-          provincesItems: data.map((i) => Province.fromJson(i)).toList(),
-        ),
-      );
-      event.completer?.complete();
-    }).onFailure((error) {
-      emit(state.copyWith(provincesItems: <Province>[]));
-      event.completer?.complete();
-    });
+    result
+        .onSuccess((data) {
+          emit(
+            state.copyWith(
+              provincesItems: data.map((i) => Province.fromJson(i)).toList(),
+            ),
+          );
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          emit(state.copyWith(provincesItems: <Province>[]));
+          event.completer?.complete();
+        });
   }
 
   Future<void> _onCustomerCitiesRequested(
@@ -479,14 +507,19 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       'recycleorigin/v1${Urls.provincesEndPoint}/${event.provinceId}',
       parser: (data) => data as List<dynamic>,
     );
-    result.onSuccess((data) {
-      emit(state.copyWith(
-          citiesItems: data.map((i) => City.fromJson(i)).toList()));
-      event.completer?.complete();
-    }).onFailure((error) {
-      emit(state.copyWith(citiesItems: <City>[]));
-      event.completer?.complete();
-    });
+    result
+        .onSuccess((data) {
+          emit(
+            state.copyWith(
+              citiesItems: data.map((i) => City.fromJson(i)).toList(),
+            ),
+          );
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          emit(state.copyWith(citiesItems: <City>[]));
+          event.completer?.complete();
+        });
   }
 
   Future<void> _onCustomerTypesRequested(
@@ -497,14 +530,19 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       'recycleorigin/v1${Urls.typesEndPoint}',
       parser: (data) => data as List<dynamic>,
     );
-    result.onSuccess((data) {
-      emit(state.copyWith(
-          typesItems: data.map((i) => Status.fromJson(i)).toList()));
-      event.completer?.complete();
-    }).onFailure((error) {
-      emit(state.copyWith(typesItems: <Status>[]));
-      event.completer?.complete();
-    });
+    result
+        .onSuccess((data) {
+          emit(
+            state.copyWith(
+              typesItems: data.map((i) => Status.fromJson(i)).toList(),
+            ),
+          );
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          emit(state.copyWith(typesItems: <Status>[]));
+          event.completer?.complete();
+        });
   }
 
   Future<void> _onCustomerClearingRequestSent(
@@ -516,10 +554,12 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
       data: {'money': event.money, 'shaba': event.shaba},
       parser: (data) => data as Map<String, dynamic>,
     );
-    result.onSuccess((_) {
-      event.completer?.complete();
-    }).onFailure((error) {
-      event.completer?.completeError(Exception(error));
-    });
+    result
+        .onSuccess((_) {
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          event.completer?.completeError(Exception(error));
+        });
   }
 }

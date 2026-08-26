@@ -68,7 +68,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     return Scaffold(
       appBar: AppBar(
@@ -85,20 +85,17 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
       body: _isLoading
           ? _buildLoadingIndicator()
           : _errorMessage != null
-              ? _buildErrorState(context)
-              : _article == null
-                  ? _buildEmptyState(context)
-                  : _buildArticleContent(context, screenWidth, textScaleFactor),
+          ? _buildErrorState(context)
+          : _article == null
+          ? _buildEmptyState(context)
+          : _buildArticleContent(context, screenWidth, textScaleFactor),
       drawer: mainDrawerIfRootRoute(context),
     );
   }
 
   Widget _buildLoadingIndicator() {
     return Center(
-      child: SpinKitFadingCircle(
-        color: AppTheme.primary,
-        size: 50.0,
-      ),
+      child: SpinKitFadingCircle(color: AppTheme.primary, size: 50.0),
     );
   }
 
@@ -167,7 +164,10 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
   }
 
   Widget _buildArticleContent(
-      BuildContext context, double screenWidth, double textScaleFactor) {
+    BuildContext context,
+    double screenWidth,
+    double textScaleFactor,
+  ) {
     if (_article == null) return const SizedBox.shrink();
 
     return SingleChildScrollView(
@@ -228,7 +228,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
             child: CircularProgressIndicator(
               value: loadingProgress.expectedTotalBytes != null
                   ? loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes!
+                        loadingProgress.expectedTotalBytes!
                   : null,
               color: AppTheme.primary,
             ),
@@ -328,7 +328,8 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
     if (article.content.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(
-            vertical: ArticlesConstants.verticalPadding),
+          vertical: ArticlesConstants.verticalPadding,
+        ),
         child: Text(
           context.l10n.articleNoContentMessage,
           style: TextStyle(

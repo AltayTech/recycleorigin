@@ -56,10 +56,8 @@ class OrderViewScreen extends StatefulWidget {
 }
 
 class _OrderViewScreenState extends State<OrderViewScreen> {
-  bool _isSelectGallery = false;
   bool _isLoading = false;
   bool _payIsActive = false;
-  bool _uploadIsOk = false;
   bool _isInit = true;
 
   late int orderId;
@@ -75,9 +73,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            '${context.l10n.couldNotOpenUrlPrefix}$urlString',
-          ),
+          content: Text('${context.l10n.couldNotOpenUrlPrefix}$urlString'),
           backgroundColor: context.appColors.danger,
         ),
       );
@@ -97,9 +93,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            '${context.l10n.paymentFailedPrefix}${e.toString()}',
-          ),
+          content: Text('${context.l10n.paymentFailedPrefix}${e.toString()}'),
           backgroundColor: context.appColors.danger,
         ),
       );
@@ -139,12 +133,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
   }
 
   void checkStatus(OrderDetails oDt) {
-    if (oDt.pay_type_slug == 'naghd') {
-      _payIsActive = oDt.pay_status_slug == 'not_pay';
-    } else {
-      _payIsActive = oDt.pay_status_slug == 'not_pay';
-      _uploadIsOk = oDt.order_status_slug == 'cheque_ok';
-    }
+    _payIsActive = oDt.pay_status_slug == 'not_pay';
   }
 
   @override
@@ -220,7 +209,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                 blurRadius: 2.0,
                 spreadRadius: 1.50,
                 offset: Offset(1.0, 1.0),
-              )
+              ),
             ],
           ),
           child: Row(
@@ -241,7 +230,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                     style: TextStyle(
                       color: context.appColors.cardBackground,
                       //fontFamily: 'Iransans',
-                      fontSize: MediaQuery.of(context).textScaleFactor * 16.0,
+                      fontSize:
+                          MediaQuery.textScalerOf(context).scale(1) * 16.0,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -261,8 +251,9 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
 
     try {
       final currencyFormat = intl.NumberFormat.decimalPattern();
-      final formattedPrice = EnArConvertor()
-          .replaceArNumber(currencyFormat.format(double.parse(price)));
+      final formattedPrice = EnArConvertor().replaceArNumber(
+        currencyFormat.format(double.parse(price)),
+      );
       return '$formattedPrice \$';
     } catch (e) {
       return '0 \$';
@@ -273,7 +264,7 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     orderDetails = context.read<CustomerInfoBloc>().getOrder();
@@ -354,7 +345,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             '${context.l10n.orderNumberFieldLabel} ',
                                             style: TextStyle(
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -379,7 +371,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             '${context.l10n.orderDateFieldLabel} ',
                                             style: TextStyle(
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -405,7 +398,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             'Total Price: ',
                                             style: TextStyle(
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -415,10 +409,13 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             EnArConvertor()
                                                     .replaceArNumber(
-                                                        currencyFormat.format(
-                                                            double.parse(
-                                                                orderDetails
-                                                                    .total_cost)))
+                                                      currencyFormat.format(
+                                                        double.parse(
+                                                          orderDetails
+                                                              .total_cost,
+                                                        ),
+                                                      ),
+                                                    )
                                                     .toString() +
                                                 ' \$',
                                             style: TextStyle(
@@ -437,7 +434,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             'Payment Type: ',
                                             style: TextStyle(
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -462,7 +460,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             'Payment Status: ',
                                             style: TextStyle(
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -487,7 +486,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                             'Prepay: ',
                                             style: TextStyle(
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14,
                                             ),
@@ -497,7 +497,8 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                           child: Text(
                                             orderDetails.pish.isNotEmpty
                                                 ? _formatPrice(
-                                                    orderDetails.pish)
+                                                    orderDetails.pish,
+                                                  )
                                                 : '-',
                                             style: TextStyle(
                                               color: context.colors.onSurface,
@@ -526,20 +527,21 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                           ),
                           Card(
                             child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: orderDetails.products.length,
-                                itemBuilder: (ctx, i) {
-                                  return OrderProductItem(
-                                    id: orderDetails.products[i].id,
-                                    title: orderDetails.products[i].title,
-                                    price: orderDetails.products[i].price_low,
-                                    color:
-                                        orderDetails.products[i].selected_color,
-                                    number: orderDetails.number_of_products
-                                        .toString(),
-                                  );
-                                }),
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: orderDetails.products.length,
+                              itemBuilder: (ctx, i) {
+                                return OrderProductItem(
+                                  id: orderDetails.products[i].id,
+                                  title: orderDetails.products[i].title,
+                                  price: orderDetails.products[i].price_low,
+                                  color:
+                                      orderDetails.products[i].selected_color,
+                                  number: orderDetails.number_of_products
+                                      .toString(),
+                                );
+                              },
+                            ),
                           ),
                           if (_imageList.isNotEmpty)
                             ListView.builder(
@@ -562,11 +564,12 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                               fit: BoxFit.cover,
                                               errorBuilder:
                                                   (context, error, stackTrace) {
-                                                return Center(
-                                                  child: Text(
-                                                      'Image not available'),
-                                                );
-                                              },
+                                                    return Center(
+                                                      child: Text(
+                                                        'Image not available',
+                                                      ),
+                                                    );
+                                                  },
                                             ),
                                           ],
                                         ),
@@ -607,8 +610,7 @@ class OrderProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Padding(
@@ -621,10 +623,9 @@ class OrderProductItem extends StatelessWidget {
         ),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(
-              ProductDetailScreen.routeName,
-              arguments: id,
-            );
+            Navigator.of(
+              context,
+            ).pushNamed(ProductDetailScreen.routeName, arguments: id);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -634,9 +635,10 @@ class OrderProductItem extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                        //fontFamily: 'Iransans',
-                        fontSize: textScaleFactor * 14.0,
-                        color: context.colors.onSurface),
+                      //fontFamily: 'Iransans',
+                      fontSize: textScaleFactor * 14.0,
+                      color: context.colors.onSurface,
+                    ),
                   ),
                 ),
                 Expanded(
@@ -659,60 +661,69 @@ class OrderProductItem extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                          flex: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Wrap(
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    color.title,
-                                    style: TextStyle(
-                                      color: context.colors.onSurface,
-                                      //fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 12,
+                        flex: 3,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  color.title,
+                                  style: TextStyle(
+                                    color: context.colors.onSurface,
+                                    //fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 12,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.all(10),
+                                width: 15.0,
+                                height: 15.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: context.colors.onSurface,
+                                    width: 0.2,
+                                  ),
+                                  color: Color(
+                                    int.parse(
+                                      '0xff' +
+                                          color.color_code.replaceRange(
+                                            0,
+                                            1,
+                                            '',
+                                          ),
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.all(10),
-                                  width: 15.0,
-                                  height: 15.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: context.colors.onSurface,
-                                        width: 0.2),
-                                    color: Color(
-                                      int.parse(
-                                        '0xff' +
-                                            color.color_code
-                                                .replaceRange(0, 1, ''),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       Expanded(
                         flex: 4,
                         child: Text(
                           price.toString().isNotEmpty
                               ? EnArConvertor()
-                                      .replaceArNumber(currencyFormat
-                                          .format(double.tryParse(price) ?? 0))
-                                      .toString() +
-                                  ' \$'
+                                        .replaceArNumber(
+                                          currencyFormat.format(
+                                            double.tryParse(price) ?? 0,
+                                          ),
+                                        )
+                                        .toString() +
+                                    ' \$'
                               : '0 \$',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              //fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 16.0,
-                              color: AppTheme.primary),
+                            //fontFamily: 'Iransans',
+                            fontSize: textScaleFactor * 16.0,
+                            color: AppTheme.primary,
+                          ),
                         ),
                       ),
                     ],

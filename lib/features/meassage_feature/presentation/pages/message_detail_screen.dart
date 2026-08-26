@@ -53,9 +53,10 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
     });
 
     bool isLogin = context.watch<AuthBloc>().isAuth;
-    await context
-        .read<MessagesBloc>()
-        .getMessages(message.comment_post_ID, isLogin);
+    await context.read<MessagesBloc>().getMessages(
+      message.comment_post_ID,
+      isLogin,
+    );
     messages = context.read<MessagesBloc>().allMessagesDetail;
     setState(() {
       _isLoading = false;
@@ -68,7 +69,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     return Scaffold(
       appBar: AppBar(
@@ -112,7 +113,8 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                           Spacer(),
                           Text(
                             EnArConvertor().replaceArNumber(
-                                '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}:${(DateTime.parse(message.comment_date)).second}'),
+                              '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}:${(DateTime.parse(message.comment_date)).second}',
+                            ),
                             style: TextStyle(
                               color: context.appColors.subtitleColor,
                               //fontFamily: 'Iransans',
@@ -124,7 +126,8 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                             padding: const EdgeInsets.only(right: 5.0),
                             child: Text(
                               EnArConvertor().replaceArNumber(
-                                  '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}'),
+                                '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}',
+                              ),
                               style: TextStyle(
                                 color: context.appColors.subtitleColor,
                                 //fontFamily: 'Iransans',
@@ -170,34 +173,38 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                 ),
               ),
               Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: context.appColors.subtitleColor,
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: _isLoading
+                      ? SpinKitFadingCircle(
+                          itemBuilder: (BuildContext context, int index) {
+                            return DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: context.appColors.subtitleColor,
+                              ),
+                            );
+                          },
+                        )
+                      : Container(
+                          child: messages.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    context.l10n.messageNoThreadYet,
+                                    style: TextStyle(
+                                      //fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 15.0,
+                                    ),
                                   ),
-                                );
-                              },
-                            )
-                          : Container(
-                              child: messages.isEmpty
-                                  ? Center(
-                                      child: Text(
-                                      context.l10n.messageNoThreadYet,
-                                      style: TextStyle(
-                                        //fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 15.0,
-                                      ),
-                                    ))
-                                  : Container())))
+                                )
+                              : Container(),
+                        ),
+                ),
+              ),
             ],
           ),
         ),
@@ -205,13 +212,13 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
       drawer: mainDrawerIfRootRoute(context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppTheme.primary,
-        child: Icon(
-          Icons.reply,
-          color: context.appColors.scaffoldBackground,
-        ),
+        child: Icon(Icons.reply, color: context.appColors.scaffoldBackground),
         onPressed: () {
-          Navigator.pushNamed(context, MessageCreateReplyScreen.routeName,
-              arguments: messages.last);
+          Navigator.pushNamed(
+            context,
+            MessageCreateReplyScreen.routeName,
+            arguments: messages.last,
+          );
         },
       ),
     );

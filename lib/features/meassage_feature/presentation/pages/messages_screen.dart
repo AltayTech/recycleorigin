@@ -63,7 +63,7 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     return Scaffold(
       appBar: AppBar(
@@ -94,11 +94,13 @@ class _MessageScreenState extends State<MessageScreen> {
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                            color: context.appColors.cardBackground,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: context.appColors.subtitleColor,
-                                width: 0.3)),
+                          color: context.appColors.cardBackground,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: context.appColors.subtitleColor,
+                            width: 0.3,
+                          ),
+                        ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -135,12 +137,17 @@ class _MessageScreenState extends State<MessageScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10.0, right: 10),
-                              child: Container(
-                                  width: deviceWidth * 0.1,
-                                  child: Image.asset(
-                                      'assets/images/messages_screen_mail_ic.png'))),
+                            padding: const EdgeInsets.only(
+                              left: 10.0,
+                              right: 10,
+                            ),
+                            child: Container(
+                              width: deviceWidth * 0.1,
+                              child: Image.asset(
+                                'assets/images/messages_screen_mail_ic.png',
+                              ),
+                            ),
+                          ),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -211,16 +218,17 @@ class _MessageScreenState extends State<MessageScreen> {
                           child: messages.isEmpty
                               ? Center(
                                   child: Text(
-                                  context.l10n.noMessagesYet,
-                                  style: TextStyle(
-                                    //fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 15.0,
+                                    context.l10n.noMessagesYet,
+                                    style: TextStyle(
+                                      //fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 15.0,
+                                    ),
                                   ),
-                                ))
+                                )
                               : Container(),
                         ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -228,10 +236,7 @@ class _MessageScreenState extends State<MessageScreen> {
       drawer: mainDrawerIfRootRoute(context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppTheme.primary,
-        child: Icon(
-          Icons.add,
-          color: context.appColors.scaffoldBackground,
-        ),
+        child: Icon(Icons.add, color: context.appColors.scaffoldBackground),
         onPressed: () {
           Navigator.pushNamed(context, MessageCreateScreen.routeName);
         },

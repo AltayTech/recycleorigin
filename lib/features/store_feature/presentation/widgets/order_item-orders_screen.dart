@@ -12,38 +12,38 @@ class OrderItemOrdersScreen extends StatelessWidget {
     Widget icon = Icon(
       Icons.timer,
       color: AppTheme.accent,
-//      size: 35,
+      //      size: 35,
     );
 
     if (statusSlug == 'register') {
       icon = Icon(
         Icons.beenhere,
         color: AppTheme.accent,
-//        size: 25,
+        //        size: 25,
       );
     } else if (statusSlug == 'cancel') {
       icon = Icon(
         Icons.cancel,
         color: context.appColors.subtitleColor,
-//        size: 35,
+        //        size: 35,
       );
     } else if (statusSlug == 'review') {
       icon = Icon(
         Icons.timer,
         color: AppTheme.accent,
-//        size: 35,
+        //        size: 35,
       );
     } else if (statusSlug == 'sent') {
       icon = Icon(
         Icons.check_circle,
         color: AppTheme.primary,
-//        size: 35,
+        //        size: 35,
       );
     } else {
       icon = Icon(
         Icons.beenhere,
         color: AppTheme.accent,
-//        size: 35,
+        //        size: 35,
       );
     }
 
@@ -53,7 +53,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var widthDevice = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final order = Provider.of<Order>(context, listen: false);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -78,16 +78,16 @@ class OrderItemOrdersScreen extends StatelessWidget {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Icon(
-                                  Icons.date_range,
-                                  color: AppTheme.primary,
-                                ),
+                                Icon(Icons.date_range, color: AppTheme.primary),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 5, top: 5),
+                                  padding: const EdgeInsets.only(
+                                    right: 5,
+                                    top: 5,
+                                  ),
                                   child: Text(
-                                    EnArConvertor()
-                                        .replaceArNumber(order.send_date),
+                                    EnArConvertor().replaceArNumber(
+                                      order.send_date,
+                                    ),
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
@@ -104,16 +104,16 @@ class OrderItemOrdersScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Icon(
-                                  Icons.av_timer,
-                                  color: AppTheme.primary,
-                                ),
+                                Icon(Icons.av_timer, color: AppTheme.primary),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 5, top: 5),
+                                  padding: const EdgeInsets.only(
+                                    right: 5,
+                                    top: 5,
+                                  ),
                                   child: Text(
-                                    EnArConvertor()
-                                        .replaceArNumber(order.send_date),
+                                    EnArConvertor().replaceArNumber(
+                                      order.send_date,
+                                    ),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.right,
@@ -152,8 +152,9 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  EnArConvertor()
-                                      .replaceArNumber(order.total_number),
+                                  EnArConvertor().replaceArNumber(
+                                    order.total_number,
+                                  ),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.right,
@@ -171,9 +172,11 @@ class OrderItemOrdersScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  EnArConvertor().replaceArNumber(currencyFormat
-                                      .format(double.parse(order.total_price))
-                                      .toString()),
+                                  EnArConvertor().replaceArNumber(
+                                    currencyFormat
+                                        .format(double.parse(order.total_price))
+                                        .toString(),
+                                  ),
                                   maxLines: 1,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -208,7 +211,7 @@ class OrderItemOrdersScreen extends StatelessWidget {
                                 fontSize: textScaleFactor * 15.0,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

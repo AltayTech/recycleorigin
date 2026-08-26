@@ -204,7 +204,7 @@ class _ProductsScreenState extends State<ProductsScreen>
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     final inShell = NavigationShellScope.isActive(context);
 

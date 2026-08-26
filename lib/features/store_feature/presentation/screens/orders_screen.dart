@@ -94,7 +94,7 @@ class _OrdersScreenState extends State<OrdersScreen>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-//      await getCustomerInfo();
+      //      await getCustomerInfo();
       getCustomerInfo();
       searchItems();
     }
@@ -134,7 +134,7 @@ class _OrdersScreenState extends State<OrdersScreen>
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     bool isLogin = context.watch<AuthBloc>().isAuth;
 
     return Scaffold(
@@ -144,8 +144,8 @@ class _OrdersScreenState extends State<OrdersScreen>
         title: Text(
           context.l10n.ordersLabel,
           style: TextStyle(
-              //fontFamily: 'Iransans',
-              ),
+            //fontFamily: 'Iransans',
+          ),
         ),
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
@@ -158,7 +158,9 @@ class _OrdersScreenState extends State<OrdersScreen>
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(
-                vertical: deviceHeight * 0.0, horizontal: deviceWidth * 0.0),
+              vertical: deviceHeight * 0.0,
+              horizontal: deviceWidth * 0.0,
+            ),
             child: !isLogin
                 ? Container(
                     child: Center(
@@ -172,8 +174,9 @@ class _OrdersScreenState extends State<OrdersScreen>
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed(LoginScreen.routeName);
+                              Navigator.of(
+                                context,
+                              ).pushNamed(LoginScreen.routeName);
                             },
                             child: Container(
                               child: Padding(
@@ -181,14 +184,16 @@ class _OrdersScreenState extends State<OrdersScreen>
                                 child: Text(
                                   context.l10n.login,
                                   style: const TextStyle(
-                                      color: AppTheme.appBarIconColor),
+                                    color: AppTheme.appBarIconColor,
+                                  ),
                                 ),
                               ),
                               decoration: BoxDecoration(
-                                  color: AppTheme.primary,
-                                  borderRadius: BorderRadius.circular(5)),
+                                color: AppTheme.primary,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -200,8 +205,10 @@ class _OrdersScreenState extends State<OrdersScreen>
                         Column(
                           children: <Widget>[
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 8.0, bottom: 8),
+                              padding: const EdgeInsets.only(
+                                top: 8.0,
+                                bottom: 8,
+                              ),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -223,9 +230,12 @@ class _OrdersScreenState extends State<OrdersScreen>
                                     ),
                                   ),
                                   Spacer(),
-                                  BlocBuilder<CustomerInfoBloc,
-                                      CustomerInfoState>(builder: (_, state) {
-                                    return Wrap(
+                                  BlocBuilder<
+                                    CustomerInfoBloc,
+                                    CustomerInfoState
+                                  >(
+                                    builder: (_, state) {
+                                      return Wrap(
                                         alignment: WrapAlignment.start,
                                         crossAxisAlignment:
                                             WrapCrossAlignment.center,
@@ -233,10 +243,13 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         children: <Widget>[
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 3, vertical: 5),
+                                              horizontal: 3,
+                                              vertical: 5,
+                                            ),
                                             child: Text(
                                               context
-                                                  .l10n.cartNumberSummaryPrefix,
+                                                  .l10n
+                                                  .cartNumberSummaryPrefix,
                                               style: TextStyle(
                                                 //fontFamily: 'Iransans',
                                                 fontSize:
@@ -251,12 +264,13 @@ class _OrdersScreenState extends State<OrdersScreen>
                                             child: Text(
                                               productsDetail.total != -1
                                                   ? EnArConvertor()
-                                                      .replaceArNumber(
+                                                        .replaceArNumber(
                                                           loadedProductstolist
                                                               .length
-                                                              .toString())
+                                                              .toString(),
+                                                        )
                                                   : EnArConvertor()
-                                                      .replaceArNumber('0'),
+                                                        .replaceArNumber('0'),
                                               style: TextStyle(
                                                 //fontFamily: 'Iransans',
                                                 fontSize:
@@ -264,8 +278,10 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               ),
                                             ),
                                           ),
-                                        ]);
-                                  }),
+                                        ],
+                                      );
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -278,46 +294,52 @@ class _OrdersScreenState extends State<OrdersScreen>
                                 itemCount: loadedProductstolist.length,
                                 itemBuilder: (ctx, i) =>
                                     ChangeNotifierProvider.value(
-                                  value: loadedProductstolist[i],
-                                  child: OrderItemOrdersScreen(),
-                                ),
+                                      value: loadedProductstolist[i],
+                                      child: OrderItemOrdersScreen(),
+                                    ),
                               ),
                             ),
                           ],
                         ),
                         Positioned(
-                            top: 0,
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Align(
-                                alignment: Alignment.center,
-                                child: _isLoading
-                                    ? SpinKitFadingCircle(
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
+                          top: 0,
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: _isLoading
+                                ? SpinKitFadingCircle(
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                           return DecoratedBox(
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                             ),
                                           );
                                         },
-                                      )
-                                    : Container(
-                                        child: loadedProductstolist.isEmpty
-                                            ? Center(
-                                                child: Text(
-                                                context.l10n
-                                                    .storeNoOrdersYetMessage,
-                                                style: TextStyle(
-                                                  //fontFamily: 'Iransans',
-                                                  fontSize:
-                                                      textScaleFactor * 15.0,
-                                                ),
-                                              ))
-                                            : Container())))
+                                  )
+                                : Container(
+                                    child: loadedProductstolist.isEmpty
+                                        ? Center(
+                                            child: Text(
+                                              context
+                                                  .l10n
+                                                  .storeNoOrdersYetMessage,
+                                              style: TextStyle(
+                                                //fontFamily: 'Iransans',
+                                                fontSize:
+                                                    textScaleFactor * 15.0,
+                                              ),
+                                            ),
+                                          )
+                                        : Container(),
+                                  ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

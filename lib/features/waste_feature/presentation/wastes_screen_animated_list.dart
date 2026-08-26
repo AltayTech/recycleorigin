@@ -102,10 +102,15 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
       for (int i = 0; i < wasteCartItems.length; i++) {
         print(wasteCartItems[i].featured_image.sizes.medium);
         wasteCartItems[i].prices.length > 0
-            ? totalPrice = totalPrice +
-                int.parse(getPrice(
-                        wasteCartItems[i].prices, wasteCartItems[i].weight)) *
-                    wasteCartItems[i].weight
+            ? totalPrice =
+                  totalPrice +
+                  int.parse(
+                        getPrice(
+                          wasteCartItems[i].prices,
+                          wasteCartItems[i].weight,
+                        ),
+                      ) *
+                      wasteCartItems[i].weight
             : totalPrice = totalPrice;
         wasteCartItems[i].prices.length > 0
             ? totalWeight = totalWeight + wasteCartItems[i].weight
@@ -155,13 +160,16 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
 
   void changeNumberAnimation(double newValue) {
     setState(() {
-      _totalPriceAnimation = new Tween<double>(
-        begin: _totalPriceAnimation.value,
-        end: newValue,
-      ).animate(new CurvedAnimation(
-        curve: Curves.ease,
-        parent: _totalPriceController,
-      ));
+      _totalPriceAnimation =
+          new Tween<double>(
+            begin: _totalPriceAnimation.value,
+            end: newValue,
+          ).animate(
+            new CurvedAnimation(
+              curve: Curves.ease,
+              parent: _totalPriceController,
+            ),
+          );
     });
     _totalPriceController.forward(from: 0.0);
   }
@@ -172,22 +180,22 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
 
   void deleteUser(int index) {
     var user = wasteCartItems.removeAt(index);
-    _listKey.currentState?.removeItem(
-      index,
-      (BuildContext context, Animation<double> animation) {
-        return FadeTransition(
-          opacity:
-              CurvedAnimation(parent: animation, curve: Interval(0.5, 1.0)),
-          child: SizeTransition(
-            sizeFactor:
-                CurvedAnimation(parent: animation, curve: Interval(0.0, 1.0)),
-            axisAlignment: 0.0,
-            child: _buildItem(user),
+    _listKey.currentState?.removeItem(index, (
+      BuildContext context,
+      Animation<double> animation,
+    ) {
+      return FadeTransition(
+        opacity: CurvedAnimation(parent: animation, curve: Interval(0.5, 1.0)),
+        child: SizeTransition(
+          sizeFactor: CurvedAnimation(
+            parent: animation,
+            curve: Interval(0.0, 1.0),
           ),
-        );
-      },
-      duration: Duration(milliseconds: 600),
-    );
+          alignment: Alignment.center,
+          child: _buildItem(user),
+        ),
+      );
+    }, duration: Duration(milliseconds: 600));
   }
 
   Widget _buildItem(WasteCart user) {
@@ -203,9 +211,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     setState(() {
       _isLoading = true;
     });
-    await context.read<WastesBloc>().removeWasteCart(
-          itemId,
-        );
+    await context.read<WastesBloc>().removeWasteCart(itemId);
 
     setState(() {
       _isLoading = false;
@@ -216,7 +222,7 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     var currencyFormat = intl.NumberFormat.decimalPattern();
     bool isLogin = context.read<AuthBloc>().isAuth;
     bool isCompleted = context.read<AuthBloc>().isCompleted;
@@ -228,281 +234,287 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
           style: TextStyle(
             color: context.appColors.cardBackground,
             //fontFamily: 'Iransans',
-//            fontSize: textScaleFactor * 14,
+            //            fontSize: textScaleFactor * 14,
           ),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
-      body: Builder(builder: (context) {
-        return Directionality(
-          textDirection: Directionality.of(context),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: deviceHeight * 0.15,
-                          decoration: BoxDecoration(
+      body: Builder(
+        builder: (context) {
+          return Directionality(
+            textDirection: Directionality.of(context),
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Container(
+                height: double.infinity,
+                width: double.infinity,
+                child: Stack(
+                  children: <Widget>[
+                    SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            height: deviceHeight * 0.15,
+                            decoration: BoxDecoration(
                               color: context.appColors.cardBackground,
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                  color: context.appColors.subtitleColor,
-                                  width: 0.2)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Icon(
-                                          Icons.restore_from_trash,
-                                          color: context.colors.error,
-                                          size: 40,
+                                color: context.appColors.subtitleColor,
+                                width: 0.2,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Icon(
+                                            Icons.restore_from_trash,
+                                            color: context.colors.error,
+                                            size: 40,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(wasteCartItems
-                                                .length
-                                                .toString())
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: context.colors.onSurface,
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 18,
+                                        Text(
+                                          EnArConvertor()
+                                              .replaceArNumber(
+                                                wasteCartItems.length
+                                                    .toString(),
+                                              )
+                                              .toString(),
+                                          style: TextStyle(
+                                            color: context.colors.onSurface,
+                                            //fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 18,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Number',
-                                        style: TextStyle(
-                                          color:
-                                              context.appColors.subtitleColor,
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
+                                        Text(
+                                          'Number',
+                                          style: TextStyle(
+                                            color:
+                                                context.appColors.subtitleColor,
+                                            //fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 12,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Icon(
-                                          Icons.monetization_on,
-                                          color: AppTheme.primary,
-                                          size: 40,
+                                  Expanded(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Icon(
+                                            Icons.monetization_on,
+                                            color: AppTheme.primary,
+                                            size: 40,
+                                          ),
                                         ),
-                                      ),
-                                      AnimatedBuilder(
-                                        animation: _totalPriceAnimation,
-                                        builder: (BuildContext context,
-                                            Widget? child) {
-                                          return Text(
-                                            totalPrice.toString().isNotEmpty
-                                                ? EnArConvertor()
-                                                    .replaceArNumber(
-                                                        currencyFormat
-                                                            .format(
-                                                                double.parse(
+                                        AnimatedBuilder(
+                                          animation: _totalPriceAnimation,
+                                          builder: (BuildContext context, Widget? child) {
+                                            return Text(
+                                              totalPrice.toString().isNotEmpty
+                                                  ? EnArConvertor().replaceArNumber(
+                                                      currencyFormat
+                                                          .format(
+                                                            double.parse(
                                                               _totalPriceAnimation
                                                                   .value
                                                                   .toStringAsFixed(
-                                                                      0),
-                                                            ))
-                                                            .toString())
-                                                : EnArConvertor()
-                                                    .replaceArNumber('0'),
-                                            style: TextStyle(
-                                              color: context.colors.onSurface,
-                                              //fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 18,
+                                                                    0,
+                                                                  ),
+                                                            ),
+                                                          )
+                                                          .toString(),
+                                                    )
+                                                  : EnArConvertor()
+                                                        .replaceArNumber('0'),
+                                              style: TextStyle(
+                                                color: context.colors.onSurface,
+                                                //fontFamily: 'Iransans',
+                                                fontSize: textScaleFactor * 18,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        Text(
+                                          '\$',
+                                          style: TextStyle(
+                                            color:
+                                                context.appColors.subtitleColor,
+                                            //fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Icon(
+                                            Icons.av_timer,
+                                            color: AppTheme.iconAccentBlue,
+                                            size: 40,
+                                          ),
+                                        ),
+                                        Text(
+                                          EnArConvertor()
+                                              .replaceArNumber(
+                                                totalWeight.toString(),
+                                              )
+                                              .toString(),
+                                          style: TextStyle(
+                                            color: context.colors.onSurface,
+                                            //fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 18,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Kilogram ',
+                                          style: TextStyle(
+                                            color:
+                                                context.appColors.subtitleColor,
+                                            //fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: BlocBuilder<WastesBloc, WastesState>(
+                              builder: (context, state) =>
+                                  state.wasteCartItems.isNotEmpty
+                                  ? Container(
+                                      height: deviceHeight * 0.7,
+                                      child: AnimatedList(
+                                        key: _listKey,
+                                        initialItemCount:
+                                            state.wasteCartItems.length,
+                                        itemBuilder: (ctx, i, animation) =>
+                                            FadeTransition(
+                                              opacity: animation,
+                                              child: WasteCartItemAnimatedList(
+                                                wasteItem:
+                                                    state.wasteCartItems[i],
+                                                function: getWasteItems,
+                                                onRemove: () {},
+                                                key: Key(''),
+                                              ),
                                             ),
-                                          );
-                                        },
                                       ),
-                                      Text(
-                                        '\$',
-                                        style: TextStyle(
-                                          color:
-                                              context.appColors.subtitleColor,
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Icon(
-                                          Icons.av_timer,
-                                          color: AppTheme.iconAccentBlue,
-                                          size: 40,
-                                        ),
-                                      ),
-                                      Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(
-                                                totalWeight.toString())
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: context.colors.onSurface,
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 18,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Kilogram ',
-                                        style: TextStyle(
-                                          color:
-                                              context.appColors.subtitleColor,
-                                          //fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: BlocBuilder<WastesBloc, WastesState>(
-                            builder: (context, state) => state
-                                    .wasteCartItems.isNotEmpty
-                                ? Container(
-                                    height: deviceHeight * 0.7,
-                                    child: AnimatedList(
-                                      key: _listKey,
-                                      initialItemCount:
-                                          state.wasteCartItems.length,
-                                      itemBuilder: (ctx, i, animation) =>
-                                          FadeTransition(
-                                        opacity: animation,
-                                        child: WasteCartItemAnimatedList(
-                                          wasteItem: state.wasteCartItems[i],
-                                          function: getWasteItems,
-                                          onRemove: () {},
-                                          key: Key(''),
+                                    )
+                                  : Container(
+                                      height: deviceHeight * 0.6,
+                                      child: Center(
+                                        child: Text(
+                                          context.l10n.noWasteAddedYet,
                                         ),
                                       ),
                                     ),
-                                  )
-                                : Container(
-                                    height: deviceHeight * 0.6,
-                                    child: Center(
-                                      child: Text(context.l10n.noWasteAddedYet),
-                                    ),
-                                  ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        )
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () {
-                        SnackBar addToCartSnackBar = SnackBar(
-                          content: Text(
-                            context.l10n.noWasteAddedYet,
-                            style: TextStyle(
-                              color: context.appColors.cardBackground,
-                              //fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 14.0,
                             ),
                           ),
-                          action: SnackBarAction(
-                            label: context.l10n.okLabel,
-                            onPressed: () {
-                              // Some code to undo the change.
-                            },
-                          ),
-                        );
-                        if (wasteCartItems.isEmpty) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(addToCartSnackBar);
-                        } else if (!isLogin) {
-                          _showLogindialog();
-                        } else {
-                          if (isCompleted) {
-                            Navigator.of(context)
-                                .pushNamed(AddressScreen.routeName);
-                          } else {
-                            _showCompletedialog();
-                          }
-                        }
-                      },
-                      child: ButtonBottom(
-                        width: deviceWidth * 0.9,
-                        height: deviceWidth * 0.14,
-                        text: context.l10n.continueLabel,
-                        isActive: wasteCartItems.isNotEmpty,
+                          SizedBox(height: 50),
+                        ],
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: context.appColors.subtitleColor,
-                                  ),
-                                );
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {
+                          SnackBar addToCartSnackBar = SnackBar(
+                            content: Text(
+                              context.l10n.noWasteAddedYet,
+                              style: TextStyle(
+                                color: context.appColors.cardBackground,
+                                //fontFamily: 'Iransans',
+                                fontSize: textScaleFactor * 14.0,
+                              ),
+                            ),
+                            action: SnackBarAction(
+                              label: context.l10n.okLabel,
+                              onPressed: () {
+                                // Some code to undo the change.
                               },
-                            )
-                          : Container(),
+                            ),
+                          );
+                          if (wasteCartItems.isEmpty) {
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(addToCartSnackBar);
+                          } else if (!isLogin) {
+                            _showLogindialog();
+                          } else {
+                            if (isCompleted) {
+                              Navigator.of(
+                                context,
+                              ).pushNamed(AddressScreen.routeName);
+                            } else {
+                              _showCompletedialog();
+                            }
+                          }
+                        },
+                        child: ButtonBottom(
+                          width: deviceWidth * 0.9,
+                          height: deviceWidth * 0.14,
+                          text: context.l10n.continueLabel,
+                          isActive: wasteCartItems.isNotEmpty,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: _isLoading
+                            ? SpinKitFadingCircle(
+                                itemBuilder: (BuildContext context, int index) {
+                                  return DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: context.appColors.subtitleColor,
+                                    ),
+                                  );
+                                },
+                              )
+                            : Container(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
       drawer: mainDrawerIfRootRoute(context),
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: deviceWidth * 0.13 + 10),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(
-              WastesScreen.routeName,
-            );
+            Navigator.of(context).pushNamed(WastesScreen.routeName);
           },
           backgroundColor: AppTheme.primary,
-          child: Icon(
-            Icons.add,
-            color: context.appColors.cardBackground,
-          ),
+          child: Icon(Icons.add, color: context.appColors.cardBackground),
         ),
       ),
     );

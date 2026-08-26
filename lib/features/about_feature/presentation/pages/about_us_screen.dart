@@ -49,7 +49,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     return Scaffold(
       backgroundColor: context.appColors.cardBackground,
@@ -89,16 +89,16 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                            width: deviceWidth * 0.3,
-                            height: deviceWidth * 0.3,
-                            color: context.appColors.scaffoldBackground,
-                            child: FadeInImage(
-                              placeholder:
-                                  AssetImage('assets/images/circle.gif'),
-                              image: NetworkImage(shopData.logo.sizes.medium),
-                              fit: BoxFit.contain,
-                              height: deviceWidth * 0.5,
-                            )),
+                          width: deviceWidth * 0.3,
+                          height: deviceWidth * 0.3,
+                          color: context.appColors.scaffoldBackground,
+                          child: FadeInImage(
+                            placeholder: AssetImage('assets/images/circle.gif'),
+                            image: NetworkImage(shopData.logo.sizes.medium),
+                            fit: BoxFit.contain,
+                            height: deviceWidth * 0.5,
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(14.0),
                           child: Text(

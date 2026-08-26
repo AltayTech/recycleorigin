@@ -21,11 +21,10 @@ class ContactWithUs extends StatefulWidget {
 class _ContactWithUsState extends State<ContactWithUs> {
   bool _isLoading = false;
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
+  Future<void> _launchURL(String url) async {
+    final uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
     }
   }
 
@@ -48,7 +47,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
         shopData.privacy,
         shopData.how_to_order,
         shopData.faq,
-        shopData.pay_methods_desc
+        shopData.pay_methods_desc,
       ];
       aboutInfotitle = [
         'About Store',
@@ -80,7 +79,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     shopData = context.watch<CustomerInfoBloc>().shop;
 
     return Scaffold(
@@ -222,8 +221,9 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                     Expanded(
                                       flex: 8,
                                       child: Text(
-                                        EnArConvertor()
-                                            .replaceArNumber(shopData.mobile),
+                                        EnArConvertor().replaceArNumber(
+                                          shopData.mobile,
+                                        ),
                                         style: TextStyle(
                                           color: context.colors.onSurface,
                                           //fontFamily: 'Iransans',
@@ -249,22 +249,27 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                         flex: 8,
                                         child: InkWell(
                                           onTap: () {
-                                            _launchURL(shopData
-                                                .social_media.instagram);
+                                            _launchURL(
+                                              shopData.social_media.instagram,
+                                            );
                                           },
                                           child: Image.asset(
-                                              'assets/images/instagram.png'),
+                                            'assets/images/instagram.png',
+                                          ),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 8,
                                         child: InkWell(
-                                            onTap: () {
-                                              _launchURL(shopData
-                                                  .social_media.telegram);
-                                            },
-                                            child: Image.asset(
-                                                'assets/images/telegram.png')),
+                                          onTap: () {
+                                            _launchURL(
+                                              shopData.social_media.telegram,
+                                            );
+                                          },
+                                          child: Image.asset(
+                                            'assets/images/telegram.png',
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),

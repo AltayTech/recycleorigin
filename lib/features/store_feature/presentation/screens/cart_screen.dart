@@ -106,16 +106,14 @@ class _CartScreenState extends State<CartScreen> {
       customer = context.read<CustomerInfoBloc>().customer;
       _isLoading = true;
 
-//      await getShopItems();
+      //      await getShopItems();
       bool isLogin = context.read<AuthBloc>().isAuth;
 
       if (isLogin) {
         try {
-          await context.read<CustomerInfoBloc>().getCustomer().then(
-            (_) {
-              customer = context.read<CustomerInfoBloc>().customer;
-            },
-          );
+          await context.read<CustomerInfoBloc>().getCustomer().then((_) {
+            customer = context.read<CustomerInfoBloc>().customer;
+          });
         } catch (error) {
           print(error);
 
@@ -143,8 +141,9 @@ class _CartScreenState extends State<CartScreen> {
     if (shoppItems.isNotEmpty) {
       for (int i = 0; i < shoppItems.length; i++) {
         shoppItems[i].price.isNotEmpty
-            ? totalPrice = totalPrice +
-                int.parse(shoppItems[i].price) * shoppItems[i].productCount
+            ? totalPrice =
+                  totalPrice +
+                  int.parse(shoppItems[i].price) * shoppItems[i].productCount
             : totalPrice = totalPrice;
       }
     }
@@ -165,7 +164,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     var currencyFormat = intl.NumberFormat.decimalPattern();
     bool isLogin = context.read<AuthBloc>().isAuth;
     bool isCompleted = context.read<AuthBloc>().isCompleted;
@@ -186,172 +185,180 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
-      body: Builder(builder: (context) {
-        return Container(
-          color: context.appColors.scaffoldBackground,
-          height: double.infinity,
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Stack(
-              children: <Widget>[
-                SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: deviceHeight * 0.07,
-                        decoration: BoxDecoration(
+      body: Builder(
+        builder: (context) {
+          return Container(
+            color: context.appColors.scaffoldBackground,
+            height: double.infinity,
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Stack(
+                children: <Widget>[
+                  SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: deviceHeight * 0.07,
+                          decoration: BoxDecoration(
                             color: context.appColors.cardBackground,
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(
-                                color: context.appColors.subtitleColor,
-                                width: 0.2)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Text(
-                                '${context.l10n.cartNumberSummaryPrefix} '
-                                '${EnArConvertor().replaceArNumber(shoppItems.length.toString()).toString()}',
-                                style: TextStyle(
-                                  color: context.colors.onSurface,
-                                  //fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 14,
-                                ),
-                              ),
-                              VerticalDivider(
-                                color: context.appColors.subtitleColor,
-                                thickness: 1,
-                                indent: 4,
-                                endIndent: 4,
-                              ),
-                              Text(
-                                context.l10n.cartTotalSummaryPrefix,
-                                style: TextStyle(
-                                  color: context.appColors.subtitleColor,
-                                  //fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 12,
-                                ),
-                              ),
-                              Text(
-                                totalPrice.toString().isNotEmpty
-                                    ? EnArConvertor().replaceArNumber(
-                                        currencyFormat
-                                            .format(totalPrice)
-                                            .toString())
-                                    : EnArConvertor().replaceArNumber('0'),
-                                style: TextStyle(
-                                  color: context.colors.onSurface,
-                                  //fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 18,
-                                ),
-                              ),
-                            ],
+                              color: context.appColors.subtitleColor,
+                              width: 0.2,
+                            ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: shoppItems.length != 0
-                            ? Container(
-                                decoration: BoxDecoration(
-                                  color: context.appColors.scaffoldBackground,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: shoppItems.length,
-                                  itemBuilder: (ctx, i) => CardItem(
-                                    shoppItem: shoppItems[i],
-                                    callFunction: setStateFun,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Text(
+                                  '${context.l10n.cartNumberSummaryPrefix} '
+                                  '${EnArConvertor().replaceArNumber(shoppItems.length.toString()).toString()}',
+                                  style: TextStyle(
+                                    color: context.colors.onSurface,
+                                    //fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 14,
                                   ),
                                 ),
-                              )
-                            : Center(child: Text(context.l10n.noItemsInCart)),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      )
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: InkWell(
-                    onTap: () {
-                      SnackBar addToCartSnackBar = SnackBar(
-                        content: Text(
-                          context.l10n.cartIsEmpty,
-                          style: TextStyle(
-                            color: context.appColors.cardBackground,
-                            //fontFamily: 'Iransans',
-                            fontSize: textScaleFactor * 14.0,
+                                VerticalDivider(
+                                  color: context.appColors.subtitleColor,
+                                  thickness: 1,
+                                  indent: 4,
+                                  endIndent: 4,
+                                ),
+                                Text(
+                                  context.l10n.cartTotalSummaryPrefix,
+                                  style: TextStyle(
+                                    color: context.appColors.subtitleColor,
+                                    //fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 12,
+                                  ),
+                                ),
+                                Text(
+                                  totalPrice.toString().isNotEmpty
+                                      ? EnArConvertor().replaceArNumber(
+                                          currencyFormat
+                                              .format(totalPrice)
+                                              .toString(),
+                                        )
+                                      : EnArConvertor().replaceArNumber('0'),
+                                  style: TextStyle(
+                                    color: context.colors.onSurface,
+                                    //fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 18,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        action: SnackBarAction(
-                          label: context.l10n.okLabel,
-                          onPressed: () {
-                            // Some code to undo the change.
-                          },
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: shoppItems.length != 0
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    color: context.appColors.scaffoldBackground,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: shoppItems.length,
+                                    itemBuilder: (ctx, i) => CardItem(
+                                      shoppItem: shoppItems[i],
+                                      callFunction: setStateFun,
+                                    ),
+                                  ),
+                                )
+                              : Center(child: Text(context.l10n.noItemsInCart)),
                         ),
-                      );
-                      if (shoppItems.isEmpty) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(addToCartSnackBar);
-                      } else if (!isLogin) {
-                        _showLogindialog();
-                      } else if (!context
-                          .read<AuthBloc>()
-                          .state
-                          .emailVerified) {
-                        Navigator.of(context).pushNamed(
-                          EmailVerificationScreen.routeName,
-                        );
-                      } else {
-                        if (isCompleted) {
-                          Navigator.of(context)
-                              .pushNamed(OrderProductsSendScreen.routeName);
-                        } else {
-                          _showCompletedialog();
-                        }
-                      }
-                    },
-                    child: ButtonBottom(
-                      width: deviceWidth * 0.9,
-                      height: deviceWidth * 0.14,
-                      text: context.l10n.continueLabel,
-                      isActive: shoppItems.isNotEmpty,
+                        SizedBox(height: 50),
+                      ],
                     ),
                   ),
-                ),
-                Positioned(
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: InkWell(
+                      onTap: () {
+                        SnackBar addToCartSnackBar = SnackBar(
+                          content: Text(
+                            context.l10n.cartIsEmpty,
+                            style: TextStyle(
+                              color: context.appColors.cardBackground,
+                              //fontFamily: 'Iransans',
+                              fontSize: textScaleFactor * 14.0,
+                            ),
+                          ),
+                          action: SnackBarAction(
+                            label: context.l10n.okLabel,
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                          ),
+                        );
+                        if (shoppItems.isEmpty) {
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(addToCartSnackBar);
+                        } else if (!isLogin) {
+                          _showLogindialog();
+                        } else if (!context
+                            .read<AuthBloc>()
+                            .state
+                            .emailVerified) {
+                          Navigator.of(
+                            context,
+                          ).pushNamed(EmailVerificationScreen.routeName);
+                        } else {
+                          if (isCompleted) {
+                            Navigator.of(
+                              context,
+                            ).pushNamed(OrderProductsSendScreen.routeName);
+                          } else {
+                            _showCompletedialog();
+                          }
+                        }
+                      },
+                      child: ButtonBottom(
+                        width: deviceWidth * 0.9,
+                        height: deviceWidth * 0.14,
+                        text: context.l10n.continueLabel,
+                        isActive: shoppItems.isNotEmpty,
+                      ),
+                    ),
+                  ),
+                  Positioned(
                     top: 0,
                     bottom: 0,
                     left: 0,
                     right: 0,
                     child: Align(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? SpinKitFadingCircle(
-                                itemBuilder: (BuildContext context, int index) {
-                                  return DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: context.appColors.subtitleColor,
-                                    ),
-                                  );
-                                },
-                              )
-                            : Container()))
-              ],
+                      alignment: Alignment.center,
+                      child: _isLoading
+                          ? SpinKitFadingCircle(
+                              itemBuilder: (BuildContext context, int index) {
+                                return DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: context.appColors.subtitleColor,
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
       drawer: mainDrawerIfRootRoute(context),
     );
   }

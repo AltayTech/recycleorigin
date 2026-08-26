@@ -6,19 +6,14 @@ import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
 class MessageReplyItem extends StatelessWidget {
-  const MessageReplyItem({
-    required this.message,
-    required this.isReply,
-  });
+  const MessageReplyItem({required this.message, required this.isReply});
 
   final Message message;
   final bool isReply;
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     return Padding(
       padding: isReply
           ? const EdgeInsets.only(left: 0, top: 8)
@@ -29,15 +24,17 @@ class MessageReplyItem extends StatelessWidget {
           topLeft: Radius.circular(10),
         ),
         child: Container(
-//        height: deviceHeight * 0.25,
-//        width: deviceWidth * 0.8,
+          //        height: deviceHeight * 0.25,
+          //        width: deviceWidth * 0.8,
           decoration: BoxDecoration(
             border: Border(
-                right: BorderSide(
-                    width: 4,
-                    color: isReply
-                        ? AppTheme.primary
-                        : context.appColors.subtitleColor)),
+              right: BorderSide(
+                width: 4,
+                color: isReply
+                    ? AppTheme.primary
+                    : context.appColors.subtitleColor,
+              ),
+            ),
             color: context.appColors.cardBackground,
           ),
           child: Padding(
@@ -76,13 +73,9 @@ class MessageReplyItem extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        EnArConvertor().replaceArNumber('${(DateTime.parse(
-                          message.comment_date,
-                        )).year}/${(DateTime.parse(
-                          message.comment_date,
-                        )).month}/${(DateTime.parse(
-                          message.comment_date,
-                        )).day}'),
+                        EnArConvertor().replaceArNumber(
+                          '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}',
+                        ),
                         style: TextStyle(
                           color: context.appColors.subtitleColor,
                           //fontFamily: 'Iransans',

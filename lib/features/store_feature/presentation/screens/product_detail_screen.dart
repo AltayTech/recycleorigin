@@ -88,14 +88,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Future<void> addToShoppingCart(
-      Product loadedProduct, var _selectedColor) async {
+    Product loadedProduct,
+    var _selectedColor,
+  ) async {
     setState(() {
       _isLoading = true;
     });
 
-    await context
-        .read<ProductsBloc>()
-        .addShopCart(loadedProduct, _selectedColor, 1);
+    await context.read<ProductsBloc>().addShopCart(
+      loadedProduct,
+      _selectedColor,
+      1,
+    );
 
     setState(() {
       _isLoading = false;
@@ -103,17 +107,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     print(_isLoading.toString());
   }
 
-  Future<bool> isExistInCart(
-    Product loadedProduct,
-  ) async {
+  Future<bool> isExistInCart(Product loadedProduct) async {
     bool isExist = false;
     setState(() {
       _isLoading = true;
     });
-    isExist = context
-        .read<ProductsBloc>()
-        .cartItems
-        .any((prod) => prod.id == loadedProduct.id);
+    isExist = context.read<ProductsBloc>().cartItems.any(
+      (prod) => prod.id == loadedProduct.id,
+    );
 
     print(isExist.toString());
 
@@ -123,16 +124,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return isExist;
   }
 
-  Widget? priceWidget(BuildContext context) {
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+  Widget priceWidget(BuildContext context) {
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     if (loadedProduct.price_without_discount == loadedProduct.price) {
       return Text(
         loadedProduct.price_without_discount.isNotEmpty
-            ? EnArConvertor().replaceArNumber(currencyFormat
-                .format(double.parse(loadedProduct.price_without_discount))
-                .toString())
+            ? EnArConvertor().replaceArNumber(
+                currencyFormat
+                    .format(double.parse(loadedProduct.price_without_discount))
+                    .toString(),
+              )
             : EnArConvertor().replaceArNumber('0'),
         style: TextStyle(
           color: context.colors.onSurface,
@@ -146,9 +149,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         loadedProduct.price_without_discount.isEmpty) {
       return Text(
         loadedProduct.price.isNotEmpty
-            ? EnArConvertor().replaceArNumber(currencyFormat
-                .format(double.parse(loadedProduct.price))
-                .toString())
+            ? EnArConvertor().replaceArNumber(
+                currencyFormat
+                    .format(double.parse(loadedProduct.price))
+                    .toString(),
+              )
             : EnArConvertor().replaceArNumber('0'),
         style: TextStyle(
           color: context.colors.onSurface,
@@ -160,9 +165,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     } else if (loadedProduct.price == '0' || loadedProduct.price.isEmpty) {
       return Text(
         loadedProduct.price_without_discount.isNotEmpty
-            ? EnArConvertor().replaceArNumber(currencyFormat
-                .format(double.parse(loadedProduct.price_without_discount))
-                .toString())
+            ? EnArConvertor().replaceArNumber(
+                currencyFormat
+                    .format(double.parse(loadedProduct.price_without_discount))
+                    .toString(),
+              )
             : EnArConvertor().replaceArNumber('0'),
         style: TextStyle(
           color: context.colors.onSurface,
@@ -177,9 +184,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         children: <Widget>[
           Text(
             loadedProduct.price_without_discount.isNotEmpty
-                ? EnArConvertor().replaceArNumber(currencyFormat
-                    .format(double.parse(loadedProduct.price_without_discount))
-                    .toString())
+                ? EnArConvertor().replaceArNumber(
+                    currencyFormat
+                        .format(
+                          double.parse(loadedProduct.price_without_discount),
+                        )
+                        .toString(),
+                  )
                 : EnArConvertor().replaceArNumber('0'),
             style: TextStyle(
               decoration: TextDecoration.lineThrough,
@@ -191,9 +202,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
           Text(
             loadedProduct.price.isNotEmpty
-                ? EnArConvertor().replaceArNumber(currencyFormat
-                    .format(double.parse(loadedProduct.price))
-                    .toString())
+                ? EnArConvertor().replaceArNumber(
+                    currencyFormat
+                        .format(double.parse(loadedProduct.price))
+                        .toString(),
+                  )
                 : EnArConvertor().replaceArNumber('0'),
             style: TextStyle(
               color: context.colors.onSurface,
@@ -205,15 +218,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ],
       );
     }
-    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     return Directionality(
       textDirection: Directionality.of(context),
@@ -224,8 +235,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           title: Text(
             '',
             style: TextStyle(
-                //fontFamily: 'Iransans',
-                ),
+              //fontFamily: 'Iransans',
+            ),
           ),
           backgroundColor: AppTheme.appBarColor,
           iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
@@ -241,16 +252,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Navigator.of(context).pushNamed(CartScreen.routeName);
                   },
                   color: context.appColors.scaffoldBackground,
-                  icon: Icon(
-                    Icons.shopping_cart,
-                  ),
+                  icon: Icon(Icons.shopping_cart),
                 );
                 if (count != 0) {
                   return badges.Badge(
                     badgeContent: cartIcon,
-                    badgeStyle: badges.BadgeStyle(
-                      badgeColor: AppTheme.primary,
-                    ),
+                    badgeStyle: badges.BadgeStyle(badgeColor: AppTheme.primary),
                     child: Text(count.toString()),
                   );
                 }
@@ -284,8 +291,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             width: double.infinity,
                             height: deviceHeight * 0.4,
                             decoration: BoxDecoration(
-                                color: context.appColors.cardBackground,
-                                borderRadius: BorderRadius.circular(5)),
+                              color: context.appColors.cardBackground,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
                             child: Stack(
                               children: [
                                 CarouselSlider(
@@ -298,8 +306,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     autoPlay: false,
                                     height: deviceHeight * 0.7,
                                     autoPlayInterval: Duration(seconds: 3),
-                                    autoPlayAnimationDuration:
-                                        Duration(milliseconds: 800),
+                                    autoPlayAnimationDuration: Duration(
+                                      milliseconds: 800,
+                                    ),
                                     enlargeCenterPage: true,
                                     scrollDirection: Axis.horizontal,
                                     onPageChanged: (index, _) {
@@ -312,17 +321,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       builder: (BuildContext context) {
                                         return Center(
                                           child: Container(
-                                              width: deviceWidth,
-                                              height: deviceHeight * 0.7,
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 5.0),
-                                              child: FadeInImage(
-                                                placeholder: AssetImage(
-                                                    'assets/images/circle.gif'),
-                                                image: NetworkImage(
-                                                    gallery.sizes.medium),
-                                                fit: BoxFit.contain,
-                                              )),
+                                            width: deviceWidth,
+                                            height: deviceHeight * 0.7,
+                                            margin: EdgeInsets.symmetric(
+                                              horizontal: 5.0,
+                                            ),
+                                            child: FadeInImage(
+                                              placeholder: AssetImage(
+                                                'assets/images/circle.gif',
+                                              ),
+                                              image: NetworkImage(
+                                                gallery.sizes.medium,
+                                              ),
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
                                         );
                                       },
                                     );
@@ -342,19 +355,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           width: 10.0,
                                           height: 10.0,
                                           margin: EdgeInsets.symmetric(
-                                              vertical: 10.0, horizontal: 2.0),
+                                            vertical: 10.0,
+                                            horizontal: 2.0,
+                                          ),
                                           decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  color:
-                                                      context.colors.onSurface,
-                                                  width: 0.4),
-                                              color: _current ==
-                                                      loadedProduct.gallery
-                                                          .indexOf(index)
-                                                  ? context.appColors.divider
-                                                  : context.appColors
-                                                      .scaffoldBackground),
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: context.colors.onSurface,
+                                              width: 0.4,
+                                            ),
+                                            color:
+                                                _current ==
+                                                    loadedProduct.gallery
+                                                        .indexOf(index)
+                                                ? context.appColors.divider
+                                                : context
+                                                      .appColors
+                                                      .scaffoldBackground,
+                                          ),
                                         );
                                       },
                                     ).toList(),
@@ -395,13 +413,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       children: <Widget>[
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              bottom: textScaleFactor * 15.0),
+                                            bottom: textScaleFactor * 15.0,
+                                          ),
                                           child: Text(
                                             '\$',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 15.0,
                                             ),
@@ -426,8 +446,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         return await showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
-                                            title: Text(context
-                                                .l10n.onTapUrlDebugTitle),
+                                            title: Text(
+                                              context.l10n.onTapUrlDebugTitle,
+                                            ),
                                             content: Text(url),
                                           ),
                                         );
@@ -444,85 +465,89 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
             ),
             Positioned(
-                bottom: 15,
-                left: 15,
-                right: 15,
-                child: Builder(
-                  builder: (BuildContext context) {
-                    return InkWell(
-                      onTap: () async {
-                        bool isExist = await isExistInCart(loadedProduct);
-                        setState(() {});
-                        if (loadedProduct.price.isEmpty) {
-                          SnackBar addToCartSnackBar = SnackBar(
-                            content: Text(
-                              context.l10n.productPriceZeroSnack,
-                              style: TextStyle(
-                                color: context.appColors.cardBackground,
-                                //fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 14.0,
-                              ),
+              bottom: 15,
+              left: 15,
+              right: 15,
+              child: Builder(
+                builder: (BuildContext context) {
+                  return InkWell(
+                    onTap: () async {
+                      bool isExist = await isExistInCart(loadedProduct);
+                      setState(() {});
+                      if (loadedProduct.price.isEmpty) {
+                        SnackBar addToCartSnackBar = SnackBar(
+                          content: Text(
+                            context.l10n.productPriceZeroSnack,
+                            style: TextStyle(
+                              color: context.appColors.cardBackground,
+                              //fontFamily: 'Iransans',
+                              fontSize: textScaleFactor * 14.0,
                             ),
-                            action: SnackBarAction(
-                              label: context.l10n.okLabel,
-                              onPressed: () {
-                                // Some code to undo the change.
-                              },
+                          ),
+                          action: SnackBarAction(
+                            label: context.l10n.okLabel,
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                          ),
+                        );
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(addToCartSnackBar);
+                      } else if (isExist) {
+                        SnackBar addToCartSnackBar = SnackBar(
+                          content: Text(
+                            context.l10n.productAlreadyInCartSnack,
+                            style: TextStyle(
+                              color: context.appColors.cardBackground,
+                              //fontFamily: 'Iransans',
+                              fontSize: textScaleFactor * 14.0,
                             ),
-                          );
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(addToCartSnackBar);
-                        } else if (isExist) {
-                          SnackBar addToCartSnackBar = SnackBar(
-                            content: Text(
-                              context.l10n.productAlreadyInCartSnack,
-                              style: TextStyle(
-                                color: context.appColors.cardBackground,
-                                //fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 14.0,
-                              ),
-                            ),
-                            action: SnackBarAction(
-                              label: context.l10n.okLabel,
-                              onPressed: () {
-                                // Some code to undo the change.
-                              },
-                            ),
-                          );
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(addToCartSnackBar);
-                        } else {
-                          await addToShoppingCart(loadedProduct, null);
+                          ),
+                          action: SnackBarAction(
+                            label: context.l10n.okLabel,
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                          ),
+                        );
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(addToCartSnackBar);
+                      } else {
+                        await addToShoppingCart(loadedProduct, null);
 
-                          SnackBar addToCartSnackBar = SnackBar(
-                            content: Text(
-                              context.l10n.productAddedToCartSnack,
-                              style: TextStyle(
-                                color: context.appColors.cardBackground,
-                                //fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 14.0,
-                              ),
+                        SnackBar addToCartSnackBar = SnackBar(
+                          content: Text(
+                            context.l10n.productAddedToCartSnack,
+                            style: TextStyle(
+                              color: context.appColors.cardBackground,
+                              //fontFamily: 'Iransans',
+                              fontSize: textScaleFactor * 14.0,
                             ),
-                            action: SnackBarAction(
-                              label: context.l10n.okLabel,
-                              onPressed: () {
-                                // Some code to undo the change.
-                              },
-                            ),
-                          );
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(addToCartSnackBar);
-                        }
-                      },
-                      child: ButtonBottom(
-                        width: deviceWidth * 0.9,
-                        height: deviceWidth * 0.14,
-                        text: context.l10n.addToCartLabel,
-                        isActive: true,
-                      ),
-                    );
-                  },
-                )),
+                          ),
+                          action: SnackBarAction(
+                            label: context.l10n.okLabel,
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                          ),
+                        );
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(addToCartSnackBar);
+                      }
+                    },
+                    child: ButtonBottom(
+                      width: deviceWidth * 0.9,
+                      height: deviceWidth * 0.14,
+                      text: context.l10n.addToCartLabel,
+                      isActive: true,
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
         drawer: mainDrawerIfRootRoute(context),

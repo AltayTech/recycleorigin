@@ -46,9 +46,12 @@ class _MapScreenState extends State<MapScreen>
   bool _isRegionsLoading = false;
   bool _isLocating = false;
 
-  final osm.GeoPoint _defaultLocation =
-      osm.GeoPoint(latitude: 38.074065, longitude: 46.312711);
+  final osm.GeoPoint _defaultLocation = osm.GeoPoint(
+    latitude: 38.074065,
+    longitude: 46.312711,
+  );
   osm.GeoPoint? _selectedLocation;
+  osm.GeoPoint? _mapMarkerPoint;
 
   late osm.MapController _mapController;
 
@@ -69,10 +72,7 @@ class _MapScreenState extends State<MapScreen>
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-    _fadeIn = CurvedAnimation(
-      parent: _animController,
-      curve: Curves.easeOut,
-    );
+    _fadeIn = CurvedAnimation(parent: _animController, curve: Curves.easeOut);
 
     _mapController = osm.MapController(
       initPosition: _defaultLocation,
@@ -99,6 +99,17 @@ class _MapScreenState extends State<MapScreen>
     _animController.dispose();
     _mapController.dispose();
     super.dispose();
+  }
+
+  /// Centers the map on [point] and replaces any previous pin.
+  Future<void> _showLocationOnMap(osm.GeoPoint point) async {
+    final previous = _mapMarkerPoint;
+    if (previous != null) {
+      await _mapController.removeMarker(previous);
+    }
+    await _mapController.addMarker(point);
+    await _mapController.moveTo(point, animate: true);
+    _mapMarkerPoint = point;
   }
 
   Future<void> _getCurrentLocation() async {
@@ -141,7 +152,7 @@ class _MapScreenState extends State<MapScreen>
           longitude: position.longitude,
         );
         setState(() => _selectedLocation = point);
-        await _mapController.changeLocation(point);
+        await _showLocationOnMap(point);
         await _mapController.setZoom(zoomLevel: 16);
       }
     } catch (e) {
@@ -236,14 +247,15 @@ class _MapScreenState extends State<MapScreen>
           stepZoom: 1.0,
         ),
         initPosition: hasSelected ? _selectedLocation : null,
-        initCurrentUserPosition:
-            hasSelected ? null : osm.UserTrackingOption(enableTracking: true),
+        initCurrentUserPosition: hasSelected
+            ? null
+            : osm.UserTrackingOption(enableTracking: true),
       );
 
       if (point != null && mounted) {
         HapticFeedback.mediumImpact();
         setState(() => _selectedLocation = point);
-        await _mapController.changeLocation(point);
+        await _showLocationOnMap(point);
         await _mapController.setZoom(zoomLevel: 16);
       }
     } catch (e) {
@@ -317,16 +329,20 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.error_outline,
-                  color: context.appColors.cardBackground, size: 20),
+              Icon(
+                Icons.error_outline,
+                color: context.appColors.cardBackground,
+                size: 20,
+              ),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
           ),
           backgroundColor: context.appColors.danger,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           margin: const EdgeInsets.all(16),
         ),
       );
@@ -339,16 +355,20 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.info_outline,
-                  color: context.appColors.cardBackground, size: 20),
+              Icon(
+                Icons.info_outline,
+                color: context.appColors.cardBackground,
+                size: 20,
+              ),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
           ),
           backgroundColor: context.appColors.info,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           margin: const EdgeInsets.all(16),
         ),
       );
@@ -361,16 +381,20 @@ class _MapScreenState extends State<MapScreen>
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.check_circle,
-                  color: context.appColors.cardBackground, size: 20),
+              Icon(
+                Icons.check_circle,
+                color: context.appColors.cardBackground,
+                size: 20,
+              ),
               const SizedBox(width: 10),
               Expanded(child: Text(message)),
             ],
           ),
           backgroundColor: AppTheme.primary,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           margin: const EdgeInsets.all(16),
         ),
       );
@@ -550,8 +574,10 @@ class _MapScreenState extends State<MapScreen>
         prefixIcon: Icon(icon, color: AppTheme.primary.withValues(alpha: 0.7)),
         filled: true,
         fillColor: context.appColors.cardBackground,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide(color: context.colors.outline),
@@ -745,8 +771,9 @@ class _MapSection extends StatelessWidget {
                           shadows: [
                             Shadow(
                               blurRadius: 6,
-                              color:
-                                  context.colors.shadow.withValues(alpha: 0.26),
+                              color: context.colors.shadow.withValues(
+                                alpha: 0.26,
+                              ),
                               offset: const Offset(0, 2),
                             ),
                           ],
@@ -859,8 +886,11 @@ class _CoordinatesRow extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8),
       child: Row(
         children: [
-          Icon(Icons.gps_fixed_rounded,
-              size: 14, color: context.appColors.subtitleColor),
+          Icon(
+            Icons.gps_fixed_rounded,
+            size: 14,
+            color: context.appColors.subtitleColor,
+          ),
           const SizedBox(width: 6),
           Text(
             '${location.latitude.toStringAsFixed(5)}, '
@@ -1262,13 +1292,18 @@ class _StyledDropdown<T> extends StatelessWidget {
             ),
           ),
           decoration: InputDecoration(
-            prefixIcon: Icon(icon, color: AppTheme.primary.withValues(alpha: 0.6)),
+            prefixIcon: Icon(
+              icon,
+              color: AppTheme.primary.withValues(alpha: 0.6),
+            ),
             filled: true,
             fillColor: isEnabled
                 ? context.appColors.cardBackground
                 : context.colors.surfaceContainerHighest,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide(color: context.colors.outline),

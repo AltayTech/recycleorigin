@@ -106,9 +106,10 @@ class _ClearScreenState extends State<ClearScreen>
       _isLoading = true;
     });
 
-    await context
-        .read<CustomerInfoBloc>()
-        .sendClearingRequest(money.toString(), shaba);
+    await context.read<CustomerInfoBloc>().sendClearingRequest(
+      money.toString(),
+      shaba,
+    );
     setState(() {
       _isLoading = false;
     });
@@ -147,7 +148,7 @@ class _ClearScreenState extends State<ClearScreen>
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     bool isLogin = context.watch<AuthBloc>().isAuth;
 
     var currencyFormat = intl.NumberFormat.decimalPattern();
@@ -189,8 +190,9 @@ class _ClearScreenState extends State<ClearScreen>
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(LoginScreen.routeName);
+                                Navigator.of(
+                                  context,
+                                ).pushNamed(LoginScreen.routeName);
                               },
                               child: Container(
                                 child: Padding(
@@ -198,14 +200,16 @@ class _ClearScreenState extends State<ClearScreen>
                                   child: Text(
                                     context.l10n.login,
                                     style: const TextStyle(
-                                        color: AppTheme.appBarIconColor),
+                                      color: AppTheme.appBarIconColor,
+                                    ),
                                   ),
                                 ),
                                 decoration: BoxDecoration(
-                                    color: AppTheme.primary,
-                                    borderRadius: BorderRadius.circular(5)),
+                                  color: AppTheme.primary,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -308,31 +312,32 @@ class _ClearScreenState extends State<ClearScreen>
                                 //                                      ),
                                 //                                    ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 10, bottom: 8),
+                                  padding: const EdgeInsets.only(
+                                    top: 10,
+                                    bottom: 8,
+                                  ),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: context.appColors.cardBackground,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: AppTheme.primary
-                                                .withValues(alpha: 0.08),
-                                            blurRadius: 10,
-                                            spreadRadius: 5,
-                                            offset: Offset(
-                                              0,
-                                              0,
-                                            ),
-                                          )
-                                        ],
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                      color: context.appColors.cardBackground,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppTheme.primary.withValues(
+                                            alpha: 0.08,
+                                          ),
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                          offset: Offset(0, 0),
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     child: Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 12,
-                                          bottom: 4,
-                                          left: 16,
-                                          right: 16),
+                                        top: 12,
+                                        bottom: 4,
+                                        left: 16,
+                                        right: 16,
+                                      ),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -344,7 +349,8 @@ class _ClearScreenState extends State<ClearScreen>
                                               context.l10n.walletCreditUsdLabel,
                                               style: TextStyle(
                                                 color: context
-                                                    .appColors.subtitleColor,
+                                                    .appColors
+                                                    .subtitleColor,
                                                 //fontFamily: 'Iransans',
                                                 fontSize: 13.0,
                                               ),
@@ -352,14 +358,20 @@ class _ClearScreenState extends State<ClearScreen>
                                             ),
                                           ),
                                           Spacer(),
-                                          BlocBuilder<CustomerInfoBloc,
-                                              CustomerInfoState>(
+                                          BlocBuilder<
+                                            CustomerInfoBloc,
+                                            CustomerInfoState
+                                          >(
                                             builder: (_, state) => Text(
                                               EnArConvertor().replaceArNumber(
-                                                  currencyFormat
-                                                      .format(double.parse(
-                                                          state.customer.money))
-                                                      .toString()),
+                                                currencyFormat
+                                                    .format(
+                                                      double.parse(
+                                                        state.customer.money,
+                                                      ),
+                                                    )
+                                                    .toString(),
+                                              ),
                                               style: TextStyle(
                                                 color: context.colors.onSurface,
                                                 //fontFamily: 'Iransans',
@@ -375,8 +387,10 @@ class _ClearScreenState extends State<ClearScreen>
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 16, bottom: 8),
+                                  padding: const EdgeInsets.only(
+                                    top: 16,
+                                    bottom: 8,
+                                  ),
                                   child: Text(
                                     context.l10n.clearingAccountNumberLabel,
                                     style: TextStyle(
@@ -402,10 +416,11 @@ class _ClearScreenState extends State<ClearScreen>
                                     filled: true,
                                     fillColor: context.appColors.cardBackground,
                                     contentPadding: const EdgeInsets.only(
-                                        left: 20.0,
-                                        right: 20,
-                                        top: 10,
-                                        bottom: 10),
+                                      left: 20.0,
+                                      right: 20,
+                                      top: 10,
+                                      bottom: 10,
+                                    ),
                                     border: OutlineInputBorder(
                                       gapPadding: 10,
                                       borderRadius: BorderRadius.circular(30),
@@ -421,8 +436,10 @@ class _ClearScreenState extends State<ClearScreen>
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 16, bottom: 8),
+                                  padding: const EdgeInsets.only(
+                                    top: 16,
+                                    bottom: 8,
+                                  ),
                                   child: Text(
                                     context.l10n.clearingRequestAmountUsdLabel,
                                     style: TextStyle(
@@ -448,10 +465,11 @@ class _ClearScreenState extends State<ClearScreen>
                                     filled: true,
                                     fillColor: context.appColors.cardBackground,
                                     contentPadding: const EdgeInsets.only(
-                                        left: 20.0,
-                                        right: 20,
-                                        top: 0,
-                                        bottom: 10),
+                                      left: 20.0,
+                                      right: 20,
+                                      top: 0,
+                                      bottom: 10,
+                                    ),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: BorderSide(
@@ -471,8 +489,10 @@ class _ClearScreenState extends State<ClearScreen>
                                   ],
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 24, bottom: 8),
+                                  padding: const EdgeInsets.only(
+                                    top: 24,
+                                    bottom: 8,
+                                  ),
                                   child: Text(
                                     context.l10n.clearingPaymentListTitle,
                                     style: TextStyle(
@@ -483,9 +503,7 @@ class _ClearScreenState extends State<ClearScreen>
                                   ),
                                 ),
 
-                                Divider(
-                                  height: 1,
-                                ),
+                                Divider(height: 1),
 
                                 Padding(
                                   padding: const EdgeInsets.only(top: 16.0),
@@ -504,101 +522,117 @@ class _ClearScreenState extends State<ClearScreen>
                                         ),
                                       ),
                                       Spacer(),
-                                      BlocBuilder<CustomerInfoBloc,
-                                              CustomerInfoState>(
-                                          builder: (_, state) {
-                                        return Container(
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
+                                      BlocBuilder<
+                                        CustomerInfoBloc,
+                                        CustomerInfoState
+                                      >(
+                                        builder: (_, state) {
+                                          return Container(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
                                                 vertical: deviceHeight * 0.0,
-                                                horizontal: 3),
-                                            child: Wrap(
-                                              alignment: WrapAlignment.start,
-                                              crossAxisAlignment:
-                                                  WrapCrossAlignment.center,
-                                              direction: Axis.horizontal,
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 3,
-                                                      vertical: 5),
-                                                  child: Text(
-                                                    context.l10n
-                                                        .cartNumberSummaryPrefix,
-                                                    style: TextStyle(
-                                                      //fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              12.0,
+                                                horizontal: 3,
+                                              ),
+                                              child: Wrap(
+                                                alignment: WrapAlignment.start,
+                                                crossAxisAlignment:
+                                                    WrapCrossAlignment.center,
+                                                direction: Axis.horizontal,
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                          horizontal: 3,
+                                                          vertical: 5,
+                                                        ),
+                                                    child: Text(
+                                                      context
+                                                          .l10n
+                                                          .cartNumberSummaryPrefix,
+                                                      style: TextStyle(
+                                                        //fontFamily: 'Iransans',
+                                                        fontSize:
+                                                            textScaleFactor *
+                                                            12.0,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 4.0, left: 6),
-                                                  child: Text(
-                                                    productsDetail.total != -1
-                                                        ? EnArConvertor()
-                                                            .replaceArNumber(
-                                                                loadedProductstolist
-                                                                    .length
-                                                                    .toString())
-                                                        : EnArConvertor()
-                                                            .replaceArNumber(
-                                                                '0'),
-                                                    style: TextStyle(
-                                                      //fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              13.0,
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                          right: 4.0,
+                                                          left: 6,
+                                                        ),
+                                                    child: Text(
+                                                      productsDetail.total != -1
+                                                          ? EnArConvertor()
+                                                                .replaceArNumber(
+                                                                  loadedProductstolist
+                                                                      .length
+                                                                      .toString(),
+                                                                )
+                                                          : EnArConvertor()
+                                                                .replaceArNumber(
+                                                                  '0',
+                                                                ),
+                                                      style: TextStyle(
+                                                        //fontFamily: 'Iransans',
+                                                        fontSize:
+                                                            textScaleFactor *
+                                                            13.0,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 3,
-                                                      vertical: 5),
-                                                  child: Text(
-                                                    context.l10n
-                                                        .tableColumnFromLabel,
-                                                    style: TextStyle(
-                                                      //fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              12.0,
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                          horizontal: 3,
+                                                          vertical: 5,
+                                                        ),
+                                                    child: Text(
+                                                      context
+                                                          .l10n
+                                                          .tableColumnFromLabel,
+                                                      style: TextStyle(
+                                                        //fontFamily: 'Iransans',
+                                                        fontSize:
+                                                            textScaleFactor *
+                                                            12.0,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 4.0, left: 6),
-                                                  child: Text(
-                                                    productsDetail.total != -1
-                                                        ? EnArConvertor()
-                                                            .replaceArNumber(
-                                                                productsDetail
-                                                                    .total
-                                                                    .toString())
-                                                        : EnArConvertor()
-                                                            .replaceArNumber(
-                                                                '0'),
-                                                    style: TextStyle(
-                                                      //fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              13.0,
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                          right: 4.0,
+                                                          left: 6,
+                                                        ),
+                                                    child: Text(
+                                                      productsDetail.total != -1
+                                                          ? EnArConvertor()
+                                                                .replaceArNumber(
+                                                                  productsDetail
+                                                                      .total
+                                                                      .toString(),
+                                                                )
+                                                          : EnArConvertor()
+                                                                .replaceArNumber(
+                                                                  '0',
+                                                                ),
+                                                      style: TextStyle(
+                                                        //fontFamily: 'Iransans',
+                                                        fontSize:
+                                                            textScaleFactor *
+                                                            13.0,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }),
+                                          );
+                                        },
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -616,7 +650,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
@@ -631,7 +666,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
@@ -646,7 +682,8 @@ class _ClearScreenState extends State<ClearScreen>
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: context
-                                                  .appColors.subtitleColor,
+                                                  .appColors
+                                                  .subtitleColor,
                                               //fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 14.0,
                                             ),
@@ -665,9 +702,9 @@ class _ClearScreenState extends State<ClearScreen>
                                     itemCount: loadedProductstolist.length,
                                     itemBuilder: (ctx, i) =>
                                         ChangeNotifierProvider.value(
-                                      value: loadedProductstolist[i],
-                                      child: ClearingItemClearScreen(),
-                                    ),
+                                          value: loadedProductstolist[i],
+                                          child: ClearingItemClearScreen(),
+                                        ),
                                   ),
                                 ),
                               ],
@@ -682,7 +719,8 @@ class _ClearScreenState extends State<ClearScreen>
                                 SnackBar addToCartSnackBar = SnackBar(
                                   content: Text(
                                     context
-                                        .l10n.clearingEnterAccountNumberSnack,
+                                        .l10n
+                                        .clearingEnterAccountNumberSnack,
                                     style: TextStyle(
                                       color: context.appColors.cardBackground,
                                       //fontFamily: 'Iransans',
@@ -697,10 +735,12 @@ class _ClearScreenState extends State<ClearScreen>
                                   ),
                                 );
                                 if (shabaController.text == 'IR') {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(addToCartSnackBar);
-                                } else if (double.parse(removeSemicolon(
-                                        donationController.text)) >
+                                  ScaffoldMessenger.of(
+                                    context,
+                                  ).showSnackBar(addToCartSnackBar);
+                                } else if (double.parse(
+                                      removeSemicolon(donationController.text),
+                                    ) >
                                     double.parse(customer.money)) {
                                   SnackBar addToCartSnackBar = SnackBar(
                                     content: Text(
@@ -718,16 +758,20 @@ class _ClearScreenState extends State<ClearScreen>
                                       },
                                     ),
                                   );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(addToCartSnackBar);
+                                  ScaffoldMessenger.of(
+                                    context,
+                                  ).showSnackBar(addToCartSnackBar);
                                 } else {
                                   await sendClearingRequest(
-                                          donationController.text,
-                                          shabaController.text)
-                                      .then((value) => Navigator.of(context)
-                                          .pushNamedAndRemoveUntil(
-                                              NavigationBottomScreen.routeName,
-                                              (Route<dynamic> route) => false));
+                                    donationController.text,
+                                    shabaController.text,
+                                  ).then(
+                                    (value) => Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                          NavigationBottomScreen.routeName,
+                                          (Route<dynamic> route) => false,
+                                        ),
+                                  );
                                   _showSenddialog();
                                 }
                               },
@@ -740,26 +784,29 @@ class _ClearScreenState extends State<ClearScreen>
                             ),
                           ),
                           Positioned(
-                              top: 0,
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Align(
-                                  alignment: Alignment.center,
-                                  child: _isLoading
-                                      ? SpinKitFadingCircle(
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: _isLoading
+                                  ? SpinKitFadingCircle(
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
                                             return DecoratedBox(
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 color: context
-                                                    .appColors.subtitleColor,
+                                                    .appColors
+                                                    .subtitleColor,
                                               ),
                                             );
                                           },
-                                        )
-                                      : Container()))
+                                    )
+                                  : Container(),
+                            ),
+                          ),
                         ],
                       ),
                     ),
