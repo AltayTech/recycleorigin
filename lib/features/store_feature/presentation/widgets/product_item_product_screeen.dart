@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../business/entities/product.dart';
 import '../bloc/products_bloc.dart';
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
 import '../screens/product_detail_screen.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
@@ -12,7 +11,6 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 class ProductItemProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     final product = Provider.of<Product>(context, listen: false);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
 
 import '../../features/store_feature/business/entities/product.dart';
 import '../theme/app_theme.dart';
@@ -41,7 +40,6 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
     return Padding(
       padding: EdgeInsets.only(
         top: Consts.avatarRadius + Consts.padding,

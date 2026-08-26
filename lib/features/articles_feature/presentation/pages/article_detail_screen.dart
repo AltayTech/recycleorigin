@@ -149,14 +149,14 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
             Icon(
               Icons.article_outlined,
               size: 64,
-              color: context.appColors.subtitleColor.withOpacity(0.5),
+              color: context.appColors.subtitleColor.withValues(alpha: 0.5),
             ),
             const SizedBox(height: ArticlesConstants.verticalPadding),
             Text(
               'Article not found',
               style: TextStyle(
                 fontSize: ArticlesConstants.bodyFontSize,
-                color: context.colors.onSurface.withOpacity(0.7),
+                color: context.colors.onSurface.withValues(alpha: 0.7),
               ),
               textAlign: TextAlign.center,
             ),
@@ -269,7 +269,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
         vertical: 6,
       ),
       decoration: BoxDecoration(
-        color: AppTheme.primary.withOpacity(0.1),
+        color: AppTheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(

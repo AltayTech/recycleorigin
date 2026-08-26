@@ -316,7 +316,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         boxShadow: [
                                           BoxShadow(
                                             color: AppTheme.primary
-                                                .withOpacity(0.08),
+                                                .withValues(alpha: 0.08),
                                             blurRadius: 10,
                                             spreadRadius: 5,
                                             offset: Offset(
@@ -498,7 +498,7 @@ class _ClearScreenState extends State<ClearScreen>
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: context.colors.onSurface
-                                              .withOpacity(0.5),
+                                              .withValues(alpha: 0.5),
                                           //fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 14.0,
                                         ),

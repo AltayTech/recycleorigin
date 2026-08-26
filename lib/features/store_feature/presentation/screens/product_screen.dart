@@ -1,7 +1,6 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -162,8 +161,9 @@ class _ProductsScreenState extends State<ProductsScreen>
 
     context.read<ProductsBloc>().searchBuilder();
 
-    String categoriesEndpoint =
-        _selectedCategoryId != 0 ? '$_selectedCategoryId' : '';
+    String categoriesEndpoint = _selectedCategoryId != 0
+        ? '$_selectedCategoryId'
+        : '';
     context.read<ProductsBloc>().sCategory = categoriesEndpoint;
 
     context.read<ProductsBloc>().searchBuilder();
@@ -205,7 +205,6 @@ class _ProductsScreenState extends State<ProductsScreen>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
 
     final inShell = NavigationShellScope.isActive(context);
 
@@ -220,12 +219,12 @@ class _ProductsScreenState extends State<ProductsScreen>
               backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
               foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
               iconTheme: Theme.of(context).appBarTheme.iconTheme,
-              actionsIconTheme:
-                  Theme.of(context).appBarTheme.actionsIconTheme,
+              actionsIconTheme: Theme.of(context).appBarTheme.actionsIconTheme,
               elevation: 0,
               centerTitle: true,
-              systemOverlayStyle:
-                  Theme.of(context).appBarTheme.systemOverlayStyle,
+              systemOverlayStyle: Theme.of(
+                context,
+              ).appBarTheme.systemOverlayStyle,
               actions: <Widget>[
                 BlocBuilder<ProductsBloc, ProductsState>(
                   buildWhen: (a, b) => a.cartItems.length != b.cartItems.length,
@@ -285,15 +284,16 @@ class _ProductsScreenState extends State<ProductsScreen>
                                           context.appColors.scaffoldBackground,
                                       border: Border(
                                         bottom: BorderSide(
-                                            color: AppTheme.primary, width: 3),
+                                          color: AppTheme.primary,
+                                          width: 3,
+                                        ),
                                       ),
                                     )
-                                  : BoxDecoration(
-                                      color: Colors.transparent,
-                                    ),
+                                  : BoxDecoration(color: Colors.transparent),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 15.0),
+                                  horizontal: 15.0,
+                                ),
                                 child: Center(
                                   child: Text(
                                     context.l10n.filterCategoryAllLabel,
@@ -325,21 +325,26 @@ class _ProductsScreenState extends State<ProductsScreen>
                                       _selectedCategoryIndexs.add(index);
                                       _selectedCategoryId =
                                           categoryList[index].term_id;
-                                      _selectedCategoryTitle
-                                          .add(categoryList[index].name);
+                                      _selectedCategoryTitle.add(
+                                        categoryList[index].name,
+                                      );
 
                                       changeCat(context);
                                     },
                                     child: Container(
-                                      decoration: _selectedCategoryIndexs
-                                              .contains(index)
+                                      decoration:
+                                          _selectedCategoryIndexs.contains(
+                                            index,
+                                          )
                                           ? BoxDecoration(
                                               color: context
-                                                  .appColors.scaffoldBackground,
+                                                  .appColors
+                                                  .scaffoldBackground,
                                               border: Border(
                                                 bottom: BorderSide(
-                                                    color: AppTheme.primary,
-                                                    width: 3),
+                                                  color: AppTheme.primary,
+                                                  width: 3,
+                                                ),
                                               ),
                                             )
                                           : BoxDecoration(
@@ -347,13 +352,14 @@ class _ProductsScreenState extends State<ProductsScreen>
                                             ),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 15.0),
+                                          horizontal: 15.0,
+                                        ),
                                         child: Center(
                                           child: Text(
                                             categoryList[index].name,
                                             style: TextStyle(
-                                              color: categoryList[index]
-                                                          .term_id ==
+                                              color:
+                                                  categoryList[index].term_id ==
                                                       _selectedCategoryId
                                                   ? AppTheme.primary
                                                   : context.colors.onSurface,
@@ -389,18 +395,24 @@ class _ProductsScreenState extends State<ProductsScreen>
                               child: Container(
                                 alignment: Alignment.centerRight,
                                 decoration: BoxDecoration(
-                                    color: context.appColors.cardBackground,
-                                    border: Border.all(
-                                        color: context.colors.onSurface,
-                                        width: 0.2)),
+                                  color: context.appColors.cardBackground,
+                                  border: Border.all(
+                                    color: context.colors.onSurface,
+                                    width: 0.2,
+                                  ),
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      right: 8.0, left: 8, top: 6),
+                                    right: 8.0,
+                                    left: 8,
+                                    top: 6,
+                                  ),
                                   child: DropdownButton<String>(
                                     value: sortValue,
                                     icon: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10.0),
+                                      padding: const EdgeInsets.only(
+                                        bottom: 10.0,
+                                      ),
                                       child: Icon(
                                         Icons.arrow_drop_down,
                                         color: context.colors.onSurface,
@@ -421,8 +433,9 @@ class _ProductsScreenState extends State<ProductsScreen>
                                           context.read<ProductsBloc>().sOrder =
                                               'desc';
                                           context
-                                              .read<ProductsBloc>()
-                                              .sOrderBy = 'price';
+                                                  .read<ProductsBloc>()
+                                                  .sOrderBy =
+                                              'price';
                                           page = 1;
                                           context.read<ProductsBloc>().sPage =
                                               page;
@@ -433,8 +446,9 @@ class _ProductsScreenState extends State<ProductsScreen>
                                           context.read<ProductsBloc>().sOrder =
                                               'asc';
                                           context
-                                              .read<ProductsBloc>()
-                                              .sOrderBy = 'price';
+                                                  .read<ProductsBloc>()
+                                                  .sOrderBy =
+                                              'price';
 
                                           page = 1;
                                           context.read<ProductsBloc>().sPage =
@@ -446,8 +460,9 @@ class _ProductsScreenState extends State<ProductsScreen>
                                           context.read<ProductsBloc>().sOrder =
                                               'desc';
                                           context
-                                              .read<ProductsBloc>()
-                                              .sOrderBy = 'date';
+                                                  .read<ProductsBloc>()
+                                                  .sOrderBy =
+                                              'date';
                                           page = 1;
                                           context.read<ProductsBloc>().sPage =
                                               page;
@@ -458,27 +473,32 @@ class _ProductsScreenState extends State<ProductsScreen>
                                       });
                                     },
                                     items: sortValueList
-                                        .map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 3.0),
-                                            child: Text(
-                                              _localizedSortLabel(
-                                                  context, value),
-                                              style: TextStyle(
-                                                color: context.colors.onSurface,
-                                                //fontFamily: 'Iransans',
-                                                fontSize:
-                                                    textScaleFactor * 13.0,
+                                        .map<DropdownMenuItem<String>>((
+                                          String value,
+                                        ) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 3.0,
+                                              ),
+                                              child: Text(
+                                                _localizedSortLabel(
+                                                  context,
+                                                  value,
+                                                ),
+                                                style: TextStyle(
+                                                  color:
+                                                      context.colors.onSurface,
+                                                  //fontFamily: 'Iransans',
+                                                  fontSize:
+                                                      textScaleFactor * 13.0,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                    ).toList(),
+                                          );
+                                        })
+                                        .toList(),
                                   ),
                                 ),
                               ),
@@ -488,7 +508,9 @@ class _ProductsScreenState extends State<ProductsScreen>
                           Container(
                             child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  vertical: deviceHeight * 0.0, horizontal: 3),
+                                vertical: deviceHeight * 0.0,
+                                horizontal: 3,
+                              ),
                               child: Wrap(
                                 alignment: WrapAlignment.start,
                                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -496,7 +518,9 @@ class _ProductsScreenState extends State<ProductsScreen>
                                 children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 3, vertical: 5),
+                                      horizontal: 3,
+                                      vertical: 5,
+                                    ),
                                     child: Text(
                                       'Number:',
                                       style: TextStyle(
@@ -507,14 +531,18 @@ class _ProductsScreenState extends State<ProductsScreen>
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        right: 4.0, left: 6),
+                                      right: 4.0,
+                                      left: 6,
+                                    ),
                                     child: Text(
                                       productsDetail.total != -1
                                           ? EnArConvertor().replaceArNumber(
                                               loadedProductstolist.length
-                                                  .toString())
-                                          : EnArConvertor()
-                                              .replaceArNumber('0'),
+                                                  .toString(),
+                                            )
+                                          : EnArConvertor().replaceArNumber(
+                                              '0',
+                                            ),
                                       style: TextStyle(
                                         //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 13.0,
@@ -523,7 +551,9 @@ class _ProductsScreenState extends State<ProductsScreen>
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 3, vertical: 5),
+                                      horizontal: 3,
+                                      vertical: 5,
+                                    ),
                                     child: Text(
                                       'From',
                                       style: TextStyle(
@@ -534,13 +564,17 @@ class _ProductsScreenState extends State<ProductsScreen>
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        right: 4.0, left: 6),
+                                      right: 4.0,
+                                      left: 6,
+                                    ),
                                     child: Text(
                                       productsDetail.total != -1
                                           ? EnArConvertor().replaceArNumber(
-                                              productsDetail.total.toString())
-                                          : EnArConvertor()
-                                              .replaceArNumber('0'),
+                                              productsDetail.total.toString(),
+                                            )
+                                          : EnArConvertor().replaceArNumber(
+                                              '0',
+                                            ),
                                       style: TextStyle(
                                         //fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 13.0,
@@ -568,38 +602,42 @@ class _ProductsScreenState extends State<ProductsScreen>
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
             Positioned(
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Align(
-                    alignment: Alignment.center,
-                    child: _isLoading
-                        ? SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: context.appColors.subtitleColor,
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Align(
+                alignment: Alignment.center,
+                child: _isLoading
+                    ? SpinKitFadingCircle(
+                        itemBuilder: (BuildContext context, int index) {
+                          return DecoratedBox(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: context.appColors.subtitleColor,
+                            ),
+                          );
+                        },
+                      )
+                    : Container(
+                        child: loadedProductstolist.isEmpty
+                            ? Center(
+                                child: Text(
+                                  context.l10n.storeNoProductsMessage,
+                                  style: TextStyle(
+                                    //fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 15.0,
+                                  ),
                                 ),
-                              );
-                            },
-                          )
-                        : Container(
-                            child: loadedProductstolist.isEmpty
-                                ? Center(
-                                    child: Text(
-                                    context.l10n.storeNoProductsMessage,
-                                    style: TextStyle(
-                                      //fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 15.0,
-                                    ),
-                                  ))
-                                : Container())))
+                              )
+                            : Container(),
+                      ),
+              ),
+            ),
           ],
         ),
       ),

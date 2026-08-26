@@ -112,7 +112,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
           textDirection: Directionality.of(context),
           child: Container(
             height: deviceHeight * 0.9,
-            color: AppTheme.primary.withOpacity(0.05),
+            color: AppTheme.primary.withValues(alpha: 0.05),
             child: Stack(
               children: <Widget>[
                 Container(

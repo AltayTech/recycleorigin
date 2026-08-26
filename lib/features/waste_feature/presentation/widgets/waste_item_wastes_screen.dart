@@ -33,7 +33,7 @@ class WasteItemWastesScreen extends StatelessWidget {
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
             color: isSelected
-                ? AppTheme.primary.withOpacity(0.06)
+                ? AppTheme.primary.withValues(alpha: 0.06)
                 : context.appColors.cardBackground,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
@@ -43,7 +43,7 @@ class WasteItemWastesScreen extends StatelessWidget {
             boxShadow: [
               if (isSelected)
                 BoxShadow(
-                  color: AppTheme.primary.withOpacity(0.15),
+                  color: AppTheme.primary.withValues(alpha: 0.15),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 )
@@ -77,7 +77,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                             Icons.recycling_rounded,
                             size: 36,
                             color: context.appColors.subtitleColor
-                                .withOpacity(0.3),
+                                .withValues(alpha: 0.3),
                           ),
                         ),
                       ),
@@ -123,7 +123,7 @@ class WasteItemWastesScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: AppTheme.primary.withOpacity(0.4),
+                            color: AppTheme.primary.withValues(alpha: 0.4),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),

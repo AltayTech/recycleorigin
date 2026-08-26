@@ -356,7 +356,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
             '${ArticlesConstants.articlesCountLabel}: ',
             style: TextStyle(
               fontSize: ArticlesConstants.captionFontSize,
-              color: context.colors.onSurface.withOpacity(0.7),
+              color: context.colors.onSurface.withValues(alpha: 0.7),
             ),
           ),
           Text(
@@ -443,14 +443,14 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
             Icon(
               Icons.article_outlined,
               size: 64,
-              color: context.appColors.subtitleColor.withOpacity(0.5),
+              color: context.appColors.subtitleColor.withValues(alpha: 0.5),
             ),
             const SizedBox(height: ArticlesConstants.verticalPadding),
             Text(
               ArticlesConstants.noArticlesMessage,
               style: TextStyle(
                 fontSize: ArticlesConstants.bodyFontSize,
-                color: context.colors.onSurface.withOpacity(0.7),
+                color: context.colors.onSurface.withValues(alpha: 0.7),
               ),
               textAlign: TextAlign.center,
             ),

@@ -15,7 +15,6 @@ class ArticleItemArticlesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final article = Provider.of<Article>(context, listen: false);
-    final theme = Theme.of(context);
     final screenWidth = MediaQuery.of(context).size.width;
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
@@ -194,7 +193,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
         vertical: 4,
       ),
       decoration: BoxDecoration(
-        color: AppTheme.primary.withOpacity(0.1),
+        color: AppTheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(

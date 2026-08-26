@@ -616,7 +616,7 @@ class OrderProductItem extends StatelessWidget {
       child: Container(
         height: deviceHeight * 0.15,
         decoration: BoxDecoration(
-          color: AppTheme.primary.withOpacity(0.1),
+          color: AppTheme.primary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(5),
         ),
         child: InkWell(

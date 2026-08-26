@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet_transaction.dart';
@@ -66,7 +65,7 @@ class WalletTransactionItem extends StatelessWidget {
       ),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: typeColor.withOpacity(0.1),
+          backgroundColor: typeColor.withValues(alpha: 0.1),
           child: Icon(_icon, color: typeColor, size: 20),
         ),
         title: Text(
@@ -92,7 +91,7 @@ class WalletTransactionItem extends StatelessWidget {
               Text(
                 _formatDate(transaction.createdAt),
                 style: TextStyle(
-                  color: context.appColors.subtitleColor.withOpacity(0.7),
+                  color: context.appColors.subtitleColor.withValues(alpha: 0.7),
                   fontSize: 12,
                 ),
               ),

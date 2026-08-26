@@ -320,7 +320,7 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? AppTheme.primary
                       : isActive
-                          ? AppTheme.primary.withOpacity(0.12)
+                          ? AppTheme.primary.withValues(alpha: 0.12)
                           : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
@@ -377,15 +377,15 @@ class _WasteCartSummary extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.primary.withOpacity(0.06),
-            AppTheme.primary.withOpacity(0.02),
+            AppTheme.primary.withValues(alpha: 0.06),
+            AppTheme.primary.withValues(alpha: 0.02),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppTheme.primary.withOpacity(0.12),
+          color: AppTheme.primary.withValues(alpha: 0.12),
         ),
       ),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
@@ -402,7 +402,7 @@ class _WasteCartSummary extends StatelessWidget {
             VerticalDivider(
               thickness: 1,
               width: 24,
-              color: AppTheme.primary.withOpacity(0.12),
+              color: AppTheme.primary.withValues(alpha: 0.12),
             ),
             AnimatedBuilder(
               animation: priceAnimation,
@@ -419,7 +419,7 @@ class _WasteCartSummary extends StatelessWidget {
             VerticalDivider(
               thickness: 1,
               width: 24,
-              color: AppTheme.primary.withOpacity(0.12),
+              color: AppTheme.primary.withValues(alpha: 0.12),
             ),
             _SummaryItem(
               icon: Icons.scale_rounded,
@@ -459,7 +459,7 @@ class _SummaryItem extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: iconColor.withOpacity(0.1),
+            color: iconColor.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, size: 18, color: iconColor),
@@ -477,7 +477,7 @@ class _SummaryItem extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: context.appColors.subtitleColor.withOpacity(0.7),
+            color: context.appColors.subtitleColor.withValues(alpha: 0.7),
             fontSize: 11,
             fontWeight: FontWeight.w500,
           ),
@@ -504,13 +504,13 @@ class _WasteCartEmptyState extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(28),
               decoration: BoxDecoration(
-                color: AppTheme.primary.withOpacity(0.06),
+                color: AppTheme.primary.withValues(alpha: 0.06),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.recycling_rounded,
                 size: 64,
-                color: AppTheme.primary.withOpacity(0.4),
+                color: AppTheme.primary.withValues(alpha: 0.4),
               ),
             ),
             const SizedBox(height: 24),
@@ -529,7 +529,7 @@ class _WasteCartEmptyState extends StatelessWidget {
                 l10n.wasteCartEmptySubtitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: context.appColors.subtitleColor.withOpacity(0.7),
+                  color: context.appColors.subtitleColor.withValues(alpha: 0.7),
                   fontSize: 14,
                   height: 1.5,
                 ),
@@ -608,7 +608,7 @@ class _WasteCartBottomBar extends StatelessWidget {
                 Text(
                   l10n.cartTotalAmountLabel,
                   style: TextStyle(
-                    color: context.appColors.subtitleColor.withOpacity(0.7),
+                    color: context.appColors.subtitleColor.withValues(alpha: 0.7),
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),

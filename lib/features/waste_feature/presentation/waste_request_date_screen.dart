@@ -332,10 +332,10 @@ class _SelectedTimeConfirmation extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppTheme.primary.withOpacity(0.06),
+        color: AppTheme.primary.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppTheme.primary.withOpacity(0.15),
+          color: AppTheme.primary.withValues(alpha: 0.15),
         ),
       ),
       child: Row(
@@ -434,7 +434,7 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? AppTheme.primary
                       : isActive
-                          ? AppTheme.primary.withOpacity(0.12)
+                          ? AppTheme.primary.withValues(alpha: 0.12)
                           : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive

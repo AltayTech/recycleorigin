@@ -30,15 +30,15 @@ class RequestSummaryCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.primary.withOpacity(0.06),
-            AppTheme.primary.withOpacity(0.02),
+            AppTheme.primary.withValues(alpha: 0.06),
+            AppTheme.primary.withValues(alpha: 0.02),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppTheme.primary.withOpacity(0.1),
+          color: AppTheme.primary.withValues(alpha: 0.1),
         ),
       ),
       child: IntrinsicHeight(
@@ -57,7 +57,7 @@ class RequestSummaryCard extends StatelessWidget {
             VerticalDivider(
               thickness: 1,
               width: 24,
-              color: AppTheme.primary.withOpacity(0.1),
+              color: AppTheme.primary.withValues(alpha: 0.1),
             ),
             Expanded(
               child: _MetricTile(
@@ -73,7 +73,7 @@ class RequestSummaryCard extends StatelessWidget {
             VerticalDivider(
               thickness: 1,
               width: 24,
-              color: AppTheme.primary.withOpacity(0.1),
+              color: AppTheme.primary.withValues(alpha: 0.1),
             ),
             Expanded(
               child: _MetricTile(
@@ -116,7 +116,7 @@ class _MetricTile extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: iconColor.withOpacity(0.1),
+            color: iconColor.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, size: 18, color: iconColor),

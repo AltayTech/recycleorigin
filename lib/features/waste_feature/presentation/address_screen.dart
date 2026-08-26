@@ -324,7 +324,7 @@ class _AddressHeader extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: AppTheme.primary.withOpacity(0.1),
+                    color: AppTheme.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -384,13 +384,13 @@ class _EmptyAddressState extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(28),
               decoration: BoxDecoration(
-                color: AppTheme.primary.withOpacity(0.06),
+                color: AppTheme.primary.withValues(alpha: 0.06),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.add_location_alt_outlined,
                 size: 60,
-                color: AppTheme.primary.withOpacity(0.35),
+                color: AppTheme.primary.withValues(alpha: 0.35),
               ),
             ),
             const SizedBox(height: 24),
@@ -531,7 +531,7 @@ class _StepProgressBar extends StatelessWidget {
                       ? LinearGradient(
                           colors: [
                             AppTheme.primary,
-                            AppTheme.primary.withOpacity(0.6),
+                            AppTheme.primary.withValues(alpha: 0.6),
                           ],
                         )
                       : null,
@@ -558,7 +558,7 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? AppTheme.primary
                       : isActive
-                          ? AppTheme.primary.withOpacity(0.12)
+                          ? AppTheme.primary.withValues(alpha: 0.12)
                           : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
@@ -567,7 +567,7 @@ class _StepProgressBar extends StatelessWidget {
                   boxShadow: isActive
                       ? [
                           BoxShadow(
-                            color: AppTheme.primary.withOpacity(0.2),
+                            color: AppTheme.primary.withValues(alpha: 0.2),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),

@@ -105,7 +105,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
       body: Builder(
         builder: (context) => Container(
           height: deviceHeight * 0.9,
-          color: AppTheme.primary.withOpacity(0.05),
+          color: AppTheme.primary.withValues(alpha: 0.05),
           child: Stack(
             children: <Widget>[
               Container(

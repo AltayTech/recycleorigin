@@ -34,19 +34,19 @@ class ButtonBottom extends StatelessWidget {
             ? LinearGradient(
                 colors: [
                   AppTheme.primary,
-                  AppTheme.primary.withOpacity(0.85),
+                  AppTheme.primary.withValues(alpha: 0.85),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               )
             : null,
         color:
-            isActive ? null : context.appColors.subtitleColor.withOpacity(0.4),
+            isActive ? null : context.appColors.subtitleColor.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         boxShadow: isActive
             ? [
                 BoxShadow(
-                  color: AppTheme.primary.withOpacity(0.35),
+                  color: AppTheme.primary.withValues(alpha: 0.35),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),

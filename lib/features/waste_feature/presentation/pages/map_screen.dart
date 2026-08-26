@@ -547,7 +547,7 @@ class _MapScreenState extends State<MapScreen>
           color: context.colors.onSurfaceVariant,
           fontSize: 13,
         ),
-        prefixIcon: Icon(icon, color: AppTheme.primary.withOpacity(0.7)),
+        prefixIcon: Icon(icon, color: AppTheme.primary.withValues(alpha: 0.7)),
         filled: true,
         fillColor: context.appColors.cardBackground,
         contentPadding:
@@ -603,7 +603,7 @@ class _MapScreenState extends State<MapScreen>
                 borderRadius: BorderRadius.circular(14),
               ),
               elevation: _isFormComplete ? 4 : 0,
-              shadowColor: AppTheme.primary.withOpacity(0.4),
+              shadowColor: AppTheme.primary.withValues(alpha: 0.4),
             ),
             child: _isSaving
                 ? SizedBox(
@@ -818,7 +818,7 @@ class _LocationBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primary.withOpacity(0.3),
+            color: AppTheme.primary.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -1006,7 +1006,7 @@ class _SectionHeader extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.primary.withOpacity(0.1),
+                color: AppTheme.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(icon, size: 18, color: AppTheme.primary),
@@ -1206,7 +1206,7 @@ class _StyledDropdown<T> extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
-                  color: AppTheme.primary.withOpacity(0.9),
+                  color: AppTheme.primary.withValues(alpha: 0.9),
                 ),
               ),
               if (isLoading) ...[
@@ -1232,7 +1232,7 @@ class _StyledDropdown<T> extends StatelessWidget {
           ),
         ),
         DropdownButtonFormField<T>(
-          value: selectedValue,
+          initialValue: selectedValue,
           dropdownColor: context.appColors.cardBackground,
           menuMaxHeight: 300,
           isExpanded: true,
@@ -1262,7 +1262,7 @@ class _StyledDropdown<T> extends StatelessWidget {
             ),
           ),
           decoration: InputDecoration(
-            prefixIcon: Icon(icon, color: AppTheme.primary.withOpacity(0.6)),
+            prefixIcon: Icon(icon, color: AppTheme.primary.withValues(alpha: 0.6)),
             filled: true,
             fillColor: isEnabled
                 ? context.appColors.cardBackground
