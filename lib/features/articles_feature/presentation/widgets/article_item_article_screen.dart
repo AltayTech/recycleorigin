@@ -15,9 +15,8 @@ class ArticleItemArticlesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final article = Provider.of<Article>(context, listen: false);
-    final theme = Theme.of(context);
     final screenWidth = MediaQuery.of(context).size.width;
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     return Container(
       margin: const EdgeInsets.only(bottom: ArticlesConstants.itemSpacing),
@@ -36,10 +35,9 @@ class ArticleItemArticlesScreen extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(
-              ArticleDetailScreen.routeName,
-              arguments: article.id,
-            );
+            Navigator.of(
+              context,
+            ).pushNamed(ArticleDetailScreen.routeName, arguments: article.id);
           },
           borderRadius: BorderRadius.circular(12),
           child: Padding(
@@ -89,7 +87,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
                     child: CircularProgressIndicator(
                       value: loadingProgress.expectedTotalBytes != null
                           ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
+                                loadingProgress.expectedTotalBytes!
                           : null,
                       strokeWidth: 2,
                       color: AppTheme.primary,
@@ -194,7 +192,7 @@ class ArticleItemArticlesScreen extends StatelessWidget {
         vertical: 4,
       ),
       decoration: BoxDecoration(
-        color: AppTheme.primary.withOpacity(0.1),
+        color: AppTheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(

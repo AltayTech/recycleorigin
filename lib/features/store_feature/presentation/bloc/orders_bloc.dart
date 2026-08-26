@@ -1,25 +1,25 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/models/order.dart';
 import 'package:recycleorigin/core/models/search_detail.dart';
+import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
 import 'package:recycleorigin/features/store_feature/business/entities/order_main.dart';
 import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_event.dart';
 import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /// Manages authenticated user's orders.
 class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
-  OrdersBloc() : super(OrdersState()) {
+  OrdersBloc(this._apiClient) : super(OrdersState()) {
     on<OrdersSearchParamsChanged>(_onSearchParamsChanged);
     on<OrdersSearchBuilderApplied>(_onSearchBuilderApplied);
     on<OrdersSearchOrderItemsRequested>(_onSearchOrderItems);
     on<OrdersRetrieveOrderItemRequested>(_onRetrieveOrderItem);
   }
+
+  final ApiClient _apiClient;
 
   String get searchEndPoint => state.searchEndPoint;
   String get searchKey => state.searchKey;
@@ -91,29 +91,25 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     Emitter<OrdersState> emit,
   ) async {
     AppLogger.debug('Searching order items');
-    final url = Urls.rootUrl + Urls.orderEndPoint + state.searchEndPoint;
-    AppLogger.debug('Order search URL: $url');
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token')!;
+    final path =
+        'recycleorigin/v1${Urls.orderEndPoint}${state.searchEndPoint}';
+    AppLogger.debug('Order search path: $path');
     try {
-      final response = await get(Uri.parse(url), headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      });
-      AppLogger.debug('Order search response status: ${response.statusCode}');
-      if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body);
+      final result = await _apiClient.get<Map<String, dynamic>>(
+        path,
+        parser: (data) => data as Map<String, dynamic>,
+      );
+      final extractedData = result.valueOrNull;
+      if (extractedData != null) {
         AppLogger.debug('Order items retrieved');
         final ordersMain = OrdersMain.fromJson(extractedData);
         AppLogger.debug('Max page: ${ordersMain.searchDetail.max_page}');
         emit(state.copyWith(
           ordersItems: ordersMain.transactions,
           searchDetails: ordersMain.searchDetail,
-          token: token,
         ));
       } else {
-        emit(state.copyWith(ordersItems: [], token: token));
+        emit(state.copyWith(ordersItems: []));
       }
       event.completer?.complete();
     } catch (e, st) {
@@ -128,14 +124,17 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     Emitter<OrdersState> emit,
   ) async {
     AppLogger.debug('Retrieving order item: ${event.orderId}');
-    final url = Urls.rootUrl + Urls.orderEndPoint + '/${event.orderId}';
-    AppLogger.debug('Order item URL: $url');
+    final path = 'recycleorigin/v1${Urls.orderEndPoint}/${event.orderId}';
+    AppLogger.debug('Order item path: $path');
     try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      });
-      final extractedData = json.decode(response.body) as dynamic;
+      final result = await _apiClient.get<Map<String, dynamic>>(
+        path,
+        parser: (data) => data as Map<String, dynamic>,
+      );
+      final extractedData = result.valueOrNull;
+      if (extractedData == null) {
+        throw Exception(result.errorOrNull ?? 'Order not found');
+      }
       AppLogger.debug('Order item data retrieved');
       final order = Order.fromJson(extractedData);
       emit(state.copyWith(orderItem: order));

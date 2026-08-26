@@ -167,7 +167,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
                             '\$',
                             style: TextStyle(
                               color: context.appColors.subtitleColor
-                                  .withOpacity(0.6),
+                                  .withValues(alpha: 0.6),
                               fontSize: 11,
                             ),
                           ),
@@ -199,7 +199,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
                           Text(
                             '\$',
                             style: TextStyle(
-                              color: AppTheme.primary.withOpacity(0.6),
+                              color: AppTheme.primary.withValues(alpha: 0.6),
                               fontSize: 11,
                             ),
                           ),
@@ -245,7 +245,7 @@ class _ItemImage extends StatelessWidget {
         imageErrorBuilder: (_, __, ___) => Icon(
           Icons.recycling_rounded,
           size: 32,
-          color: AppTheme.primary.withOpacity(0.4),
+          color: AppTheme.primary.withValues(alpha: 0.4),
         ),
       ),
     );
@@ -349,7 +349,7 @@ class _StepperButton extends StatelessWidget {
     return Material(
       color: isDecrease
           ? context.appColors.danger.withValues(alpha: 0.12)
-          : AppTheme.primary.withOpacity(0.12),
+          : AppTheme.primary.withValues(alpha: 0.12),
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: onTap,

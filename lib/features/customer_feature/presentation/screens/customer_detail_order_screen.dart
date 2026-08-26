@@ -32,8 +32,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     List<Order> orderList = context.read<CustomerInfoBloc>().orders;
 
     return Container(
@@ -51,8 +50,9 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                          EnArConvertor()
-                              .replaceArNumber((orderList.length.toString())),
+                          EnArConvertor().replaceArNumber(
+                            (orderList.length.toString()),
+                          ),
                           style: TextStyle(
                             color: AppTheme.iconAccentPurple,
                             //fontFamily: 'Iransans',
@@ -114,9 +114,7 @@ class _CustomerDetailOrderScreenState extends State<CustomerDetailOrderScreen> {
                   );
                 },
               ),
-              SizedBox(
-                height: deviceHeight * 0.05,
-              )
+              SizedBox(height: deviceHeight * 0.05),
             ],
           ),
         ),
@@ -143,8 +141,7 @@ class OrderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Padding(
@@ -152,9 +149,10 @@ class OrderItem extends StatelessWidget {
       child: Container(
         height: deviceHeight * 0.250,
         decoration: BoxDecoration(
-            color: context.appColors.cardBackground,
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: AppTheme.accent, width: 0.4)),
+          color: context.appColors.cardBackground,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: AppTheme.accent, width: 0.4),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -182,10 +180,7 @@ class OrderItem extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(
-              color: context.appColors.divider,
-              thickness: 2,
-            ),
+            Divider(color: context.appColors.divider, thickness: 2),
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Column(
@@ -213,8 +208,11 @@ class OrderItem extends StatelessWidget {
                         Spacer(),
                         Text(
                           EnArConvertor()
-                                  .replaceArNumber(currencyFormat
-                                      .format(double.parse(totalPrice)))
+                                  .replaceArNumber(
+                                    currencyFormat.format(
+                                      double.parse(totalPrice),
+                                    ),
+                                  )
                                   .toString() +
                               ' \$',
                           style: TextStyle(
@@ -226,10 +224,7 @@ class OrderItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Divider(
-                    indent: 15,
-                    endIndent: 15,
-                  ),
+                  Divider(indent: 15, endIndent: 15),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Row(
@@ -244,9 +239,7 @@ class OrderItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          EnArConvertor().replaceArNumber(
-                            totalNumber,
-                          ),
+                          EnArConvertor().replaceArNumber(totalNumber),
                           style: TextStyle(
                             color: context.colors.onSurface,
                             //fontFamily: 'Iransans',

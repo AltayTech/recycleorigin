@@ -1,26 +1,26 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/models/search_detail.dart';
+import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing_main.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/bloc/clearings_event.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/bloc/clearings_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /// Manages clearing / delivery search and scheduling fields.
 class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
-  ClearingsBloc() : super(ClearingsState()) {
+  ClearingsBloc(this._apiClient) : super(ClearingsState()) {
     on<ClearingsSearchParamsChanged>(_onSearchParamsChanged);
     on<ClearingsSearchBuilderApplied>(_onSearchBuilderApplied);
     on<ClearingsSearchItemsRequested>(_onSearchItems);
     on<ClearingsSelectedHoursSet>(_onSelectedHoursSet);
     on<ClearingsSelectedDaySet>(_onSelectedDaySet);
   }
+
+  final ApiClient _apiClient;
 
   String get selectedHours => state.selectedHours;
   set selectedHours(String value) => add(ClearingsSelectedHoursSet(value));
@@ -113,30 +113,25 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     Emitter<ClearingsState> emit,
   ) async {
     AppLogger.debug('Searching clearing items');
-    final url = Urls.rootUrl + Urls.clearingEndPoint + state.searchEndPoint;
-    AppLogger.debug('Clearing search URL: $url');
+    final path =
+        'recycleorigin/v1${Urls.clearingEndPoint}${state.searchEndPoint}';
+    AppLogger.debug('Clearing search path: $path');
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token')!;
-      final response = await get(Uri.parse(url), headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      });
-      AppLogger.debug(
-          'Clearing search response status: ${response.statusCode}');
-      if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body);
+      final result = await _apiClient.get<Map<String, dynamic>>(
+        path,
+        parser: (data) => data as Map<String, dynamic>,
+      );
+      final extractedData = result.valueOrNull;
+      if (extractedData != null) {
         AppLogger.debug('Clearing items retrieved');
         final deliveryMain = ClearingMain.fromJson(extractedData);
         AppLogger.debug('Max page: ${deliveryMain.searchDetail.max_page}');
         emit(state.copyWith(
           deliveriesItems: deliveryMain.clearings,
           searchDetails: deliveryMain.searchDetail,
-          token: token,
         ));
       } else {
-        emit(state.copyWith(deliveriesItems: [], token: token));
+        emit(state.copyWith(deliveriesItems: []));
       }
       event.completer?.complete();
     } catch (e, st) {

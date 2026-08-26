@@ -72,12 +72,12 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
           isLogin,
         )
         .then((value) async {
-      await context.read<MessagesBloc>().getMessages(
+          await context.read<MessagesBloc>().getMessages(
             message.comment_post_ID,
             isLogin,
           );
-      Navigator.of(context).pop();
-    });
+          Navigator.of(context).pop();
+        });
     setState(() {
       _isLoading = false;
       print(_isLoading.toString());
@@ -89,7 +89,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     return Scaffold(
       appBar: AppBar(
@@ -112,7 +112,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
           textDirection: Directionality.of(context),
           child: Container(
             height: deviceHeight * 0.9,
-            color: AppTheme.primary.withOpacity(0.05),
+            color: AppTheme.primary.withValues(alpha: 0.05),
             child: Stack(
               children: <Widget>[
                 Container(
@@ -123,9 +123,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                       child: Column(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 16.0,
-                            ),
+                            padding: const EdgeInsets.only(bottom: 16.0),
                             child: Container(
                               width: deviceWidth,
                               child: Text(
@@ -138,13 +136,13 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                                 textAlign: TextAlign.right,
                               ),
 
-//                              MessageReplyItem(
-//                                message: message,
-//                                isReply: customer.id !=
-//                                    int.parse(
-//                                      message.user_id,
-//                                    ),
-//                              ),
+                              //                              MessageReplyItem(
+                              //                                message: message,
+                              //                                isReply: customer.id !=
+                              //                                    int.parse(
+                              //                                      message.user_id,
+                              //                                    ),
+                              //                              ),
                             ),
                           ),
                           Container(
@@ -188,21 +186,22 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
                   left: 0,
                   right: 0,
                   child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? context.colors.onSurface
-                                        : context.colors.onSurface,
-                                  ),
-                                );
-                              },
-                            )
-                          : Container()),
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: index.isEven
+                                      ? context.colors.onSurface
+                                      : context.colors.onSurface,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(),
+                  ),
                 ),
               ],
             ),
@@ -214,10 +213,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
           createMessageReply();
         },
         backgroundColor: AppTheme.primary,
-        child: Icon(
-          Icons.check,
-          color: context.appColors.cardBackground,
-        ),
+        child: Icon(Icons.check, color: context.appColors.cardBackground),
       ),
       drawer: mainDrawerIfRootRoute(context),
     );

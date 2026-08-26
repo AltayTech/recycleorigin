@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_bloc.dart';
 import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_event.dart';
+import '../../../helpers/mock_api_client.dart';
 
 Future<void> _tick() => Future<void>.delayed(Duration.zero);
 
@@ -9,7 +10,7 @@ void main() {
     late OrdersBloc ordersBloc;
 
     setUp(() {
-      ordersBloc = OrdersBloc();
+      ordersBloc = OrdersBloc(MockApiClient());
     });
 
     tearDown(() async {

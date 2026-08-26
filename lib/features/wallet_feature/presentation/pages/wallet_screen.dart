@@ -9,7 +9,7 @@ import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
-import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/utils/result.dart';
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet.dart';
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet_transaction.dart';
@@ -76,7 +76,8 @@ class _WalletScreenState extends State<WalletScreen> {
 
     try {
       final headers = await _authHeaders();
-      final walletResult = await WalletRepository(ApiClient()).fetchWallet();
+      final walletResult =
+          await WalletRepository(ApiProvider.client).fetchWallet();
       if (walletResult case Success(:final value) when mounted) {
         _wallet = value;
       }

@@ -14,10 +14,7 @@ class CardItem extends StatefulWidget {
   final ProductCart shoppItem;
   final Function callFunction;
 
-  CardItem({
-    required this.shoppItem,
-    required this.callFunction,
-  });
+  CardItem({required this.shoppItem, required this.callFunction});
 
   @override
   _CardItemState createState() => _CardItemState();
@@ -57,9 +54,8 @@ class _CardItemState extends State<CardItem> {
 
   @override
   Widget build(BuildContext context) {
-    var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     var currencyFormat = intl.NumberFormat.decimalPattern();
     isLogin = context.watch<AuthBloc>().isAuth;
 
@@ -92,10 +88,12 @@ class _CardItemState extends State<CardItem> {
                             child: Container(
                               height: double.infinity,
                               child: FadeInImage(
-                                placeholder:
-                                    AssetImage('assets/images/circle.gif'),
+                                placeholder: AssetImage(
+                                  'assets/images/circle.gif',
+                                ),
                                 image: NetworkImage(
-                                    widget.shoppItem.featured_media_url),
+                                  widget.shoppItem.featured_media_url,
+                                ),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -107,9 +105,7 @@ class _CardItemState extends State<CardItem> {
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: <Widget>[
-                                SizedBox(
-                                  height: deviceWidth * 0.03,
-                                ),
+                                SizedBox(height: deviceWidth * 0.03),
                                 Expanded(
                                   flex: 5,
                                   child: Align(
@@ -143,46 +139,58 @@ class _CardItemState extends State<CardItem> {
                                               CrossAxisAlignment.center,
                                           children: <Widget>[
                                             Expanded(
-                                                child: InkWell(
-                                              onTap: () async {
-                                                productCount = productCount + 1;
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  productCount =
+                                                      productCount + 1;
 
-                                                await context
-                                                    .read<ProductsBloc>()
-                                                    .updateShopCart(
+                                                  await context
+                                                      .read<ProductsBloc>()
+                                                      .updateShopCart(
                                                         widget.shoppItem,
-                                                        widget.shoppItem
+                                                        widget
+                                                            .shoppItem
                                                             .color_selected,
                                                         productCount,
-                                                        isLogin)
-                                                    .then((_) {
-                                                  widget.callFunction();
-                                                  setState(() {
-                                                    _isLoading = false;
-                                                    print(
-                                                        _isLoading.toString());
-                                                  });
-                                                });
-                                              },
-                                              child: Container(
+                                                        isLogin,
+                                                      )
+                                                      .then((_) {
+                                                        widget.callFunction();
+                                                        setState(() {
+                                                          _isLoading = false;
+                                                          print(
+                                                            _isLoading
+                                                                .toString(),
+                                                          );
+                                                        });
+                                                      });
+                                                },
+                                                child: Container(
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            2),
+                                                          2,
+                                                        ),
                                                     color: AppTheme.accent,
                                                   ),
                                                   child: Icon(
                                                     Icons.add,
-                                                    color: context.appColors
+                                                    color: context
+                                                        .appColors
                                                         .scaffoldBackground,
-                                                  )),
-                                            )),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                             Expanded(
                                               child: Text(
                                                 EnArConvertor()
-                                                    .replaceArNumber(widget
-                                                        .shoppItem.productCount
-                                                        .toString())
+                                                    .replaceArNumber(
+                                                      widget
+                                                          .shoppItem
+                                                          .productCount
+                                                          .toString(),
+                                                    )
                                                     .toString(),
                                                 style: TextStyle(
                                                   color:
@@ -195,41 +203,50 @@ class _CardItemState extends State<CardItem> {
                                               ),
                                             ),
                                             Expanded(
-                                                child: InkWell(
-                                              onTap: () {
-                                                productCount = productCount - 1;
+                                              child: InkWell(
+                                                onTap: () {
+                                                  productCount =
+                                                      productCount - 1;
 
-                                                context
-                                                    .read<ProductsBloc>()
-                                                    .updateShopCart(
+                                                  context
+                                                      .read<ProductsBloc>()
+                                                      .updateShopCart(
                                                         widget.shoppItem,
-                                                        widget.shoppItem
+                                                        widget
+                                                            .shoppItem
                                                             .color_selected,
                                                         productCount,
-                                                        isLogin)
-                                                    .then((_) {
-                                                  widget.callFunction();
+                                                        isLogin,
+                                                      )
+                                                      .then((_) {
+                                                        widget.callFunction();
 
-                                                  setState(() {
-                                                    _isLoading = false;
-                                                    print(
-                                                        _isLoading.toString());
-                                                  });
-                                                });
-                                              },
-                                              child: Container(
+                                                        setState(() {
+                                                          _isLoading = false;
+                                                          print(
+                                                            _isLoading
+                                                                .toString(),
+                                                          );
+                                                        });
+                                                      });
+                                                },
+                                                child: Container(
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            2),
+                                                          2,
+                                                        ),
                                                     color: AppTheme.accent,
                                                   ),
                                                   child: Icon(
                                                     Icons.remove,
-                                                    color: context.appColors
+                                                    color: context
+                                                        .appColors
                                                         .scaffoldBackground,
-                                                  )),
-                                            )),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -244,15 +261,19 @@ class _CardItemState extends State<CardItem> {
                                             Text(
                                               widget.shoppItem.price.isNotEmpty
                                                   ? EnArConvertor()
-                                                      .replaceArNumber(
+                                                        .replaceArNumber(
                                                           currencyFormat
-                                                              .format(double
-                                                                  .parse(widget
+                                                              .format(
+                                                                double.parse(
+                                                                  widget
                                                                       .shoppItem
-                                                                      .price))
-                                                              .toString())
+                                                                      .price,
+                                                                ),
+                                                              )
+                                                              .toString(),
+                                                        )
                                                   : EnArConvertor()
-                                                      .replaceArNumber('0'),
+                                                        .replaceArNumber('0'),
                                               style: TextStyle(
                                                 color: context.colors.onSurface,
                                                 //fontFamily: 'Iransans',
@@ -263,7 +284,8 @@ class _CardItemState extends State<CardItem> {
                                               '  \$ ',
                                               style: TextStyle(
                                                 color: context
-                                                    .appColors.subtitleColor,
+                                                    .appColors
+                                                    .subtitleColor,
                                                 //fontFamily: 'Iransans',
                                                 fontSize: textScaleFactor * 12,
                                               ),
@@ -301,24 +323,26 @@ class _CardItemState extends State<CardItem> {
                   ),
                 ),
                 Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? SpinKitFadingCircle(
-                                itemBuilder: (BuildContext context, int index) {
-                                  return DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: context.appColors.subtitleColor,
-                                    ),
-                                  );
-                                },
-                              )
-                            : Container()))
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: context.appColors.subtitleColor,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(),
+                  ),
+                ),
               ],
             ),
           ),

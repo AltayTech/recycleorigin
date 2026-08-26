@@ -164,7 +164,7 @@ class _AddressItemState extends State<AddressItem>
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           color: widget.isSelected
-              ? AppTheme.primary.withOpacity(0.05)
+              ? AppTheme.primary.withValues(alpha: 0.05)
               : context.appColors.cardBackground,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
@@ -175,7 +175,7 @@ class _AddressItemState extends State<AddressItem>
           boxShadow: [
             if (widget.isSelected)
               BoxShadow(
-                color: AppTheme.primary.withOpacity(0.12),
+                color: AppTheme.primary.withValues(alpha: 0.12),
                 blurRadius: 16,
                 offset: const Offset(0, 6),
               )
@@ -334,7 +334,7 @@ class _RadioIndicator extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: isSelected
-            ? AppTheme.primary.withOpacity(0.12)
+            ? AppTheme.primary.withValues(alpha: 0.12)
             : Colors.transparent,
         border: Border.all(
           color: isSelected ? AppTheme.primary : context.colors.outline,
@@ -384,7 +384,7 @@ class _RegionBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: AppTheme.primary.withOpacity(0.08),
+        color: AppTheme.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -393,7 +393,7 @@ class _RegionBadge extends StatelessWidget {
           Icon(
             Icons.map_rounded,
             size: 12,
-            color: AppTheme.primary.withOpacity(0.7),
+            color: AppTheme.primary.withValues(alpha: 0.7),
           ),
           const SizedBox(width: 4),
           Text(

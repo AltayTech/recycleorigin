@@ -3,7 +3,6 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/clearing_feature/business/entities/clearing.dart';
 
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
@@ -18,9 +17,8 @@ class ClearingItemClearScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final transaction = Provider.of<Clearing>(context, listen: false);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -36,12 +34,12 @@ class ClearingItemClearScreen extends StatelessWidget {
           builder: (ctx, constraints) {
             return InkWell(
               onTap: () {
-//              Provider.of<Products>(context, listen: false).item =
-//                  Provider.of<Products>(context, listen: false).itemZero;
-//              Navigator.of(context).pushNamed(
-//                ProductDetailScreen.routeName,
-//                arguments: transaction.id,
-//              );
+                //              Provider.of<Products>(context, listen: false).item =
+                //                  Provider.of<Products>(context, listen: false).itemZero;
+                //              Navigator.of(context).pushNamed(
+                //                ProductDetailScreen.routeName,
+                //                arguments: transaction.id,
+                //              );
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,10 +68,13 @@ class ClearingItemClearScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      EnArConvertor().replaceArNumber(currencyFormat
-                          .format(
-                              double.parse(removeSemicolon(transaction.money)))
-                          .toString()),
+                      EnArConvertor().replaceArNumber(
+                        currencyFormat
+                            .format(
+                              double.parse(removeSemicolon(transaction.money)),
+                            )
+                            .toString(),
+                      ),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: context.colors.onSurface,

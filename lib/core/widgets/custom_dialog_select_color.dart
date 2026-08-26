@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
 
 import '../../features/store_feature/business/entities/product.dart';
 import '../theme/app_theme.dart';
@@ -10,10 +9,7 @@ class CustomDialogSelectColor extends StatefulWidget {
   final Product product;
   final Function function;
 
-  CustomDialogSelectColor({
-    required this.product,
-    required this.function,
-  });
+  CustomDialogSelectColor({required this.product, required this.function});
 
   @override
   _CustomDialogSelectColorState createState() =>
@@ -40,8 +36,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
   dialogContent(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     return Padding(
       padding: EdgeInsets.only(
         top: Consts.avatarRadius + Consts.padding,
@@ -74,7 +69,7 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                   color: AppTheme.primary,
                   //fontFamily: 'Iransans',
                   height: 2,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 15,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 15,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -91,133 +86,134 @@ class _CustomDialogSelectColorState extends State<CustomDialogSelectColor> {
                   ),
                 ),
               ),
-//              Padding(
-//                padding: const EdgeInsets.only(top: 15.0, bottom: 15),
-//                child: ListView.builder(
-//                  scrollDirection: Axis.vertical,
-//                  shrinkWrap: true,
-//                  itemCount: widget.product.color.length,
-//                  itemBuilder: (BuildContext context, int index) {
-//                    return InkWell(
-//                      onTap: () {
-//                        if (widget.product.color[index].available) {
-//                          _selectedColorIndex = index;
-//                          _selectedColor = widget.product.color[index];
-//                          setState(() {});
-//                        }
-//                      },
-//                      child: Container(
-//                        decoration: _selectedColorIndex == index
-//                            ? BoxDecoration(
-//                                border:
-//                                    Border.all(color: context.colors.onSurface, width: 0.2),
-//                                borderRadius: BorderRadius.circular(5),
-//                                color: context.appColors.divider.withOpacity(0.15),
-//                              )
-//                            : BoxDecoration(
-//                                color: context.appColors.scaffoldBackground,
-//                              ),
-//                        child: Row(
-//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                          children: <Widget>[
-//                            Padding(
-//                              padding: const EdgeInsets.all(4.0),
-//                              child: Text(
-//                                widget.product.color[index].available
-//                                    ? widget.product.color[index].price
-//                                            .isNotEmpty
-//                                        ? EnArConvertor().replaceArNumber(
-//                                            currencyFormat
-//                                                .format(double.parse(widget
-//                                                    .product
-//                                                    .color[index]
-//                                                    .price))
-//                                                .toString())
-//                                        : EnArConvertor().replaceArNumber('0')
-//                                    : 'ناموجود',
-//                                style: TextStyle(
-//                                  color: widget.product.color[index].available
-//                                      ? AppTheme.primary
-//                                      : context.appColors.subtitleColor,
-//                                  //fontFamily: 'Iransans',
-//                                  fontSize: textScaleFactor * 20.0,
-//                                ),
-//                              ),
-//                            ),
-//                            Padding(
-//                              padding: const EdgeInsets.all(4.0),
-//                              child: Text(
-//                                widget.product.color[index].title,
-//                                style: TextStyle(
-//                                  color: widget.product.color[index].available
-//                                      ? AppTheme.primary
-//                                      : context.appColors.subtitleColor,
-//                                  //fontFamily: 'Iransans',
-//                                  fontSize: textScaleFactor * 16,
-//                                ),
-//                              ),
-//                            ),
-//                            Padding(
-//                              padding: const EdgeInsets.all(5.0),
-//                              child: Container(
-//                                width: 25,
-//                                height: 25,
-//                                decoration: BoxDecoration(
-//                                  shape: BoxShape.circle,
-//                                  border: Border.all(
-//                                      color: context.colors.onSurface, width: 0.2),
-//                                  color: Color(
-//                                    int.parse(
-//                                      '0xff' +
-//                                          widget.product.color[index].colorCode
-//                                              .replaceRange(0, 1, ''),
-//                                    ),
-//                                  ),
-//                                ),
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                      ),
-//                    );
-//                  },
-//                ),
-//              ),
+              //              Padding(
+              //                padding: const EdgeInsets.only(top: 15.0, bottom: 15),
+              //                child: ListView.builder(
+              //                  scrollDirection: Axis.vertical,
+              //                  shrinkWrap: true,
+              //                  itemCount: widget.product.color.length,
+              //                  itemBuilder: (BuildContext context, int index) {
+              //                    return InkWell(
+              //                      onTap: () {
+              //                        if (widget.product.color[index].available) {
+              //                          _selectedColorIndex = index;
+              //                          _selectedColor = widget.product.color[index];
+              //                          setState(() {});
+              //                        }
+              //                      },
+              //                      child: Container(
+              //                        decoration: _selectedColorIndex == index
+              //                            ? BoxDecoration(
+              //                                border:
+              //                                    Border.all(color: context.colors.onSurface, width: 0.2),
+              //                                borderRadius: BorderRadius.circular(5),
+              //                                color: context.appColors.divider.withOpacity(0.15),
+              //                              )
+              //                            : BoxDecoration(
+              //                                color: context.appColors.scaffoldBackground,
+              //                              ),
+              //                        child: Row(
+              //                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                          children: <Widget>[
+              //                            Padding(
+              //                              padding: const EdgeInsets.all(4.0),
+              //                              child: Text(
+              //                                widget.product.color[index].available
+              //                                    ? widget.product.color[index].price
+              //                                            .isNotEmpty
+              //                                        ? EnArConvertor().replaceArNumber(
+              //                                            currencyFormat
+              //                                                .format(double.parse(widget
+              //                                                    .product
+              //                                                    .color[index]
+              //                                                    .price))
+              //                                                .toString())
+              //                                        : EnArConvertor().replaceArNumber('0')
+              //                                    : 'ناموجود',
+              //                                style: TextStyle(
+              //                                  color: widget.product.color[index].available
+              //                                      ? AppTheme.primary
+              //                                      : context.appColors.subtitleColor,
+              //                                  //fontFamily: 'Iransans',
+              //                                  fontSize: textScaleFactor * 20.0,
+              //                                ),
+              //                              ),
+              //                            ),
+              //                            Padding(
+              //                              padding: const EdgeInsets.all(4.0),
+              //                              child: Text(
+              //                                widget.product.color[index].title,
+              //                                style: TextStyle(
+              //                                  color: widget.product.color[index].available
+              //                                      ? AppTheme.primary
+              //                                      : context.appColors.subtitleColor,
+              //                                  //fontFamily: 'Iransans',
+              //                                  fontSize: textScaleFactor * 16,
+              //                                ),
+              //                              ),
+              //                            ),
+              //                            Padding(
+              //                              padding: const EdgeInsets.all(5.0),
+              //                              child: Container(
+              //                                width: 25,
+              //                                height: 25,
+              //                                decoration: BoxDecoration(
+              //                                  shape: BoxShape.circle,
+              //                                  border: Border.all(
+              //                                      color: context.colors.onSurface, width: 0.2),
+              //                                  color: Color(
+              //                                    int.parse(
+              //                                      '0xff' +
+              //                                          widget.product.color[index].colorCode
+              //                                              .replaceRange(0, 1, ''),
+              //                                    ),
+              //                                  ),
+              //                                ),
+              //                              ),
+              //                            ),
+              //                          ],
+              //                        ),
+              //                      ),
+              //                    );
+              //                  },
+              //                ),
+              //              ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Builder(
-                    builder: (context) => ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: InkWell(
-                            onTap: () {
-                              widget.function(_selectedColor);
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              height: deviceHeight * 0.06,
-                              width: deviceWidth * 0.6,
-                              decoration: BoxDecoration(
-                                color: _selectedColorIndex != null
-                                    ? AppTheme.primary
-                                    : context.appColors.subtitleColor,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    context.l10n.addToCartLabel,
-                                    style: TextStyle(
-                                      color: context.appColors.cardBackground,
-                                      //fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 16,
-                                    ),
-                                  ),
-                                ),
+                  builder: (context) => ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: InkWell(
+                      onTap: () {
+                        widget.function(_selectedColor);
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: deviceHeight * 0.06,
+                        width: deviceWidth * 0.6,
+                        decoration: BoxDecoration(
+                          color: _selectedColorIndex != null
+                              ? AppTheme.primary
+                              : context.appColors.subtitleColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              context.l10n.addToCartLabel,
+                              style: TextStyle(
+                                color: context.appColors.cardBackground,
+                                //fontFamily: 'Iransans',
+                                fontSize: textScaleFactor * 16,
                               ),
                             ),
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

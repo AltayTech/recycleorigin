@@ -72,9 +72,9 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
           isLogin,
         )
         .then((value) async {
-      await context.read<MessagesBloc>().getMessages('0', isLogin);
-      Navigator.of(context).pop();
-    });
+          await context.read<MessagesBloc>().getMessages('0', isLogin);
+          Navigator.of(context).pop();
+        });
     setState(() {
       _isLoading = false;
     });
@@ -83,8 +83,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     return Scaffold(
       appBar: AppBar(
@@ -105,7 +104,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
       body: Builder(
         builder: (context) => Container(
           height: deviceHeight * 0.9,
-          color: AppTheme.primary.withOpacity(0.05),
+          color: AppTheme.primary.withValues(alpha: 0.05),
           child: Stack(
             children: <Widget>[
               Container(
@@ -116,10 +115,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(
-                            top: 30,
-                            bottom: 8.0,
-                          ),
+                          padding: const EdgeInsets.only(top: 30, bottom: 8.0),
                           child: Text(
                             context.l10n.composeMessageIntroParagraph,
                             style: TextStyle(
@@ -217,21 +213,22 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
                 left: 0,
                 right: 0,
                 child: Align(
-                    alignment: Alignment.center,
-                    child: _isLoading
-                        ? SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: index.isEven
-                                      ? context.colors.onSurface
-                                      : context.colors.onSurface,
-                                ),
-                              );
-                            },
-                          )
-                        : Container()),
+                  alignment: Alignment.center,
+                  child: _isLoading
+                      ? SpinKitFadingCircle(
+                          itemBuilder: (BuildContext context, int index) {
+                            return DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: index.isEven
+                                    ? context.colors.onSurface
+                                    : context.colors.onSurface,
+                              ),
+                            );
+                          },
+                        )
+                      : Container(),
+                ),
               ),
             ],
           ),
@@ -243,10 +240,7 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
           createMessages();
         },
         backgroundColor: AppTheme.primary,
-        child: Icon(
-          Icons.check,
-          color: context.appColors.cardBackground,
-        ),
+        child: Icon(Icons.check, color: context.appColors.cardBackground),
       ),
       drawer: mainDrawerIfRootRoute(context),
     );

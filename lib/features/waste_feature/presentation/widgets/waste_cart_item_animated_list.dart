@@ -41,16 +41,19 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
       _isLoading = false;
 
       productWeight = widget.wasteItem.weight;
-      changeNumberAnimation(double.parse(
-              getPrice(widget.wasteItem.prices, widget.wasteItem.weight)) *
-          widget.wasteItem.weight);
+      changeNumberAnimation(
+        double.parse(
+              getPrice(widget.wasteItem.prices, widget.wasteItem.weight),
+            ) *
+            widget.wasteItem.weight,
+      );
     }
     _isInit = false;
     super.didChangeDependencies();
   }
 
   Future<void> removeItem() async {
-//    widget.onRemove(widget.wasteIt`em.id);
+    //    widget.onRemove(widget.wasteIt`em.id);
   }
 
   String getPrice(List<PriceWeight> prices, int weight) {
@@ -91,19 +94,15 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
       _animation = new Tween<double>(
         begin: _animation.value,
         end: newValue,
-      ).animate(new CurvedAnimation(
-        curve: Curves.ease,
-        parent: _controller,
-      ));
+      ).animate(new CurvedAnimation(curve: Curves.ease, parent: _controller));
     });
     _controller.forward(from: 0.0);
   }
 
   @override
   Widget build(BuildContext context) {
-    var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Container(
@@ -124,7 +123,8 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                         child: FadeInImage(
                           placeholder: AssetImage('assets/images/circle.gif'),
                           image: NetworkImage(
-                              widget.wasteItem.featured_image.sizes.medium),
+                            widget.wasteItem.featured_image.sizes.medium,
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -135,9 +135,7 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: <Widget>[
-                            SizedBox(
-                              height: constraints.maxHeight * 0.16,
-                            ),
+                            SizedBox(height: constraints.maxHeight * 0.16),
                             Expanded(
                               flex: 5,
                               child: Row(
@@ -171,44 +169,52 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
                                         Expanded(
-                                            child: InkWell(
-                                          onTap: () async {
-                                            productWeight = productWeight + 1;
+                                          child: InkWell(
+                                            onTap: () async {
+                                              productWeight = productWeight + 1;
 
-                                            await context
-                                                .read<WastesBloc>()
-                                                .updateWasteCart(
-                                                  widget.wasteItem,
-                                                  productWeight,
-                                                );
-                                            changeNumberAnimation(double.parse(
-                                                    getPrice(
+                                              await context
+                                                  .read<WastesBloc>()
+                                                  .updateWasteCart(
+                                                    widget.wasteItem,
+                                                    productWeight,
+                                                  );
+                                              changeNumberAnimation(
+                                                double.parse(
+                                                      getPrice(
                                                         widget.wasteItem.prices,
-                                                        widget.wasteItem
-                                                            .weight)) *
-                                                widget.wasteItem.weight);
-                                            widget.function();
-                                          },
-                                          child: Container(
+                                                        widget.wasteItem.weight,
+                                                      ),
+                                                    ) *
+                                                    widget.wasteItem.weight,
+                                              );
+                                              widget.function();
+                                            },
+                                            child: Container(
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 color: AppTheme.accent,
                                               ),
                                               child: Icon(
                                                 Icons.add,
-                                                color: context.appColors
+                                                color: context
+                                                    .appColors
                                                     .scaffoldBackground,
-                                              )),
-                                        )),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                         Expanded(
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 3.0),
+                                            padding: const EdgeInsets.only(
+                                              top: 3.0,
+                                            ),
                                             child: Text(
                                               EnArConvertor()
-                                                  .replaceArNumber(widget
-                                                      .wasteItem.weight
-                                                      .toString())
+                                                  .replaceArNumber(
+                                                    widget.wasteItem.weight
+                                                        .toString(),
+                                                  )
                                                   .toString(),
                                               style: TextStyle(
                                                 color: context.colors.onSurface,
@@ -225,8 +231,10 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                               if (productWeight > 1) {
                                                 productWeight =
                                                     productWeight - 1;
-                                                print('productCount' +
-                                                    productWeight.toString());
+                                                print(
+                                                  'productCount' +
+                                                      productWeight.toString(),
+                                                );
 
                                                 context
                                                     .read<WastesBloc>()
@@ -235,13 +243,18 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                                       productWeight,
                                                     );
                                                 changeNumberAnimation(
-                                                    double.parse(getPrice(
-                                                            widget.wasteItem
-                                                                .prices,
-                                                            widget.wasteItem
-                                                                .weight)) *
-                                                        widget
-                                                            .wasteItem.weight);
+                                                  double.parse(
+                                                        getPrice(
+                                                          widget
+                                                              .wasteItem
+                                                              .prices,
+                                                          widget
+                                                              .wasteItem
+                                                              .weight,
+                                                        ),
+                                                      ) *
+                                                      widget.wasteItem.weight,
+                                                );
                                               }
                                               widget.function();
                                             },
@@ -252,7 +265,8 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                               ),
                                               child: Icon(
                                                 Icons.remove,
-                                                color: context.appColors
+                                                color: context
+                                                    .appColors
                                                     .scaffoldBackground,
                                               ),
                                             ),
@@ -287,15 +301,23 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                         widget.wasteItem.prices.length != 0
                                             ? EnArConvertor().replaceArNumber(
                                                 currencyFormat
-                                                    .format(double.parse(
+                                                    .format(
+                                                      double.parse(
                                                         getPrice(
-                                                            widget.wasteItem
-                                                                .prices,
-                                                            widget.wasteItem
-                                                                .weight)))
-                                                    .toString())
-                                            : EnArConvertor()
-                                                .replaceArNumber('0'),
+                                                          widget
+                                                              .wasteItem
+                                                              .prices,
+                                                          widget
+                                                              .wasteItem
+                                                              .weight,
+                                                        ),
+                                                      ),
+                                                    )
+                                                    .toString(),
+                                              )
+                                            : EnArConvertor().replaceArNumber(
+                                                '0',
+                                              ),
                                         style: TextStyle(
                                           color: context.colors.onSurface,
                                           //fontFamily: 'Iransans',
@@ -328,29 +350,42 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                       ),
                                       AnimatedBuilder(
                                         animation: _animation,
-                                        builder: (BuildContext context,
-                                            Widget? child) {
-                                          return new Text(
-                                            widget.wasteItem.prices.length != 0
-                                                ? EnArConvertor()
-                                                    .replaceArNumber(
-                                                        currencyFormat
-                                                            .format(
-                                                                double.parse(
-                                                              _animation.value
-                                                                  .toStringAsFixed(
-                                                                      0),
-                                                            ))
-                                                            .toString())
-                                                : EnArConvertor()
-                                                    .replaceArNumber('0'),
-                                            style: TextStyle(
-                                              color: context.colors.onSurface,
-                                              //fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 18,
-                                            ),
-                                          );
-                                        },
+                                        builder:
+                                            (
+                                              BuildContext context,
+                                              Widget? child,
+                                            ) {
+                                              return new Text(
+                                                widget
+                                                            .wasteItem
+                                                            .prices
+                                                            .length !=
+                                                        0
+                                                    ? EnArConvertor()
+                                                          .replaceArNumber(
+                                                            currencyFormat
+                                                                .format(
+                                                                  double.parse(
+                                                                    _animation
+                                                                        .value
+                                                                        .toStringAsFixed(
+                                                                          0,
+                                                                        ),
+                                                                  ),
+                                                                )
+                                                                .toString(),
+                                                          )
+                                                    : EnArConvertor()
+                                                          .replaceArNumber('0'),
+                                                style: TextStyle(
+                                                  color:
+                                                      context.colors.onSurface,
+                                                  //fontFamily: 'Iransans',
+                                                  fontSize:
+                                                      textScaleFactor * 18,
+                                                ),
+                                              );
+                                            },
                                       ),
                                       Text(
                                         '  \$ ',
@@ -392,24 +427,26 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                 ),
               ),
               Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: context.appColors.subtitleColor,
-                                  ),
-                                );
-                              },
-                            )
-                          : Container()))
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: _isLoading
+                      ? SpinKitFadingCircle(
+                          itemBuilder: (BuildContext context, int index) {
+                            return DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: context.appColors.subtitleColor,
+                              ),
+                            );
+                          },
+                        )
+                      : Container(),
+                ),
+              ),
             ],
           ),
         ),

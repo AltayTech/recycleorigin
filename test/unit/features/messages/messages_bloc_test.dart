@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigin/features/meassage_feature/presentation/bloc/messages_bloc.dart';
+import '../../../helpers/mock_api_client.dart';
 
 Future<void> _tick() => Future<void>.delayed(Duration.zero);
 
@@ -7,7 +8,7 @@ void main() {
   group('MessagesBloc', () {
     late MessagesBloc bloc;
 
-    setUp(() => bloc = MessagesBloc());
+    setUp(() => bloc = MessagesBloc(MockApiClient()));
 
     tearDown(() async => bloc.close());
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
+import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/notifications/notification_deep_link.dart';
 import 'package:recycleorigin/core/notifications/notification_inbox_models.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
@@ -20,7 +21,7 @@ class CustomerNotificationScreen extends StatefulWidget {
 
 class _CustomerNotificationScreenState
     extends State<CustomerNotificationScreen> {
-  final ApiClient _api = ApiClient();
+  final ApiClient _api = ApiProvider.client;
   final List<UserNotificationItem> _items = [];
   bool _loading = false;
   String? _error;

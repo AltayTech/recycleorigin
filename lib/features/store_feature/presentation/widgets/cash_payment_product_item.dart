@@ -24,8 +24,7 @@ class CashPaymentProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     Widget priceWidget() {
@@ -33,7 +32,8 @@ class CashPaymentProductItem extends StatelessWidget {
         return Text(
           price.isNotEmpty
               ? EnArConvertor().replaceArNumber(
-                  currencyFormat.format(double.parse(price)).toString())
+                  currencyFormat.format(double.parse(price)).toString(),
+                )
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
             //fontFamily: 'Iransans',
@@ -46,7 +46,8 @@ class CashPaymentProductItem extends StatelessWidget {
         return Text(
           price_low.isNotEmpty
               ? EnArConvertor().replaceArNumber(
-                  currencyFormat.format(double.parse(price_low)).toString())
+                  currencyFormat.format(double.parse(price_low)).toString(),
+                )
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
             //fontFamily: 'Iransans',
@@ -59,7 +60,8 @@ class CashPaymentProductItem extends StatelessWidget {
         return Text(
           price.isNotEmpty
               ? EnArConvertor().replaceArNumber(
-                  currencyFormat.format(double.parse(price)).toString())
+                  currencyFormat.format(double.parse(price)).toString(),
+                )
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
             //fontFamily: 'Iransans',
@@ -75,7 +77,8 @@ class CashPaymentProductItem extends StatelessWidget {
             Text(
               price.isNotEmpty
                   ? EnArConvertor().replaceArNumber(
-                      currencyFormat.format(double.parse(price)).toString())
+                      currencyFormat.format(double.parse(price)).toString(),
+                    )
                   : EnArConvertor().replaceArNumber('0'),
               style: TextStyle(
                 decoration: TextDecoration.lineThrough,
@@ -87,7 +90,8 @@ class CashPaymentProductItem extends StatelessWidget {
             Text(
               price_low.isNotEmpty
                   ? EnArConvertor().replaceArNumber(
-                      currencyFormat.format(double.parse(price_low)).toString())
+                      currencyFormat.format(double.parse(price_low)).toString(),
+                    )
                   : EnArConvertor().replaceArNumber('0'),
               style: TextStyle(
                 //fontFamily: 'Iransans',
@@ -95,7 +99,7 @@ class CashPaymentProductItem extends StatelessWidget {
                 color: AppTheme.primary,
                 fontSize: textScaleFactor * 15.0,
               ),
-            )
+            ),
           ],
         );
       }
@@ -104,12 +108,10 @@ class CashPaymentProductItem extends StatelessWidget {
     return Container(
       height: deviceHeight * 0.16,
       decoration: BoxDecoration(
-          border: Border(
-        bottom: BorderSide(
-          width: 0.3,
-          color: context.appColors.divider,
+        border: Border(
+          bottom: BorderSide(width: 0.3, color: context.appColors.divider),
         ),
-      )),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -165,12 +167,17 @@ class CashPaymentProductItem extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               border: Border.all(
-                                  color: context.colors.onSurface, width: 0.2),
+                                color: context.colors.onSurface,
+                                width: 0.2,
+                              ),
                               color: Color(
                                 int.parse(
                                   '0xff' +
-                                      color_selected.color_code
-                                          .replaceRange(0, 1, ''),
+                                      color_selected.color_code.replaceRange(
+                                        0,
+                                        1,
+                                        '',
+                                      ),
                                 ),
                               ),
                             ),

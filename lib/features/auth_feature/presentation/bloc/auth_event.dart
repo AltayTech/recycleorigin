@@ -158,3 +158,8 @@ class AuthEmailVerificationCheckRequested extends AuthEvent {
 
   final Completer<bool> completer;
 }
+
+/// Fired when token refresh fails and the user must sign in again.
+class AuthSessionInvalidated extends AuthEvent {
+  const AuthSessionInvalidated();
+}

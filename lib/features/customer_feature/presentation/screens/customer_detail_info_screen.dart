@@ -77,9 +77,9 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
 
   /// Handles navigation to edit screen
   void _navigateToEditScreen() {
-    Navigator.of(context).pushReplacementNamed(
-      CustomerDetailInfoEditScreen.routeName,
-    );
+    Navigator.of(
+      context,
+    ).pushReplacementNamed(CustomerDetailInfoEditScreen.routeName);
   }
 
   @override
@@ -127,10 +127,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
     return SizedBox(
       height: 200,
       child: Center(
-        child: SpinKitFadingCircle(
-          color: AppTheme.primary,
-          size: 50.0,
-        ),
+        child: SpinKitFadingCircle(color: AppTheme.primary, size: 50.0),
       ),
     );
   }
@@ -151,10 +148,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             const SizedBox(height: 16),
             Text(
               _errorMessage ?? 'An error occurred',
-              style: TextStyle(
-                color: context.colors.onSurface,
-                fontSize: 16,
-              ),
+              style: TextStyle(color: context.colors.onSurface, fontSize: 16),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -221,7 +215,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
 
   /// Builds the header section with title and edit button
   Widget _buildHeader(BuildContext context) {
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -230,7 +224,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.primary.withOpacity(0.1),
+                color: AppTheme.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Image.asset(
@@ -239,11 +233,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                 height: 24,
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) {
-                  return Icon(
-                    Icons.person,
-                    color: AppTheme.primary,
-                    size: 24,
-                  );
+                  return Icon(Icons.person, color: AppTheme.primary, size: 24);
                 },
               ),
             ),
@@ -367,9 +357,7 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
   }) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -380,14 +368,10 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: iconColor.withOpacity(0.1),
+                    color: iconColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(
-                    icon,
-                    color: iconColor,
-                    size: 20,
-                  ),
+                  child: Icon(icon, color: iconColor, size: 20),
                 ),
                 const SizedBox(width: 12),
                 Text(
@@ -415,15 +399,11 @@ class _InfoItem extends StatelessWidget {
   final String value;
   final IconData? icon;
 
-  const _InfoItem({
-    required this.title,
-    required this.value,
-    this.icon,
-  });
+  const _InfoItem({required this.title, required this.value, this.icon});
 
   @override
   Widget build(BuildContext context) {
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -433,11 +413,7 @@ class _InfoItem extends StatelessWidget {
           Row(
             children: [
               if (icon != null) ...[
-                Icon(
-                  icon,
-                  size: 16,
-                  color: context.appColors.subtitleColor,
-                ),
+                Icon(icon, size: 16, color: context.appColors.subtitleColor),
                 const SizedBox(width: 8),
               ],
               Text(
@@ -457,10 +433,7 @@ class _InfoItem extends StatelessWidget {
             decoration: BoxDecoration(
               color: context.appColors.cardBackground,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: context.appColors.divider,
-                width: 1,
-              ),
+              border: Border.all(color: context.appColors.divider, width: 1),
             ),
             child: Text(
               value.isEmpty ? context.l10n.valueNotAvailableLabel : value,

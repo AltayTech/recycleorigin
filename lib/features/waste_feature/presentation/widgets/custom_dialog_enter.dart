@@ -57,7 +57,7 @@ class CustomDialogEnter extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: context.appColors.info,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 16,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -67,7 +67,7 @@ class CustomDialogEnter extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: context.appColors.subtitleColor,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 14,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 14,
                 ),
               ),
               SizedBox(height: 24.0),
@@ -77,8 +77,9 @@ class CustomDialogEnter extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context)
-                          .popAndPushNamed(LoginScreen.routeName);
+                      Navigator.of(
+                        context,
+                      ).popAndPushNamed(LoginScreen.routeName);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.06,
@@ -94,7 +95,7 @@ class CustomDialogEnter extends StatelessWidget {
                             color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
                             fontSize:
-                                MediaQuery.of(context).textScaleFactor * 16,
+                                MediaQuery.textScalerOf(context).scale(1) * 16,
                           ),
                         ),
                       ),

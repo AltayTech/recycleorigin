@@ -6,10 +6,7 @@ import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
 class MessageItem extends StatelessWidget {
-  const MessageItem({
-    required this.message,
-    required this.bgColor,
-  });
+  const MessageItem({required this.message, required this.bgColor});
 
   final Message message;
   final Color bgColor;
@@ -17,8 +14,7 @@ class MessageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Card(
@@ -40,7 +36,8 @@ class MessageItem extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           EnArConvertor().replaceArNumber(
-                              '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}'),
+                            '${(DateTime.parse(message.comment_date)).year}/${(DateTime.parse(message.comment_date)).month}/${(DateTime.parse(message.comment_date)).day}',
+                          ),
                           style: TextStyle(
                             color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',
@@ -50,7 +47,8 @@ class MessageItem extends StatelessWidget {
                         ),
                         Text(
                           EnArConvertor().replaceArNumber(
-                              '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}:${(DateTime.parse(message.comment_date)).second}'),
+                            '${(DateTime.parse(message.comment_date)).hour}:${(DateTime.parse(message.comment_date)).minute}:${(DateTime.parse(message.comment_date)).second}',
+                          ),
                           style: TextStyle(
                             color: context.appColors.cardBackground,
                             //fontFamily: 'Iransans',

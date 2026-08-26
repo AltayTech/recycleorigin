@@ -64,17 +64,20 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
 
       for (int i = 0; i < shoppItems.length; i++) {
         shoppItems[i].price.isNotEmpty
-            ? totalPrice = totalPrice +
-                int.parse(shoppItems[i].price) * shoppItems[i].productCount
+            ? totalPrice =
+                  totalPrice +
+                  int.parse(shoppItems[i].price) * shoppItems[i].productCount
             : totalPrice = totalPrice;
-        productsList.add(ProductOrderSend(
-          product: shoppItems[i].id,
-          number: shoppItems[i].productCount.toString(),
-          total_price:
-              (shoppItems[i].productCount * int.parse(shoppItems[i].price))
-                  .toString(),
-          price: shoppItems[i].price,
-        ));
+        productsList.add(
+          ProductOrderSend(
+            product: shoppItems[i].id,
+            number: shoppItems[i].productCount.toString(),
+            total_price:
+                (shoppItems[i].productCount * int.parse(shoppItems[i].price))
+                    .toString(),
+            price: shoppItems[i].price,
+          ),
+        );
       }
     }
 
@@ -89,18 +92,17 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
     });
 
     orderRequest = OrderSendDetails(
-        total_number: totalNumber.toString(),
-        total_price: totalPrice.toString(),
-        products: productsList);
+      total_number: totalNumber.toString(),
+      total_price: totalPrice.toString(),
+      products: productsList,
+    );
 
     setState(() {
       _isLoading = false;
     });
   }
 
-  Future<void> sendRequest(
-    BuildContext context,
-  ) async {
+  Future<void> sendRequest(BuildContext context) async {
     setState(() {
       _isLoading = true;
     });
@@ -116,7 +118,7 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     Customer customer = context.read<CustomerInfoBloc>().customer;
@@ -148,10 +150,11 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                 child: Text(
                   'Pay ',
                   style: TextStyle(
-                      color: context.appColors.scaffoldBackground,
-                      //fontFamily: 'Iransans',
-                      fontSize: textScaleFactor * 22,
-                      fontWeight: FontWeight.bold),
+                    color: context.appColors.scaffoldBackground,
+                    //fontFamily: 'Iransans',
+                    fontSize: textScaleFactor * 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Positioned(
@@ -169,15 +172,18 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10),
-                                  topLeft: Radius.circular(10),
-                                ),
-                                color: AppTheme.primary),
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                              ),
+                              color: AppTheme.primary,
+                            ),
                             child: Center(
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 15.0, bottom: 15.0),
+                                  top: 15.0,
+                                  bottom: 15.0,
+                                ),
                                 child: Text(
                                   'Information',
                                   style: TextStyle(
@@ -192,10 +198,12 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: context.colors.onSurface,
-                                    width: 0.3),
-                                color: context.appColors.scaffoldBackground),
+                              border: Border.all(
+                                color: context.colors.onSurface,
+                                width: 0.3,
+                              ),
+                              color: context.appColors.scaffoldBackground,
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Column(
@@ -290,7 +298,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         ),
                                         Text(
                                           EnArConvertor().replaceArNumber(
-                                              customer.personalData.postcode),
+                                            customer.personalData.postcode,
+                                          ),
                                           style: TextStyle(
                                             color: context.colors.onSurface,
                                             //fontFamily: 'Iransans',
@@ -315,9 +324,10 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                                         ),
                                         Text(
                                           EnArConvertor().replaceArNumber(
-                                              (customer.personalData.mobile
-                                                      .toString())
-                                                  .toString()),
+                                            (customer.personalData.mobile
+                                                    .toString())
+                                                .toString(),
+                                          ),
                                           style: TextStyle(
                                             color: context.colors.onSurface,
                                             //fontFamily: 'Iransans',
@@ -334,37 +344,39 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Container(
-                                child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Total Price: ',
-                                    style: TextStyle(
-                                      color: context.appColors.subtitleColor,
-                                      //fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 14,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Total Price: ',
+                                      style: TextStyle(
+                                        color: context.appColors.subtitleColor,
+                                        //fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 14,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    EnArConvertor().replaceArNumber(
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      EnArConvertor().replaceArNumber(
                                         currencyFormat
                                             .format(totalPrice)
-                                            .toString()),
-                                    style: TextStyle(
-                                      color: context.colors.onSurface,
-                                      //fontFamily: 'Iransans',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: textScaleFactor * 22,
+                                            .toString(),
+                                      ),
+                                      style: TextStyle(
+                                        color: context.colors.onSurface,
+                                        //fontFamily: 'Iransans',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: textScaleFactor * 22,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            )),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -395,8 +407,9 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           },
                         ),
                       );
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(addToCartSnackBar);
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(addToCartSnackBar);
                     } else if (totalPrice > double.parse(customer.money)) {
                       final addToCartSnackBar = SnackBar(
                         content: Text(
@@ -414,8 +427,9 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           },
                         ),
                       );
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(addToCartSnackBar);
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(addToCartSnackBar);
                     } else {
                       await createRequest(context);
                       await sendRequest(context);
@@ -448,19 +462,20 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                 height: deviceHeight * 0.8,
                 width: deviceWidth,
                 child: Align(
-                    alignment: Alignment.center,
-                    child: _isLoading
-                        ? SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: context.appColors.subtitleColor,
-                                ),
-                              );
-                            },
-                          )
-                        : Container()),
+                  alignment: Alignment.center,
+                  child: _isLoading
+                      ? SpinKitFadingCircle(
+                          itemBuilder: (BuildContext context, int index) {
+                            return DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: context.appColors.subtitleColor,
+                              ),
+                            );
+                          },
+                        )
+                      : Container(),
+                ),
               ),
             ],
           ),

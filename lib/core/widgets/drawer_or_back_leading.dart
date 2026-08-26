@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recycleorigin/core/navigation/navigation_shell_scope.dart';
-import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 
 import 'package:recycleorigin/core/widgets/main_drawer.dart';
 

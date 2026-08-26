@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../business/entities/product.dart';
 import '../bloc/products_bloc.dart';
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
 import '../screens/product_detail_screen.dart';
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
@@ -12,9 +11,8 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 class ProductItemProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var heightDevice = MediaQuery.of(context).size.height;
     var widthDevice = MediaQuery.of(context).size.width;
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     final product = Provider.of<Product>(context, listen: false);
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
@@ -23,7 +21,8 @@ class ProductItemProductScreen extends StatelessWidget {
         return Text(
           product.price.isNotEmpty
               ? EnArConvertor().replaceArNumber(
-                  currencyFormat.format(double.parse(product.price)).toString())
+                  currencyFormat.format(double.parse(product.price)).toString(),
+                )
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
             //fontFamily: 'Iransans',
@@ -36,7 +35,8 @@ class ProductItemProductScreen extends StatelessWidget {
         return Text(
           product.price.isNotEmpty
               ? EnArConvertor().replaceArNumber(
-                  currencyFormat.format(double.parse(product.price)).toString())
+                  currencyFormat.format(double.parse(product.price)).toString(),
+                )
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
             //fontFamily: 'Iransans',
@@ -49,7 +49,8 @@ class ProductItemProductScreen extends StatelessWidget {
         return Text(
           product.price.isNotEmpty
               ? EnArConvertor().replaceArNumber(
-                  currencyFormat.format(double.parse(product.price)).toString())
+                  currencyFormat.format(double.parse(product.price)).toString(),
+                )
               : EnArConvertor().replaceArNumber('0'),
           style: TextStyle(
             //fontFamily: 'Iransans',
@@ -64,9 +65,11 @@ class ProductItemProductScreen extends StatelessWidget {
           children: <Widget>[
             Text(
               product.price.isNotEmpty
-                  ? EnArConvertor().replaceArNumber(currencyFormat
-                      .format(double.parse(product.price))
-                      .toString())
+                  ? EnArConvertor().replaceArNumber(
+                      currencyFormat
+                          .format(double.parse(product.price))
+                          .toString(),
+                    )
                   : EnArConvertor().replaceArNumber('0'),
               style: TextStyle(
                 decoration: TextDecoration.lineThrough,
@@ -77,9 +80,11 @@ class ProductItemProductScreen extends StatelessWidget {
             ),
             Text(
               product.price.isNotEmpty
-                  ? EnArConvertor().replaceArNumber(currencyFormat
-                      .format(double.parse(product.price))
-                      .toString())
+                  ? EnArConvertor().replaceArNumber(
+                      currencyFormat
+                          .format(double.parse(product.price))
+                          .toString(),
+                    )
                   : EnArConvertor().replaceArNumber('0'),
               style: TextStyle(
                 //fontFamily: 'Iransans',
@@ -87,7 +92,7 @@ class ProductItemProductScreen extends StatelessWidget {
                 color: context.colors.onSurface,
                 fontSize: textScaleFactor * 17.0,
               ),
-            )
+            ),
           ],
         );
       }
@@ -100,10 +105,9 @@ class ProductItemProductScreen extends StatelessWidget {
           return InkWell(
             onTap: () {
               context.read<ProductsBloc>().item = ProductsBloc.itemZero;
-              Navigator.of(context).pushNamed(
-                ProductDetailScreen.routeName,
-                arguments: product.id,
-              );
+              Navigator.of(
+                context,
+              ).pushNamed(ProductDetailScreen.routeName, arguments: product.id);
             },
             child: Card(
               elevation: 0.0,
@@ -121,10 +125,12 @@ class ProductItemProductScreen extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: FadeInImage(
-                                placeholder:
-                                    AssetImage('assets/images/circle.gif'),
+                                placeholder: AssetImage(
+                                  'assets/images/circle.gif',
+                                ),
                                 image: NetworkImage(
-                                    product.featured_image.sizes.medium),
+                                  product.featured_image.sizes.medium,
+                                ),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -139,8 +145,9 @@ class ProductItemProductScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                            ),
                             child: Text(
                               product.name,
                               maxLines: 2,
@@ -149,7 +156,7 @@ class ProductItemProductScreen extends StatelessWidget {
                               style: TextStyle(
                                 color: context.colors.onSurface,
                                 //fontFamily: 'Iransans',
-//                                fontWeight: FontWeight.w500,
+                                //                                fontWeight: FontWeight.w500,
                                 fontSize: textScaleFactor * 15.0,
                               ),
                             ),
@@ -159,9 +166,7 @@ class ProductItemProductScreen extends StatelessWidget {
                             children: <Widget>[
                               Spacer(),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 20,
-                                ),
+                                padding: const EdgeInsets.only(left: 20),
                                 child: Wrap(
                                   direction: Axis.vertical,
                                   crossAxisAlignment: WrapCrossAlignment.center,

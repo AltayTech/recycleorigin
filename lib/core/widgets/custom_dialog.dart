@@ -55,7 +55,7 @@ class CustomDialog extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: context.appColors.info,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 16,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -65,7 +65,7 @@ class CustomDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: context.appColors.subtitleColor,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 14,
+                  fontSize: MediaQuery.textScalerOf(context).scale(1) * 14,
                 ),
               ),
               SizedBox(height: 24.0),
@@ -91,7 +91,7 @@ class CustomDialog extends StatelessWidget {
                             color: context.appColors.onHeroForeground,
                             //fontFamily: 'Iransans',
                             fontSize:
-                                MediaQuery.of(context).textScaleFactor * 16,
+                                MediaQuery.textScalerOf(context).scale(1) * 16,
                           ),
                         ),
                       ),
