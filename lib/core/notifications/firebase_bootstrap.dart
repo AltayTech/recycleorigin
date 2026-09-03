@@ -1,5 +1,6 @@
 import 'dart:developer' as developer;
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
@@ -24,6 +25,7 @@ class FirebaseBootstrap {
     try {
       await Firebase.initializeApp();
       _initialized = true;
+      await _configureAuth();
     } catch (e, st) {
       _initialized = false;
       developer.log(
@@ -37,6 +39,33 @@ class FirebaseBootstrap {
         debugPrint('$st');
         return true;
       }());
+    }
+  }
+
+  /// Debug builds skip Play Integrity / reCAPTCHA so email-password can run
+  /// on emulators and unsigned-debug devices. Release pre-warms reCAPTCHA so
+  /// the first sign-in is less likely to fail the wrapper race.
+  static Future<void> _configureAuth() async {
+    try {
+      final auth = FirebaseAuth.instance;
+      if (kDebugMode) {
+        await auth.setSettings(appVerificationDisabledForTesting: true);
+        developer.log(
+          'Firebase Auth app verification disabled (debug)',
+          name: 'recycleorigin.firebase',
+        );
+        return;
+      }
+      await auth.initializeRecaptchaConfig().timeout(
+        const Duration(seconds: 10),
+      );
+    } catch (e, st) {
+      developer.log(
+        'Firebase Auth reCAPTCHA config skipped',
+        name: 'recycleorigin.firebase',
+        error: e,
+        stackTrace: st,
+      );
     }
   }
 }

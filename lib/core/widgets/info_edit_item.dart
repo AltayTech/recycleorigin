@@ -71,7 +71,8 @@ class InfoEditItem extends StatelessWidget {
                   keyboardType: keybordType,
                   readOnly: readOnly,
                   enableInteractiveSelection: !readOnly,
-                  validator: validator ??
+                  validator:
+                      validator ??
                       (String? value) {
                         if (value == null || value.isEmpty) {
                           return context.l10n.fieldRequiredValidation;
@@ -86,9 +87,8 @@ class InfoEditItem extends StatelessWidget {
                   ),
                   onFieldSubmitted: readOnly
                       ? null
-                      : (_) => FocusScope.of(context).requestFocus(
-                            newFocusNode,
-                          ),
+                      : (_) =>
+                            FocusScope.of(context).requestFocus(newFocusNode),
                   focusNode: thisFocusNode,
                   textInputAction: textInputAction ?? TextInputAction.next,
                   controller: controller,

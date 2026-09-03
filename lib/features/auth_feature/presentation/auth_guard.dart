@@ -31,11 +31,7 @@ bool requireVerifiedEmail(BuildContext context) {
 /// access. Otherwise it shows a placeholder and triggers a navigation
 /// (after the first frame) to the login or verify-email screen.
 class VerifiedAuthGate extends StatelessWidget {
-  const VerifiedAuthGate({
-    super.key,
-    required this.child,
-    this.fallback,
-  });
+  const VerifiedAuthGate({super.key, required this.child, this.fallback});
 
   final Widget child;
   final Widget? fallback;
@@ -55,14 +51,13 @@ class VerifiedAuthGate extends StatelessWidget {
           if (!state.isAuth) {
             Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
           } else {
-            Navigator.of(context)
-                .pushReplacementNamed(EmailVerificationScreen.routeName);
+            Navigator.of(
+              context,
+            ).pushReplacementNamed(EmailVerificationScreen.routeName);
           }
         });
         return fallback ??
-            const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            );
+            const Scaffold(body: Center(child: CircularProgressIndicator()));
       },
     );
   }

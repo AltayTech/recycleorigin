@@ -6,8 +6,8 @@ class MessagesState {
     List<Message>? allMessages,
     List<Message>? allMessagesDetail,
     this.token = '',
-  })  : allMessages = allMessages ?? const [],
-        allMessagesDetail = allMessagesDetail ?? const [];
+  }) : allMessages = allMessages ?? const [],
+       allMessagesDetail = allMessagesDetail ?? const [];
 
   final List<Message> allMessages;
   final List<Message> allMessagesDetail;

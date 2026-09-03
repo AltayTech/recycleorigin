@@ -54,9 +54,7 @@ class _MessageScreenState extends State<MessageScreen> {
 
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
   @override

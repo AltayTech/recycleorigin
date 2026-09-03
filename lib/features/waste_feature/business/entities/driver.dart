@@ -30,8 +30,9 @@ class Driver with ChangeNotifier {
       car_color: parsedJson['car_color'] != null
           ? Status.fromJson(parsedJson['car_color'])
           : Status(term_id: 0, name: '', slug: ''),
-      car_number:
-          parsedJson['car_number'] != null ? parsedJson['car_number'] : '',
+      car_number: parsedJson['car_number'] != null
+          ? parsedJson['car_number']
+          : '',
       driver_data: parsedJson['driver_data'] != null
           ? DriverData.fromJson(parsedJson['driver_data'])
           : DriverData(),
@@ -47,10 +48,6 @@ class Driver with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'car': car,
-      'car_color': car_color,
-      'driver_data': driver_data,
-    };
+    return {'car': car, 'car_color': car_color, 'driver_data': driver_data};
   }
 }

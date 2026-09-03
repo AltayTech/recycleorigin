@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
@@ -57,52 +56,11 @@ class OrderViewScreen extends StatefulWidget {
 
 class _OrderViewScreenState extends State<OrderViewScreen> {
   bool _isLoading = false;
-  bool _payIsActive = false;
   bool _isInit = true;
 
   late int orderId;
   List<Gallery> _imageList = [];
   late OrderDetails orderDetails;
-
-  Future<void> _launchURL(String urlString) async {
-    final Uri url = Uri.parse(urlString);
-    try {
-      if (!await launchUrl(url)) {
-        throw Exception('Could not launch $url');
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${context.l10n.couldNotOpenUrlPrefix}$urlString'),
-          backgroundColor: context.appColors.danger,
-        ),
-      );
-    }
-  }
-
-  Future<void> pay(int orderId) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      await context.read<CustomerInfoBloc>().payCashOrder(orderId);
-
-      final payUrl = await context.read<CustomerInfoBloc>().payUrl;
-      await _launchURL(payUrl);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${context.l10n.paymentFailedPrefix}${e.toString()}'),
-          backgroundColor: context.appColors.danger,
-        ),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
 
   @override
   void initState() {
@@ -130,10 +88,6 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
         _isLoading = false;
       });
     }
-  }
-
-  void checkStatus(OrderDetails oDt) {
-    _payIsActive = oDt.pay_status_slug == 'not_pay';
   }
 
   @override
@@ -170,80 +124,6 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     );
   }
 
-  Widget _buildPaymentButton(double deviceHeight) {
-    return InkWell(
-      onTap: () {
-        if (_payIsActive) {
-          pay(orderId);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'This payment option is not available',
-                style: TextStyle(
-                  color: context.appColors.cardBackground,
-                  //fontFamily: 'Iransans',
-                ),
-              ),
-              backgroundColor: context.appColors.warning,
-              action: SnackBarAction(
-                label: context.l10n.okLabel,
-                onPressed: () {},
-              ),
-            ),
-          );
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: deviceHeight * 0.08,
-          decoration: BoxDecoration(
-            color: _payIsActive
-                ? AppTheme.primary
-                : context.appColors.subtitleColor,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: context.appColors.subtitleColor,
-                blurRadius: 2.0,
-                spreadRadius: 1.50,
-                offset: Offset(1.0, 1.0),
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Icon(
-                  Icons.monetization_on,
-                  color: context.appColors.cardBackground,
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5.0, left: 10),
-                  child: Text(
-                    'Payment',
-                    style: TextStyle(
-                      color: context.appColors.cardBackground,
-                      //fontFamily: 'Iransans',
-                      fontSize:
-                          MediaQuery.textScalerOf(context).scale(1) * 16.0,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   String _formatPrice(String? price) {
     if (price == null || price.isEmpty) {
       return '0 \$';
@@ -268,7 +148,6 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     orderDetails = context.read<CustomerInfoBloc>().getOrder();
-    checkStatus(orderDetails);
 
     return Scaffold(
       appBar: AppBar(
@@ -579,7 +458,6 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
                                 );
                               },
                             ),
-                          _buildPaymentButton(deviceHeight),
                         ],
                       ),
                     ),

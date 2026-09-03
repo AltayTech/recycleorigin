@@ -36,7 +36,6 @@ void main() {
 
       expect(find.text('Wallet'), findsOneWidget);
       expect(find.text('Store'), findsOneWidget);
-      expect(find.text('Articles'), findsOneWidget);
     });
 
     testWidgets('tapping Wallet navigates toward wallet route', (tester) async {

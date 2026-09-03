@@ -125,8 +125,9 @@ class MockApiClient implements ApiClient {
     final sortedParams = Map.fromEntries(
       queryParameters.entries.toList()..sort((a, b) => a.key.compareTo(b.key)),
     );
-    final queryString =
-        sortedParams.entries.map((e) => '${e.key}=${e.value}').join('&');
+    final queryString = sortedParams.entries
+        .map((e) => '${e.key}=${e.value}')
+        .join('&');
     return '$path?$queryString';
   }
 }

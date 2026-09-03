@@ -219,12 +219,13 @@ class _CollectListScreenState extends State<CollectListScreen> {
               backgroundColor: AppTheme.primary,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
-            child: Text(context.l10n.login,
-                style: TextStyle(
-                  color: context.appColors.onHeroForeground,
-                )),
+            child: Text(
+              context.l10n.login,
+              style: TextStyle(color: context.appColors.onHeroForeground),
+            ),
           ),
         ],
       ),
@@ -237,11 +238,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: context.colors.error,
-            ),
+            Icon(Icons.error_outline, size: 64, color: context.colors.error),
             const SizedBox(height: 16),
             Text(
               context.l10n.somethingWentWrong,
@@ -257,14 +254,16 @@ class _CollectListScreenState extends State<CollectListScreen> {
                 Icons.refresh,
                 color: context.appColors.onHeroForeground,
               ),
-              label: Text(context.l10n.retryLabel,
-                  style: TextStyle(
-                    color: context.appColors.onHeroForeground,
-                  )),
+              label: Text(
+                context.l10n.retryLabel,
+                style: TextStyle(color: context.appColors.onHeroForeground),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primary,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
               ),
             ),
           ],
@@ -421,8 +420,9 @@ class _CollectListScreenState extends State<CollectListScreen> {
   Widget _buildToolbarSummary(BuildContext context, ThemeData theme) {
     final l10n = context.l10n;
     final colorScheme = theme.colorScheme;
-    final loaded =
-        EnArConvertor().replaceArNumber(_loadedRequests.length.toString());
+    final loaded = EnArConvertor().replaceArNumber(
+      _loadedRequests.length.toString(),
+    );
     final total = EnArConvertor().replaceArNumber(
       _searchDetail.total.toString(),
     );
@@ -453,17 +453,11 @@ class _CollectListScreenState extends State<CollectListScreen> {
           child: Text.rich(
             TextSpan(
               children: <InlineSpan>[
-                TextSpan(
-                  text: l10n.listCountSummaryPrefix,
-                  style: labelStyle,
-                ),
+                TextSpan(text: l10n.listCountSummaryPrefix, style: labelStyle),
                 TextSpan(text: ' ', style: labelStyle),
                 TextSpan(text: loaded, style: valueStyle),
                 TextSpan(text: ' \u00b7 ', style: sepStyle),
-                TextSpan(
-                  text: l10n.cartTotalSummaryPrefix,
-                  style: labelStyle,
-                ),
+                TextSpan(text: l10n.cartTotalSummaryPrefix, style: labelStyle),
                 TextSpan(text: ' ', style: labelStyle),
                 TextSpan(text: total, style: valueStyle),
               ],
@@ -524,8 +518,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
                 child: Text(
                   l10n.collectListSortSheetTitle,
                   style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               row(_CollectSortOption.dateDesc, l10n.collectListSortNewestFirst),
@@ -571,8 +565,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
                 child: Text(
                   l10n.collectListFilterSheetTitle,
                   style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               row('', l10n.collectListFilterAll),
@@ -597,10 +591,7 @@ class _CollectListScreenState extends State<CollectListScreen> {
     if (_isLoading && _loadedRequests.isEmpty) {
       return SliverFillRemaining(
         child: Center(
-          child: SpinKitFadingCircle(
-            color: AppTheme.primary,
-            size: 50.0,
-          ),
+          child: SpinKitFadingCircle(color: AppTheme.primary, size: 50.0),
         ),
       );
     }
@@ -631,29 +622,22 @@ class _CollectListScreenState extends State<CollectListScreen> {
     }
 
     return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          return Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-            child: ChangeNotifierProvider.value(
-              value: _loadedRequests[index],
-              child: CollectItemCollectsScreen(),
-            ),
-          );
-        },
-        childCount: _loadedRequests.length,
-      ),
+      delegate: SliverChildBuilderDelegate((context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+          child: ChangeNotifierProvider.value(
+            value: _loadedRequests[index],
+            child: CollectItemCollectsScreen(),
+          ),
+        );
+      }, childCount: _loadedRequests.length),
     );
   }
 }
 
 /// Filter icon with a small indicator when a filter is active (Material 3 cue).
 class _FilterIconWithDot extends StatelessWidget {
-  const _FilterIconWithDot({
-    required this.active,
-    required this.color,
-  });
+  const _FilterIconWithDot({required this.active, required this.color});
 
   final bool active;
   final Color color;
@@ -671,10 +655,7 @@ class _FilterIconWithDot extends StatelessWidget {
             child: Container(
               width: 8,
               height: 8,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-              ),
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
             ),
           ),
       ],

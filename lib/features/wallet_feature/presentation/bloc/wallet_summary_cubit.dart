@@ -12,19 +12,12 @@ class WalletSummaryCubit extends Cubit<WalletSummaryState> {
   Future<void> load({required bool isAuthenticated}) async {
     if (!isAuthenticated) {
       emit(
-        const WalletSummaryState(
-          status: WalletSummaryStatus.notAuthenticated,
-        ),
+        const WalletSummaryState(status: WalletSummaryStatus.notAuthenticated),
       );
       return;
     }
 
-    emit(
-      state.copyWith(
-        status: WalletSummaryStatus.loading,
-        clearError: true,
-      ),
-    );
+    emit(state.copyWith(status: WalletSummaryStatus.loading, clearError: true));
 
     final result = await _repository.fetchWallet();
     switch (result) {

@@ -70,9 +70,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
       _selectedDay = wastesProvider.selectedDay;
       _selectedAddress = authProvider.selectedAddress;
 
-      await authProvider.retrieveRegion(
-        _selectedAddress.region.term_id,
-      );
+      await authProvider.retrieveRegion(_selectedAddress.region.term_id);
       await authProvider.checkCompleted();
 
       _wasteCartItems = wastesProvider.wasteCartItems;
@@ -90,9 +88,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 
     for (var item in _wasteCartItems) {
       if (item.prices.isNotEmpty) {
-        int price = int.parse(
-          _getPrice(item.prices, item.weight),
-        );
+        int price = int.parse(_getPrice(item.prices, item.weight));
         _totalPrice += price * item.weight;
         _totalWeight += item.weight;
       }
@@ -125,10 +121,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
     ).format(_selectedDay);
 
     _requestWaste = RequestWaste(
-      collect_date: CollectTime(
-        time: _selectedHours,
-        day: formattedDate,
-      ),
+      collect_date: CollectTime(time: _selectedHours, day: formattedDate),
       address_data: RequestAddress(
         name: _selectedAddress.name,
         address: _selectedAddress.address,
@@ -162,9 +155,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
           title: l10n.login,
           buttonText: l10n.goToLoginScreenButton,
           description: l10n.loginToContinueShort,
-          image: Image.asset(
-            'assets/images/main_page_request_ic.png',
-          ),
+          image: Image.asset('assets/images/main_page_request_ic.png'),
         ),
       );
       return;
@@ -181,10 +172,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
     setState(() => _isSending = true);
     try {
       await _createRequest();
-      await context.read<WastesBloc>().sendRequest(
-            _requestWaste,
-            isLogin,
-          );
+      await context.read<WastesBloc>().sendRequest(_requestWaste, isLogin);
 
       if (!mounted) return;
 
@@ -205,9 +193,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              '${l10n.failedSendRequestPrefix}$e',
-            ),
+            content: Text('${l10n.failedSendRequestPrefix}$e'),
             backgroundColor: context.colors.error,
             behavior: SnackBarBehavior.floating,
           ),
@@ -224,9 +210,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
     return showModalBottomSheet<bool>(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(24),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (ctx) => Padding(
         padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
@@ -284,9 +268,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      side: BorderSide(
-                        color: context.colors.outline,
-                      ),
+                      side: BorderSide(color: context.colors.outline),
                     ),
                     child: Text(
                       l10n.cancelLabel,
@@ -303,18 +285,14 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                     onPressed: () => Navigator.of(ctx).pop(true),
                     style: FilledButton.styleFrom(
                       backgroundColor: AppTheme.primary,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 14,
-                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     child: Text(
                       l10n.confirmLabel,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
@@ -327,10 +305,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
   }
 
   void _showDialog(Widget dialog) {
-    showDialog(
-      context: context,
-      builder: (ctx) => dialog,
-    );
+    showDialog(context: context, builder: (ctx) => dialog);
   }
 
   @override
@@ -349,18 +324,13 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: const IconThemeData(
-          color: AppTheme.appBarIconColor,
-        ),
+        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
         elevation: 0,
       ),
       drawer: mainDrawerIfRootRoute(context),
       body: _isLoading
           ? Center(
-              child: SpinKitFadingCircle(
-                color: AppTheme.primary,
-                size: 50.0,
-              ),
+              child: SpinKitFadingCircle(color: AppTheme.primary, size: 50.0),
             )
           : SafeArea(
               child: Column(
@@ -403,9 +373,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
                           const SizedBox(height: 12),
                           ..._wasteCartItems.map(
                             (item) => Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 10,
-                              ),
+                              padding: const EdgeInsets.only(bottom: 10),
                               child: _WasteItemReviewTile(
                                 item: item,
                                 getPrice: _getPrice,
@@ -462,10 +430,7 @@ class _WasteRequestSendScreenState extends State<WasteRequestSendScreen> {
 }
 
 class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({
-    required this.icon,
-    required this.label,
-  });
+  const _SectionTitle({required this.icon, required this.label});
 
   final IconData icon;
   final String label;
@@ -532,9 +497,7 @@ class _OrderSummaryCard extends StatelessWidget {
             icon: Icons.monetization_on_rounded,
             iconColor: AppTheme.iconAccentGold,
             label: l10n.totalPriceFieldLabel,
-            value: converter.replaceArNumber(
-              fmt.format(totalPrice),
-            ),
+            value: converter.replaceArNumber(fmt.format(totalPrice)),
             suffix: l10n.parentheticalUsd,
           ),
           Divider(height: 20, color: context.appColors.divider),
@@ -542,9 +505,7 @@ class _OrderSummaryCard extends StatelessWidget {
             icon: Icons.scale_rounded,
             iconColor: AppTheme.iconAccentPurple,
             label: l10n.totalWeightFieldLabel,
-            value: converter.replaceArNumber(
-              totalWeight.toString(),
-            ),
+            value: converter.replaceArNumber(totalWeight.toString()),
             suffix: l10n.parentheticalKg,
           ),
         ],
@@ -762,10 +723,7 @@ class _DetailRow extends StatelessWidget {
 }
 
 class _WasteItemReviewTile extends StatelessWidget {
-  const _WasteItemReviewTile({
-    required this.item,
-    required this.getPrice,
-  });
+  const _WasteItemReviewTile({required this.item, required this.getPrice});
 
   final WasteCart item;
   final String Function(List<PriceWeight>, int) getPrice;
@@ -804,9 +762,7 @@ class _WasteItemReviewTile extends StatelessWidget {
               placeholder: const AssetImage(
                 'assets/images/main_page_request_ic.png',
               ),
-              image: NetworkImage(
-                item.featured_image.sizes.medium,
-              ),
+              image: NetworkImage(item.featured_image.sizes.medium),
               fit: BoxFit.cover,
               imageErrorBuilder: (_, __, ___) => Icon(
                 Icons.recycling_rounded,
@@ -878,10 +834,7 @@ class _StepProgressBar extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 14,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
       decoration: BoxDecoration(
         color: context.appColors.cardBackground,
         boxShadow: [
@@ -899,9 +852,7 @@ class _StepProgressBar extends StatelessWidget {
             return Expanded(
               child: Container(
                 height: 2,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 4,
-                ),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
                 decoration: BoxDecoration(
                   color: stepBefore < currentStep
                       ? AppTheme.primary
@@ -927,14 +878,11 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? AppTheme.primary
                       : isActive
-                          ? AppTheme.primary.withValues(alpha: 0.12)
-                          : context.appColors.divider,
+                      ? AppTheme.primary.withValues(alpha: 0.12)
+                      : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
-                      ? Border.all(
-                          color: AppTheme.primary,
-                          width: 2,
-                        )
+                      ? Border.all(color: AppTheme.primary, width: 2)
                       : null,
                 ),
                 child: Icon(
@@ -943,8 +891,8 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? context.appColors.onHeroForeground
                       : isActive
-                          ? AppTheme.primary
-                          : context.colors.onSurfaceVariant,
+                      ? AppTheme.primary
+                      : context.colors.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 4),

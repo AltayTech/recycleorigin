@@ -36,9 +36,7 @@ class _AddressItemState extends State<AddressItem>
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         icon: Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
@@ -58,10 +56,7 @@ class _AddressItemState extends State<AddressItem>
         content: Text(
           ctx.l10n.removeAddressConfirmation,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: context.appColors.subtitleColor,
-            height: 1.4,
-          ),
+          style: TextStyle(color: context.appColors.subtitleColor, height: 1.4),
         ),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
@@ -168,8 +163,9 @@ class _AddressItemState extends State<AddressItem>
               : context.appColors.cardBackground,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color:
-                widget.isSelected ? AppTheme.primary : context.colors.outline,
+            color: widget.isSelected
+                ? AppTheme.primary
+                : context.colors.outline,
             width: widget.isSelected ? 2 : 1,
           ),
           boxShadow: [
@@ -227,9 +223,7 @@ class _AddressItemState extends State<AddressItem>
                           ],
                         ),
                         const SizedBox(height: 8),
-                        _RegionBadge(
-                          name: widget.addressItem.region.name,
-                        ),
+                        _RegionBadge(name: widget.addressItem.region.name),
                         const SizedBox(height: 8),
                         Row(
                           children: [

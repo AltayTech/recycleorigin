@@ -231,10 +231,6 @@ class _WasteCartItemAnimatedListState extends State<WasteCartItemAnimatedList>
                                               if (productWeight > 1) {
                                                 productWeight =
                                                     productWeight - 1;
-                                                print(
-                                                  'productCount' +
-                                                      productWeight.toString(),
-                                                );
 
                                                 context
                                                     .read<WastesBloc>()

@@ -101,10 +101,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
     }
   }
 
-  String _getPriceForWeight(
-    List<PriceWeight> prices,
-    int weight,
-  ) {
+  String _getPriceForWeight(List<PriceWeight> prices, int weight) {
     String price = '0';
     for (var p in prices) {
       if (weight > int.parse(p.weight)) {
@@ -149,9 +146,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
   List<CollectHour> _hoursForSelectedDay() {
     return (selectedRegion?.collect_hour ?? <CollectHour>[])
         .where((h) => h.collect_hour_status)
-        .where(
-          (h) => CollectHourSchedule.appliesOnDay(h, _selectedDay),
-        )
+        .where((h) => CollectHourSchedule.appliesOnDay(h, _selectedDay))
         .toList();
   }
 
@@ -233,9 +228,7 @@ class _WasteRequestDateScreenState extends State<WasteRequestDateScreen> {
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppTheme.appBarColor,
-        iconTheme: const IconThemeData(
-          color: AppTheme.appBarIconColor,
-        ),
+        iconTheme: const IconThemeData(color: AppTheme.appBarIconColor),
       ),
       drawer: mainDrawerIfRootRoute(context),
       body: SafeArea(
@@ -334,17 +327,11 @@ class _SelectedTimeConfirmation extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppTheme.primary.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppTheme.primary.withValues(alpha: 0.15),
-        ),
+        border: Border.all(color: AppTheme.primary.withValues(alpha: 0.15)),
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.check_circle_rounded,
-            color: AppTheme.primary,
-            size: 20,
-          ),
+          Icon(Icons.check_circle_rounded, color: AppTheme.primary, size: 20),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -385,10 +372,7 @@ class _StepProgressBar extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 14,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
       decoration: BoxDecoration(
         color: context.appColors.cardBackground,
         boxShadow: [
@@ -406,9 +390,7 @@ class _StepProgressBar extends StatelessWidget {
             return Expanded(
               child: Container(
                 height: 2,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 4,
-                ),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
                 decoration: BoxDecoration(
                   color: stepBefore < currentStep
                       ? AppTheme.primary
@@ -434,14 +416,11 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? AppTheme.primary
                       : isActive
-                          ? AppTheme.primary.withValues(alpha: 0.12)
-                          : context.appColors.divider,
+                      ? AppTheme.primary.withValues(alpha: 0.12)
+                      : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
-                      ? Border.all(
-                          color: AppTheme.primary,
-                          width: 2,
-                        )
+                      ? Border.all(color: AppTheme.primary, width: 2)
                       : null,
                 ),
                 child: Icon(
@@ -450,8 +429,8 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? context.appColors.onHeroForeground
                       : isActive
-                          ? AppTheme.primary
-                          : context.colors.onSurfaceVariant,
+                      ? AppTheme.primary
+                      : context.colors.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 4),

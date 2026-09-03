@@ -33,9 +33,7 @@ class _AuthCardState extends State<AuthCard> {
   bool _isLoading = false;
   bool _obscurePassword = true;
 
-  static final RegExp _emailRegex = RegExp(
-    r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
-  );
+  static final RegExp _emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   void _showErrorDialog(String message, {String? detail}) {
     final l10n = context.l10n;
@@ -46,11 +44,7 @@ class _AuthCardState extends State<AuthCard> {
         final scheme = Theme.of(ctx).colorScheme;
         final bodySmall = Theme.of(ctx).textTheme.bodySmall;
         return AlertDialog(
-          icon: Icon(
-            Icons.error_outline,
-            color: scheme.error,
-            size: 32,
-          ),
+          icon: Icon(Icons.error_outline, color: scheme.error, size: 32),
           title: Text(l10n.authProblemTitle),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -111,9 +105,9 @@ class _AuthCardState extends State<AuthCard> {
           _showErrorDialog(l10n.authGenericError);
           return;
         }
-        Navigator.of(context).pushReplacementNamed(
-          EmailVerificationScreen.routeName,
-        );
+        Navigator.of(
+          context,
+        ).pushReplacementNamed(EmailVerificationScreen.routeName);
       }
     } on AuthException catch (error) {
       if (!mounted) return;
@@ -163,13 +157,14 @@ class _AuthCardState extends State<AuthCard> {
 
   void _routePostLogin(bool emailVerified) {
     if (!emailVerified) {
-      Navigator.of(context).pushReplacementNamed(
-        EmailVerificationScreen.routeName,
-      );
+      Navigator.of(
+        context,
+      ).pushReplacementNamed(EmailVerificationScreen.routeName);
       return;
     }
-    Navigator.of(context)
-        .pushReplacementNamed(NavigationBottomScreen.routeName);
+    Navigator.of(
+      context,
+    ).pushReplacementNamed(NavigationBottomScreen.routeName);
   }
 
   String _mapAuthException(AuthException error, AppLocalizations l10n) {
@@ -256,8 +251,9 @@ class _AuthCardState extends State<AuthCard> {
   void _toggleMode() {
     FocusScope.of(context).unfocus();
     setState(() {
-      _authMode =
-          _authMode == AuthMode.login ? AuthMode.registration : AuthMode.login;
+      _authMode = _authMode == AuthMode.login
+          ? AuthMode.registration
+          : AuthMode.login;
     });
   }
 
@@ -488,9 +484,9 @@ class _AuthCardState extends State<AuthCard> {
                     child: TextButton(
                       onPressed: _isLoading
                           ? null
-                          : () => Navigator.of(context).pushNamed(
-                                ForgotPasswordScreen.routeName,
-                              ),
+                          : () => Navigator.of(
+                              context,
+                            ).pushNamed(ForgotPasswordScreen.routeName),
                       child: Text(l10n.authForgotPasswordLink),
                     ),
                   ),
@@ -538,7 +534,8 @@ class _AuthCardState extends State<AuthCard> {
                       child: Text(
                         l10n.authOrDivider,
                         style: textTheme.bodySmall?.copyWith(
-                          color: ext?.subtitleColor ??
+                          color:
+                              ext?.subtitleColor ??
                               colorScheme.onSurfaceVariant,
                         ),
                       ),

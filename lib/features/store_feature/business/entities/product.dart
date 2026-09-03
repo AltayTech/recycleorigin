@@ -30,14 +30,15 @@ class Product with ChangeNotifier {
     featured_image,
     this.gallery = const [],
     status,
-  })  : this.status = Status(term_id: 0, name: '', slug: ''),
-        this.featured_image = FeaturedImage(sizes: Sizes()),
-        this.category = Category(term_id: 0, name: '', slug: '');
+  }) : this.status = Status(term_id: 0, name: '', slug: ''),
+       this.featured_image = FeaturedImage(sizes: Sizes()),
+       this.category = Category(term_id: 0, name: '', slug: '');
 
   factory Product.fromJson(Map<String, dynamic> parsedJson) {
     var galleryList = parsedJson['gallery'] as List;
-    List<FeaturedImage> galleryRaw =
-        galleryList.map((i) => FeaturedImage.fromJson(i)).toList();
+    List<FeaturedImage> galleryRaw = galleryList
+        .map((i) => FeaturedImage.fromJson(i))
+        .toList();
 
     return Product(
       id: parsedJson['id'],

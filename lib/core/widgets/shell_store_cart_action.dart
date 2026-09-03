@@ -14,7 +14,8 @@ class ShellStoreCartAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onAppBar = Theme.of(context).appBarTheme.foregroundColor ??
+    final onAppBar =
+        Theme.of(context).appBarTheme.foregroundColor ??
         context.appColors.onHeroForeground;
 
     return BlocBuilder<ProductsBloc, ProductsState>(

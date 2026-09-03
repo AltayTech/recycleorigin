@@ -8,11 +8,7 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 
 class ClearingItemClearScreen extends StatelessWidget {
   String removeSemicolon(String rawString) {
-    print(rawString);
-
-    String newvalue = rawString.replaceAll(',', '');
-
-    return newvalue;
+    return rawString.replaceAll(',', '');
   }
 
   @override

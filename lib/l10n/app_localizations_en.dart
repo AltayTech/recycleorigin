@@ -60,14 +60,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wallet => 'Wallet';
 
   @override
-  String get articles => 'Articles';
-
-  @override
-  String get forarticles =>
-      'In order to get profile information go to profile section';
-
-  @override
   String get store => 'Store';
+
+  @override
+  String get comingSoonTitle => 'Coming soon';
+
+  @override
+  String get storeComingSoonMessage =>
+      'The store is coming soon. You can still request pickups and use your wallet.';
 
   @override
   String get profile => 'Profile';
@@ -132,9 +132,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appInformationSectionTitle => 'App information';
-
-  @override
-  String get charities => 'Charities';
 
   @override
   String get cards => 'Cards';
@@ -644,14 +641,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get walletNoTransactionsYet => 'No transactions yet';
 
   @override
-  String get walletWithdrawRequestButton => 'Withdraw request';
+  String get walletWithdrawRequestButton => 'Payout request';
 
   @override
-  String get clearingPayTitle => 'Pay';
+  String get clearingPayTitle => 'Payout request';
+
+  @override
+  String get clearingPayoutStaffHandledHint =>
+      'This submits a payout request for staff to process. It is not an instant bank transfer.';
 
   @override
   String get clearingRequestRegisteredSuccess =>
-      'Your request was registered successfully.';
+      'Your payout request was registered successfully.';
 
   @override
   String get walletCreditUsdLabel => 'Credit (\$)';
@@ -897,9 +898,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get customerOrderNumberPrefix => 'Order no.:';
-
-  @override
-  String get articleNoContentMessage => 'No content available';
 
   @override
   String get collectRequestListAppBarTitle => 'Request list';

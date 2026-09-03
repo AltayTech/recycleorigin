@@ -43,10 +43,9 @@ class _WasteCartItemState extends State<WasteCartItem> {
   }
 
   int get _unitPrice =>
-      int.tryParse(_getPrice(
-        widget.wasteItem.prices,
-        widget.wasteItem.weight,
-      )) ??
+      int.tryParse(
+        _getPrice(widget.wasteItem.prices, widget.wasteItem.weight),
+      ) ??
       0;
 
   int get _totalPrice => _unitPrice * widget.wasteItem.weight;
@@ -61,9 +60,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(ctx.l10n.removeItemTitle),
         content: Text(ctx.l10n.removeItemConfirmation),
         actions: [
@@ -87,10 +84,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
     if (newWeight < 1) return;
 
     HapticFeedback.lightImpact();
-    context.read<WastesBloc>().updateWasteCart(
-          widget.wasteItem,
-          newWeight,
-        );
+    context.read<WastesBloc>().updateWasteCart(widget.wasteItem, newWeight);
     widget.function();
   }
 
@@ -112,8 +106,11 @@ class _WasteCartItemState extends State<WasteCartItem> {
           color: context.appColors.danger,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Icon(Icons.delete_outline,
-            color: context.appColors.cardBackground, size: 28),
+        child: Icon(
+          Icons.delete_outline,
+          color: context.appColors.cardBackground,
+          size: 28,
+        ),
       ),
       child: AnimatedOpacity(
         opacity: _isRemoving ? 0.4 : 1.0,
@@ -166,8 +163,9 @@ class _WasteCartItemState extends State<WasteCartItem> {
                           Text(
                             '\$',
                             style: TextStyle(
-                              color: context.appColors.subtitleColor
-                                  .withValues(alpha: 0.6),
+                              color: context.appColors.subtitleColor.withValues(
+                                alpha: 0.6,
+                              ),
                               fontSize: 11,
                             ),
                           ),
@@ -186,9 +184,7 @@ class _WasteCartItemState extends State<WasteCartItem> {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            converter.replaceArNumber(
-                              fmt.format(_totalPrice),
-                            ),
+                            converter.replaceArNumber(fmt.format(_totalPrice)),
                             style: TextStyle(
                               color: AppTheme.primary,
                               fontSize: 16,
@@ -307,10 +303,7 @@ class _QuantityStepper extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _StepperButton(
-            icon: Icons.add_rounded,
-            onTap: onIncrement,
-          ),
+          _StepperButton(icon: Icons.add_rounded, onTap: onIncrement),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6),
             child: Text(

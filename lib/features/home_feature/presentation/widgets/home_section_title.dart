@@ -5,11 +5,7 @@ import '../../../../core/theme/theme_context_extensions.dart';
 
 /// Section heading for dashboard blocks.
 class HomeSectionTitle extends StatelessWidget {
-  const HomeSectionTitle({
-    super.key,
-    required this.title,
-    this.trailing,
-  });
+  const HomeSectionTitle({super.key, required this.title, this.trailing});
 
   final String title;
   final Widget? trailing;
@@ -29,9 +25,9 @@ class HomeSectionTitle extends StatelessWidget {
             child: Text(
               title,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: context.colors.onSurface,
-                  ),
+                fontWeight: FontWeight.w800,
+                color: context.colors.onSurface,
+              ),
             ),
           ),
           if (trailing != null) trailing!,

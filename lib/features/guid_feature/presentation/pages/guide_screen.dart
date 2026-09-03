@@ -68,13 +68,19 @@ class _GuideScreenState extends State<GuideScreen> {
     final l10n = context.l10n;
     return <_GuideSection>[
       _GuideSection(
-          title: l10n.sectionReturnPolicyTitle, html: shop.return_policy),
+        title: l10n.sectionReturnPolicyTitle,
+        html: shop.return_policy,
+      ),
       _GuideSection(title: l10n.sectionPrivacyTitle, html: shop.privacy),
       _GuideSection(
-          title: l10n.sectionHowToOrderTitle, html: shop.how_to_order),
+        title: l10n.sectionHowToOrderTitle,
+        html: shop.how_to_order,
+      ),
       _GuideSection(title: l10n.sectionFaqTitle, html: shop.faq),
       _GuideSection(
-          title: l10n.sectionPaymentMethodsTitle, html: shop.pay_methods_desc),
+        title: l10n.sectionPaymentMethodsTitle,
+        html: shop.pay_methods_desc,
+      ),
     ];
   }
 
@@ -106,11 +112,7 @@ class _GuideScreenState extends State<GuideScreen> {
     );
   }
 
-  Widget _buildBody(
-    BuildContext context,
-    Shop shop,
-    double textScale,
-  ) {
+  Widget _buildBody(BuildContext context, Shop shop, double textScale) {
     if (_loading) {
       return Center(
         child: SpinKitFadingCircle(
@@ -126,8 +128,11 @@ class _GuideScreenState extends State<GuideScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(Icons.wifi_off_rounded,
-                  size: 48, color: context.appColors.subtitleColor),
+              Icon(
+                Icons.wifi_off_rounded,
+                size: 48,
+                color: context.appColors.subtitleColor,
+              ),
               const SizedBox(height: 16),
               Text(
                 context.l10n.guideTitle,
@@ -138,8 +143,9 @@ class _GuideScreenState extends State<GuideScreen> {
               Text(
                 _errorMessage!,
                 style: TextStyle(
-                    color: context.appColors.subtitleColor,
-                    fontSize: textScale * 13),
+                  color: context.appColors.subtitleColor,
+                  fontSize: textScale * 13,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
@@ -184,8 +190,11 @@ class _GuideScreenState extends State<GuideScreen> {
                 ),
               )
             else
-              Icon(Icons.recycling_rounded,
-                  size: 64, color: context.appColors.scaffoldBackground),
+              Icon(
+                Icons.recycling_rounded,
+                size: 64,
+                color: context.appColors.scaffoldBackground,
+              ),
             const SizedBox(height: 16),
             Text(
               shop.name.isNotEmpty ? shop.name : context.l10n.guideTitle,
@@ -230,7 +239,8 @@ class _GuideScreenState extends State<GuideScreen> {
                               ? Text(
                                   '—',
                                   style: TextStyle(
-                                      color: context.appColors.subtitleColor),
+                                    color: context.appColors.subtitleColor,
+                                  ),
                                 )
                               : HtmlWidget(
                                   s.html,

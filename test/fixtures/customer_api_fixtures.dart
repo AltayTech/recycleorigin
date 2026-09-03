@@ -8,11 +8,7 @@ Map<String, dynamic> sampleCustomerJson({
   return <String, dynamic>{
     'id': id,
     'money': '99.50',
-    'status': <String, dynamic>{
-      'term_id': 1,
-      'name': 'ok',
-      'slug': 'ok',
-    },
+    'status': <String, dynamic>{'term_id': 1, 'name': 'ok', 'slug': 'ok'},
     'customer_type': <String, dynamic>{
       'term_id': 2,
       'name': 'individual',

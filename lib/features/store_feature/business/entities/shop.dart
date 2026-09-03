@@ -48,9 +48,9 @@ class Shop with ChangeNotifier {
     featured_image,
     this.gallery = const [],
     this.policy = '',
-  })  : this.logo = FeaturedImage(sizes: Sizes()),
-        this.featured_image = FeaturedImage(sizes: Sizes()),
-        this.social_media = SocialMedia(telegram: '', instagram: '');
+  }) : this.logo = FeaturedImage(sizes: Sizes()),
+       this.featured_image = FeaturedImage(sizes: Sizes()),
+       this.social_media = SocialMedia(telegram: '', instagram: '');
 
   factory Shop.fromJson(Map<String, dynamic> parsedJson) {
     final galleryList = parsedJson['gallery'];

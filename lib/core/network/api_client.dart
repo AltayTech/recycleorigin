@@ -187,21 +187,22 @@ class ApiClient {
     T Function(dynamic)? parser,
   }) async {
     try {
-      final response = await _dio.get(
-        path,
-        queryParameters: queryParameters,
-      );
+      final response = await _dio.get(path, queryParameters: queryParameters);
       if (response.statusCode == 200) {
-        final data =
-            parser != null ? parser(response.data) : response.data as T;
+        final data = parser != null
+            ? parser(response.data)
+            : response.data as T;
         return Success(data);
       }
       return Failure('Request failed with status ${response.statusCode}');
     } on DioException catch (e) {
       return _handleDioError(e);
     } catch (e, stackTrace) {
-      AppLogger.error('Unexpected error in GET request',
-          error: e, stackTrace: stackTrace);
+      AppLogger.error(
+        'Unexpected error in GET request',
+        error: e,
+        stackTrace: stackTrace,
+      );
       return Failure('An unexpected error occurred: ${e.toString()}');
     }
   }
@@ -219,16 +220,20 @@ class ApiClient {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final result =
-            parser != null ? parser(response.data) : response.data as T;
+        final result = parser != null
+            ? parser(response.data)
+            : response.data as T;
         return Success(result);
       }
       return Failure('Request failed with status ${response.statusCode}');
     } on DioException catch (e) {
       return _handleDioError(e);
     } catch (e, stackTrace) {
-      AppLogger.error('Unexpected error in POST request',
-          error: e, stackTrace: stackTrace);
+      AppLogger.error(
+        'Unexpected error in POST request',
+        error: e,
+        stackTrace: stackTrace,
+      );
       return Failure('An unexpected error occurred: ${e.toString()}');
     }
   }
@@ -241,16 +246,20 @@ class ApiClient {
     try {
       final response = await _dio.put(path, data: data);
       if (response.statusCode == 200 || response.statusCode == 204) {
-        final result =
-            parser != null ? parser(response.data) : response.data as T;
+        final result = parser != null
+            ? parser(response.data)
+            : response.data as T;
         return Success(result);
       }
       return Failure('Request failed with status ${response.statusCode}');
     } on DioException catch (e) {
       return _handleDioError(e);
     } catch (e, stackTrace) {
-      AppLogger.error('Unexpected error in PUT request',
-          error: e, stackTrace: stackTrace);
+      AppLogger.error(
+        'Unexpected error in PUT request',
+        error: e,
+        stackTrace: stackTrace,
+      );
       return Failure('An unexpected error occurred: ${e.toString()}');
     }
   }
@@ -271,8 +280,11 @@ class ApiClient {
     } on DioException catch (e) {
       return _handleDioError(e);
     } catch (e, stackTrace) {
-      AppLogger.error('Unexpected error in DELETE request',
-          error: e, stackTrace: stackTrace);
+      AppLogger.error(
+        'Unexpected error in DELETE request',
+        error: e,
+        stackTrace: stackTrace,
+      );
       return Failure('An unexpected error occurred: ${e.toString()}');
     }
   }
@@ -283,7 +295,8 @@ class ApiClient {
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
         return const Failure(
-            'Connection timeout. Please check your internet connection.');
+          'Connection timeout. Please check your internet connection.',
+        );
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         if (statusCode == 401) {
@@ -301,7 +314,8 @@ class ApiClient {
       case DioExceptionType.unknown:
         if (error.error?.toString().contains('SocketException') == true) {
           return const Failure(
-              'No internet connection. Please check your network.');
+            'No internet connection. Please check your network.',
+          );
         }
         return Failure('Network error: ${error.message}');
       default:

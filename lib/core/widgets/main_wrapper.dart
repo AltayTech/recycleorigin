@@ -60,10 +60,7 @@ class MainWrapper extends StatelessWidget {
           ),
 
           // height: height,
-          child: PageView(
-            controller: pageController,
-            children: pageViewWidget,
-          ),
+          child: PageView(controller: pageController, children: pageViewWidget),
         ),
       ),
     );

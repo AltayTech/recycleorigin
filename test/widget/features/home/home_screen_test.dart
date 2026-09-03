@@ -22,10 +22,7 @@ void main() {
       );
 
       await tester.pumpWidget(
-        RecycleOriginApp(
-          apiClient: mock,
-          home: const HomeScreen(),
-        ),
+        RecycleOriginApp(apiClient: mock, home: const HomeScreen()),
       );
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 800));

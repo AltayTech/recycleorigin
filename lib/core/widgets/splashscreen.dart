@@ -69,14 +69,16 @@ class _SplashScreenState extends State<SplashScreen> {
     final loaderColor = widget.loaderColor ?? colors.primary;
     final backgroundColor =
         widget.backgroundColor ?? appColors.scaffoldBackground;
-    final gradientBackground = widget.gradientBackground ??
+    final gradientBackground =
+        widget.gradientBackground ??
         LinearGradient(
           colors: [
             appColors.scaffoldBackground,
             appColors.scaffoldBackground.withValues(alpha: 0.92),
           ],
         );
-    final textStyle = widget.styleTextUnderTheLoader ??
+    final textStyle =
+        widget.styleTextUnderTheLoader ??
         TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
@@ -112,9 +114,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         height: MediaQuery.of(context).size.width * 0.8,
                         child: widget.image,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10),
-                      ),
+                      const Padding(padding: EdgeInsets.only(top: 10)),
                       widget.title,
                     ],
                   ),
@@ -136,9 +136,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           );
                         },
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 20),
-                      ),
+                      const Padding(padding: EdgeInsets.only(top: 20)),
                       DefaultTextStyle(
                         style: textStyle,
                         child: widget.loadingText,

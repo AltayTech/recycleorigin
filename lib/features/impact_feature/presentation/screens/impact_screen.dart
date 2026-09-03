@@ -146,9 +146,9 @@ class _ImpactHeroCard extends StatelessWidget {
           Text(
             l10n.impactHeroTitle,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: scheme.onPrimary,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: scheme.onPrimary,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: AppTheme.spacingMd),
           Row(
@@ -187,11 +187,7 @@ class _ImpactHeroCard extends StatelessWidget {
 }
 
 class _HeroStat extends StatelessWidget {
-  const _HeroStat({
-    required this.label,
-    required this.value,
-    this.trend,
-  });
+  const _HeroStat({required this.label, required this.value, this.trend});
 
   final String label;
   final String value;
@@ -206,24 +202,24 @@ class _HeroStat extends StatelessWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color:
-                      context.appColors.onHeroForeground.withValues(alpha: 0.7),
-                ),
+              color: context.appColors.onHeroForeground.withValues(alpha: 0.7),
+            ),
           ),
           Text(
             value,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: context.appColors.onHeroForeground,
-                  fontWeight: FontWeight.bold,
-                ),
+              color: context.appColors.onHeroForeground,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           if (trend != null && trend!.isNotEmpty)
             Text(
               trend!,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: context.appColors.onHeroForeground
-                        .withValues(alpha: 0.6),
-                  ),
+                color: context.appColors.onHeroForeground.withValues(
+                  alpha: 0.6,
+                ),
+              ),
             ),
         ],
       ),
@@ -259,8 +255,8 @@ class _LevelCard extends StatelessWidget {
                   Text(
                     '${level.tier}',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -273,8 +269,8 @@ class _LevelCard extends StatelessWidget {
                   Text(
                     level.tierName,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   Text(
                     l10n.impactXpLabel(level.xp, level.xpToNext),
@@ -356,9 +352,9 @@ class _EquivChip extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               value,
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
               label,
@@ -399,9 +395,9 @@ class _StreakCard extends StatelessWidget {
             ),
             Text(
               l10n.impactStreakValue(streak.current, streak.longest),
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -432,9 +428,9 @@ class _GoalCard extends StatelessWidget {
             ),
             Text(
               '${goal.current.toStringAsFixed(1)} / ${goal.target.toStringAsFixed(0)}',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 6),
             ClipRRect(
@@ -478,22 +474,26 @@ class _TrendChartCard extends StatelessWidget {
           children: [
             Text(
               l10n.impactTrendTitle,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: AppTheme.spacingMd),
             SizedBox(
               height: 200,
               child: LineChart(
                 LineChartData(
-                  gridData:
-                      const FlGridData(show: true, drawVerticalLine: false),
+                  gridData: const FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                  ),
                   borderData: FlBorderData(show: false),
                   titlesData: const FlTitlesData(
                     leftTitles: AxisTitles(
-                      sideTitles:
-                          SideTitles(showTitles: true, reservedSize: 36),
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 36,
+                      ),
                     ),
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
@@ -539,9 +539,9 @@ class _BadgesSection extends StatelessWidget {
       children: [
         Text(
           l10n.impactBadgesTitle,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: AppTheme.spacingSm),
         Wrap(
@@ -590,9 +590,9 @@ class _BadgeTile extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             if (!badge.earned)
               Padding(
@@ -629,10 +629,7 @@ class _BadgeTile extends StatelessWidget {
 }
 
 class _LeaderboardSection extends StatelessWidget {
-  const _LeaderboardSection({
-    required this.rank,
-    this.leaderboard,
-  });
+  const _LeaderboardSection({required this.rank, this.leaderboard});
 
   final RankSummary rank;
   final LeaderboardData? leaderboard;
@@ -649,9 +646,9 @@ class _LeaderboardSection extends StatelessWidget {
           children: [
             Text(
               l10n.impactLeaderboardTitle,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
             if (rank.position > 0)
               Padding(
@@ -673,8 +670,9 @@ class _LeaderboardSection extends StatelessWidget {
                 (e) => ListTile(
                   dense: true,
                   leading: CircleAvatar(
-                    backgroundColor:
-                        e.isSelf ? AppTheme.primary : context.appColors.divider,
+                    backgroundColor: e.isSelf
+                        ? AppTheme.primary
+                        : context.appColors.divider,
                     child: Text('${e.rank}'),
                   ),
                   title: Text(e.displayName),

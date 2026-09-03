@@ -16,9 +16,9 @@ class ClearingsState {
     SearchDetail? searchDetails,
     this.selectedHours = '0',
     DateTime? selectedDay,
-  })  : deliveriesItems = deliveriesItems ?? const [],
-        searchDetails = searchDetails ?? SearchDetail(),
-        selectedDay = selectedDay ?? DateTime.now();
+  }) : deliveriesItems = deliveriesItems ?? const [],
+       searchDetails = searchDetails ?? SearchDetail(),
+       selectedDay = selectedDay ?? DateTime.now();
 
   final String token;
   final String searchEndPoint;

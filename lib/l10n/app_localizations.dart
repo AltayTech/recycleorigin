@@ -200,23 +200,23 @@ abstract class AppLocalizations {
   /// **'Wallet'**
   String get wallet;
 
-  /// No description provided for @articles.
-  ///
-  /// In en, this message translates to:
-  /// **'Articles'**
-  String get articles;
-
-  /// No description provided for @forarticles.
-  ///
-  /// In en, this message translates to:
-  /// **'In order to get profile information go to profile section'**
-  String get forarticles;
-
   /// No description provided for @store.
   ///
   /// In en, this message translates to:
   /// **'Store'**
   String get store;
+
+  /// No description provided for @comingSoonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get comingSoonTitle;
+
+  /// No description provided for @storeComingSoonMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The store is coming soon. You can still request pickups and use your wallet.'**
+  String get storeComingSoonMessage;
 
   /// No description provided for @profile.
   ///
@@ -343,12 +343,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'App information'**
   String get appInformationSectionTitle;
-
-  /// No description provided for @charities.
-  ///
-  /// In en, this message translates to:
-  /// **'Charities'**
-  String get charities;
 
   /// No description provided for @cards.
   ///
@@ -1349,19 +1343,25 @@ abstract class AppLocalizations {
   /// No description provided for @walletWithdrawRequestButton.
   ///
   /// In en, this message translates to:
-  /// **'Withdraw request'**
+  /// **'Payout request'**
   String get walletWithdrawRequestButton;
 
   /// No description provided for @clearingPayTitle.
   ///
   /// In en, this message translates to:
-  /// **'Pay'**
+  /// **'Payout request'**
   String get clearingPayTitle;
+
+  /// No description provided for @clearingPayoutStaffHandledHint.
+  ///
+  /// In en, this message translates to:
+  /// **'This submits a payout request for staff to process. It is not an instant bank transfer.'**
+  String get clearingPayoutStaffHandledHint;
 
   /// No description provided for @clearingRequestRegisteredSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Your request was registered successfully.'**
+  /// **'Your payout request was registered successfully.'**
   String get clearingRequestRegisteredSuccess;
 
   /// No description provided for @walletCreditUsdLabel.
@@ -1819,12 +1819,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Order no.:'**
   String get customerOrderNumberPrefix;
-
-  /// No description provided for @articleNoContentMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'No content available'**
-  String get articleNoContentMessage;
 
   /// No description provided for @collectRequestListAppBarTitle.
   ///

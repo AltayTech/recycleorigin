@@ -55,13 +55,15 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     OrdersSearchParamsChanged event,
     Emitter<OrdersState> emit,
   ) {
-    emit(state.copyWith(
-      searchKey: event.searchKey,
-      sPage: event.sPage,
-      sPerPage: event.sPerPage,
-      sOrder: event.sOrder,
-      sOrderBy: event.sOrderBy,
-    ));
+    emit(
+      state.copyWith(
+        searchKey: event.searchKey,
+        sPage: event.sPage,
+        sPerPage: event.sPerPage,
+        sOrder: event.sOrder,
+        sOrderBy: event.sOrderBy,
+      ),
+    );
   }
 
   void _onSearchBuilderApplied(
@@ -91,8 +93,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     Emitter<OrdersState> emit,
   ) async {
     AppLogger.debug('Searching order items');
-    final path =
-        'recycleorigin/v1${Urls.orderEndPoint}${state.searchEndPoint}';
+    final path = 'recycleorigin/v1${Urls.orderEndPoint}${state.searchEndPoint}';
     AppLogger.debug('Order search path: $path');
     try {
       final result = await _apiClient.get<Map<String, dynamic>>(
@@ -104,10 +105,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         AppLogger.debug('Order items retrieved');
         final ordersMain = OrdersMain.fromJson(extractedData);
         AppLogger.debug('Max page: ${ordersMain.searchDetail.max_page}');
-        emit(state.copyWith(
-          ordersItems: ordersMain.transactions,
-          searchDetails: ordersMain.searchDetail,
-        ));
+        emit(
+          state.copyWith(
+            ordersItems: ordersMain.transactions,
+            searchDetails: ordersMain.searchDetail,
+          ),
+        );
       } else {
         emit(state.copyWith(ordersItems: []));
       }
@@ -140,8 +143,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       emit(state.copyWith(orderItem: order));
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to retrieve order item',
-          error: e, stackTrace: st);
+      AppLogger.error(
+        'Failed to retrieve order item',
+        error: e,
+        stackTrace: st,
+      );
       event.completer?.completeError(e, st);
       rethrow;
     }

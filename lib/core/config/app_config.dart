@@ -70,6 +70,24 @@ class AppConfig {
     return raw.toLowerCase() == 'true';
   }
 
+  /// When false, Store UI shows Coming Soon (catalog/cart/checkout stay in the
+  /// codebase for a later launch). Defaults to off.
+  static bool get enableStore {
+    final raw = _getEnv('ENABLE_STORE');
+    if (raw == null || raw.isEmpty) {
+      return false;
+    }
+    switch (raw.toLowerCase()) {
+      case '1':
+      case 'true':
+      case 'yes':
+      case 'on':
+        return true;
+      default:
+        return false;
+    }
+  }
+
   /// Initialize configuration
   /// Call this in main() before runApp()
   /// Loads .env from assets (bundled) so it works on device/emulator.

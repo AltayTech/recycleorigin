@@ -36,8 +36,9 @@ class _SplashScreensState extends State<SplashScreens> {
       return;
     }
     _hasNavigated = true;
-    Navigator.of(context)
-        .pushReplacementNamed(NavigationBottomScreen.routeName);
+    Navigator.of(
+      context,
+    ).pushReplacementNamed(NavigationBottomScreen.routeName);
   }
 
   /// Loads app version from [AppInfoService] with a safe fallback.
@@ -67,8 +68,9 @@ class _SplashScreensState extends State<SplashScreens> {
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final side = MediaQuery.sizeOf(context).width * _logoFactor;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final systemUiStyle =
-        isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
+    final systemUiStyle = isDark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark;
     final colors = context.colors;
     final appColors = context.appColors;
     final brand = colors.primary;
@@ -96,8 +98,10 @@ class _SplashScreensState extends State<SplashScreens> {
             ),
             child: SafeArea(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
                 child: Column(
                   children: [
                     const Spacer(flex: 2),
@@ -155,7 +159,8 @@ class _SplashScreensState extends State<SplashScreens> {
     if (_version == null) {
       return context.l10n.loadingLabel;
     }
-    return _numberConvertor
-        .replaceArNumber('${context.l10n.version} $_version');
+    return _numberConvertor.replaceArNumber(
+      '${context.l10n.version} $_version',
+    );
   }
 }

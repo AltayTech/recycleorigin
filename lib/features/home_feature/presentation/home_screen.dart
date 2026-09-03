@@ -5,7 +5,6 @@ import '../../../core/layout/app_breakpoints.dart';
 import '../../../core/network/api_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/auth_snackbars.dart';
-import '../../articles_feature/presentation/pages/article_screen.dart';
 import '../../auth_feature/presentation/bloc/auth_bloc.dart';
 import '../../auth_feature/presentation/bloc/auth_state.dart';
 import '../../collect_feature/presentation/pages/waste_cart_screen.dart';
@@ -42,9 +41,7 @@ class HomeScreen extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => ImpactCubit(ImpactRepository(apiClient)),
-        ),
+        BlocProvider(create: (_) => ImpactCubit(ImpactRepository(apiClient))),
         BlocProvider(
           create: (_) => WalletSummaryCubit(WalletRepository(apiClient)),
         ),
@@ -108,8 +105,9 @@ class _HomeDashboardViewState extends State<_HomeDashboardView> {
       await bloc.searchCollectItems();
       if (!mounted) return;
       setState(() {
-        _latestRequest =
-            bloc.CollectItems.isNotEmpty ? bloc.CollectItems.first : null;
+        _latestRequest = bloc.CollectItems.isNotEmpty
+            ? bloc.CollectItems.first
+            : null;
         _requestLoading = false;
       });
     } catch (_) {
@@ -128,9 +126,6 @@ class _HomeDashboardViewState extends State<_HomeDashboardView> {
       Navigator.of(context).pushNamed(CollectListScreen.routeName);
 
   void _openWallet() => Navigator.of(context).pushNamed(WalletScreen.routeName);
-
-  void _openArticles() =>
-      Navigator.of(context).pushNamed(ArticlesScreen.routeName);
 
   void _openGuide() => Navigator.of(context).pushNamed(GuideScreen.routeName);
 
@@ -178,9 +173,7 @@ class _HomeDashboardViewState extends State<_HomeDashboardView> {
                   slivers: [
                     const SliverToBoxAdapter(child: HomeGreetingHeader()),
                     SliverToBoxAdapter(
-                      child: PrimaryActionButton(
-                        onPressed: _openWasteCart,
-                      ),
+                      child: PrimaryActionButton(onPressed: _openWasteCart),
                     ),
                     const SliverToBoxAdapter(
                       child: SizedBox(height: AppTheme.spacingMd),
@@ -224,10 +217,7 @@ class _HomeDashboardViewState extends State<_HomeDashboardView> {
                       ),
                     ),
                     SliverToBoxAdapter(
-                      child: HomeExploreRow(
-                        onArticlesTap: _openArticles,
-                        onGuideTap: _openGuide,
-                      ),
+                      child: HomeExploreRow(onGuideTap: _openGuide),
                     ),
                     const SliverToBoxAdapter(
                       child: SizedBox(height: AppTheme.spacingXl),

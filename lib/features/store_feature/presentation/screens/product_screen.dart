@@ -109,10 +109,8 @@ class _ProductsScreenState extends State<ProductsScreen>
       context.read<ProductsBloc>().retrieveCategory();
 
       categoryList = context.read<ProductsBloc>().categoryItems;
-      print(_isLoading.toString());
 
       context.read<ProductsBloc>().searchBuilder();
-      print(_isLoading.toString());
 
       searchItems();
     }
@@ -138,7 +136,6 @@ class _ProductsScreenState extends State<ProductsScreen>
     setState(() {
       _isLoading = true;
     });
-    print(_isLoading.toString());
 
     context.read<ProductsBloc>().searchBuilder();
     await context.read<ProductsBloc>().searchItem();
@@ -155,7 +152,6 @@ class _ProductsScreenState extends State<ProductsScreen>
     setState(() {
       _isLoading = true;
     });
-    print(_isLoading.toString());
 
     context.read<ProductsBloc>().sPage = 1;
 
@@ -173,7 +169,6 @@ class _ProductsScreenState extends State<ProductsScreen>
 
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
   }
 

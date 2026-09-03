@@ -12,12 +12,14 @@ void main() {
 
     tearDown(() async => bloc.close());
 
-    test('createMessage when not logged in completes without throwing',
-        () async {
-      await bloc.createMessage('Hi', 'Body', '0', '0', false);
-      await _tick();
-      expect(bloc.allMessages, isEmpty);
-    });
+    test(
+      'createMessage when not logged in completes without throwing',
+      () async {
+        await bloc.createMessage('Hi', 'Body', '0', '0', false);
+        await _tick();
+        expect(bloc.allMessages, isEmpty);
+      },
+    );
 
     test('getMessages when not logged in completes without throwing', () async {
       await bloc.getMessages('0', false);

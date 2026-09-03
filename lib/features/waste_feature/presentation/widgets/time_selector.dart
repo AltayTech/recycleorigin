@@ -28,10 +28,7 @@ class TimeSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 4,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
           child: Row(
             children: [
               Container(
@@ -120,11 +117,7 @@ class TimeSelector extends StatelessWidget {
                     duration: const Duration(milliseconds: 250),
                     curve: Curves.easeInOut,
                     width: 110,
-                    margin: const EdgeInsets.only(
-                      right: 10,
-                      top: 2,
-                      bottom: 2,
-                    ),
+                    margin: const EdgeInsets.only(right: 10, top: 2, bottom: 2),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? AppTheme.primary
@@ -146,8 +139,9 @@ class TimeSelector extends StatelessWidget {
                             ]
                           : [
                               BoxShadow(
-                                color: context.colors.shadow
-                                    .withValues(alpha: 0.03),
+                                color: context.colors.shadow.withValues(
+                                  alpha: 0.03,
+                                ),
                                 blurRadius: 6,
                                 offset: const Offset(0, 2),
                               ),
@@ -160,16 +154,14 @@ class TimeSelector extends StatelessWidget {
                           Icons.schedule_rounded,
                           size: 18,
                           color: isSelected
-                              ? context.appColors.onHeroForeground
-                                  .withValues(alpha: 0.8)
+                              ? context.appColors.onHeroForeground.withValues(
+                                  alpha: 0.8,
+                                )
                               : context.colors.onSurfaceVariant,
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          _formatHourRange(
-                            hour.start,
-                            hour.end,
-                          ),
+                          _formatHourRange(hour.start, hour.end),
                           style: TextStyle(
                             color: isSelected
                                 ? context.appColors.onHeroForeground

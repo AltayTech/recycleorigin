@@ -76,7 +76,8 @@ class _WastesScreenState extends State<WastesScreen> {
     } else {
       _filteredWastes = loadedWastes
           .where(
-              (w) => w.name.toLowerCase().contains(_searchQuery.toLowerCase()))
+            (w) => w.name.toLowerCase().contains(_searchQuery.toLowerCase()),
+          )
           .toList();
     }
   }
@@ -145,48 +146,41 @@ class _WastesScreenState extends State<WastesScreen> {
                     ),
                   )
                 : _filteredWastes.isEmpty
-                    ? _buildEmptyState()
-                    : RefreshIndicator(
-                        onRefresh: _loadData,
-                        color: AppTheme.primary,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                          ),
-                          child: CustomScrollView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            slivers: [
-                              SliverPadding(
-                                padding: const EdgeInsets.only(
-                                  top: 8,
-                                  bottom: 100,
-                                ),
-                                sliver: SliverGrid(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
+                ? _buildEmptyState()
+                : RefreshIndicator(
+                    onRefresh: _loadData,
+                    color: AppTheme.primary,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: CustomScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        slivers: [
+                          SliverPadding(
+                            padding: const EdgeInsets.only(top: 8, bottom: 100),
+                            sliver: SliverGrid(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: crossAxisCount,
                                     childAspectRatio: 0.82,
                                     crossAxisSpacing: 12,
                                     mainAxisSpacing: 12,
                                   ),
-                                  delegate: SliverChildBuilderDelegate(
-                                    (ctx, i) {
-                                      final waste = _filteredWastes[i];
-                                      return WasteItemWastesScreen(
-                                        waste: waste,
-                                        isSelected:
-                                            wasteCartItemsId.contains(waste.id),
-                                        onTap: () => _toggleSelection(waste),
-                                      );
-                                    },
-                                    childCount: _filteredWastes.length,
+                              delegate: SliverChildBuilderDelegate((ctx, i) {
+                                final waste = _filteredWastes[i];
+                                return WasteItemWastesScreen(
+                                  waste: waste,
+                                  isSelected: wasteCartItemsId.contains(
+                                    waste.id,
                                   ),
-                                ),
-                              ),
-                            ],
+                                  onTap: () => _toggleSelection(waste),
+                                );
+                              }, childCount: _filteredWastes.length),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
+                    ),
+                  ),
           ),
         ],
       ),
@@ -322,10 +316,7 @@ class _SearchBar extends StatelessWidget {
           if (selectedCount > 0) ...[
             const SizedBox(width: 12),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 8,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: AppTheme.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
@@ -361,10 +352,7 @@ class _SearchBar extends StatelessWidget {
 }
 
 class _DoneButton extends StatelessWidget {
-  const _DoneButton({
-    required this.selectedCount,
-    required this.onPressed,
-  });
+  const _DoneButton({required this.selectedCount, required this.onPressed});
 
   final int selectedCount;
   final VoidCallback onPressed;
@@ -377,9 +365,7 @@ class _DoneButton extends StatelessWidget {
       onPressed: onPressed,
       backgroundColor: AppTheme.primary,
       elevation: 6,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       icon: Icon(
         Icons.check_rounded,
         color: context.appColors.onHeroForeground,
@@ -397,13 +383,11 @@ class _DoneButton extends StatelessWidget {
           if (selectedCount > 0) ...[
             const SizedBox(width: 8),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 2,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
-                color:
-                    context.appColors.onHeroForeground.withValues(alpha: 0.25),
+                color: context.appColors.onHeroForeground.withValues(
+                  alpha: 0.25,
+                ),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(

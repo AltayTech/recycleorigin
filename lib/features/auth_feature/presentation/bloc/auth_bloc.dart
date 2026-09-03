@@ -27,14 +27,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// accounts that pre-date the Firebase migration.
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._apiClient, {FirebaseAuthService? firebaseAuthService})
-      : _firebase = firebaseAuthService ?? FirebaseAuthService(),
-        super(AuthState()) {
+    : _firebase = firebaseAuthService ?? FirebaseAuthService(),
+      super(AuthState()) {
     on<AuthLoginRequested>(_onLoginRequested);
     on<AuthRegisterRequested>(_onRegisterRequested);
     on<AuthGoogleSignInRequested>(_onGoogleSignInRequested);
     on<AuthForgotPasswordRequested>(_onForgotPasswordRequested);
     on<AuthEmailVerificationResendRequested>(
-        _onEmailVerificationResendRequested);
+      _onEmailVerificationResendRequested,
+    );
     on<AuthEmailVerificationCheckRequested>(_onEmailVerificationCheckRequested);
     on<AuthTokenLoadRequested>(_onTokenLoadRequested);
     on<AuthCompletionCheckRequested>(_onCompletionCheckRequested);
@@ -144,7 +145,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }) async {
     final user = result.user;
     final email = (user['email'] as String?) ?? '';
-    final displayName = (user['display_name'] as String?) ??
+    final displayName =
+        (user['display_name'] as String?) ??
         '${(user['first_name'] as String?) ?? ''} ${(user['last_name'] as String?) ?? ''}'
             .trim();
     final tokenModel = TokenResponseModel(
@@ -167,9 +169,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         role: result.role,
       ),
     );
-    unawaited(
-      PushNotificationController.instance.syncAfterLogin(_apiClient),
-    );
+    unawaited(PushNotificationController.instance.syncAfterLogin(_apiClient));
   }
 
   Future<void> _emitLoggedOut(Emitter<AuthState> emitter) async {
@@ -270,8 +270,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> updateAddress(List<Address> addressList) async {
     final completer = Completer<void>();
-    add(AuthAddressUpdateRequested(
-        addresses: addressList, completer: completer));
+    add(
+      AuthAddressUpdateRequested(addresses: addressList, completer: completer),
+    );
     return completer.future;
   }
 
@@ -565,8 +566,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state.copyWith(token: token, addressItems: event.addresses));
       event.completer?.complete();
     } catch (error, stackTrace) {
-      AppLogger.error('Failed to get order',
-          error: error, stackTrace: stackTrace);
+      AppLogger.error(
+        'Failed to get order',
+        error: error,
+        stackTrace: stackTrace,
+      );
       event.completer?.completeError(error, stackTrace);
     }
   }
@@ -609,7 +613,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final response = await http.get(
         Uri.parse(
-            '${Urls.rootUrl}${Urls.regionEndPoint}?city_id=${event.cityId}'),
+          '${Urls.rootUrl}${Urls.regionEndPoint}?city_id=${event.cityId}',
+        ),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Accept': 'application/json',

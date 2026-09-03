@@ -64,9 +64,9 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
       floatingActionButton: auth.isAuth
           ? FloatingActionButton(
               onPressed: () async {
-                await Navigator.of(context).pushNamed(
-                  SupportTicketCreateScreen.routeName,
-                );
+                await Navigator.of(
+                  context,
+                ).pushNamed(SupportTicketCreateScreen.routeName);
                 if (context.mounted) {
                   context.read<SupportTicketsListCubit>().load();
                 }
@@ -77,23 +77,22 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
           : null,
       body: !auth.isAuth
           ? _LoginPrompt(
-              onLogin: () => Navigator.of(context).pushNamed(
-                LoginScreen.routeName,
-              ),
+              onLogin: () =>
+                  Navigator.of(context).pushNamed(LoginScreen.routeName),
             )
           : BlocBuilder<SupportTicketsListCubit, SupportTicketsListState>(
               builder: (context, state) {
                 return switch (state) {
                   SupportTicketsListInitial() => Center(
-                      child: CircularProgressIndicator(
-                        color: context.appColors.subtitleColor,
-                      ),
+                    child: CircularProgressIndicator(
+                      color: context.appColors.subtitleColor,
                     ),
+                  ),
                   SupportTicketsListLoading() => Center(
-                      child: CircularProgressIndicator(
-                        color: context.appColors.subtitleColor,
-                      ),
+                    child: CircularProgressIndicator(
+                      color: context.appColors.subtitleColor,
                     ),
+                  ),
                   SupportTicketsListFailed(message: final message) =>
                     _ErrorBody(
                       message: message,
@@ -101,39 +100,39 @@ class _SupportTicketsListScreenState extends State<SupportTicketsListScreen> {
                           context.read<SupportTicketsListCubit>().load(),
                     ),
                   SupportTicketsListReady(page: final page) => RefreshIndicator(
-                      onRefresh: () =>
-                          context.read<SupportTicketsListCubit>().load(),
-                      child: page.items.isEmpty
-                          ? ListView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              children: [
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                ),
-                                Center(child: Text(l10n.noMessagesYet)),
-                              ],
-                            )
-                          : ListView.separated(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              padding: const EdgeInsets.all(12),
-                              itemCount: page.items.length,
-                              separatorBuilder: (_, __) =>
-                                  const SizedBox(height: 8),
-                              itemBuilder: (context, i) {
-                                final t = page.items[i];
-                                return _TicketTile(
-                                  ticket: t,
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                      SupportTicketDetailScreen.routeName,
-                                      arguments: t.id,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                    ),
+                    onRefresh: () =>
+                        context.read<SupportTicketsListCubit>().load(),
+                    child: page.items.isEmpty
+                        ? ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: [
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
+                              ),
+                              Center(child: Text(l10n.noMessagesYet)),
+                            ],
+                          )
+                        : ListView.separated(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(12),
+                            itemCount: page.items.length,
+                            separatorBuilder: (_, __) =>
+                                const SizedBox(height: 8),
+                            itemBuilder: (context, i) {
+                              final t = page.items[i];
+                              return _TicketTile(
+                                ticket: t,
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                    SupportTicketDetailScreen.routeName,
+                                    arguments: t.id,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                  ),
                 };
               },
             ),
@@ -155,10 +154,7 @@ class _LoginPrompt extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              l10n.pleaseLoginToContinue,
-              textAlign: TextAlign.center,
-            ),
+            Text(l10n.pleaseLoginToContinue, textAlign: TextAlign.center),
             const SizedBox(height: 16),
             FilledButton(
               onPressed: onLogin,

@@ -6,10 +6,6 @@ class TemplatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(context.l10n.templatePageTitle),
-      ),
-    );
+    return Scaffold(body: Center(child: Text(context.l10n.templatePageTitle)));
   }
 }

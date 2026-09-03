@@ -14,10 +14,6 @@ class City {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'province_id': province_id,
-    };
+    return {'id': id, 'name': name, 'province_id': province_id};
   }
 }

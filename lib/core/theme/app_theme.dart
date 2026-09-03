@@ -27,7 +27,6 @@ class AppTheme {
   static const Color serviceImpact = Color(0xFF0D9488);
   static const Color serviceWallet = Color(0xFF22C55E);
   static const Color serviceStore = Color(0xFF8B5CF6);
-  static const Color serviceArticles = Color(0xFFF59E0B);
   static const Color serviceProfile = Color(0xFF6366F1);
 
   // ── Semantic icon accents for detail rows
@@ -38,13 +37,12 @@ class AppTheme {
   static const Color iconAccentGreen = Color(0xFF10B981);
 
   static BoxDecoration listItemBoxFor(BuildContext context) => BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(
-          color: Theme.of(context).extension<AppColorsExtension>()!.divider,
-        ),
-        color:
-            Theme.of(context).extension<AppColorsExtension>()!.cardBackground,
-      );
+    borderRadius: BorderRadius.circular(5),
+    border: Border.all(
+      color: Theme.of(context).extension<AppColorsExtension>()!.divider,
+    ),
+    color: Theme.of(context).extension<AppColorsExtension>()!.cardBackground,
+  );
 
   // ── Semantic ───────────────────────────────────────────────────
   static Color get appBarColor => primary;
@@ -65,20 +63,20 @@ class AppTheme {
 
   // ── Elevation / shadow presets ─────────────────────────────────
   static List<BoxShadow> cardShadow(Color tint) => [
-        BoxShadow(
-          color: tint.withValues(alpha: 0.12),
-          blurRadius: 18,
-          offset: const Offset(0, 10),
-        ),
-      ];
+    BoxShadow(
+      color: tint.withValues(alpha: 0.12),
+      blurRadius: 18,
+      offset: const Offset(0, 10),
+    ),
+  ];
 
   static List<BoxShadow> heroShadow(Color tint) => [
-        BoxShadow(
-          color: tint.withValues(alpha: 0.24),
-          blurRadius: 34,
-          offset: const Offset(0, 18),
-        ),
-      ];
+    BoxShadow(
+      color: tint.withValues(alpha: 0.24),
+      blurRadius: 34,
+      offset: const Offset(0, 18),
+    ),
+  ];
 
   /// Status bar / navigation bar overlay for the given brightness.
   static SystemUiOverlayStyle systemUiOverlay(Brightness brightness) {
@@ -88,8 +86,9 @@ class AppTheme {
       statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
       statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
       systemNavigationBarColor: isDark ? bgDark : bgLight,
-      systemNavigationBarIconBrightness:
-          isDark ? Brightness.light : Brightness.dark,
+      systemNavigationBarIconBrightness: isDark
+          ? Brightness.light
+          : Brightness.dark,
     );
   }
 
@@ -154,32 +153,32 @@ class AppTheme {
         indicatorColor: colorScheme.primary.withValues(
           alpha: isDark ? 0.28 : 0.14,
         ),
-        iconTheme: WidgetStateProperty.resolveWith<IconThemeData>(
-          (Set<WidgetState> states) {
-            final selected = states.contains(WidgetState.selected);
-            return IconThemeData(
-              color: selected
-                  ? colorScheme.primary
-                  : colorScheme.onSurfaceVariant,
-            );
-          },
-        ),
-        labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
-          (Set<WidgetState> states) {
-            if (states.contains(WidgetState.selected)) {
-              return TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: colorScheme.primary,
-              );
-            }
+        iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((
+          Set<WidgetState> states,
+        ) {
+          final selected = states.contains(WidgetState.selected);
+          return IconThemeData(
+            color: selected
+                ? colorScheme.primary
+                : colorScheme.onSurfaceVariant,
+          );
+        }),
+        labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((
+          Set<WidgetState> states,
+        ) {
+          if (states.contains(WidgetState.selected)) {
             return TextStyle(
               fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w700,
+              color: colorScheme.primary,
             );
-          },
-        ),
+          }
+          return TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: colorScheme.onSurfaceVariant,
+          );
+        }),
       ),
       textTheme: _buildTextTheme(brightness, colorScheme),
       cardTheme: CardThemeData(
@@ -189,10 +188,7 @@ class AppTheme {
         ),
         color: ext.cardBackground,
       ),
-      dividerTheme: DividerThemeData(
-        color: ext.divider,
-        thickness: 1,
-      ),
+      dividerTheme: DividerThemeData(color: ext.divider, thickness: 1),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: ext.inputBackground,
@@ -265,9 +261,7 @@ class AppTheme {
         backgroundColor: primary,
         foregroundColor: Colors.white,
       ),
-      drawerTheme: DrawerThemeData(
-        backgroundColor: ext.drawerSurface,
-      ),
+      drawerTheme: DrawerThemeData(backgroundColor: ext.drawerSurface),
       extensions: <ThemeExtension<dynamic>>[ext],
     );
   }
@@ -433,13 +427,19 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   ) {
     if (other is! AppColorsExtension) return this;
     return AppColorsExtension(
-      heroGradientStart:
-          Color.lerp(heroGradientStart, other.heroGradientStart, t)!,
+      heroGradientStart: Color.lerp(
+        heroGradientStart,
+        other.heroGradientStart,
+        t,
+      )!,
       heroGradientEnd: Color.lerp(heroGradientEnd, other.heroGradientEnd, t)!,
       cardBackground: Color.lerp(cardBackground, other.cardBackground, t)!,
       subtitleColor: Color.lerp(subtitleColor, other.subtitleColor, t)!,
-      scaffoldBackground:
-          Color.lerp(scaffoldBackground, other.scaffoldBackground, t)!,
+      scaffoldBackground: Color.lerp(
+        scaffoldBackground,
+        other.scaffoldBackground,
+        t,
+      )!,
       divider: Color.lerp(divider, other.divider, t)!,
       success: Color.lerp(success, other.success, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
@@ -449,8 +449,11 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       tagBackground: Color.lerp(tagBackground, other.tagBackground, t)!,
       onTagBackground: Color.lerp(onTagBackground, other.onTagBackground, t)!,
       drawerSurface: Color.lerp(drawerSurface, other.drawerSurface, t)!,
-      onHeroForeground:
-          Color.lerp(onHeroForeground, other.onHeroForeground, t)!,
+      onHeroForeground: Color.lerp(
+        onHeroForeground,
+        other.onHeroForeground,
+        t,
+      )!,
     );
   }
 }

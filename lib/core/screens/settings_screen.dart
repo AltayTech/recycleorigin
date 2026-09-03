@@ -172,14 +172,9 @@ class _SettingsSectionCard extends StatelessWidget {
     return Card(
       elevation: 2,
       shadowColor: Theme.of(context).shadowColor.withValues(alpha: 0.24),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       color: context.appColors.cardBackground,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: child,
-      ),
+      child: Padding(padding: const EdgeInsets.all(16), child: child),
     );
   }
 }

@@ -60,13 +60,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get wallet => 'Cuzdan';
 
   @override
-  String get articles => 'Makaleler';
-
-  @override
-  String get forarticles => 'Profil bilgileri icin profil bolumune gidin';
-
-  @override
   String get store => 'Magaza';
+
+  @override
+  String get comingSoonTitle => 'Cok yakinda';
+
+  @override
+  String get storeComingSoonMessage =>
+      'Magaza yakinda acilacak. Toplama talebi ve cuzdaniniz su anda kullanilabilir.';
 
   @override
   String get profile => 'Profil';
@@ -131,9 +132,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get appInformationSectionTitle => 'Uygulama bilgisi';
-
-  @override
-  String get charities => 'Hayir kurumlari';
 
   @override
   String get cards => 'Kartlar';
@@ -641,14 +639,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get walletNoTransactionsYet => 'Henuz islem yok';
 
   @override
-  String get walletWithdrawRequestButton => 'Para cekme talebi';
+  String get walletWithdrawRequestButton => 'Odeme talebi';
 
   @override
-  String get clearingPayTitle => 'Odeme';
+  String get clearingPayTitle => 'Odeme talebi';
+
+  @override
+  String get clearingPayoutStaffHandledHint =>
+      'Bu, personelin isleyecegi bir odeme talebi gonderir. Aninda banka transferi degildir.';
 
   @override
   String get clearingRequestRegisteredSuccess =>
-      'Talebiniz basariyla kaydedildi.';
+      'Odeme talebiniz basariyla kaydedildi.';
 
   @override
   String get walletCreditUsdLabel => 'Bakiye (\$)';
@@ -888,9 +890,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get customerOrderNumberPrefix => 'Siparis no:';
-
-  @override
-  String get articleNoContentMessage => 'Icerik yok';
 
   @override
   String get collectRequestListAppBarTitle => 'Talep listesi';

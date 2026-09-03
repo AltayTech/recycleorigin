@@ -16,9 +16,9 @@ class Customer with ChangeNotifier {
     Status? customer_type,
     PersonalData? personalData,
     this.money = '',
-  })  : this.status = status ?? Status(),
-        this.customer_type = customer_type ?? Status(),
-        this.personalData = personalData ?? PersonalData();
+  }) : this.status = status ?? Status(),
+       this.customer_type = customer_type ?? Status(),
+       this.personalData = personalData ?? PersonalData();
 
   factory Customer.fromJson(Map<String, dynamic> parsedJson) {
     return Customer(

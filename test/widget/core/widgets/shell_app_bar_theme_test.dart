@@ -28,26 +28,16 @@ void main() {
     tester,
   ) async {
     final theme = AppTheme.lightTheme();
-    await pumpShellAppBar(
-      tester,
-      theme: theme,
-      title: 'RecycleOrigin',
-    );
+    await pumpShellAppBar(tester, theme: theme, title: 'RecycleOrigin');
 
     final appBar = tester.widget<AppBar>(find.byType(AppBar));
     expect(appBar.foregroundColor, theme.appBarTheme.foregroundColor);
     expect(find.text('RecycleOrigin'), findsOneWidget);
   });
 
-  testWidgets('ShellAppBar uses dark theme app bar foreground', (
-    tester,
-  ) async {
+  testWidgets('ShellAppBar uses dark theme app bar foreground', (tester) async {
     final theme = AppTheme.darkTheme();
-    await pumpShellAppBar(
-      tester,
-      theme: theme,
-      title: 'RecycleOrigin',
-    );
+    await pumpShellAppBar(tester, theme: theme, title: 'RecycleOrigin');
 
     final appBar = tester.widget<AppBar>(find.byType(AppBar));
     expect(appBar.foregroundColor, theme.appBarTheme.foregroundColor);

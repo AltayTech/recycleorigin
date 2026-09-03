@@ -13,27 +13,27 @@ sealed class Result<T> {
 
   /// Returns the value if success, null otherwise
   T? get valueOrNull => switch (this) {
-        Success<T>(:final value) => value,
-        Failure<T>() => null,
-      };
+    Success<T>(:final value) => value,
+    Failure<T>() => null,
+  };
 
   /// Returns the error if failure, null otherwise
   String? get errorOrNull => switch (this) {
-        Success<T>() => null,
-        Failure<T>(:final message) => message,
-      };
+    Success<T>() => null,
+    Failure<T>(:final message) => message,
+  };
 
   /// Maps the value if success
   Result<R> map<R>(R Function(T value) mapper) => switch (this) {
-        Success<T>(:final value) => Success(mapper(value)),
-        Failure<T>(:final message) => Failure(message),
-      };
+    Success<T>(:final value) => Success(mapper(value)),
+    Failure<T>(:final message) => Failure(message),
+  };
 
   /// Maps the error if failure
   Result<T> mapError(String Function(String error) mapper) => switch (this) {
-        Success<T>() => this,
-        Failure<T>(:final message) => Failure(mapper(message)),
-      };
+    Success<T>() => this,
+    Failure<T>(:final message) => Failure(mapper(message)),
+  };
 
   /// Executes a function if success
   Result<T> onSuccess(void Function(T value) action) {
@@ -90,19 +90,19 @@ final class Failure<T> extends Result<T> {
 extension ResultExtensions<T> on Result<T> {
   /// Unwraps the value, throwing if failure
   T unwrap() => switch (this) {
-        Success<T>(:final value) => value,
-        Failure<T>(:final message) => throw Exception(message),
-      };
+    Success<T>(:final value) => value,
+    Failure<T>(:final message) => throw Exception(message),
+  };
 
   /// Unwraps the value or returns a default
   T unwrapOr(T defaultValue) => switch (this) {
-        Success<T>(:final value) => value,
-        Failure<T>() => defaultValue,
-      };
+    Success<T>(:final value) => value,
+    Failure<T>() => defaultValue,
+  };
 
   /// Unwraps the value or computes a default
   T unwrapOrElse(T Function() defaultValue) => switch (this) {
-        Success<T>(:final value) => value,
-        Failure<T>() => defaultValue(),
-      };
+    Success<T>(:final value) => value,
+    Failure<T>() => defaultValue(),
+  };
 }

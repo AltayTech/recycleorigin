@@ -23,8 +23,11 @@ class MessagesCreateRequested extends MessagesEvent {
 }
 
 class MessagesLoadRequested extends MessagesEvent {
-  const MessagesLoadRequested(this.commentPostId, this.isLogin,
-      {this.completer});
+  const MessagesLoadRequested(
+    this.commentPostId,
+    this.isLogin, {
+    this.completer,
+  });
   final String commentPostId;
   final bool isLogin;
   final Completer<void>? completer;

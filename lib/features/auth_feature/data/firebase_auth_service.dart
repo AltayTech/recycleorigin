@@ -7,6 +7,7 @@ import 'package:recycleorigin/core/config/app_config.dart';
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
+import 'package:recycleorigin/features/auth_feature/data/firebase_identity_toolkit.dart';
 
 /// Result of a successful Firebase exchange. Contains the backend access /
 /// refresh tokens and the canonical user record from Postgres.
@@ -34,6 +35,7 @@ class AuthErrorCodes {
   static const emailAlreadyInUse = 'email-already-in-use';
   static const weakPassword = 'weak-password';
   static const networkRequestFailed = 'network-request-failed';
+  static const invalidCredential = 'invalid-credential';
   static const cancelled = 'cancelled';
   static const noCurrentUser = 'no-current-user';
   static const emailNotVerified = 'email-not-verified';
@@ -64,13 +66,16 @@ class FirebaseAuthService {
     fb.FirebaseAuth? auth,
     GoogleSignIn? googleSignIn,
     Dio? exchangeClient,
-  })  : _authOverride = auth,
-        _googleSignInOverride = googleSignIn,
-        _exchangeClient = exchangeClient ?? _buildExchangeClient();
+    FirebaseIdentityToolkit? identityToolkit,
+  }) : _authOverride = auth,
+       _googleSignInOverride = googleSignIn,
+       _exchangeClient = exchangeClient ?? _buildExchangeClient(),
+       _identityToolkit = identityToolkit ?? FirebaseIdentityToolkit();
 
   final fb.FirebaseAuth? _authOverride;
   final GoogleSignIn? _googleSignInOverride;
   final Dio _exchangeClient;
+  final FirebaseIdentityToolkit _identityToolkit;
 
   fb.FirebaseAuth? _auth;
   GoogleSignIn? _googleSignIn;
@@ -119,12 +124,20 @@ class FirebaseAuthService {
     required String email,
     required String password,
   }) async {
+    final trimmed = email.trim();
     try {
-      final cred = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email.trim(),
-        password: password,
+      return await _withRecaptchaFallback(
+        action: 'sign-in',
+        native: () async {
+          final cred = await _firebaseAuth.signInWithEmailAndPassword(
+            email: trimmed,
+            password: password,
+          );
+          await _clearRestSession();
+          return _exchangeWithBackend(cred.user!);
+        },
+        rest: () => _signInViaIdentityToolkit(trimmed, password),
       );
-      return await _exchangeWithBackend(cred.user!);
     } on fb.FirebaseAuthException catch (e) {
       throw _fromFirebase(e);
     } on Object catch (e, st) {
@@ -140,29 +153,42 @@ class FirebaseAuthService {
     required String password,
     String? displayName,
   }) async {
+    final trimmed = email.trim();
+    final name = displayName?.trim();
     try {
-      final cred = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email.trim(),
-        password: password,
+      return await _withRecaptchaFallback(
+        action: 'register',
+        native: () async {
+          final cred = await _firebaseAuth.createUserWithEmailAndPassword(
+            email: trimmed,
+            password: password,
+          );
+          final user = cred.user;
+          if (user == null) {
+            throw const AuthException(
+              AuthErrorCodes.unknown,
+              'Account creation returned no user',
+            );
+          }
+          if (name != null && name.isNotEmpty) {
+            try {
+              await user.updateDisplayName(name);
+            } catch (_) {}
+          }
+          try {
+            await user.sendEmailVerification();
+          } catch (e, st) {
+            AppLogger.warning('Failed to send verification email: $e', e, st);
+          }
+          await _clearRestSession();
+          return _exchangeWithBackend(user);
+        },
+        rest: () => _registerViaIdentityToolkit(
+          email: trimmed,
+          password: password,
+          displayName: name,
+        ),
       );
-      final user = cred.user;
-      if (user == null) {
-        throw const AuthException(
-          AuthErrorCodes.unknown,
-          'Account creation returned no user',
-        );
-      }
-      if (displayName != null && displayName.trim().isNotEmpty) {
-        try {
-          await user.updateDisplayName(displayName.trim());
-        } catch (_) {}
-      }
-      try {
-        await user.sendEmailVerification();
-      } catch (e, st) {
-        AppLogger.warning('Failed to send verification email: $e', e, st);
-      }
-      return await _exchangeWithBackend(user);
     } on fb.FirebaseAuthException catch (e) {
       throw _fromFirebase(e);
     } on Object catch (e, st) {
@@ -327,6 +353,143 @@ class FirebaseAuthService {
         e.response?.data?.toString() ?? e.message ?? 'Backend exchange failed',
       );
     }
+  }
+
+  /// Tries the native Firebase SDK first; if the error looks like a
+  /// Play Integrity / reCAPTCHA wrapper failure (surfaces as
+  /// `network-request-failed` even when Google servers are reachable),
+  /// retries via the Identity Toolkit REST API which skips that gate.
+  Future<FirebaseAuthResult> _withRecaptchaFallback({
+    required String action,
+    required Future<FirebaseAuthResult> Function() native,
+    required Future<FirebaseAuthResult> Function() rest,
+  }) async {
+    try {
+      return await native();
+    } on fb.FirebaseAuthException catch (e) {
+      if (!_isRecaptchaNetworkError(e)) rethrow;
+      AppLogger.warning(
+        'Native $action hit reCAPTCHA/network gate '
+        '(${e.code}), falling back to REST',
+      );
+      return rest();
+    } on AuthException catch (e) {
+      if (e.code != AuthErrorCodes.networkRequestFailed) rethrow;
+      AppLogger.warning(
+        'Native $action network-request-failed, '
+        'falling back to REST',
+      );
+      return rest();
+    }
+  }
+
+  bool _isRecaptchaNetworkError(fb.FirebaseAuthException e) {
+    if (e.code == 'network-request-failed') return true;
+    final msg = (e.message ?? '').toUpperCase();
+    return msg.contains('RECAPTCHA') || msg.contains('PLAY_INTEGRITY');
+  }
+
+  /// Email/password sign-in via Identity Toolkit REST, then exchange the
+  /// resulting ID token with the backend just like the native path does.
+  Future<FirebaseAuthResult> _signInViaIdentityToolkit(
+    String email,
+    String password,
+  ) async {
+    try {
+      final tokens = await _identityToolkit.signInWithPassword(
+        email: email,
+        password: password,
+      );
+      await SecureStorage.saveFirebaseRefreshToken(tokens.refreshToken);
+      return await _exchangeWithBackendRest(tokens.idToken);
+    } on IdentityToolkitFailure catch (e) {
+      throw AuthException(
+        identityToolkitStatusToAuthCode(e.status),
+        e.message,
+      );
+    }
+  }
+
+  /// Email/password registration via Identity Toolkit REST.
+  Future<FirebaseAuthResult> _registerViaIdentityToolkit({
+    required String email,
+    required String password,
+    String? displayName,
+  }) async {
+    try {
+      final tokens = await _identityToolkit.signUp(
+        email: email,
+        password: password,
+      );
+      if (displayName != null && displayName.isNotEmpty) {
+        try {
+          await _identityToolkit.updateDisplayName(
+            idToken: tokens.idToken,
+            displayName: displayName,
+          );
+        } catch (_) {}
+      }
+      try {
+        await _identityToolkit.sendEmailVerification(tokens.idToken);
+      } catch (e, st) {
+        AppLogger.warning(
+          'Failed to send verification email (REST): $e',
+          e,
+          st,
+        );
+      }
+      await SecureStorage.saveFirebaseRefreshToken(tokens.refreshToken);
+      return await _exchangeWithBackendRest(tokens.idToken);
+    } on IdentityToolkitFailure catch (e) {
+      throw AuthException(
+        identityToolkitStatusToAuthCode(e.status),
+        e.message,
+      );
+    }
+  }
+
+  /// Exchange an Identity Toolkit ID token with the backend.
+  Future<FirebaseAuthResult> _exchangeWithBackendRest(String idToken) async {
+    try {
+      final response = await _exchangeClient.post<Map<String, dynamic>>(
+        Urls.firebaseExchangeEndPoint,
+        data: {'id_token': idToken},
+      );
+      final body = response.data ?? const <String, dynamic>{};
+      final access = (body['access_token'] ?? body['token']) as String? ?? '';
+      final refresh = (body['refresh_token'] as String?) ?? '';
+      final userMap =
+          (body['user'] as Map<String, dynamic>?) ?? <String, dynamic>{};
+      if (access.isEmpty) {
+        throw const AuthException(
+          AuthErrorCodes.exchangeFailed,
+          'Backend did not return an access token',
+        );
+      }
+      await SecureStorage.saveAccessToken(access);
+      if (refresh.isNotEmpty) {
+        await SecureStorage.saveRefreshToken(refresh);
+      }
+      await SecureStorage.saveLoginStatus(true);
+      return FirebaseAuthResult(
+        accessToken: access,
+        refreshToken: refresh,
+        user: userMap,
+      );
+    } on DioException catch (e) {
+      throw AuthException(
+        AuthErrorCodes.exchangeFailed,
+        e.response?.data?.toString() ?? e.message ?? 'Backend exchange failed',
+      );
+    }
+  }
+
+  /// Clears the REST-only Firebase refresh token when the native SDK path
+  /// succeeded (so we don't keep a stale REST session around).
+  Future<void> _clearRestSession() async {
+    try {
+      await SecureStorage.deleteFirebaseRefreshToken();
+    } catch (_) {}
   }
 
   AuthException _fromFirebase(fb.FirebaseAuthException e) {

@@ -89,10 +89,7 @@ class CustomerCountriesRequested extends CustomerInfoEvent {
 }
 
 class CustomerProvincesByCountryRequested extends CustomerInfoEvent {
-  const CustomerProvincesByCountryRequested(
-    this.countryId, {
-    this.completer,
-  });
+  const CustomerProvincesByCountryRequested(this.countryId, {this.completer});
   final int countryId;
   final Completer<void>? completer;
 }

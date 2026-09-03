@@ -76,8 +76,9 @@ class WasteItemWastesScreen extends StatelessWidget {
                           imageErrorBuilder: (_, __, ___) => Icon(
                             Icons.recycling_rounded,
                             size: 36,
-                            color: context.appColors.subtitleColor
-                                .withValues(alpha: 0.3),
+                            color: context.appColors.subtitleColor.withValues(
+                              alpha: 0.3,
+                            ),
                           ),
                         ),
                       ),
@@ -100,8 +101,9 @@ class WasteItemWastesScreen extends StatelessWidget {
                               ? AppTheme.primary
                               : context.colors.onSurface,
                           fontSize: 13,
-                          fontWeight:
-                              isSelected ? FontWeight.w700 : FontWeight.w600,
+                          fontWeight: isSelected
+                              ? FontWeight.w700
+                              : FontWeight.w600,
                           height: 1.2,
                         ),
                       ),

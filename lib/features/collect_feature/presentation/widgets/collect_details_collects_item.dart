@@ -9,10 +9,8 @@ import 'package:recycleorigin/l10n/l10n.dart';
 class CollectDetailsCollectItem extends StatelessWidget {
   final Collect collectItem;
 
-  const CollectDetailsCollectItem({
-    Key? key,
-    required this.collectItem,
-  }) : super(key: key);
+  const CollectDetailsCollectItem({Key? key, required this.collectItem})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +50,10 @@ class CollectDetailsCollectItem extends StatelessWidget {
           _buildInfoSection(
             context,
             title: context.l10n.summaryPriceUsdTitle,
-            requested:
-                _formatCurrency(currencyFormat, collectItem.estimated_price),
+            requested: _formatCurrency(
+              currencyFormat,
+              collectItem.estimated_price,
+            ),
             delivered: _formatCurrency(currencyFormat, collectItem.exact_price),
             isCurrency: true,
           ),

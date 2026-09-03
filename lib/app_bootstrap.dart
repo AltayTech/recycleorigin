@@ -25,12 +25,10 @@ Future<void> bootstrapApp(String envFile) async {
 
       await _safeStep(
         'orientation',
-        () => SystemChrome.setPreferredOrientations(
-          const [
-            DeviceOrientation.portraitUp,
-            DeviceOrientation.portraitDown,
-          ],
-        ),
+        () => SystemChrome.setPreferredOrientations(const [
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]),
       );
       await _safeStep(
         'AppConfig',
@@ -56,14 +54,11 @@ Future<void> bootstrapApp(String envFile) async {
 
       if (FirebaseBootstrap.isInitialized &&
           AppConfig.enablePushNotifications) {
-        await _safeStep(
-          'FCM background handler',
-          () async {
-            FirebaseMessaging.onBackgroundMessage(
-              firebaseMessagingBackgroundHandler,
-            );
-          },
-        );
+        await _safeStep('FCM background handler', () async {
+          FirebaseMessaging.onBackgroundMessage(
+            firebaseMessagingBackgroundHandler,
+          );
+        });
       } else {
         AppLogger.warning(
           'Skipping FCM background handler '
@@ -102,11 +97,7 @@ Future<void> _enableCrashlytics() async {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
     _configureErrorHandlers(recordToCrashlytics: true);
   } catch (error, stackTrace) {
-    AppLogger.warning(
-      'Crashlytics init failed',
-      error,
-      stackTrace,
-    );
+    AppLogger.warning('Crashlytics init failed', error, stackTrace);
   }
 }
 
@@ -155,11 +146,7 @@ void _configureErrorHandlers({bool recordToCrashlytics = false}) {
 }
 
 Future<void> _recordFatal(Object error, StackTrace stack) async {
-  AppLogger.error(
-    'Uncaught bootstrap error',
-    error: error,
-    stackTrace: stack,
-  );
+  AppLogger.error('Uncaught bootstrap error', error: error, stackTrace: stack);
   if (kIsWeb || !FirebaseBootstrap.isInitialized) {
     return;
   }
@@ -210,10 +197,7 @@ class BootstrapErrorApp extends StatelessWidget {
                 const Text(
                   'RecycleOrigin could not start',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 12),
                 Text(

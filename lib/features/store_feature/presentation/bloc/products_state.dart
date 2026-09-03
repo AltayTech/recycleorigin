@@ -20,12 +20,12 @@ class ProductsState {
     this.isFiltered = false,
     SearchDetail? searchDetails,
     Product? item,
-  })  : items = items ?? const [],
-        cartItems = cartItems ?? const [],
-        categoryItems = categoryItems ?? const [],
-        filterTitle = filterTitle ?? const [],
-        searchDetails = searchDetails ?? SearchDetail(max_page: 1, total: 10),
-        item = item ?? Product();
+  }) : items = items ?? const [],
+       cartItems = cartItems ?? const [],
+       categoryItems = categoryItems ?? const [],
+       filterTitle = filterTitle ?? const [],
+       searchDetails = searchDetails ?? SearchDetail(max_page: 1, total: 10),
+       item = item ?? Product();
 
   final List<Product> items;
   final List<ProductCart> cartItems;

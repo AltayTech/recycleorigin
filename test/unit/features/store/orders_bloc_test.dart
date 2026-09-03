@@ -27,9 +27,7 @@ void main() {
     test('searchBuilder with search key', () async {
       ordersBloc.sPage = 1;
       ordersBloc.sPerPage = 10;
-      ordersBloc.add(
-        const OrdersSearchParamsChanged(searchKey: 'order-42'),
-      );
+      ordersBloc.add(const OrdersSearchParamsChanged(searchKey: 'order-42'));
       await _tick();
       ordersBloc.searchBuilder();
       await _tick();

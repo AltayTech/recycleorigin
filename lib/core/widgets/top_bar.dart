@@ -6,9 +6,7 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      child: Container(
-        height: 200.0,
-      ),
+      child: Container(height: 200.0),
       painter: CurvePainter(),
     );
   }

@@ -27,14 +27,16 @@ class Order with ChangeNotifier {
 
   factory Order.fromJson(Map<String, dynamic> parsedJson) {
     var productList = parsedJson['products'] as List;
-    List<ProductOrderReceive> productRaw =
-        productList.map((i) => ProductOrderReceive.fromJson(i)).toList();
+    List<ProductOrderReceive> productRaw = productList
+        .map((i) => ProductOrderReceive.fromJson(i))
+        .toList();
 
     return Order(
       id: parsedJson['id'],
       status: Status.fromJson(parsedJson['status']),
-      pay_status:
-          parsedJson['pay_status'] != null ? parsedJson['pay_status'] : '',
+      pay_status: parsedJson['pay_status'] != null
+          ? parsedJson['pay_status']
+          : '',
       pay_date: parsedJson['pay_date'] != null ? parsedJson['pay_date'] : '',
       pay_transaction: parsedJson['pay_transaction'] != null
           ? parsedJson['pay_transaction']

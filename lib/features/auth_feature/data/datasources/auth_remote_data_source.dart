@@ -9,7 +9,11 @@ import 'package:recycleorigin/features/auth_feature/data/models/TokenResponseMod
 abstract class AuthRemoteDataSource {
   Future<Result<TokenResponseModel>> login(String email, String password);
   Future<Result<bool>> register(
-      String email, String password, String firstName, String lastName);
+    String email,
+    String password,
+    String firstName,
+    String lastName,
+  );
   Future<Result<bool>> checkCompleted();
 }
 
@@ -20,7 +24,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Result<TokenResponseModel>> login(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
     // Input validation
     if (email.isEmpty || password.isEmpty) {
       return const Failure('Email and password are required');
@@ -28,10 +34,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     final result = await _apiClient.post<Map<String, dynamic>>(
       'jwt-auth/v1/token',
-      queryParameters: {
-        'username': email,
-        'password': password,
-      },
+      queryParameters: {'username': email, 'password': password},
       parser: (data) => data as Map<String, dynamic>,
     );
 
@@ -59,7 +62,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Result<bool>> register(
-      String email, String password, String firstName, String lastName) async {
+    String email,
+    String password,
+    String firstName,
+    String lastName,
+  ) async {
     // Input validation
     if (email.isEmpty ||
         password.isEmpty ||

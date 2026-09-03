@@ -51,8 +51,11 @@ void main() {
       );
 
       final customer = Customer(
-        customer_type:
-            Status(term_id: 2, name: 'individual', slug: 'individual'),
+        customer_type: Status(
+          term_id: 2,
+          name: 'individual',
+          slug: 'individual',
+        ),
         personalData: PersonalData(
           first_name: 'Updated',
           last_name: 'User',
@@ -87,10 +90,7 @@ void main() {
         'recycleorigin/v1/transactions?page=1&per_page=10&order=desc&orderby=date',
         Success<Map<String, dynamic>>(<String, dynamic>{
           'data': <dynamic>[],
-          'details': <String, dynamic>{
-            'total': 0,
-            'max_pages': 1,
-          },
+          'details': <String, dynamic>{'total': 0, 'max_pages': 1},
         }),
       );
 

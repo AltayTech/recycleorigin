@@ -14,38 +14,38 @@ import 'package:recycleorigin/features/store_feature/business/entities/order_det
 import 'package:recycleorigin/features/store_feature/business/entities/shop.dart';
 
 Customer buildEmptyCustomer() => Customer(
-      personalData: PersonalData(
-        first_name: '',
-        last_name: '',
-        email: '',
-        ostan: '',
-        city: '',
-        postcode: '',
-        phone: '',
-      ),
-      money: '0',
-    );
+  personalData: PersonalData(
+    first_name: '',
+    last_name: '',
+    email: '',
+    ostan: '',
+    city: '',
+    postcode: '',
+    phone: '',
+  ),
+  money: '0',
+);
 
 OrderDetails buildEmptyOrderDetails() => OrderDetails(
-      id: 0,
-      total_cost: '',
-      shenaseh: '',
-      order_register_date: '',
-      number_of_products: 0,
-      products: const [],
-      order_status: '',
-      order_status_slug: '',
-      pay_type: '',
-      pay_type_slug: '',
-      pish: '',
-      pay_status: '',
-      pay_status_slug: '',
-    );
+  id: 0,
+  total_cost: '',
+  shenaseh: '',
+  order_register_date: '',
+  number_of_products: 0,
+  products: const [],
+  order_status: '',
+  order_status_slug: '',
+  pay_type: '',
+  pay_type_slug: '',
+  pish: '',
+  pay_status: '',
+  pay_status_slug: '',
+);
 
 Transaction buildEmptyTransaction() => Transaction(
-      transaction_type: Status(),
-      belongs: Belongs(id: 0, name: ''),
-    );
+  transaction_type: Status(),
+  belongs: Belongs(id: 0, name: ''),
+);
 
 class CustomerInfoState {
   CustomerInfoState({
@@ -69,18 +69,18 @@ class CustomerInfoState {
     List<City>? citiesItems,
     List<Status>? typesItems,
     List<File>? chequeImageList,
-  })  : shop = shop ?? Shop(),
-        customer = customer ?? buildEmptyCustomer(),
-        orders = orders ?? <Order>[],
-        order = order ?? buildEmptyOrderDetails(),
-        transactionItems = transactionItems ?? <Transaction>[],
-        searchDetails = searchDetails ?? SearchDetail(),
-        transactionItem = transactionItem ?? buildEmptyTransaction(),
-        provincesItems = provincesItems ?? <Province>[],
-        countriesItems = countriesItems ?? <Country>[],
-        citiesItems = citiesItems ?? <City>[],
-        typesItems = typesItems ?? <Status>[],
-        chequeImageList = chequeImageList ?? <File>[];
+  }) : shop = shop ?? Shop(),
+       customer = customer ?? buildEmptyCustomer(),
+       orders = orders ?? <Order>[],
+       order = order ?? buildEmptyOrderDetails(),
+       transactionItems = transactionItems ?? <Transaction>[],
+       searchDetails = searchDetails ?? SearchDetail(),
+       transactionItem = transactionItem ?? buildEmptyTransaction(),
+       provincesItems = provincesItems ?? <Province>[],
+       countriesItems = countriesItems ?? <Country>[],
+       citiesItems = citiesItems ?? <City>[],
+       typesItems = typesItems ?? <Status>[],
+       chequeImageList = chequeImageList ?? <File>[];
 
   final String payUrl;
   final int currentOrderId;

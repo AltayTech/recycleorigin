@@ -284,22 +284,8 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     CustomerPayCashOrderRequested event,
     Emitter<CustomerInfoState> emit,
   ) async {
-    final path =
-        'recycleorigin/v1${Urls.payEndPoint}?order_id=${event.orderId}';
-    final result = await _apiClient.get<dynamic>(path, parser: (data) => data);
-    result
-        .onSuccess((extractedData) {
-          final url = extractedData is String
-              ? extractedData
-              : extractedData is Map && extractedData.containsKey('url')
-              ? extractedData['url'] as String
-              : extractedData.toString();
-          emit(state.copyWith(payUrl: url));
-          event.completer?.complete();
-        })
-        .onFailure((error) {
-          event.completer?.completeError(Exception(error));
-        });
+    emit(state.copyWith(payUrl: ''));
+    event.completer?.completeError(Exception('payment_not_available'));
   }
 
   Future<void> _onCustomerSendNaghdOrderRequested(

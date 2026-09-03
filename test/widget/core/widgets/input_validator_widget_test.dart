@@ -6,8 +6,9 @@ import '../../../helpers/test_helpers.dart';
 /// Widget test for input validation in forms
 void main() {
   group('Input Validator Widget Tests', () {
-    testWidgets('should validate email input in TextField',
-        (WidgetTester tester) async {
+    testWidgets('should validate email input in TextField', (
+      WidgetTester tester,
+    ) async {
       String? emailError;
       final emailController = TextEditingController();
 
@@ -20,8 +21,9 @@ void main() {
               errorText: emailError,
             ),
             onChanged: (value) {
-              emailError =
-                  InputValidator.isValidEmail(value) ? null : 'Invalid email';
+              emailError = InputValidator.isValidEmail(value)
+                  ? null
+                  : 'Invalid email';
             },
           ),
         ),
@@ -37,8 +39,9 @@ void main() {
       await tester.pump();
     });
 
-    testWidgets('should validate password input in TextField',
-        (WidgetTester tester) async {
+    testWidgets('should validate password input in TextField', (
+      WidgetTester tester,
+    ) async {
       String? passwordError;
       final passwordController = TextEditingController();
 
@@ -68,8 +71,9 @@ void main() {
       await tester.pump();
     });
 
-    testWidgets('should validate phone number input',
-        (WidgetTester tester) async {
+    testWidgets('should validate phone number input', (
+      WidgetTester tester,
+    ) async {
       String? phoneError;
       final phoneController = TextEditingController();
 

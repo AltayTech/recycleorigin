@@ -23,8 +23,9 @@ class Waste with ChangeNotifier {
 
   factory Waste.fromJson(Map<String, dynamic> parsedJson) {
     var priceWeightList = parsedJson['prices'] as List;
-    List<PriceWeight> priceWeightRaw =
-        priceWeightList.map((i) => PriceWeight.fromJson(i)).toList();
+    List<PriceWeight> priceWeightRaw = priceWeightList
+        .map((i) => PriceWeight.fromJson(i))
+        .toList();
 
     return Waste(
       id: parsedJson['id'],

@@ -9,8 +9,9 @@ class FeaturedImage {
 
   factory FeaturedImage.fromJson(Map<String, dynamic> parsedJson) {
     final rawSizes = parsedJson['sizes'];
-    final sizes =
-        rawSizes is Map<String, dynamic> ? Sizes.fromJson(rawSizes) : Sizes();
+    final sizes = rawSizes is Map<String, dynamic>
+        ? Sizes.fromJson(rawSizes)
+        : Sizes();
     return FeaturedImage(
       id: parsedJson['id'] is int
           ? parsedJson['id'] as int

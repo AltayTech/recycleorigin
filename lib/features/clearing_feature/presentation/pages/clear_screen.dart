@@ -137,11 +137,7 @@ class _ClearScreenState extends State<ClearScreen>
   }
 
   String removeSemicolon(String rawString) {
-    print(rawString);
-
-    String newvalue = rawString.replaceAll(',', '');
-
-    return newvalue;
+    return rawString.replaceAll(',', '');
   }
 
   @override
@@ -487,6 +483,20 @@ class _ClearScreenState extends State<ClearScreen>
                                     FilteringTextInputFormatter.digitsOnly,
                                     new CurrencyInputFormatter(),
                                   ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 8,
+                                    bottom: 8,
+                                  ),
+                                  child: Text(
+                                    context.l10n.clearingPayoutStaffHandledHint,
+                                    style: TextStyle(
+                                      color: context.colors.onSurface
+                                          .withValues(alpha: 0.7),
+                                      fontSize: textScaleFactor * 12.0,
+                                    ),
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(

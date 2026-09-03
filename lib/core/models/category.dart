@@ -5,11 +5,7 @@ class Category with ChangeNotifier {
   final String name;
   final String slug;
 
-  Category({
-    required this.term_id,
-    required this.name,
-    required this.slug,
-  });
+  Category({required this.term_id, required this.name, required this.slug});
 
   factory Category.fromJson(Map<String, dynamic> parsedJson) {
     return Category(

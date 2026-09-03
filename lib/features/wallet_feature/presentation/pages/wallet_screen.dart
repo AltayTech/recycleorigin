@@ -76,8 +76,9 @@ class _WalletScreenState extends State<WalletScreen> {
 
     try {
       final headers = await _authHeaders();
-      final walletResult =
-          await WalletRepository(ApiProvider.client).fetchWallet();
+      final walletResult = await WalletRepository(
+        ApiProvider.client,
+      ).fetchWallet();
       if (walletResult case Success(:final value) when mounted) {
         _wallet = value;
       }
@@ -115,10 +116,7 @@ class _WalletScreenState extends State<WalletScreen> {
       final headers = await _authHeaders();
       final txUrl = Uri.parse(
         Urls.rootUrl + Urls.walletTransactionsEndPoint,
-      ).replace(queryParameters: {
-        'page': '$_page',
-        'per_page': '20',
-      });
+      ).replace(queryParameters: {'page': '$_page', 'per_page': '20'});
       final txResp = await http.get(txUrl, headers: headers);
       if (txResp.statusCode == 200 && mounted) {
         final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
@@ -210,14 +208,14 @@ class _WalletScreenState extends State<WalletScreen> {
                   _transactions.isEmpty && !_isLoading
                       ? SliverToBoxAdapter(child: _buildEmptyState())
                       : SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              return WalletTransactionItem(
-                                transaction: _transactions[index],
-                              );
-                            },
-                            childCount: _transactions.length,
-                          ),
+                          delegate: SliverChildBuilderDelegate((
+                            context,
+                            index,
+                          ) {
+                            return WalletTransactionItem(
+                              transaction: _transactions[index],
+                            );
+                          }, childCount: _transactions.length),
                         ),
                   if (_isLoading)
                     SliverToBoxAdapter(

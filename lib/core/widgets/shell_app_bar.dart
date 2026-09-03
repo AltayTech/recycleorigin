@@ -33,8 +33,10 @@ class ShellAppBar extends StatelessWidget implements PreferredSizeWidget {
     final theme = Theme.of(context);
     final appColors = context.appColors;
     final appBarTheme = theme.appBarTheme;
-    final foreground = appBarTheme.foregroundColor ?? appColors.onHeroForeground;
-    final titleStyle = appBarTheme.titleTextStyle ??
+    final foreground =
+        appBarTheme.foregroundColor ?? appColors.onHeroForeground;
+    final titleStyle =
+        appBarTheme.titleTextStyle ??
         theme.textTheme.titleLarge?.copyWith(
           color: foreground,
           fontWeight: FontWeight.w700,
