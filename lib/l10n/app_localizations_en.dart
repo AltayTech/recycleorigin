@@ -644,6 +644,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get walletWithdrawRequestButton => 'Payout request';
 
   @override
+  String get walletRecentTransactions => 'Recent Transactions';
+
+  @override
+  String walletItemsCount(int count) {
+    return '$count items';
+  }
+
+  @override
   String get clearingPayTitle => 'Payout request';
 
   @override

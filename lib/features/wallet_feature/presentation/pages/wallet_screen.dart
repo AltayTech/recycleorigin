@@ -1,16 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:http/http.dart' as http;
-import 'package:recycleorigin/core/constants/urls.dart';
-import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
+import 'package:recycleorigin/core/utils/result.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/pages/clear_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/core/network/api_provider.dart';
-import 'package:recycleorigin/core/utils/result.dart';
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet.dart';
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet_transaction.dart';
 import 'package:recycleorigin/features/wallet_feature/data/wallet_repository.dart';
@@ -21,15 +16,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
 class WalletScreen extends StatefulWidget {
+  const WalletScreen({super.key});
+
   static const routeName = '/walletScreen';
 
   @override
-  _WalletScreenState createState() => _WalletScreenState();
+  State<WalletScreen> createState() => _WalletScreenState();
 }
 
 class _WalletScreenState extends State<WalletScreen> {
   final ScrollController _scrollController = ScrollController();
+  late final WalletRepository _walletRepository;
+
   bool _isLoading = false;
+  String? _errorMessage;
   int _page = 1;
   int _maxPage = 1;
   Wallet _wallet = const Wallet();
@@ -38,6 +38,7 @@ class _WalletScreenState extends State<WalletScreen> {
   @override
   void initState() {
     super.initState();
+    _walletRepository = WalletRepository(ApiProvider.client);
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadData();
@@ -59,80 +60,74 @@ class _WalletScreenState extends State<WalletScreen> {
     }
   }
 
-  Future<Map<String, String>> _authHeaders() async {
-    final token = await SecureStorage.getToken();
-    return {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
-    };
-  }
-
   Future<void> _loadData() async {
     final authProvider = context.read<AuthBloc>();
-    if (!authProvider.isAuth) return;
+    if (!authProvider.isAuth) {
+      return;
+    }
 
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
 
-    try {
-      final headers = await _authHeaders();
-      final walletResult = await WalletRepository(
-        ApiProvider.client,
-      ).fetchWallet();
-      if (walletResult case Success(:final value) when mounted) {
+    final walletResult = await _walletRepository.fetchWallet();
+    final txResult = await _walletRepository.fetchTransactions(page: 1);
+
+    if (!mounted) {
+      return;
+    }
+
+    switch (walletResult) {
+      case Success(:final value):
         _wallet = value;
-      }
+      case Failure(:final message):
+        setState(() {
+          _isLoading = false;
+          _errorMessage = message;
+        });
+        return;
+    }
 
-      // Load full transaction history.
-      _page = 1;
-      final txUrl = Uri.parse(
-        Urls.rootUrl + Urls.walletTransactionsEndPoint,
-      ).replace(queryParameters: {'page': '1', 'per_page': '20'});
-      final txResp = await http.get(txUrl, headers: headers);
-      if (txResp.statusCode == 200 && mounted) {
-        final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
-        final txList = txData['data'] as List<dynamic>? ?? [];
-        _transactions = txList
-            .map((e) => WalletTransaction.fromJson(e as Map<String, dynamic>))
-            .toList();
-        final details = txData['details'] as Map<String, dynamic>?;
-        _maxPage = details?['max_pages'] as int? ?? 1;
-      }
-
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    } catch (error) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
+    switch (txResult) {
+      case Success(:final value):
+        setState(() {
+          _page = 1;
+          _transactions = value.transactions;
+          _maxPage = value.maxPages;
+          _isLoading = false;
+          _errorMessage = null;
+        });
+      case Failure(:final message):
+        setState(() {
+          _isLoading = false;
+          _errorMessage = message;
+        });
     }
   }
 
   Future<void> _loadMore() async {
     setState(() => _isLoading = true);
-    try {
-      _page++;
-      final headers = await _authHeaders();
-      final txUrl = Uri.parse(
-        Urls.rootUrl + Urls.walletTransactionsEndPoint,
-      ).replace(queryParameters: {'page': '$_page', 'per_page': '20'});
-      final txResp = await http.get(txUrl, headers: headers);
-      if (txResp.statusCode == 200 && mounted) {
-        final txData = jsonDecode(txResp.body) as Map<String, dynamic>;
-        final txList = txData['data'] as List<dynamic>? ?? [];
-        final newTx = txList
-            .map((e) => WalletTransaction.fromJson(e as Map<String, dynamic>))
-            .toList();
+    final nextPage = _page + 1;
+    final txResult = await _walletRepository.fetchTransactions(page: nextPage);
+
+    if (!mounted) {
+      return;
+    }
+
+    switch (txResult) {
+      case Success(:final value):
         setState(() {
-          _transactions.addAll(newTx);
+          _page = nextPage;
+          _transactions.addAll(value.transactions);
+          _maxPage = value.maxPages;
           _isLoading = false;
         });
-      }
-    } catch (error) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
+      case Failure(:final message):
+        setState(() {
+          _isLoading = false;
+          _errorMessage = message;
+        });
     }
   }
 
@@ -149,7 +144,7 @@ class _WalletScreenState extends State<WalletScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Wallet',
+          context.l10n.wallet,
           style: const TextStyle(
             color: AppTheme.appBarIconColor,
             fontWeight: FontWeight.bold,
@@ -161,6 +156,8 @@ class _WalletScreenState extends State<WalletScreen> {
       ),
       body: !isLogin
           ? _buildNotLoggedInState()
+          : _errorMessage != null && _transactions.isEmpty && !_isLoading
+          ? _buildErrorState()
           : RefreshIndicator(
               onRefresh: _loadData,
               child: CustomScrollView(
@@ -183,7 +180,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Recent Transactions',
+                                context.l10n.walletRecentTransactions,
                                 style: TextStyle(
                                   color: context.colors.onSurface,
                                   fontSize: 18,
@@ -192,7 +189,9 @@ class _WalletScreenState extends State<WalletScreen> {
                               ),
                               if (_transactions.isNotEmpty)
                                 Text(
-                                  '${_transactions.length} items',
+                                  context.l10n.walletItemsCount(
+                                    _transactions.length,
+                                  ),
                                   style: TextStyle(
                                     color: context.appColors.subtitleColor,
                                     fontSize: 14,
@@ -233,6 +232,31 @@ class _WalletScreenState extends State<WalletScreen> {
                 ],
               ),
             ),
+    );
+  }
+
+  Widget _buildErrorState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 64, color: context.colors.error),
+            const SizedBox(height: 16),
+            Text(
+              _errorMessage ?? '',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: context.appColors.subtitleColor),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _loadData,
+              child: Text(context.l10n.retryLabel),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

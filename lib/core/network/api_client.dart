@@ -211,6 +211,7 @@ class ApiClient {
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
     T Function(dynamic)? parser,
   }) async {
     try {
@@ -218,6 +219,7 @@ class ApiClient {
         path,
         data: data,
         queryParameters: queryParameters,
+        options: headers == null ? null : Options(headers: headers),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final result = parser != null

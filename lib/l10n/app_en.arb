@@ -208,6 +208,15 @@
   "pleaseLoginToViewWallet": "Please log in to view your wallet",
   "walletNoTransactionsYet": "No transactions yet",
   "walletWithdrawRequestButton": "Payout request",
+  "walletRecentTransactions": "Recent Transactions",
+  "walletItemsCount": "{count} items",
+  "@walletItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "clearingPayTitle": "Payout request",
   "clearingPayoutStaffHandledHint": "This submits a payout request for staff to process. It is not an instant bank transfer.",
   "clearingRequestRegisteredSuccess": "Your payout request was registered successfully.",

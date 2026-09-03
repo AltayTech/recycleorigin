@@ -74,6 +74,7 @@ class MockApiClient implements ApiClient {
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
     T Function(dynamic)? parser,
   }) async {
     final normalizedPath = _normalizePath(path, queryParameters);

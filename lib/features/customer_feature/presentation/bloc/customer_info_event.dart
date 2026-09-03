@@ -109,9 +109,11 @@ class CustomerClearingRequestSent extends CustomerInfoEvent {
   const CustomerClearingRequestSent({
     required this.money,
     required this.shaba,
+    required this.idempotencyKey,
     this.completer,
   });
   final String money;
   final String shaba;
+  final String idempotencyKey;
   final Completer<void>? completer;
 }

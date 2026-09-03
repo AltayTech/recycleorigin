@@ -1346,6 +1346,18 @@ abstract class AppLocalizations {
   /// **'Payout request'**
   String get walletWithdrawRequestButton;
 
+  /// No description provided for @walletRecentTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Transactions'**
+  String get walletRecentTransactions;
+
+  /// No description provided for @walletItemsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items'**
+  String walletItemsCount(int count);
+
   /// No description provided for @clearingPayTitle.
   ///
   /// In en, this message translates to:

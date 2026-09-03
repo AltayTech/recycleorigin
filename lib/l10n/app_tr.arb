@@ -208,6 +208,15 @@
   "pleaseLoginToViewWallet": "Cuzdaninizi gormek icin giris yapin",
   "walletNoTransactionsYet": "Henuz islem yok",
   "walletWithdrawRequestButton": "Odeme talebi",
+  "walletRecentTransactions": "Son islemler",
+  "walletItemsCount": "{count} oge",
+  "@walletItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "clearingPayTitle": "Odeme talebi",
   "clearingPayoutStaffHandledHint": "Bu, personelin isleyecegi bir odeme talebi gonderir. Aninda banka transferi degildir.",
   "clearingRequestRegisteredSuccess": "Odeme talebiniz basariyla kaydedildi.",

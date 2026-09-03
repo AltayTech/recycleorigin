@@ -642,6 +642,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get walletWithdrawRequestButton => 'Odeme talebi';
 
   @override
+  String get walletRecentTransactions => 'Son islemler';
+
+  @override
+  String walletItemsCount(int count) {
+    return '$count oge';
+  }
+
+  @override
   String get clearingPayTitle => 'Odeme talebi';
 
   @override

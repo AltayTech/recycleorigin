@@ -43,7 +43,7 @@ dependencies:
   permission_handler: ^12.0.3
   firebase_crashlytics: ^5.2.7
 
-  provider: any
+  provider: ^6.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
