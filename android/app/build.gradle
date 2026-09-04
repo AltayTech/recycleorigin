@@ -36,6 +36,12 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        // lintVitalAnalyze* copies plugin lint jars into a cache. On Windows
+        // that file is often still locked by a previous Gradle daemon, Defender,
+        // or the IDE, which fails the AAB with FileSystemException. Flutter
+        // release quality is gated by dart analyze / tests, not Android lint.
+        checkReleaseBuilds false
+        abortOnError false
     }
 
     compileOptions {

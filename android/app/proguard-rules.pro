@@ -11,6 +11,14 @@
 -keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
 
+# Flutter embedding references Play Core split-install APIs used only for
+# deferred components. This app does not ship deferred components, so those
+# classes are not on the classpath. AGP 9 always runs R8 in full mode, which
+# fails minify unless the missing references are ignored.
+-dontwarn com.google.android.play.core.splitcompat.**
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**
+
 # Secure storage
 -keep class com.it_nomads.fluttersecurestorage.** { *; }
 
