@@ -89,13 +89,13 @@ class _NotificationPreferencesScreenState
     }
     if (res.isSuccess) {
       await PushNotificationController.instance.syncAfterLogin(_api);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Saved')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Saved')));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(res.errorOrNull ?? 'Save failed')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(res.errorOrNull ?? 'Save failed')));
     }
   }
 
@@ -117,31 +117,29 @@ class _NotificationPreferencesScreenState
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _error != null
-              ? Center(child: Text(_error!))
-              : ListView(
-                  children: [
-                    for (final cat in _prefs.keys)
-                      ExpansionTile(
-                        title: Text(cat),
-                        children: [
-                          SwitchListTile(
-                            title: const Text('Push'),
-                            value: _prefs[cat]!['push']!,
-                            onChanged: (v) => setState(
-                              () => _prefs[cat]!['push'] = v,
-                            ),
-                          ),
-                          SwitchListTile(
-                            title: const Text('In-app inbox'),
-                            value: _prefs[cat]!['inapp']!,
-                            onChanged: (v) => setState(
-                              () => _prefs[cat]!['inapp'] = v,
-                            ),
-                          ),
-                        ],
+          ? Center(child: Text(_error!))
+          : ListView(
+              children: [
+                for (final cat in _prefs.keys)
+                  ExpansionTile(
+                    title: Text(cat),
+                    children: [
+                      SwitchListTile(
+                        title: const Text('Push'),
+                        value: _prefs[cat]!['push']!,
+                        onChanged: (v) =>
+                            setState(() => _prefs[cat]!['push'] = v),
                       ),
-                  ],
-                ),
+                      SwitchListTile(
+                        title: const Text('In-app inbox'),
+                        value: _prefs[cat]!['inapp']!,
+                        onChanged: (v) =>
+                            setState(() => _prefs[cat]!['inapp'] = v),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
     );
   }
 }

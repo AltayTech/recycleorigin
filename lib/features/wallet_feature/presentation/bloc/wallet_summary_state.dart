@@ -1,12 +1,6 @@
 import 'package:recycleorigin/features/wallet_feature/business/entities/wallet.dart';
 
-enum WalletSummaryStatus {
-  initial,
-  loading,
-  loaded,
-  error,
-  notAuthenticated,
-}
+enum WalletSummaryStatus { initial, loading, loaded, error, notAuthenticated }
 
 class WalletSummaryState {
   const WalletSummaryState({

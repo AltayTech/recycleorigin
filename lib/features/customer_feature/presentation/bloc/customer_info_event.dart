@@ -89,10 +89,7 @@ class CustomerCountriesRequested extends CustomerInfoEvent {
 }
 
 class CustomerProvincesByCountryRequested extends CustomerInfoEvent {
-  const CustomerProvincesByCountryRequested(
-    this.countryId, {
-    this.completer,
-  });
+  const CustomerProvincesByCountryRequested(this.countryId, {this.completer});
   final int countryId;
   final Completer<void>? completer;
 }
@@ -112,9 +109,11 @@ class CustomerClearingRequestSent extends CustomerInfoEvent {
   const CustomerClearingRequestSent({
     required this.money,
     required this.shaba,
+    required this.idempotencyKey,
     this.completer,
   });
   final String money;
   final String shaba;
+  final String idempotencyKey;
   final Completer<void>? completer;
 }

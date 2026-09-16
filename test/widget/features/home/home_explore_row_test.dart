@@ -14,20 +14,15 @@ void main() {
     );
   }
 
-  testWidgets('HomeExploreRow invokes article tap', (tester) async {
-    var articlesTapped = false;
+  testWidgets('HomeExploreRow invokes guide tap', (tester) async {
+    var guideTapped = false;
 
     await tester.pumpWidget(
-      wrap(
-        HomeExploreRow(
-          onArticlesTap: () => articlesTapped = true,
-          onGuideTap: () {},
-        ),
-      ),
+      wrap(HomeExploreRow(onGuideTap: () => guideTapped = true)),
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Articles'));
-    expect(articlesTapped, isTrue);
+    await tester.tap(find.text('Guide'));
+    expect(guideTapped, isTrue);
   });
 }

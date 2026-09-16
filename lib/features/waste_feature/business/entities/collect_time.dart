@@ -3,11 +3,7 @@ class CollectTime {
   final String day;
   final String collect_done_time;
 
-  CollectTime({
-    this.time = '',
-    this.day = '',
-    this.collect_done_time = '',
-  });
+  CollectTime({this.time = '', this.day = '', this.collect_done_time = ''});
 
   factory CollectTime.fromJson(Map<String, dynamic> parsedJson) {
     return CollectTime(
@@ -18,10 +14,6 @@ class CollectTime {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'time': time,
-      'day': day,
-      'collect_done_time': collect_done_time,
-    };
+    return {'time': time, 'day': day, 'collect_done_time': collect_done_time};
   }
 }

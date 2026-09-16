@@ -27,10 +27,10 @@ class AuthState {
     Address? selectedAddress,
     List<Region>? regionItems,
     this.regionData,
-  })  : tokenResponseModel = tokenResponseModel ?? TokenResponseModel(),
-        addressItems = addressItems ?? <Address>[],
-        selectedAddress = selectedAddress ?? Address(region: Region()),
-        regionItems = regionItems ?? <Region>[];
+  }) : tokenResponseModel = tokenResponseModel ?? TokenResponseModel(),
+       addressItems = addressItems ?? <Address>[],
+       selectedAddress = selectedAddress ?? Address(region: Region()),
+       regionItems = regionItems ?? <Region>[];
 
   final String token;
   final String refreshToken;

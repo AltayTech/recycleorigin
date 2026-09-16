@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recycleorigin/core/config/app_config.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
@@ -191,14 +192,16 @@ class _MainDrawerState extends State<MainDrawer> {
     if (isAuthenticated && subtitle == displayName) {
       subtitle = context.l10n.drawerSignedInNoContactHint;
     }
-    final showInitialsAvatar = isAuthenticated &&
+    final showInitialsAvatar =
+        isAuthenticated &&
         (firstName.isNotEmpty ||
             lastName.isNotEmpty ||
             _cleanAuthField(tokenModel.userDisplayName) != null ||
             _cleanAuthField(tokenModel.userNicename) != null);
 
-    final profileRoute =
-        isAuthenticated ? ProfileScreen.routeName : LoginScreen.routeName;
+    final profileRoute = isAuthenticated
+        ? ProfileScreen.routeName
+        : LoginScreen.routeName;
 
     return Material(
       color: Colors.transparent,
@@ -240,11 +243,7 @@ class _MainDrawerState extends State<MainDrawer> {
                           ),
                         ),
                       )
-                    : Icon(
-                        Icons.person_rounded,
-                        color: onHero,
-                        size: 28,
-                      ),
+                    : Icon(Icons.person_rounded, color: onHero, size: 28),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -322,8 +321,9 @@ class _MainDrawerState extends State<MainDrawer> {
     final selectedColor = Theme.of(context).brightness == Brightness.dark
         ? colors.surfaceContainerHighest.withValues(alpha: 0.92)
         : colors.surface.withValues(alpha: 0.92);
-    final defaultFg =
-        context.appColors.onHeroForeground.withValues(alpha: 0.94);
+    final defaultFg = context.appColors.onHeroForeground.withValues(
+      alpha: 0.94,
+    );
     final destructiveFg = colors.errorContainer;
     final foreground = destructive ? destructiveFg : defaultFg;
 
@@ -388,8 +388,9 @@ class _MainDrawerState extends State<MainDrawer> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content:
-                Text('${context.l10n.navigationErrorPrefix}${e.toString()}'),
+            content: Text(
+              '${context.l10n.navigationErrorPrefix}${e.toString()}',
+            ),
             backgroundColor: context.colors.error,
             duration: const Duration(seconds: 3),
           ),
@@ -412,8 +413,9 @@ class _MainDrawerState extends State<MainDrawer> {
             Future<void> onConfirm() async {
               setD(() => busy = true);
               try {
-                parentContext.read<CustomerInfoBloc>().customer =
-                    parentContext.read<CustomerInfoBloc>().customer_zero;
+                parentContext.read<CustomerInfoBloc>().customer = parentContext
+                    .read<CustomerInfoBloc>()
+                    .customer_zero;
                 await parentContext.read<AuthBloc>().removeToken();
                 parentContext.read<AuthBloc>().isFirstLogout = true;
                 if (ctx.mounted) {
@@ -527,8 +529,9 @@ class _MainDrawerState extends State<MainDrawer> {
                   final customerProvider = context.watch<CustomerInfoBloc>();
                   return _buildUserHeader(
                     authState: authState,
-                    customer:
-                        authState.isAuth ? customerProvider.customer : null,
+                    customer: authState.isAuth
+                        ? customerProvider.customer
+                        : null,
                   );
                 },
               ),
@@ -568,17 +571,19 @@ class _MainDrawerState extends State<MainDrawer> {
                       destructive: false,
                       onTap: () => _navigateToRoute(SettingsScreen.routeName),
                     ),
-                    _buildSectionTitle(l10n.shopSectionTitle),
-                    _buildDestinationTile(
-                      destination: _DrawerDestination(
-                        icon: Icons.shopping_cart_rounded,
-                        title: l10n.shoppingCartLabel,
-                        routeName: CartScreen.routeName,
+                    if (AppConfig.enableStore) ...[
+                      _buildSectionTitle(l10n.shopSectionTitle),
+                      _buildDestinationTile(
+                        destination: _DrawerDestination(
+                          icon: Icons.shopping_cart_rounded,
+                          title: l10n.shoppingCartLabel,
+                          routeName: CartScreen.routeName,
+                        ),
+                        selected: currentRouteName == CartScreen.routeName,
+                        destructive: false,
+                        onTap: () => _navigateToRoute(CartScreen.routeName),
                       ),
-                      selected: currentRouteName == CartScreen.routeName,
-                      destructive: false,
-                      onTap: () => _navigateToRoute(CartScreen.routeName),
-                    ),
+                    ],
                     _buildSectionTitle(l10n.supportSectionTitle),
                     _buildDestinationTile(
                       destination: _DrawerDestination(
@@ -596,7 +601,8 @@ class _MainDrawerState extends State<MainDrawer> {
                         title: l10n.supportScreenTitle,
                         routeName: SupportTicketsListScreen.routeName,
                       ),
-                      selected: currentRouteName ==
+                      selected:
+                          currentRouteName ==
                           SupportTicketsListScreen.routeName,
                       destructive: false,
                       onTap: () =>
@@ -618,9 +624,8 @@ class _MainDrawerState extends State<MainDrawer> {
                                 selected:
                                     currentRouteName == LoginScreen.routeName,
                                 destructive: false,
-                                onTap: () => _navigateToRoute(
-                                  LoginScreen.routeName,
-                                ),
+                                onTap: () =>
+                                    _navigateToRoute(LoginScreen.routeName),
                               ),
                             ],
                           );
@@ -668,8 +673,9 @@ class _MainDrawerState extends State<MainDrawer> {
                     Text(
                       _appVersion,
                       style: TextStyle(
-                        color:
-                            appColors.onHeroForeground.withValues(alpha: 0.66),
+                        color: appColors.onHeroForeground.withValues(
+                          alpha: 0.66,
+                        ),
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.3,

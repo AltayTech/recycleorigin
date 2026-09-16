@@ -36,6 +36,12 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        // lintVitalAnalyze* copies plugin lint jars into a cache. On Windows
+        // that file is often still locked by a previous Gradle daemon, Defender,
+        // or the IDE, which fails the AAB with FileSystemException. Flutter
+        // release quality is gated by dart analyze / tests, not Android lint.
+        checkReleaseBuilds false
+        abortOnError false
     }
 
     compileOptions {
@@ -51,7 +57,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.recycleorigin.recycleorigin"
         minSdkVersion 24
         targetSdk 36
@@ -99,11 +104,9 @@ android {
             } else {
                 signingConfig signingConfigs.debug
             }
-            // Minification has caused release-only startup failures on physical
-            // devices while emulators stay healthy. Re-enable after Crashlytics
-            // confirms a stable baseline on Play-signed builds.
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }

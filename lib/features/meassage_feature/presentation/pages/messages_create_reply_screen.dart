@@ -80,9 +80,7 @@ class _MessageCreateReplyScreenState extends State<MessageCreateReplyScreen> {
         });
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
   @override

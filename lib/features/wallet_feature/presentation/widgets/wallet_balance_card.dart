@@ -47,10 +47,7 @@ class WalletBalanceCard extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            AppTheme.primary,
-            AppTheme.primary.withValues(alpha: 0.8),
-          ],
+          colors: [AppTheme.primary, AppTheme.primary.withValues(alpha: 0.8)],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -70,16 +67,18 @@ class WalletBalanceCard extends StatelessWidget {
               Text(
                 'Total Balance',
                 style: TextStyle(
-                  color:
-                      context.appColors.onHeroForeground.withValues(alpha: 0.9),
+                  color: context.appColors.onHeroForeground.withValues(
+                    alpha: 0.9,
+                  ),
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Icon(
                 Icons.account_balance_wallet_outlined,
-                color:
-                    context.appColors.onHeroForeground.withValues(alpha: 0.9),
+                color: context.appColors.onHeroForeground.withValues(
+                  alpha: 0.9,
+                ),
               ),
             ],
           ),

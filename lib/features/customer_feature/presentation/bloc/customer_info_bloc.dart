@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recycleorigin/core/config/app_config.dart';
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/models/customer.dart';
 import 'package:recycleorigin/core/models/order.dart';
@@ -162,10 +164,13 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
 
   Future<void> sendClearingRequest(String money, String shaba) {
     final completer = Completer<void>();
+    final idempotencyKey =
+        '${DateTime.now().microsecondsSinceEpoch}-${Random().nextInt(1 << 32)}';
     add(
       CustomerClearingRequestSent(
         money: money,
         shaba: shaba,
+        idempotencyKey: idempotencyKey,
         completer: completer,
       ),
     );
@@ -284,22 +289,12 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     CustomerPayCashOrderRequested event,
     Emitter<CustomerInfoState> emit,
   ) async {
-    final path =
-        'recycleorigin/v1${Urls.payEndPoint}?order_id=${event.orderId}';
-    final result = await _apiClient.get<dynamic>(path, parser: (data) => data);
-    result
-        .onSuccess((extractedData) {
-          final url = extractedData is String
-              ? extractedData
-              : extractedData is Map && extractedData.containsKey('url')
-              ? extractedData['url'] as String
-              : extractedData.toString();
-          emit(state.copyWith(payUrl: url));
-          event.completer?.complete();
-        })
-        .onFailure((error) {
-          event.completer?.completeError(Exception(error));
-        });
+    emit(state.copyWith(payUrl: ''));
+    if (!AppConfig.enableStore) {
+      event.completer?.completeError(Exception('payment_not_available'));
+      return;
+    }
+    event.completer?.completeError(Exception('payment_not_available'));
   }
 
   Future<void> _onCustomerSendNaghdOrderRequested(
@@ -552,6 +547,7 @@ class CustomerInfoBloc extends Bloc<CustomerInfoEvent, CustomerInfoState> {
     final result = await _apiClient.post<Map<String, dynamic>>(
       'recycleorigin/v1${Urls.clearingEndPoint}',
       data: {'money': event.money, 'shaba': event.shaba},
+      headers: {'Idempotency-Key': event.idempotencyKey},
       parser: (data) => data as Map<String, dynamic>,
     );
     result

@@ -190,11 +190,12 @@ String _resolveStatusText(BuildContext context, RequestWasteItem c) {
     'picked_up' => l10n.statusPickedUp,
     'collected' => l10n.statusCollected,
     'cancelled' => l10n.statusCancelled,
-    _ => c.requestStatusLabel.isNotEmpty
-        ? c.requestStatusLabel
-        : (c.status.name.trim().isNotEmpty && c.status.name.trim() != '0'
-            ? c.status.name.trim()
-            : '—'),
+    _ =>
+      c.requestStatusLabel.isNotEmpty
+          ? c.requestStatusLabel
+          : (c.status.name.trim().isNotEmpty && c.status.name.trim() != '0'
+                ? c.status.name.trim()
+                : '—'),
   };
 }
 
@@ -203,40 +204,25 @@ String _resolveStatusText(BuildContext context, RequestWasteItem c) {
   Color bg(Color c) => c.withValues(alpha: 0.12);
   return switch (key) {
     'pending_assignment' => (
-        ext.warning,
-        bg(ext.warning),
-        Icons.person_search_rounded,
-      ),
+      ext.warning,
+      bg(ext.warning),
+      Icons.person_search_rounded,
+    ),
     'pending_driver_acceptance' => (
-        ext.warning,
-        bg(ext.warning),
-        Icons.hourglass_top_rounded,
-      ),
-    'driver_accepted' || 'in_progress' => (
-        ext.info,
-        bg(ext.info),
-        Icons.local_shipping_rounded,
-      ),
+      ext.warning,
+      bg(ext.warning),
+      Icons.hourglass_top_rounded,
+    ),
+    'driver_accepted' ||
+    'in_progress' => (ext.info, bg(ext.info), Icons.local_shipping_rounded),
     'picked_up' => (
-        AppTheme.iconAccentPurple,
-        bg(AppTheme.iconAccentPurple),
-        Icons.inventory_2_rounded,
-      ),
-    'collected' => (
-        ext.success,
-        bg(ext.success),
-        Icons.check_circle_rounded,
-      ),
-    'cancelled' => (
-        ext.danger,
-        bg(ext.danger),
-        Icons.cancel_rounded,
-      ),
-    _ => (
-        ext.subtitleColor,
-        bg(ext.subtitleColor),
-        Icons.info_outline_rounded,
-      ),
+      AppTheme.iconAccentPurple,
+      bg(AppTheme.iconAccentPurple),
+      Icons.inventory_2_rounded,
+    ),
+    'collected' => (ext.success, bg(ext.success), Icons.check_circle_rounded),
+    'cancelled' => (ext.danger, bg(ext.danger), Icons.cancel_rounded),
+    _ => (ext.subtitleColor, bg(ext.subtitleColor), Icons.info_outline_rounded),
   };
 }
 
@@ -308,11 +294,7 @@ class _StatusBanner extends StatelessWidget {
               color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Icon(
-              Icons.circle,
-              size: 8,
-              color: color,
-            ),
+            child: Icon(Icons.circle, size: 8, color: color),
           ),
         ],
       ),
@@ -568,9 +550,7 @@ class _DriverInfoCard extends StatelessWidget {
               ),
             ),
             if (dd.mobile.isNotEmpty || dd.phone.isNotEmpty)
-              _CallButton(
-                number: dd.mobile.isNotEmpty ? dd.mobile : dd.phone,
-              ),
+              _CallButton(number: dd.mobile.isNotEmpty ? dd.mobile : dd.phone),
           ],
         ),
         const SizedBox(height: 14),
@@ -585,11 +565,7 @@ class _DriverInfoCard extends StatelessWidget {
                 value: EnArConvertor().replaceArNumber(d.car_number),
               ),
             ),
-            Container(
-              width: 1,
-              height: 36,
-              color: context.appColors.divider,
-            ),
+            Container(width: 1, height: 36, color: context.appColors.divider),
             Expanded(
               child: _MiniStat(
                 icon: Icons.palette_rounded,
@@ -811,11 +787,7 @@ class _TotalRow extends StatelessWidget {
 }
 
 class _Badge extends StatelessWidget {
-  const _Badge({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
+  const _Badge({required this.label, required this.value, required this.color});
 
   final String label;
   final String value;
@@ -963,8 +935,9 @@ class _WasteItemCard extends StatelessWidget {
               child: _ItemMetricCell(
                 label: l10n.summaryWeightKgTitle,
                 estimatedValue: '${estW.toStringAsFixed(1)} kg',
-                finalValue:
-                    hasExactWeight ? '${extW.toStringAsFixed(1)} kg' : null,
+                finalValue: hasExactWeight
+                    ? '${extW.toStringAsFixed(1)} kg'
+                    : null,
                 l10n: l10n,
               ),
             ),
@@ -1015,8 +988,9 @@ class _WasteItemCard extends StatelessWidget {
                     const SizedBox(width: 6),
                     _Badge(
                       label: l10n.finalWeightLabel,
-                      value:
-                          EnArConvertor().replaceArNumber(_fmtPrice(extTotal)),
+                      value: EnArConvertor().replaceArNumber(
+                        _fmtPrice(extTotal),
+                      ),
                       color: context.appColors.success,
                     ),
                   ],
@@ -1091,10 +1065,7 @@ class _ItemMetricCell extends StatelessWidget {
 // ─── Rate driver (customer) ───────────────────────────────────────────────────
 
 class _RateDriverPanel extends StatefulWidget {
-  const _RateDriverPanel({
-    required this.collect,
-    required this.onRated,
-  });
+  const _RateDriverPanel({required this.collect, required this.onRated});
 
   final RequestWasteItem collect;
   final VoidCallback onRated;
@@ -1130,10 +1101,10 @@ class _RateDriverPanelState extends State<_RateDriverPanel> {
     setState(() => _submitting = true);
     try {
       await context.read<WastesBloc>().submitDriverRating(
-            widget.collect.id,
-            _stars,
-            _comment.text.trim(),
-          );
+        widget.collect.id,
+        _stars,
+        _comment.text.trim(),
+      );
       if (!mounted) return;
       widget.onRated();
     } catch (e) {
@@ -1202,9 +1173,7 @@ class _RateDriverPanelState extends State<_RateDriverPanel> {
           maxLength: 500,
           decoration: InputDecoration(
             labelText: l10n.ratingCommentLabel,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
         ),
         const SizedBox(height: 12),

@@ -6,11 +6,7 @@ import 'package:recycleorigin/core/widgets/main_drawer.dart';
 /// App bar leading for screens that use [MainDrawer]: shows a platform-aware
 /// back control when this route can pop, otherwise opens the drawer.
 class DrawerOrBackLeading extends StatelessWidget {
-  const DrawerOrBackLeading({
-    super.key,
-    this.iconColor,
-    this.scaffoldKey,
-  });
+  const DrawerOrBackLeading({super.key, this.iconColor, this.scaffoldKey});
 
   /// When set, overrides [IconTheme] for both back and menu icons.
   final Color? iconColor;

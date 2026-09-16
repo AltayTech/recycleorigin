@@ -81,9 +81,9 @@ class _Body extends StatelessWidget {
     if (!isAuthenticated) {
       return Text(
         context.l10n.pleaseLoginToViewRequests,
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: context.appColors.subtitleColor,
-            ),
+        style: Theme.of(
+          context,
+        ).textTheme.bodySmall?.copyWith(color: context.appColors.subtitleColor),
       );
     }
 
@@ -100,14 +100,11 @@ class _Body extends StatelessWidget {
         children: [
           Text(
             context.l10n.somethingWentWrong,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: context.colors.error,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: context.colors.error),
           ),
-          TextButton(
-            onPressed: onRetry,
-            child: Text(context.l10n.retryLabel),
-          ),
+          TextButton(onPressed: onRetry, child: Text(context.l10n.retryLabel)),
         ],
       );
     }
@@ -125,8 +122,8 @@ class _Body extends StatelessWidget {
             child: Text(
               context.l10n.homeActiveRequestEmpty,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: context.appColors.subtitleColor,
-                  ),
+                color: context.appColors.subtitleColor,
+              ),
             ),
           ),
         ],
@@ -147,10 +144,7 @@ class _Body extends StatelessWidget {
           ),
           child: const Padding(
             padding: EdgeInsets.all(10),
-            child: Icon(
-              Icons.inventory_2_outlined,
-              color: AppTheme.primary,
-            ),
+            child: Icon(Icons.inventory_2_outlined, color: AppTheme.primary),
           ),
         ),
         const SizedBox(width: AppTheme.spacingMd),
@@ -160,16 +154,16 @@ class _Body extends StatelessWidget {
             children: [
               Text(
                 '${context.l10n.request} #${item.id}',
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 4),
               Text(
                 item.collect_date.day,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: context.appColors.subtitleColor,
-                    ),
+                  color: context.appColors.subtitleColor,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -203,9 +197,9 @@ class _StatusChip extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppTheme.primaryDark,
-              fontWeight: FontWeight.w600,
-            ),
+          color: AppTheme.primaryDark,
+          fontWeight: FontWeight.w600,
+        ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),

@@ -35,11 +35,8 @@ class DriverData with ChangeNotifier {
           : FeaturedImage(
               id: 0,
               title: '',
-              sizes: Sizes(
-                large: '',
-                medium: '',
-                thumbnail: '',
-              )),
+              sizes: Sizes(large: '', medium: '', thumbnail: ''),
+            ),
       phone: parsedJson['phone'] != null ? parsedJson['phone'] : '',
       fname: parsedJson['fname'] != null ? parsedJson['fname'] : '',
       lname: parsedJson['lname'] != null ? parsedJson['lname'] : '',

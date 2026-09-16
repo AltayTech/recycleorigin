@@ -8,10 +8,8 @@ import 'package:recycleorigin/features/wallet_feature/business/entities/wallet_t
 class WalletTransactionItem extends StatelessWidget {
   final WalletTransaction transaction;
 
-  const WalletTransactionItem({
-    Key? key,
-    required this.transaction,
-  }) : super(key: key);
+  const WalletTransactionItem({Key? key, required this.transaction})
+    : super(key: key);
 
   IconData get _icon {
     switch (transaction.type) {
@@ -83,7 +81,9 @@ class WalletTransactionItem extends StatelessWidget {
               Text(
                 transaction.description,
                 style: TextStyle(
-                    color: context.appColors.subtitleColor, fontSize: 13),
+                  color: context.appColors.subtitleColor,
+                  fontSize: 13,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

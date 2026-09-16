@@ -43,11 +43,7 @@ class AppLogger {
   }
 
   /// Log error messages
-  static void error(
-    String message, {
-    Object? error,
-    StackTrace? stackTrace,
-  }) {
+  static void error(String message, {Object? error, StackTrace? stackTrace}) {
     developer.log(
       message,
       name: _tag,
@@ -58,21 +54,24 @@ class AppLogger {
   }
 
   /// Log network requests (filters sensitive data)
-  static void networkRequest(String method, String url,
-      {Map<String, dynamic>? headers, Map<String, dynamic>? body}) {
+  static void networkRequest(
+    String method,
+    String url, {
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? body,
+  }) {
     if (kDebugMode) {
       final safeHeaders = _sanitizeHeaders(headers);
       final safeBody = _sanitizeBody(body);
 
-      developer.log(
-        '$method $url',
-        name: '$_tag.Network',
-        level: 800,
-      );
+      developer.log('$method $url', name: '$_tag.Network', level: 800);
 
       if (safeHeaders != null && safeHeaders.isNotEmpty) {
-        developer.log('Headers: $safeHeaders',
-            name: '$_tag.Network', level: 800);
+        developer.log(
+          'Headers: $safeHeaders',
+          name: '$_tag.Network',
+          level: 800,
+        );
       }
 
       if (safeBody != null && safeBody.isNotEmpty) {
@@ -102,12 +101,13 @@ class AppLogger {
       'cookie',
       'token',
       'password',
-      'api-key'
+      'api-key',
     ];
 
     sanitized.forEach((key, value) {
-      if (sensitiveKeys
-          .any((sensitive) => key.toLowerCase().contains(sensitive))) {
+      if (sensitiveKeys.any(
+        (sensitive) => key.toLowerCase().contains(sensitive),
+      )) {
         sanitized[key] = '***REDACTED***';
       }
     });
@@ -123,8 +123,9 @@ class AppLogger {
     const sensitiveKeys = ['password', 'token', 'credit_card', 'cvv', 'ssn'];
 
     sanitized.forEach((key, value) {
-      if (sensitiveKeys
-          .any((sensitive) => key.toLowerCase().contains(sensitive))) {
+      if (sensitiveKeys.any(
+        (sensitive) => key.toLowerCase().contains(sensitive),
+      )) {
         sanitized[key] = '***REDACTED***';
       }
     });

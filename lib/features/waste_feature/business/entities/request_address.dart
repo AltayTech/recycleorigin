@@ -31,7 +31,7 @@ class RequestAddress with ChangeNotifier {
       'address': address,
       'region': region,
       'latitude': latitude,
-      'longitude': longitude
+      'longitude': longitude,
     };
   }
 }

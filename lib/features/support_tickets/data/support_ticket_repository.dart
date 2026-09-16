@@ -13,16 +13,14 @@ class SupportTicketRepository {
   Future<Result<PagedTickets>> listTickets({int page = 1, int perPage = 20}) {
     return _client.get<PagedTickets>(
       _base,
-      queryParameters: <String, dynamic>{
-        'page': page,
-        'per_page': perPage,
-      },
+      queryParameters: <String, dynamic>{'page': page, 'per_page': perPage},
       parser: (dynamic data) {
         final map = data as Map<String, dynamic>;
         final raw = map['items'] as List<dynamic>? ?? <dynamic>[];
         final items = raw
-            .map((dynamic e) =>
-                SupportTicket.fromJson(e as Map<String, dynamic>))
+            .map(
+              (dynamic e) => SupportTicket.fromJson(e as Map<String, dynamic>),
+            )
             .toList();
         return PagedTickets(
           items: items,
@@ -49,17 +47,15 @@ class SupportTicketRepository {
   }) {
     return _client.get<PagedMessages>(
       '$_base/$ticketId/messages',
-      queryParameters: <String, dynamic>{
-        'page': page,
-        'per_page': perPage,
-      },
+      queryParameters: <String, dynamic>{'page': page, 'per_page': perPage},
       parser: (dynamic data) {
         final map = data as Map<String, dynamic>;
         final raw = map['items'] as List<dynamic>? ?? <dynamic>[];
         final items = raw
-            .map((dynamic e) => SupportTicketMessage.fromJson(
-                  e as Map<String, dynamic>,
-                ))
+            .map(
+              (dynamic e) =>
+                  SupportTicketMessage.fromJson(e as Map<String, dynamic>),
+            )
             .toList();
         return PagedMessages(
           items: items,

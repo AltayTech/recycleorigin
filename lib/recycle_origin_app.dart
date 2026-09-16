@@ -3,18 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigin/core/config/app_locale_controller.dart';
 import 'package:recycleorigin/core/config/app_theme_controller.dart';
+import 'package:recycleorigin/core/config/store_feature.dart';
 import 'package:recycleorigin/core/navigation/app_navigator.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/network/api_provider.dart';
+import 'package:recycleorigin/core/screens/coming_soon_screen.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/core/screens/settings_screen.dart';
 import 'package:recycleorigin/core/screens/splash_Screen.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/features/about_feature/presentation/pages/about_us_screen.dart';
-import 'package:recycleorigin/features/articles_feature/presentation/bloc/articles_bloc.dart';
-import 'package:recycleorigin/features/articles_feature/presentation/pages/article_detail_screen.dart';
-import 'package:recycleorigin/features/articles_feature/presentation/pages/article_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/screens/email_verification_screen.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/screens/forgot_password_screen.dart';
@@ -69,11 +68,8 @@ import 'package:recycleorigin/l10n/l10n.dart';
 /// Pass [apiClient] in tests to inject a mock. Pass [home] to skip splash
 /// (e.g. integration or widget tests).
 class RecycleOriginApp extends StatelessWidget {
-  RecycleOriginApp({
-    super.key,
-    ApiClient? apiClient,
-    this.home,
-  }) : _apiClientOverride = apiClient;
+  RecycleOriginApp({super.key, ApiClient? apiClient, this.home})
+    : _apiClientOverride = apiClient;
 
   final ApiClient? _apiClientOverride;
   final Widget? home;
@@ -85,7 +81,8 @@ class RecycleOriginApp extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (_) {
             late AuthBloc authBloc;
-            final api = _apiClientOverride ??
+            final api =
+                _apiClientOverride ??
                 ApiClient(onUnauthorized: () => authBloc.invalidateSession());
             authBloc = AuthBloc(api);
             if (_apiClientOverride == null) {
@@ -110,12 +107,7 @@ class RecycleOriginApp extends StatelessWidget {
             SupportTicketRepository(_apiClientOverride ?? ApiProvider.client),
           ),
         ),
-        BlocProvider<WastesBloc>(
-          create: (_) => WastesBloc(),
-        ),
-        BlocProvider<ArticlesBloc>(
-          create: (_) => ArticlesBloc(),
-        ),
+        BlocProvider<WastesBloc>(create: (_) => WastesBloc()),
         BlocProvider<OrdersBloc>(
           create: (_) => OrdersBloc(_apiClientOverride ?? ApiProvider.client),
         ),
@@ -140,9 +132,8 @@ class RecycleOriginApp extends StatelessWidget {
                 theme: AppTheme.lightTheme(),
                 darkTheme: AppTheme.darkTheme(),
                 themeMode: themeMode,
-                builder: (context, child) => ThemedSystemUi(
-                  child: child ?? const SizedBox.shrink(),
-                ),
+                builder: (context, child) =>
+                    ThemedSystemUi(child: child ?? const SizedBox.shrink()),
                 home: home ?? const SplashScreens(),
                 routes: {
                   NavigationBottomScreen.routeName: (ctx) =>
@@ -151,24 +142,32 @@ class RecycleOriginApp extends StatelessWidget {
                   WasteCartScreen.routeName: (ctx) => WasteCartScreen(),
                   WastesScreen.routeName: (ctx) => WastesScreen(),
                   ProfileScreen.routeName: (ctx) => ProfileScreen(),
-                  ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+                  ProductDetailScreen.routeName: (ctx) =>
+                      StoreFeature.wrap(ProductDetailScreen()),
                   LoginScreen.routeName: (ctx) => const LoginScreen(),
                   ForgotPasswordScreen.routeName: (ctx) =>
                       const ForgotPasswordScreen(),
                   EmailVerificationScreen.routeName: (ctx) =>
                       const EmailVerificationScreen(),
-                  ProductsScreen.routeName: (ctx) => ProductsScreen(),
-                  CartScreen.routeName: (ctx) => CartScreen(),
+                  ComingSoonScreen.routeName: (ctx) => Scaffold(
+                    appBar: AppBar(),
+                    body: const ComingSoonScreen(),
+                  ),
+                  ProductsScreen.routeName: (ctx) =>
+                      StoreFeature.wrap(ProductsScreen()),
+                  CartScreen.routeName: (ctx) =>
+                      StoreFeature.wrap(CartScreen()),
                   OrderProductsSendScreen.routeName: (ctx) =>
-                      OrderProductsSendScreen(),
-                  OrderViewScreen.routeName: (ctx) => OrderViewScreen(),
+                      StoreFeature.wrap(OrderProductsSendScreen()),
+                  OrderViewScreen.routeName: (ctx) =>
+                      StoreFeature.wrap(OrderViewScreen()),
                   AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
                   ContactWithUs.routeName: (ctx) => ContactWithUs(),
                   SettingsScreen.routeName: (ctx) => const SettingsScreen(),
                   CustomerDetailInfoEditScreen.routeName: (ctx) =>
                       CustomerDetailInfoEditScreen(),
                   CustomerOrdersScreen.routeName: (ctx) =>
-                      CustomerOrdersScreen(),
+                      StoreFeature.wrap(CustomerOrdersScreen()),
                   CustomerUserInfoScreen.routeName: (ctx) =>
                       CustomerUserInfoScreen(),
                   CustomerNotificationScreen.routeName: (ctx) =>
@@ -189,15 +188,14 @@ class RecycleOriginApp extends StatelessWidget {
                   MessageDetailScreen.routeName: (ctx) => MessageDetailScreen(),
                   MapScreen.routeName: (ctx) => MapScreen(),
                   AddressScreen.routeName: (ctx) => AddressScreen(),
-                  ArticlesScreen.routeName: (ctx) => ArticlesScreen(),
-                  ArticleDetailScreen.routeName: (ctx) => ArticleDetailScreen(),
                   WasteRequestDateScreen.routeName: (ctx) =>
                       WasteRequestDateScreen(),
                   WasteRequestSendScreen.routeName: (ctx) =>
                       WasteRequestSendScreen(),
                   CollectListScreen.routeName: (ctx) => CollectListScreen(),
                   WalletScreen.routeName: (ctx) => WalletScreen(),
-                  OrdersScreen.routeName: (ctx) => OrdersScreen(),
+                  OrdersScreen.routeName: (ctx) =>
+                      StoreFeature.wrap(OrdersScreen()),
                   CollectDetailScreen.routeName: (ctx) => CollectDetailScreen(),
                   WastesScreenAnimatedList.routeName: (ctx) =>
                       WastesScreenAnimatedList(),

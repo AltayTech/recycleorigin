@@ -112,12 +112,14 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
 
   Future<void> submitDriverRating(int collectId, int score, String comment) {
     final c = Completer<void>();
-    add(WastesSubmitDriverRatingRequested(
-      collectId,
-      score,
-      comment,
-      completer: c,
-    ));
+    add(
+      WastesSubmitDriverRatingRequested(
+        collectId,
+        score,
+        comment,
+        completer: c,
+      ),
+    );
     return c.future;
   }
 
@@ -146,14 +148,16 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     WastesSearchParamsChanged event,
     Emitter<WastesState> emit,
   ) {
-    emit(state.copyWith(
-      searchKey: event.searchKey,
-      sPage: event.sPage,
-      sPerPage: event.sPerPage,
-      sOrder: event.sOrder,
-      sOrderBy: event.sOrderBy,
-      sCategory: event.sCategory,
-    ));
+    emit(
+      state.copyWith(
+        searchKey: event.searchKey,
+        sPage: event.sPage,
+        sPerPage: event.sPerPage,
+        sOrder: event.sOrder,
+        sOrderBy: event.sOrderBy,
+        sCategory: event.sCategory,
+      ),
+    );
   }
 
   void _onSearchBuilderApplied(
@@ -189,10 +193,13 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     final url = Urls.rootUrl + Urls.wastesEndPoint;
     AppLogger.debug('Waste search URL: $url');
     try {
-      final response = await get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      });
+      final response = await get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
       AppLogger.debug('Waste search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List<dynamic>;
@@ -218,20 +225,19 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
       AppLogger.debug('Adding waste to cart: ${event.waste.id}');
       final w = event.waste;
       final nextCart = List<WasteCart>.from(state.wasteCartItems)
-        ..add(WasteCart(
-          id: w.id,
-          name: w.name,
-          excerpt: w.excerpt,
-          prices: w.prices,
-          featured_image: w.featured_image,
-          status: w.status,
-          weight: event.weight,
-        ));
+        ..add(
+          WasteCart(
+            id: w.id,
+            name: w.name,
+            excerpt: w.excerpt,
+            prices: w.prices,
+            featured_image: w.featured_image,
+            status: w.status,
+            weight: event.weight,
+          ),
+        );
       final nextIds = List<int>.from(state.wasteCartItemsId)..add(w.id);
-      emit(state.copyWith(
-        wasteCartItems: nextCart,
-        wasteCartItemsId: nextIds,
-      ));
+      emit(state.copyWith(wasteCartItems: nextCart, wasteCartItemsId: nextIds));
       event.completer?.complete();
     } catch (e, st) {
       AppLogger.error('Failed to add waste to cart', error: e, stackTrace: st);
@@ -282,8 +288,11 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
       emit(state.copyWith(wasteCartItems: cart, wasteCartItemsId: ids));
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to remove waste from cart',
-          error: e, stackTrace: st);
+      AppLogger.error(
+        'Failed to remove waste from cart',
+        error: e,
+        stackTrace: st,
+      );
       event.completer?.completeError(e, st);
       rethrow;
     }
@@ -343,30 +352,38 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
         event.completer?.complete();
         return;
       }
-      final response = await get(Uri.parse(url), headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      });
+      final response = await get(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
       AppLogger.debug('Collect search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         AppLogger.debug('Collect items retrieved');
         final collectMain = CollectMain.fromJson(extractedData);
         AppLogger.debug('Max page: ${collectMain.searchDetail.max_page}');
-        emit(state.copyWith(
-          collectItems: collectMain.requestWasteItem,
-          searchDetails: collectMain.searchDetail,
-          token: token,
-          requestsListDirty: false,
-        ));
+        emit(
+          state.copyWith(
+            collectItems: collectMain.requestWasteItem,
+            searchDetails: collectMain.searchDetail,
+            token: token,
+            requestsListDirty: false,
+          ),
+        );
       } else {
         emit(state.copyWith(collectItems: [], token: token));
       }
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to search collect items',
-          error: e, stackTrace: st);
+      AppLogger.error(
+        'Failed to search collect items',
+        error: e,
+        stackTrace: st,
+      );
       event.completer?.complete();
     }
   }
@@ -386,23 +403,22 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
       final dio = diolib.Dio();
       final response = await dio.get<dynamic>(
         url,
-        options: diolib.Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
+        options: diolib.Options(headers: {'Authorization': 'Bearer $token'}),
       );
       AppLogger.debug('Collect item response status: ${response.statusCode}');
       AppLogger.debug('Collect item data retrieved');
-      final requestWasteItem =
-          RequestWasteItem.fromJson(response.data as Map<String, dynamic>);
+      final requestWasteItem = RequestWasteItem.fromJson(
+        response.data as Map<String, dynamic>,
+      );
       AppLogger.debug('Collect item ID: ${requestWasteItem.id}');
-      emit(state.copyWith(
-        requestWasteItem: requestWasteItem,
-        token: token,
-      ));
+      emit(state.copyWith(requestWasteItem: requestWasteItem, token: token));
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to retrieve collect item',
-          error: e, stackTrace: st);
+      AppLogger.error(
+        'Failed to retrieve collect item',
+        error: e,
+        stackTrace: st,
+      );
       event.completer?.completeError(e, st);
       rethrow;
     }
@@ -442,9 +458,7 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
       final dio = diolib.Dio();
       final refreshed = await dio.get<dynamic>(
         getUrl,
-        options: diolib.Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
+        options: diolib.Options(headers: {'Authorization': 'Bearer $token'}),
       );
       final item = RequestWasteItem.fromJson(
         refreshed.data as Map<String, dynamic>,

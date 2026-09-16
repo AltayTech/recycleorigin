@@ -19,8 +19,9 @@ class SupportTicketDetailScreen extends StatefulWidget {
 }
 
 class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
-  final SupportTicketRepository _repo =
-      SupportTicketRepository(ApiProvider.client);
+  final SupportTicketRepository _repo = SupportTicketRepository(
+    ApiProvider.client,
+  );
   String? _ticketId;
   SupportTicket? _ticket;
   List<SupportTicketMessage> _messages = <SupportTicketMessage>[];
@@ -131,58 +132,57 @@ class _SupportTicketDetailScreenState extends State<SupportTicketDetailScreen> {
               ),
             )
           : _error != null
-              ? Center(child: Text(_error!))
-              : Column(
-                  children: [
-                    if (_ticket != null) _HeaderCard(ticket: _ticket!),
-                    Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: _messages.length,
-                        itemBuilder: (context, i) {
-                          return _Bubble(message: _messages[i]);
-                        },
+          ? Center(child: Text(_error!))
+          : Column(
+              children: [
+                if (_ticket != null) _HeaderCard(ticket: _ticket!),
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(12),
+                    itemCount: _messages.length,
+                    itemBuilder: (context, i) {
+                      return _Bubble(message: _messages[i]);
+                    },
+                  ),
+                ),
+                if (_canReply)
+                  SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _reply,
+                              minLines: 1,
+                              maxLines: 5,
+                              decoration: InputDecoration(
+                                hintText: l10n.messageReplyHint,
+                                border: const OutlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          IconButton.filled(
+                            onPressed: _sending ? null : _send,
+                            icon: _sending
+                                ? SizedBox(
+                                    width: 22,
+                                    height: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: context.appColors.subtitleColor,
+                                    ),
+                                  )
+                                : Icon(Icons.send),
+                          ),
+                        ],
                       ),
                     ),
-                    if (_canReply)
-                      SafeArea(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  controller: _reply,
-                                  minLines: 1,
-                                  maxLines: 5,
-                                  decoration: InputDecoration(
-                                    hintText: l10n.messageReplyHint,
-                                    border: const OutlineInputBorder(),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              IconButton.filled(
-                                onPressed: _sending ? null : _send,
-                                icon: _sending
-                                    ? SizedBox(
-                                        width: 22,
-                                        height: 22,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color:
-                                              context.appColors.subtitleColor,
-                                        ),
-                                      )
-                                    : Icon(Icons.send),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
+                  ),
+              ],
+            ),
     );
   }
 }
@@ -214,8 +214,9 @@ class _HeaderCard extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 '${ticket.ticketNumber} · ${ticket.status}',
-                style: theme.textTheme.bodySmall
-                    ?.copyWith(color: context.appColors.subtitleColor),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: context.appColors.subtitleColor,
+                ),
               ),
             ],
           ),
@@ -260,8 +261,8 @@ class _Bubble extends StatelessWidget {
             Text(
               _formatTime(message.createdAt),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: context.appColors.subtitleColor,
-                  ),
+                color: context.appColors.subtitleColor,
+              ),
             ),
           ],
         ),

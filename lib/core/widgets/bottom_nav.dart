@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class BottomNav extends StatelessWidget {
   final PageController pageController;
 
-  BottomNav({
-    Key? key,
-    required this.pageController,
-  }) : super(key: key);
+  BottomNav({Key? key, required this.pageController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,27 +21,33 @@ class BottomNav extends StatelessWidget {
           children: <Widget>[
             IconButton(
               onPressed: () {
-                pageController.animateToPage(0,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut);
+                pageController.animateToPage(
+                  0,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
               },
               icon: const Icon(Icons.home),
             ),
             const SizedBox(),
             IconButton(
               onPressed: () {
-                pageController.animateToPage(1,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut);
+                pageController.animateToPage(
+                  1,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
               },
               icon: const Icon(Icons.bookmark),
             ),
             const SizedBox(),
             IconButton(
               onPressed: () {
-                pageController.animateToPage(2,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut);
+                pageController.animateToPage(
+                  2,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
               },
               icon: const Icon(Icons.bar_chart),
             ),

@@ -73,14 +73,16 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
     ClearingsSearchParamsChanged event,
     Emitter<ClearingsState> emit,
   ) {
-    emit(state.copyWith(
-      searchKey: event.searchKey,
-      sPage: event.sPage,
-      sPerPage: event.sPerPage,
-      sOrder: event.sOrder,
-      sOrderBy: event.sOrderBy,
-      sCategory: event.sCategory,
-    ));
+    emit(
+      state.copyWith(
+        searchKey: event.searchKey,
+        sPage: event.sPage,
+        sPerPage: event.sPerPage,
+        sOrder: event.sOrder,
+        sOrderBy: event.sOrderBy,
+        sCategory: event.sCategory,
+      ),
+    );
   }
 
   void _onSearchBuilderApplied(
@@ -126,17 +128,22 @@ class ClearingsBloc extends Bloc<ClearingsEvent, ClearingsState> {
         AppLogger.debug('Clearing items retrieved');
         final deliveryMain = ClearingMain.fromJson(extractedData);
         AppLogger.debug('Max page: ${deliveryMain.searchDetail.max_page}');
-        emit(state.copyWith(
-          deliveriesItems: deliveryMain.clearings,
-          searchDetails: deliveryMain.searchDetail,
-        ));
+        emit(
+          state.copyWith(
+            deliveriesItems: deliveryMain.clearings,
+            searchDetails: deliveryMain.searchDetail,
+          ),
+        );
       } else {
         emit(state.copyWith(deliveriesItems: []));
       }
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to search clearing items',
-          error: e, stackTrace: st);
+      AppLogger.error(
+        'Failed to search clearing items',
+        error: e,
+        stackTrace: st,
+      );
       event.completer?.completeError(e, st);
       rethrow;
     }

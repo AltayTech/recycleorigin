@@ -16,8 +16,9 @@ class RequestWaste with ChangeNotifier {
 
   factory RequestWaste.fromJson(Map<String, dynamic> parsedJson) {
     var collectList = parsedJson['collect_list'] as List;
-    List<Collect> collectRaw =
-        collectList.map((i) => Collect.fromJson(i)).toList();
+    List<Collect> collectRaw = collectList
+        .map((i) => Collect.fromJson(i))
+        .toList();
 
     return RequestWaste(
       collect_date: CollectTime.fromJson(parsedJson['collect_date']),

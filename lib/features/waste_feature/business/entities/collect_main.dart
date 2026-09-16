@@ -8,10 +8,7 @@ class CollectMain with ChangeNotifier {
 
   final List<RequestWasteItem> requestWasteItem;
 
-  CollectMain({
-    required this.searchDetail,
-    required this.requestWasteItem,
-  });
+  CollectMain({required this.searchDetail, required this.requestWasteItem});
 
   factory CollectMain.fromJson(Map<String, dynamic> parsedJson) {
     var productsList = parsedJson['data'] as List;

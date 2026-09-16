@@ -9,10 +9,7 @@ class TemplateProvider extends ChangeNotifier {
   TemplateEntity? template;
   Failure? failure;
 
-  TemplateProvider({
-    this.template,
-    this.failure,
-  });
+  TemplateProvider({this.template, this.failure});
 
   void eitherFailureOrTemplate() async {
     // TemplateRepositoryImpl repository = TemplateRepositoryImpl(

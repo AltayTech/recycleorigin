@@ -8,10 +8,7 @@ class ScanParams {
   final int? id;
   final ImageProvider? image;
 
-  ScanParams({
-    required this.id,
-    required this.image,
-  });
+  ScanParams({required this.id, required this.image});
 }
 
 class AuthParam {

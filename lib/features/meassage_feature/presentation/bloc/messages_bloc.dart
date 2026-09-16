@@ -28,14 +28,16 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
     bool isLogin,
   ) {
     final c = Completer<void>();
-    add(MessagesCreateRequested(
-      subject,
-      content,
-      commentPostId,
-      parentId,
-      isLogin,
-      completer: c,
-    ));
+    add(
+      MessagesCreateRequested(
+        subject,
+        content,
+        commentPostId,
+        parentId,
+        isLogin,
+        completer: c,
+      ),
+    );
     return c.future;
   }
 
@@ -77,7 +79,8 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
     Emitter<MessagesState> emit,
   ) async {
     AppLogger.debug(
-        'Getting messages for comment post ID: ${event.commentPostId}');
+      'Getting messages for comment post ID: ${event.commentPostId}',
+    );
     try {
       if (event.isLogin) {
         final path = event.commentPostId == '0'
@@ -90,8 +93,9 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
         );
         final extractedData = result.valueOrNull ?? <dynamic>[];
         AppLogger.debug('Loaded ${extractedData.length} messages');
-        final messageList =
-            extractedData.map((i) => Message.fromJson(i)).toList();
+        final messageList = extractedData
+            .map((i) => Message.fromJson(i))
+            .toList();
         if (event.commentPostId == '0') {
           emit(state.copyWith(allMessages: messageList));
         } else {

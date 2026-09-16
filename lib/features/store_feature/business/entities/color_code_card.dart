@@ -3,11 +3,7 @@ class ColorCodeCard {
   final String title;
   final String color_code;
 
-  ColorCodeCard({
-    this.id = 0,
-    this.title = '',
-    this.color_code = '',
-  });
+  ColorCodeCard({this.id = 0, this.title = '', this.color_code = ''});
 
   factory ColorCodeCard.fromJson(Map<String, dynamic> parsedJson) {
     return ColorCodeCard(

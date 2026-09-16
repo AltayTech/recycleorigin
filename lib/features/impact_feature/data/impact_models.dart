@@ -19,9 +19,7 @@ class ImpactData {
       impact: ImpactMetrics.fromJson(
         json['impact'] as Map<String, dynamic>? ?? {},
       ),
-      level: LevelInfo.fromJson(
-        json['level'] as Map<String, dynamic>? ?? {},
-      ),
+      level: LevelInfo.fromJson(json['level'] as Map<String, dynamic>? ?? {}),
       streak: StreakInfo.fromJson(
         json['streak'] as Map<String, dynamic>? ?? {},
       ),
@@ -220,10 +218,7 @@ class GoalInfo {
 }
 
 class ImpactSeries {
-  const ImpactSeries({
-    required this.weightPoints,
-    required this.pickupPoints,
-  });
+  const ImpactSeries({required this.weightPoints, required this.pickupPoints});
 
   factory ImpactSeries.fromJson(Map<String, dynamic> json) {
     return ImpactSeries(
@@ -306,9 +301,7 @@ class LeaderboardData {
           .map((e) => LeaderboardEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       self: json['self'] != null
-          ? LeaderboardEntry.fromJson(
-              json['self'] as Map<String, dynamic>,
-            )
+          ? LeaderboardEntry.fromJson(json['self'] as Map<String, dynamic>)
           : null,
     );
   }

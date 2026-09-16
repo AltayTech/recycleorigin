@@ -39,8 +39,9 @@ class Message with ChangeNotifier {
 
   factory Message.fromJson(Map<String, dynamic> parsedJson) {
     return Message(
-      comment_ID:
-          parsedJson['comment_ID'] != null ? parsedJson['comment_ID'] : '',
+      comment_ID: parsedJson['comment_ID'] != null
+          ? parsedJson['comment_ID']
+          : '',
       comment_post_ID: parsedJson['comment_post_ID'] != null
           ? parsedJson['comment_post_ID']
           : '',
@@ -56,8 +57,9 @@ class Message with ChangeNotifier {
       comment_author_IP: parsedJson['comment_author_IP'] != null
           ? parsedJson['comment_author_IP']
           : '',
-      comment_date:
-          parsedJson['comment_date'] != null ? parsedJson['comment_date'] : '',
+      comment_date: parsedJson['comment_date'] != null
+          ? parsedJson['comment_date']
+          : '',
       comment_date_gmt: parsedJson['comment_date_gmt'] != null
           ? parsedJson['comment_date_gmt']
           : '',
@@ -71,8 +73,9 @@ class Message with ChangeNotifier {
       comment_agent: parsedJson['comment_agent'] != null
           ? parsedJson['comment_agent']
           : '',
-      comment_type:
-          parsedJson['comment_type'] != null ? parsedJson['comment_type'] : '',
+      comment_type: parsedJson['comment_type'] != null
+          ? parsedJson['comment_type']
+          : '',
       comment_parent: parsedJson['comment_parent'] != null
           ? parsedJson['comment_parent']
           : '',

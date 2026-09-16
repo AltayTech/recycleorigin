@@ -70,9 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       physics: const ClampingScrollPhysics(),
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: minChildHeight,
-                        ),
+                        constraints: BoxConstraints(minHeight: minChildHeight),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -95,8 +93,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(height: AppTheme.spacingXl),
                             Center(
                               child: ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints(maxWidth: 420),
+                                constraints: const BoxConstraints(
+                                  maxWidth: 420,
+                                ),
                                 child: Card(
                                   elevation: 8,
                                   shadowColor: AppTheme.primary.withValues(
@@ -109,9 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                   child: const Padding(
-                                    padding: EdgeInsets.all(
-                                      AppTheme.spacingMd,
-                                    ),
+                                    padding: EdgeInsets.all(AppTheme.spacingMd),
                                     child: AuthCard(),
                                   ),
                                 ),
@@ -136,8 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                         if (nav.canPop()) {
                           return IconButton(
-                            tooltip:
-                                MaterialLocalizations.of(ctx).backButtonTooltip,
+                            tooltip: MaterialLocalizations.of(
+                              ctx,
+                            ).backButtonTooltip,
                             onPressed: () => nav.maybePop(),
                             icon: const Icon(Icons.arrow_back_rounded),
                             color: onHero,

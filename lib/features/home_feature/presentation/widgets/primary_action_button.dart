@@ -63,9 +63,7 @@ class PrimaryActionButton extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: onPressed,
-              borderRadius: BorderRadius.circular(
-                AppTheme.radiusSm + 6,
-              ),
+              borderRadius: BorderRadius.circular(AppTheme.radiusSm + 6),
               splashColor: fg.withValues(alpha: 0.08),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minHeight: 48),
@@ -74,9 +72,7 @@ class PrimaryActionButton extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        width: AppTheme.spacingMd + 2,
-                      ),
+                      const SizedBox(width: AppTheme.spacingMd + 2),
                       DecoratedBox(
                         decoration: BoxDecoration(
                           color: secondaryBg,
@@ -97,24 +93,18 @@ class PrimaryActionButton extends StatelessWidget {
                       Expanded(
                         child: Text(
                           context.l10n.requestCollectionHeroTitle,
-                          style:
-                              Theme.of(context).textTheme.titleSmall?.copyWith(
-                                    color: fg,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0.2,
-                                  ),
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(
+                                color: fg,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.2,
+                              ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Icon(
-                        Icons.arrow_forward_rounded,
-                        color: fg,
-                        size: 24,
-                      ),
-                      const SizedBox(
-                        width: AppTheme.spacingMd + 2,
-                      ),
+                      Icon(Icons.arrow_forward_rounded, color: fg, size: 24),
+                      const SizedBox(width: AppTheme.spacingMd + 2),
                     ],
                   ),
                 ),

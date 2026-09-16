@@ -62,8 +62,9 @@ class _CustomerDetailInfoEditScreenState
     _ostanController.text = data.ostan;
     _cityController.text = data.city;
     _postCodeController.text = data.postcode;
-    final phoneDisplay =
-        data.mobile.trim().isNotEmpty ? data.mobile.trim() : data.phone.trim();
+    final phoneDisplay = data.mobile.trim().isNotEmpty
+        ? data.mobile.trim()
+        : data.phone.trim();
     _phoneDisplayController.text = phoneDisplay;
   }
 
@@ -225,10 +226,7 @@ class _CustomerDetailInfoEditScreenState
           Expanded(
             child: Text(
               _errorMessage!,
-              style: TextStyle(
-                color: context.appColors.danger,
-                fontSize: 14,
-              ),
+              style: TextStyle(color: context.appColors.danger, fontSize: 14),
             ),
           ),
         ],
@@ -243,9 +241,7 @@ class _CustomerDetailInfoEditScreenState
   ) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -302,9 +298,7 @@ class _CustomerDetailInfoEditScreenState
   ) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -434,9 +428,7 @@ class _CustomerDetailInfoEditScreenState
               ),
             )
           : Icon(Icons.check),
-      label: Text(
-        _isSaving ? l10n.savingLabel : l10n.saveChangesLabel,
-      ),
+      label: Text(_isSaving ? l10n.savingLabel : l10n.saveChangesLabel),
     );
   }
 }

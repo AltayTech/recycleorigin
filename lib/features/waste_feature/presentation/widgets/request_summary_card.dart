@@ -37,9 +37,7 @@ class RequestSummaryCard extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppTheme.primary.withValues(alpha: 0.1),
-        ),
+        border: Border.all(color: AppTheme.primary.withValues(alpha: 0.1)),
       ),
       child: IntrinsicHeight(
         child: Row(
@@ -49,9 +47,7 @@ class RequestSummaryCard extends StatelessWidget {
                 icon: Icons.inventory_2_rounded,
                 iconColor: AppTheme.primary,
                 label: l10n.numberFieldLabel,
-                value: converter.replaceArNumber(
-                  itemCount.toString(),
-                ),
+                value: converter.replaceArNumber(itemCount.toString()),
               ),
             ),
             VerticalDivider(
@@ -64,9 +60,7 @@ class RequestSummaryCard extends StatelessWidget {
                 icon: Icons.monetization_on_rounded,
                 iconColor: AppTheme.iconAccentGold,
                 label: l10n.totalPriceFieldLabel,
-                value: converter.replaceArNumber(
-                  fmt.format(totalPrice),
-                ),
+                value: converter.replaceArNumber(fmt.format(totalPrice)),
                 suffix: '\$',
               ),
             ),
@@ -80,9 +74,7 @@ class RequestSummaryCard extends StatelessWidget {
                 icon: Icons.scale_rounded,
                 iconColor: AppTheme.iconAccentPurple,
                 label: l10n.totalWeightFieldLabel,
-                value: converter.replaceArNumber(
-                  totalWeight.toString(),
-                ),
+                value: converter.replaceArNumber(totalWeight.toString()),
                 suffix: 'kg',
               ),
             ),

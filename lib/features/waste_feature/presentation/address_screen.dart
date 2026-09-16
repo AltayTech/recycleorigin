@@ -36,10 +36,7 @@ class _AddressScreenState extends State<AddressScreen>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    _fadeIn = CurvedAnimation(
-      parent: _animController,
-      curve: Curves.easeOut,
-    );
+    _fadeIn = CurvedAnimation(parent: _animController, curve: Curves.easeOut);
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _loadAddresses());
   }
@@ -60,13 +57,14 @@ class _AddressScreenState extends State<AddressScreen>
           SnackBar(
             content: Row(
               children: [
-                Icon(Icons.error_outline,
-                    color: context.appColors.cardBackground, size: 20),
+                Icon(
+                  Icons.error_outline,
+                  color: context.appColors.cardBackground,
+                  size: 20,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: Text(
-                    '${context.l10n.failedLoadAddressesPrefix}$e',
-                  ),
+                  child: Text('${context.l10n.failedLoadAddressesPrefix}$e'),
                 ),
               ],
             ),
@@ -112,8 +110,11 @@ class _AddressScreenState extends State<AddressScreen>
           SnackBar(
             content: Row(
               children: [
-                Icon(Icons.warning_amber_rounded,
-                    color: context.appColors.cardBackground, size: 20),
+                Icon(
+                  Icons.warning_amber_rounded,
+                  color: context.appColors.cardBackground,
+                  size: 20,
+                ),
                 const SizedBox(width: 10),
                 Expanded(child: Text(context.l10n.pleaseSelectAddress)),
               ],
@@ -137,9 +138,9 @@ class _AddressScreenState extends State<AddressScreen>
   }
 
   void _navigateToMap() {
-    Navigator.of(context)
-        .pushNamed(MapScreen.routeName)
-        .then((_) => _loadAddresses());
+    Navigator.of(
+      context,
+    ).pushNamed(MapScreen.routeName).then((_) => _loadAddresses());
   }
 
   @override
@@ -199,28 +200,29 @@ class _AddressScreenState extends State<AddressScreen>
                                   vertical: 4,
                                 ),
                                 sliver: SliverList(
-                                  delegate: SliverChildBuilderDelegate(
-                                    (ctx, i) {
-                                      final address = addressList[i];
-                                      final isSelected =
-                                          authProvider.selectedAddress.name ==
-                                              address.name;
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 12),
-                                        child: AddressItem(
-                                          addressItem: address,
-                                          isSelected: isSelected,
-                                          onTap: () {
-                                            HapticFeedback.selectionClick();
-                                            authProvider.selectAddress(address);
-                                          },
-                                          onRemoved: _loadAddresses,
-                                        ),
-                                      );
-                                    },
-                                    childCount: addressList.length,
-                                  ),
+                                  delegate: SliverChildBuilderDelegate((
+                                    ctx,
+                                    i,
+                                  ) {
+                                    final address = addressList[i];
+                                    final isSelected =
+                                        authProvider.selectedAddress.name ==
+                                        address.name;
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                        bottom: 12,
+                                      ),
+                                      child: AddressItem(
+                                        addressItem: address,
+                                        isSelected: isSelected,
+                                        onTap: () {
+                                          HapticFeedback.selectionClick();
+                                          authProvider.selectAddress(address);
+                                        },
+                                        onRemoved: _loadAddresses,
+                                      ),
+                                    );
+                                  }, childCount: addressList.length),
                                 ),
                               )
                             else
@@ -274,10 +276,7 @@ class _AddressScreenState extends State<AddressScreen>
 
 /// Header section: title, subtitle, and address count badge.
 class _AddressHeader extends StatelessWidget {
-  const _AddressHeader({
-    required this.addressCount,
-    required this.onAddTap,
-  });
+  const _AddressHeader({required this.addressCount, required this.onAddTap});
 
   final int addressCount;
   final VoidCallback onAddTap;
@@ -426,10 +425,7 @@ class _EmptyAddressState extends StatelessWidget {
                   horizontal: 28,
                   vertical: 14,
                 ),
-                textStyle: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                ),
+                textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
               ),
             ),
           ],
@@ -441,10 +437,7 @@ class _EmptyAddressState extends StatelessWidget {
 
 /// Sticky bottom bar with continue button.
 class _BottomActionBar extends StatelessWidget {
-  const _BottomActionBar({
-    required this.isActive,
-    required this.onTap,
-  });
+  const _BottomActionBar({required this.isActive, required this.onTap});
 
   final bool isActive;
   final VoidCallback onTap;
@@ -535,8 +528,9 @@ class _StepProgressBar extends StatelessWidget {
                           ],
                         )
                       : null,
-                  color:
-                      stepBefore < currentStep ? null : context.colors.outline,
+                  color: stepBefore < currentStep
+                      ? null
+                      : context.colors.outline,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -558,8 +552,8 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? AppTheme.primary
                       : isActive
-                          ? AppTheme.primary.withValues(alpha: 0.12)
-                          : context.appColors.divider,
+                      ? AppTheme.primary.withValues(alpha: 0.12)
+                      : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
                       ? Border.all(color: AppTheme.primary, width: 2.5)
@@ -580,8 +574,8 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? context.appColors.onHeroForeground
                       : isActive
-                          ? AppTheme.primary
-                          : context.colors.onSurfaceVariant,
+                      ? AppTheme.primary
+                      : context.colors.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 5),

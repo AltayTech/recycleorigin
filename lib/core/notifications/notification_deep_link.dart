@@ -1,4 +1,7 @@
+import 'package:flutter/widgets.dart';
+import 'package:recycleorigin/core/config/app_config.dart';
 import 'package:recycleorigin/core/navigation/app_navigator.dart';
+import 'package:recycleorigin/core/screens/coming_soon_screen.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/screens/customer_notification_screen.dart';
 import 'package:recycleorigin/features/store_feature/presentation/screens/orders_screen.dart';
 import 'package:recycleorigin/features/support_tickets/presentation/screens/support_tickets_list_screen.dart';
@@ -25,7 +28,7 @@ class NotificationDeepLink {
       return;
     }
     if (deep.startsWith('/orders/')) {
-      nav.pushNamed(OrdersScreen.routeName);
+      _openStoreOrInbox(nav);
       return;
     }
     if (deep == '/wallet' || deep.startsWith('/wallet')) {
@@ -42,9 +45,17 @@ class NotificationDeepLink {
       return;
     }
     if (t.startsWith('order.')) {
-      nav.pushNamed(OrdersScreen.routeName);
+      _openStoreOrInbox(nav);
       return;
     }
     nav.pushNamed(CustomerNotificationScreen.routeName);
+  }
+
+  static void _openStoreOrInbox(NavigatorState nav) {
+    if (AppConfig.enableStore) {
+      nav.pushNamed(OrdersScreen.routeName);
+      return;
+    }
+    nav.pushNamed(ComingSoonScreen.routeName);
   }
 }

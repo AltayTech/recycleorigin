@@ -3,7 +3,7 @@ description: Application of RecycleOrigin
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 2.8.6+23
+version: 2.8.10+24
 
 environment:
   sdk: '>=3.12.0 <4.0.0'
@@ -43,13 +43,14 @@ dependencies:
   permission_handler: ^12.0.3
   firebase_crashlytics: ^5.2.7
 
-  provider: any
+  provider: ^6.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
   integration_test:
     sdk: flutter
   bloc_test: ^10.0.0
+  flutter_lints: ^6.0.0
 
 
 flutter:

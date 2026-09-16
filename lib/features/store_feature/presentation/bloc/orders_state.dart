@@ -14,8 +14,8 @@ class OrdersState {
     List<Order>? ordersItems,
     SearchDetail? searchDetails,
     this.orderItem,
-  })  : ordersItems = ordersItems ?? const [],
-        searchDetails = searchDetails ?? SearchDetail();
+  }) : ordersItems = ordersItems ?? const [],
+       searchDetails = searchDetails ?? SearchDetail();
 
   final String token;
   final String searchEndPoint;

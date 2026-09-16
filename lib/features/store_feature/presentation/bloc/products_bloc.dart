@@ -77,12 +77,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     int quantity,
   ) {
     final c = Completer<void>();
-    add(ProductsAddShopCartRequested(
-      product,
-      colorId,
-      quantity,
-      completer: c,
-    ));
+    add(ProductsAddShopCartRequested(product, colorId, quantity, completer: c));
     return c.future;
   }
 
@@ -93,13 +88,15 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     bool isLogin,
   ) {
     final c = Completer<void>();
-    add(ProductsUpdateShopCartRequested(
-      product,
-      colorId,
-      quantity,
-      isLogin,
-      completer: c,
-    ));
+    add(
+      ProductsUpdateShopCartRequested(
+        product,
+        colorId,
+        quantity,
+        isLogin,
+        completer: c,
+      ),
+    );
     return c.future;
   }
 
@@ -148,15 +145,17 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     ProductsSearchParamsChanged event,
     Emitter<ProductsState> emit,
   ) {
-    emit(state.copyWith(
-      searchKey: event.searchKey,
-      sPage: event.sPage,
-      sPerPage: event.sPerPage,
-      sOrder: event.sOrder,
-      sOrderBy: event.sOrderBy,
-      sCategory: event.sCategory,
-      clearSCategory: event.clearSCategory,
-    ));
+    emit(
+      state.copyWith(
+        searchKey: event.searchKey,
+        sPage: event.sPage,
+        sPerPage: event.sPerPage,
+        sOrder: event.sOrder,
+        sOrderBy: event.sOrderBy,
+        sCategory: event.sCategory,
+        clearSCategory: event.clearSCategory,
+      ),
+    );
   }
 
   void _applySearchBuilder(ProductsState s, Emitter<ProductsState> emit) {
@@ -202,18 +201,23 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     try {
       AppLogger.debug('Adding product to cart: ${event.product.id}');
       final next = List<ProductCart>.from(state.cartItems)
-        ..add(ProductCart(
-          id: event.product.id,
-          title: event.product.name,
-          price: event.product.price,
-          featured_media_url: event.product.featured_image.sizes.medium,
-          productCount: event.quantity,
-        ));
+        ..add(
+          ProductCart(
+            id: event.product.id,
+            title: event.product.name,
+            price: event.product.price,
+            featured_media_url: event.product.featured_image.sizes.medium,
+            productCount: event.quantity,
+          ),
+        );
       emit(state.copyWith(cartItems: next));
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to add product to cart',
-          error: e, stackTrace: st);
+      AppLogger.error(
+        'Failed to add product to cart',
+        error: e,
+        stackTrace: st,
+      );
       event.completer?.completeError(e, st);
       rethrow;
     }
@@ -225,18 +229,20 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ) async {
     try {
       AppLogger.debug('Updating cart item: ${event.product.id}');
-      final next = state.cartItems.map((p) {
-        if (p.id == event.product.id) {
-          return ProductCart(
-            id: p.id,
-            title: p.title,
-            price: p.price,
-            featured_media_url: p.featured_media_url,
-            productCount: event.quantity,
-          );
-        }
-        return p;
-      }).toList(growable: false);
+      final next = state.cartItems
+          .map((p) {
+            if (p.id == event.product.id) {
+              return ProductCart(
+                id: p.id,
+                title: p.title,
+                price: p.price,
+                featured_media_url: p.featured_media_url,
+                productCount: event.quantity,
+              );
+            }
+            return p;
+          })
+          .toList(growable: false);
       emit(state.copyWith(cartItems: next));
       event.completer?.complete();
     } catch (e, st) {
@@ -257,8 +263,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       emit(state.copyWith(cartItems: next));
       event.completer?.complete();
     } catch (e, st) {
-      AppLogger.error('Failed to remove product from cart',
-          error: e, stackTrace: st);
+      AppLogger.error(
+        'Failed to remove product from cart',
+        error: e,
+        stackTrace: st,
+      );
       event.completer?.completeError(e, st);
       rethrow;
     }
@@ -277,16 +286,19 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       parser: (data) => data as List<dynamic>,
     );
 
-    result.onSuccess((extractedData) {
-      AppLogger.debug('Loaded ${extractedData.length} categories');
-      final categories =
-          extractedData.map((i) => Category.fromJson(i)).toList();
-      emit(state.copyWith(categoryItems: categories));
-      event.completer?.complete();
-    }).onFailure((error) {
-      AppLogger.error('Failed to retrieve categories: $error');
-      event.completer?.completeError(error);
-    });
+    result
+        .onSuccess((extractedData) {
+          AppLogger.debug('Loaded ${extractedData.length} categories');
+          final categories = extractedData
+              .map((i) => Category.fromJson(i))
+              .toList();
+          emit(state.copyWith(categoryItems: categories));
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          AppLogger.error('Failed to retrieve categories: $error');
+          event.completer?.completeError(error);
+        });
   }
 
   Future<void> _onSearchItem(
@@ -303,20 +315,24 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       parser: (data) => data as Map<String, dynamic>,
     );
 
-    result.onSuccess((extractedData) {
-      AppLogger.debug('Products retrieved');
-      final productMain = ProductMain.fromJson(extractedData);
-      AppLogger.debug('Max page: ${productMain.productsDetail.max_page}');
-      emit(state.copyWith(
-        items: productMain.products,
-        searchDetails: productMain.productsDetail,
-      ));
-      event.completer?.complete();
-    }).onFailure((error) {
-      AppLogger.error('Failed to search products: $error');
-      emit(state.copyWith(items: []));
-      event.completer?.complete();
-    });
+    result
+        .onSuccess((extractedData) {
+          AppLogger.debug('Products retrieved');
+          final productMain = ProductMain.fromJson(extractedData);
+          AppLogger.debug('Max page: ${productMain.productsDetail.max_page}');
+          emit(
+            state.copyWith(
+              items: productMain.products,
+              searchDetails: productMain.productsDetail,
+            ),
+          );
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          AppLogger.error('Failed to search products: $error');
+          emit(state.copyWith(items: []));
+          event.completer?.complete();
+        });
   }
 
   Future<void> _onRetrieveItem(
@@ -332,16 +348,18 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       parser: (data) => data as Map<String, dynamic>,
     );
 
-    result.onSuccess((extractedData) {
-      AppLogger.debug('Product data retrieved');
-      final product = Product.fromJson(extractedData);
-      AppLogger.debug('Product ID: ${product.id}');
-      emit(state.copyWith(item: product));
-      event.completer?.complete();
-    }).onFailure((error) {
-      AppLogger.error('Failed to retrieve product: $error');
-      event.completer?.completeError(Exception(error));
-    });
+    result
+        .onSuccess((extractedData) {
+          AppLogger.debug('Product data retrieved');
+          final product = Product.fromJson(extractedData);
+          AppLogger.debug('Product ID: ${product.id}');
+          emit(state.copyWith(item: product));
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          AppLogger.error('Failed to retrieve product: $error');
+          event.completer?.completeError(Exception(error));
+        });
   }
 
   Future<void> _onSendRequest(
@@ -358,12 +376,14 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       parser: (data) => data as Map<String, dynamic>,
     );
 
-    result.onSuccess((_) {
-      AppLogger.debug('Order request sent successfully');
-      event.completer?.complete();
-    }).onFailure((error) {
-      AppLogger.error('Failed to send order request: $error');
-      event.completer?.completeError(Exception(error));
-    });
+    result
+        .onSuccess((_) {
+          AppLogger.debug('Order request sent successfully');
+          event.completer?.complete();
+        })
+        .onFailure((error) {
+          AppLogger.error('Failed to send order request: $error');
+          event.completer?.completeError(Exception(error));
+        });
   }
 }

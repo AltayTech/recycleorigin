@@ -6,11 +6,7 @@ class Region with ChangeNotifier {
   final String name;
   final List<CollectHour> collect_hour;
 
-  Region({
-    this.term_id = 1,
-    this.name = '',
-    this.collect_hour = const [],
-  });
+  Region({this.term_id = 1, this.name = '', this.collect_hour = const []});
 
   factory Region.fromJson(Map<String, dynamic> parsedJson) {
     List<CollectHour> hourRaw = [];
@@ -29,10 +25,6 @@ class Region with ChangeNotifier {
   Map<String, dynamic> toJson() {
     List<Map>? collect_hour = this.collect_hour.map((i) => i.toJson()).toList();
 
-    return {
-      'term_id': term_id,
-      'name': name,
-      'collect_hour': collect_hour,
-    };
+    return {'term_id': term_id, 'name': name, 'collect_hour': collect_hour};
   }
 }

@@ -100,7 +100,6 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
     totalPricePure = 0;
     if (wasteCartItems.length > 0) {
       for (int i = 0; i < wasteCartItems.length; i++) {
-        print(wasteCartItems[i].featured_image.sizes.medium);
         wasteCartItems[i].prices.length > 0
             ? totalPrice =
                   totalPrice +

@@ -5,11 +5,7 @@ class TypePost with ChangeNotifier {
   final String name;
   final String slug;
 
-  TypePost({
-    this.term_id = 0,
-    this.name = '',
-    this.slug = '',
-  });
+  TypePost({this.term_id = 0, this.name = '', this.slug = ''});
 
   factory TypePost.fromJson(Map<String, dynamic> parsedJson) {
     return TypePost(
@@ -20,10 +16,6 @@ class TypePost with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'term_id': term_id,
-      'name': name,
-      'slug': slug,
-    };
+    return {'term_id': term_id, 'name': name, 'slug': slug};
   }
 }

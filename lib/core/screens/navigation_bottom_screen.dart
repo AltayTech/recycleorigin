@@ -8,6 +8,8 @@ import '../../features/home_feature/presentation/home_screen.dart';
 import '../../features/store_feature/presentation/screens/product_screen.dart';
 import '../../features/waste_feature/collect_list_screen.dart';
 import '../../l10n/app_localizations.dart';
+import '../config/app_config.dart';
+import '../config/store_feature.dart';
 import '../navigation/navigation_shell_scope.dart';
 import '../theme/theme_context_extensions.dart';
 import '../widgets/main_drawer.dart';
@@ -35,7 +37,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   final List<Widget Function()> _tabBuilders = <Widget Function()>[
     () => const HomeScreen(),
     () => const CollectListScreen(),
-    () => ProductsScreen(),
+    () => StoreFeature.wrap(ProductsScreen()),
     () => const ProfileScreen(),
   ];
   final List<Widget?> _tabs = List<Widget?>.filled(4, null);
@@ -111,13 +113,16 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   String _titleForTab(AppLocalizations l10n) {
     return switch (_selectedIndex) {
       1 => l10n.collectRequestListAppBarTitle,
-      2 => l10n.storeProductsAppBarTitle,
+      2 =>
+        AppConfig.enableStore
+            ? l10n.storeProductsAppBarTitle
+            : l10n.comingSoonTitle,
       _ => l10n.profile,
     };
   }
 
   List<Widget> _actionsForTab() {
-    if (_selectedIndex == 2) {
+    if (_selectedIndex == 2 && AppConfig.enableStore) {
       return const <Widget>[ShellStoreCartAction()];
     }
     return const <Widget>[];
@@ -147,23 +152,18 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                 ),
           drawer: Theme(
             data: Theme.of(context).copyWith(
-              canvasColor: appColors.scaffoldBackground.withValues(
-                alpha: 0.96,
-              ),
+              canvasColor: appColors.scaffoldBackground.withValues(alpha: 0.96),
             ),
             child: const MainDrawer(),
           ),
           body: IndexedStack(
             index: _selectedIndex,
-            children: List<Widget>.generate(
-              _tabBuilders.length,
-              (index) {
-                if (index != _selectedIndex && _tabs[index] == null) {
-                  return const SizedBox.shrink();
-                }
-                return _tabChild(index);
-              },
-            ),
+            children: List<Widget>.generate(_tabBuilders.length, (index) {
+              if (index != _selectedIndex && _tabs[index] == null) {
+                return const SizedBox.shrink();
+              }
+              return _tabChild(index);
+            }),
           ),
           bottomNavigationBar: NavigationBar(
             selectedIndex: _selectedIndex,

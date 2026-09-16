@@ -47,8 +47,9 @@ class RequestWasteItem with ChangeNotifier {
 
   factory RequestWasteItem.fromJson(Map<String, dynamic> parsedJson) {
     var collectList = parsedJson['collect_list'] as List;
-    List<Collect> collectRaw =
-        collectList.map((i) => Collect.fromJson(i)).toList();
+    List<Collect> collectRaw = collectList
+        .map((i) => Collect.fromJson(i))
+        .toList();
 
     final cr = parsedJson['customer_rating'] as Map<String, dynamic>?;
     final dr = parsedJson['driver_rating'] as Map<String, dynamic>?;
@@ -82,8 +83,9 @@ class RequestWasteItem with ChangeNotifier {
       customerRating: cr != null ? RatingOut.fromJson(cr) : null,
       driverRating: dr != null ? RatingOut.fromJson(dr) : null,
       hasRated: parsedJson['has_rated'] as bool? ?? false,
-      customerAverageRating:
-          parseAverageRating(parsedJson['customer_average_rating']),
+      customerAverageRating: parseAverageRating(
+        parsedJson['customer_average_rating'],
+      ),
     );
   }
 

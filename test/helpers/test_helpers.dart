@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
-import 'package:recycleorigin/features/articles_feature/presentation/bloc/articles_bloc.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/clearing_feature/presentation/bloc/clearings_bloc.dart';
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_bloc.dart';
@@ -23,7 +22,6 @@ class TestHelpers {
     CustomerInfoBloc? customerInfoBloc,
     MessagesBloc? messagesBloc,
     WastesBloc? wastesBloc,
-    ArticlesBloc? articlesBloc,
     OrdersBloc? ordersBloc,
     ClearingsBloc? clearingsBloc,
   }) {
@@ -44,12 +42,7 @@ class TestHelpers {
         BlocProvider<MessagesBloc>(
           create: (_) => messagesBloc ?? MessagesBloc(testApiClient),
         ),
-        BlocProvider<WastesBloc>(
-          create: (_) => wastesBloc ?? WastesBloc(),
-        ),
-        BlocProvider<ArticlesBloc>(
-          create: (_) => articlesBloc ?? ArticlesBloc(),
-        ),
+        BlocProvider<WastesBloc>(create: (_) => wastesBloc ?? WastesBloc()),
         BlocProvider<OrdersBloc>(
           create: (_) => ordersBloc ?? OrdersBloc(testApiClient),
         ),
@@ -57,17 +50,13 @@ class TestHelpers {
           create: (_) => clearingsBloc ?? ClearingsBloc(testApiClient),
         ),
       ],
-      child: MaterialApp(
-        home: Scaffold(body: child),
-      ),
+      child: MaterialApp(home: Scaffold(body: child)),
     );
   }
 
   /// Creates a simple test widget with MaterialApp
   static Widget createSimpleTestWidget(Widget child) {
-    return MaterialApp(
-      home: Scaffold(body: child),
-    );
+    return MaterialApp(home: Scaffold(body: child));
   }
 
   /// Pumps widget and waits for async operations
@@ -90,6 +79,5 @@ class TestConstants {
   static const String testPhone = '+1234567890';
   static const String testUrl = 'https://example.com';
   static const int testProductId = 1;
-  static const int testArticleId = 1;
   static const String testApiBaseUrl = 'https://test-api.example.com';
 }

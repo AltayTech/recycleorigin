@@ -77,9 +77,9 @@ class _WalletBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final titleStyle = Theme.of(context).textTheme.labelLarge?.copyWith(
-          color: context.appColors.subtitleColor,
-          fontWeight: FontWeight.w600,
-        );
+      color: context.appColors.subtitleColor,
+      fontWeight: FontWeight.w600,
+    );
 
     if (!isAuthenticated) {
       return Column(
@@ -104,29 +104,28 @@ class _WalletBody extends StatelessWidget {
             const SizedBox(height: 4),
             switch (state.status) {
               WalletSummaryStatus.loading ||
-              WalletSummaryStatus.initial =>
-                const SizedBox(
-                  height: 20,
-                  width: 120,
-                  child: LinearProgressIndicator(minHeight: 4),
-                ),
+              WalletSummaryStatus.initial => const SizedBox(
+                height: 20,
+                width: 120,
+                child: LinearProgressIndicator(minHeight: 4),
+              ),
               WalletSummaryStatus.error => Text(
-                  state.errorMessage ?? context.l10n.somethingWentWrong,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: context.colors.error,
-                      ),
-                ),
+                state.errorMessage ?? context.l10n.somethingWentWrong,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: context.colors.error),
+              ),
               WalletSummaryStatus.loaded => Text(
-                  '${state.wallet?.balance ?? '0'} ${state.wallet?.currency ?? ''}',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: AppTheme.serviceWallet,
-                      ),
+                '${state.wallet?.balance ?? '0'} ${state.wallet?.currency ?? ''}',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: AppTheme.serviceWallet,
                 ),
+              ),
               WalletSummaryStatus.notAuthenticated => Text(
-                  context.l10n.pleaseLoginToViewWallet,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
+                context.l10n.pleaseLoginToViewWallet,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
             },
           ],
         );

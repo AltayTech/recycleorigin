@@ -17,8 +17,9 @@ class AppLocaleController {
 
   AppLocaleController._();
 
-  final ValueNotifier<Locale> localeNotifier =
-      ValueNotifier<Locale>(_defaultLocale);
+  final ValueNotifier<Locale> localeNotifier = ValueNotifier<Locale>(
+    _defaultLocale,
+  );
 
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();

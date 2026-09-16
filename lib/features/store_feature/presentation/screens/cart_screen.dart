@@ -115,8 +115,6 @@ class _CartScreenState extends State<CartScreen> {
             customer = context.read<CustomerInfoBloc>().customer;
           });
         } catch (error) {
-          print(error);
-
           throw (error);
         }
       }
@@ -151,9 +149,7 @@ class _CartScreenState extends State<CartScreen> {
 
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
   void setStateFun() {

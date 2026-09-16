@@ -118,10 +118,7 @@ class _SupportTicketCreateScreenState extends State<SupportTicketCreateScreen> {
               ),
               items: _categories.entries
                   .map(
-                    (e) => DropdownMenuItem(
-                      value: e.key,
-                      child: Text(e.value),
-                    ),
+                    (e) => DropdownMenuItem(value: e.key, child: Text(e.value)),
                   )
                   .toList(),
               onChanged: (v) => setState(() => _category = v ?? 'general'),

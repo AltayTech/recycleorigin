@@ -84,7 +84,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     setState(() {
       _isLoading = false;
     });
-    print(_isLoading.toString());
   }
 
   Future<void> addToShoppingCart(
@@ -104,7 +103,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     setState(() {
       _isLoading = false;
     });
-    print(_isLoading.toString());
   }
 
   Future<bool> isExistInCart(Product loadedProduct) async {
@@ -115,8 +113,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     isExist = context.read<ProductsBloc>().cartItems.any(
       (prod) => prod.id == loadedProduct.id,
     );
-
-    print(isExist.toString());
 
     setState(() {
       _isLoading = false;

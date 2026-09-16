@@ -23,9 +23,9 @@ class CollectHour with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() => {
-        'start': start,
-        'end': end,
-        'collect_hour_status': collect_hour_status,
-        'repeat_pattern': repeat_pattern,
-      };
+    'start': start,
+    'end': end,
+    'collect_hour_status': collect_hour_status,
+    'repeat_pattern': repeat_pattern,
+  };
 }

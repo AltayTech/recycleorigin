@@ -106,8 +106,9 @@ class _DialogBody extends StatelessWidget {
                   color: AppTheme.primary,
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context)
-                          .popAndPushNamed(ProfileScreen.routeName);
+                      Navigator.of(
+                        context,
+                      ).popAndPushNamed(ProfileScreen.routeName);
                     },
                     child: SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.06,

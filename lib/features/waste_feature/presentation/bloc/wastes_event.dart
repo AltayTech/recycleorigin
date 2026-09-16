@@ -22,8 +22,11 @@ class WastesAddWasteCartRequested extends WastesEvent {
 }
 
 class WastesUpdateWasteCartRequested extends WastesEvent {
-  const WastesUpdateWasteCartRequested(this.waste, this.quantity,
-      {this.completer});
+  const WastesUpdateWasteCartRequested(
+    this.waste,
+    this.quantity, {
+    this.completer,
+  });
   final WasteCart waste;
   final int quantity;
   final Completer<void>? completer;
@@ -36,8 +39,11 @@ class WastesRemoveWasteCartRequested extends WastesEvent {
 }
 
 class WastesSendRequestRequested extends WastesEvent {
-  const WastesSendRequestRequested(this.request, this.isLogin,
-      {this.completer});
+  const WastesSendRequestRequested(
+    this.request,
+    this.isLogin, {
+    this.completer,
+  });
   final RequestWaste request;
   final bool isLogin;
   final Completer<void>? completer;

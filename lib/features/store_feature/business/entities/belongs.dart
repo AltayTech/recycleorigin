@@ -2,10 +2,7 @@ class Belongs {
   final int id;
   final String name;
 
-  Belongs({
-    required this.id,
-    required this.name,
-  });
+  Belongs({required this.id, required this.name});
 
   factory Belongs.fromJson(Map<String, dynamic> parsedJson) {
     return Belongs(
@@ -15,9 +12,6 @@ class Belongs {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-    };
+    return {'id': id, 'name': name};
   }
 }

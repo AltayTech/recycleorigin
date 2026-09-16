@@ -1,4 +1,8 @@
 #include "Generated.xcconfig"
+#include? "GoogleReversedClient.xcconfig"
 
 APP_FLAVOR=prod
 PRODUCT_BUNDLE_IDENTIFIER=com.recycleorigin.recycleorigin
+// Production iOS: GOOGLE_REVERSED_CLIENT_ID must be the real REVERSED_CLIENT_ID
+// from GoogleService-Info.plist. Empty or REPLACE_* values fail
+// scripts/check-ios-google-signin.py --strict-prod.

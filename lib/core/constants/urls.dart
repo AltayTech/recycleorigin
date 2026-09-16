@@ -12,8 +12,6 @@ class Urls {
   static const addressEndPoint = '/customer/address';
   static const regionEndPoint = '/customer/regions';
   static const countriesEndPoint = '/countries';
-  static const articlesEndPoint = '/articles';
-  static const articlesCatEndPoint = '/articles/category';
   static const collectsEndPoint = '/collects';
 
   /// POST body: `{ "score": 1-5, "comment": "optional" }`

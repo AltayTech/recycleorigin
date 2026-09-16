@@ -29,10 +29,7 @@ class DateSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 4,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
           child: Row(
             children: [
               Container(
@@ -86,11 +83,7 @@ class DateSelector extends StatelessWidget {
                   duration: const Duration(milliseconds: 250),
                   curve: Curves.easeInOut,
                   width: 70,
-                  margin: const EdgeInsets.only(
-                    right: 10,
-                    top: 2,
-                    bottom: 2,
-                  ),
+                  margin: const EdgeInsets.only(right: 10, top: 2, bottom: 2),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? AppTheme.primary
@@ -112,8 +105,9 @@ class DateSelector extends StatelessWidget {
                           ]
                         : [
                             BoxShadow(
-                              color:
-                                  context.colors.shadow.withValues(alpha: 0.03),
+                              color: context.colors.shadow.withValues(
+                                alpha: 0.03,
+                              ),
                               blurRadius: 6,
                               offset: const Offset(0, 2),
                             ),
@@ -126,8 +120,9 @@ class DateSelector extends StatelessWidget {
                         converter.replaceArNumber(dayName),
                         style: TextStyle(
                           color: isSelected
-                              ? context.appColors.onHeroForeground
-                                  .withValues(alpha: 0.85)
+                              ? context.appColors.onHeroForeground.withValues(
+                                  alpha: 0.85,
+                                )
                               : context.appColors.subtitleColor,
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
@@ -149,8 +144,9 @@ class DateSelector extends StatelessWidget {
                         converter.replaceArNumber(monthName),
                         style: TextStyle(
                           color: isSelected
-                              ? context.appColors.onHeroForeground
-                                  .withValues(alpha: 0.8)
+                              ? context.appColors.onHeroForeground.withValues(
+                                  alpha: 0.8,
+                                )
                               : context.colors.onSurfaceVariant,
                           fontSize: 11,
                           fontWeight: FontWeight.w500,

@@ -4,41 +4,21 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
-/// Secondary shortcuts for destinations not in bottom navigation.
+/// Secondary shortcut for destinations not in bottom navigation.
 class HomeExploreRow extends StatelessWidget {
-  const HomeExploreRow({
-    super.key,
-    required this.onArticlesTap,
-    required this.onGuideTap,
-  });
+  const HomeExploreRow({super.key, required this.onGuideTap});
 
-  final VoidCallback onArticlesTap;
   final VoidCallback onGuideTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMd),
-      child: Row(
-        children: [
-          Expanded(
-            child: _ExploreTile(
-              title: context.l10n.articles,
-              icon: Icons.article_outlined,
-              color: AppTheme.serviceArticles,
-              onTap: onArticlesTap,
-            ),
-          ),
-          const SizedBox(width: AppTheme.spacingMd),
-          Expanded(
-            child: _ExploreTile(
-              title: context.l10n.guideTitle,
-              icon: Icons.menu_book_outlined,
-              color: AppTheme.primaryDark,
-              onTap: onGuideTap,
-            ),
-          ),
-        ],
+      child: _ExploreTile(
+        title: context.l10n.guideTitle,
+        icon: Icons.menu_book_outlined,
+        color: AppTheme.primaryDark,
+        onTap: onGuideTap,
       ),
     );
   }
@@ -84,8 +64,8 @@ class _ExploreTile extends StatelessWidget {
                   child: Text(
                     title,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
+                      fontWeight: FontWeight.w700,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

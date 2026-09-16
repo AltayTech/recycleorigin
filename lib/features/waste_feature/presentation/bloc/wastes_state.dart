@@ -23,12 +23,12 @@ class WastesState {
     this.sOrder = 'desc',
     this.sOrderBy = 'date',
     this.sCategory,
-  })  : wasteItems = wasteItems ?? const [],
-        wasteCartItems = wasteCartItems ?? const [],
-        wasteCartItemsId = wasteCartItemsId ?? const [],
-        collectItems = collectItems ?? const [],
-        searchDetails = searchDetails ?? SearchDetail(),
-        selectedDay = selectedDay ?? DateTime.now();
+  }) : wasteItems = wasteItems ?? const [],
+       wasteCartItems = wasteCartItems ?? const [],
+       wasteCartItemsId = wasteCartItemsId ?? const [],
+       collectItems = collectItems ?? const [],
+       searchDetails = searchDetails ?? SearchDetail(),
+       selectedDay = selectedDay ?? DateTime.now();
 
   final List<Waste> wasteItems;
   final List<WasteCart> wasteCartItems;

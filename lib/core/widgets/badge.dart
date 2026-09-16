@@ -49,8 +49,10 @@ class Badge extends StatelessWidget {
             right: 8,
             top: 8,
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 4.0,
+                vertical: 2.0,
+              ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(badgeSize / 2),
                 border: Border.all(

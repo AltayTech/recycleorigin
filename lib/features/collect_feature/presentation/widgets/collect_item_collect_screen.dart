@@ -15,8 +15,10 @@ class CollectItemCollectsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final collect = Provider.of<RequestWasteItem>(context, listen: false);
     final l10n = context.l10n;
-    final (statusColor, statusIcon) =
-        _statusVisuals(context, collect.requestStatusKey);
+    final (statusColor, statusIcon) = _statusVisuals(
+      context,
+      collect.requestStatusKey,
+    );
     final statusText = _statusText(l10n, collect);
 
     final estWeight =
@@ -26,10 +28,9 @@ class CollectItemCollectsScreen extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(14),
-      onTap: () => Navigator.of(context).pushNamed(
-        CollectDetailScreen.routeName,
-        arguments: collect.id,
-      ),
+      onTap: () => Navigator.of(
+        context,
+      ).pushNamed(CollectDetailScreen.routeName, arguments: collect.id),
       child: Container(
         decoration: BoxDecoration(
           color: context.appColors.cardBackground,
@@ -69,8 +70,10 @@ class CollectItemCollectsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Icon(Icons.chevron_right,
-                    color: context.colors.onSurfaceVariant),
+                Icon(
+                  Icons.chevron_right,
+                  color: context.colors.onSurfaceVariant,
+                ),
               ],
             ),
             const Divider(height: 18),
@@ -78,14 +81,16 @@ class CollectItemCollectsScreen extends StatelessWidget {
               children: [
                 _InfoChip(
                   icon: Icons.calendar_today_outlined,
-                  text:
-                      EnArConvertor().replaceArNumber(collect.collect_date.day),
+                  text: EnArConvertor().replaceArNumber(
+                    collect.collect_date.day,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 _InfoChip(
                   icon: Icons.access_time,
-                  text: EnArConvertor()
-                      .replaceArNumber(collect.collect_date.time),
+                  text: EnArConvertor().replaceArNumber(
+                    collect.collect_date.time,
+                  ),
                 ),
               ],
             ),
@@ -114,8 +119,11 @@ class CollectItemCollectsScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(Icons.location_on_outlined,
-                      size: 16, color: context.appColors.subtitleColor),
+                  Icon(
+                    Icons.location_on_outlined,
+                    size: 16,
+                    color: context.appColors.subtitleColor,
+                  ),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
@@ -193,8 +201,10 @@ class _InfoChip extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           text,
-          style:
-              TextStyle(fontSize: 12, color: context.appColors.subtitleColor),
+          style: TextStyle(
+            fontSize: 12,
+            color: context.appColors.subtitleColor,
+          ),
         ),
       ],
     );

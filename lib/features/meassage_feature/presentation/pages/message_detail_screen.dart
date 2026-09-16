@@ -60,9 +60,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
     messages = context.read<MessagesBloc>().allMessagesDetail;
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
   @override

@@ -23,8 +23,9 @@ class OrderProducts with ChangeNotifier {
 
   factory OrderProducts.fromJson(Map<String, dynamic> parsedJson) {
     var collectList = parsedJson['collect_list'] as List;
-    List<Collect> collectRaw =
-        collectList.map((i) => Collect.fromJson(i)).toList();
+    List<Collect> collectRaw = collectList
+        .map((i) => Collect.fromJson(i))
+        .toList();
 
     return OrderProducts(
       total_price: parsedJson['total_price'],

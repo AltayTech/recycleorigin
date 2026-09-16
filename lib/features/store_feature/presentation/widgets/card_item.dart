@@ -158,10 +158,6 @@ class _CardItemState extends State<CardItem> {
                                                         widget.callFunction();
                                                         setState(() {
                                                           _isLoading = false;
-                                                          print(
-                                                            _isLoading
-                                                                .toString(),
-                                                          );
                                                         });
                                                       });
                                                 },
@@ -223,10 +219,6 @@ class _CardItemState extends State<CardItem> {
 
                                                         setState(() {
                                                           _isLoading = false;
-                                                          print(
-                                                            _isLoading
-                                                                .toString(),
-                                                          );
                                                         });
                                                       });
                                                 },

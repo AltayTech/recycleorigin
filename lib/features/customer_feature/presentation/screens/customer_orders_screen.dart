@@ -9,9 +9,7 @@ class CustomerOrdersScreen extends StatefulWidget {
   static const routeName = '/customer_order_screen';
   final Customer customer;
 
-  CustomerOrdersScreen({
-    customer,
-  }) : this.customer = Customer();
+  CustomerOrdersScreen({customer}) : this.customer = Customer();
 
   @override
   _CustomerOrdersScreenState createState() => _CustomerOrdersScreenState();
@@ -28,11 +26,10 @@ class _CustomerOrdersScreenState extends State<CustomerOrdersScreen> {
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
 
-      drawer:
-          mainDrawerIfRootRoute(context), // resizeToAvoidBottomInset: false,
-      body: CustomerDetailOrderScreen(
-        customer: Customer(),
-      ),
+      drawer: mainDrawerIfRootRoute(
+        context,
+      ), // resizeToAvoidBottomInset: false,
+      body: CustomerDetailOrderScreen(customer: Customer()),
     );
   }
 }

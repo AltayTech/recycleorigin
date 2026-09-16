@@ -10,14 +10,8 @@ Waste sampleWaste({int id = 1, String name = 'Test waste'}) {
     id: id,
     name: name,
     excerpt: 'Excerpt',
-    prices: <PriceWeight>[
-      PriceWeight(weight: '1', price: '10'),
-    ],
+    prices: <PriceWeight>[PriceWeight(weight: '1', price: '10')],
     status: Status(term_id: 1, name: 'Active', slug: 'active'),
-    featured_image: FeaturedImage(
-      id: 1,
-      title: '',
-      sizes: Sizes(),
-    ),
+    featured_image: FeaturedImage(id: 1, title: '', sizes: Sizes()),
   );
 }

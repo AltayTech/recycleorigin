@@ -71,11 +71,7 @@ class HomeGreetingHeader extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       )
-                    : Icon(
-                        Icons.eco_rounded,
-                        color: colors.primary,
-                        size: 28,
-                      ),
+                    : Icon(Icons.eco_rounded, color: colors.primary, size: 28),
               ),
               const SizedBox(width: AppTheme.spacingMd),
               Expanded(

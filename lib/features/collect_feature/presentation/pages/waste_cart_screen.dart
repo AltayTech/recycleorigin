@@ -82,13 +82,13 @@ class _WasteCartScreenState extends State<WasteCartScreen>
   }
 
   void _animatePriceTo(double newValue) {
-    _totalPriceAnimation = Tween<double>(
-      begin: _totalPriceAnimation.value,
-      end: newValue,
-    ).animate(CurvedAnimation(
-      curve: Curves.easeOutCubic,
-      parent: _totalPriceController,
-    ));
+    _totalPriceAnimation =
+        Tween<double>(begin: _totalPriceAnimation.value, end: newValue).animate(
+          CurvedAnimation(
+            curve: Curves.easeOutCubic,
+            parent: _totalPriceController,
+          ),
+        );
     _totalPriceController.forward(from: 0.0);
   }
 
@@ -186,7 +186,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
               await Navigator.of(context).pushNamed(WastesScreen.routeName);
               await _refreshWasteItems();
             },
-          )
+          ),
         ],
       ),
       body: BlocBuilder<WastesBloc, WastesState>(
@@ -196,10 +196,7 @@ class _WasteCartScreenState extends State<WasteCartScreen>
 
           if (_isLoading) {
             return Center(
-              child: SpinKitFadingCircle(
-                color: AppTheme.primary,
-                size: 50.0,
-              ),
+              child: SpinKitFadingCircle(color: AppTheme.primary, size: 50.0),
             );
           }
 
@@ -218,11 +215,14 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                   ),
                 Expanded(
                   child: items.isEmpty
-                      ? _WasteCartEmptyState(onAddPressed: () async {
-                          await Navigator.of(context)
-                              .pushNamed(WastesScreen.routeName);
-                          await _refreshWasteItems();
-                        })
+                      ? _WasteCartEmptyState(
+                          onAddPressed: () async {
+                            await Navigator.of(
+                              context,
+                            ).pushNamed(WastesScreen.routeName);
+                            await _refreshWasteItems();
+                          },
+                        )
                       : ListView.separated(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16,
@@ -320,8 +320,8 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? AppTheme.primary
                       : isActive
-                          ? AppTheme.primary.withValues(alpha: 0.12)
-                          : context.appColors.divider,
+                      ? AppTheme.primary.withValues(alpha: 0.12)
+                      : context.appColors.divider,
                   shape: BoxShape.circle,
                   border: isActive
                       ? Border.all(color: AppTheme.primary, width: 2)
@@ -333,8 +333,8 @@ class _StepProgressBar extends StatelessWidget {
                   color: isCompleted
                       ? context.appColors.onHeroForeground
                       : isActive
-                          ? AppTheme.primary
-                          : context.colors.onSurfaceVariant,
+                      ? AppTheme.primary
+                      : context.colors.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 4),
@@ -384,9 +384,7 @@ class _WasteCartSummary extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppTheme.primary.withValues(alpha: 0.12),
-        ),
+        border: Border.all(color: AppTheme.primary.withValues(alpha: 0.12)),
       ),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       child: IntrinsicHeight(
@@ -425,9 +423,7 @@ class _WasteCartSummary extends StatelessWidget {
               icon: Icons.scale_rounded,
               iconColor: AppTheme.iconAccentPurple,
               label: l10n.weightKgFullLabel,
-              value: converter.replaceArNumber(
-                totalWeight.toString(),
-              ),
+              value: converter.replaceArNumber(totalWeight.toString()),
             ),
           ],
         ),
@@ -553,10 +549,7 @@ class _WasteCartEmptyState extends StatelessWidget {
               icon: Icon(Icons.add_rounded, size: 20),
               label: Text(
                 l10n.addWasteItemsTitle,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
               ),
             ),
           ],
@@ -608,7 +601,9 @@ class _WasteCartBottomBar extends StatelessWidget {
                 Text(
                   l10n.cartTotalAmountLabel,
                   style: TextStyle(
-                    color: context.appColors.subtitleColor.withValues(alpha: 0.7),
+                    color: context.appColors.subtitleColor.withValues(
+                      alpha: 0.7,
+                    ),
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
@@ -617,10 +612,7 @@ class _WasteCartBottomBar extends StatelessWidget {
                 AnimatedBuilder(
                   animation: totalPriceAnimation,
                   builder: (_, __) => Text(
-                    '${EnArConvertor().replaceArNumber(
-                      intl.NumberFormat.decimalPattern()
-                          .format(totalPriceAnimation.value.toInt()),
-                    )} \$',
+                    '${EnArConvertor().replaceArNumber(intl.NumberFormat.decimalPattern().format(totalPriceAnimation.value.toInt()))} \$',
                     style: TextStyle(
                       color: context.colors.onSurface,
                       fontSize: 22,

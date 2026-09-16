@@ -63,14 +63,14 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       _startCooldown();
     } on AuthException catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message)));
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.authGenericError)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.authGenericError)));
     } finally {
       if (mounted) setState(() => _isResending = false);
     }
@@ -80,12 +80,14 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     if (_isChecking) return;
     setState(() => _isChecking = true);
     try {
-      final verified =
-          await context.read<AuthBloc>().refreshEmailVerification();
+      final verified = await context
+          .read<AuthBloc>()
+          .refreshEmailVerification();
       if (!mounted) return;
       if (verified) {
-        Navigator.of(context)
-            .pushReplacementNamed(NavigationBottomScreen.routeName);
+        Navigator.of(
+          context,
+        ).pushReplacementNamed(NavigationBottomScreen.routeName);
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -93,9 +95,9 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       );
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.authGenericError)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.authGenericError)));
     } finally {
       if (mounted) setState(() => _isChecking = false);
     }
@@ -104,18 +106,19 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   Future<void> _signOut() async {
     await context.read<AuthBloc>().removeToken();
     if (!mounted) return;
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      LoginScreen.routeName,
-      (route) => false,
-    );
+    Navigator.of(
+      context,
+    ).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final email = context.select<AuthBloc, String?>(
-            (b) => b.state.tokenResponseModel.userEmail) ??
+    final email =
+        context.select<AuthBloc, String?>(
+          (b) => b.state.tokenResponseModel.userEmail,
+        ) ??
         '';
 
     return Scaffold(

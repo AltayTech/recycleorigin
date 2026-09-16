@@ -1,0 +1,4 @@
+// Copy to GoogleReversedClient.xcconfig and set the value from
+// ios/Runner/GoogleService-Info.plist → REVERSED_CLIENT_ID.
+// Never commit a placeholder (REPLACE_WITH / REPLACE_ME).
+GOOGLE_REVERSED_CLIENT_ID=

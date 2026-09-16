@@ -31,19 +31,19 @@ class PushNotificationController {
 
   static const AndroidNotificationChannel _transactional =
       AndroidNotificationChannel(
-    'transactional',
-    'Transactional',
-    description: 'Order, collect, and wallet updates.',
-    importance: Importance.high,
-  );
+        'transactional',
+        'Transactional',
+        description: 'Order, collect, and wallet updates.',
+        importance: Importance.high,
+      );
 
   static const AndroidNotificationChannel _marketing =
       AndroidNotificationChannel(
-    'marketing',
-    'Marketing',
-    description: 'Promotional messages.',
-    importance: Importance.defaultImportance,
-  );
+        'marketing',
+        'Marketing',
+        description: 'Promotional messages.',
+        importance: Importance.defaultImportance,
+      );
 
   /// Call after login and on cold start when already logged in.
   Future<void> syncAfterLogin(ApiClient api) async {
@@ -132,7 +132,8 @@ class PushNotificationController {
       var msg = 'Push init failed';
       if (Platform.isAndroid && _looksLikeTransientFcmInstallationsError(e)) {
         _deferSyncUntil = DateTime.now().add(const Duration(minutes: 2));
-        msg = '$msg (Android: FCM needs Google Play services and network '
+        msg =
+            '$msg (Android: FCM needs Google Play services and network '
             'access; use a "Google Play" system image on emulators, update '
             'Play Store / Play services on device, or check VPN/firewall).';
         AppLogger.warning(msg);
@@ -153,7 +154,8 @@ class PushNotificationController {
       try {
         return await _messaging!.getToken();
       } catch (e, st) {
-        final retry = Platform.isAndroid &&
+        final retry =
+            Platform.isAndroid &&
             i < backoffMs.length - 1 &&
             _looksLikeTransientFcmInstallationsError(e);
         if (!retry) {
@@ -202,10 +204,7 @@ class PushNotificationController {
   Future<void> _ensureLocalChannels() async {
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosInit = DarwinInitializationSettings();
-    const init = InitializationSettings(
-      android: androidInit,
-      iOS: iosInit,
-    );
+    const init = InitializationSettings(android: androidInit, iOS: iosInit);
     await _local.initialize(
       settings: init,
       onDidReceiveNotificationResponse: (NotificationResponse r) {
@@ -219,8 +218,10 @@ class PushNotificationController {
         } catch (_) {}
       },
     );
-    final android = _local.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final android = _local
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     await android?.createNotificationChannel(_transactional);
     await android?.createNotificationChannel(_marketing);
   }

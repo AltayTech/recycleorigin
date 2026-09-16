@@ -10,7 +10,9 @@ void main() {
         // Test what the actual implementation supports
         expect(InputValidator.isValidEmail('user@example.com'), isTrue);
         expect(
-            InputValidator.isValidEmail('user123@example-domain.com'), isTrue);
+          InputValidator.isValidEmail('user123@example-domain.com'),
+          isTrue,
+        );
       });
 
       test('should return false for invalid email addresses', () {
@@ -44,12 +46,18 @@ void main() {
       });
 
       test('should return error message for short passwords', () {
-        expect(InputValidator.validatePassword('12345'),
-            'Password must be at least 6 characters');
-        expect(InputValidator.validatePassword('abc'),
-            'Password must be at least 6 characters');
-        expect(InputValidator.validatePassword('pass'),
-            'Password must be at least 6 characters');
+        expect(
+          InputValidator.validatePassword('12345'),
+          'Password must be at least 6 characters',
+        );
+        expect(
+          InputValidator.validatePassword('abc'),
+          'Password must be at least 6 characters',
+        );
+        expect(
+          InputValidator.validatePassword('pass'),
+          'Password must be at least 6 characters',
+        );
       });
 
       test('should accept exactly 6 character passwords', () {
@@ -71,10 +79,14 @@ void main() {
         expect(InputValidator.isValidPhoneNumber(''), isFalse);
         expect(InputValidator.isValidPhoneNumber('123'), isFalse);
         expect(InputValidator.isValidPhoneNumber('abc1234567'), isFalse);
-        expect(InputValidator.isValidPhoneNumber('1234567890123456'),
-            isFalse); // Too long
-        expect(InputValidator.isValidPhoneNumber('+1234567890123456'),
-            isFalse); // Too long
+        expect(
+          InputValidator.isValidPhoneNumber('1234567890123456'),
+          isFalse,
+        ); // Too long
+        expect(
+          InputValidator.isValidPhoneNumber('+1234567890123456'),
+          isFalse,
+        ); // Too long
       });
 
       test('should handle phone numbers with formatting', () {
@@ -100,20 +112,32 @@ void main() {
 
       test('should return error message for empty strings', () {
         expect(
-            InputValidator.validateRequired('', 'Field'), 'Field is required');
-        expect(InputValidator.validateRequired('   ', 'Field'),
-            'Field is required');
-        expect(InputValidator.validateRequired('\t\n', 'Field'),
-            'Field is required');
+          InputValidator.validateRequired('', 'Field'),
+          'Field is required',
+        );
+        expect(
+          InputValidator.validateRequired('   ', 'Field'),
+          'Field is required',
+        );
+        expect(
+          InputValidator.validateRequired('\t\n', 'Field'),
+          'Field is required',
+        );
       });
 
       test('should use correct field name in error message', () {
         expect(
-            InputValidator.validateRequired('', 'Email'), 'Email is required');
-        expect(InputValidator.validateRequired('', 'Password'),
-            'Password is required');
-        expect(InputValidator.validateRequired('', 'Phone Number'),
-            'Phone Number is required');
+          InputValidator.validateRequired('', 'Email'),
+          'Email is required',
+        );
+        expect(
+          InputValidator.validateRequired('', 'Password'),
+          'Password is required',
+        );
+        expect(
+          InputValidator.validateRequired('', 'Phone Number'),
+          'Phone Number is required',
+        );
       });
     });
 
@@ -123,9 +147,11 @@ void main() {
         expect(InputValidator.isValidUrl('http://example.com'), isTrue);
         expect(InputValidator.isValidUrl('https://example.com/path'), isTrue);
         expect(
-            InputValidator.isValidUrl(
-                'https://example.com:8080/path?query=value'),
-            isTrue);
+          InputValidator.isValidUrl(
+            'https://example.com:8080/path?query=value',
+          ),
+          isTrue,
+        );
         expect(InputValidator.isValidUrl('ftp://example.com'), isTrue);
       });
 

@@ -74,8 +74,10 @@ class _CustomerNotificationScreenState
       return;
     }
     final path = '${Urls.rootUrl}/notifications/${it.id}/read';
-    await _api.post<Map<String, dynamic>>(path,
-        parser: (d) => d as Map<String, dynamic>);
+    await _api.post<Map<String, dynamic>>(
+      path,
+      parser: (d) => d as Map<String, dynamic>,
+    );
     setState(() {
       final i = _items.indexWhere((x) => x.id == it.id);
       if (i >= 0) {
@@ -106,9 +108,9 @@ class _CustomerNotificationScreenState
           IconButton(
             icon: const Icon(Icons.settings_outlined),
             onPressed: () {
-              Navigator.of(context).pushNamed(
-                NotificationPreferencesScreen.routeName,
-              );
+              Navigator.of(
+                context,
+              ).pushNamed(NotificationPreferencesScreen.routeName);
             },
           ),
           TextButton(
@@ -140,8 +142,9 @@ class _CustomerNotificationScreenState
                     title: Text(
                       it.title,
                       style: TextStyle(
-                        fontWeight:
-                            it.isRead ? FontWeight.normal : FontWeight.bold,
+                        fontWeight: it.isRead
+                            ? FontWeight.normal
+                            : FontWeight.bold,
                       ),
                     ),
                     subtitle: Text(it.body),
@@ -154,9 +157,9 @@ class _CustomerNotificationScreenState
                     onTap: () async {
                       await _markRead(it);
                       if (it.deepLink != null && it.deepLink!.isNotEmpty) {
-                        NotificationDeepLink.openFromData(
-                          <String, dynamic>{'deep_link': it.deepLink},
-                        );
+                        NotificationDeepLink.openFromData(<String, dynamic>{
+                          'deep_link': it.deepLink,
+                        });
                       }
                     },
                   );

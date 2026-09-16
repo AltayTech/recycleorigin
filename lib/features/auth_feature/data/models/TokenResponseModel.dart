@@ -33,13 +33,12 @@ class TokenResponseModel {
     String? userEmail,
     String? userNicename,
     String? userDisplayName,
-  }) =>
-      TokenResponseModel(
-        token: token ?? _token,
-        userEmail: userEmail ?? _userEmail,
-        userNicename: userNicename ?? _userNicename,
-        userDisplayName: userDisplayName ?? _userDisplayName,
-      );
+  }) => TokenResponseModel(
+    token: token ?? _token,
+    userEmail: userEmail ?? _userEmail,
+    userNicename: userNicename ?? _userNicename,
+    userDisplayName: userDisplayName ?? _userDisplayName,
+  );
   String? get token => _token;
   String? get userEmail => _userEmail;
   String? get userNicename => _userNicename;
