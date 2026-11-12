@@ -23,25 +23,32 @@ class AppConfig {
     }
   }
 
+  static const String _fallbackUrl = 'https://recycleorigin.com/';
+
+  /// Reads a URL key. In production a missing value is a hard error so a
+  /// misconfigured release can never silently talk to the wrong backend.
+  static String _requiredUrl(String key) {
+    final value = _getEnv(key);
+    if (value != null && value.isNotEmpty) {
+      return value;
+    }
+    if (isProduction) {
+      throw AppConfigException(
+        'Production build requires $key in $_activeEnvFile',
+      );
+    }
+    AppLogger.warning('$key not set, using default');
+    return _fallbackUrl;
+  }
+
   /// Backend API root (no trailing path). E.g. https://api.example.com/
   /// Do not include /rest; the backend serves at root.
   static String get apiBaseUrl {
-    final url = _getEnv('API_BASE_URL') ?? 'https://recycleorigin.com/';
-    if (url.isEmpty) {
-      AppLogger.warning('API_BASE_URL not set, using default');
-      return 'https://recycleorigin.com/';
-    }
+    final url = _requiredUrl('API_BASE_URL');
     return url.endsWith('/') ? url : '$url/';
   }
 
-  static String get apiRootUrl {
-    final url = _getEnv('API_ROOT_URL') ?? 'https://recycleorigin.com/';
-    if (url.isEmpty) {
-      AppLogger.warning('API_ROOT_URL not set, using default');
-      return 'https://recycleorigin.com/';
-    }
-    return url;
-  }
+  static String get apiRootUrl => _requiredUrl('API_ROOT_URL');
 
   static String get googleMapsApiKey {
     final key = _getEnv('GOOGLE_MAPS_API_KEY') ?? '';

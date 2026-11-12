@@ -403,10 +403,7 @@ class FirebaseAuthService {
       await SecureStorage.saveFirebaseRefreshToken(tokens.refreshToken);
       return await _exchangeWithBackendRest(tokens.idToken);
     } on IdentityToolkitFailure catch (e) {
-      throw AuthException(
-        identityToolkitStatusToAuthCode(e.status),
-        e.message,
-      );
+      throw AuthException(identityToolkitStatusToAuthCode(e.status), e.message);
     }
   }
 
@@ -441,10 +438,7 @@ class FirebaseAuthService {
       await SecureStorage.saveFirebaseRefreshToken(tokens.refreshToken);
       return await _exchangeWithBackendRest(tokens.idToken);
     } on IdentityToolkitFailure catch (e) {
-      throw AuthException(
-        identityToolkitStatusToAuthCode(e.status),
-        e.message,
-      );
+      throw AuthException(identityToolkitStatusToAuthCode(e.status), e.message);
     }
   }
 

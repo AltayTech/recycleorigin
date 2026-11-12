@@ -169,10 +169,7 @@ class FirebaseIdentityToolkit {
         'Identity Toolkit did not return an ID token',
       );
     }
-    return IdentityToolkitTokens(
-      idToken: idToken,
-      refreshToken: refreshToken,
-    );
+    return IdentityToolkitTokens(idToken: idToken, refreshToken: refreshToken);
   }
 
   IdentityToolkitFailure _fromDio(DioException e) {

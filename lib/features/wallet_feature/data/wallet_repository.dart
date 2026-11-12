@@ -50,9 +50,7 @@ class WalletRepository {
         final details = map['details'] as Map<String, dynamic>?;
         return WalletTransactionsPage(
           transactions: txList
-              .map(
-                (e) => WalletTransaction.fromJson(e as Map<String, dynamic>),
-              )
+              .map((e) => WalletTransaction.fromJson(e as Map<String, dynamic>))
               .toList(),
           maxPages: details?['max_pages'] as int? ?? 1,
         );

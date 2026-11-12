@@ -99,15 +99,22 @@ android {
     buildTypes {
         release {
             // Play Store builds: create android/key.properties (see key.properties.example).
-            if (keystorePropertiesFile.exists()) {
-                signingConfig signingConfigs.release
-            } else {
-                signingConfig signingConfigs.debug
-            }
+            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+}
+
+// Fail fast instead of silently signing a release build with the debug key.
+gradle.taskGraph.whenReady { graph ->
+    def building = graph.allTasks.any {
+        (it.name.startsWith('assemble') || it.name.startsWith('bundle') || it.name.startsWith('package')) &&
+            it.name.endsWith('Release')
+    }
+    if (building && !keystorePropertiesFile.exists()) {
+        throw new GradleException("Release build requires android/key.properties (see key.properties.example). Refusing to sign with the debug key.")
     }
 }
 

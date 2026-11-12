@@ -9,7 +9,6 @@ class WastesState {
     List<Waste>? wasteItems,
     List<WasteCart>? wasteCartItems,
     List<int>? wasteCartItemsId,
-    this.token = '',
     List<RequestWasteItem>? collectItems,
     this.requestsListDirty = false,
     SearchDetail? searchDetails,
@@ -33,7 +32,6 @@ class WastesState {
   final List<Waste> wasteItems;
   final List<WasteCart> wasteCartItems;
   final List<int> wasteCartItemsId;
-  final String token;
   final List<RequestWasteItem> collectItems;
   final bool requestsListDirty;
   final SearchDetail searchDetails;
@@ -52,7 +50,6 @@ class WastesState {
     List<Waste>? wasteItems,
     List<WasteCart>? wasteCartItems,
     List<int>? wasteCartItemsId,
-    String? token,
     List<RequestWasteItem>? collectItems,
     bool? requestsListDirty,
     SearchDetail? searchDetails,
@@ -72,7 +69,6 @@ class WastesState {
       wasteItems: wasteItems ?? this.wasteItems,
       wasteCartItems: wasteCartItems ?? this.wasteCartItems,
       wasteCartItemsId: wasteCartItemsId ?? this.wasteCartItemsId,
-      token: token ?? this.token,
       collectItems: collectItems ?? this.collectItems,
       requestsListDirty: requestsListDirty ?? this.requestsListDirty,
       searchDetails: searchDetails ?? this.searchDetails,

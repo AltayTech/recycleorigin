@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart' as diolib;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:recycleorigin/core/constants/urls.dart';
+import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/models/search_detail.dart';
 import 'package:recycleorigin/core/storage/secure_storage.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
@@ -34,7 +34,6 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     on<WastesSubmitDriverRatingRequested>(_onSubmitDriverRating);
   }
 
-  String get token => state.token;
   List<WasteCart> get wasteCartItems => state.wasteCartItems;
   List<Waste> get wasteItems => state.wasteItems;
   List<int> get wasteCartItemsId => state.wasteCartItemsId;
@@ -185,6 +184,31 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     emit(s.copyWith(searchEndPoint: searchEndPoint));
   }
 
+  /// Sends a request through the shared [ApiProvider] client so bearer
+  /// injection, token refresh and timeouts apply uniformly. HTTP error
+  /// statuses are returned as responses (callers branch on `statusCode`);
+  /// only transport failures (no response) are rethrown.
+  Future<diolib.Response<dynamic>> _send(
+    Future<diolib.Response<dynamic>> Function(diolib.Dio dio) call,
+  ) async {
+    try {
+      return await call(ApiProvider.client.raw);
+    } on diolib.DioException catch (e) {
+      final response = e.response;
+      if (response != null) {
+        return response;
+      }
+      rethrow;
+    }
+  }
+
+  String _errorMessage(diolib.Response<dynamic> response, String fallback) {
+    final body = response.data;
+    return body is Map && body['error'] != null
+        ? body['error'].toString()
+        : fallback;
+  }
+
   Future<void> _onSearchWastesItem(
     WastesSearchWastesItemRequested event,
     Emitter<WastesState> emit,
@@ -193,16 +217,10 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     final url = Urls.rootUrl + Urls.wastesEndPoint;
     AppLogger.debug('Waste search URL: $url');
     try {
-      final response = await get(
-        Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      );
+      final response = await _send((dio) => dio.get<dynamic>(url));
       AppLogger.debug('Waste search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body) as List<dynamic>;
+        final extractedData = response.data as List<dynamic>;
         AppLogger.debug('Loaded ${extractedData.length} waste items');
         final wastes = extractedData.map((i) => Waste.fromJson(i)).toList();
         emit(state.copyWith(wasteItems: wastes));
@@ -305,30 +323,23 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     AppLogger.debug('Sending waste request');
     try {
       if (event.isLogin) {
-        var token = await SecureStorage.getToken() ?? '';
+        final token = await SecureStorage.getToken() ?? '';
         if (token.isEmpty) {
           throw Exception('Not logged in. Please sign in again.');
         }
         final url = Urls.rootUrl + Urls.collectsEndPoint;
         AppLogger.debug('Waste request URL: $url');
-        final response = await post(
-          Uri.parse(url),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          body: jsonEncode(event.request),
+        final response = await _send(
+          (dio) => dio.post<dynamic>(url, data: event.request),
         );
-        if (response.statusCode < 200 || response.statusCode >= 300) {
-          final body = json.decode(response.body);
-          final message = body is Map && body['error'] != null
-              ? body['error'].toString()
-              : 'Failed to send request (${response.statusCode})';
-          throw Exception(message);
+        final code = response.statusCode ?? 0;
+        if (code < 200 || code >= 300) {
+          throw Exception(
+            _errorMessage(response, 'Failed to send request ($code)'),
+          );
         }
         AppLogger.debug('Waste request sent successfully');
-        emit(state.copyWith(token: token, requestsListDirty: true));
+        emit(state.copyWith(requestsListDirty: true));
       }
       event.completer?.complete();
     } catch (e, st) {
@@ -346,23 +357,16 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     final url = Urls.rootUrl + Urls.collectsEndPoint + state.searchEndPoint;
     AppLogger.debug('Collect search URL: $url');
     try {
-      var token = await SecureStorage.getToken() ?? '';
+      final token = await SecureStorage.getToken() ?? '';
       if (token.isEmpty) {
         emit(state.copyWith(collectItems: []));
         event.completer?.complete();
         return;
       }
-      final response = await get(
-        Uri.parse(url),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      );
+      final response = await _send((dio) => dio.get<dynamic>(url));
       AppLogger.debug('Collect search response status: ${response.statusCode}');
       if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body);
+        final extractedData = response.data;
         AppLogger.debug('Collect items retrieved');
         final collectMain = CollectMain.fromJson(extractedData);
         AppLogger.debug('Max page: ${collectMain.searchDetail.max_page}');
@@ -370,12 +374,11 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
           state.copyWith(
             collectItems: collectMain.requestWasteItem,
             searchDetails: collectMain.searchDetail,
-            token: token,
             requestsListDirty: false,
           ),
         );
       } else {
-        emit(state.copyWith(collectItems: [], token: token));
+        emit(state.copyWith(collectItems: []));
       }
       event.completer?.complete();
     } catch (e, st) {
@@ -396,22 +399,18 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
     final url = Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
     AppLogger.debug('Collect item URL: $url');
     try {
-      var token = await SecureStorage.getToken() ?? '';
+      final token = await SecureStorage.getToken() ?? '';
       if (token.isEmpty) {
         throw Exception('Not logged in. Please sign in again.');
       }
-      final dio = diolib.Dio();
-      final response = await dio.get<dynamic>(
-        url,
-        options: diolib.Options(headers: {'Authorization': 'Bearer $token'}),
-      );
+      final response = await ApiProvider.client.raw.get<dynamic>(url);
       AppLogger.debug('Collect item response status: ${response.statusCode}');
       AppLogger.debug('Collect item data retrieved');
       final requestWasteItem = RequestWasteItem.fromJson(
         response.data as Map<String, dynamic>,
       );
       AppLogger.debug('Collect item ID: ${requestWasteItem.id}');
-      emit(state.copyWith(requestWasteItem: requestWasteItem, token: token));
+      emit(state.copyWith(requestWasteItem: requestWasteItem));
       event.completer?.complete();
     } catch (e, st) {
       AppLogger.error(
@@ -430,36 +429,25 @@ class WastesBloc extends Bloc<WastesEvent, WastesState> {
   ) async {
     final url = Urls.rootUrl + Urls.collectRatePath(event.collectId);
     try {
-      final token = await SecureStorage.getToken() ?? '';
-      if (token.isEmpty) {
+      if ((await SecureStorage.getToken() ?? '').isEmpty) {
         throw Exception('Not logged in.');
       }
-      final response = await post(
-        Uri.parse(url),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: jsonEncode(<String, dynamic>{
-          'score': event.score,
-          'comment': event.comment,
-        }),
+      final response = await _send(
+        (dio) => dio.post<dynamic>(
+          url,
+          data: <String, dynamic>{
+            'score': event.score,
+            'comment': event.comment,
+          },
+        ),
       );
-      if (response.statusCode < 200 || response.statusCode >= 300) {
-        final decoded = json.decode(response.body);
-        final message = decoded is Map && decoded['error'] != null
-            ? decoded['error'].toString()
-            : 'Failed (${response.statusCode})';
-        throw Exception(message);
+      final code = response.statusCode ?? 0;
+      if (code < 200 || code >= 300) {
+        throw Exception(_errorMessage(response, 'Failed ($code)'));
       }
       final getUrl =
           Urls.rootUrl + Urls.collectsEndPoint + '/${event.collectId}';
-      final dio = diolib.Dio();
-      final refreshed = await dio.get<dynamic>(
-        getUrl,
-        options: diolib.Options(headers: {'Authorization': 'Bearer $token'}),
-      );
+      final refreshed = await ApiProvider.client.raw.get<dynamic>(getUrl);
       final item = RequestWasteItem.fromJson(
         refreshed.data as Map<String, dynamic>,
       );

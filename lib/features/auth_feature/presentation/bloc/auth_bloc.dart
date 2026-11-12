@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:recycleorigin/core/constants/urls.dart';
+import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/models/region.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/notifications/push_notification_controller.dart';
@@ -191,15 +191,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       ),
     );
-  }
-
-  void updateCookie(http.Response response) {
-    final rawCookie = response.headers['set-cookie'];
-    if (rawCookie == null) {
-      return;
-    }
-    final index = rawCookie.indexOf(';');
-    headers['cookie'] = index == -1 ? rawCookie : rawCookie.substring(0, index);
   }
 
   Future<bool> login(Map<String, String> authData) {
@@ -584,15 +575,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      final response = await http.get(
-        Uri.parse(Urls.rootUrl + Urls.regionEndPoint),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+      final response = await ApiProvider.client.raw.get<dynamic>(
+        Urls.rootUrl + Urls.regionEndPoint,
       );
 
-      final extractedData = json.decode(response.body) as List;
+      final extractedData = response.data as List;
       final regionList = extractedData.map((i) => Region.fromJson(i)).toList();
       emit(state.copyWith(regionItems: regionList));
       event.completer?.complete();
@@ -611,17 +598,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      final response = await http.get(
-        Uri.parse(
-          '${Urls.rootUrl}${Urls.regionEndPoint}?city_id=${event.cityId}',
-        ),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+      final response = await ApiProvider.client.raw.get<dynamic>(
+        '${Urls.rootUrl}${Urls.regionEndPoint}?city_id=${event.cityId}',
       );
 
-      final extractedData = json.decode(response.body) as List;
+      final extractedData = response.data as List;
       final regionList = extractedData.map((i) => Region.fromJson(i)).toList();
       emit(state.copyWith(regionItems: regionList));
       event.completer?.complete();
@@ -640,15 +621,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      final response = await http.get(
-        Uri.parse('${Urls.rootUrl}${Urls.regionEndPoint}/${event.regionId}'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+      final response = await ApiProvider.client.raw.get<dynamic>(
+        '${Urls.rootUrl}${Urls.regionEndPoint}/${event.regionId}',
       );
 
-      final extractedData = json.decode(response.body);
+      final extractedData = response.data;
       emit(state.copyWith(regionData: Region.fromJson(extractedData)));
       event.completer?.complete();
     } catch (error, stackTrace) {
