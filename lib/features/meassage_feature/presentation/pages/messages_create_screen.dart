@@ -57,11 +57,6 @@ class _MessageCreateScreenState extends State<MessageCreateScreen> {
       _isLoading = true;
     });
 
-    debugPrint('subjectTextController.text');
-    debugPrint(subjectTextController.text);
-    debugPrint(' contentTextController.text');
-    debugPrint(contentTextController.text);
-
     await context
         .read<MessagesBloc>()
         .createMessage(

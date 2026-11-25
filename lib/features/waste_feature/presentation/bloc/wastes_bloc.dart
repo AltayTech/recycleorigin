@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:dio/dio.dart' as diolib;
 import 'package:flutter_bloc/flutter_bloc.dart';

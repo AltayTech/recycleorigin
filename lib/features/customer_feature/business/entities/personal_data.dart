@@ -71,7 +71,9 @@ class PersonalData with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    List<Map>? addresses = this.addresses.map((i) => i.toJson()).toList();
+    List<Map<dynamic, dynamic>>? addresses = this.addresses
+        .map((i) => i.toJson())
+        .toList();
 
     return {
       'phone': phone,

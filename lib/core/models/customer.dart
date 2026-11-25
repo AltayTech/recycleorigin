@@ -37,8 +37,8 @@ class Customer with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map? personalData = this.personalData.toJson();
-    Map? customer_type = this.customer_type.toJson();
+    Map<dynamic, dynamic>? personalData = this.personalData.toJson();
+    Map<dynamic, dynamic>? customer_type = this.customer_type.toJson();
 
     return {
       'customer_data': personalData,

@@ -30,10 +30,9 @@ Future<void> bootstrapApp(String envFile) async {
           DeviceOrientation.portraitDown,
         ]),
       );
-      await _safeStep(
-        'AppConfig',
-        () => AppConfig.initialize(envFile: envFile),
-      );
+      // Not wrapped in _safeStep: a misconfigured production build must stop
+      // here (BootstrapErrorApp) instead of running against the wrong backend.
+      await AppConfig.initialize(envFile: envFile);
       await _safeStep(
         'AppInfoService',
         () => AppInfoService.instance.initialize(),

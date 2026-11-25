@@ -1,0 +1,12 @@
+# Never copy signing material, Firebase config or env secrets into an image.
+*.jks
+*.keystore
+android/key.properties
+**/google-services.json
+**/GoogleService-Info.plist
+assets/env/.env*
+!assets/env/*.example
+.env*
+build/
+.dart_tool/
+.idea/

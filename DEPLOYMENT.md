@@ -42,7 +42,7 @@ Current production backend:
 ```bash
 cd recycleorigin
 flutter pub get
-flutter run -t lib/main_dev.dart
+flutter run --flavor dev -t lib/main_dev.dart
 ```
 
 ## 3) Prod mode (local smoke run)
@@ -52,7 +52,7 @@ Use this before creating release artifacts.
 ```bash
 cd recycleorigin
 flutter pub get
-flutter run --release -t lib/main_prod.dart
+flutter run --release --flavor prod -t lib/main_prod.dart
 ```
 
 ## 4) Production artifacts
@@ -67,6 +67,11 @@ flutter build appbundle --release --flavor prod -t lib/main_prod.dart
 
 Output:
 - `build/app/outputs/bundle/prodRelease/app-prod-release.aab`
+
+> Use Flutter **3.47.5** (pinned in CI and `Dockerfile.ci`). Always pass `--flavor`:
+> each flavor bundles only its own `assets/env/.env.<flavor>` (see `pubspec.yaml`),
+> and a release build whose prod env is missing or not `ENVIRONMENT=production`
+> stops at a "could not start" screen instead of using dev settings.
 
 ### iOS IPA
 

@@ -90,15 +90,17 @@ class RequestWasteItem with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map? address = this.address_data.toJson();
-    Map? status = this.status.toJson();
-    Map? driver = this.driver.toJson();
-    Map? total_price = this.total_collects_price.toJson();
-    Map? total_weight = this.total_collects_weight.toJson();
-    Map? total_number = this.total_collects_number.toJson();
-    Map? collect_time = this.collect_date.toJson();
+    Map<dynamic, dynamic>? address = this.address_data.toJson();
+    Map<dynamic, dynamic>? status = this.status.toJson();
+    Map<dynamic, dynamic>? driver = this.driver.toJson();
+    Map<dynamic, dynamic>? total_price = this.total_collects_price.toJson();
+    Map<dynamic, dynamic>? total_weight = this.total_collects_weight.toJson();
+    Map<dynamic, dynamic>? total_number = this.total_collects_number.toJson();
+    Map<dynamic, dynamic>? collect_time = this.collect_date.toJson();
 
-    List<Map>? collect_list = this.collect_list.map((i) => i.toJson()).toList();
+    List<Map<dynamic, dynamic>>? collect_list = this.collect_list
+        .map((i) => i.toJson())
+        .toList();
 
     return {
       'id': id,

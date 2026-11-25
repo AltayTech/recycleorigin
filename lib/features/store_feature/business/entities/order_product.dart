@@ -39,9 +39,11 @@ class OrderProducts with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map? address_data = this.address_data.toJson();
+    Map<dynamic, dynamic>? address_data = this.address_data.toJson();
 
-    List<Map>? collect_list = this.collect_list.map((i) => i.toJson()).toList();
+    List<Map<dynamic, dynamic>>? collect_list = this.collect_list
+        .map((i) => i.toJson())
+        .toList();
 
     return {
       'total_price': total_price,

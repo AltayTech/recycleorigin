@@ -27,7 +27,9 @@ class OrderSendDetails with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    List<Map>? products = this.products.map((i) => i.toJson()).toList();
+    List<Map<dynamic, dynamic>>? products = this.products
+        .map((i) => i.toJson())
+        .toList();
 
     return {
       'total_price': total_price,

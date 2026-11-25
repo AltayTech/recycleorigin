@@ -117,6 +117,19 @@ class AppConfig {
   }
 
   static void _validateProductionConfig() {
+    // A prod env file that failed to load leaves ENVIRONMENT unset, so check
+    // the requested file too; otherwise the guard below would be skipped.
+    final expectsProduction = _activeEnvFile.endsWith('.env.prod');
+    if (expectsProduction && !_isInitialized) {
+      throw AppConfigException(
+        'Production build requires $_activeEnvFile to load successfully',
+      );
+    }
+    if (expectsProduction && !isProduction) {
+      throw AppConfigException(
+        '$_activeEnvFile must set ENVIRONMENT=production',
+      );
+    }
     if (!isProduction) {
       return;
     }

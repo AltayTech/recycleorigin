@@ -32,8 +32,8 @@ class Transaction with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map? transaction_type = this.transaction_type.toJson();
-    Map? belongs = this.belongs.toJson();
+    Map<dynamic, dynamic>? transaction_type = this.transaction_type.toJson();
+    Map<dynamic, dynamic>? belongs = this.belongs.toJson();
 
     return {
       'id': id,

@@ -35,7 +35,7 @@ class Clearing with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map? status = this.status.toJson();
+    Map<dynamic, dynamic>? status = this.status.toJson();
 
     return {
       'id': id,
