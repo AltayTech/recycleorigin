@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+
 import '../../../../core/theme/theme_context_extensions.dart';
 
 import '../../../../core/theme/app_theme.dart';
@@ -77,9 +78,8 @@ class CustomDialogEnter extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(
-                        context,
-                      ).popAndPushNamed(LoginScreen.routeName);
+                      Navigator.of(context)
+                          .popAndPushNamed(LoginScreen.routeName);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.06,

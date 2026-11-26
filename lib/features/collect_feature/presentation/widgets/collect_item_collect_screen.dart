@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/waste_feature/collect_detail_screen.dart';
+
 import '../../../../core/theme/theme_context_extensions.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
@@ -28,9 +29,9 @@ class CollectItemCollectsScreen extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(14),
-      onTap: () => Navigator.of(
-        context,
-      ).pushNamed(CollectDetailScreen.routeName, arguments: collect.id),
+      onTap: () =>
+          Navigator.of(context)
+              .pushNamed(CollectDetailScreen.routeName, arguments: collect.id),
       child: Container(
         decoration: BoxDecoration(
           color: context.appColors.cardBackground,

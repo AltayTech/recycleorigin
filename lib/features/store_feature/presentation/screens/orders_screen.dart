@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/core/models/customer.dart';
@@ -8,6 +8,7 @@ import 'package:recycleorigin/features/customer_feature/presentation/bloc/custom
 import 'package:recycleorigin/features/customer_feature/presentation/bloc/customer_info_state.dart';
 import 'package:recycleorigin/features/store_feature/presentation/bloc/orders_bloc.dart';
 import 'package:recycleorigin/features/store_feature/presentation/widgets/order_item-orders_screen.dart';
+
 import '../../../../core/theme/theme_context_extensions.dart';
 
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
@@ -15,6 +16,7 @@ import '../../../../core/models/search_detail.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -174,9 +176,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.of(
-                                context,
-                              ).pushNamed(LoginScreen.routeName);
+                              Navigator.of(context)
+                                  .pushNamed(LoginScreen.routeName);
                             },
                             child: Container(
                               child: Padding(

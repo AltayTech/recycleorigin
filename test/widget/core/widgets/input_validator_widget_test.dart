@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigin/core/utils/input_validator.dart';
+
 import '../../../helpers/test_helpers.dart';
 
 /// Widget test for input validation in forms

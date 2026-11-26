@@ -68,7 +68,7 @@ flutter build appbundle --release --flavor prod -t lib/main_prod.dart
 Output:
 - `build/app/outputs/bundle/prodRelease/app-prod-release.aab`
 
-> Use Flutter **3.47.5** (pinned in CI and `Dockerfile.ci`). Always pass `--flavor`:
+> Use Flutter **3.50.1** (pinned in CI and `Dockerfile.ci`). Always pass `--flavor`:
 > each flavor bundles only its own `assets/env/.env.<flavor>` (see `pubspec.yaml`),
 > and a release build whose prod env is missing or not `ENVIRONMENT=production`
 > stops at a "could not start" screen instead of using dev settings.

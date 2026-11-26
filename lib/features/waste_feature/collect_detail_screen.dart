@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/logic/en_to_ar_number_convertor.dart';
 import 'package:recycleorigin/core/widgets/star_rating_widget.dart';
@@ -6,8 +6,10 @@ import 'package:recycleorigin/features/waste_feature/business/entities/collect.d
 import 'package:recycleorigin/features/waste_feature/business/entities/request_waste_item.dart';
 import 'package:recycleorigin/features/waste_feature/presentation/bloc/wastes_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/theme_context_extensions.dart';
+
 import 'package:recycleorigin/l10n/l10n.dart';
 
 class CollectDetailScreen extends StatefulWidget {

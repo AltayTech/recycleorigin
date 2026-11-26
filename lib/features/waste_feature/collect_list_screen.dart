@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
@@ -13,6 +13,7 @@ import '../../core/widgets/drawer_or_back_leading.dart';
 import '../collect_feature/presentation/widgets/collect_item_collect_screen.dart';
 import '../auth_feature/presentation/screens/login_screen.dart';
 import 'presentation/bloc/wastes_bloc.dart';
+
 import 'package:recycleorigin/l10n/app_localizations.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -517,9 +518,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
                 child: Text(
                   l10n.collectListSortSheetTitle,
-                  style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(ctx).textTheme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
               row(_CollectSortOption.dateDesc, l10n.collectListSortNewestFirst),
@@ -564,9 +564,8 @@ class _CollectListScreenState extends State<CollectListScreen> {
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
                 child: Text(
                   l10n.collectListFilterSheetTitle,
-                  style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(ctx).textTheme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
               row('', l10n.collectListFilterAll),

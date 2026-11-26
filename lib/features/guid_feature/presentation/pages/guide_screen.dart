@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:recycleorigin/core/theme/html_link_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
@@ -244,6 +245,9 @@ class _GuideScreenState extends State<GuideScreen> {
                                 )
                               : HtmlWidget(
                                   s.html,
+                                  customStylesBuilder: htmlLinkStyles(
+                                    context.colors.primary,
+                                  ),
                                   textStyle: TextStyle(
                                     color: context.colors.onSurface,
                                     fontSize: textScale * 14,

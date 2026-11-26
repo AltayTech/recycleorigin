@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
+
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
+
 import 'package:recycleorigin/l10n/l10n.dart';
 
 class CollectDetailsCollectItem extends StatelessWidget {

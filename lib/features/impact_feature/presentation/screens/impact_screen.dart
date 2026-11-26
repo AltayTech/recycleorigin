@@ -1,5 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
@@ -254,9 +254,8 @@ class _LevelCard extends StatelessWidget {
                   ),
                   Text(
                     '${level.tier}',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -268,9 +267,8 @@ class _LevelCard extends StatelessWidget {
                 children: [
                   Text(
                     level.tierName,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w600),
                   ),
                   Text(
                     l10n.impactXpLabel(level.xp, level.xpToNext),
@@ -352,9 +350,8 @@ class _EquivChip extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               value,
-              style: Theme.of(
-                context,
-              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleSmall
+                  ?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
               label,
@@ -395,9 +392,8 @@ class _StreakCard extends StatelessWidget {
             ),
             Text(
               l10n.impactStreakValue(streak.current, streak.longest),
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -428,9 +424,8 @@ class _GoalCard extends StatelessWidget {
             ),
             Text(
               '${goal.current.toStringAsFixed(1)} / ${goal.target.toStringAsFixed(0)}',
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 6),
             ClipRRect(
@@ -474,9 +469,8 @@ class _TrendChartCard extends StatelessWidget {
           children: [
             Text(
               l10n.impactTrendTitle,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: AppTheme.spacingMd),
             SizedBox(
@@ -539,9 +533,8 @@ class _BadgesSection extends StatelessWidget {
       children: [
         Text(
           l10n.impactBadgesTitle,
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+          style: Theme.of(context).textTheme.titleMedium
+              ?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: AppTheme.spacingSm),
         Wrap(
@@ -590,9 +583,8 @@ class _BadgeTile extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(
-                context,
-              ).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.labelSmall
+                  ?.copyWith(fontWeight: FontWeight.w600),
             ),
             if (!badge.earned)
               Padding(
@@ -646,9 +638,8 @@ class _LeaderboardSection extends StatelessWidget {
           children: [
             Text(
               l10n.impactLeaderboardTitle,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.w600),
             ),
             if (rank.position > 0)
               Padding(

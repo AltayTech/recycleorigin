@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/network/api_provider.dart';
@@ -89,9 +89,8 @@ class _NotificationPreferencesScreenState
     }
     if (res.isSuccess) {
       await PushNotificationController.instance.syncAfterLogin(_api);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Saved')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Saved')));
     } else {
       ScaffoldMessenger.of(
         context,

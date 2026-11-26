@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
+
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Secondary shortcut for destinations not in bottom navigation.
@@ -63,9 +64,8 @@ class _ExploreTile extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: Theme.of(context).textTheme.titleSmall
+                        ?.copyWith(fontWeight: FontWeight.w700),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

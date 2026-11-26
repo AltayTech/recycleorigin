@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../core/navigation/navigation_shell_scope.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';

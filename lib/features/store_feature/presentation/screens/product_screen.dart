@@ -1,5 +1,5 @@
 import 'package:badges/badges.dart' as badges;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +16,7 @@ import '../bloc/products_bloc.dart';
 import '../bloc/products_state.dart';
 import '../widgets/product_item_product_screeen.dart';
 import 'cart_screen.dart';
+
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `ProductsScreen` widget, which displays a list of products with filtering and sorting options.
@@ -217,9 +218,9 @@ class _ProductsScreenState extends State<ProductsScreen>
               actionsIconTheme: Theme.of(context).appBarTheme.actionsIconTheme,
               elevation: 0,
               centerTitle: true,
-              systemOverlayStyle: Theme.of(
-                context,
-              ).appBarTheme.systemOverlayStyle,
+              systemOverlayStyle: Theme.of(context)
+                  .appBarTheme
+                  .systemOverlayStyle,
               actions: <Widget>[
                 BlocBuilder<ProductsBloc, ProductsState>(
                   buildWhen: (a, b) => a.cartItems.length != b.cartItems.length,

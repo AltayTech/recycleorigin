@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -17,6 +17,7 @@ import '../../../waste_feature/presentation/bloc/wastes_state.dart';
 import '../../../waste_feature/presentation/wastes_screen.dart';
 import '../../../waste_feature/presentation/widgets/custom_dialog_enter.dart';
 import '../../../waste_feature/presentation/widgets/waste_cart_item.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WasteCartScreen extends StatefulWidget {
@@ -217,9 +218,8 @@ class _WasteCartScreenState extends State<WasteCartScreen>
                   child: items.isEmpty
                       ? _WasteCartEmptyState(
                           onAddPressed: () async {
-                            await Navigator.of(
-                              context,
-                            ).pushNamed(WastesScreen.routeName);
+                            await Navigator.of(context)
+                                .pushNamed(WastesScreen.routeName);
                             await _refreshWasteItems();
                           },
                         )

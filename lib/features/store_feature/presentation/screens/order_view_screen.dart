@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
@@ -12,6 +12,7 @@ import '../../business/entities/color_code.dart';
 import '../../business/entities/gallery.dart';
 import '../../business/entities/order_details.dart';
 import 'product_detail_screen.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -501,9 +502,8 @@ class OrderProductItem extends StatelessWidget {
         ),
         child: InkWell(
           onTap: () {
-            Navigator.of(
-              context,
-            ).pushNamed(ProductDetailScreen.routeName, arguments: id);
+            Navigator.of(context)
+                .pushNamed(ProductDetailScreen.routeName, arguments: id);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

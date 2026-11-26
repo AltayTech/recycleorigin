@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigin/core/constants/urls.dart';
 import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/network/api_provider.dart';
@@ -108,9 +108,8 @@ class _CustomerNotificationScreenState
           IconButton(
             icon: const Icon(Icons.settings_outlined),
             onPressed: () {
-              Navigator.of(
-                context,
-              ).pushNamed(NotificationPreferencesScreen.routeName);
+              Navigator.of(context)
+                  .pushNamed(NotificationPreferencesScreen.routeName);
             },
           ),
           TextButton(

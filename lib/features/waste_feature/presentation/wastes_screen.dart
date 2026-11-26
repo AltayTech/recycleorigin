@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/waste.dart';
@@ -8,7 +8,9 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/theme_context_extensions.dart';
 import '../../../core/widgets/drawer_or_back_leading.dart';
 import 'bloc/wastes_bloc.dart';
+
 import 'package:recycleorigin/l10n/l10n.dart';
+
 import 'widgets/waste_item_wastes_screen.dart';
 
 class WastesScreen extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../config/app_locale_controller.dart';
 import '../config/app_theme_controller.dart';

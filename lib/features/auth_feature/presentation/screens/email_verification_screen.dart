@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
@@ -63,14 +63,12 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       _startCooldown();
     } on AuthException catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(error.message)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.message)));
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(context.l10n.authGenericError)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(context.l10n.authGenericError)));
     } finally {
       if (mounted) setState(() => _isResending = false);
     }
@@ -85,9 +83,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           .refreshEmailVerification();
       if (!mounted) return;
       if (verified) {
-        Navigator.of(
-          context,
-        ).pushReplacementNamed(NavigationBottomScreen.routeName);
+        Navigator.of(context)
+            .pushReplacementNamed(NavigationBottomScreen.routeName);
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -95,9 +92,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       );
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(context.l10n.authGenericError)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(context.l10n.authGenericError)));
     } finally {
       if (mounted) setState(() => _isChecking = false);
     }
@@ -106,9 +102,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   Future<void> _signOut() async {
     await context.read<AuthBloc>().removeToken();
     if (!mounted) return;
-    Navigator.of(
-      context,
-    ).pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(LoginScreen.routeName, (route) => false);
   }
 
   @override

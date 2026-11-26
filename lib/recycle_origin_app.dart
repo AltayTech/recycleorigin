@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:recycleorigin/core/l10n/app_localizations_delegates.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recycleorigin/core/config/app_locale_controller.dart';
@@ -127,7 +128,7 @@ class RecycleOriginApp extends StatelessWidget {
                 onGenerateTitle: (context) => context.l10n.recycleorigin,
                 debugShowCheckedModeBanner: false,
                 locale: locale,
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                localizationsDelegates: appLocalizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 theme: AppTheme.lightTheme(),
                 darkTheme: AppTheme.darkTheme(),

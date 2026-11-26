@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import '../../../../core/models/customer.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
 import '../bloc/customer_info_bloc.dart';
 import '../bloc/customer_info_state.dart';
 import 'customer_detail_info_edit_screen.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -77,9 +79,8 @@ class _CustomerDetailInfoScreenState extends State<CustomerDetailInfoScreen> {
 
   /// Handles navigation to edit screen
   void _navigateToEditScreen() {
-    Navigator.of(
-      context,
-    ).pushReplacementNamed(CustomerDetailInfoEditScreen.routeName);
+    Navigator.of(context)
+        .pushReplacementNamed(CustomerDetailInfoEditScreen.routeName);
   }
 
   @override

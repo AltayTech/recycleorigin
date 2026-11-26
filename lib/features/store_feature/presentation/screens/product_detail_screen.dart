@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:recycleorigin/core/theme/html_link_styles.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart' as intl;
@@ -15,6 +16,7 @@ import '../../business/entities/product.dart';
 import '../bloc/products_bloc.dart';
 import '../bloc/products_state.dart';
 import 'cart_screen.dart';
+
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// This file defines the `ProductDetailScreen` widget, which displays detailed information about a specific product.
@@ -88,7 +90,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Future<void> addToShoppingCart(
     Product loadedProduct,
-    var _selectedColor,
+    dynamic selectedColor,
   ) async {
     setState(() {
       _isLoading = true;
@@ -96,7 +98,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     await context.read<ProductsBloc>().addShopCart(
       loadedProduct,
-      _selectedColor,
+      selectedColor,
       1,
     );
 
@@ -434,6 +436,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     textDirection: Directionality.of(context),
                                     child: HtmlWidget(
                                       loadedProduct.description,
+                                      customStylesBuilder: htmlLinkStyles(
+                                        context.colors.primary,
+                                      ),
                                       textStyle: TextStyle(
                                         color: context.colors.onSurface,
                                         height: 1.5,
@@ -487,9 +492,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             },
                           ),
                         );
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(addToCartSnackBar);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(addToCartSnackBar);
                       } else if (isExist) {
                         SnackBar addToCartSnackBar = SnackBar(
                           content: Text(
@@ -507,9 +511,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             },
                           ),
                         );
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(addToCartSnackBar);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(addToCartSnackBar);
                       } else {
                         await addToShoppingCart(loadedProduct, null);
 
@@ -529,9 +532,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             },
                           ),
                         );
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(addToCartSnackBar);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(addToCartSnackBar);
                       }
                     },
                     child: ButtonBottom(

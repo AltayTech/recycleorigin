@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:intl/intl.dart' as intl;
+
 import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
+
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// Compact summary card showing item count, total price, and

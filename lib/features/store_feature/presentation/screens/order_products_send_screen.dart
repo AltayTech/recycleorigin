@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
@@ -16,6 +16,7 @@ import '../../business/entities/order_send_details.dart';
 import '../../business/entities/product_cart.dart';
 import '../../business/entities/product_order_send.dart';
 import '../bloc/products_bloc.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -407,9 +408,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           },
                         ),
                       );
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(addToCartSnackBar);
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(addToCartSnackBar);
                     } else if (totalPrice > double.parse(customer.money)) {
                       final addToCartSnackBar = SnackBar(
                         content: Text(
@@ -427,9 +427,8 @@ class _OrderProductsSendScreenState extends State<OrderProductsSendScreen> {
                           },
                         ),
                       );
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(addToCartSnackBar);
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(addToCartSnackBar);
                     } else {
                       await createRequest(context);
                       await sendRequest(context);

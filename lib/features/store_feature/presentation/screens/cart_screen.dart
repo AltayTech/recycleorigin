@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
@@ -18,6 +18,7 @@ import '../../business/entities/product_cart.dart';
 import '../bloc/products_bloc.dart';
 import '../widgets/card_item.dart';
 import 'order_products_send_screen.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -298,23 +299,20 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         );
                         if (shoppItems.isEmpty) {
-                          ScaffoldMessenger.of(
-                            context,
-                          ).showSnackBar(addToCartSnackBar);
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(addToCartSnackBar);
                         } else if (!isLogin) {
                           _showLogindialog();
                         } else if (!context
                             .read<AuthBloc>()
                             .state
                             .emailVerified) {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(EmailVerificationScreen.routeName);
+                          Navigator.of(context)
+                              .pushNamed(EmailVerificationScreen.routeName);
                         } else {
                           if (isCompleted) {
-                            Navigator.of(
-                              context,
-                            ).pushNamed(OrderProductsSendScreen.routeName);
+                            Navigator.of(context)
+                                .pushNamed(OrderProductsSendScreen.routeName);
                           } else {
                             _showCompletedialog();
                           }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycleorigin/core/config/app_config.dart';
@@ -127,9 +127,8 @@ class _GuestView extends StatelessWidget {
                 Text(
                   l10n.youarenotlogin,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: context.colors.onSurface,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium
+                      ?.copyWith(color: context.colors.onSurface),
                 ),
                 const SizedBox(height: AppTheme.spacingXl),
                 SizedBox(
@@ -411,9 +410,8 @@ class _ProfileLocationCard extends StatelessWidget {
                     alignment: AlignmentDirectional.centerEnd,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.of(
-                          context,
-                        ).pushNamed(CustomerUserInfoScreen.routeName);
+                        Navigator.of(context)
+                            .pushNamed(CustomerUserInfoScreen.routeName);
                       },
                       child: Text(l10n.personalInfoShortLabel),
                     ),
@@ -555,9 +553,8 @@ class _MenuGrid extends StatelessWidget {
             title: l10n.messagesInboxLabel,
             icon: Icons.mail_outline,
             onTap: () {
-              Navigator.of(
-                context,
-              ).pushNamed(SupportTicketsListScreen.routeName);
+              Navigator.of(context)
+                  .pushNamed(SupportTicketsListScreen.routeName);
             },
           ),
           _MenuItem(
@@ -610,9 +607,8 @@ class _MenuItem extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: context.colors.onSurface,
-                ),
+                style: Theme.of(context).textTheme.labelLarge
+                    ?.copyWith(color: context.colors.onSurface),
               ),
             ],
           ),
@@ -705,9 +701,8 @@ class _SignOutButton extends StatelessWidget {
     );
 
     if (confirmed == true && context.mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.logoutSuccessSnack)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(l10n.logoutSuccessSnack)));
     }
   }
 
@@ -754,9 +749,8 @@ class _ContactRow extends StatelessWidget {
         Expanded(
           child: Text(
             value,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: subtitle),
+            style: Theme.of(context).textTheme.bodyMedium
+                ?.copyWith(color: subtitle),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -858,18 +852,15 @@ class _LabelValueRow extends StatelessWidget {
             width: 88,
             child: Text(
               '$label:',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: subtitle,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.bodySmall
+                  ?.copyWith(color: subtitle, fontWeight: FontWeight.w500),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: context.colors.onSurface),
+              style: Theme.of(context).textTheme.bodyMedium
+                  ?.copyWith(color: context.colors.onSurface),
             ),
           ),
         ],
@@ -913,9 +904,8 @@ class _AddressTile extends StatelessWidget {
               const SizedBox(height: AppTheme.spacingXs),
             Text(
               address.address,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: subtitle),
+              style: Theme.of(context).textTheme.bodySmall
+                  ?.copyWith(color: subtitle),
             ),
           ],
           if (address.region.name.isNotEmpty) ...[

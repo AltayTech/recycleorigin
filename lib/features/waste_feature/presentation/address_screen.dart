@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -138,9 +138,9 @@ class _AddressScreenState extends State<AddressScreen>
   }
 
   void _navigateToMap() {
-    Navigator.of(
-      context,
-    ).pushNamed(MapScreen.routeName).then((_) => _loadAddresses());
+    Navigator.of(context)
+        .pushNamed(MapScreen.routeName)
+        .then((_) => _loadAddresses());
   }
 
   @override

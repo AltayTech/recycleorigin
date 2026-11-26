@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Exposes the bottom-navigation shell [ScaffoldState] to tab children so
 /// they can open the shared drawer without duplicating [MainDrawer].

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
@@ -111,9 +111,8 @@ class _WalletBody extends StatelessWidget {
               ),
               WalletSummaryStatus.error => Text(
                 state.errorMessage ?? context.l10n.somethingWentWrong,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: context.colors.error),
+                style: Theme.of(context).textTheme.bodySmall
+                    ?.copyWith(color: context.colors.error),
               ),
               WalletSummaryStatus.loaded => Text(
                 '${state.wallet?.balance ?? '0'} ${state.wallet?.currency ?? ''}',

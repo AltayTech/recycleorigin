@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigin/core/network/api_provider.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
@@ -260,9 +260,8 @@ class _Bubble extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               _formatTime(message.createdAt),
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: context.appColors.subtitleColor,
-              ),
+              style: Theme.of(context).textTheme.labelSmall
+                  ?.copyWith(color: context.appColors.subtitleColor),
             ),
           ],
         ),

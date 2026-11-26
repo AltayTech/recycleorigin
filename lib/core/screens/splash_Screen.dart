@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -6,6 +6,7 @@ import '../theme/theme_context_extensions.dart';
 import '../logic/en_to_ar_number_convertor.dart';
 import '../utils/app_info_service.dart';
 import 'navigation_bottom_screen.dart';
+
 import 'package:recycleorigin/l10n/l10n.dart';
 
 class SplashScreens extends StatefulWidget {
@@ -36,9 +37,8 @@ class _SplashScreensState extends State<SplashScreens> {
       return;
     }
     _hasNavigated = true;
-    Navigator.of(
-      context,
-    ).pushReplacementNamed(NavigationBottomScreen.routeName);
+    Navigator.of(context)
+        .pushReplacementNamed(NavigationBottomScreen.routeName);
   }
 
   /// Loads app version from [AppInfoService] with a safe fallback.

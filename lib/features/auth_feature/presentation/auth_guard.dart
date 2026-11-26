@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_bloc.dart';
 import 'package:recycleorigin/features/auth_feature/presentation/bloc/auth_state.dart';
@@ -51,9 +51,8 @@ class VerifiedAuthGate extends StatelessWidget {
           if (!state.isAuth) {
             Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
           } else {
-            Navigator.of(
-              context,
-            ).pushReplacementNamed(EmailVerificationScreen.routeName);
+            Navigator.of(context)
+                .pushReplacementNamed(EmailVerificationScreen.routeName);
           }
         });
         return fallback ??

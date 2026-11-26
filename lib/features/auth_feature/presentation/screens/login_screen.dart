@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 import 'package:recycleorigin/core/widgets/drawer_or_back_leading.dart';
@@ -133,9 +133,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                         if (nav.canPop()) {
                           return IconButton(
-                            tooltip: MaterialLocalizations.of(
-                              ctx,
-                            ).backButtonTooltip,
+                            tooltip: MaterialLocalizations.of(ctx)
+                                .backButtonTooltip,
                             onPressed: () => nav.maybePop(),
                             icon: const Icon(Icons.arrow_back_rounded),
                             color: onHero,

@@ -15,7 +15,8 @@ import 'package:recycleorigin/core/network/api_client.dart';
 import 'package:recycleorigin/core/notifications/notification_deep_link.dart';
 import 'package:recycleorigin/core/utils/logger.dart';
 
-/// Registers FCM token, shows foreground notifications, and handles taps.
+/// Registers this installation for push (Firebase Installation ID), shows
+/// foreground notifications, and handles taps.
 class PushNotificationController {
   PushNotificationController._();
   static final PushNotificationController instance =
@@ -24,7 +25,8 @@ class PushNotificationController {
   final FlutterLocalNotificationsPlugin _local =
       FlutterLocalNotificationsPlugin();
   FirebaseMessaging? _messaging;
-  String? _lastRegisteredToken;
+  ApiClient? _api;
+  String? _lastRegisteredFid;
   bool _listenersAttached = false;
   Future<void>? _syncInFlight;
   DateTime? _deferSyncUntil;
@@ -83,39 +85,13 @@ class PushNotificationController {
         }
       }
       await _ensureLocalChannels();
-      final token = await _getFcmToken();
-      if (token == null || token.isEmpty) {
-        return;
-      }
-      if (token == _lastRegisteredToken) {
-        return;
-      }
-      final pkg = await PackageInfo.fromPlatform();
-      final loc = AppLocaleController.instance.localeNotifier.value;
-      final body = <String, dynamic>{
-        'token': token,
-        'platform': Platform.isIOS ? 'ios' : 'android',
-        'app': 'customer',
-        'locale': loc.languageCode,
-        'app_version': pkg.version,
-      };
-      final path = '${Urls.rootUrl}/devices';
-      final res = await api.post<Map<String, dynamic>>(
-        path,
-        data: body,
-        parser: (d) => d as Map<String, dynamic>,
-      );
-      if (res.isSuccess) {
-        _lastRegisteredToken = token;
-      }
+      _api = api;
       if (!_listenersAttached) {
         _listenersAttached = true;
-        _messaging!.onTokenRefresh.listen((t) async {
-          _lastRegisteredToken = null;
-          final b = Map<String, dynamic>.from(body)..['token'] = t;
-          await api.post<Map<String, dynamic>>(path, data: b);
-          _lastRegisteredToken = t;
-        });
+        // Subscribe before register() so the first FID is not missed. The
+        // stream fires after every completed registration, including when
+        // Firebase rotates the installation ID.
+        _messaging!.onRegistered.listen(_onFidRegistered);
         FirebaseMessaging.onMessage.listen(_showLocalFromRemote);
         FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage m) {
           NotificationDeepLink.openFromData(_stringData(m.data));
@@ -127,6 +103,7 @@ class PushNotificationController {
           });
         }
       }
+      await _registerWithBackoff();
       _deferSyncUntil = null;
     } catch (e, st) {
       var msg = 'Push init failed';
@@ -143,16 +120,51 @@ class PushNotificationController {
     }
   }
 
-  /// [getToken] occasionally fails with transient Play/FIS errors; brief
-  /// backoff helps right after boot or Play services updates.
-  Future<String?> _getFcmToken() async {
+  /// Sends the Firebase Installation ID (FID) from [FirebaseMessaging.onRegistered]
+  /// to the backend as this device's push target.
+  Future<void> _onFidRegistered(String fid) async {
+    final api = _api;
+    if (api == null || fid.isEmpty || fid == _lastRegisteredFid) {
+      return;
+    }
+    try {
+      final pkg = await PackageInfo.fromPlatform();
+      final loc = AppLocaleController.instance.localeNotifier.value;
+      final res = await api.post<Map<String, dynamic>>(
+        '${Urls.rootUrl}/devices',
+        data: <String, dynamic>{
+          'token': fid,
+          'kind': 'fid',
+          'platform': Platform.isIOS ? 'ios' : 'android',
+          'app': 'customer',
+          'locale': loc.languageCode,
+          'app_version': pkg.version,
+        },
+        parser: (d) => d as Map<String, dynamic>,
+      );
+      if (res.isSuccess) {
+        _lastRegisteredFid = fid;
+      }
+    } catch (e, st) {
+      AppLogger.error(
+        'Push device registration failed',
+        error: e,
+        stackTrace: st,
+      );
+    }
+  }
+
+  /// [FirebaseMessaging.register] occasionally fails with transient Play/FIS
+  /// errors; brief backoff helps right after boot or Play services updates.
+  Future<void> _registerWithBackoff() async {
     const backoffMs = <int>[0, 800, 1600, 3200];
     for (var i = 0; i < backoffMs.length; i++) {
       if (backoffMs[i] > 0) {
         await Future<void>.delayed(Duration(milliseconds: backoffMs[i]));
       }
       try {
-        return await _messaging!.getToken();
+        await _messaging!.register();
+        return;
       } catch (e, st) {
         final retry =
             Platform.isAndroid &&
@@ -163,7 +175,6 @@ class PushNotificationController {
         }
       }
     }
-    return null;
   }
 
   static bool _looksLikeTransientFcmInstallationsError(Object e) {
@@ -192,13 +203,21 @@ class PushNotificationController {
   }
 
   Future<void> onLogout(ApiClient api) async {
-    final token = _lastRegisteredToken;
-    _lastRegisteredToken = null;
-    if (token == null || token.isEmpty) {
+    final fid = _lastRegisteredFid;
+    _lastRegisteredFid = null;
+    _api = null;
+    if (fid == null || fid.isEmpty) {
       return;
     }
     final path = '${Urls.rootUrl}/devices';
-    await api.delete(path, queryParameters: <String, dynamic>{'token': token});
+    await api.delete(path, queryParameters: <String, dynamic>{'token': fid});
+    try {
+      // Stop FCM delivering to this installation until the next login calls
+      // register() again.
+      await _messaging?.unregister();
+    } catch (e, st) {
+      AppLogger.warning('Push unregister failed: $e\n$st');
+    }
   }
 
   Future<void> _ensureLocalChannels() async {

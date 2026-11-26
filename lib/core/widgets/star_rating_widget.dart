@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigin/core/theme/theme_context_extensions.dart';
 
 /// Read-only row of stars (1–5), supports half-star display from [value].

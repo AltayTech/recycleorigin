@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +9,7 @@ import '../../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
 import '../bloc/wastes_bloc.dart';
+
 import 'package:recycleorigin/l10n/l10n.dart';
 
 /// A modern cart-item card with image, pricing, and a

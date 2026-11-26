@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart' as osm;
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 import 'package:recycleorigin/l10n/app_localizations.dart';
@@ -17,6 +18,18 @@ import '../../../customer_feature/business/entities/city.dart';
 import '../../../customer_feature/business/entities/country.dart';
 import '../../../customer_feature/business/entities/province.dart';
 import '../../business/entities/address.dart';
+
+/// Map defaults shared by the preview and the picker.
+const LatLng _kDefaultLocation = LatLng(38.074065, 46.312711);
+const double _kInitialZoom = 15;
+const double _kPinnedZoom = 16;
+const double _kMinZoom = 3;
+const double _kMaxZoom = 19;
+
+/// Keeps the camera inside the service area (roughly Iran's bounding box).
+final CameraConstraint _kServiceAreaConstraint = CameraConstraint.containCenter(
+  bounds: LatLngBounds(const LatLng(25.0, 44.0), const LatLng(39.8, 63.3)),
+);
 
 class MapScreen extends StatefulWidget {
   static const routeName = '/mapScreen';
@@ -46,14 +59,10 @@ class _MapScreenState extends State<MapScreen>
   bool _isRegionsLoading = false;
   bool _isLocating = false;
 
-  final osm.GeoPoint _defaultLocation = osm.GeoPoint(
-    latitude: 38.074065,
-    longitude: 46.312711,
-  );
-  osm.GeoPoint? _selectedLocation;
-  osm.GeoPoint? _mapMarkerPoint;
+  LatLng? _selectedLocation;
 
-  late osm.MapController _mapController;
+  final MapController _mapController = MapController();
+  bool _mapReady = false;
 
   Country? _selectedCountry;
   Province? _selectedProvince;
@@ -74,16 +83,6 @@ class _MapScreenState extends State<MapScreen>
     );
     _fadeIn = CurvedAnimation(parent: _animController, curve: Curves.easeOut);
 
-    _mapController = osm.MapController(
-      initPosition: _defaultLocation,
-      areaLimit: osm.BoundingBox(
-        east: 63.3,
-        north: 39.8,
-        south: 25.0,
-        west: 44.0,
-      ),
-    );
-
     _loadCountries();
     _getCurrentLocation();
     _animController.forward();
@@ -101,15 +100,14 @@ class _MapScreenState extends State<MapScreen>
     super.dispose();
   }
 
-  /// Centers the map on [point] and replaces any previous pin.
-  Future<void> _showLocationOnMap(osm.GeoPoint point) async {
-    final previous = _mapMarkerPoint;
-    if (previous != null) {
-      await _mapController.removeMarker(previous);
+  /// Centers the preview map on [point]; the fixed center pin marks it.
+  ///
+  /// Before the map is first laid out, [_MapSection] picks the point up as
+  /// its initial center instead.
+  void _showLocationOnMap(LatLng point) {
+    if (_mapReady) {
+      _mapController.move(point, _kPinnedZoom);
     }
-    await _mapController.addMarker(point);
-    await _mapController.moveTo(point, animate: true);
-    _mapMarkerPoint = point;
   }
 
   Future<void> _getCurrentLocation() async {
@@ -147,13 +145,9 @@ class _MapScreenState extends State<MapScreen>
         ),
       );
       if (mounted && _selectedLocation == null) {
-        final point = osm.GeoPoint(
-          latitude: position.latitude,
-          longitude: position.longitude,
-        );
+        final point = LatLng(position.latitude, position.longitude);
         setState(() => _selectedLocation = point);
-        await _showLocationOnMap(point);
-        await _mapController.setZoom(zoomLevel: 16);
+        _showLocationOnMap(point);
       }
     } catch (e) {
       debugPrint('Error getting location: $e');
@@ -232,31 +226,19 @@ class _MapScreenState extends State<MapScreen>
 
   Future<void> _pickLocation() async {
     try {
-      final hasSelected = _selectedLocation != null;
-
-      final point = await osm.showSimplePickerLocation(
-        context: context,
-        isDismissible: true,
-        title: context.l10n.mapPickerTitle,
-        textConfirmPicker: context.l10n.confirmLabel,
-        textCancelPicker: context.l10n.cancelLabel,
-        zoomOption: osm.ZoomOption(
-          initZoom: 15,
-          minZoomLevel: 3,
-          maxZoomLevel: 19,
-          stepZoom: 1.0,
+      final point = await Navigator.of(context).push<LatLng>(
+        MaterialPageRoute<LatLng>(
+          fullscreenDialog: true,
+          builder: (_) => _LocationPickerPage(
+            initialCenter: _selectedLocation ?? _kDefaultLocation,
+          ),
         ),
-        initPosition: hasSelected ? _selectedLocation : null,
-        initCurrentUserPosition: hasSelected
-            ? null
-            : osm.UserTrackingOption(enableTracking: true),
       );
 
       if (point != null && mounted) {
         HapticFeedback.mediumImpact();
         setState(() => _selectedLocation = point);
-        await _showLocationOnMap(point);
-        await _mapController.setZoom(zoomLevel: 16);
+        _showLocationOnMap(point);
       }
     } catch (e) {
       debugPrint('Error picking location: $e');
@@ -418,6 +400,7 @@ class _MapScreenState extends State<MapScreen>
                 children: [
                   _MapSection(
                     mapController: _mapController,
+                    onMapReady: () => _mapReady = true,
                     selectedLocation: _selectedLocation,
                     isLocating: _isLocating,
                     onPickLocation: _pickLocation,
@@ -666,6 +649,7 @@ class _MapScreenState extends State<MapScreen>
 class _MapSection extends StatelessWidget {
   const _MapSection({
     required this.mapController,
+    required this.onMapReady,
     required this.selectedLocation,
     required this.isLocating,
     required this.onPickLocation,
@@ -673,8 +657,9 @@ class _MapSection extends StatelessWidget {
     required this.mapPreviewLabel,
   });
 
-  final osm.MapController mapController;
-  final osm.GeoPoint? selectedLocation;
+  final MapController mapController;
+  final VoidCallback onMapReady;
+  final LatLng? selectedLocation;
   final bool isLocating;
   final VoidCallback onPickLocation;
   final VoidCallback onMyLocation;
@@ -718,25 +703,23 @@ class _MapSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: Stack(
                 children: [
-                  AbsorbPointer(
-                    absorbing: true,
-                    child: osm.OSMFlutter(
-                      controller: mapController,
-                      osmOption: osm.OSMOption(
-                        userTrackingOption: osm.UserTrackingOption(
-                          enableTracking: false,
-                          unFollowUser: false,
-                        ),
-                        zoomOption: osm.ZoomOption(
-                          initZoom: 15,
-                          minZoomLevel: 3,
-                          maxZoomLevel: 19,
-                          stepZoom: 1.0,
-                        ),
-                        showZoomController: false,
-                        isPicker: true,
+                  // Preview only: taps open the picker via the overlay below.
+                  FlutterMap(
+                    mapController: mapController,
+                    options: MapOptions(
+                      initialCenter: selectedLocation ?? _kDefaultLocation,
+                      initialZoom: selectedLocation == null
+                          ? _kInitialZoom
+                          : _kPinnedZoom,
+                      minZoom: _kMinZoom,
+                      maxZoom: _kMaxZoom,
+                      cameraConstraint: _kServiceAreaConstraint,
+                      interactionOptions: const InteractionOptions(
+                        flags: InteractiveFlag.none,
                       ),
+                      onMapReady: onMapReady,
                     ),
+                    children: const [_OsmTileLayer()],
                   ),
                   Positioned.fill(
                     child: Material(
@@ -834,7 +817,7 @@ class _MapSection extends StatelessWidget {
 class _LocationBadge extends StatelessWidget {
   const _LocationBadge({required this.location});
 
-  final osm.GeoPoint location;
+  final LatLng location;
 
   @override
   Widget build(BuildContext context) {
@@ -878,7 +861,7 @@ class _LocationBadge extends StatelessWidget {
 class _CoordinatesRow extends StatelessWidget {
   const _CoordinatesRow({required this.location});
 
-  final osm.GeoPoint location;
+  final LatLng location;
 
   @override
   Widget build(BuildContext context) {
@@ -1327,6 +1310,114 @@ class _StyledDropdown<T> extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// OpenStreetMap raster tiles. flutter_map's default [NetworkTileProvider]
+/// aborts requests for tiles that scroll out of view.
+class _OsmTileLayer extends StatelessWidget {
+  const _OsmTileLayer();
+
+  @override
+  Widget build(BuildContext context) {
+    return TileLayer(
+      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      // Identifies the app to the OSM tile servers, as their usage policy
+      // requires.
+      userAgentPackageName: 'com.recycleorigin.recycleorigin',
+      maxNativeZoom: _kMaxZoom.toInt(),
+    );
+  }
+}
+
+/// Full-screen picker: the user pans the map under a fixed center pin and
+/// confirms. Pops with the chosen [LatLng], or `null` when cancelled.
+class _LocationPickerPage extends StatefulWidget {
+  const _LocationPickerPage({required this.initialCenter});
+
+  final LatLng initialCenter;
+
+  @override
+  State<_LocationPickerPage> createState() => _LocationPickerPageState();
+}
+
+class _LocationPickerPageState extends State<_LocationPickerPage> {
+  final MapController _controller = MapController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppTheme.appBarColor,
+        foregroundColor: context.appColors.onHeroForeground,
+        centerTitle: true,
+        title: Text(l10n.mapPickerTitle),
+      ),
+      body: Stack(
+        children: [
+          FlutterMap(
+            mapController: _controller,
+            options: MapOptions(
+              initialCenter: widget.initialCenter,
+              initialZoom: _kInitialZoom,
+              minZoom: _kMinZoom,
+              maxZoom: _kMaxZoom,
+              cameraConstraint: _kServiceAreaConstraint,
+              interactionOptions: const InteractionOptions(
+                flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+              ),
+            ),
+            children: const [_OsmTileLayer()],
+          ),
+          IgnorePointer(
+            child: Center(
+              child: Transform.translate(
+                offset: const Offset(0, -23),
+                child: const Icon(
+                  Icons.location_on_rounded,
+                  size: 46,
+                  color: AppTheme.primary,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+          child: Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(l10n.cancelLabel),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppTheme.primary,
+                  ),
+                  onPressed: () =>
+                      Navigator.of(context).pop(_controller.camera.center),
+                  child: Text(l10n.confirmLabel),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

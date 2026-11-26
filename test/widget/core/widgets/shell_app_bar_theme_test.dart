@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:recycleorigin/core/l10n/app_localizations_delegates.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recycleorigin/core/theme/app_theme.dart';
 import 'package:recycleorigin/core/widgets/shell_app_bar.dart';
@@ -13,7 +14,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: theme,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: appLocalizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           appBar: ShellAppBar(title: title),

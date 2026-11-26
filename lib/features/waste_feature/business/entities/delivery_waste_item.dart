@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/collect_status.dart';
 import 'package:recycleorigin/features/waste_feature/business/entities/waste_ref.dart';

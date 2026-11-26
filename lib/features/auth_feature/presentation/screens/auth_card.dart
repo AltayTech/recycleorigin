@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/core/connection/http_exception.dart';
 import 'package:recycleorigin/core/screens/navigation_bottom_screen.dart';
@@ -105,9 +105,8 @@ class _AuthCardState extends State<AuthCard> {
           _showErrorDialog(l10n.authGenericError);
           return;
         }
-        Navigator.of(
-          context,
-        ).pushReplacementNamed(EmailVerificationScreen.routeName);
+        Navigator.of(context)
+            .pushReplacementNamed(EmailVerificationScreen.routeName);
       }
     } on AuthException catch (error) {
       if (!mounted) return;
@@ -157,14 +156,12 @@ class _AuthCardState extends State<AuthCard> {
 
   void _routePostLogin(bool emailVerified) {
     if (!emailVerified) {
-      Navigator.of(
-        context,
-      ).pushReplacementNamed(EmailVerificationScreen.routeName);
+      Navigator.of(context)
+          .pushReplacementNamed(EmailVerificationScreen.routeName);
       return;
     }
-    Navigator.of(
-      context,
-    ).pushReplacementNamed(NavigationBottomScreen.routeName);
+    Navigator.of(context)
+        .pushReplacementNamed(NavigationBottomScreen.routeName);
   }
 
   String _mapAuthException(AuthException error, AppLocalizations l10n) {
@@ -484,9 +481,9 @@ class _AuthCardState extends State<AuthCard> {
                     child: TextButton(
                       onPressed: _isLoading
                           ? null
-                          : () => Navigator.of(
-                              context,
-                            ).pushNamed(ForgotPasswordScreen.routeName),
+                          : () =>
+                                Navigator.of(context)
+                                    .pushNamed(ForgotPasswordScreen.routeName),
                       child: Text(l10n.authForgotPasswordLink),
                     ),
                   ),

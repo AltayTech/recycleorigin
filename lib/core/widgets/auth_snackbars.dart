@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:recycleorigin/l10n/app_localizations.dart';
 
 /// Brief non-blocking feedback after a successful customer login.

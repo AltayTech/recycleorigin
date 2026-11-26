@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:recycleorigin/features/waste_feature/business/entities/price_weight.dart';
@@ -17,6 +17,7 @@ import '../../customer_feature/presentation/widgets/custom_dialog_profile.dart';
 import '../../../core/logic/en_to_ar_number_convertor.dart';
 import '../../../core/widgets/drawer_or_back_leading.dart';
 import 'address_screen.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -454,16 +455,14 @@ class _WastesScreenAnimatedListState extends State<WastesScreenAnimatedList>
                             ),
                           );
                           if (wasteCartItems.isEmpty) {
-                            ScaffoldMessenger.of(
-                              context,
-                            ).showSnackBar(addToCartSnackBar);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(addToCartSnackBar);
                           } else if (!isLogin) {
                             _showLogindialog();
                           } else {
                             if (isCompleted) {
-                              Navigator.of(
-                                context,
-                              ).pushNamed(AddressScreen.routeName);
+                              Navigator.of(context)
+                                  .pushNamed(AddressScreen.routeName);
                             } else {
                               _showCompletedialog();
                             }

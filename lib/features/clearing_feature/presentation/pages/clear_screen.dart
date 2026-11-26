@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -21,6 +21,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_context_extensions.dart';
 import '../../../../core/widgets/drawer_or_back_leading.dart';
 import '../../../auth_feature/presentation/screens/login_screen.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recycleorigin/l10n/l10n.dart';
 
@@ -186,9 +187,8 @@ class _ClearScreenState extends State<ClearScreen>
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.of(
-                                  context,
-                                ).pushNamed(LoginScreen.routeName);
+                                Navigator.of(context)
+                                    .pushNamed(LoginScreen.routeName);
                               },
                               child: Container(
                                 child: Padding(
@@ -745,9 +745,8 @@ class _ClearScreenState extends State<ClearScreen>
                                   ),
                                 );
                                 if (shabaController.text == 'IR') {
-                                  ScaffoldMessenger.of(
-                                    context,
-                                  ).showSnackBar(addToCartSnackBar);
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(addToCartSnackBar);
                                 } else if (double.parse(
                                       removeSemicolon(donationController.text),
                                     ) >
@@ -768,9 +767,8 @@ class _ClearScreenState extends State<ClearScreen>
                                       },
                                     ),
                                   );
-                                  ScaffoldMessenger.of(
-                                    context,
-                                  ).showSnackBar(addToCartSnackBar);
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(addToCartSnackBar);
                                 } else {
                                   await sendClearingRequest(
                                     donationController.text,
